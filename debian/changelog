@@ -1,0 +1,161 @@
+qbittorrent (1.3.3-1) unstable; urgency=low
+
+  * New upstream version.
+    - debian/copyright: updated to reflect the license change (added OpenSSL
+      exception to GPLv2) (Closes: #522311).
+  * debian/control:
+    - build-depends on libcurl4-gnutls-dev instead of libcurl4-openssl-dev;
+    - bump up Standards-Version to 3.8.1 (no changes required). 
+
+ -- Cristian Greco <cristian.debian@gmail.com>  Tue, 07 Apr 2009 00:43:19 +0200
+
+qbittorrent (1.3.2-1) unstable; urgency=low
+
+  * New upstream version.
+    - debian/control:
+      + build-depends on libtorrent-rasterbar-dev (>= 0.14.2);
+      + build-depends on 'libcurl4-openssl-dev | libcurl-dev' to get rid
+        of the following lintian warning:
+        virtual-package-depends-without-real-package
+  * Upload to unstable.
+
+ -- Cristian Greco <cristian.debian@gmail.com>  Sun, 08 Mar 2009 20:40:49 +0100
+
+qbittorrent (1.3.1-2) unstable; urgency=low
+
+  * debian/control:
+    - depends on python (>= 2.5);
+    - build-depends on libtorrent-rasterbar-dev (>= 0.14.2).
+  * Upload to unstable.
+
+ -- Cristian Greco <cristian.debian@gmail.com>  Thu, 26 Feb 2009 18:31:42 +0100
+
+qbittorrent (1.3.1-1) experimental; urgency=low
+
+  * New upstream release: 
+    - debian/copyright: new and updated copyright notes and files;
+    - remove patch qbittorrent_desktop_file.patch (merged upstream);
+    - debian/control, debian/rules, debian/README.source: drop build
+      dependency on quilt system.
+
+ -- Cristian Greco <cristian.debian@gmail.com>  Tue, 27 Jan 2009 00:13:30 +0100
+
+qbittorrent (1.3.0-1) experimental; urgency=low
+
+  * New upstream release:
+    - debian/control:
+      + added Build-Depends: on libtorrent-rasterbar-dev (>= 0.14.1);
+      + deleted Build-Depends: on libmagick++9-dev (no more needed upstream);
+      + added Build-Depends: on libxext-dev (which was previously carried in
+        by libmagick++9-dev);
+      + added new features in long description;
+    - debian/copyright: new and updated copyright notes and files;
+    - debian/control, debian/rules, debian/README.source: build-depends on
+      quilt patch system and add a new patch:
+      + qbittorrent_desktop_file.patch, set the right version number in
+      qBittorrent.desktop file;
+    - fixed stylesheet warning in console on startup (Closes: #504218).
+  * Upload to experimental.
+
+ -- Cristian Greco <cristian.debian@gmail.com>  Sat, 10 Jan 2009 15:42:32 +0100
+
+qbittorrent (1.2.1-1) unstable; urgency=low
+
+  * New upstream version
+    - remove patch fixDeleteTorrentPermanently.patch (merged upstream);
+    - debian/control, debian/rules, debian/README.source: drop build
+      dependency on quilt system.
+  * debian/control: added build-depends on libtorrent-rasterbar-dev (<< 0.14).
+  * New maintainer email address.
+
+ -- Cristian Greco <cristian.debian@gmail.com>  Tue, 25 Nov 2008 16:22:30 +0100
+
+qbittorrent (1.2.0-2) unstable; urgency=low
+
+  * debian/control, debian/rules, debian/README.source: build-depends on quilt
+    patch system and add a new patch:
+    - fixDeleteTorrentPermanently.patch, fix a possible crash when deleting a
+      torrent permanently (see patch comments for details).
+
+ -- Cristian Greco <cgreco@cs.unibo.it>  Sat, 01 Nov 2008 18:19:11 +0100
+
+qbittorrent (1.2.0-1) unstable; urgency=low
+
+  * New upstream version
+    - remove patch rss_saving.dpatch (merged upstream).
+    - debian/control, debian/rules, debian/README.source: drop build
+      dependency on dpatch system because rss_saving.dpatch was the sole
+      patch used here.
+    - debian/copyright: new and updated copyright notes and files.
+  * debian/control: short description changed a bit.
+
+ -- Cristian Greco <cgreco@cs.unibo.it>  Wed, 29 Oct 2008 22:52:10 +0100
+
+qbittorrent (1.1.4-2) unstable; urgency=low
+
+  * debian/control, debian/rules: build depends on dpatch system.
+  * new patch: rss_saving.dpatch, this will save rss feeds correctly,
+    as requested by upstream (see patch comments).
+
+ -- Cristian Greco <cgreco@cs.unibo.it>  Sun, 21 Sep 2008 11:39:09 +0200
+
+qbittorrent (1.1.4-1) unstable; urgency=low
+
+  * New upstream version
+    - fix download of paused torrents on startup (Closes: #497582)
+  * debian/copyright: new copyright statements about Czech and traditional
+    Chinese translations.
+  * debian/rules: binary-indep target should do nothing because we are not
+    building "arch: all" package.
+
+ -- Cristian Greco <cgreco@cs.unibo.it>  Sun, 14 Sep 2008 15:41:57 +0200
+
+qbittorrent (1.1.3-1) unstable; urgency=low
+
+  * New upstream version
+    - fix progress calculation bug (Closes: #494801)
+    - fix ratio saving for seeding torrents (Closes: #496542)
+    - remove patch arm_ftbfs.dpatch (merged upstream).
+    - debian/control, debian/rules: drop build dependency on dpatch system
+      because arm_ftbfs.dpatch was the sole patch used.
+  * debian/copyright: GPLv2 on Debian systems can be found in
+    `/usr/share/common-licenses/GPL-2', not `/usr/share/common-licenses/GPL'
+    (which points to GPLv3).
+  * debian/watch: updated to follow only stable and rc releases, as requested
+    by upstream author.
+
+ -- Cristian Greco <cgreco@cs.unibo.it>  Thu, 28 Aug 2008 16:17:42 +0200
+
+qbittorrent (1.1.0~rc1-2) unstable; urgency=low
+
+  * debian/rules: fix a stupid bug with dpatch (s/-/_/); this would really
+    close the FTBFS on arm arches.
+  * debian/control: new synopsis line.
+
+ -- Cristian Greco <cgreco@cs.unibo.it>  Sat, 26 Jul 2008 09:49:00 +0200
+
+qbittorrent (1.1.0~rc1-1) unstable; urgency=low
+
+  * New upstream version
+    - Fix crash when opening a .torrent file which contains unicode
+      characters (Closes: #491453)
+  * debian/control:
+    - build-depends on libtorrent-rasterbar exact revision (>= 0.13.1-2),
+    which is built without debug option: in other case (libtorrent-rasterbar
+    0.13.1-1), qbittorrent would crash if -NDEBUG option is enabled (upstream
+    enabled it in this version, so the problem was not noticed in previous
+    one).
+    - new build-depends on dpatch.
+  * debian/rules: added support for dpatch system.
+  * debian/README.source: add description about dpatch system
+  * new patch: arm_ftbfs.dpatch, which solves a FTBFS on arm and armel arches
+  * debian/copyright: fix lintian warning debian-copyright-line-too-long.
+
+ -- Cristian Greco <cgreco@cs.unibo.it>  Wed, 23 Jul 2008 01:13:30 +0200
+
+qbittorrent (1.1.0~beta3-1) unstable; urgency=low
+
+  * Initial release (Closes: #418514)
+
+ -- Cristian Greco <cgreco@cs.unibo.it>  Fri, 04 Jul 2008 23:12:54 +0200
+

@@ -1,0 +1,43 @@
+Source: qbittorrent
+Section: net
+Priority: optional
+Maintainer: Cristian Greco <cristian.debian@gmail.com>
+Build-Depends: debhelper (>= 7),
+               libtorrent-rasterbar-dev (>= 0.14.2),
+               libqt4-dev (>= 4.4.0),
+               libxext-dev,
+               libcurl4-gnutls-dev | libcurl-dev,
+               libzzip-dev
+Standards-Version: 3.8.1
+Homepage: http://www.qbittorrent.org/
+
+Package: qbittorrent
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python (>= 2.5)
+Description: bittorrent client using libtorrent-rasterbar with a nice Qt4 GUI
+ qBittorrent is a feature rich bittorrent client written in C++ and Qt4 which
+ is based on libtorrent-rasterbar. It can be considered as a good alternative
+ to other clients. Most important features are:
+ .
+  * UPnP / NAT-PMP port forwarding support
+  * Encryption support (compatible with Azureus)
+  * Download from RSS streams
+  * An integrated search engine
+  * DHT (trackerless) support
+  * uTorrent Peer eXchange support (PeX)
+  * Directory scanning with automated download of torrents inside
+  * Good internationalization (~25 languages supported)
+  * Media File previewing while downloading
+  * Torrent trackers edition and prioritizing
+  * Styles support
+  * Files prioritizing in a torrent
+  * Tracker authentication support
+  * Unicode support
+  * Torrent downloading directly from their url
+  * Connection though a proxy
+  * IP Filtering similar to the one in eMule
+  * Torrents queueing and prioritizing
+  * Web user interface for remote control
+  * Azureus spoofing to avoid ban
+  * Allow to buy your downloads thanks to Sharemonkey
+
