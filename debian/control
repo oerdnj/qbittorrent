@@ -3,6 +3,7 @@ Section: net
 Priority: optional
 Maintainer: Cristian Greco <cristian.debian@gmail.com>
 Build-Depends: debhelper (>= 7.0.50),
+               quilt,
                libtorrent-rasterbar-dev (>= 0.14.2),
                libqt4-dev (>= 4.4.0),
                libxext-dev,
