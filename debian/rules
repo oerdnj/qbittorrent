@@ -6,14 +6,8 @@ include /usr/share/quilt/quilt.make
 override_dh_auto_configure:
 	./configure --prefix=/usr
 
-override_dh_clean:
-	dh_clean conf.log conf.pri
-
 override_dh_auto_install:
 	$(MAKE) INSTALL_ROOT=$(CURDIR)/debian/qbittorrent/ install
-
-override_dh_install:
-	dh_install debian/qbittorrent.xpm usr/share/pixmaps
 
 # standard targets
 build: build-stamp
