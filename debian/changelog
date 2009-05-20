@@ -1,8 +1,15 @@
-qbittorrent (1.3.3-2) UNRELEASED; urgency=low
+qbittorrent (1.3.3-2) unstable; urgency=low
 
-  * 
+  * debian/control: add Vcs-* addresses (switch to git-buildpackage).
+  * debian/{control,rules}:
+    - build depends on debhelper (>= 7.0.50) and use the new
+      override_dh_command feature;
+    - build-depends on quilt patch system
+      + debian/patches/fix_ipfilter_amd64.patch: pulled from upstream
+        svn r2344 (LP: #371283).
+  * debian/{clean,qbittorrent.install}: added files to simplify debian/rules.
 
- -- Cristian Greco <cristian.debian@gmail.com>  Sat, 16 May 2009 04:02:49 +0200
+ -- Cristian Greco <cristian.debian@gmail.com>  Wed, 20 May 2009 10:44:11 +0200
 
 qbittorrent (1.3.3-1) unstable; urgency=low
 
