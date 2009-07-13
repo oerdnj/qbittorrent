@@ -68,6 +68,8 @@ DownloadingTorrents::DownloadingTorrents(QObject *parent, bittorrent *BTSession)
   DLListModel->setHeaderData(ETA, Qt::Horizontal, tr("ETA", "i.e: Estimated Time of Arrival / Time left"));
   DLListModel->setHeaderData(PRIORITY, Qt::Horizontal, tr("Priority"));
   downloadList->setModel(DLListModel);
+  downloadList->setRootIsDecorated(false);
+  downloadList->setAllColumnsShowFocus(true);
   DLDelegate = new DLListDelegate(downloadList);
   downloadList->setItemDelegate(DLDelegate);
   // Hide priority column
@@ -236,7 +238,7 @@ void DownloadingTorrents::forceRecheck() {
     }
 }
 
-void DownloadingTorrents::displayDLListMenu(const QPoint& pos) {
+void DownloadingTorrents::displayDLListMenu(const QPoint&) {
   QMenu myDLLlistMenu(this);
   // Enable/disable pause/start action given the DL state
   QModelIndexList selectedIndexes = downloadList->selectionModel()->selectedIndexes();
@@ -285,8 +287,7 @@ void DownloadingTorrents::displayDLListMenu(const QPoint& pos) {
   myDLLlistMenu.addSeparator();
   myDLLlistMenu.addAction(actionBuy_it);
   // Call menu
-  // XXX: why mapToGlobal() is not enough?
-  myDLLlistMenu.exec(mapToGlobal(pos)+QPoint(10,35));
+  myDLLlistMenu.exec(QCursor::pos());
 }
 
 
@@ -578,6 +579,7 @@ void DownloadingTorrents::addTorrent(QString hash) {
   DLListModel->setData(DLListModel->index(row, UPSPEED), QVariant((double)0.));
   DLListModel->setData(DLListModel->index(row, SEEDSLEECH), QVariant(QString::fromUtf8("0/0")));
   DLListModel->setData(DLListModel->index(row, PROGRESS), QVariant((double)h.progress()));
+  DLListModel->setData(DLListModel->index(row, RATIO), QVariant((double)0.));
   DLListModel->setData(DLListModel->index(row, ETA), QVariant((qlonglong)-1));
   if(BTSession->isQueueingEnabled())
     DLListModel->setData(DLListModel->index(row, PRIORITY), QVariant((int)BTSession->getDlTorrentPriority(hash)));

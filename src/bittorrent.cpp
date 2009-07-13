@@ -29,7 +29,7 @@
  */
 
 #include <QDir>
-#include <QTime>
+#include <QDateTime>
 #include <QString>
 #include <QTimer>
 #include <QFileSystemWatcher>
@@ -52,9 +52,10 @@
 #include <boost/filesystem/exception.hpp>
 
 #define MAX_TRACKER_ERRORS 2
+#define MAX_RATIO 100.
 
 // Main constructor
-bittorrent::bittorrent() : DHTEnabled(false), preAllocateAll(false), addInPause(false), maxConnecsPerTorrent(500), maxUploadsPerTorrent(4), max_ratio(-1), UPnPEnabled(false), NATPMPEnabled(false), LSDEnabled(false), queueingEnabled(false) {
+bittorrent::bittorrent() : DHTEnabled(false), preAllocateAll(false), addInPause(false), maxConnecsPerTorrent(500), maxUploadsPerTorrent(4), ratio_limit(-1), UPnPEnabled(false), NATPMPEnabled(false), LSDEnabled(false), queueingEnabled(false) {
   // To avoid some exceptions
   fs::path::default_name_check(fs::no_check);
   // Creating bittorrent session
@@ -124,7 +125,7 @@ void bittorrent::preAllocateAllFiles(bool b) {
 }
 
 void bittorrent::deleteBigRatios() {
-  if(max_ratio == -1) return;
+  if(ratio_limit == -1) return;
     std::vector<torrent_handle> torrents = getTorrents();
     std::vector<torrent_handle>::iterator torrentIT;
     for(torrentIT = torrents.begin(); torrentIT != torrents.end(); torrentIT++) {
@@ -132,7 +133,8 @@ void bittorrent::deleteBigRatios() {
         if(!h.is_valid()) continue;
         if(h.is_seed()) {
             QString hash = h.hash();
-            if(getRealRatio(hash) > max_ratio) {
+            float ratio = getRealRatio(hash);
+            if(ratio <= MAX_RATIO && ratio > ratio_limit) {
               QString fileName = h.name();
               addConsoleMessage(tr("%1 reached the maximum ratio you set.").arg(fileName));
               deleteTorrent(hash);
@@ -769,7 +771,9 @@ float bittorrent::getRealRatio(QString hash) const{
   Q_ASSERT(h.all_time_download() >= 0);
   Q_ASSERT(h.all_time_upload() >= 0);
   if(h.all_time_download() == 0) {
-      return 101;
+    if(h.all_time_upload() == 0)
+      return 0;
+    return 101;
   }
   float ratio = (float)h.all_time_upload()/(float)h.all_time_download();
   Q_ASSERT(ratio >= 0.);
@@ -848,7 +852,7 @@ void bittorrent::addConsoleMessage(QString msg, QColor color) {
   if(consoleMessages.size() > 100) {
     consoleMessages.removeFirst(); 
   }
-  consoleMessages.append(QString::fromUtf8("<font color='grey'>")+ QTime::currentTime().toString(QString::fromUtf8("hh:mm:ss")) + QString::fromUtf8("</font> - <font color='") + color.name() +QString::fromUtf8("'><i>") + msg + QString::fromUtf8("</i></font>"));
+  consoleMessages.append(QString::fromUtf8("<font color='grey'>")+ QDateTime::currentDateTime().toString(QString::fromUtf8("dd/MM/yyyy hh:mm:ss")) + QString::fromUtf8("</font> - <font color='") + color.name() +QString::fromUtf8("'><i>") + msg + QString::fromUtf8("</i></font>"));
 }
 
 void bittorrent::addPeerBanMessage(QString ip, bool from_ipfilter) {
@@ -856,9 +860,9 @@ void bittorrent::addPeerBanMessage(QString ip, bool from_ipfilter) {
     peerBanMessages.removeFirst(); 
   }
   if(from_ipfilter)
-    peerBanMessages.append(QString::fromUtf8("<font color='grey'>")+ QTime::currentTime().toString(QString::fromUtf8("hh:mm:ss")) + QString::fromUtf8("</font> - ")+tr("<font color='red'>%1</font> <i>was blocked due to your IP filter</i>", "x.y.z.w was blocked").arg(ip));
+    peerBanMessages.append(QString::fromUtf8("<font color='grey'>")+ QDateTime::currentDateTime().toString(QString::fromUtf8("dd/MM/yyyy hh:mm:ss")) + QString::fromUtf8("</font> - ")+tr("<font color='red'>%1</font> <i>was blocked due to your IP filter</i>", "x.y.z.w was blocked").arg(ip));
   else
-    peerBanMessages.append(QString::fromUtf8("<font color='grey'>")+ QTime::currentTime().toString(QString::fromUtf8("hh:mm:ss")) + QString::fromUtf8("</font> - ")+tr("<font color='red'>%1</font> <i>was banned due to corrupt pieces</i>", "x.y.z.w was banned").arg(ip));
+    peerBanMessages.append(QString::fromUtf8("<font color='grey'>")+ QDateTime::currentDateTime().toString(QString::fromUtf8("dd/MM/yyyy hh:mm:ss")) + QString::fromUtf8("</font> - ")+tr("<font color='red'>%1</font> <i>was banned due to corrupt pieces</i>", "x.y.z.w was banned").arg(ip));
 }
 
 bool bittorrent::isFilePreviewPossible(QString hash) const{
@@ -981,19 +985,19 @@ void bittorrent::setGlobalRatio(float ratio) {
 // be automatically deleted
 void bittorrent::setDeleteRatio(float ratio) {
   if(ratio != -1 && ratio < 1.) ratio = 1.;
-  if(max_ratio == -1 && ratio != -1) {
+  if(ratio_limit == -1 && ratio != -1) {
     Q_ASSERT(!BigRatioTimer);
     BigRatioTimer = new QTimer(this);
     connect(BigRatioTimer, SIGNAL(timeout()), this, SLOT(deleteBigRatios()));
     BigRatioTimer->start(5000);
   } else {
-    if(max_ratio != -1 && ratio == -1) {
+    if(ratio_limit != -1 && ratio == -1) {
       delete BigRatioTimer;
     }
   }
-  if(max_ratio != ratio) {
-    max_ratio = ratio;
-    qDebug("* Set deleteRatio to %.1f", max_ratio);
+  if(ratio_limit != ratio) {
+    ratio_limit = ratio;
+    qDebug("* Set deleteRatio to %.1f", ratio_limit);
     deleteBigRatios();
   }
 }

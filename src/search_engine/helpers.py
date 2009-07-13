@@ -1,5 +1,3 @@
-#VERSION: 1.0
-
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
 #
@@ -23,6 +21,11 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+
+#VERSION: 1.02
+
+# Author:
+#  Christophe DUMEZ (chris@qbittorrent.org)
 
 import re, htmlentitydefs
 import urllib2
@@ -66,7 +69,7 @@ def download_file(url):
 		file = os.fdopen(file, "wb")
 		# Download url
 		req = urllib2.Request(url)
-		response = urllib2.urlopen(url)
+		response = urllib2.urlopen(req)
 		dat = response.read()
 		# Write it to a file
 		file.write(dat)
