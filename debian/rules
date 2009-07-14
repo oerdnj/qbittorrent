@@ -1,7 +1,5 @@
 #!/usr/bin/make -f
 
-include /usr/share/quilt/quilt.make
-
 # override_dh_command targets
 override_dh_auto_configure:
 	./configure --prefix=/usr
@@ -11,11 +9,11 @@ override_dh_auto_install:
 
 # standard targets
 build: build-stamp
-build-stamp: $(QUILT_STAMPFN)
+build-stamp:
 	dh build
 	touch $@
 
-clean: unpatch
+clean:
 	dh $@
 
 install: build install-stamp
