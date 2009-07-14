@@ -1,3 +1,17 @@
+qbittorrent (1.3.4-1) unstable; urgency=low
+
+  * New upstream version.
+    - debian/{control,rules,patch}: delete fix_ipfilter_amd64.patch
+      (merged upstream) and drop quilt build-dep.
+  * simplify debian/rules (drop debian/clean and debian/qbittorrent.install).
+  * debian/control:
+    - move git maintenance to collab-maint;
+    - bump up Standards-Version to 3.8.2;
+    - force build-depends on libtorrent-rasterbar-dev (>= 0.14.4).
+  * debian/docs: don't install TODO file (outdated and useless).
+
+ -- Cristian Greco <cristian.debian@gmail.com>  Tue, 14 Jul 2009 13:45:25 +0200
+
 qbittorrent (1.3.3-2) unstable; urgency=low
 
   * debian/control: add Vcs-* addresses (switch to git-buildpackage).
