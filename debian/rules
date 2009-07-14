@@ -1,32 +1,16 @@
 #!/usr/bin/make -f
 
-# override_dh_command targets
+%:
+	dh $@
+
 override_dh_auto_configure:
 	./configure --prefix=/usr
 
 override_dh_auto_install:
 	$(MAKE) INSTALL_ROOT=$(CURDIR)/debian/qbittorrent/ install
 
-# standard targets
-build: build-stamp
-build-stamp:
-	dh build
-	touch $@
+override_dh_install:
+	dh_install debian/qbittorrent.xpm usr/share/pixmaps
 
-clean:
-	dh $@
-
-install: build install-stamp
-install-stamp:
-	dh install
-	touch $@
-
-binary-indep:
-	# nothing to do
-
-binary-arch: install
-	dh $@
-
-binary: binary-indep binary-arch
-
-.PHONY: build clean binary-indep binary-arch binary install 
+override_dh_clean:
+	dh_clean conf.log conf.pri
