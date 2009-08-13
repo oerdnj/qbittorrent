@@ -40,6 +40,7 @@
 #include <QCDEStyle>
 #include <QDialogButtonBox>
 #include <QCloseEvent>
+#include <QDesktopWidget>
 #ifdef Q_WS_WIN
   #include <QWindowsXPStyle>
 #endif
@@ -138,9 +139,11 @@ options_imp::options_imp(QWidget *parent):QDialog(parent){
   // General tab
   connect(checkNoSystray, SIGNAL(stateChanged(int)), this, SLOT(setSystrayOptionsState(int)));
   // Downloads tab
+  connect(checkTempFolder, SIGNAL(stateChanged(int)), this, SLOT(enableTempPathInput(int)));
   connect(checkScanDir, SIGNAL(stateChanged(int)), this, SLOT(enableDirScan(int)));
   connect(actionTorrentDlOnDblClBox, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApplyButton()));
   connect(actionTorrentFnOnDblClBox, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApplyButton()));
+  connect(checkTempFolder, SIGNAL(stateChanged(int)), this, SLOT(enableApplyButton()));
   // Connection tab
   connect(checkUploadLimit, SIGNAL(stateChanged(int)), this, SLOT(enableUploadLimit(int)));
   connect(checkDownloadLimit,  SIGNAL(stateChanged(int)), this, SLOT(enableDownloadLimit(int)));
@@ -150,6 +153,7 @@ options_imp::options_imp(QWidget *parent):QDialog(parent){
   connect(checkMaxUploadsPerTorrent,  SIGNAL(stateChanged(int)), this, SLOT(enableMaxUploadsLimitPerTorrent(int)));
   connect(checkRatioLimit,  SIGNAL(stateChanged(int)), this, SLOT(enableShareRatio(int)));
   connect(checkRatioRemove,  SIGNAL(stateChanged(int)), this, SLOT(enableDeleteRatio(int)));
+  connect(checkSameDHTPort, SIGNAL(stateChanged(int)), this, SLOT(enableDHTPortSettings(int)));
   // Proxy tab
   connect(comboProxyType_http, SIGNAL(currentIndexChanged(int)),this, SLOT(enableProxyHTTP(int)));
   connect(checkProxyAuth_http,  SIGNAL(stateChanged(int)), this, SLOT(enableProxyAuthHTTP(int)));
@@ -199,6 +203,8 @@ options_imp::options_imp(QWidget *parent):QDialog(parent){
   connect(spinMaxConnecPerTorrent, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(spinMaxUploadsPerTorrent, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(checkDHT, SIGNAL(stateChanged(int)), this, SLOT(enableApplyButton()));
+  connect(checkSameDHTPort, SIGNAL(stateChanged(int)), this, SLOT(enableApplyButton()));
+  connect(spinDHTPort, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(checkLSD, SIGNAL(stateChanged(int)), this, SLOT(enableApplyButton()));
   connect(checkAzureusSpoof, SIGNAL(stateChanged(int)), this, SLOT(enableApplyButton()));
   connect(comboEncryption, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApplyButton()));
@@ -245,12 +251,22 @@ options_imp::options_imp(QWidget *parent):QDialog(parent){
     checkSystrayBalloons->setChecked(false);
     checkSystrayBalloons->setEnabled(false);
   }
+  // Tab selection mecanism
+  connect(tabSelection, SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)), this, SLOT(changePage(QListWidgetItem *, QListWidgetItem*)));
+  // Adapt size
+  adaptToScreenSize();
 }
 
 // Main destructor
 options_imp::~options_imp(){
   qDebug("-> destructing Options");
 }
+
+void options_imp::changePage(QListWidgetItem *current, QListWidgetItem *previous) {
+     if (!current)
+         current = previous;
+     tabOption->setCurrentIndex(tabSelection->row(current));
+ }
 
 void options_imp::useStyle(){
   int style = getStyle();
@@ -280,6 +296,24 @@ void options_imp::useStyle(){
   }
 }
 
+void options_imp::adaptToScreenSize() {
+  int scrn = 0;
+  QWidget *w = this->topLevelWidget();
+
+  if(w)
+    scrn = QApplication::desktop()->screenNumber(w);
+  else if(QApplication::desktop()->isVirtualDesktop())
+    scrn = QApplication::desktop()->screenNumber(QCursor::pos());
+  else
+    scrn = QApplication::desktop()->screenNumber(this);
+
+  QRect desk(QApplication::desktop()->availableGeometry(scrn));
+  if(width() > desk.width() || height() > desk.height()) {
+    if(desk.width() > 0 && desk.height() > 0)
+      resize(desk.width(), desk.height());
+  }
+}
+
 void options_imp::saveOptions(){
   applyButton->setEnabled(false);
   QSettings settings("qBittorrent", "qBittorrent");
@@ -306,6 +340,8 @@ void options_imp::saveOptions(){
   // Downloads preferences
   settings.beginGroup("Downloads");
   settings.setValue(QString::fromUtf8("SavePath"), getSavePath());
+  settings.setValue(QString::fromUtf8("TempPathEnabled"), isTempPathEnabled());
+  settings.setValue(QString::fromUtf8("TempPath"), getTempPath());
   settings.setValue(QString::fromUtf8("PreAllocation"), preAllocateAllFiles());
   settings.setValue(QString::fromUtf8("AdditionDialog"), useAdditionDialog());
   settings.setValue(QString::fromUtf8("StartInPause"), addTorrentsInPause());
@@ -363,6 +399,8 @@ void options_imp::saveOptions(){
   settings.setValue(QString::fromUtf8("MaxConnecsPerTorrent"), getMaxConnecsPerTorrent());
   settings.setValue(QString::fromUtf8("MaxUploadsPerTorrent"), getMaxUploadsPerTorrent());
   settings.setValue(QString::fromUtf8("DHT"), isDHTEnabled());
+  settings.setValue(QString::fromUtf8("sameDHTPortAsBT"), isDHTPortSameAsBT());
+  settings.setValue(QString::fromUtf8("DHTPort"), getDHTPort());
   settings.setValue(QString::fromUtf8("LSD"), isLSDEnabled());
   settings.setValue(QString::fromUtf8("AzureusSpoof"), shouldSpoofAzureus());
   settings.setValue(QString::fromUtf8("Encryption"), getEncryptionSetting());
@@ -510,6 +548,15 @@ void options_imp::loadOptions(){
     home += QDir::separator();
   }
   textSavePath->setText(settings.value(QString::fromUtf8("SavePath"), home+"qBT_dir").toString());
+  if(settings.value(QString::fromUtf8("TempPathEnabled"), false).toBool()) {
+    // enable
+    checkTempFolder->setChecked(true);
+    enableTempPathInput(2);
+  } else {
+    checkTempFolder->setChecked(false);
+    enableTempPathInput(0);
+  }
+  textTempPath->setText(settings.value(QString::fromUtf8("TempPath"), home+"qBT_dir"+QDir::separator()+"temp").toString());
   checkPreallocateAll->setChecked(settings.value(QString::fromUtf8("PreAllocation"), false).toBool());
   checkAdditionDialog->setChecked(settings.value(QString::fromUtf8("AdditionDialog"), true).toBool());
   checkStartPaused->setChecked(settings.value(QString::fromUtf8("StartInPause"), false).toBool());
@@ -654,6 +701,9 @@ void options_imp::loadOptions(){
     spinMaxUploadsPerTorrent->setEnabled(false);
   }
   checkDHT->setChecked(settings.value(QString::fromUtf8("DHT"), true).toBool());
+  checkSameDHTPort->setChecked(settings.value(QString::fromUtf8("sameDHTPortAsBT"), true).toBool());
+  enableDHTPortSettings(checkSameDHTPort->checkState());
+  spinDHTPort->setValue(settings.value(QString::fromUtf8("DHTPort"), 6882).toInt());
   checkLSD->setChecked(settings.value(QString::fromUtf8("LSD"), true).toBool());
   checkAzureusSpoof->setChecked(settings.value(QString::fromUtf8("AzureusSpoof"), false).toBool());
   comboEncryption->setCurrentIndex(settings.value(QString::fromUtf8("Encryption"), 0).toInt());
@@ -825,6 +875,12 @@ bool options_imp::systrayIntegration() const{
   return (!checkNoSystray->isChecked());
 }
 
+int options_imp::getDHTPort() const {
+if(isDHTPortSameAsBT())
+  return 0;
+return spinDHTPort->value();
+}
+
 // Return Share ratio
 float options_imp::getDesiredRatio() const{
   if(checkRatioLimit->isChecked()){
@@ -855,6 +911,14 @@ QString options_imp::getSavePath() const{
     textSavePath->setText(home+QString::fromUtf8("qBT_dir"));
   }
   return textSavePath->text();
+}
+
+QString options_imp::getTempPath() const {
+    return textTempPath->text();
+}
+
+bool options_imp::isTempPathEnabled() const {
+    return checkTempFolder->isChecked();
 }
 
 // Return max connections number
@@ -913,12 +977,24 @@ void options_imp::on_buttonBox_rejected(){
 }
 
 void options_imp::enableDownloadLimit(int checkBoxValue){
-  if(checkBoxValue!=2){
+  if(checkBoxValue != 2){
     //Disable
     spinDownloadLimit->setEnabled(false);
   }else{
     //enable
     spinDownloadLimit->setEnabled(true);
+  }
+}
+
+void options_imp::enableTempPathInput(int checkBoxValue){
+  if(checkBoxValue != 2){
+    //Disable
+    textTempPath->setEnabled(false);
+    browseTempDirButton->setEnabled(false);
+  }else{
+    //enable
+    textTempPath->setEnabled(true);
+    browseTempDirButton->setEnabled(true);
   }
 }
 
@@ -1046,6 +1122,18 @@ void options_imp::enableShareRatio(int checkBoxValue){
   }
 }
 
+void options_imp::enableDHTPortSettings(int checkBoxValue) {
+if(checkBoxValue == 2){
+    //Disable
+    spinDHTPort->setEnabled(false);
+    dh_port_lbl->setEnabled(false);
+  }else{
+    //enable
+    spinDHTPort->setEnabled(true);
+    dh_port_lbl->setEnabled(true);
+  }
+}
+
 void options_imp::enableDeleteRatio(int checkBoxValue){
   if(checkBoxValue != 2){
     //Disable
@@ -1150,6 +1238,10 @@ bool options_imp::preAllocateAllFiles() const {
 
 bool options_imp::addTorrentsInPause() const {
   return checkStartPaused->isChecked();
+}
+
+bool options_imp::isDHTPortSameAsBT() const {
+  return checkSameDHTPort->isChecked();
 }
 
 // Proxy settings

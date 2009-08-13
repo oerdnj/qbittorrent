@@ -44,9 +44,11 @@
 #define F_NAME 0
 #define F_SIZE 1
 #define F_UPSPEED 2
-#define F_LEECH 3
-#define F_RATIO 4
-#define F_HASH 5
+#define F_SWARM 3
+#define F_PEERS 4
+#define F_UPLOAD 5
+#define F_RATIO 6
+#define F_HASH 7
 
 #define MAX_RATIO 100.
 
@@ -62,6 +64,7 @@ class FinishedListDelegate: public QItemDelegate {
       QStyleOptionViewItemV2 opt = QItemDelegate::setOptions(index, option);
       switch(index.column()){
         case F_SIZE:
+        case F_UPLOAD:
           QItemDelegate::drawBackground(painter, opt, index);
           QItemDelegate::drawDisplay(painter, opt, option.rect, misc::friendlyUnit(index.data().toLongLong()));
           break;

@@ -92,24 +92,6 @@ class misc : public QObject{
       return x;
     }
 
-//     template <class T> static T fromQString::fromUtf8(const QString& s) {
-//       T x;
-//       std::istringstream i((const char*)s.toUtf8());
-//       if(!(i>>x)) {
-//         throw std::runtime_error("::fromString()");
-//       }
-//       return x;
-//     }
-// 
-//     template <class T> static T fromQByteArray(const QByteArray& s) {
-//       T x;
-//       std::istringstream i((const char*)s);
-//       if(!(i>>x)) {
-//         throw std::runtime_error("::fromString()");
-//       }
-//       return x;
-//     }
-
     // return best userfriendly storage unit (B, KiB, MiB, GiB, TiB)
     // use Binary prefix standards from IEC 60027-2
     // see http://en.wikipedia.org/wiki/Kilobyte
@@ -180,51 +162,6 @@ class misc : public QObject{
       return qBtPath;
     }
 
-// Not used anymore because it is not safe
-//     static bool removePath(QString path) {
-//       qDebug((QString::fromUtf8("file to delete:") + path).toUtf8());
-//       if(!QFile::remove(path)) {
-//         // Probably a folder
-//         QDir current_dir(path);
-//         if(current_dir.exists()) {
-//           //Remove sub items
-//           QStringList subItems = current_dir.entryList();
-//           QString item;
-//           foreach(item, subItems) {
-//             if(item != QString::fromUtf8(".") && item != QString::fromUtf8("..")) {
-//               qDebug("-> Removing "+(path+QDir::separator()+item).toUtf8());
-//               removePath(path+QDir::separator()+item);
-//             }
-//           }
-//           // Remove empty folder
-//           if(current_dir.rmdir(path)) {
-//             return true;
-//           }else{
-//             return false;
-//           }
-//         }else{
-//           return false;
-//         }
-//       }
-//       return true;
-//     }
-
-    static QString findFileInDir(QString dir_path, QString fileName) {
-      QDir dir(dir_path);
-      if(dir.exists(fileName)) {
-        return dir.filePath(fileName);
-      }
-      QStringList subDirs = dir.entryList(QDir::Dirs);
-      QString subdir_name;
-      foreach(subdir_name, subDirs) {
-        QString result = findFileInDir(dir.path()+QDir::separator()+subdir_name, fileName);
-        if(!result.isNull()) {
-          return result;
-        }
-      }
-      return QString();
-    }
-
     static void fixTrackersTiers(std::vector<announce_entry> trackers) {
       unsigned int nbTrackers = trackers.size();
       for(unsigned int i=0; i<nbTrackers; ++i) {
@@ -281,7 +218,7 @@ class misc : public QObject{
     static float getPluginVersion(QString filePath) {
       QFile plugin(filePath);
       if(!plugin.exists()){
-        qDebug("%s plugin does not exist, returning 0.0", filePath.toUtf8().data());
+        qDebug("%s plugin does not exist, returning 0.0", filePath.toLocal8Bit().data());
         return 0.0;
       }
       if(!plugin.open(QIODevice::ReadOnly | QIODevice::Text)){
@@ -294,7 +231,7 @@ class misc : public QObject{
           line = line.split(' ').last();
           line.replace("\n", "");
           version = line.toFloat();
-          qDebug("plugin %s version: %.2f", filePath.toUtf8().data(), version);
+          qDebug("plugin %s version: %.2f", filePath.toLocal8Bit().data(), version);
           break;
         }
       }

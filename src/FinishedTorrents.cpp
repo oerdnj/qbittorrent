@@ -46,11 +46,13 @@ FinishedTorrents::FinishedTorrents(QObject *parent, bittorrent *BTSession) : par
   setupUi(this);
   actionStart->setIcon(QIcon(QString::fromUtf8(":/Icons/skin/play.png")));
   actionPause->setIcon(QIcon(QString::fromUtf8(":/Icons/skin/pause.png")));
-  finishedListModel = new QStandardItemModel(0,6);
+  finishedListModel = new QStandardItemModel(0,8);
   finishedListModel->setHeaderData(F_NAME, Qt::Horizontal, tr("Name", "i.e: file name"));
   finishedListModel->setHeaderData(F_SIZE, Qt::Horizontal, tr("Size", "i.e: file size"));
   finishedListModel->setHeaderData(F_UPSPEED, Qt::Horizontal, tr("UP Speed", "i.e: Upload speed"));
-  finishedListModel->setHeaderData(F_LEECH, Qt::Horizontal, tr("Leechers", "i.e: full/partial sources"));
+  finishedListModel->setHeaderData(F_SWARM, Qt::Horizontal, tr("Seeds / Leechers"));
+  finishedListModel->setHeaderData(F_PEERS, Qt::Horizontal, tr("Connected peers"));
+  finishedListModel->setHeaderData(F_UPLOAD, Qt::Horizontal, tr("Total uploaded", "i.e: Total amount of uploaded data"));
   finishedListModel->setHeaderData(F_RATIO, Qt::Horizontal, tr("Ratio"));
   finishedList->setModel(finishedListModel);
   finishedList->setRootIsDecorated(false);
@@ -90,7 +92,9 @@ FinishedTorrents::FinishedTorrents(QObject *parent, bittorrent *BTSession) : par
   connect(actionHOSColName, SIGNAL(triggered()), this, SLOT(hideOrShowColumnName()));
   connect(actionHOSColSize, SIGNAL(triggered()), this, SLOT(hideOrShowColumnSize()));
   connect(actionHOSColUpSpeed, SIGNAL(triggered()), this, SLOT(hideOrShowColumnUpSpeed()));
-  connect(actionHOSColLeechers, SIGNAL(triggered()), this, SLOT(hideOrShowColumnLeechers()));
+  connect(actionHOSColSwarm, SIGNAL(triggered()), this, SLOT(hideOrShowColumnSwarm()));
+  connect(actionHOSColPeers, SIGNAL(triggered()), this, SLOT(hideOrShowColumnPeers()));
+  connect(actionHOSColUpload, SIGNAL(triggered()), this, SLOT(hideOrShowColumnUpload()));
   connect(actionHOSColRatio, SIGNAL(triggered()), this, SLOT(hideOrShowColumnRatio()));
 }
 
@@ -117,7 +121,9 @@ void FinishedTorrents::addTorrent(QString hash){
   finishedListModel->setData(finishedListModel->index(row, F_NAME), QVariant(h.name()));
   finishedListModel->setData(finishedListModel->index(row, F_SIZE), QVariant((qlonglong)h.actual_size()));
   finishedListModel->setData(finishedListModel->index(row, F_UPSPEED), QVariant((double)0.));
-  finishedListModel->setData(finishedListModel->index(row, F_LEECH), QVariant("0"));
+  finishedListModel->setData(finishedListModel->index(row, F_SWARM), QVariant("-1/-1"));
+  finishedListModel->setData(finishedListModel->index(row, F_PEERS), QVariant("0"));
+  finishedListModel->setData(finishedListModel->index(row, F_UPLOAD), QVariant((qlonglong)h.all_time_upload()));
   finishedListModel->setData(finishedListModel->index(row, F_RATIO), QVariant(QString::fromUtf8(misc::toString(BTSession->getRealRatio(hash)).c_str())));
   finishedListModel->setData(finishedListModel->index(row, F_HASH), QVariant(hash));
   if(h.is_paused()) {
@@ -227,7 +233,7 @@ void FinishedTorrents::saveColWidthFinishedList() const{
     width_list = line.split(' ');
   }
   for(short i=0; i<nbColumns; ++i){
-    if(finishedList->columnWidth(i)<1 && width_list.size() == finishedListModel->columnCount()-1 && width_list.at(i).toInt()>=1) {
+    if(finishedList->columnWidth(i)<1 && width_list.size() == nbColumns && width_list.at(i).toInt()>=1) {
       // load the former width
       new_width_list << width_list.at(i);
     } else if(finishedList->columnWidth(i)>=1) { 
@@ -269,22 +275,25 @@ void FinishedTorrents::updateTorrent(QTorrentHandle h) {
       row = getRowFromHash(hash);
     }
     Q_ASSERT(row != -1);
+    if(!finishedList->isColumnHidden(F_SWARM)) {
+      finishedListModel->setData(finishedListModel->index(row, F_SWARM), misc::toQString(h.num_complete())+QString("/")+misc::toQString(h.num_incomplete()));
+    }
     if(h.is_paused()) return;
     // Update queued torrent
     if(BTSession->isQueueingEnabled() && h.is_queued()) {
         if(h.state() == torrent_status::checking_files || h.state() == torrent_status::queued_for_checking){
-            finishedListModel->setData(finishedListModel->index(row, F_NAME), QVariant(QIcon(QString::fromUtf8(":/Icons/time.png"))), Qt::DecorationRole);
+            finishedListModel->setData(finishedListModel->index(row, F_NAME), QVariant(QIcon(QString::fromUtf8(":/Icons/oxygen/time.png"))), Qt::DecorationRole);
         } else {
             finishedListModel->setData(finishedListModel->index(row, F_NAME), QVariant(QIcon(QString::fromUtf8(":/Icons/skin/queued.png"))), Qt::DecorationRole);
         }
         // Reset upload speed and seeds/leech
         finishedListModel->setData(finishedListModel->index(row, F_UPSPEED), 0.);
-        finishedListModel->setData(finishedListModel->index(row, F_LEECH), "0");
+        finishedListModel->setData(finishedListModel->index(row, F_PEERS), "0");
         setRowColor(row, QString::fromUtf8("grey"));
         return;
     }
     if(h.state() == torrent_status::checking_files || h.state() == torrent_status::queued_for_checking){
-      finishedListModel->setData(finishedListModel->index(row, F_NAME), QVariant(QIcon(QString::fromUtf8(":/Icons/time.png"))), Qt::DecorationRole);
+      finishedListModel->setData(finishedListModel->index(row, F_NAME), QVariant(QIcon(QString::fromUtf8(":/Icons/oxygen/time.png"))), Qt::DecorationRole);
       setRowColor(row, QString::fromUtf8("grey"));
       return;
     }
@@ -293,8 +302,11 @@ void FinishedTorrents::updateTorrent(QTorrentHandle h) {
     if(!finishedList->isColumnHidden(F_UPSPEED)) {
       finishedListModel->setData(finishedListModel->index(row, F_UPSPEED), QVariant((double)h.upload_payload_rate()));
     }
-    if(!finishedList->isColumnHidden(F_LEECH)) {
-      finishedListModel->setData(finishedListModel->index(row, F_LEECH), misc::toQString(h.num_peers() - h.num_seeds(), true));
+    if(!finishedList->isColumnHidden(F_PEERS)) {
+      finishedListModel->setData(finishedListModel->index(row, F_PEERS), misc::toQString(h.num_peers() - h.num_seeds(), true));
+    }
+    if(!finishedList->isColumnHidden(F_UPLOAD)) {
+      finishedListModel->setData(finishedListModel->index(row, F_UPLOAD), QVariant((double)h.all_time_upload()));
     }
     if(!finishedList->isColumnHidden(F_RATIO)) {
       finishedListModel->setData(finishedListModel->index(row, F_RATIO), QVariant(misc::toQString(BTSession->getRealRatio(hash))));
@@ -318,7 +330,7 @@ void FinishedTorrents::pauseTorrent(QString hash) {
     return;
   finishedListModel->setData(finishedListModel->index(row, F_UPSPEED), QVariant((double)0.0));
   finishedListModel->setData(finishedListModel->index(row, F_NAME), QIcon(QString::fromUtf8(":/Icons/skin/paused.png")), Qt::DecorationRole);
-  finishedListModel->setData(finishedListModel->index(row, F_LEECH), QVariant(QString::fromUtf8("0")));
+  finishedListModel->setData(finishedListModel->index(row, F_PEERS), QVariant(QString::fromUtf8("0")));
   setRowColor(row, QString::fromUtf8("red"));
 }
 
@@ -374,6 +386,7 @@ void FinishedTorrents::forceRecheck(){
       if(index.column() == F_NAME){
           QString hash = finishedListModel->data(finishedListModel->index(index.row(), F_HASH)).toString();
           QTorrentHandle h = BTSession->getTorrentHandle(hash);
+          qDebug("Forcing recheck for torrent %s", hash.toLocal8Bit().data());
           h.force_recheck();
       }
   }
@@ -458,12 +471,12 @@ void FinishedTorrents::hideOrShowColumn(int index) {
     if(nbVisibleColumns <= 1) return;
     // User can hide the column, do it.
     finishedList->setColumnHidden(index, true);
-    getActionHoSCol(index)->setIcon(QIcon(QString::fromUtf8(":/Icons/button_cancel.png")));
+    getActionHoSCol(index)->setIcon(QIcon(QString::fromUtf8(":/Icons/oxygen/button_cancel.png")));
     --nbVisibleColumns;
   } else {
     // User want to display the column
     finishedList->setColumnHidden(index, false);
-    getActionHoSCol(index)->setIcon(QIcon(QString::fromUtf8(":/Icons/button_ok.png")));
+    getActionHoSCol(index)->setIcon(QIcon(QString::fromUtf8(":/Icons/oxygen/button_ok.png")));
     ++nbVisibleColumns;
   }
   //resize all others non-hidden columns
@@ -486,8 +499,16 @@ void FinishedTorrents::hideOrShowColumnUpSpeed() {
   hideOrShowColumn(F_UPSPEED);
 }
 
-void FinishedTorrents::hideOrShowColumnLeechers() {
-  hideOrShowColumn(F_LEECH);
+void FinishedTorrents::hideOrShowColumnSwarm() {
+  hideOrShowColumn(F_SWARM);
+}
+
+void FinishedTorrents::hideOrShowColumnPeers() {
+  hideOrShowColumn(F_PEERS);
+}
+
+void FinishedTorrents::hideOrShowColumnUpload() {
+  hideOrShowColumn(F_UPLOAD);
 }
 
 void FinishedTorrents::hideOrShowColumnRatio() {
@@ -513,9 +534,9 @@ bool FinishedTorrents::loadHiddenColumns() {
   for(int i=0; i<finishedListModel->columnCount()-1; i++) {
     if(loaded && ishidden_list.at(i) == "0") {
       finishedList->setColumnHidden(i, true);
-      getActionHoSCol(i)->setIcon(QIcon(QString::fromUtf8(":/Icons/button_cancel.png")));
+      getActionHoSCol(i)->setIcon(QIcon(QString::fromUtf8(":/Icons/oxygen/button_cancel.png")));
     } else {
-      getActionHoSCol(i)->setIcon(QIcon(QString::fromUtf8(":/Icons/button_ok.png")));
+      getActionHoSCol(i)->setIcon(QIcon(QString::fromUtf8(":/Icons/oxygen/button_ok.png")));
     }
   }
   return loaded;
@@ -549,8 +570,14 @@ QAction* FinishedTorrents::getActionHoSCol(int index) {
     case F_UPSPEED :
       return actionHOSColUpSpeed;
       break;
-    case F_LEECH :
-      return actionHOSColLeechers;
+    case F_SWARM :
+      return actionHOSColSwarm;
+      break;
+    case F_PEERS :
+      return actionHOSColPeers;
+      break;
+    case F_UPLOAD :
+      return actionHOSColUpload;
       break;
     case F_RATIO :
       return actionHOSColRatio;
@@ -574,6 +601,7 @@ void FinishedTorrents::toggleFinishedListSortOrder(int index) {
     case F_SIZE:
     case F_UPSPEED:
     case F_RATIO:
+    case F_UPLOAD:
       sortFinishedListFloat(index, sortOrder);
       break;
     default:
@@ -598,6 +626,8 @@ void FinishedTorrents::sortFinishedList(int index, Qt::SortOrder sortOrder){
   switch(index) {
     case F_SIZE:
     case F_UPSPEED:
+    case F_UPLOAD:
+    case F_RATIO:
       sortFinishedListFloat(index, sortOrder);
       break;
     default:

@@ -39,6 +39,9 @@
 #include <iostream>
 #include <QTimer>
 #include <QDir>
+#include <QMenu>
+#include <QClipboard>
+#include <QMimeData>
 
 #include "searchEngine.h"
 #include "bittorrent.h"
@@ -53,9 +56,8 @@ SearchEngine::SearchEngine(bittorrent *BTSession, QSystemTrayIcon *myTrayIcon, b
   setupUi(this);
   // new qCompleter to the search pattern
   startSearchHistory();
-  searchCompleter = new QCompleter(searchHistory, this);
-  searchCompleter->setCaseSensitivity(Qt::CaseInsensitive);
-  search_pattern->setCompleter(searchCompleter);
+  searchCompleter = 0;
+  createCompleter();
   // Add close tab button
   closeTab_button = new QPushButton();
   closeTab_button->setIcon(QIcon(QString::fromUtf8(":/Icons/gnome-shutdown.png")));
@@ -79,6 +81,7 @@ SearchEngine::SearchEngine(bittorrent *BTSession, QSystemTrayIcon *myTrayIcon, b
   loadEngineSettings();
   // Update nova.py search plugin if necessary
   updateNova();
+  connect(search_pattern, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(displayPatternContextMenu(QPoint)));
 }
 
 SearchEngine::~SearchEngine(){
@@ -94,7 +97,50 @@ SearchEngine::~SearchEngine(){
 	}
   delete searchTimeout;
   delete searchProcess;
-  delete searchCompleter;
+  if(searchCompleter)
+    delete searchCompleter;
+}
+
+void SearchEngine::displayPatternContextMenu(QPoint) {
+  QMenu myMenu(this);
+  QAction cutAct(QIcon(":/Icons/oxygen/edit-cut.png"), tr("Cut"), &myMenu);
+  QAction copyAct(QIcon(":/Icons/oxygen/edit-copy.png"), tr("Copy"), &myMenu);
+  QAction pasteAct(QIcon(":/Icons/oxygen/edit-paste.png"), tr("Paste"), &myMenu);
+  QAction clearAct(QIcon(":/Icons/oxygen/edit_clear.png"), tr("Clear field"), &myMenu);
+  QAction clearHistoryAct(QIcon(":/Icons/oxygen/edit-clear.png"), tr("Clear completion history"), &myMenu);
+  bool hasCopyAct = false;
+  if(search_pattern->hasSelectedText()) {
+    myMenu.addAction(&cutAct);
+    myMenu.addAction(&copyAct);
+    hasCopyAct = true;
+  }
+  if(qApp->clipboard()->mimeData()->hasText()) {
+    myMenu.addAction(&pasteAct);
+    hasCopyAct = true;
+  }
+  if(hasCopyAct)
+    myMenu.addSeparator();
+  myMenu.addAction(&clearHistoryAct);
+  myMenu.addAction(&clearAct);
+  QAction *act = myMenu.exec(QCursor::pos());
+  if(act != 0) {
+    if(act == &clearHistoryAct) {
+      searchHistory.clear();
+      createCompleter();
+    } else if (act == &pasteAct) {
+    } else if (act == &pasteAct) {
+      search_pattern->paste();
+    }
+    else if (act == &cutAct) {
+      search_pattern->cut();
+    }
+    else if (act == &copyAct) {
+      search_pattern->copy();
+    }
+    else if (act == &clearAct) {
+      search_pattern->clear();
+    }
+  }
 }
 
 void SearchEngine::tab_changed(int t)
@@ -166,6 +212,7 @@ void SearchEngine::on_search_button_clicked(){
   }
   // Tab Addition
   currentSearchTab=new SearchTab(this);
+  connect(currentSearchTab->header(), SIGNAL(sectionResized(int, int, int)), this, SLOT(propagateSectionResized(int,int,int)));
   all_tab.append(currentSearchTab);
   tabWidget->addTab(currentSearchTab, pattern);
   tabWidget->setCurrentWidget(currentSearchTab);
@@ -177,12 +224,8 @@ void SearchEngine::on_search_button_clicked(){
     // verify the max size of the history
     if(searchHistory.size() > SEARCHHISTORY_MAXSIZE)
       searchHistory = searchHistory.mid(searchHistory.size()/2,searchHistory.size()/2);
-    delete searchCompleter;
-    searchCompleter = new QCompleter(searchHistory, this);
-    searchCompleter->setCaseSensitivity(Qt::CaseInsensitive);
-    search_pattern->setCompleter(searchCompleter);
+    createCompleter();
   }
-
 
   // Getting checked search engines
   Q_ASSERT(!enabled_engines.empty());
@@ -201,6 +244,50 @@ void SearchEngine::on_search_button_clicked(){
   // Launch search
   searchProcess->start("python", params, QIODevice::ReadOnly);
   searchTimeout->start(180000); // 3min
+}
+
+void SearchEngine::createCompleter() {
+  if(searchCompleter)
+    delete searchCompleter;
+  searchCompleter = new QCompleter(searchHistory, this);
+  searchCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+  search_pattern->setCompleter(searchCompleter);
+}
+
+void SearchEngine::propagateSectionResized(int index, int , int newsize) {
+  foreach(SearchTab * tab, all_tab) {
+    tab->getCurrentTreeView()->setColumnWidth(index, newsize);
+  }
+  saveResultsColumnsWidth();
+}
+
+void SearchEngine::saveResultsColumnsWidth() {
+  if(all_tab.size() > 0) {
+    QTreeView* treeview = all_tab.first()->getCurrentTreeView();
+    QSettings settings("qBittorrent", "qBittorrent");
+    QStringList width_list;
+    QStringList new_width_list;
+    short nbColumns = all_tab.first()->getCurrentSearchListModel()->columnCount();
+
+    QString line = settings.value("SearchResultsColsWidth", QString()).toString();
+    if(!line.isEmpty()) {
+      width_list = line.split(' ');
+    }
+    for(short i=0; i<nbColumns; ++i){
+      if(treeview->columnWidth(i)<1 && width_list.size() == nbColumns && width_list.at(i).toInt()>=1) {
+        // load the former width
+        new_width_list << width_list.at(i);
+      } else if(treeview->columnWidth(i)>=1) {
+        // usual case, save the current width
+        new_width_list << QString::fromUtf8(misc::toString(treeview->columnWidth(i)).c_str());
+      } else {
+        // default width
+        treeview->resizeColumnToContents(i);
+        new_width_list << QString::fromUtf8(misc::toString(treeview->columnWidth(i)).c_str());
+      }
+    }
+    settings.setValue("SearchResultsColsWidth", new_width_list.join(" "));
+  }
 }
 
 void SearchEngine::downloadTorrent(QString engine_url, QString torrent_url) {
@@ -301,6 +388,7 @@ void SearchEngine::updateNova() {
   // Set permissions
   QFile::Permissions perm=QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner | QFile::ReadUser | QFile::WriteUser | QFile::ExeUser | QFile::ReadGroup | QFile::ReadGroup;
   QFile(misc::qBittorrentPath()+"search_engine"+QDir::separator()+"nova2.py").setPermissions(perm);
+
 	filePath = misc::qBittorrentPath()+"search_engine"+QDir::separator()+"nova2dl.py";
 	if(misc::getPluginVersion(":/search_engine/nova2dl.py") > misc::getPluginVersion(filePath)) {
     if(QFile::exists(filePath)){
@@ -333,12 +421,12 @@ void SearchEngine::updateNova() {
     // Copy python classes
     if(file.endsWith(".py")) {
       if(misc::getPluginVersion(shipped_file) > misc::getPluginVersion(destDir+file) ) {
-        qDebug("shippped %s is more recent then local plugin, updating", file.toUtf8().data());
+        qDebug("shippped %s is more recent then local plugin, updating", file.toLocal8Bit().data());
         if(QFile::exists(destDir+file)) {
-          qDebug("Removing old %s", (destDir+file).toUtf8().data());
+          qDebug("Removing old %s", (destDir+file).toLocal8Bit().data());
           QFile::remove(destDir+file);
         }
-        qDebug("%s copied to %s", shipped_file.toUtf8().data(), (destDir+file).toUtf8().data());
+        qDebug("%s copied to %s", shipped_file.toLocal8Bit().data(), (destDir+file).toLocal8Bit().data());
         QFile::copy(shipped_file, destDir+file);
       }
     } else {

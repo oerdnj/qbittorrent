@@ -78,6 +78,8 @@ class options_imp : public QDialog, private Ui::Dialog {
     bool isToolbarDisplayed() const;
     // Downloads
     QString getSavePath() const;
+    bool isTempPathEnabled() const;
+    QString getTempPath() const;
     bool preAllocateAllFiles() const;
     bool useAdditionDialog() const;
     bool addTorrentsInPause() const;
@@ -95,6 +97,8 @@ class options_imp : public QDialog, private Ui::Dialog {
     int getMaxConnecsPerTorrent() const;
     int getMaxUploadsPerTorrent() const;
     bool isDHTEnabled() const;
+    bool isDHTPortSameAsBT() const;
+    int getDHTPort() const;
     bool isPeXEnabled() const;
     bool isLSDEnabled() const;
     bool isRSSEnabled() const;
@@ -137,6 +141,7 @@ class options_imp : public QDialog, private Ui::Dialog {
   protected slots:
     void enableUploadLimit(int checkBoxValue);
     void enableDownloadLimit(int checkBoxValue);
+    void enableTempPathInput(int checkBoxValue);
     void enableDirScan(int checkBoxValue);
     void enableProxy(int comboIndex);
     void enableProxyAuth(int checkBoxValue);
@@ -149,6 +154,7 @@ class options_imp : public QDialog, private Ui::Dialog {
     void enableDeleteRatio(int checkBoxValue);
     void enableFilter(int checkBoxValue);
     void enableRSS(int checkBoxValue);
+    void enableDHTPortSettings(int checkBoxValue);
     void enableQueueingSystem(int checkBoxValue);
     void setStyle(int style);
     void on_buttonBox_accepted();
@@ -164,6 +170,8 @@ class options_imp : public QDialog, private Ui::Dialog {
     void disableSystrayOptions();
     void setSystrayOptionsState(int checkBoxValue);
     void enableWebUi(bool checkBoxValue);
+    void changePage(QListWidgetItem*, QListWidgetItem*);
+    void adaptToScreenSize();
 
   public slots:
     void setLocale(QString locale);
