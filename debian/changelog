@@ -1,3 +1,12 @@
+qbittorrent (1.4.0-1) unstable; urgency=low
+
+  * New upstream version (LP: #412272).
+    - display Swarm infos in seeding list (Closes: #520756).
+  * debian/copyright: new copyright notes.
+  * debian/changelog: setting v1.3.5 as UNRELEASED.
+
+ -- Cristian Greco <cristian.debian@gmail.com>  Thu, 13 Aug 2009 10:49:01 +0200
+
 qbittorrent (1.3.5-1) UNRELEASED; urgency=low
 
   * New upstream version (bugfix release).
