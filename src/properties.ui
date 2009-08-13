@@ -27,7 +27,7 @@
      </property>
      <widget class="QWidget" name="tab_1">
       <attribute name="title">
-       <string>Main infos</string>
+       <string>Main info</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
@@ -73,7 +73,7 @@
           </font>
          </property>
          <property name="title">
-          <string>Torrent infos</string>
+          <string>Torrent information</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>

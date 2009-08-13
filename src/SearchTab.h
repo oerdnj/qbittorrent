@@ -39,6 +39,7 @@
 class SearchListDelegate;
 class SearchEngine;
 class QTreeView;
+class QHeaderView;
 class QStandardItemModel;
 
 class SearchTab : public QWidget, public Ui::search_engine
@@ -54,16 +55,17 @@ class SearchTab : public QWidget, public Ui::search_engine
     public:
         SearchTab(SearchEngine *parent);
         ~SearchTab();
-        bool loadColWidthSearchList();
+        bool loadColWidthResultsList();
         QLabel * getCurrentLabel();
         QStandardItemModel * getCurrentSearchListModel();
         QTreeView * getCurrentTreeView();
         void setRowColor(int row, QString color);
+        QHeaderView* header() const;
+
     protected slots:
         void sortSearchList(int index);
         void sortSearchListInt(int index, Qt::SortOrder sortOrder);
         void sortSearchListString(int index, Qt::SortOrder sortOrder);
-        void saveColWidthSearchList() const;
         
 };
 

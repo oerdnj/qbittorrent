@@ -99,14 +99,14 @@ GUI::GUI(QWidget *parent, QStringList torrentCmdLine) : QMainWindow(parent), dis
     qDebug("Info: System tray unavailable");
   }
   // Setting icons
-  this->setWindowIcon(QIcon(QString::fromUtf8(":/Icons/qbittorrent32.png")));
+  this->setWindowIcon(QIcon(QString::fromUtf8(":/Icons/skin/qbittorrent32.png")));
   actionOpen->setIcon(QIcon(QString::fromUtf8(":/Icons/skin/open.png")));
   actionExit->setIcon(QIcon(QString::fromUtf8(":/Icons/skin/exit.png")));
   actionDownload_from_URL->setIcon(QIcon(QString::fromUtf8(":/Icons/skin/url.png")));
   actionOptions->setIcon(QIcon(QString::fromUtf8(":/Icons/skin/settings.png")));
   actionAbout->setIcon(QIcon(QString::fromUtf8(":/Icons/skin/info.png")));
-  actionWebsite->setIcon(QIcon(QString::fromUtf8(":/Icons/qbittorrent32.png")));
-  actionBugReport->setIcon(QIcon(QString::fromUtf8(":/Icons/newmsg.png")));
+  actionWebsite->setIcon(QIcon(QString::fromUtf8(":/Icons/skin/qbittorrent32.png")));
+  actionBugReport->setIcon(QIcon(QString::fromUtf8(":/Icons/oxygen/bug.png")));
   actionStart->setIcon(QIcon(QString::fromUtf8(":/Icons/skin/play.png")));
   actionPause->setIcon(QIcon(QString::fromUtf8(":/Icons/skin/pause.png")));
   actionDelete->setIcon(QIcon(QString::fromUtf8(":/Icons/skin/delete.png")));
@@ -132,7 +132,7 @@ GUI::GUI(QWidget *parent, QStringList torrentCmdLine) : QMainWindow(parent), dis
   options = new options_imp(this);
   connect(options, SIGNAL(status_changed(bool)), this, SLOT(OptionsSaved(bool)));
   BTSession = new bittorrent();
-  connect(BTSession, SIGNAL(fullDiskError(QTorrentHandle&)), this, SLOT(fullDiskError(QTorrentHandle&)));
+  connect(BTSession, SIGNAL(fullDiskError(QTorrentHandle&, QString)), this, SLOT(fullDiskError(QTorrentHandle&, QString)));
   connect(BTSession, SIGNAL(finishedTorrent(QTorrentHandle&)), this, SLOT(finishedTorrent(QTorrentHandle&)));
   connect(BTSession, SIGNAL(addedTorrent(QTorrentHandle&)), this, SLOT(addedTorrent(QTorrentHandle&)));
   connect(BTSession, SIGNAL(pausedTorrent(QTorrentHandle&)), this, SLOT(pausedTorrent(QTorrentHandle&)));
@@ -249,6 +249,9 @@ GUI::GUI(QWidget *parent, QStringList torrentCmdLine) : QMainWindow(parent), dis
   if(!settings.value(QString::fromUtf8("Preferences/General/StartMinimized"), false).toBool()) {
     show();
   }
+  scrapeTimer = new QTimer(this);
+  connect(scrapeTimer, SIGNAL(timeout()), this, SLOT(scrapeTrackers()));
+  scrapeTimer->start(20000);
   qDebug("GUI Built");
 }
 
@@ -260,6 +263,8 @@ GUI::~GUI() {
   BTSession->saveDHTEntry();
   BTSession->saveSessionState();
   BTSession->saveFastResumeData();
+  scrapeTimer->stop();
+  delete scrapeTimer;
   delete dlSpeedLbl;
   delete upSpeedLbl;
   delete ratioLbl;
@@ -316,6 +321,16 @@ void GUI::displayRSSTab(bool enable) {
       delete rssWidget;
       rssWidget = 0;
     }
+  }
+}
+
+void GUI::scrapeTrackers() {
+  std::vector<torrent_handle> torrents = BTSession->getTorrents();
+  std::vector<torrent_handle>::iterator torrentIT;
+  for(torrentIT = torrents.begin(); torrentIT != torrents.end(); torrentIT++) {
+    QTorrentHandle h = QTorrentHandle(*torrentIT);
+    if(!h.is_valid()) continue;
+    h.scrape_tracker();
   }
 }
 
@@ -418,15 +433,15 @@ void GUI::checkedTorrent(QTorrentHandle& h) const {
 }
 
 // Notification when disk is full
-void GUI::fullDiskError(QTorrentHandle& h) const {
+void GUI::fullDiskError(QTorrentHandle& h, QString msg) const {
   QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
   bool useNotificationBalloons = settings.value(QString::fromUtf8("Preferences/General/NotificationBaloons"), true).toBool();
   if(systrayIntegration && useNotificationBalloons) {
-    myTrayIcon->showMessage(tr("I/O Error", "i.e: Input/Output Error"), tr("An error occured when trying to read or write %1. The disk is probably full, download has been paused", "e.g: An error occured when trying to read or write xxx.avi. The disk is probably full, download has been paused").arg(h.name()), QSystemTrayIcon::Critical, TIME_TRAY_BALLOON);
+    myTrayIcon->showMessage(tr("I/O Error", "i.e: Input/Output Error"), tr("An I/O error occured for torrent %1.\n Reason: %2", "e.g: An error occured for torrent xxx.avi.\n Reason: disk is full.").arg(h.name()).arg(msg), QSystemTrayIcon::Critical, TIME_TRAY_BALLOON);
   }
   // Download will be paused by libtorrent. Updating GUI information accordingly
   QString hash = h.hash();
-  qDebug("Full disk error, pausing torrent %s", hash.toUtf8().data());
+  qDebug("Full disk error, pausing torrent %s", hash.toLocal8Bit().data());
   if(h.is_seed()) {
     // In finished list
     qDebug("Automatically paused torrent was in finished list");
@@ -670,7 +685,8 @@ void GUI::closeEvent(QCloseEvent *e) {
   bool goToSystrayOnExit = settings.value(QString::fromUtf8("Preferences/General/CloseToTray"), false).toBool();
   if(!force_exit && systrayIntegration && goToSystrayOnExit && !this->isHidden()) {
     hide();
-    e->ignore();
+    //e->ignore();
+    e->accept();
     return;
   }
   if(settings.value(QString::fromUtf8("Preferences/General/ExitConfirm"), true).toBool() && downloadingTorrentTab->getNbTorrentsInList()) {
@@ -729,8 +745,7 @@ void GUI::dropEvent(QDropEvent *event) {
   if(event->mimeData()->hasUrls()) {
     QList<QUrl> urls = event->mimeData()->urls();
     foreach(const QUrl &url, urls) {
-      QString tmp = url.toString();
-      tmp.trimmed();
+      QString tmp = url.toString().trimmed();
       if(!tmp.isEmpty())
         files << url.toString();
     }
@@ -742,7 +757,7 @@ void GUI::dropEvent(QDropEvent *event) {
   bool useTorrentAdditionDialog = settings.value(QString::fromUtf8("Preferences/Downloads/AdditionDialog"), true).toBool();
   foreach(QString file, files) {
     file = file.trimmed().replace(QString::fromUtf8("file://"), QString::fromUtf8(""), Qt::CaseInsensitive);
-    qDebug("Dropped file %s on download list", file.toUtf8().data());
+    qDebug("Dropped file %s on download list", file.toLocal8Bit().data());
     if(file.startsWith(QString::fromUtf8("http://"), Qt::CaseInsensitive) || file.startsWith(QString::fromUtf8("ftp://"), Qt::CaseInsensitive) || file.startsWith(QString::fromUtf8("https://"), Qt::CaseInsensitive)) {
       BTSession->downloadFromUrl(file);
       continue;
@@ -759,7 +774,7 @@ void GUI::dropEvent(QDropEvent *event) {
 // Decode if we accept drag 'n drop or not
 void GUI::dragEnterEvent(QDragEnterEvent *event) {
   foreach(const QString &mime, event->mimeData()->formats()){
-    qDebug("mimeData: %s", mime.toUtf8().data());
+    qDebug("mimeData: %s", mime.toLocal8Bit().data());
   }
   if (event->mimeData()->hasFormat(QString::fromUtf8("text/plain")) || event->mimeData()->hasFormat(QString::fromUtf8("text/uri-list"))) {
     event->acceptProposedAction();
@@ -954,6 +969,11 @@ void GUI::configureSession(bool deleteOptions) {
   // Downloads
   // * Save path
   BTSession->setDefaultSavePath(options->getSavePath());
+  if(options->isTempPathEnabled()) {
+    BTSession->setDefaultTempPath(options->getTempPath());
+  } else {
+    BTSession->setDefaultTempPath(QString::null);
+  }
   BTSession->preAllocateAllFiles(options->preAllocateAllFiles());
   BTSession->startTorrentsInPause(options->addTorrentsInPause());
   // * Scan dir
@@ -969,7 +989,7 @@ void GUI::configureSession(bool deleteOptions) {
   BTSession->setListeningPortsRange(options->getPorts());
   unsigned short new_listenPort = BTSession->getListenPort();
   if(new_listenPort != old_listenPort) {
-    BTSession->addConsoleMessage(tr("qBittorrent is bind to port: %1", "e.g: qBittorrent is bind to port: 1666").arg( misc::toQString(new_listenPort)));
+    BTSession->addConsoleMessage(tr("qBittorrent is bound to port: TCP/%1", "e.g: qBittorrent is bound to port: 6881").arg( misc::toQString(new_listenPort)));
   }
   // * Global download limit
   QPair<int, int> limits = options->getGlobalBandwidthLimits();
@@ -1058,9 +1078,12 @@ void GUI::configureSession(bool deleteOptions) {
   // * DHT
   if(options->isDHTEnabled()) {
     // Set DHT Port
-    BTSession->setDHTPort(new_listenPort);
+    BTSession->setDHTPort(options->getDHTPort());
     if(BTSession->enableDHT(true)) {
-      BTSession->addConsoleMessage(tr("DHT support [ON], port: %1").arg(new_listenPort), QString::fromUtf8("blue"));
+      int dht_port = new_listenPort;
+      if(options->getDHTPort())
+        dht_port = options->getDHTPort();
+      BTSession->addConsoleMessage(tr("DHT support [ON], port: UDP/%1").arg(dht_port), QString::fromUtf8("blue"));
     } else {
       BTSession->addConsoleMessage(tr("DHT support [OFF]"), QString::fromUtf8("red"));
     }
@@ -1170,11 +1193,11 @@ void GUI::configureSession(bool deleteOptions) {
     // We need this for urllib in search engine plugins
 #ifdef Q_WS_WIN
     char proxystr[512];
-    snprintf(proxystr, 512, "http_proxy=%s", proxy_str.toUtf8().data());
+    snprintf(proxystr, 512, "http_proxy=%s", proxy_str.toLocal8Bit().data());
     putenv(proxystr);
 #else
-    qDebug("HTTP: proxy string: %s", proxy_str.toUtf8().data());
-    setenv("http_proxy", proxy_str.toUtf8().data(), 1);
+    qDebug("HTTP: proxy string: %s", proxy_str.toLocal8Bit().data());
+    setenv("http_proxy", proxy_str.toLocal8Bit().data(), 1);
 #endif
   } else {
     qDebug("Disabling search proxy");
@@ -1501,10 +1524,10 @@ void GUI::createSystrayDelayed() {
 void GUI::createTrayIcon() {
   // Tray icon
  #ifdef Q_WS_WIN
-  myTrayIcon = new QSystemTrayIcon(QIcon(QString::fromUtf8(":/Icons/qbittorrent16.png")), this);
+  myTrayIcon = new QSystemTrayIcon(QIcon(QString::fromUtf8(":/Icons/skin/qbittorrent16.png")), this);
  #endif
  #ifndef Q_WS_WIN
-  myTrayIcon = new QSystemTrayIcon(QIcon(QString::fromUtf8(":/Icons/qbittorrent22.png")), this);
+  myTrayIcon = new QSystemTrayIcon(QIcon(QString::fromUtf8(":/Icons/skin/qbittorrent22.png")), this);
 #endif
   // Tray icon Menu
   myTrayIconMenu = new QMenu(this);

@@ -70,6 +70,7 @@ class GUI : public QMainWindow, private Ui::MainWindow{
     // Bittorrent
     bittorrent *BTSession;
     QTimer *checkConnect;
+    QTimer *scrapeTimer;
     QList<QPair<QTorrentHandle,QString> > unauthenticated_trackers;
     // GUI related
     QTabWidget *tabs;
@@ -139,7 +140,7 @@ class GUI : public QMainWindow, private Ui::MainWindow{
     void createTrayIcon();
     void updateUnfinishedTorrentNumber(unsigned int nb);
     void updateFinishedTorrentNumber(unsigned int nb);
-    void fullDiskError(QTorrentHandle& h) const;
+    void fullDiskError(QTorrentHandle& h, QString msg) const;
     void handleDownloadFromUrlFailure(QString, QString) const;
     void createSystrayDelayed();
     // Keyboard shortcuts
@@ -177,6 +178,7 @@ class GUI : public QMainWindow, private Ui::MainWindow{
     bool initWebUi(QString username, QString password, int port);
     void on_actionIncreasePriority_triggered();
     void on_actionDecreasePriority_triggered();
+    void scrapeTrackers();
     // Options slots
     void on_actionOptions_triggered();
     void OptionsSaved(bool deleteOptions);
