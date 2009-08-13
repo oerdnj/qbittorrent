@@ -104,6 +104,10 @@ Files: src/ico.cpp, src/ico.h
 Copyright: Copyright © 2000 Malte Starostik <malte@kde.org>
 License: LGPL-2.1+
 
+Files: src/oxygen/*.png
+Copyright: Oxygen Icon Theme (KDE) - www.oxygen-icons.org
+License: LGPL-2.1+
+
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
     License as published by the Free Software Foundation; either
