@@ -1,6 +1,6 @@
 [Desktop Entry]
 Categories=Qt;Network;P2P;
-Comment=V1.5.0
+Comment=V1.5.1
 Exec=qbittorrent %f
 GenericName=Bittorrent client
 GenericName[bg]=Торент клиент
@@ -25,6 +25,7 @@ GenericName[sv]=Bittorrent-klient
 GenericName[tr]=Bittorrent istemcisi
 GenericName[uk]=Bittorrent-клієнт
 GenericName[zh]=Bittorrent之用户
+GenericName[zh_TW]=Bittorrent客戶端
 Icon=qbittorrent
 MimeType=application/x-bittorrent;
 Name=qBittorrent
