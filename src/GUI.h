@@ -143,6 +143,7 @@ class GUI : public QMainWindow, private Ui::MainWindow{
     void fullDiskError(QTorrentHandle& h, QString msg) const;
     void handleDownloadFromUrlFailure(QString, QString) const;
     void createSystrayDelayed();
+    void setPaused(QTorrentHandle &h) const;
     // Keyboard shortcuts
     void createKeyboardShortcuts();
     void displayDownTab() const;
@@ -191,6 +192,7 @@ class GUI : public QMainWindow, private Ui::MainWindow{
     void setTabText(int index, QString text) const;
     void openDestinationFolder() const;
     void goBuyPage() const;
+    void copyMagnetURI() const;
     void updateRatio();
 
   protected:

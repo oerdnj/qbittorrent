@@ -76,6 +76,7 @@ class bittorrent : public QObject {
     QString filterPath;
     bool queueingEnabled;
     QStringList url_skippingDlg;
+    QHash<QString, QString> savepath_fromurl;
 
   protected:
     QString getSavePath(QString hash);
@@ -107,19 +108,25 @@ class bittorrent : public QObject {
     QStringList getConsoleMessages() const;
     QStringList getPeerBanMessages() const;
     qlonglong getETA(QString hash) const;
+    bool useTemporaryFolder() const;
+    QString getDefaultSavePath() const;
 
   public slots:
     QTorrentHandle addTorrent(QString path, bool fromScanDir = false, QString from_url = QString(), bool resumed = false);
+    QTorrentHandle addMagnetUri(QString magnet_uri, bool resumed=false);
+    void importOldTorrents();
+    void applyFormerAttributeFiles(QTorrentHandle h);
+    void importOldTempData(QString torrent_path);
     void loadSessionState();
     void saveSessionState();
     void downloadFromUrl(QString url);
-    void downloadFromURLList(const QStringList& url_list);
     void deleteTorrent(QString hash, bool permanent = false);
+    void startUpTorrents();
     /* Needed by Web UI */
     void pauseAllTorrents();
-    void resumeAllTorrents();
     void pauseTorrent(QString hash);
     void resumeTorrent(QString hash);
+    void resumeAllTorrents();
     /* End Web UI */
     void saveDHTEntry();
     void preAllocateAllFiles(bool b);
@@ -129,17 +136,14 @@ class bittorrent : public QObject {
     void enableIPFilter(QString filter);
     void disableIPFilter();
     void setQueueingEnabled(bool enable);
-    void resumeUnfinishedTorrents();
-    void saveTorrentPriority(QString hash, int prio);
-    void saveTorrentSpeedLimits(QString hash);
     void loadTorrentSpeedLimits(QString hash);
     void handleDownloadFailure(QString url, QString reason);
     void loadWebSeeds(QString fileHash);
     void increaseDlTorrentPriority(QString hash);
     void decreaseDlTorrentPriority(QString hash);
-    void downloadUrlAndSkipDialog(QString);
+    void downloadUrlAndSkipDialog(QString url, QString save_path=QString::null);
     // Session configuration - Setters
-    void setListeningPortsRange(std::pair<unsigned short, unsigned short> ports);
+    void setListeningPort(int port);
     void setMaxConnections(int maxConnec);
     void setMaxConnectionsPerTorrent(int max);
     void setMaxUploadsPerTorrent(int max);
@@ -164,12 +168,13 @@ class bittorrent : public QObject {
     void addConsoleMessage(QString msg, QColor color=QApplication::palette().color(QPalette::WindowText));
     void addPeerBanMessage(QString msg, bool from_ipfilter);
     void processDownloadedFile(QString, QString);
+    void saveTrackerFile(QString hash);
+    void addMagnetSkipAddDlg(QString uri);
 
   protected slots:
     void scanDirectory(QString);
     void readAlerts();
-    bool loadTrackerFile(QString hash);
-    void saveTrackerFile(QString hash);
+    void loadTrackerFile(QString hash);
     void deleteBigRatios();
 
   signals:
@@ -185,6 +190,8 @@ class bittorrent : public QObject {
     void updateFileSize(QString hash);
     void downloadFromUrlFailure(QString url, QString reason);
     void torrentFinishedChecking(QTorrentHandle& h);
+    void metadataReceived(QTorrentHandle &h);
+    void torrentPaused(QTorrentHandle &h);
 };
 
 #endif

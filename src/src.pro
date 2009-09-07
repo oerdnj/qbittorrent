@@ -14,9 +14,9 @@ CONFIG += qt \
     network
 
 # Update this VERSION for each release
-DEFINES += VERSION=\\\"v1.4.0\\\"
+DEFINES += VERSION=\\\"v1.5.0\\\"
 DEFINES += VERSION_MAJOR=1
-DEFINES += VERSION_MINOR=4
+DEFINES += VERSION_MINOR=5
 DEFINES += VERSION_BUGFIX=0
 !mac:QMAKE_LFLAGS += -Wl,--as-needed
 contains(DEBUG_MODE, 1) { 
@@ -85,23 +85,26 @@ contains(DEBUG_MODE, 0) {
         icon128 \
         icon192
 }
-#QMAKE_CXXFLAGS_RELEASE += -fwrapv
-#QMAKE_CXXFLAGS_DEBUG += -fwrapv
-unix:QMAKE_LFLAGS_SHAPP += -rdynamic
 
+# QMAKE_CXXFLAGS_RELEASE += -fwrapv
+# QMAKE_CXXFLAGS_DEBUG += -fwrapv
+unix:QMAKE_LFLAGS_SHAPP += -rdynamic
 CONFIG += link_pkgconfig
 PKGCONFIG += "libtorrent-rasterbar libcurl"
-
-QT += network xml
+QT += network \
+    xml
 DEFINES += QT_NO_CAST_TO_ASCII
 
 # QT_NO_CAST_FROM_ASCII
 # Windows
 # usually built as static
-#win32:LIBS += -ltorrent -lcurl -lboost_system
-#win32:LIBS += -lz ?
-win32:LIBS += -lssl32 -lws2_32 -lwsock32 -ladvapi32 -lwinmm
-
+# win32:LIBS += -ltorrent -lcurl -lboost_system
+# win32:LIBS += -lz ?
+win32:LIBS += -lssl32 \
+    -lws2_32 \
+    -lwsock32 \
+    -ladvapi32 \
+    -lwinmm
 RESOURCES = icons.qrc \
     lang.qrc \
     search.qrc \
@@ -179,7 +182,11 @@ HEADERS += GUI.h \
     searchTab.h \
     console_imp.h \
     ico.h \
-    stacktrace.h
+    stacktrace.h \
+    torrentPersistentData.h \
+    FeedDownloader.h \
+    feedList.h \
+    supportedEngines.h
 FORMS += MainWindow.ui \
     options.ui \
     about.ui \
@@ -197,7 +204,8 @@ FORMS += MainWindow.ui \
     engineSelect.ui \
     pluginSource.ui \
     trackersAdd.ui \
-    console.ui
+    console.ui \
+    FeedDownloader.ui
 SOURCES += GUI.cpp \
     main.cpp \
     options_imp.cpp \
@@ -220,6 +228,6 @@ SOURCES += GUI.cpp \
     httpresponsegenerator.cpp \
     eventmanager.cpp \
     SearchTab.cpp \
-    ico.cpp
-
+    ico.cpp \
+    rss.cpp
 DESTDIR = .

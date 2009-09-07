@@ -1,3 +1,32 @@
+* Thu Sep 3 2009 - Christophe Dumez <chris@qbittorrent.org> - v1.5.0
+    - FEATURE: Added Magnet URI support
+    - FEATURE: Search engine supports category-based requests
+    - FEATURE: Make use of torrent enclosure in RSS feeds for direct download
+    - FEATURE: Implemented a RSS feed downloader with filter support
+    - FEATURE: Save old RSS item to hard disk to remember them on start up
+    - FEATURE: Display free disk space in torrent addition dialog
+    - FEATURE: In torrent addition from URL, paste clipboard content if it contains an URL
+    - FEATURE: RSS feeds URLs can now be copied to clipboard
+    - FEATURE: RSS feeds can now be grouped into folders
+    - FEATURE: Added "Unread" item to RSS feed list to display all unread news
+    - FEATURE: If a torrent contains a torrent file, process downloaded torrent file too
+    - FEATURE: A random listening port can be chosen automatically
+    - BUGFIX: torrent resume code rewrited
+    - BUGFIX: Fixed uTorrent spoofing code
+    - BUGFIX: Greatly improved column sorting code
+    - BUGFIX: Possibility to create trackerless torrents
+    - BUGFIX: Better item coloring in torrent content filtering dialog
+    - COSMETIC: Redesigned search tab to improve usability
+    - COSMETIC: Redesigned RSS tab to improve usability
+    - COSMETIC: Improved tracker errors readability
+
+* Sun Aug 21 2009 - Christophe Dumez <chris@qbittorrent.org> - v1.4.1
+    - BUGFIX: Fix problems when changing save path (if using temporary download folder)
+    - BUGFIX: Display real save path instead of the temporary one in torrent properties
+    - BUGFIX: Catching invalid_handle exception to avoid rare crashes
+    - BUGFIX: Fixed popup menu position in RSS feeds list
+    - BUGFIX: Don't save RSS feed state if it could not be updated
+
 * Thu Aug 13 2009 - Christophe Dumez <chris@qbittorrent.org> - v1.4.0
     - FEATURE: Display swarm information in lists
     - FEATURE: Allow to define temporary download folder

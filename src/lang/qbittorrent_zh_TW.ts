@@ -96,7 +96,12 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;A Bittorrent client programmed in C++, based on Qt4 toolkit &lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;and libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2009 Christophe Dumez&lt;br /&gt;&lt;br /&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Home Page:&lt;/span&gt; &lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;一個使用 C++ 編寫, 基於 QT4 的 Bittorrent 客戶端 &lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;以及 libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2009 Christophe Dumez&lt;br /&gt;&lt;br /&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;首頁:&lt;/span&gt; &lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -149,7 +154,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Port range:</source>
-        <translation>埠範圍:</translation>
+        <translation type="obsolete">埠範圍:</translation>
     </message>
     <message>
         <source>...</source>
@@ -193,7 +198,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connection</source>
-        <translation type="obsolete">連線</translation>
+        <translation>連線</translation>
     </message>
     <message>
         <source>Plastique style (KDE like)</source>
@@ -249,11 +254,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>General</source>
-        <translation>一般</translation>
+        <translation type="obsolete">一般</translation>
     </message>
     <message>
         <source>Network</source>
-        <translation>網路</translation>
+        <translation type="obsolete">網路</translation>
     </message>
     <message>
         <source>IP Filter</source>
@@ -337,7 +342,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Transfer lists double-click</source>
         <comment>qBittorrent will watch a directory and automatically download torrents present in it</comment>
-        <translation>雙擊傳輸清單</translation>
+        <translation type="obsolete">雙擊傳輸清單</translation>
     </message>
     <message>
         <source>Download list:</source>
@@ -366,7 +371,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>to</source>
         <comment>i.e: 1200 to 1300</comment>
-        <translation>到</translation>
+        <translation type="obsolete">到</translation>
     </message>
     <message>
         <source>Enable UPnP port mapping</source>
@@ -523,15 +528,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Pause/Start torrent</source>
-        <translation>暫停/開始 torrent</translation>
+        <translation type="obsolete">暫停/開始 torrent</translation>
     </message>
     <message>
         <source>Open destination folder</source>
-        <translation>開啟目的地資料夾</translation>
+        <translation type="obsolete">開啟目的地資料夾</translation>
     </message>
     <message>
         <source>Display torrent properties</source>
-        <translation>顯示 torrent 屬性</translation>
+        <translation type="obsolete">顯示 torrent 屬性</translation>
     </message>
     <message>
         <source>In seeding list:</source>
@@ -609,6 +614,35 @@ p, li { white-space: pre-wrap; }
         <source>Spoof µtorrent to avoid ban (requires restart)</source>
         <translation>假裝為 µtorrent 以避免被踢出 (需要重新啟動)</translation>
     </message>
+    <message>
+        <source>Action for double click</source>
+        <comment>Action executed when doucle-clicking on an item in transfer (download/upload) list</comment>
+        <translation>雙擊時的行動</translation>
+    </message>
+    <message>
+        <source>Start/Stop</source>
+        <translation>開始/停止</translation>
+    </message>
+    <message>
+        <source>Open folder</source>
+        <translation>開啟資料夾</translation>
+    </message>
+    <message>
+        <source>Show properties</source>
+        <translation>顯示屬性</translation>
+    </message>
+    <message>
+        <source>Port used for incoming connections:</source>
+        <translation>連入連線時使用的埠:</translation>
+    </message>
+    <message>
+        <source>Random</source>
+        <translation>隨機</translation>
+    </message>
+    <message>
+        <source>UI</source>
+        <translation>使用者介面</translation>
+    </message>
 </context>
 <context>
     <name>DownloadingTorrents</name>
@@ -640,7 +674,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Seeds/Leechs</source>
         <comment>i.e: full/partial sources</comment>
-        <translation>種子/不完整種子</translation>
+        <translation type="obsolete">種子/不完整種子</translation>
     </message>
     <message>
         <source>Ratio</source>
@@ -716,7 +750,198 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Priority</source>
-        <translation>優先度</translation>
+        <translation type="obsolete">優先度</translation>
+    </message>
+    <message>
+        <source>Seeds/Leechers</source>
+        <comment>i.e: full/partial sources</comment>
+        <translation>種子/不完整種子</translation>
+    </message>
+</context>
+<context>
+    <name>FeedDownloader</name>
+    <message>
+        <source>RSS Feed downloader</source>
+        <translation>RSS feed 下載器</translation>
+    </message>
+    <message>
+        <source>RSS feed:</source>
+        <translation>RSS feed:</translation>
+    </message>
+    <message>
+        <source>Feed name</source>
+        <translation>feed 名稱</translation>
+    </message>
+    <message>
+        <source>Automatically download torrents from this feed</source>
+        <translation>自動從這個feed 下載 torrent</translation>
+    </message>
+    <message>
+        <source>Download filters</source>
+        <translation>下載過濾器</translation>
+    </message>
+    <message>
+        <source>Filters:</source>
+        <translation>過濾器:</translation>
+    </message>
+    <message>
+        <source>Filter settings</source>
+        <translation>過濾器設定</translation>
+    </message>
+    <message>
+        <source>Matches:</source>
+        <translation>符合:</translation>
+    </message>
+    <message>
+        <source>Does not match:</source>
+        <translation>不符合:</translation>
+    </message>
+    <message>
+        <source>Destination folder:</source>
+        <translation>目的地資料夾:</translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation>...</translation>
+    </message>
+    <message>
+        <source>Filter testing</source>
+        <translation>過濾器測試</translation>
+    </message>
+    <message>
+        <source>Torrent title:</source>
+        <translation>torrent 標題:</translation>
+    </message>
+    <message>
+        <source>Result:</source>
+        <translation>結果:</translation>
+    </message>
+    <message>
+        <source>Test</source>
+        <translation>測試</translation>
+    </message>
+    <message>
+        <source>Import...</source>
+        <translation>匯入...</translation>
+    </message>
+    <message>
+        <source>Export...</source>
+        <translation>匯出...
+</translation>
+    </message>
+    <message>
+        <source>Rename filter</source>
+        <translation>重新命名過濾器</translation>
+    </message>
+    <message>
+        <source>Remove filter</source>
+        <translation>移除過濾器</translation>
+    </message>
+    <message>
+        <source>Add filter</source>
+        <translation>增加過濾器</translation>
+    </message>
+</context>
+<context>
+    <name>FeedDownloaderDlg</name>
+    <message>
+        <source>New filter</source>
+        <translation>新過濾器</translation>
+    </message>
+    <message>
+        <source>Please choose a name for this filter</source>
+        <translation>請為此過濾器取一個名稱</translation>
+    </message>
+    <message>
+        <source>Filter name:</source>
+        <translation>過濾器名稱:</translation>
+    </message>
+    <message>
+        <source>Invalid filter name</source>
+        <translation>無效的過濾器名稱</translation>
+    </message>
+    <message>
+        <source>The filter name cannot be left empty.</source>
+        <translation>過濾器名稱不可以空白。</translation>
+    </message>
+    <message>
+        <source>This filter name is already in use.</source>
+        <translation>此過濾器名稱已使用。</translation>
+    </message>
+    <message>
+        <source>Filter testing error</source>
+        <translation>過濾器測試錯誤</translation>
+    </message>
+    <message>
+        <source>Please specify a test torrent name.</source>
+        <translation>請指定一個測試的 torrent 名稱。</translation>
+    </message>
+    <message>
+        <source>matches</source>
+        <translation>符合</translation>
+    </message>
+    <message>
+        <source>does not match</source>
+        <translation>不符合</translation>
+    </message>
+    <message>
+        <source>Select file to import</source>
+        <translation>選擇匯入的檔案</translation>
+    </message>
+    <message>
+        <source>Filters Files</source>
+        <translation>過濾器檔案</translation>
+    </message>
+    <message>
+        <source>Import successful</source>
+        <translation>匯入成功</translation>
+    </message>
+    <message>
+        <source>Filters import was successful.</source>
+        <translation>匯入過濾器成功。</translation>
+    </message>
+    <message>
+        <source>Import failure</source>
+        <translation>匯入失敗</translation>
+    </message>
+    <message>
+        <source>Filters could not be imported due to an I/O error.</source>
+        <translation>因 I/O 錯誤導致過濾器不能匯入。</translation>
+    </message>
+    <message>
+        <source>Select destination file</source>
+        <translation>選擇目的地檔案</translation>
+    </message>
+    <message>
+        <source>Overwriting confirmation</source>
+        <translation>確認複寫</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to overwrite existing file?</source>
+        <translation>你確定要複寫已存在的檔案嗎?</translation>
+    </message>
+    <message>
+        <source>Export successful</source>
+        <translation>匯出成功</translation>
+    </message>
+    <message>
+        <source>Filters export was successful.</source>
+        <translation>過濾器匯出成功。</translation>
+    </message>
+    <message>
+        <source>Export failure</source>
+        <translation>匯出失敗</translation>
+    </message>
+    <message>
+        <source>Filters could not be exported due to an I/O error.</source>
+        <translation>因 I/O 錯誤導致過濾器不能匯出。</translation>
+    </message>
+</context>
+<context>
+    <name>FeedList</name>
+    <message>
+        <source>Unread</source>
+        <translation>未讀</translation>
     </message>
 </context>
 <context>
@@ -1248,11 +1473,11 @@ Are you sure you want to quit qBittorrent?</source>
     </message>
     <message>
         <source>Refresh</source>
-        <translation>更新</translation>
+        <translation type="obsolete">更新</translation>
     </message>
     <message>
         <source>Delete selected streams</source>
-        <translation>刪除所選擇的資源</translation>
+        <translation type="obsolete">刪除所選擇的資源</translation>
     </message>
     <message>
         <source>Refresh RSS streams</source>
@@ -1260,31 +1485,103 @@ Are you sure you want to quit qBittorrent?</source>
     </message>
     <message>
         <source>Add a new RSS stream</source>
-        <translation>增加新 RSS 資源</translation>
+        <translation type="obsolete">增加新 RSS 資源</translation>
     </message>
     <message>
         <source>&lt;b&gt;News:&lt;/b&gt; &lt;i&gt;(double-click to open the link in your web browser)&lt;/i&gt;</source>
-        <translation>&lt;b&gt;新聞:&lt;/b&gt; &lt;i&gt;(雙擊連結從網路瀏覽器打開)&lt;/i&gt;</translation>
+        <translation type="obsolete">&lt;b&gt;新聞:&lt;/b&gt; &lt;i&gt;(雙擊連結從網路瀏覽器打開)&lt;/i&gt;</translation>
     </message>
     <message>
         <source>Add RSS stream</source>
-        <translation>增加 RSS 資源</translation>
+        <translation type="obsolete">增加 RSS 資源</translation>
     </message>
     <message>
         <source>Refresh all streams</source>
-        <translation>更新所有資源</translation>
+        <translation type="obsolete">更新所有資源</translation>
     </message>
     <message>
         <source>RSS streams:</source>
-        <translation>RSS 資源:</translation>
+        <translation type="obsolete">RSS 資源:</translation>
     </message>
     <message>
         <source>2</source>
-        <translation>2</translation>
+        <translation type="obsolete">2</translation>
     </message>
     <message>
         <source>Mark all as read</source>
-        <translation>全部標記為已讀</translation>
+        <translation type="obsolete">全部標記為已讀</translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Torrents:&lt;/span&gt; &lt;span style=&quot; font-style:italic;&quot;&gt;(double-click to download)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Torrents:&lt;/span&gt; &lt;span style=&quot; font-style:italic;&quot;&gt;(double-click to download)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source>Download torrent</source>
+        <translation>下載 torrent</translation>
+    </message>
+    <message>
+        <source>Open news URL</source>
+        <translation>開啟新聞 URL</translation>
+    </message>
+    <message>
+        <source>Copy feed URL</source>
+        <translation>複製 feed URL</translation>
+    </message>
+    <message>
+        <source>RSS feed downloader</source>
+        <translation>RSS feed 下載器</translation>
+    </message>
+    <message>
+        <source>New subscription</source>
+        <translation>新訂閱</translation>
+    </message>
+    <message>
+        <source>Mark items read</source>
+        <translation>標記項目為已讀</translation>
+    </message>
+    <message>
+        <source>Update all</source>
+        <translation>全部更新</translation>
+    </message>
+    <message>
+        <source>Update all feeds</source>
+        <translation>更新全部 feed</translation>
+    </message>
+    <message>
+        <source>RSS feeds</source>
+        <translation>RSS feeds</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>更新</translation>
+    </message>
+    <message>
+        <source>New folder</source>
+        <translation>新資料夾</translation>
+    </message>
+    <message>
+        <source>1</source>
+        <translation type="obsolete">1</translation>
+    </message>
+    <message>
+        <source>Feed URL</source>
+        <translation>Feed URL</translation>
+    </message>
+    <message>
+        <source>Bullet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Article title</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1299,11 +1596,11 @@ Are you sure you want to quit qBittorrent?</source>
     </message>
     <message>
         <source>Please choose a new name for this stream</source>
-        <translation>請為這個資源選擇新名稱</translation>
+        <translation type="obsolete">請為這個資源選擇新名稱</translation>
     </message>
     <message>
         <source>New stream name:</source>
-        <translation>新資源名稱:</translation>
+        <translation type="obsolete">新資源名稱:</translation>
     </message>
     <message>
         <source>Are you sure? -- qBittorrent</source>
@@ -1319,19 +1616,19 @@ Are you sure you want to quit qBittorrent?</source>
     </message>
     <message>
         <source>Are you sure you want to delete this stream from the list?</source>
-        <translation>你確定要從清單裡刪除這個資源嗎?</translation>
+        <translation type="obsolete">你確定要從清單裡刪除這個資源嗎?</translation>
     </message>
     <message>
         <source>Description:</source>
-        <translation>描述:</translation>
+        <translation type="obsolete">描述:</translation>
     </message>
     <message>
         <source>url:</source>
-        <translation>URL:</translation>
+        <translation type="obsolete">URL:</translation>
     </message>
     <message>
         <source>Last refresh:</source>
-        <translation>最後更新:</translation>
+        <translation type="obsolete">最後更新:</translation>
     </message>
     <message>
         <source>qBittorrent</source>
@@ -1349,6 +1646,55 @@ Are you sure you want to quit qBittorrent?</source>
         <source>Author: </source>
         <translation>作者: </translation>
     </message>
+    <message>
+        <source>Please choose a folder name</source>
+        <translation>請選擇資料夾名稱</translation>
+    </message>
+    <message>
+        <source>Folder name:</source>
+        <translation>資料夾名稱:</translation>
+    </message>
+    <message>
+        <source>New folder</source>
+        <translation>新資料夾</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete these elements from the list?</source>
+        <translation>你確定要從清單裡刪除這些項目嗎?</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this element from the list?</source>
+        <translation>你確定要從清單裡刪除這個項目嗎?</translation>
+    </message>
+    <message>
+        <source>Please choose a new name for this RSS feed</source>
+        <translation>請為這個 RSS feed 選擇新名稱</translation>
+    </message>
+    <message>
+        <source>New feed name:</source>
+        <translation>新 feed 名稱:</translation>
+    </message>
+    <message>
+        <source>Name already in use</source>
+        <translation>此名稱已使用</translation>
+    </message>
+    <message>
+        <source>This name is already used by another item, please choose another one.</source>
+        <translation>此名稱已被另一個項目使用, 請選擇一個新的名稱。</translation>
+    </message>
+    <message>
+        <source>Overwrite attempt</source>
+        <translation>嘗試複寫</translation>
+    </message>
+    <message>
+        <source>You cannot overwrite %1 item.</source>
+        <comment>You cannot overwrite myFolder item.</comment>
+        <translation>你不能複寫 %1 項目。</translation>
+    </message>
+    <message>
+        <source>Unread</source>
+        <translation>未讀</translation>
+    </message>
 </context>
 <context>
     <name>RssItem</name>
@@ -1362,11 +1708,54 @@ Are you sure you want to quit qBittorrent?</source>
     <message>
         <source>%1 ago</source>
         <comment>10min ago</comment>
-        <translation>%1 之前</translation>
+        <translation type="obsolete">%1 之前</translation>
     </message>
     <message>
         <source>Never</source>
-        <translation>從不</translation>
+        <translation type="obsolete">從不</translation>
+    </message>
+    <message>
+        <source>Automatically downloading %1 torrent from %2 RSS feed...</source>
+        <translation>自動從 %2 RSS feed 下載 %1 torrent...</translation>
+    </message>
+</context>
+<context>
+    <name>SearchCategories</name>
+    <message>
+        <source>All categories</source>
+        <translation>所有類別</translation>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation>電影</translation>
+    </message>
+    <message>
+        <source>TV shows</source>
+        <translation>電視劇</translation>
+    </message>
+    <message>
+        <source>Music</source>
+        <translation>音樂</translation>
+    </message>
+    <message>
+        <source>Games</source>
+        <translation>遊戲</translation>
+    </message>
+    <message>
+        <source>Anime</source>
+        <translation>動畫</translation>
+    </message>
+    <message>
+        <source>Software</source>
+        <translation>軟體</translation>
+    </message>
+    <message>
+        <source>Pictures</source>
+        <translation>圖片</translation>
+    </message>
+    <message>
+        <source>Books</source>
+        <translation>書</translation>
     </message>
 </context>
 <context>
@@ -1510,7 +1899,7 @@ Are you sure you want to quit qBittorrent?</source>
     </message>
     <message>
         <source>Download in correct order (slower but good for previewing)</source>
-        <translation>按照順序下載 (較慢但較好預覽)</translation>
+        <translation type="obsolete">按照順序下載 (較慢但較好預覽)</translation>
     </message>
     <message>
         <source>Add to download list in paused state</source>
@@ -1551,6 +1940,22 @@ Are you sure you want to quit qBittorrent?</source>
     <message>
         <source>Expand all</source>
         <translation>全部展開</translation>
+    </message>
+    <message>
+        <source>Torrent size:</source>
+        <translation>torrent 大小:</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>未知</translation>
+    </message>
+    <message>
+        <source>Free disk space:</source>
+        <translation>剩餘磁碟空間:</translation>
+    </message>
+    <message>
+        <source>Download in sequential order (slower but good for previewing)</source>
+        <translation>按照順序下載 (較慢但較好預覽)</translation>
     </message>
 </context>
 <context>
@@ -1680,6 +2085,19 @@ Are you sure you want to quit qBittorrent?</source>
         <comment>e.g: Downloading &apos;xxx.torrent&apos;, please wait...</comment>
         <translation>下載 &apos;%1&apos; 中, 請稍候...</translation>
     </message>
+    <message>
+        <source>&apos;%1&apos; is not a valid magnet URI.</source>
+        <translation>&apos;%1&apos; 不是一個有效的 magnet URI。</translation>
+    </message>
+    <message>
+        <source>Recursive download of file %1 embedded in torrent %2</source>
+        <comment>Recursive download of test.torrent embedded in torrent test2</comment>
+        <translation>遞迴下載在 torrent %2 裡的檔案 %1</translation>
+    </message>
+    <message>
+        <source>Unable to decode %1 torrent file.</source>
+        <translation>無法解碼 torrent 檔案 %1 。</translation>
+    </message>
 </context>
 <context>
     <name>createTorrentDialog</name>
@@ -1713,11 +2131,11 @@ Are you sure you want to quit qBittorrent?</source>
     </message>
     <message>
         <source>Add a file</source>
-        <translation>增加檔案</translation>
+        <translation type="obsolete">增加檔案</translation>
     </message>
     <message>
         <source>Add a folder</source>
-        <translation>增加資料夾</translation>
+        <translation type="obsolete">增加資料夾</translation>
     </message>
     <message>
         <source>Piece size:</source>
@@ -1770,6 +2188,14 @@ Are you sure you want to quit qBittorrent?</source>
     <message>
         <source>Progress:</source>
         <translation>進度:</translation>
+    </message>
+    <message>
+        <source>Add file</source>
+        <translation>增加檔案</translation>
+    </message>
+    <message>
+        <source>Add folder</source>
+        <translation>增加資料夾</translation>
     </message>
 </context>
 <context>
@@ -1829,11 +2255,11 @@ Are you sure you want to quit qBittorrent?</source>
     </message>
     <message>
         <source>No tracker path set</source>
-        <translation>沒有設定 tracker 路徑</translation>
+        <translation type="obsolete">沒有設定 tracker 路徑</translation>
     </message>
     <message>
         <source>Please set at least one tracker</source>
-        <translation>請先設定至少一個 tracker</translation>
+        <translation type="obsolete">請先設定至少一個 tracker</translation>
     </message>
     <message>
         <source>Created torrent file is invalid. It won&apos;t be added to download list.</source>
@@ -1977,6 +2403,10 @@ Are you sure you want to quit qBittorrent?</source>
         <source>Force recheck</source>
         <translation>強迫重新檢查</translation>
     </message>
+    <message>
+        <source>Copy magnet link</source>
+        <translation>複製 magnet link</translation>
+    </message>
 </context>
 <context>
     <name>engineSelect</name>
@@ -2033,11 +2463,11 @@ Are you sure you want to quit qBittorrent?</source>
     <name>engineSelectDlg</name>
     <message>
         <source>True</source>
-        <translation>真</translation>
+        <translation type="obsolete">真</translation>
     </message>
     <message>
         <source>False</source>
-        <translation>假</translation>
+        <translation type="obsolete">假</translation>
     </message>
     <message>
         <source>Uninstall warning</source>
@@ -2128,6 +2558,14 @@ However, those plugins were disabled.</source>
     <message>
         <source>URL:</source>
         <translation>URL:</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>是</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>否</translation>
     </message>
 </context>
 <context>
@@ -2491,11 +2929,11 @@ However, those plugins were disabled.</source>
     </message>
     <message>
         <source>Search Pattern:</source>
-        <translation>搜尋模式:</translation>
+        <translation type="obsolete">搜尋模式:</translation>
     </message>
     <message>
         <source>Stop</source>
-        <translation>停止</translation>
+        <translation type="obsolete">停止</translation>
     </message>
     <message>
         <source>Status:</source>
@@ -2612,6 +3050,10 @@ However, those plugins were disabled.</source>
         <source>Force recheck</source>
         <translation>強迫重新檢查</translation>
     </message>
+    <message>
+        <source>Copy magnet link</source>
+        <translation>複製 magnet link</translation>
+    </message>
 </context>
 <context>
     <name>subDownloadThread</name>
@@ -2650,6 +3092,10 @@ However, those plugins were disabled.</source>
     <message>
         <source>Could not resolve proxy</source>
         <translation>無法解析代理伺服器</translation>
+    </message>
+    <message>
+        <source>I/O Error</source>
+        <translation>I/O 錯誤</translation>
     </message>
 </context>
 <context>
@@ -2705,6 +3151,20 @@ However, those plugins were disabled.</source>
     <message>
         <source>Priority</source>
         <translation>優先度</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>未知</translation>
+    </message>
+    <message>
+        <source>(%1 left after torrent download)</source>
+        <comment>e.g. (100MiB left after torrent download)</comment>
+        <translation>(在 torrent 下載後還剩下 %1)</translation>
+    </message>
+    <message>
+        <source>(%1 more are required to download)</source>
+        <comment>e.g. (100MiB more are required to download)</comment>
+        <translation>(還有 %1 需要下載)</translation>
     </message>
 </context>
 </TS>
