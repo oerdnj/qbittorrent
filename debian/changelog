@@ -1,3 +1,11 @@
+qbittorrent (1.5.1-1) unstable; urgency=low
+
+  * New upstream bugfix version.
+    - fixes a probably RC bug (crash in torrent addition dialog when save path
+      does not exist).
+
+ -- Cristian Greco <cristian.debian@gmail.com>  Mon, 07 Sep 2009 14:49:03 +0200
+
 qbittorrent (1.5.0-1) unstable; urgency=low
 
   * New upstream version.
