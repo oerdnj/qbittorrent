@@ -32,48 +32,57 @@
 
 #define REFRESH_MAX_LATENCY 600000
 
-#include "ui_rss.h"
+#include <QPointer>
 
-class QTimer;
-class RssManager;
+#include "ui_rss.h"
+#include "rss.h"
+
+class bittorrent;
+class FeedList;
+class QTreeWidgetItem;
 
 class RSSImp : public QWidget, public Ui::RSS{
   Q_OBJECT
 
-  private:
-    RssManager *rssmanager;
-    QTimer *refreshTimeTimer;
-    QString selectedFeedUrl;
+private:
+  RssManager *rssmanager;
+  bittorrent *BTSession;
+  FeedList *listStreams;
+  QTreeWidgetItem* previous_news;
 
-  public slots:
-    void on_delStream_button_clicked();
+public slots:
+  void deleteSelectedItems();
 
-  protected slots:
-    void on_addStream_button_clicked();
-    void on_refreshAll_button_clicked();
-    void displayRSSListMenu(const QPoint&);
-    void renameStream();
-    void refreshSelectedStreams();
-    void createStream();
-    void refreshAllStreams();
-    void refreshNewsList(QTreeWidgetItem* item, int);
-    void refreshTextBrowser(QListWidgetItem *);
-    void updateLastRefreshedTimeForStreams();
-    void updateFeedIcon(QString url, QString icon_path);
-    void updateFeedInfos(QString url, QString aliasOrUrl, unsigned int nbUnread);
-    void openInBrowser(QListWidgetItem *);
-    void fillFeedsList();
-    void selectFirstFeed();
-    void selectFirstNews();
-    void updateFeedNbNews(QString url);
-    void on_actionMark_all_as_read_triggered();
-    void saveSlidersPosition();
-    void restoreSlidersPosition();
+protected slots:
+  void on_newFeedButton_clicked();
+  void on_updateAllButton_clicked();
+  void on_markReadButton_clicked();
+  void displayRSSListMenu(const QPoint&);
+  void displayItemsListMenu(const QPoint&);
+  void renameFiles();
+  void refreshSelectedItems();
+  void copySelectedFeedsURL();
+  void refreshNewsList(QTreeWidgetItem* item);
+  void refreshTextBrowser(QTreeWidgetItem *);
+  void updateFeedIcon(QString url, QString icon_path);
+  void updateFeedInfos(QString url, QString aliasOrUrl, unsigned int nbUnread);
+  void updateItemsInfos(QList<QTreeWidgetItem*> items);
+  void updateItemInfos(QTreeWidgetItem *item);
+  void openNewsUrl();
+  void downloadTorrent();
+  void fillFeedsList(QTreeWidgetItem *parent=0, RssFolder *rss_parent=0);
+  void saveSlidersPosition();
+  void restoreSlidersPosition();
+  void showFeedDownloader();
+  void askNewFolder();
+  void saveFoldersOpenState();
+  void loadFoldersOpenState();
+  void displayOverwriteError(QString filename);
 
-  public:
-    RSSImp();
-    ~RSSImp();
-    QTreeWidgetItem* getTreeItemFromUrl(QString url) const;
+public:
+  RSSImp(bittorrent *BTSession);
+  ~RSSImp();
+
 };
 
 #endif

@@ -37,6 +37,7 @@
 class QStandardItemModel;
 class bittorrent;
 class DLListDelegate;
+class QSortFilterProxyModel;
 
 using namespace libtorrent;
 
@@ -47,6 +48,7 @@ class DownloadingTorrents : public QWidget, public Ui::downloading{
     bittorrent *BTSession;
     DLListDelegate *DLDelegate;
     QStandardItemModel *DLListModel;
+    QSortFilterProxyModel *proxyModel;
     unsigned int nbTorrents;
     void hideOrShowColumn(int index);
     bool loadHiddenColumns();
@@ -74,10 +76,6 @@ class DownloadingTorrents : public QWidget, public Ui::downloading{
     void on_actionSet_upload_limit_triggered();
     void displayDLListMenu(const QPoint& pos);
     void displayDLHoSMenu(const QPoint&);
-    void sortDownloadList(int index=-1, Qt::SortOrder startSortOrder=Qt::AscendingOrder);
-    void toggleDownloadListSortOrder(int index);
-    void sortDownloadListFloat(int index, Qt::SortOrder sortOrder);
-    void sortDownloadListString(int index, Qt::SortOrder sortOrder);
     void saveColWidthDLList() const;
     void setRowColor(int row, QColor color);
     void showProperties(const QModelIndex &index);
@@ -100,9 +98,10 @@ class DownloadingTorrents : public QWidget, public Ui::downloading{
     void updateFileSizeAndProgress(QString hash);
     void showPropertiesFromHash(QString hash);
     void hidePriorityColumn(bool hide);
-    void sortProgressColumn(QTorrentHandle& h);
+    void saveLastSortedColumn();
     void loadLastSortedColumn();
     void addTorrent(QString hash);
+    void updateMetadata(QTorrentHandle &h);
 
 };
 

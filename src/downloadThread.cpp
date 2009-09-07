@@ -77,13 +77,20 @@ subDownloadThread::~subDownloadThread(){
 }
 
 void subDownloadThread::run(){
-  // XXX: Trick to get a unique filename
+  // Get a unique filename
   QString filePath;
-  QTemporaryFile *tmpfile = new QTemporaryFile();
-  if (tmpfile->open()) {
-    filePath = tmpfile->fileName();
+  QTemporaryFile tmpfile;
+  tmpfile.setAutoRemove(false);
+  if (tmpfile.open()) {
+    filePath = tmpfile.fileName();
+    qDebug("Temporary filename is: %s", filePath.toLocal8Bit().data());
+  } else {
+    emit downloadFailureST(this, url, tr("I/O Error"));
+    return;
   }
-  delete tmpfile;
+  tmpfile.close();
+  // Now temporary file is created but closed so that
+  // curl can use it
   FILE *f = fopen(filePath.toLocal8Bit().data(), "wb");
   if(!f) {
     std::cerr << "couldn't open destination file" << "\n";
@@ -134,6 +141,7 @@ void subDownloadThread::run(){
     qDebug("Downloading %s", url.toLocal8Bit().data());
     if(!abort)
         res = curl_easy_perform(curl);
+    qDebug("done downloading %s", url.toLocal8Bit().data());
     /* always cleanup */
     curl_easy_cleanup(curl);
     fclose(f);
@@ -144,6 +152,7 @@ void subDownloadThread::run(){
     } else {
       emit downloadFinishedST(this, url, filePath);      
     }
+    qDebug("%s Raised the signal", url.toLocal8Bit().data());
   } else {
     std::cerr << "Could not initialize CURL" << "\n";
   }
@@ -158,7 +167,9 @@ downloadThread::~downloadThread(){
   abort = true;
   condition.wakeOne();
   mutex.unlock();
+  //qDebug("downloadThread deleting subthreads...");
   qDeleteAll(subThreads);
+  //qDebug("downloadThread deleted subthreads");
   wait();
 }
 
@@ -174,28 +185,37 @@ void downloadThread::downloadUrl(QString url){
 
 void downloadThread::run(){
   forever{
-    if(abort)
+    if(abort) {
+      qDebug("DownloadThread aborting...");
       return;
+    }
     mutex.lock();
     if(!urls_queue.empty() && subThreads.size() < MAX_THREADS){
       QString url = urls_queue.dequeue();
       mutex.unlock();
+      //qDebug("DownloadThread downloading %s...", url.toLocal8Bit().data());
       subDownloadThread *st = new subDownloadThread(0, url);
       subThreads << st;
       connect(st, SIGNAL(downloadFinishedST(subDownloadThread*, QString, QString)), this, SLOT(propagateDownloadedFile(subDownloadThread*, QString, QString)));
       connect(st, SIGNAL(downloadFailureST(subDownloadThread*, QString, QString)), this, SLOT(propagateDownloadFailure(subDownloadThread*, QString, QString)));
       st->start();
     }else{
+      //qDebug("DownloadThread sleeping...");
       condition.wait(&mutex);
+      //qDebug("DownloadThread woke up");
       mutex.unlock();
     }
   }
 }
 
 void downloadThread::propagateDownloadedFile(subDownloadThread* st, QString url, QString path){
+  qDebug("Downloading %s was successful", url.toLocal8Bit().data());
+  mutex.lock();
   int index = subThreads.indexOf(st);
   Q_ASSERT(index != -1);
   subThreads.removeAt(index);
+  mutex.unlock();
+  qDebug("Deleting subthread");
   delete st;
   emit downloadFinished(url, path);
   mutex.lock();
@@ -203,12 +223,16 @@ void downloadThread::propagateDownloadedFile(subDownloadThread* st, QString url,
     condition.wakeOne();
   }
   mutex.unlock();
+  qDebug("Out of propagateDownloadedFile");
 }
 
 void downloadThread::propagateDownloadFailure(subDownloadThread* st, QString url, QString reason){
+  qDebug("Downloading %s failed", url.toLocal8Bit().data());
+  mutex.lock();
   int index = subThreads.indexOf(st);
   Q_ASSERT(index != -1);
   subThreads.removeAt(index);
+  mutex.unlock();
   delete st;
   emit downloadFailure(url, reason);
   mutex.lock();

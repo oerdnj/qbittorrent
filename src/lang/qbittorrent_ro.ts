@@ -100,7 +100,12 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;A Bittorrent client programmed in C++, based on Qt4 toolkit &lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;and libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2009 Christophe Dumez&lt;br /&gt;&lt;br /&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Home Page:&lt;/span&gt; &lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;(new line)
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;(new line)
+p, li { white-space: pre-wrap; }(new line)
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;(new line)
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;A Bittorrent client programmed in C++, based on Qt4 toolkit &lt;/p&gt;(new line)
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;and libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2009 Christophe Dumez&lt;br /&gt;&lt;br /&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Home Page:&lt;/span&gt; &lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -177,7 +182,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Port range:</source>
-        <translation>Domeniul portului:</translation>
+        <translation type="obsolete">Domeniul portului:</translation>
     </message>
     <message>
         <source>...</source>
@@ -445,7 +450,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connection</source>
-        <translation type="obsolete">Conectare</translation>
+        <translation>Conectare</translation>
     </message>
     <message>
         <source>Peer eXchange (PeX)</source>
@@ -569,11 +574,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>General</source>
-        <translation>General</translation>
+        <translation type="obsolete">General</translation>
     </message>
     <message>
         <source>Network</source>
-        <translation>Rețea</translation>
+        <translation type="obsolete">Rețea</translation>
     </message>
     <message>
         <source>User interface settings</source>
@@ -657,7 +662,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Transfer lists double-click</source>
         <comment>qBittorrent will watch a directory and automatically download torrents present in it</comment>
-        <translation>Lista cu transferuri dublu-click
+        <translation type="obsolete">Lista cu transferuri dublu-click
 qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a torentelor din directoriu</translation>
     </message>
     <message>
@@ -687,7 +692,7 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
     <message>
         <source>to</source>
         <comment>i.e: 1200 to 1300</comment>
-        <translation>la</translation>
+        <translation type="obsolete">la</translation>
     </message>
     <message>
         <source>Enable UPnP port mapping</source>
@@ -836,15 +841,15 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
     </message>
     <message>
         <source>Pause/Start torrent</source>
-        <translation>Pauza/Pornire torrent</translation>
+        <translation type="obsolete">Pauza/Pornire torrent</translation>
     </message>
     <message>
         <source>Open destination folder</source>
-        <translation>Deschide directoriul destinaţie</translation>
+        <translation type="obsolete">Deschide directoriul destinaţie</translation>
     </message>
     <message>
         <source>Display torrent properties</source>
-        <translation>Afişeaza proprietăţile torrentului</translation>
+        <translation type="obsolete">Afişeaza proprietăţile torrentului</translation>
     </message>
     <message>
         <source>In seeding list:</source>
@@ -916,7 +921,37 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
     </message>
     <message utf8="true">
         <source>Spoof µtorrent to avoid ban (requires restart)</source>
-        <translation type="unfinished"></translation>
+        <translation>Înșeală utorrent pentru a nu primi ban (necesita restart)</translation>
+    </message>
+    <message>
+        <source>Action for double click</source>
+        <comment>Action executed when doucle-clicking on an item in transfer (download/upload) list</comment>
+        <translation>Acțiune pentru dublu click
+</translation>
+    </message>
+    <message>
+        <source>Start/Stop</source>
+        <translation>Start/Stop</translation>
+    </message>
+    <message>
+        <source>Open folder</source>
+        <translation>Deschide directoriul</translation>
+    </message>
+    <message>
+        <source>Show properties</source>
+        <translation>Arată proprietățile</translation>
+    </message>
+    <message>
+        <source>Port used for incoming connections:</source>
+        <translation>Portul utilizat pentru conectării:</translation>
+    </message>
+    <message>
+        <source>Random</source>
+        <translation>Aleatoriu</translation>
+    </message>
+    <message>
+        <source>UI</source>
+        <translation>UI</translation>
     </message>
 </context>
 <context>
@@ -949,7 +984,7 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
     <message>
         <source>Seeds/Leechs</source>
         <comment>i.e: full/partial sources</comment>
-        <translation>Sideri/Licheri</translation>
+        <translation type="obsolete">Sideri/Licheri</translation>
     </message>
     <message>
         <source>Ratio</source>
@@ -1029,7 +1064,197 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
     </message>
     <message>
         <source>Priority</source>
-        <translation>Prioritate</translation>
+        <translation type="obsolete">Prioritate</translation>
+    </message>
+    <message>
+        <source>Seeds/Leechers</source>
+        <comment>i.e: full/partial sources</comment>
+        <translation>Seederi/Licheri</translation>
+    </message>
+</context>
+<context>
+    <name>FeedDownloader</name>
+    <message>
+        <source>RSS Feed downloader</source>
+        <translation>RSS Feed download-er</translation>
+    </message>
+    <message>
+        <source>RSS feed:</source>
+        <translation>Feed RSS:</translation>
+    </message>
+    <message>
+        <source>Feed name</source>
+        <translation>Numele la Feed</translation>
+    </message>
+    <message>
+        <source>Automatically download torrents from this feed</source>
+        <translation>Automat descarcă torrente din acest feed</translation>
+    </message>
+    <message>
+        <source>Download filters</source>
+        <translation>Filtre de descărcare</translation>
+    </message>
+    <message>
+        <source>Filters:</source>
+        <translation>Filtre:</translation>
+    </message>
+    <message>
+        <source>Filter settings</source>
+        <translation>Stările filtrului</translation>
+    </message>
+    <message>
+        <source>Matches:</source>
+        <translation>Coincidențe:</translation>
+    </message>
+    <message>
+        <source>Does not match:</source>
+        <translation>Nu coincide:</translation>
+    </message>
+    <message>
+        <source>Destination folder:</source>
+        <translation>Directoriul destinație:</translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation>...</translation>
+    </message>
+    <message>
+        <source>Filter testing</source>
+        <translation>Setările filtrului</translation>
+    </message>
+    <message>
+        <source>Torrent title:</source>
+        <translation>Titlul torrent-ului:</translation>
+    </message>
+    <message>
+        <source>Result:</source>
+        <translation>Rezultat:</translation>
+    </message>
+    <message>
+        <source>Test</source>
+        <translation>Test</translation>
+    </message>
+    <message>
+        <source>Import...</source>
+        <translation>Import...</translation>
+    </message>
+    <message>
+        <source>Export...</source>
+        <translation>Export...</translation>
+    </message>
+    <message>
+        <source>Rename filter</source>
+        <translation>Redenumirea filtrului</translation>
+    </message>
+    <message>
+        <source>Remove filter</source>
+        <translation>Șterge filtrul</translation>
+    </message>
+    <message>
+        <source>Add filter</source>
+        <translation>Adaugă filtrul</translation>
+    </message>
+</context>
+<context>
+    <name>FeedDownloaderDlg</name>
+    <message>
+        <source>New filter</source>
+        <translation>Nou filtru</translation>
+    </message>
+    <message>
+        <source>Please choose a name for this filter</source>
+        <translation>Alegeți un nume pentru acest filtru</translation>
+    </message>
+    <message>
+        <source>Filter name:</source>
+        <translation>Numele filtrului:</translation>
+    </message>
+    <message>
+        <source>Invalid filter name</source>
+        <translation>Numele filtrului invalid</translation>
+    </message>
+    <message>
+        <source>The filter name cannot be left empty.</source>
+        <translation>Numele filtrului nu poate fi vid.</translation>
+    </message>
+    <message>
+        <source>This filter name is already in use.</source>
+        <translation>Nume de filtru existent.</translation>
+    </message>
+    <message>
+        <source>Filter testing error</source>
+        <translation>Filtrul testare eroare</translation>
+    </message>
+    <message>
+        <source>Please specify a test torrent name.</source>
+        <translation>Specificați un nume de test a torrent-ului.</translation>
+    </message>
+    <message>
+        <source>matches</source>
+        <translation>coincidenț</translation>
+    </message>
+    <message>
+        <source>does not match</source>
+        <translation>nu coincide</translation>
+    </message>
+    <message>
+        <source>Select file to import</source>
+        <translation>Alegeți fișier pentru import</translation>
+    </message>
+    <message>
+        <source>Filters Files</source>
+        <translation>Filtrează Fișiere</translation>
+    </message>
+    <message>
+        <source>Import successful</source>
+        <translation>Import cu success</translation>
+    </message>
+    <message>
+        <source>Filters import was successful.</source>
+        <translation>Importul filtrelor a fost cu success.</translation>
+    </message>
+    <message>
+        <source>Import failure</source>
+        <translation>Importează failure</translation>
+    </message>
+    <message>
+        <source>Filters could not be imported due to an I/O error.</source>
+        <translation>Filtrele nu pot fi importate din cauza erorilor I/O.</translation>
+    </message>
+    <message>
+        <source>Select destination file</source>
+        <translation>Selectează fișierul de destinație</translation>
+    </message>
+    <message>
+        <source>Overwriting confirmation</source>
+        <translation>Configmă rescrierea</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to overwrite existing file?</source>
+        <translation>Doriți să rescriți fișierul existent?</translation>
+    </message>
+    <message>
+        <source>Export successful</source>
+        <translation>Export cu success</translation>
+    </message>
+    <message>
+        <source>Filters export was successful.</source>
+        <translation>Exportul filtrelor a fost cu success.</translation>
+    </message>
+    <message>
+        <source>Export failure</source>
+        <translation>Export eșuat</translation>
+    </message>
+    <message>
+        <source>Filters could not be exported due to an I/O error.</source>
+        <translation>Filtrele nu pot fi exportate din cauza erorilor I/O.</translation>
+    </message>
+</context>
+<context>
+    <name>FeedList</name>
+    <message>
+        <source>Unread</source>
+        <translation>Necitit</translation>
     </message>
 </context>
 <context>
@@ -2161,7 +2386,7 @@ Motivul : %2</translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation>Reînnoieşte</translation>
+        <translation type="obsolete">Reînnoieşte</translation>
     </message>
     <message>
         <source>Create</source>
@@ -2169,7 +2394,7 @@ Motivul : %2</translation>
     </message>
     <message>
         <source>Delete selected streams</source>
-        <translation>Şterge itemul selectat</translation>
+        <translation type="obsolete">Şterge itemul selectat</translation>
     </message>
     <message>
         <source>Refresh RSS streams</source>
@@ -2177,31 +2402,103 @@ Motivul : %2</translation>
     </message>
     <message>
         <source>Add a new RSS stream</source>
-        <translation>Adaugă un nou fir RSS</translation>
+        <translation type="obsolete">Adaugă un nou fir RSS</translation>
     </message>
     <message>
         <source>&lt;b&gt;News:&lt;/b&gt; &lt;i&gt;(double-click to open the link in your web browser)&lt;/i&gt;</source>
-        <translation>&lt;b&gt;Noutăţi:&lt;/b&gt; &lt;i&gt;(dubli click pentru a deschide)&lt;/i&gt;</translation>
+        <translation type="obsolete">&lt;b&gt;Noutăţi:&lt;/b&gt; &lt;i&gt;(dubli click pentru a deschide)&lt;/i&gt;</translation>
     </message>
     <message>
         <source>Add RSS stream</source>
-        <translation>Adaugă RSS fir</translation>
+        <translation type="obsolete">Adaugă RSS fir</translation>
     </message>
     <message>
         <source>Refresh all streams</source>
-        <translation>Reînnoieşte toate firele</translation>
+        <translation type="obsolete">Reînnoieşte toate firele</translation>
     </message>
     <message>
         <source>RSS streams:</source>
-        <translation>Fire RSS:</translation>
+        <translation type="obsolete">Fire RSS:</translation>
     </message>
     <message>
         <source>2</source>
-        <translation>2</translation>
+        <translation type="obsolete">2</translation>
     </message>
     <message>
         <source>Mark all as read</source>
-        <translation>Marchează toate ca citite</translation>
+        <translation type="obsolete">Marchează toate ca citite</translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Torrents:&lt;/span&gt; &lt;span style=&quot; font-style:italic;&quot;&gt;(double-click to download)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Torrents:&lt;/span&gt; &lt;span style=&quot; font-style:italic;&quot;&gt;(double-click to download)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source>Download torrent</source>
+        <translation>Descarcă torrent-ul</translation>
+    </message>
+    <message>
+        <source>Open news URL</source>
+        <translation>Deschide noutățile URL</translation>
+    </message>
+    <message>
+        <source>Copy feed URL</source>
+        <translation>Copie URL feed-ul</translation>
+    </message>
+    <message>
+        <source>RSS feed downloader</source>
+        <translation>RSS feed descărcare</translation>
+    </message>
+    <message>
+        <source>New subscription</source>
+        <translation>Noua subsriere</translation>
+    </message>
+    <message>
+        <source>Mark items read</source>
+        <translation>Marchează itemii citiți</translation>
+    </message>
+    <message>
+        <source>Update all</source>
+        <translation>Reînnoiește toate</translation>
+    </message>
+    <message>
+        <source>Update all feeds</source>
+        <translation>Reînnoiește toate feed-urile</translation>
+    </message>
+    <message>
+        <source>RSS feeds</source>
+        <translation>RSS feed-uri</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>Reînnoiește</translation>
+    </message>
+    <message>
+        <source>New folder</source>
+        <translation>Nou folder</translation>
+    </message>
+    <message>
+        <source>1</source>
+        <translation type="obsolete">1</translation>
+    </message>
+    <message>
+        <source>Feed URL</source>
+        <translation>Feed URL</translation>
+    </message>
+    <message>
+        <source>Bullet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Article title</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2216,11 +2513,11 @@ Motivul : %2</translation>
     </message>
     <message>
         <source>Please choose a new name for this stream</source>
-        <translation>Alegeţi un nume nou la acest fir</translation>
+        <translation type="obsolete">Alegeţi un nume nou la acest fir</translation>
     </message>
     <message>
         <source>New stream name:</source>
-        <translation>Numele nou:</translation>
+        <translation type="obsolete">Numele nou:</translation>
     </message>
     <message>
         <source>Are you sure? -- qBittorrent</source>
@@ -2236,19 +2533,19 @@ Motivul : %2</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this stream from the list?</source>
-        <translation>Doriţi să ştergeţi acest fir din listă ?</translation>
+        <translation type="obsolete">Doriţi să ştergeţi acest fir din listă ?</translation>
     </message>
     <message>
         <source>Description:</source>
-        <translation>Descriere:</translation>
+        <translation type="obsolete">Descriere:</translation>
     </message>
     <message>
         <source>url:</source>
-        <translation>URL:</translation>
+        <translation type="obsolete">URL:</translation>
     </message>
     <message>
         <source>Last refresh:</source>
-        <translation>Ultima reînnoire:</translation>
+        <translation type="obsolete">Ultima reînnoire:</translation>
     </message>
     <message>
         <source>qBittorrent</source>
@@ -2266,6 +2563,55 @@ Motivul : %2</translation>
         <source>Author: </source>
         <translation>Autor: </translation>
     </message>
+    <message>
+        <source>Please choose a folder name</source>
+        <translation>Vă rugăm să alegeți altă denumire a directoriului</translation>
+    </message>
+    <message>
+        <source>Folder name:</source>
+        <translation>Denumirea folder-ului:</translation>
+    </message>
+    <message>
+        <source>New folder</source>
+        <translation>Nou directoriu</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete these elements from the list?</source>
+        <translation>Doriti sa ștergeți aceste elemente?</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this element from the list?</source>
+        <translation>Sunteti siguri că doriti sa stergeti elementele selectate din listă?</translation>
+    </message>
+    <message>
+        <source>Please choose a new name for this RSS feed</source>
+        <translation>Alegeți alt nume pentru această listă RSS</translation>
+    </message>
+    <message>
+        <source>New feed name:</source>
+        <translation>Nou nume:</translation>
+    </message>
+    <message>
+        <source>Name already in use</source>
+        <translation>Numele este deacum utilizat</translation>
+    </message>
+    <message>
+        <source>This name is already used by another item, please choose another one.</source>
+        <translation>Numele este utilizat, alegeți altul.</translation>
+    </message>
+    <message>
+        <source>Overwrite attempt</source>
+        <translation>Încercare de rescriere</translation>
+    </message>
+    <message>
+        <source>You cannot overwrite %1 item.</source>
+        <comment>You cannot overwrite myFolder item.</comment>
+        <translation>Nu puteți rescri itemul %1.</translation>
+    </message>
+    <message>
+        <source>Unread</source>
+        <translation>Recitit</translation>
+    </message>
 </context>
 <context>
     <name>RssItem</name>
@@ -2279,11 +2625,54 @@ Motivul : %2</translation>
     <message>
         <source>%1 ago</source>
         <comment>10min ago</comment>
-        <translation>%1 în urmă</translation>
+        <translation type="obsolete">%1 în urmă</translation>
     </message>
     <message>
         <source>Never</source>
-        <translation>Niciodată</translation>
+        <translation type="obsolete">Niciodată</translation>
+    </message>
+    <message>
+        <source>Automatically downloading %1 torrent from %2 RSS feed...</source>
+        <translation>Automat descarcă torrentul %1 din lista RSS %2...</translation>
+    </message>
+</context>
+<context>
+    <name>SearchCategories</name>
+    <message>
+        <source>All categories</source>
+        <translation>Toate categoriile</translation>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation>Filme</translation>
+    </message>
+    <message>
+        <source>TV shows</source>
+        <translation>TV show-uri</translation>
+    </message>
+    <message>
+        <source>Music</source>
+        <translation>Muzică</translation>
+    </message>
+    <message>
+        <source>Games</source>
+        <translation>Jocuri</translation>
+    </message>
+    <message>
+        <source>Anime</source>
+        <translation>Anime</translation>
+    </message>
+    <message>
+        <source>Software</source>
+        <translation>Soft</translation>
+    </message>
+    <message>
+        <source>Pictures</source>
+        <translation>Fotografii</translation>
+    </message>
+    <message>
+        <source>Books</source>
+        <translation>Cărți</translation>
     </message>
 </context>
 <context>
@@ -2568,7 +2957,7 @@ Changelog:
     </message>
     <message>
         <source>Download in correct order (slower but good for previewing)</source>
-        <translation>Descarcă în ordine corectă (mai încet dar bun pentru preview)</translation>
+        <translation type="obsolete">Descarcă în ordine corectă (mai încet dar bun pentru preview)</translation>
     </message>
     <message>
         <source>Add to download list in paused state</source>
@@ -2613,6 +3002,22 @@ Changelog:
     <message>
         <source>Expand all</source>
         <translation>Deschide toate</translation>
+    </message>
+    <message>
+        <source>Torrent size:</source>
+        <translation>Dimensiunea torrentului:</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Necunoscut</translation>
+    </message>
+    <message>
+        <source>Free disk space:</source>
+        <translation>Spațiu liber:</translation>
+    </message>
+    <message>
+        <source>Download in sequential order (slower but good for previewing)</source>
+        <translation>Descarcă în ordine secvențială (încet dar bine pentru preview)</translation>
     </message>
 </context>
 <context>
@@ -2742,6 +3147,19 @@ Changelog:
         <comment>e.g: Downloading &apos;xxx.torrent&apos;, please wait...</comment>
         <translation>Descarc &apos;%1&apos;, vă rugăm să aşteptaţi...</translation>
     </message>
+    <message>
+        <source>&apos;%1&apos; is not a valid magnet URI.</source>
+        <translation>&apos;%1&apos; nu este valid URI.</translation>
+    </message>
+    <message>
+        <source>Recursive download of file %1 embedded in torrent %2</source>
+        <comment>Recursive download of test.torrent embedded in torrent test2</comment>
+        <translation>Descarcă recursiv fișierul %1 din torrentul %2</translation>
+    </message>
+    <message>
+        <source>Unable to decode %1 torrent file.</source>
+        <translation>Nu pot citi torrentul %1.</translation>
+    </message>
 </context>
 <context>
     <name>createTorrentDialog</name>
@@ -2831,11 +3249,11 @@ Changelog:
     </message>
     <message>
         <source>Add a file</source>
-        <translation>Adaugă un fişier</translation>
+        <translation type="obsolete">Adaugă un fişier</translation>
     </message>
     <message>
         <source>Add a folder</source>
-        <translation>Adaugă un directoriu</translation>
+        <translation type="obsolete">Adaugă un directoriu</translation>
     </message>
     <message>
         <source>Piece size:</source>
@@ -2888,6 +3306,14 @@ Changelog:
     <message>
         <source>Progress:</source>
         <translation>Progress:</translation>
+    </message>
+    <message>
+        <source>Add file</source>
+        <translation>Adaugă fișier</translation>
+    </message>
+    <message>
+        <source>Add folder</source>
+        <translation>Adaugă directoriu</translation>
     </message>
 </context>
 <context>
@@ -2975,11 +3401,11 @@ Changelog:
     </message>
     <message>
         <source>No tracker path set</source>
-        <translation>Calea la tracker nu este setată</translation>
+        <translation type="obsolete">Calea la tracker nu este setată</translation>
     </message>
     <message>
         <source>Please set at least one tracker</source>
-        <translation>Vă rugăm să setaţi cel puţin un tracker</translation>
+        <translation type="obsolete">Vă rugăm să setaţi cel puţin un tracker</translation>
     </message>
     <message>
         <source>Created torrent file is invalid. It won&apos;t be added to download list.</source>
@@ -3139,6 +3565,10 @@ Changelog:
         <source>Force recheck</source>
         <translation>Reverificarea forţată</translation>
     </message>
+    <message>
+        <source>Copy magnet link</source>
+        <translation>Copie magent link-ul</translation>
+    </message>
 </context>
 <context>
     <name>engineSelect</name>
@@ -3195,11 +3625,11 @@ Changelog:
     <name>engineSelectDlg</name>
     <message>
         <source>True</source>
-        <translation>Adevărat</translation>
+        <translation type="obsolete">Adevărat</translation>
     </message>
     <message>
         <source>False</source>
-        <translation>Fals</translation>
+        <translation type="obsolete">Fals</translation>
     </message>
     <message>
         <source>Uninstall warning</source>
@@ -3290,6 +3720,14 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     <message>
         <source>URL:</source>
         <translation>URL:</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Da</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Ny</translation>
     </message>
 </context>
 <context>
@@ -3928,11 +4366,11 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
     <message>
         <source>Search Pattern:</source>
-        <translation>Şablonul Căutării:</translation>
+        <translation type="obsolete">Şablonul Căutării:</translation>
     </message>
     <message>
         <source>Stop</source>
-        <translation>Oprit</translation>
+        <translation type="obsolete">Oprit</translation>
     </message>
     <message>
         <source>Status:</source>
@@ -4065,6 +4503,10 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
         <source>Force recheck</source>
         <translation>Reverificarea forţată</translation>
     </message>
+    <message>
+        <source>Copy magnet link</source>
+        <translation>Copie magnet link-ul</translation>
+    </message>
 </context>
 <context>
     <name>subDownloadThread</name>
@@ -4115,6 +4557,10 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     <message>
         <source>Could not resolve proxy</source>
         <translation>Proxy nu a putut fi rezolvata</translation>
+    </message>
+    <message>
+        <source>I/O Error</source>
+        <translation>Eroare de intrare/eşire</translation>
     </message>
 </context>
 <context>
@@ -4178,6 +4624,20 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     <message>
         <source>Priority</source>
         <translation>Prioritate</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Necunoscut</translation>
+    </message>
+    <message>
+        <source>(%1 left after torrent download)</source>
+        <comment>e.g. (100MiB left after torrent download)</comment>
+        <translation>(%1 rămas după descărcare torrent-ului)</translation>
+    </message>
+    <message>
+        <source>(%1 more are required to download)</source>
+        <comment>e.g. (100MiB more are required to download)</comment>
+        <translation>(%1 mai mult este necesar pentru a descărca)</translation>
     </message>
 </context>
 </TS>
