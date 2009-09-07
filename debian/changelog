@@ -1,3 +1,12 @@
+qbittorrent (1.5.0-1) unstable; urgency=low
+
+  * New upstream version.
+  * debian/control:
+    - build-dep on libtorrent-rasterbar-dev (>= 0.14.5);
+    - bump Standards-Version to 3.8.3 (no changes).
+
+ -- Cristian Greco <cristian.debian@gmail.com>  Mon, 07 Sep 2009 09:35:35 +0200
+
 qbittorrent (1.4.0-1) unstable; urgency=low
 
   * New upstream version (LP: #412272).
