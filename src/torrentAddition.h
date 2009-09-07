@@ -90,6 +90,7 @@ public:
     connect(actionMaximum, SIGNAL(triggered()), this, SLOT(maximumSelection()));
     connect(collapseAllButton, SIGNAL(clicked()), torrentContentList, SLOT(collapseAll()));
     connect(expandAllButton, SIGNAL(clicked()), torrentContentList, SLOT(expandAll()));
+
     torrentContentList->header()->resizeSection(0, 200);
     //torrentContentList->header()->setResizeMode(0, QHeaderView::Stretch);
     QString home = QDir::homePath();
@@ -148,6 +149,7 @@ public:
     delete arb;
     connect(PropListModel, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(updatePriorities(QStandardItem*)));
     //torrentContentList->expandAll();
+    connect(savePathTxt, SIGNAL(textChanged(QString)), this, SLOT(updateDiskSpaceLabels()));
     updateDiskSpaceLabels();
     show();
   }
@@ -278,12 +280,9 @@ public slots:
   }
 
   void updateDiskSpaceLabels() {
-    unsigned long long available = misc::freeDiskSpaceOnPath(savePathTxt->text());
-    if (available > 0) {
-      lbl_disk_space->setText(misc::friendlyUnit(available));
-    } else {
-      lbl_disk_space->setText(tr("Unknown"));
-    }
+    long long available = misc::freeDiskSpaceOnPath(savePathTxt->text());
+    lbl_disk_space->setText(misc::friendlyUnit(available));
+
     // Determine torrent size
     unsigned long long torrent_size = 0;
     int nbFiles = t->num_files();
@@ -296,7 +295,7 @@ public slots:
     lbl_torrent_size->setText(misc::friendlyUnit(torrent_size));
     // Check if free space is sufficient
     if(available > 0) {
-      if(available > torrent_size) {
+      if((unsigned long long)available > torrent_size) {
         // Space is sufficient
         label_space_msg->setText(tr("(%1 left after torrent download)", "e.g. (100MiB left after torrent download)").arg(misc::friendlyUnit(available-torrent_size)));
       } else {
@@ -319,7 +318,6 @@ public slots:
     }
     if(!dir.isNull()){
       savePathTxt->setText(dir);
-      updateDiskSpaceLabels();
     }
   }
 
