@@ -987,11 +987,12 @@ void bittorrent::scanDirectory(QString scan_dir) {
   foreach(const QString &file, files) {
     QString fullPath = dir.path()+QDir::separator()+file;
     QFile torrent(fullPath);
-    if(torrent.size() != 0) {
-      qDebug("Adding for scan_dir: %s", fullPath.toLocal8Bit().data());
+    qDebug("Adding for scan_dir: %s", fullPath.toLocal8Bit().data());
+    try {
+      torrent_info t(fullPath.toLocal8Bit().data());
       addTorrent(fullPath, true);
-    } else {
-      qDebug("Ignoring empty file: %s", fullPath.toLocal8Bit().data());
+    } catch(std::exception&) {
+      qDebug("Ignoring incomplete torrent file: %s", fullPath.toLocal8Bit().data());
     }
   }
   FSMutex->unlock();
@@ -1043,6 +1044,11 @@ void bittorrent::saveTrackerFile(QString hash) {
 // Enable directory scanning
 void bittorrent::enableDirectoryScanning(QString scan_dir) {
   if(!scan_dir.isEmpty()) {
+    QDir newDir(scan_dir);
+    if(!newDir.exists()) {
+      qDebug("Scan dir %s does not exist, create it", scan_dir.toUtf8().data());
+      newDir.mkpath(scan_dir);
+    }
     if(FSWatcher == 0) {
       FSMutex = new QMutex();
       FSWatcher = new QFileSystemWatcher(QStringList(scan_dir), this);
@@ -1050,9 +1056,12 @@ void bittorrent::enableDirectoryScanning(QString scan_dir) {
       // Initial scan
       scanDirectory(scan_dir);
     } else {
-      QString old_scan_dir = FSWatcher->directories().first();
+      QString old_scan_dir = "";
+      if(!FSWatcher->directories().empty())
+        old_scan_dir = FSWatcher->directories().first();
       if(old_scan_dir != scan_dir) {
-        FSWatcher->removePath(old_scan_dir);
+        if(!old_scan_dir.isEmpty())
+          FSWatcher->removePath(old_scan_dir);
         FSWatcher->addPath(scan_dir);
         // Initial scan
         scanDirectory(scan_dir);
@@ -1224,7 +1233,7 @@ void bittorrent::readAlerts() {
   while (a.get()) {
     if (torrent_finished_alert* p = dynamic_cast<torrent_finished_alert*>(a.get())) {
       QTorrentHandle h(p->handle);
-      if(h.is_valid()){
+      if(h.is_valid()) {
         emit finishedTorrent(h);
         QString hash = h.hash();
         // Remember finished state
@@ -1264,16 +1273,18 @@ void bittorrent::readAlerts() {
     else if (save_resume_data_alert* p = dynamic_cast<save_resume_data_alert*>(a.get())) {
       QDir torrentBackup(misc::qBittorrentPath() + "BT_backup");
       QTorrentHandle h(p->handle);
-      QString file = h.hash()+".fastresume";
-      // Delete old fastresume file if necessary
-      if(QFile::exists(file))
-        QFile::remove(file);
-      qDebug("Saving fastresume data in %s", file.toLocal8Bit().data());
-      if (p->resume_data)
-      {
-        boost::filesystem::ofstream out(fs::path(torrentBackup.path().toLocal8Bit().data()) / file.toLocal8Bit().data(), std::ios_base::binary);
-        out.unsetf(std::ios_base::skipws);
-        bencode(std::ostream_iterator<char>(out), *p->resume_data);
+      if(h.is_valid()) {
+        QString file = h.hash()+".fastresume";
+        // Delete old fastresume file if necessary
+        if(QFile::exists(file))
+          QFile::remove(file);
+        qDebug("Saving fastresume data in %s", file.toLocal8Bit().data());
+        if (p->resume_data)
+        {
+          boost::filesystem::ofstream out(fs::path(torrentBackup.path().toLocal8Bit().data()) / file.toLocal8Bit().data(), std::ios_base::binary);
+          out.unsetf(std::ios_base::skipws);
+          bencode(std::ostream_iterator<char>(out), *p->resume_data);
+        }
       }
     }
     else if (metadata_received_alert* p = dynamic_cast<metadata_received_alert*>(a.get())) {
@@ -1290,10 +1301,12 @@ void bittorrent::readAlerts() {
     }
     else if (file_error_alert* p = dynamic_cast<file_error_alert*>(a.get())) {
       QTorrentHandle h(p->handle);
-      h.auto_managed(false);
-      std::cerr << "File Error: " << p->message().c_str() << std::endl;
-      if(h.is_valid())
-        emit fullDiskError(h, misc::toQString(p->message()));
+      if(h.is_valid()) {
+        h.auto_managed(false);
+        std::cerr << "File Error: " << p->message().c_str() << std::endl;
+        if(h.is_valid())
+          emit fullDiskError(h, misc::toQString(p->message()));
+      }
     }
     else if (dynamic_cast<listen_failed_alert*>(a.get())) {
       // Level: fatal

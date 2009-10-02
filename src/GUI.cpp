@@ -868,6 +868,7 @@ GUI::GUI(QWidget *parent, QStringList torrentCmdLine) : QMainWindow(parent), dis
     default:
       return;
     }
+    if(hashes.empty()) return;
     int ret;
     if(inDownloadList) {
       ret = QMessageBox::question(
@@ -919,7 +920,7 @@ GUI::GUI(QWidget *parent, QStringList torrentCmdLine) : QMainWindow(parent), dis
     default:
       return;
     }
-    if(!hashes.size()) return;
+    if(hashes.empty()) return;
     int ret;
     if(inDownloadList) {
       ret = QMessageBox::question(
@@ -956,6 +957,7 @@ GUI::GUI(QWidget *parent, QStringList torrentCmdLine) : QMainWindow(parent), dis
     bool useTorrentAdditionDialog = settings.value(QString::fromUtf8("Preferences/Downloads/AdditionDialog"), true).toBool();
     foreach(QString param, params) {
       param = param.trimmed();
+      if(param.startsWith("--")) continue;
       if(param.startsWith(QString::fromUtf8("http://"), Qt::CaseInsensitive) || param.startsWith(QString::fromUtf8("ftp://"), Qt::CaseInsensitive) || param.startsWith(QString::fromUtf8("https://"), Qt::CaseInsensitive)) {
         BTSession->downloadFromUrl(param);
       }else{
