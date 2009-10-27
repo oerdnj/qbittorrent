@@ -1,3 +1,10 @@
+qbittorrent (1.5.4-1) unstable; urgency=low
+
+  * New upstream version.
+  * debian/control: new maintainer email address.
+
+ -- Cristian Greco <cristian@regolo.cc>  Tue, 27 Oct 2009 19:49:48 +0100
+
 qbittorrent (1.5.3-1) unstable; urgency=low
 
   * New upstream version.
