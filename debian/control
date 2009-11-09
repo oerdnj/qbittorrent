@@ -12,6 +12,7 @@ Standards-Version: 3.8.3
 Vcs-Git: git://git.debian.org/git/collab-maint/qbittorrent.git
 Vcs-Browser: http://git.debian.org/?p=collab-maint/qbittorrent.git
 Homepage: http://www.qbittorrent.org/
+DM-Upload-Allowed: yes
 
 Package: qbittorrent
 Architecture: any
