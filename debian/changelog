@@ -1,3 +1,11 @@
+qbittorrent (1.5.6-1) unstable; urgency=low
+
+  * New upstream version.
+    - Improved ETA calculation for big torrents. (Closes: #556278) 
+  * Convert to 3.0 (quilt) source format.
+
+ -- Cristian Greco <cristian@regolo.cc>  Wed, 25 Nov 2009 20:04:40 +0100
+
 qbittorrent (1.5.5-2) unstable; urgency=low
 
   * debian/control: adding DM-Upload-Allowed, thanks to my sponsor
