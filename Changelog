@@ -1,3 +1,11 @@
+* Tue Nov 17 2009 - Christophe Dumez <chris@qbittorrent.org> - v1.5.6
+  - BUGFIX: RSS feed articles can now be displayed using keyboard arrows
+  - BUGFIX: RSS feed downloader can only process unread articles now
+  - BUGFIX: Fixed memory leak in RSS parser
+  - BUGFIX: Fixed possible crash in search autocompletion
+  - BUGFIX: Improved ETA calculation for big torrents
+  - BUGFIX: Fixed per-torrent speed limiting
+
 * Wed Nov 4 2009 - Christophe Dumez <chris@qbittorrent.org> - v1.5.5
   - BUGFIX: Fixed man page
   - BUGFIX: Fix crash on torrent addition (if libtorrent-rasterbar has debug enabled)
