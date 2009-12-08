@@ -4,10 +4,7 @@ Priority: optional
 Maintainer: Cristian Greco <cristian@regolo.cc>
 Build-Depends: debhelper (>= 7.0.50),
                libtorrent-rasterbar-dev (>= 0.14.5),
-               libqt4-dev (>= 4.4.0),
-               libxext-dev,
-               libcurl4-gnutls-dev | libcurl-dev,
-               libzzip-dev
+               libqt4-dev (>= 4.4.0)
 Standards-Version: 3.8.3
 Vcs-Git: git://git.debian.org/git/collab-maint/qbittorrent.git
 Vcs-Browser: http://git.debian.org/?p=collab-maint/qbittorrent.git
