@@ -1,3 +1,12 @@
+qbittorrent (2.0.0~rc6-1) unstable; urgency=low
+
+  * New upstream version.
+  * debian/control:
+    - drop some (now unneded) build-deps.
+    - add dependency on geoip-database.
+
+ -- Cristian Greco <cristian@regolo.cc>  Tue, 08 Dec 2009 10:15:01 +0100
+
 qbittorrent (1.5.6-1) unstable; urgency=low
 
   * New upstream version.
