@@ -13,7 +13,8 @@ DM-Upload-Allowed: yes
 
 Package: qbittorrent
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python (>= 2.5)
+Depends: ${shlibs:Depends}, ${misc:Depends},
+         python (>= 2.5), geoip-database
 Description: bittorrent client using libtorrent-rasterbar with a nice Qt4 GUI
  qBittorrent is a feature rich bittorrent client written in C++ and Qt4 which
  is based on libtorrent-rasterbar. It can be considered as a good alternative
