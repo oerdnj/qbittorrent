@@ -18,12 +18,12 @@ Main options:
   --help              This help text.
 
 Dependency options:
-  --with-libboost-inc=[path]     Path to libboost include files
-  --with-libcurl-inc=[path]      Path to libcurl include files
-  --with-libcurl-lib=[path]      Path to libcurl library files
-  --disable-libzzip             Disable use of libzzip
-  --with-libzzip-inc=[path]      Path to libzzip++ include files
-  --with-libzzip-lib=[path]      Path to libzzip++ library files
+  --with-libboost-inc=[path]         Path to libboost include files
+  --disable-libnotify               Disable use of libnotify
+  --disable-geoip-database          Disable use of geoip-database
+  --with-geoip-database-embedded     Geoip Database will be embedded in
+                                    qBittorrent executable (please follow
+                                    instructions in src/geoip/README)
 
 EOT
 }
@@ -145,28 +145,18 @@ while [ $# -gt 0 ]; do
 			shift
 			;;
 
-		--with-libcurl-inc=*)
-			QC_WITH_LIBCURL_INC=$optarg
+		--disable-libnotify)
+			QC_DISABLE_libnotify="Y"
 			shift
 			;;
 
-		--with-libcurl-lib=*)
-			QC_WITH_LIBCURL_LIB=$optarg
+		--disable-geoip-database)
+			QC_DISABLE_geoip_database="Y"
 			shift
 			;;
 
-		--disable-libzzip)
-			QC_DISABLE_libzzip="Y"
-			shift
-			;;
-
-		--with-libzzip-inc=*)
-			QC_WITH_LIBZZIP_INC=$optarg
-			shift
-			;;
-
-		--with-libzzip-lib=*)
-			QC_WITH_LIBZZIP_LIB=$optarg
+		--with-geoip-database-embedded)
+			QC_WITH_GEOIP_DATABASE_EMBEDDED="Y"
 			shift
 			;;
 
@@ -192,11 +182,9 @@ echo BINDIR=$BINDIR
 echo DATADIR=$DATADIR
 echo EX_QTDIR=$EX_QTDIR
 echo QC_WITH_LIBBOOST_INC=$QC_WITH_LIBBOOST_INC
-echo QC_WITH_LIBCURL_INC=$QC_WITH_LIBCURL_INC
-echo QC_WITH_LIBCURL_LIB=$QC_WITH_LIBCURL_LIB
-echo QC_DISABLE_libzzip=$QC_DISABLE_libzzip
-echo QC_WITH_LIBZZIP_INC=$QC_WITH_LIBZZIP_INC
-echo QC_WITH_LIBZZIP_LIB=$QC_WITH_LIBZZIP_LIB
+echo QC_DISABLE_libnotify=$QC_DISABLE_libnotify
+echo QC_DISABLE_geoip_database=$QC_DISABLE_geoip_database
+echo QC_WITH_GEOIP_DATABASE_EMBEDDED=$QC_WITH_GEOIP_DATABASE_EMBEDDED
 echo
 fi
 
@@ -301,21 +289,21 @@ cat >$1/modules.cpp <<EOT
 #line 1 "qt4.qcm"
 /*
 -----BEGIN QCMOD-----
-name: Qt >= 4.3
+name: Qt >= 4.4
 -----END QCMOD-----
 */
 class qc_qt4 : public ConfObj
 {
 public:
 	qc_qt4(Conf *c) : ConfObj(c) {}
-	QString name() const { return "Qt >= 4.3"; }
-	QString shortname() const { return "Qt 4.3"; }
+	QString name() const { return "Qt >= 4.4"; }
+	QString shortname() const { return "Qt 4.4"; }
 	bool exec()
 	{
-		if(QT_VERSION >= 0x040400) {
-			conf->addDefine("QT_4_4");
-		}
-		return(QT_VERSION >= 0x040300);
+		if(QT_VERSION >= 0x040500) {
+                        conf->addDefine("QT_4_5");
+                }
+		return(QT_VERSION >= 0x040400);
 		
 	}
 };
@@ -330,12 +318,12 @@ class qc_libtorrent_rasterbar : public ConfObj
 {
 public:
 	qc_libtorrent_rasterbar(Conf *c) : ConfObj(c) {}
-	QString name() const { return "libtorrent-rasterbar >= 0.14.0 (>= 0.14.4 advised)"; }
+	QString name() const { return "libtorrent-rasterbar >= 0.14.0 (>= 0.15.0 advised)"; }
 	QString shortname() const { return "libtorrent-rasterbar"; }
 	bool exec(){
 		QStringList incs;
 		QString req_ver = "0.14.0";
-		QString adv_ver = "0.14.4";
+		QString adv_ver = "0.15.0";
 		QString version, libs, other;
 		VersionMode mode = VersionMin;
 		if(!conf->findPkgConfig("libtorrent-rasterbar", mode, req_ver, &version, &incs, &libs, &other))
@@ -345,7 +333,9 @@ public:
 		if(!libs.isEmpty())
 			conf->addLib(libs);
 		if(!conf->findPkgConfig("libtorrent-rasterbar", mode, adv_ver, &version, &incs, &libs, &other))
-			printf("\nWarning: libtorrent-rasterbar v%s was detected. Although it will compile and run, you will probably experience some bugs. Please consider updating to v%s!\n", version.toUtf8().data(), adv_ver.toUtf8().data());
+                        printf("\nWarning: libtorrent-rasterbar v%s was detected.\nAlthough it will compile and run, you will be missing some features. Please consider updating to v%s.\n", version.toLocal8Bit().data(), adv_ver.toUtf8().data());
+		else
+			conf->addDefine("LIBTORRENT_0_15");
 		return true;
 	}
 };
@@ -406,138 +396,76 @@ public:
 		return true;
 	}
 };
-#line 1 "libcurl.qcm"
+#line 1 "libnotify.qcm"
 /*
 -----BEGIN QCMOD-----
-name: libcommoncpp2
-arg: with-libcurl-inc=[path], Path to libcurl include files
-arg: with-libcurl-lib=[path], Path to libcurl library files
+name: libnotify
 -----END QCMOD-----
 */
-class qc_libcurl : public ConfObj
+// see  Conf::findPkgConfig
+class qc_libnotify : public ConfObj
 {
 public:
-	qc_libcurl(Conf *c) : ConfObj(c) {}
-	QString name() const { return "libcurl"; }
-	QString shortname() const { return "libcurl"; }
+	qc_libnotify(Conf *c) : ConfObj(c) {}
+	QString name() const { return "libnotify >= 0.4.2 (optional)"; }
+	QString shortname() const { return "libnotify"; }
 	bool exec(){
-    QString s;
-		s = conf->getenv("QC_WITH_LIBCURL_INC");
-		if(!s.isEmpty()) {
-			if(!conf->checkHeader(s, "curl/curl.h")) {
+		QStringList incs;
+		QString req_ver = "0.4.2";
+		QString version, libs, other;
+		VersionMode mode = VersionMin;
+		if(conf->findPkgConfig("libnotify", mode, req_ver, &version, &incs, &libs, &other)) {
+			conf->addDefine("WITH_LIBNOTIFY");
+			for(int n = 0; n < incs.count(); ++n)
+				conf->addIncludePath(incs[n]);
+			if(!libs.isEmpty())
+				conf->addLib(libs);
+			QStringList incs2;
+			QString req_ver2 = "2.0";
+			QString version2, libs2, other2;
+			if(conf->findPkgConfig("glib-2.0", mode, req_ver2, &version2, &incs2, &libs2, &other2)) {
+				for(int n = 0; n < incs2.count(); ++n)
+				conf->addIncludePath(incs2[n]);
+				if(!libs2.isEmpty())
+					conf->addLib(libs2);
+			} else {
 				return false;
-    	}
-		}else{
-			QStringList sl;
-			sl << "/usr/include";
-			sl << "/usr/local/include";
-			bool found = false;
-			foreach(s, sl){
-				if(conf->checkHeader(s, "curl/curl.h")){
-					found = true;
-					break;
-				}
 			}
-			if(!found) {
-				return false;
-      }
+		} else {
+			return false;
 		}
-		conf->addIncludePath(s);
-
-		s = conf->getenv("QC_WITH_LIBCURL_LIB");
-		if(!s.isEmpty()) {
-			if(!QFile::exists(s+QString("/libcurl.so")))
-		          return false;
-    	conf->addLib(QString("-L") + s);
-		}else{
-			QStringList sl;
-			sl << "/usr/lib/";
-			sl << "/usr/lib64/";
-			sl << "/usr/local/lib/";
-			sl << "/usr/local/lib64/";
-			bool found = false;
-			foreach(s, sl){
-				if(QFile::exists(s+QString("libcurl.so"))){
-					found = true;
-					break;
-				}
-			}
-			if(!found) return false;
-			conf->addLib(QString("-L") + s);
-		}
+		
 		return true;
 	}
 };
-#line 1 "libzzip.qcm"
+#line 1 "geoip-database.qcm"
 /*
 -----BEGIN QCMOD-----
-name: libzzip
-arg: with-libzzip-inc=[path], Path to libzzip++ include files
-arg: with-libzzip-lib=[path], Path to libzzip++ library files
+name: geoip-database
+arg: with-geoip-database-embedded, Geoip Database will be embedded in qBittorrent executable (please follow instructions in src/geoip/README)
 -----END QCMOD-----
 */
-#include <QProcess>
-class qc_libzzip : public ConfObj
+// see  Conf::findPkgConfig
+class qc_geoip_database : public ConfObj
 {
 public:
-	qc_libzzip(Conf *c) : ConfObj(c) {}
-	QString name() const { return "Zzip library (libzzip)"; }
-	QString shortname() const { return "libzzip"; }
-	QString checkString() const {
-		if(!conf->getenv("QC_DISABLE_LIBZZIP").isEmpty())
-			return "";
-		return ConfObj::checkString();
-	}
-	bool exec(){
-		if(!conf->getenv("QC_DISABLE_LIBZZIP").isEmpty())
-			return false;
-		QString s;
-		s = conf->getenv("QC_WITH_LIBZZIP_INC");
-		if(!s.isEmpty()) {
-			if(!conf->checkHeader(s, "zzip/zzip.h")) {
-				return false;
-    			}
-		}else{
-			QStringList sl;
-			sl << "/usr/include";
-			sl << "/usr/local/include";
-			bool found = false;
-			foreach(s, sl){
-				if(conf->checkHeader(s, "zzip/zzip.h")){
-					found = true;
-					break;
-				}
-			}
-			if(!found)
-				return false;
+	qc_geoip_database(Conf *c) : ConfObj(c) {}
+	QString name() const { return "GeoIP Database (optional)"; }
+	QString shortname() const { return "GeoIP Database"; }
+	bool exec() {
+#ifdef Q_WS_X11
+		if(!conf->getenv("QC_WITH_GEOIP_DATABASE_EMBEDDED").isEmpty()) {
+#endif
+			conf->addDefine("WITH_GEOIP_EMBEDDED");
+                        printf(" embedded and");
+			return true;
+#ifdef Q_WS_X11
 		}
-		conf->addIncludePath(s);
-
-		s = conf->getenv("QC_WITH_LIBZZIP_LIB");
-		if(!s.isEmpty()) {
-			if(!QFile::exists(s+QString("/libzzip.so"))){
-                          return false;
-                        }
-		}else{
-			QStringList sl;
-			sl << "/usr/lib/";
-			sl << "/usr/lib64/";
-			sl << "/usr/local/lib/";
-			sl << "/usr/local/lib64/";
-			bool found = false;
-			foreach(s, sl){
-				if(QFile::exists(s+QString("libzzip.so"))){
-					found = true;
-					break;
-				}
-			}
-			if(!found)
-                         	return false;
-		}
-		conf->addLib(QString("-L") + s);
-		conf->addLib("-lzzip");
-		conf->addDefine("HAVE_ZZIP");
-		return true;
+                if(QFile::exists("/usr/share/GeoIP/GeoIP.dat") || QFile::exists("/usr/local/share/GeoIP/GeoIP.dat"))
+			return true;
+                printf("\nWarning: GeoIP database was not found at /usr/share/GeoIP/GeoIP.dat\nCountry resolution will be slow.");
+		return false;
+#endif
 	}
 };
 
@@ -552,10 +480,10 @@ cat >$1/modules_new.cpp <<EOT
     o = new qc_libboost(conf);
     o->required = true;
     o->disabled = false;
-    o = new qc_libcurl(conf);
-    o->required = true;
+    o = new qc_libnotify(conf);
+    o->required = false;
     o->disabled = false;
-    o = new qc_libzzip(conf);
+    o = new qc_geoip_database(conf);
     o->required = false;
     o->disabled = false;
 
@@ -1504,11 +1432,9 @@ export BINDIR
 export DATADIR
 export EX_QTDIR
 export QC_WITH_LIBBOOST_INC
-export QC_WITH_LIBCURL_INC
-export QC_WITH_LIBCURL_LIB
-export QC_DISABLE_libzzip
-export QC_WITH_LIBZZIP_INC
-export QC_WITH_LIBZZIP_LIB
+export QC_DISABLE_libnotify
+export QC_DISABLE_geoip_database
+export QC_WITH_GEOIP_DATABASE_EMBEDDED
 export QC_VERBOSE
 rm -rf .qconftemp
 (

@@ -38,6 +38,7 @@
 
 class QTcpSocket;
 class HttpServer;
+class Bittorrent;
 
 class HttpConnection : public QObject
 {
@@ -45,6 +46,7 @@ class HttpConnection : public QObject
 	private:
 		QTcpSocket *socket;
 		HttpServer *parent;
+                Bittorrent *BTSession;
 
 	protected:
 		HttpRequestParser parser;
@@ -54,14 +56,21 @@ class HttpConnection : public QObject
 		void write();
 		virtual void respond();
 		void respondJson();
+                void respondGenPropertiesJson(QString hash);
+                void respondTrackersPropertiesJson(QString hash);
+                void respondFilesPropertiesJson(QString hash);
+                void respondPreferencesJson();
 		void respondCommand(QString command);
 		void respondNotFound();
 		void processDownloadedFile(QString, QString);
 		void handleDownloadFailure(QString, QString);
+                void recheckTorrent(QString hash);
+                void recheckAllTorrents();
 
 	public:
-		HttpConnection(QTcpSocket *socket, HttpServer *parent);
+                HttpConnection(QTcpSocket *socket, Bittorrent* BTSession, HttpServer *parent);
 		~HttpConnection();
+                QString translateDocument(QString data);
 
 	private slots:
 		void read();

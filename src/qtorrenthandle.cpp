@@ -33,9 +33,11 @@
 #include <QFile>
 #include <QDir>
 #include <QByteArray>
+#include <math.h>
 #include "misc.h"
 #include "qtorrenthandle.h"
 #include <libtorrent/magnet_uri.hpp>
+#include <libtorrent/torrent_info.hpp>
 
 QTorrentHandle::QTorrentHandle(torrent_handle h): h(h) {}
 
@@ -63,6 +65,12 @@ QString QTorrentHandle::name() const {
   return misc::toQString(h.name());
 }
 
+QString QTorrentHandle::creation_date() const {
+  Q_ASSERT(h.is_valid());
+  boost::optional<boost::posix_time::ptime> boostDate = h.get_torrent_info().creation_date();
+  return misc::boostTimeToQString(boostDate);
+}
+
 float QTorrentHandle::progress() const {
   Q_ASSERT(h.is_valid());
   if(!h.status().total_wanted)
@@ -77,6 +85,11 @@ float QTorrentHandle::progress() const {
 bitfield QTorrentHandle::pieces() const {
   Q_ASSERT(h.is_valid());
   return h.status().pieces;
+}
+
+void QTorrentHandle::piece_availability(std::vector<int>& avail) const {
+  Q_ASSERT(h.is_valid());
+  h.piece_availability(avail);
 }
 
 void QTorrentHandle::get_download_queue(std::vector<partial_piece_info>& queue) const {
@@ -116,6 +129,40 @@ size_type QTorrentHandle::piece_length() const {
 int QTorrentHandle::num_pieces() const {
   Q_ASSERT(h.is_valid());
   return h.get_torrent_info().num_pieces();
+}
+
+void QTorrentHandle::get_peer_info(std::vector<peer_info>& v) const {
+  Q_ASSERT(h.is_valid());
+  h.get_peer_info(v);
+}
+
+bool QTorrentHandle::first_last_piece_first() const {
+  Q_ASSERT(h.is_valid());
+    // Detect main file
+  int rank=0;
+  int main_file_index = 0;
+  file_entry main_file = h.get_torrent_info().file_at(0);
+  torrent_info::file_iterator it = h.get_torrent_info().begin_files();
+  it++; ++rank;
+  while(it != h.get_torrent_info().end_files()) {
+    if(it->size > main_file.size) {
+      main_file = *it;
+      main_file_index = rank;
+    }
+    it++;
+    ++rank;
+  }
+  qDebug("Main file in the torrent is %s", main_file.path.string().c_str());
+  int piece_size = h.get_torrent_info().piece_length();
+  Q_ASSERT(piece_size>0);
+  int first_piece = floor((main_file.offset+1)/(double)piece_size);
+  Q_ASSERT(first_piece >= 0 && first_piece < h.get_torrent_info().num_pieces());
+  qDebug("First piece of the file is %d/%d", first_piece, h.get_torrent_info().num_pieces()-1);
+  int num_pieces_in_file = ceil(main_file.size/(double)piece_size);
+  int last_piece = first_piece+num_pieces_in_file-1;
+  Q_ASSERT(last_piece >= 0 && last_piece < h.get_torrent_info().num_pieces());
+  qDebug("last piece of the file is %d/%d", last_piece, h.get_torrent_info().num_pieces()-1);
+  return (h.piece_priority(first_piece) == 7) && (h.piece_priority(last_piece) == 7);
 }
 
 size_type QTorrentHandle::total_wanted_done() const {
@@ -162,6 +209,13 @@ QString QTorrentHandle::save_path() const {
   Q_ASSERT(h.is_valid());
   return misc::toQString(h.save_path().string());
 }
+
+#ifdef LIBTORRENT_0_15
+bool QTorrentHandle::super_seeding() const {
+  Q_ASSERT(h.is_valid());
+  return h.super_seeding();
+}
+#endif
 
 QStringList QTorrentHandle::url_seeds() const {
   Q_ASSERT(h.is_valid());
@@ -259,9 +313,19 @@ size_type QTorrentHandle::total_failed_bytes() const {
   return h.status().total_failed_bytes;
 }
 
+size_type QTorrentHandle::total_redundant_bytes() const {
+  Q_ASSERT(h.is_valid());
+  return h.status().total_redundant_bytes;
+}
+
 void QTorrentHandle::file_progress(std::vector<size_type>& fp) {
   Q_ASSERT(h.is_valid());
   return h.file_progress(fp);
+}
+
+bool QTorrentHandle::is_checking() const {
+  Q_ASSERT(h.is_valid());
+  return h.status().state == torrent_status::checking_files || h.status().state == torrent_status::checking_resume_data;
 }
 
 size_type QTorrentHandle::all_time_download() {
@@ -323,14 +387,39 @@ bool QTorrentHandle::is_auto_managed() const {
   return h.is_auto_managed();
 }
 
-int QTorrentHandle::active_time() const {
+qlonglong QTorrentHandle::active_time() const {
   Q_ASSERT(h.is_valid());
   return h.status().active_time;
+}
+
+qlonglong QTorrentHandle::seeding_time() const {
+  Q_ASSERT(h.is_valid());
+  return h.status().seeding_time;
+}
+
+int QTorrentHandle::num_connections() const {
+  Q_ASSERT(h.is_valid());
+  return h.status().num_connections;
+}
+
+int QTorrentHandle::connections_limit() const {
+  Q_ASSERT(h.is_valid());
+  return h.status().connections_limit;
 }
 
 bool QTorrentHandle::is_sequential_download() const {
   Q_ASSERT(h.is_valid());
   return h.is_sequential_download();
+}
+
+bool QTorrentHandle::resolve_countries() const {
+  Q_ASSERT(h.is_valid());
+  return h.resolve_countries();
+}
+
+bool QTorrentHandle::priv() const {
+  Q_ASSERT(h.is_valid());
+  return h.get_torrent_info().priv();
 }
 
 //
@@ -381,7 +470,9 @@ void QTorrentHandle::set_max_connections(int val) {
 }
 
 void QTorrentHandle::prioritize_files(std::vector<int> v) {
+  // Does not do anything for seeding torrents
   Q_ASSERT(h.is_valid());
+  Q_ASSERT(v.size() == (unsigned int)h.get_torrent_info().num_files());
   h.prioritize_files(v);
 }
 
@@ -407,7 +498,8 @@ void QTorrentHandle::queue_position_down() const {
 
 void QTorrentHandle::queue_position_up() const {
   Q_ASSERT(h.is_valid());
-  h.queue_position_up();
+  if(h.queue_position() > 0)
+    h.queue_position_up();
 
 }
 
@@ -438,7 +530,91 @@ void QTorrentHandle::move_storage(QString new_path) const {
 
 void QTorrentHandle::file_priority(int index, int priority) const {
   Q_ASSERT(h.is_valid());
+  if(is_seed()) return;
   h.file_priority(index, priority);
+}
+
+#ifdef LIBTORRENT_0_15
+void QTorrentHandle::super_seeding(bool on) const {
+  Q_ASSERT(h.is_valid());
+  h.super_seeding(on);
+}
+#endif
+
+void QTorrentHandle::resolve_countries(bool r) {
+  Q_ASSERT(h.is_valid());
+  h.resolve_countries(r);
+}
+
+void QTorrentHandle::connect_peer(libtorrent::asio::ip::tcp::endpoint const& adr, int source) const {
+  Q_ASSERT(h.is_valid());
+  h.connect_peer(adr, source);
+}
+
+void QTorrentHandle::set_peer_upload_limit(libtorrent::asio::ip::tcp::endpoint ip, int limit) const {
+  Q_ASSERT(h.is_valid());
+  h.set_peer_upload_limit(ip, limit);
+}
+
+void QTorrentHandle::set_peer_download_limit(libtorrent::asio::ip::tcp::endpoint ip, int limit) const {
+  Q_ASSERT(h.is_valid());
+  h.set_peer_download_limit(ip, limit);
+}
+
+void QTorrentHandle::add_tracker(announce_entry const& url) {
+  Q_ASSERT(h.is_valid());
+#ifdef LIBTORRENT_0_15
+  h.add_tracker(url);
+#else
+  std::vector<announce_entry> trackers = h.trackers();
+  bool exists = false;
+  std::vector<announce_entry>::iterator it = trackers.begin();
+  while(it != trackers.end()) {
+    if(it->url == url.url) {
+      exists = true;
+      break;
+    }
+    it++;
+  }
+  if(!exists) {
+    trackers.push_back(url);
+    h.replace_trackers(trackers);
+  }
+#endif
+}
+
+void QTorrentHandle::prioritize_first_last_piece(bool b) {
+  Q_ASSERT(h.is_valid());
+  // Detect main file
+  int rank=0;
+  int main_file_index = 0;
+  file_entry main_file = h.get_torrent_info().file_at(0);
+  torrent_info::file_iterator it = h.get_torrent_info().begin_files();
+  it++; ++rank;
+  while(it != h.get_torrent_info().end_files()) {
+    if(it->size > main_file.size) {
+      main_file = *it;
+      main_file_index = rank;
+    }
+    it++;
+    ++rank;
+  }
+  qDebug("Main file in the torrent is %s", main_file.path.string().c_str());
+  // Determine the priority to set
+  int prio = 7; // MAX
+  if(!b) prio = h.file_priority(main_file_index);
+  // Determine the first and last piece of the main file
+  int piece_size = h.get_torrent_info().piece_length();
+  Q_ASSERT(piece_size>0);
+  int first_piece = floor((main_file.offset+1)/(double)piece_size);
+  Q_ASSERT(first_piece >= 0 && first_piece < h.get_torrent_info().num_pieces());
+  qDebug("First piece of the file is %d/%d", first_piece, h.get_torrent_info().num_pieces()-1);
+  int num_pieces_in_file = ceil(main_file.size/(double)piece_size);
+  int last_piece = first_piece+num_pieces_in_file-1;
+  Q_ASSERT(last_piece >= 0 && last_piece < h.get_torrent_info().num_pieces());
+  qDebug("last piece of the file is %d/%d", last_piece, h.get_torrent_info().num_pieces()-1);
+  h.piece_priority(first_piece, prio);
+  h.piece_priority(last_piece, prio);
 }
 
 //

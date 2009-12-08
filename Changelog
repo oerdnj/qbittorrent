@@ -1,45 +1,59 @@
-* Tue Nov 17 2009 - Christophe Dumez <chris@qbittorrent.org> - v1.5.6
-  - BUGFIX: RSS feed articles can now be displayed using keyboard arrows
-  - BUGFIX: RSS feed downloader can only process unread articles now
-  - BUGFIX: Fixed memory leak in RSS parser
-  - BUGFIX: Fixed possible crash in search autocompletion
-  - BUGFIX: Improved ETA calculation for big torrents
-  - BUGFIX: Fixed per-torrent speed limiting
-
-* Wed Nov 4 2009 - Christophe Dumez <chris@qbittorrent.org> - v1.5.5
-  - BUGFIX: Fixed man page
-  - BUGFIX: Fix crash on torrent addition (if libtorrent-rasterbar has debug enabled)
-  - BUGFIX: Fix trackers addition to torrents (bug introduced in v1.5.4)
-  - BUGFIX: Suppress compilation warning regarding sortNewsList() not being used
-  - BUGFIX: Make sure scan folder is different than qBittorrent backup directory to avoid torrents deletion
-  - BUGFIX: Added safety mecanism which adds the torrents back to the list in case qbittorrent-resume.conf gets deleted or corrupted.
-
-* Sun Oct 25 2009 - Christophe Dumez <chris@qbittorrent.org> - v1.5.4
-  - BUGFIX: Updated man page
-  - BUGFIX: Fixed possible crash with torrents containing unicode characters
-  - BUGFIX: Fixed problem when disabling systray integration and starting minimized
-  - BUGFIX: Fixed PirateBay search plugin
-  - BUGFIX: Using Download button in search results list now downloads the right torrents
-  - BUGFIX: The search results list is no longer sorted automatically when a row color is updated
-
-* Wed Sep 30 2009 - Christophe Dumez <chris@qbittorrent.org> - v1.5.3
-  - BUGFIX: Fix a possible crash when pausing then deleting a torrent quickly
-  - BUGFIX: Fix a race condition in folder scanning and torrent downloader
-  - BUGFIX: Hide download url column in search results
-  - BUGFIX: Fix a crash when scanned directory does not exist
-  - BUGFIX: Fix compilation on Mac OS
-  - BUGFIX: Added a command line parameter to disable splash screen
-  - BUGFIX: Ignore permanent deletion button when no torrent is selected
-  - BUGFIX: When a selected torrent is deleted, select next suitable torrent
-
-* Sun Sep 20 2009 - Christophe Dumez <chris@qbittorrent.org> - v1.5.2
-  - BUGFIX: Some torrents were pausing for no reason
-  - I18N: Updated Korean translation
-
-* Thu Sep 7 2009 - Christophe Dumez <chris@qbittorrent.org> - v1.5.1
-   - BUGFIX: Fix crash in torrent addition dialog when save path does not exist (closes #425227)
-   - BUGFIX: Fix downloading from URL (broken in v1.5.0)
-   - BUGFIX: Pause torrents in error state
+* Unknown - Christophe Dumez <chris@qbittorrent.org> - v2.0.0
+    - FEATURE: Added program option to disable splash screen
+    - FEATURE: Dropped dependency on libcurl and libzzip
+    - FEATURE: Display more information regarding the torrent in its properties
+    - FEATURE: Various optimizations to save CPU and memory
+    - FEATURE: Folder scanning now works with CIFS and NFS mounted folders
+    - FEATURE: Speed up qBittorrent startup and shutdown
+    - FEATURE: Display per-torrent peer list
+    - FEATURE: Make sure torrent files are always sorted by name
+    - FEATURE: Seeds and Peers columns are now sortable
+    - FEATURE: Torrents can be rechecked from Web UI (Stephanos Antaris)
+    - FEATURE: New peers can manually be added to the torrents
+    - FEATURE: Support per-peer rate limiting
+    - FEATURE: Support peer manual ban
+    - FEATURE: Display total amounts transferred in status bar
+    - FEATURE: Display trackers status as well as error/warning messages
+    - FEATURE: Display the number of peers returned by each tracker & DHT/PeX/LSD
+    - FEATURE: Global upload/download speeds can be capped from status bar (µTorrent behavior)
+    - FEATURE: Added option to download first and last piece of a torrent main file first (for preview)
+    - FEATURE: Graphically display piece availability in torrent properties
+    - FEATURE: Dropped Qt 4.3 support (Qt >= 4.4 is now required)
+    - FEATURE: Display close tab button into the tabs in search engine (Qt >= 4.5 only)
+    - FEATURE: Show official documentation when pressing F1 key
+    - FEATURE: Search engine plugins now handle HTTP protocol gzip compression
+    - FEATURE: Enabled lazy bitfield as a counter-measure for ISP speed throttling
+    - FEATURE: Fall back to a random port if qBittorrent could not listen on the chosen port
+    - FEATURE: Announce to all trackers specified for a torrent (µTorrent behavior) (libtorrent >= v0.15 only)
+    - FEATURE: Added per-torrent super seeding mode (libtorrent >= v0.15 only)
+    - FEATURE: Support for storing symbolic links in .torrent files (libtorrent >= v0.15 only)
+    - FEATURE: Support for uTorrent interpretation of multi-tracker torrents (libtorrent >= v0.15 only)
+    - FEATURE: Handle torrents with duplicate filenames (libtorrent >= v0.15 only)
+    - FEATURE: Support for merkle hash tree torrents (.merkle.torrent) (libtorrent >= v0.15 only)
+    - FEATURE: Metadata download from swarm is now compatible with µtorrent (libtorrent >= v0.15 only)
+    - FEATURE: Support tracker exchange between peers (libtorrent >= v0.15 only)
+    - FEATURE: Better http seed support (libtorrent >= v0.15 only)
+    - FEATURE: Tracker connections are now also subject to IP filtering (libtorrent >= v0.15 only)
+    - FEATURE: Include DHT traffic in the rate limiter (libtorrent >= v0.15 only)
+    - FEATURE: Support for bitcomet padding files (libtorrent >= v0.15 only)
+    - FEATURE: Option to skip file checking and start seeding immediately in torrent addition dialog (Stephanos Antaris) (libtorrent >= v0.15 only)
+    - BUGFIX: Made sure qBittorrent does not scrape the tracker too frequently (libtorrent >= 0.15 only)
+    - WEB UI: Remodeled Web UI to match new qBittorrent UI (Properties and preferences available)
+    - WEB UI: Added internationalization support
+    - WEB UI: Reduced computation in Javascript (do this one server side instead)
+    - WEB UI: Fixed Transfer list flickering
+    - I18N: Added Serbian translation (By Anaximandar Milet)
+    - COSMETIC: Merged download / upload lists
+    - COSMETIC: Torrents can be filtered based on their status
+    - COSMETIC: Torrent properties are now displayed in main window
+    - COSMETIC: Made program preferences scrollable for usability on small screens (e.g. netbooks)
+    - COSMETIC: Added a "torrent status" column to transfer list
+    - COSMETIC: Display Seeds and Peers in two separate columns
+    - COSMETIC: New deletion confirmation dialog (Merged delete/delete permanently actions)
+    - COSMETIC: Improved status bar layout spacing
+    - COSMETIC: Display speeds with more user friendly units instead of always using KiB/s
+    - COSMETIC: New torrent status icons by Mateusz Tolola
+    - COSMETIC: Make use of libnotify if available for system notifications (Ubuntu, ...)
 
 * Thu Sep 3 2009 - Christophe Dumez <chris@qbittorrent.org> - v1.5.0
     - FEATURE: Added Magnet URI support

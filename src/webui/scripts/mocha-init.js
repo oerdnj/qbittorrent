@@ -23,9 +23,27 @@ initializeWindows = function(){
 		new Event(e).stop();
 		new MochaUI.Window({
 			id: 'downloadPage',
-			title: 'Download from URLs',
+			title: "_(Download from URL)",
 			loadMethod: 'iframe',
 			contentURL:'download.html',
+			scrollbars: true,
+			resizable: false,
+			maximizable: false,
+			closable: true,
+			paddingVertical: 0,
+			paddingHorizontal: 0,
+			width: 500,
+			height: 280
+		});
+	});
+	
+	addClickEvent('preferences', function(e) {
+		new Event(e).stop();
+		new MochaUI.Window({
+			id: 'preferencesPage',
+			title: "_(Preferences)",
+			loadMethod: 'iframe',
+			contentURL:'preferences.html',
 			scrollbars: false,
 			resizable: false,
 			maximizable: false,
@@ -33,7 +51,7 @@ initializeWindows = function(){
 			paddingVertical: 0,
 			paddingHorizontal: 0,
 			width: 500,
-			height: 270
+			height: 300
 		});
 	});
 	
@@ -41,57 +59,119 @@ initializeWindows = function(){
 		new Event(e).stop();
 		new MochaUI.Window({
 			id: 'uploadPage',
-			title: 'Upload torrent file',
+			title: "_(Download local torrent)",
 			loadMethod: 'iframe',
 			contentURL:'upload.html',
-			scrollbars: false,
+			scrollbars: true,
 			resizable: false,
 			maximizable: false,
 			paddingVertical: 0,
 			paddingHorizontal: 0,
 			width: 500,
-			height: 120
+			height: 150
 		});
 	});
-
-	addClickEvent('delete', function(e){
-		new Event(e).stop();
-		if($("Tab1").hasClass('active')) {
-			var h = myTable.selectedIds();
-		} else {
-			var h = myTableUP.selectedIds();
+	
+	uploadLimitFN = function() {
+		var h = myTable.selectedIds();
+		if(h.length){
+			var hash = h[0];
+			new MochaUI.Window({
+				id: 'uploadLimitPage',
+				title: "_(Torrent Upload Speed Limiting)",
+				loadMethod: 'iframe',
+				contentURL:'uploadlimit.html?hash='+hash,
+				scrollbars: false,
+				resizable: false,
+				maximizable: false,
+				paddingVertical: 0,
+				paddingHorizontal: 0,
+				width: 424,
+				height: 80
+			});
 		}
-		if(h.length && confirm('Are you sure you want to delete the selected item in download list?')) {
+	};
+	
+	downloadLimitFN = function() {
+		var h = myTable.selectedIds();
+		if(h.length){
+			var hash = h[0];
+			new MochaUI.Window({
+				id: 'downloadLimitPage',
+				title: "_(Torrent Download Speed Limiting)",
+				loadMethod: 'iframe',
+				contentURL:'downloadlimit.html?hash='+hash,
+				scrollbars: false,
+				resizable: false,
+				maximizable: false,
+				paddingVertical: 0,
+				paddingHorizontal: 0,
+				width: 424,
+				height: 80
+			});
+		}
+	};
+	
+	deleteFN = function() {
+		var h = myTable.selectedIds();
+		if(h.length && confirm('_(Are you sure you want to delete the selected torrents from the transfer list?)')) {
 			h.each(function(item, index){
 				new Request({url: '/command/delete', method: 'post', data: {hash: item}}).send();
 			});
-		}
-	});
+		}	
+	};
 
-	addClickEvent('deletePerm', function(e){
-                new Event(e).stop();
-                if($("Tab1").hasClass('active')) {
-                        var h = myTable.selectedIds();
-                } else {
-                        var h = myTableUP.selectedIds();
-                }
-                if(h.length && confirm('Are you sure you want to delete from hard drive the selected item in download list?')) {
+	addClickEvent('delete', function(e){
+		new Event(e).stop();
+		deleteFN();
+	});
+	
+	deleteHDFN = function() {
+		var h = myTable.selectedIds();
+                if(h.length && confirm('_(Are you sure you want to delete the selected torrents from the transfer list and hard disk?)')) {
                         h.each(function(item, index){
                                 new Request({url: '/command/deletePerm', method: 'post', data: {hash: item}}).send();
                         });
                 }
-        });
+	};
+	
 
-	['pause','resume','decreasePrio','increasePrio'].each(function(item) {
+	addClickEvent('deletePerm', function(e){
+                new Event(e).stop();
+		deleteHDFN();
+        });
+	
+	pauseFN = function() {
+		var h = myTable.selectedIds();
+		if(h.length){
+			h.each(function(hash, index){
+			  new Request({url: '/command/pause', method: 'post', data: {hash: hash}}).send();
+			});
+		}
+	};
+	
+	startFN = function() {
+		var h = myTable.selectedIds();
+		if(h.length){
+			h.each(function(hash, index){
+			  new Request({url: '/command/resume', method: 'post', data: {hash: hash}}).send();
+			});
+		}
+	};
+	
+	recheckFN = function() {
+		var h = myTable.selectedIds();
+		if(h.length){
+			h.each(function(hash, index){
+			  new Request({url: '/command/recheck', method: 'post', data: {hash: hash}}).send();
+			});
+		}
+	};
+
+	['pause','resume','decreasePrio','increasePrio','recheck'].each(function(item) {
 		addClickEvent(item, function(e){
 			new Event(e).stop();
-			if($("Tab1").hasClass('active')) {
-			  var h = myTable.selectedIds();
-			} else {
-				if(item=='decreasePrio' || item=='increasePrio')
-					return;
-				var h = myTableUP.selectedIds();
-			}
+			var h = myTable.selectedIds();
 			if(h.length){
 				h.each(function(hash, index){
 				  new Request({url: '/command/'+item, method: 'post', data: {hash: hash}}).send();
@@ -105,11 +185,13 @@ initializeWindows = function(){
 		});
 	});
 	
+	
+	
 	addClickEvent('bug', function(e){
 		new Event(e).stop();
 		new MochaUI.Window({
 			id: 'bugPage',
-			title: 'Report a Bug',
+			title: '_(Report a bug)',
 			loadMethod: 'iframe',
 			contentURL: 'http://bugs.qbittorrent.org/',
 			width: 650,

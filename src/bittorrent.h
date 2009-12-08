@@ -31,6 +31,8 @@
 #define __BITTORRENT_H__
 
 #include <QHash>
+#include <QMap>
+#include <QUrl>
 #include <QStringList>
 #include <QApplication>
 #include <QPalette>
@@ -46,158 +48,191 @@ using namespace libtorrent;
 
 class downloadThread;
 class QTimer;
-class QFileSystemWatcher;
-class QMutex;
+class FileSystemWatcher;
 class FilterParserThread;
+class HttpServer;
 
-class bittorrent : public QObject {
+class TrackerInfos {
+public:
+  QString name_or_url;
+  QString last_message;
+  unsigned long num_peers;
+#ifndef LIBTORRENT_0_15
+  bool verified;
+  uint fail_count;
+#endif
+
+  //TrackerInfos() {}
+  TrackerInfos(const TrackerInfos &b) {
+    name_or_url = b.name_or_url;
+    Q_ASSERT(!name_or_url.isEmpty());
+    last_message = b.last_message;
+    num_peers = b.num_peers;
+#ifndef LIBTORRENT_0_15
+    verified = b.verified;
+    fail_count = b.fail_count;
+#endif
+  }
+  TrackerInfos(QString name_or_url): name_or_url(name_or_url), last_message(""), num_peers(0) {
+#ifndef LIBTORRENT_0_15
+    fail_count = 0;
+    verified = false;
+#endif
+  }
+};
+
+class Bittorrent : public QObject {
   Q_OBJECT
 
-  private:
-    session *s;
-    QPointer<QFileSystemWatcher> FSWatcher;
-    QMutex* FSMutex;
-    QPointer<QTimer> timerAlerts;
-    QPointer<QTimer> BigRatioTimer;
-    bool DHTEnabled;
-    QPointer<downloadThread> downloader;
-    QString defaultSavePath;
-    QString defaultTempPath;
-    QHash<QString, QHash<QString, QString> > trackersErrors;
-    QStringList consoleMessages;
-    QStringList peerBanMessages;
-    bool preAllocateAll;
-    bool addInPause;
-    int maxConnecsPerTorrent;
-    int maxUploadsPerTorrent;
-    float ratio_limit;
-    bool UPnPEnabled;
-    bool NATPMPEnabled;
-    bool LSDEnabled;
-    QPointer<FilterParserThread> filterParser;
-    QString filterPath;
-    bool queueingEnabled;
-    QStringList url_skippingDlg;
-    QHash<QString, QString> savepath_fromurl;
-    QPointer<QTimer> timerETA;
-    QHash<QString, QList<int> > ETA_samples;
+private:
+  // Bittorrent
+  session *s;
+  QPointer<QTimer> timerAlerts;
+  QMap<QUrl, QString> savepath_fromurl;
+  QHash<QString, QHash<QString, TrackerInfos> > trackersInfos;
+  // Ratio
+  QPointer<QTimer> BigRatioTimer;
+  // HTTP
+  QPointer<downloadThread> downloader;
+  // File System
+  QPointer<FileSystemWatcher> FSWatcher;
+  // Console / Log
+  QStringList consoleMessages;
+  QStringList peerBanMessages;
+  // Settings
+  bool preAllocateAll;
+  bool addInPause;
+  float ratio_limit;
+  bool UPnPEnabled;
+  bool NATPMPEnabled;
+  bool LSDEnabled;
+  bool DHTEnabled;
+  bool queueingEnabled;
+  QString defaultSavePath;
+  QString defaultTempPath;
+  // GeoIP
+  bool resolve_countries;
+  bool geoipDBLoaded;
+  // ETA Computation
+  QPointer<QTimer> timerETA;
+  QHash<QString, QList<int> > ETA_samples;
+  // IP filtering
+  QPointer<FilterParserThread> filterParser;
+  QString filterPath;
+  // Web UI
+  QPointer<HttpServer> httpServer;
+  QList<QUrl> url_skippingDlg;
+  // Fast exit (async)
+  bool exiting;
 
-  protected:
-    QString getSavePath(QString hash);
+protected:
+  QString getSavePath(QString hash);
+  bool initWebUi(QString username, QString password, int port);
 
-  public:
-    // Constructor / Destructor
-    bittorrent();
-    ~bittorrent();
-    QTorrentHandle getTorrentHandle(QString hash) const;
-    std::vector<torrent_handle> getTorrents() const;
-    bool isFilePreviewPossible(QString fileHash) const;
-    bool isDHTEnabled() const;
-    float getPayloadDownloadRate() const;
-    float getPayloadUploadRate() const;
-    session_status getSessionStatus() const;
-    int getListenPort() const;
-    float getRealRatio(QString hash) const;
-    session* getSession() const;
-    QHash<QString, QString> getTrackersErrors(QString hash) const;
-    bool has_filtered_files(QString hash) const;
-    unsigned int getFinishedPausedTorrentsNb() const;
-    unsigned int getUnfinishedPausedTorrentsNb() const;
-    bool isQueueingEnabled() const;
-    int getDlTorrentPriority(QString hash) const;
-    int getUpTorrentPriority(QString hash) const;
-    int getMaximumActiveDownloads() const;
-    int getMaximumActiveTorrents() const;
-    int loadTorrentPriority(QString hash);
-    QStringList getConsoleMessages() const;
-    QStringList getPeerBanMessages() const;
-    qlonglong getETA(QString hash);
-    bool useTemporaryFolder() const;
-    QString getDefaultSavePath() const;
+public:
+  // Constructor / Destructor
+  Bittorrent();
+  ~Bittorrent();
+  QTorrentHandle getTorrentHandle(QString hash) const;
+  std::vector<torrent_handle> getTorrents() const;
+  bool isFilePreviewPossible(QString fileHash) const;
+  bool isDHTEnabled() const;
+  bool isLSDEnabled() const;
+  float getPayloadDownloadRate() const;
+  float getPayloadUploadRate() const;
+  session_status getSessionStatus() const;
+  int getListenPort() const;
+  float getRealRatio(QString hash) const;
+  session* getSession() const;
+  QHash<QString, TrackerInfos> getTrackersInfo(QString hash) const;
+  bool hasActiveTorrents() const;
+  bool isQueueingEnabled() const;
+  int getMaximumActiveDownloads() const;
+  int getMaximumActiveTorrents() const;
+  int loadTorrentPriority(QString hash);
+  QStringList getConsoleMessages() const;
+  QStringList getPeerBanMessages() const;
+  qlonglong getETA(QString hash);
+  bool useTemporaryFolder() const;
+  QString getDefaultSavePath() const;
 
-  public slots:
-    QTorrentHandle addTorrent(QString path, bool fromScanDir = false, QString from_url = QString(), bool resumed = false);
-    QTorrentHandle addMagnetUri(QString magnet_uri, bool resumed=false);
-    void importOldTorrents();
-    void applyFormerAttributeFiles(QTorrentHandle h);
-    void importOldTempData(QString torrent_path);
-    void loadSessionState();
-    void saveSessionState();
-    void downloadFromUrl(QString url);
-    void deleteTorrent(QString hash, bool permanent = false);
-    void startUpTorrents();
-    /* Needed by Web UI */
-    void pauseAllTorrents();
-    void pauseTorrent(QString hash);
-    void resumeTorrent(QString hash);
-    void resumeAllTorrents();
-    /* End Web UI */
-    void saveDHTEntry();
-    void preAllocateAllFiles(bool b);
-    void saveFastResumeData();
-    void enableDirectoryScanning(QString scan_dir);
-    void disableDirectoryScanning();
-    void enableIPFilter(QString filter);
-    void disableIPFilter();
-    void setQueueingEnabled(bool enable);
-    void loadTorrentSpeedLimits(QString hash);
-    void handleDownloadFailure(QString url, QString reason);
-    void loadWebSeeds(QString fileHash);
-    void increaseDlTorrentPriority(QString hash);
-    void decreaseDlTorrentPriority(QString hash);
-    void downloadUrlAndSkipDialog(QString url, QString save_path=QString::null);
-    // Session configuration - Setters
-    void setListeningPort(int port);
-    void setMaxConnections(int maxConnec);
-    void setMaxConnectionsPerTorrent(int max);
-    void setMaxUploadsPerTorrent(int max);
-    void setDownloadRateLimit(long rate);
-    void setUploadRateLimit(long rate);
-    void setGlobalRatio(float ratio);
-    void setDeleteRatio(float ratio);
-    void setDHTPort(int dht_port);
-    void setProxySettings(proxy_settings proxySettings, bool trackers=true, bool peers=true, bool web_seeds=true, bool dht=true);
-    void setSessionSettings(session_settings sessionSettings);
-    void startTorrentsInPause(bool b);
-    void setDefaultSavePath(QString savepath);
-    void setDefaultTempPath(QString temppath);
-    void applyEncryptionSettings(pe_settings se);
-    void loadFilesPriorities(QTorrentHandle& h);
-    void setDownloadLimit(QString hash, long val);
-    void setUploadLimit(QString hash, long val);
-    void enableUPnP(bool b);
-    void enableNATPMP(bool b);
-    void enableLSD(bool b);
-    bool enableDHT(bool b);
-    void addConsoleMessage(QString msg, QColor color=QApplication::palette().color(QPalette::WindowText));
-    void addPeerBanMessage(QString msg, bool from_ipfilter);
-    void processDownloadedFile(QString, QString);
-    void saveTrackerFile(QString hash);
-    void addMagnetSkipAddDlg(QString uri);
-    void downloadFromURLList(const QStringList& urls);
+public slots:
+  QTorrentHandle addTorrent(QString path, bool fromScanDir = false, QString from_url = QString(), bool resumed = false);
+  QTorrentHandle addMagnetUri(QString magnet_uri, bool resumed=false);
+  void importOldTorrents();
+  void applyFormerAttributeFiles(QTorrentHandle h);
+  void importOldTempData(QString torrent_path);
+  void loadSessionState();
+  void saveSessionState();
+  void downloadFromUrl(QString url);
+  void deleteTorrent(QString hash, bool delete_local_files = false);
+  void startUpTorrents();
+  session_proxy asyncDeletion();
+  /* Needed by Web UI */
+  void pauseAllTorrents();
+  void pauseTorrent(QString hash);
+  void resumeTorrent(QString hash);
+  void resumeAllTorrents();
+  /* End Web UI */
+  void saveDHTEntry();
+  void preAllocateAllFiles(bool b);
+  void saveFastResumeData();
+  void enableDirectoryScanning(QString scan_dir);
+  void disableDirectoryScanning();
+  void enableIPFilter(QString filter);
+  void disableIPFilter();
+  void setQueueingEnabled(bool enable);
+  void handleDownloadFailure(QString url, QString reason);
+  void downloadUrlAndSkipDialog(QString url, QString save_path=QString::null);
+  // Session configuration - Setters
+  void setListeningPort(int port);
+  void setMaxConnections(int maxConnec);
+  void setMaxConnectionsPerTorrent(int max);
+  void setMaxUploadsPerTorrent(int max);
+  void setDownloadRateLimit(long rate);
+  void setUploadRateLimit(long rate);
+  void setGlobalRatio(float ratio);
+  void setDeleteRatio(float ratio);
+  void setDHTPort(int dht_port);
+  void setProxySettings(proxy_settings proxySettings, bool trackers=true, bool peers=true, bool web_seeds=true, bool dht=true);
+  void setSessionSettings(session_settings sessionSettings);
+  void startTorrentsInPause(bool b);
+  void setDefaultTempPath(QString temppath);
+  void applyEncryptionSettings(pe_settings se);
+  void setDownloadLimit(QString hash, long val);
+  void setUploadLimit(QString hash, long val);
+  void enableUPnP(bool b);
+  void enableNATPMP(bool b);
+  void enableLSD(bool b);
+  bool enableDHT(bool b);
+  void addConsoleMessage(QString msg, QColor color=QApplication::palette().color(QPalette::WindowText));
+  void addPeerBanMessage(QString msg, bool from_ipfilter);
+  void processDownloadedFile(QString, QString);
+  void addMagnetSkipAddDlg(QString uri);
+  void downloadFromURLList(const QStringList& urls);
+  void configureSession();
+  void banIP(QString ip);
 
-  protected slots:
-    void scanDirectory(QString);
-    void readAlerts();
-    void loadTrackerFile(QString hash);
-    void deleteBigRatios();
-    void takeETASamples();
+protected slots:
+  void addTorrentsFromScanFolder(QStringList&);
+  void readAlerts();
+  void deleteBigRatios();
+  void takeETASamples();
 
-  signals:
-    void addedTorrent(QTorrentHandle& h);
-    void deletedTorrent(QString hash);
-    void pausedTorrent(QTorrentHandle& h);
-    void resumedTorrent(QTorrentHandle& h);
-    void finishedTorrent(QTorrentHandle& h);
-    void fullDiskError(QTorrentHandle& h, QString msg);
-    void trackerError(QString hash, QString time, QString msg);
-    void trackerAuthenticationRequired(QTorrentHandle& h);
-    void newDownloadedTorrent(QString path, QString url);
-    void updateFileSize(QString hash);
-    void downloadFromUrlFailure(QString url, QString reason);
-    void torrentFinishedChecking(QTorrentHandle& h);
-    void metadataReceived(QTorrentHandle &h);
-    void torrentPaused(QTorrentHandle &h);
+signals:
+  void addedTorrent(QTorrentHandle& h);
+  void deletedTorrent(QString hash);
+  void pausedTorrent(QTorrentHandle& h);
+  void resumedTorrent(QTorrentHandle& h);
+  void finishedTorrent(QTorrentHandle& h);
+  void fullDiskError(QTorrentHandle& h, QString msg);
+  void trackerError(QString hash, QString time, QString msg);
+  void trackerAuthenticationRequired(QTorrentHandle& h);
+  void newDownloadedTorrent(QString path, QString url);
+  void updateFileSize(QString hash);
+  void downloadFromUrlFailure(QString url, QString reason);
+  void torrentFinishedChecking(QTorrentHandle& h);
+  void metadataReceived(QTorrentHandle &h);
 };
 
 #endif

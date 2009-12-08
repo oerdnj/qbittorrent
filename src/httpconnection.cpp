@@ -32,7 +32,9 @@
 #include "httpconnection.h"
 #include "httpserver.h"
 #include "eventmanager.h"
+#include "preferences.h"
 #include "json.h"
+#include "bittorrent.h"
 #include <QTcpSocket>
 #include <QDateTime>
 #include <QStringList>
@@ -40,10 +42,11 @@
 #include <QHttpResponseHeader>
 #include <QFile>
 #include <QDebug>
+#include <QRegExp>
 #include <QTemporaryFile>
 
-HttpConnection::HttpConnection(QTcpSocket *socket, HttpServer *parent)
-    : QObject(parent), socket(socket), parent(parent)
+HttpConnection::HttpConnection(QTcpSocket *socket, Bittorrent *BTSession, HttpServer *parent)
+    : QObject(parent), socket(socket), parent(parent), BTSession(BTSession)
 {
   socket->setParent(this);
   connect(socket, SIGNAL(readyRead()), this, SLOT(read()));
@@ -99,6 +102,32 @@ void HttpConnection::write()
   socket->disconnectFromHost();
 }
 
+QString HttpConnection::translateDocument(QString data) {
+  std::string contexts[] = {"TransferListFiltersWidget", "TransferListWidget", "PropertiesWidget", "GUI", "MainWindow", "HttpServer", "confirmDeletionDlg", "TrackerList", "TorrentFilesModel", "options_imp"};
+  int i=0;
+  bool found = false;
+  do {
+    found = false;
+    QRegExp regex("_\\(([\\w\\s?!:\\/\\(\\)\\.]+)\\)");
+    i = regex.indexIn(data, i);
+    if(i >= 0) {
+      //qDebug("Found translatable string: %s", regex.cap(1).toUtf8().data());
+      QString word = regex.cap(1);
+      QString translation = word;
+      int context_index= 0;
+      do {
+        translation = qApp->translate(contexts[context_index].c_str(), word.toLocal8Bit().data(), 0, QCoreApplication::UnicodeUTF8, 1);
+        ++context_index;
+      }while(translation == word && context_index < 10);
+      //qDebug("Translation is %s", translation.toUtf8().data());
+      data = data.replace(i, regex.matchedLength(), translation);
+      i += translation.length();
+      found = true;
+    }
+  }while(found && i < data.size());
+  return data;
+}
+
 void HttpConnection::respond()
 {
   //qDebug("Respond called");
@@ -119,7 +148,7 @@ void HttpConnection::respond()
   }
   if (list.size() == 0)
     list.append("index.html");
-  if (list.size() == 2)
+  if (list.size() >= 2)
   {
     if (list[0] == "json")
     {
@@ -127,6 +156,27 @@ void HttpConnection::respond()
       {
         respondJson();
         return;
+      }
+      if(list.size() > 2) {
+        if(list[1] == "propertiesGeneral") {
+          QString hash = list[2];
+          respondGenPropertiesJson(hash);
+          return;
+        }
+        if(list[1] == "propertiesTrackers") {
+          QString hash = list[2];
+          respondTrackersPropertiesJson(hash);
+          return;
+        }
+        if(list[1] == "propertiesFiles") {
+          QString hash = list[2];
+          respondFilesPropertiesJson(hash);
+          return;
+        }
+      } else {
+        if(list[1] == "preferences") {
+          respondPreferencesJson();
+        }
       }
     }
     if (list[0] == "command")
@@ -156,6 +206,10 @@ void HttpConnection::respond()
   else
     ext.clear();
   QByteArray data = file.readAll();
+  // Translate the page
+  if(ext == "html" || (ext == "js" && !list.last().startsWith("excanvas"))) {
+    data = translateDocument(QString::fromUtf8(data.data())).toUtf8();
+  }
   generator.setStatusLine(200, "OK");
   generator.setContentTypeByExt(ext);
   generator.setMessage(data);
@@ -172,6 +226,42 @@ void HttpConnection::respondJson()
 {
   EventManager* manager =  parent->eventManager();
   QString string = json::toJson(manager->getEventList());
+  generator.setStatusLine(200, "OK");
+  generator.setContentTypeByExt("js");
+  generator.setMessage(string);
+  write();
+}
+
+void HttpConnection::respondGenPropertiesJson(QString hash) {
+  EventManager* manager =  parent->eventManager();
+  QString string = json::toJson(manager->getPropGeneralInfo(hash));
+  generator.setStatusLine(200, "OK");
+  generator.setContentTypeByExt("js");
+  generator.setMessage(string);
+  write();
+}
+
+void HttpConnection::respondTrackersPropertiesJson(QString hash) {
+  EventManager* manager =  parent->eventManager();
+  QString string = json::toJson(manager->getPropTrackersInfo(hash));
+  generator.setStatusLine(200, "OK");
+  generator.setContentTypeByExt("js");
+  generator.setMessage(string);
+  write();
+}
+
+void HttpConnection::respondFilesPropertiesJson(QString hash) {
+  EventManager* manager =  parent->eventManager();
+  QString string = json::toJson(manager->getPropFilesInfo(hash));
+  generator.setStatusLine(200, "OK");
+  generator.setContentTypeByExt("js");
+  generator.setMessage(string);
+  write();
+}
+
+void HttpConnection::respondPreferencesJson() {
+  EventManager* manager =  parent->eventManager();
+  QString string = json::toJson(manager->getGlobalPreferences());
   generator.setStatusLine(200, "OK");
   generator.setContentTypeByExt("js");
   generator.setMessage(string);
@@ -229,9 +319,89 @@ void HttpConnection::respondCommand(QString command)
     emit pauseAllTorrents();
     return;
   }
-  if(command == "resume")	{
+  if(command == "resume") {
     emit resumeTorrent(parser.post("hash"));
     return;
+  }
+  if(command == "setPreferences") {
+    bool ok = false;
+    int dl_limit = parser.post("dl_limit").toInt(&ok);
+    if(ok) {
+      BTSession->setDownloadRateLimit(dl_limit*1024);
+      Preferences::setGlobalDownloadLimit(dl_limit);
+    }
+    int up_limit = parser.post("up_limit").toInt(&ok);
+    if(ok) {
+      BTSession->setUploadRateLimit(up_limit*1024);
+      Preferences::setGlobalUploadLimit(up_limit);
+    }
+    int dht_state = parser.post("dht").toInt(&ok);
+    if(ok) {
+      BTSession->enableDHT(dht_state == 1);
+      Preferences::setDHTEnabled(dht_state == 1);
+    }
+    int max_connec = parser.post("max_connec").toInt(&ok);
+    if(ok) {
+      BTSession->setMaxConnections(max_connec);
+      Preferences::setMaxConnecs(max_connec);
+    }
+    int max_connec_per_torrent = parser.post("max_connec_per_torrent").toInt(&ok);
+    if(ok) {
+      BTSession->setMaxConnectionsPerTorrent(max_connec_per_torrent);
+      Preferences::setMaxConnecsPerTorrent(max_connec_per_torrent);
+    }
+    int max_uploads_per_torrent = parser.post("max_uploads_per_torrent").toInt(&ok);
+    if(ok) {
+      BTSession->setMaxUploadsPerTorrent(max_uploads_per_torrent);
+      Preferences::setMaxUploadsPerTorrent(max_uploads_per_torrent);
+    }
+  }
+  if(command == "setFilePrio") {
+    QString hash = parser.post("hash");
+    int file_id = parser.post("id").toInt();
+    int priority = parser.post("priority").toInt();
+    QTorrentHandle h = BTSession->getTorrentHandle(hash);
+    if(h.is_valid() && h.has_metadata() && !h.get_torrent_handle().is_seed()) {
+      h.file_priority(file_id, priority);
+    }
+  }
+  if(command == "getTorrentUpLimit") {
+    QString hash = parser.post("hash");
+    QTorrentHandle h = BTSession->getTorrentHandle(hash);
+    if(h.is_valid()) {
+      generator.setStatusLine(200, "OK");
+      generator.setContentTypeByExt("html");
+      generator.setMessage(QString::number(h.upload_limit()));
+      write();
+    }
+  }
+  if(command == "getTorrentDlLimit") {
+    QString hash = parser.post("hash");
+    QTorrentHandle h = BTSession->getTorrentHandle(hash);
+    if(h.is_valid()) {
+      generator.setStatusLine(200, "OK");
+      generator.setContentTypeByExt("html");
+      generator.setMessage(QString::number(h.download_limit()));
+      write();
+    }
+  }
+  if(command == "setTorrentUpLimit") {
+    QString hash = parser.post("hash");
+    qlonglong limit = parser.post("limit").toLongLong();
+    if(limit == 0) limit = -1;
+    QTorrentHandle h = BTSession->getTorrentHandle(hash);
+    if(h.is_valid()) {
+      h.set_upload_limit(limit);
+    }
+  }
+  if(command == "setTorrentDlLimit") {
+    QString hash = parser.post("hash");
+    qlonglong limit = parser.post("limit").toLongLong();
+    if(limit == 0) limit = -1;
+    QTorrentHandle h = BTSession->getTorrentHandle(hash);
+    if(h.is_valid()) {
+      h.set_download_limit(limit);
+    }
   }
   if(command == "pause") {
     emit pauseTorrent(parser.post("hash"));
@@ -246,11 +416,38 @@ void HttpConnection::respondCommand(QString command)
     return;
   }
   if(command == "increasePrio") {
-    emit increasePrioTorrent(parser.post("hash"));
+    QTorrentHandle h = BTSession->getTorrentHandle(parser.post("hash"));
+    if(h.is_valid()) h.queue_position_up();
     return;
   }
   if(command == "decreasePrio") {
-    emit decreasePrioTorrent(parser.post("hash"));
+    QTorrentHandle h = BTSession->getTorrentHandle(parser.post("hash"));
+    if(h.is_valid()) h.queue_position_down();
     return;
+  }
+  if(command == "recheck"){
+    recheckTorrent(parser.post("hash"));
+    return;
+  }
+  if(command == "recheckall"){
+    recheckAllTorrents();
+    return;
+  }
+}
+
+void HttpConnection::recheckTorrent(QString hash) {
+  QTorrentHandle h = BTSession->getTorrentHandle(hash);
+  if(h.is_valid() && !h.is_paused()){
+    h.force_recheck();
+  }
+}
+
+void HttpConnection::recheckAllTorrents() {
+  std::vector<torrent_handle> torrents = BTSession->getTorrents();
+  std::vector<torrent_handle>::iterator torrentIT;
+  for(torrentIT = torrents.begin(); torrentIT != torrents.end(); torrentIT++) {
+    QTorrentHandle h = QTorrentHandle(*torrentIT);
+    if(h.is_valid() && !h.is_paused())
+      h.force_recheck();
   }
 }

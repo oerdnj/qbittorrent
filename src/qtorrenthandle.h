@@ -36,12 +36,13 @@
 
 using namespace libtorrent;
 
-class QString;
+#include <QString>
 class QStringList;
 
 // A wrapper for torrent_handle in libtorrent
 // to interact well with Qt types
 class QTorrentHandle {
+
   private:
     torrent_handle h;
 
@@ -64,6 +65,7 @@ class QTorrentHandle {
     QString name() const;
     float progress() const;
     bitfield pieces() const;
+    void piece_availability(std::vector<int>& avail) const;
     void get_download_queue(std::vector<partial_piece_info>& queue) const;
     QString current_tracker() const;
     bool is_valid() const;
@@ -75,6 +77,8 @@ class QTorrentHandle {
     size_type total_wanted_done() const;
     float download_payload_rate() const;
     float upload_payload_rate() const;
+    int num_connections() const;
+    int connections_limit() const;
     int num_peers() const;
     int num_seeds() const;
     int num_complete() const;
@@ -97,6 +101,7 @@ class QTorrentHandle {
     QString creator() const;
     QString comment() const;
     size_type total_failed_bytes() const;
+    size_type total_redundant_bytes() const;
     void file_progress(std::vector<size_type>& fp);
     size_type total_payload_download();
     size_type total_payload_upload();
@@ -105,10 +110,20 @@ class QTorrentHandle {
     QStringList files_path() const;
     int num_uploads() const;
     bool is_seed() const;
+    bool is_checking() const;
     bool is_auto_managed() const;
-    int active_time() const;
+    qlonglong active_time() const;
+    qlonglong seeding_time() const;
     std::vector<int> file_priorities() const;
     bool is_sequential_download() const;
+ #ifdef LIBTORRENT_0_15
+    bool super_seeding() const;
+#endif
+    QString creation_date() const;
+    void get_peer_info(std::vector<peer_info>&) const;
+    bool resolve_countries() const;
+    bool priv() const;
+    bool first_last_piece_first() const;
 
     //
     // Setters
@@ -134,6 +149,15 @@ class QTorrentHandle {
     void auto_managed(bool) const;
     void force_recheck() const;
     void move_storage(QString path) const;
+ #ifdef LIBTORRENT_0_15
+    void super_seeding(bool on) const;
+#endif
+    void resolve_countries(bool r);
+    void connect_peer(libtorrent::asio::ip::tcp::endpoint const& adr, int source = 0) const;
+    void set_peer_upload_limit(libtorrent::asio::ip::tcp::endpoint ip, int limit) const;
+    void set_peer_download_limit(libtorrent::asio::ip::tcp::endpoint ip, int limit) const;
+    void add_tracker(announce_entry const& url);
+    void prioritize_first_last_piece(bool b);
 
     //
     // Operators

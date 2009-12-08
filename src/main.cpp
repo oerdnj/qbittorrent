@@ -34,14 +34,9 @@
 #include <QFile>
 #include <QSplashScreen>
 #include <QSettings>
-#ifdef QT_4_4
 #include <QLocalSocket>
 #include <unistd.h>
 #include <sys/types.h>
-#else
-#include <QTcpSocket>
-#include <QHostAddress>
-#endif
 #include <QPlastiqueStyle>
 #include "qgnomelook.h"
 #include <QMotifStyle>
@@ -73,6 +68,13 @@ void sigtermHandler(int) {
 void sigsegvHandler(int) {
   std::cerr << "\n\n*************************************************************\n";
   std::cerr << "Catching SIGSEGV, please report a bug at http://bug.qbittorrent.org\nand provide the following backtrace:\n";
+  print_stacktrace();
+  std::raise(SIGINT);
+  std::abort();
+}
+void sigabrtHandler(int) {
+  std::cerr << "\n\n*************************************************************\n";
+  std::cerr << "Catching SIGABRT, please report a bug at http://bug.qbittorrent.org\nand provide the following backtrace:\n";
   print_stacktrace();
   std::raise(SIGINT);
   std::abort();
@@ -116,6 +118,7 @@ void useStyle(QApplication *app, int style){
 int main(int argc, char *argv[]){
   QFile file;
   QString locale;
+  QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
   bool no_splash = false;
   if(argc > 1){
     if(QString::fromUtf8(argv[1]) == QString::fromUtf8("--version")){
@@ -134,25 +137,17 @@ int main(int argc, char *argv[]){
       no_splash = true;
     }
   }
+  if(settings.value(QString::fromUtf8("Preferences/General/NoSplashScreen"), false).toBool()) {
+    no_splash = true;
+  }
   // Set environment variable
   if(putenv((char*)"QBITTORRENT="VERSION)) {
     std::cerr << "Couldn't set environment variable...\n";
   }
-  QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
   //Check if there is another instance running
-#ifdef QT_4_4
   QLocalSocket localSocket;
   QString uid = QString::number(getuid());
-#else
-  QTcpSocket localSocket;
-#endif
-#ifdef QT_4_4
   localSocket.connectToServer("qBittorrent-"+uid, QIODevice::WriteOnly);
-#else
-  int serverPort = settings.value(QString::fromUtf8("uniqueInstancePort"), -1).toInt();
-  if(serverPort != -1) {
-    localSocket.connectToHost(QHostAddress::LocalHost, serverPort, QIODevice::WriteOnly);
-#endif
     if (localSocket.waitForConnected(1000)){
       std::cout << "Another qBittorrent instance is already running...\n";
       // Send parameters
@@ -171,19 +166,12 @@ int main(int argc, char *argv[]){
         }else{
           std::cerr << "Writing to the socket timed out\n";
         }
-#ifdef QT_4_4
         localSocket.disconnectFromServer();
-#else
-        localSocket.disconnectFromHost();
-#endif
         std::cout << "disconnected\n";
       }
       localSocket.close();
       return 0;
     }
-#ifndef QT_4_4
-  }
-#endif
   app = new QApplication(argc, argv);
   useStyle(app, settings.value("Preferences/General/Style", 0).toInt());
   app->setStyleSheet("QStatusBar::item { border-width: 0; }");
@@ -208,6 +196,7 @@ int main(int argc, char *argv[]){
   app->setApplicationName(QString::fromUtf8("qBittorrent"));
   app->setQuitOnLastWindowClosed(false);
 #ifndef Q_WS_WIN
+  signal(SIGABRT, sigabrtHandler);
   signal(SIGTERM, sigtermHandler);
   signal(SIGSEGV, sigsegvHandler);
 #endif
@@ -222,7 +211,10 @@ int main(int argc, char *argv[]){
   }
   int ret =  app->exec();
   delete window;
+  qDebug("GUI was deleted!");
+  qDebug("Deleting app...");
   delete app;
+  qDebug("App was deleted! All good.");
   return ret;
 }
 

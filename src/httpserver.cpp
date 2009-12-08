@@ -35,7 +35,7 @@
 #include "bittorrent.h"
 #include <QTimer>
 
-HttpServer::HttpServer(bittorrent *_BTSession, int msec, QObject* parent) : QTcpServer(parent)
+HttpServer::HttpServer(Bittorrent *_BTSession, int msec, QObject* parent) : QTcpServer(parent)
 {
 	base64 = QByteArray(":").toBase64();
 	connect(this, SIGNAL(newConnection()), this, SLOT(newHttpConnection()));
@@ -56,6 +56,24 @@ HttpServer::HttpServer(bittorrent *_BTSession, int msec, QObject* parent) : QTcp
 	timer = new QTimer(this);
 	connect(timer, SIGNAL(timeout()), this, SLOT(onTimer()));
 	timer->start(msec);
+        // Additional translations for Web UI
+        QString a = tr("File");
+        a = tr("Edit");
+        a = tr("Help");
+        a = tr("Delete from HD");
+        a = tr("Download Torrents from their URL or Magnet link");
+        a = tr("Only one link per line");
+        a = tr("Download local torrent");
+        a = tr("Torrent files were correctly added to download list.");
+        a = tr("Point to torrent file");
+        a = tr("Download");
+        a = tr("Are you sure you want to delete the selected torrents from the transfer list and hard disk?");
+        a = tr("Download rate limit must be greater than 0 or disabled.");
+        a = tr("Upload rate limit must be greater than 0 or disabled.");
+        a = tr("Maximum number of connections limit must be greater than 0 or disabled.");
+        a = tr("Maximum number of connections per torrent limit must be greater than 0 or disabled.");
+        a = tr("Maximum number of upload slots per torrent limit must be greater than 0 or disabled.");
+        a = tr("Unable to save program preferences, qBittorrent is probably unreachable.");
 }
 
 HttpServer::~HttpServer()
@@ -69,7 +87,7 @@ void HttpServer::newHttpConnection()
 	QTcpSocket *socket;
 	while((socket = nextPendingConnection()))
 	{
-		HttpConnection *connection = new HttpConnection(socket, this);
+                HttpConnection *connection = new HttpConnection(socket, BTSession, this);
 		//connect connection to BTSession
 		connect(connection, SIGNAL(UrlReadyToBeDownloaded(QString)), BTSession, SLOT(downloadUrlAndSkipDialog(QString)));
                 connect(connection, SIGNAL(MagnetReadyToBeDownloaded(QString)), BTSession, SLOT(addMagnetSkipAddDlg(QString)));
@@ -79,8 +97,6 @@ void HttpServer::newHttpConnection()
 		connect(connection, SIGNAL(resumeTorrent(QString)), BTSession, SLOT(resumeTorrent(QString)));
 		connect(connection, SIGNAL(pauseAllTorrents()), BTSession, SLOT(pauseAllTorrents()));
 		connect(connection, SIGNAL(resumeAllTorrents()), BTSession, SLOT(resumeAllTorrents()));
-                connect(connection, SIGNAL(increasePrioTorrent(QString)), BTSession, SLOT(increaseDlTorrentPriority(QString)));
-                connect(connection, SIGNAL(decreasePrioTorrent(QString)), BTSession, SLOT(decreaseDlTorrentPriority(QString)));
 	}
 }
 
