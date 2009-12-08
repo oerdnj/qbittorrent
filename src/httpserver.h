@@ -36,22 +36,21 @@
 #include <QTcpServer>
 #include <QByteArray>
 
-class bittorrent;
+class Bittorrent;
 class QTimer;
 class EventManager;
 
-class HttpServer : public QTcpServer
-{
+class HttpServer : public QTcpServer {
 	Q_OBJECT
 
 	private:
 		QByteArray base64;
-		bittorrent *BTSession;
+                Bittorrent *BTSession;
 		EventManager *manager;
 		QTimer *timer;
 
 	public:
-		HttpServer(bittorrent *BTSession, int msec, QObject* parent = 0);
+                HttpServer(Bittorrent *BTSession, int msec, QObject* parent = 0);
 		~HttpServer();
 		void setAuthorization(QString username, QString password);
 		bool isAuthorized(QByteArray auth) const;

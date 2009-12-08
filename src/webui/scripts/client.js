@@ -23,56 +23,93 @@
  */
 
 myTable = new dynamicTable();
-myTableUP = new dynamicTable();
+ajaxfn = function(){};
+setSortedColumn = function(index){
+  myTable.setSortedColumn(index);
+};
 
-window.addEvent('domready', function(){
-  MochaUI.Desktop = new MochaUI.Desktop();
+window.addEvent('load', function(){
+  
+  var saveColumnSizes = function() {
+    var filters_width = $('Filters').getSize().x;
+    var properties_height = $('properties').getSize().y;
+    // Save it in a cookie
+    Cookie.write('filters_width', filters_width);
+    Cookie.write('properties_height', properties_height);
+  }
+  
+  /*MochaUI.Desktop = new MochaUI.Desktop();
   MochaUI.Desktop.desktop.setStyles({
 	'background': '#fff',
 	'visibility': 'visible'
-  });
+  });*/
+  MochaUI.Desktop.initialize();
+
+  var filt_w = Cookie.read('filters_width');
+  if($defined(filt_w))
+     filt_w =  filt_w.toInt();
+  else
+    filt_w = 120;
+  new MochaUI.Column({
+		id: 'filtersColumn',
+		placement: 'left',
+		onResize: saveColumnSizes,
+		width: filt_w,
+		resizeLimit: [100, 300]
+	});
+  new MochaUI.Column({
+		id: 'mainColumn',
+		placement: 'main',	
+		width: null,
+		resizeLimit: [100, 300]
+	});
+  MochaUI.Desktop.setDesktopSize();
+  new MochaUI.Panel({
+		id: 'Filters',
+		title: 'Panel',
+		header: false,
+		padding: { top: 0, right: 0, bottom: 0, left: 0 },
+		loadMethod: 'xhr',
+		contentURL: 'filters.html',
+		column: 'filtersColumn',
+		height: 300
+	});
+    new MochaUI.Panel({
+		id: 'transferList',
+		title: 'Panel',
+		header: false,
+		padding: { top: 0, right: 0, bottom: 0, left: 0 },
+		loadMethod: 'xhr',
+		contentURL: 'transferlist.html',
+		column: 'mainColumn',
+		onResize: saveColumnSizes,
+		height: null
+	});
+    var prop_h = Cookie.read('properties_height');
+    if($defined(prop_h))
+      prop_h = prop_h.toInt();
+    else
+      prop_h = 200;
+    new MochaUI.Panel({
+		id: 'properties',
+		title: 'Panel',
+		header: true,
+		padding: { top: 0, right: 0, bottom: 0, left: 0 },
+		contentURL: 'prop-general.html',
+		require: {
+                  css: ['css/Tabs.css']
+                },
+                tabsURL: 'properties.html',
+		column: 'mainColumn',
+		height: prop_h
+	});
   initializeWindows();
-  // Tabs
-  myTabs1 = new mootabs('myTabs', {
-      width: '100%',
-      height: '100%'
-  });
-  myTable.setup('myTable', 3);
-  myTableUP.setup('myTableUP', -1);
   var r=0;
   var waiting=false;
+  
   var stateToImg = function(state){
-    switch (state)
-    {
-      case 'paused':
-          return '<img src="images/skin/paused.png"/>';
-      case 'seeding':
-          return '<img src="images/skin/seeding.png"/>';
-      case 'checking':
-          return '<img src="images/oxygen/time.png"/>';
-      case 'downloading':
-          return '<img src="images/skin/downloading.png"/>';
-      case 'stalled':
-          return '<img src="images/skin/stalled.png"/>';
-      case 'queued':
-          return '<img src="images/skin/queued.png"/>';
-      default:
-	  return '<img src="images/skin/stalled.png"/>';
-    }
-    return '';
+    return 'images/skin/'+state+'.png';
   };
-	var round1 = function(val){return Math.round(val*10)/10};
-	var fspeed = function(val){return round1(val/1024) + ' KiB/s';};
-	var fsize = function(val){
-		var units = ['B', 'KiB', 'MiB', 'GiB'];
-		for(var i=0; i<5; i++){
-			if (val < 1024) {
-				return round1(val) + ' ' + units[i];
-			}
-			val /= 1024;
-		}
-		return round1(val) + ' TiB';
-	};
 	var ajaxfn = function(){
 		var queueing_enabled = false;
 		var url = 'json/events';
@@ -80,6 +117,7 @@ window.addEvent('domready', function(){
 			waiting=true;
 			var request = new Request.JSON({
                                 url: url,
+				noCache: true,
 				method: 'get',
 				onFailure: function() {
 					$('error_div').set('html', 'qBittorrent client is not reachable');
@@ -90,69 +128,39 @@ window.addEvent('domready', function(){
 					 $('error_div').set('html', '');
 					if(events){
             // Add new torrents or update them
-            unfinished_hashes = myTable.getRowIds();
-            finished_hashes = myTableUP.getRowIds();
+            torrent_hashes = myTable.getRowIds();
             events_hashes = new Array();
             events.each(function(event){
               events_hashes[events_hashes.length] = event.hash;
-              if(event.seed) {
                 var row = new Array();
-                row.length = 4;
+                row.length = 10;
                 row[0] = stateToImg(event.state);
                 row[1] = event.name;
-                row[2] = fsize(event.size);
-                row[3] = fspeed(event.upspeed);
-                if(!finished_hashes.contains(event.hash)) {
-                  // New finished torrent
-                  finished_hashes[finished_hashes.length] = event.hash;
-                  myTableUP.insertRow(event.hash, row);
-                  if(unfinished_hashes.contains(event.hash)) {
-                    // Torrent used to be in unfinished list
-                    // Remove it
-                    myTable.removeRow(event.hash);
-                    unfinished_hashes.erase(event.hash);
-                  }
-                } else {
-                  // Update torrent data
-                  myTableUP.updateRow(event.hash, row);
-                }
-              } else {
-                var row = new Array();
-                row.length = 6;
-                row[0] = stateToImg(event.state);
-                row[1] = event.name;
-                row[2] = fsize(event.size);
-                row[3] = round1(event.progress*100);
-                row[4] = fspeed(event.dlspeed);
-                row[5] = fspeed(event.upspeed);
-		row[6] = event.priority
-		if(row[6] != -1)
+		row[2] = event.priority
+                row[3] = event.size;
+                row[4] = (event.progress*100).round(1);
+		row[5] = event.num_seeds;
+		row[6] = event.num_leechs;
+                row[7] = event.dlspeed;
+                row[8] = event.upspeed;
+		row[9] = event.eta;
+		row[10] = event.ratio;
+		if(row[2] != "*")
 			queueing_enabled = true;
-               if(!unfinished_hashes.contains(event.hash)) {
+               if(!torrent_hashes.contains(event.hash)) {
                   // New unfinished torrent
-                  unfinished_hashes[unfinished_hashes.length] = event.hash;
-                  myTable.insertRow(event.hash, row);
-                  if(finished_hashes.contains(event.hash)) {
-                    // Torrent used to be in unfinished list
-                    // Remove it
-                    myTableUP.removeRow(event.hash);
-                    finished_hashes.erase(event.hash);
-                  }
+                  torrent_hashes[torrent_hashes.length] = event.hash;
+		  //alert("Inserting row");
+                  myTable.insertRow(event.hash, row, event.state);
                 } else {
                   // Update torrent data
-                  myTable.updateRow(event.hash, row);
+                  myTable.updateRow(event.hash, row, event.state);
                 }
-              }
             });
             // Remove deleted torrents
-            unfinished_hashes.each(function(hash){
+            torrent_hashes.each(function(hash){
               if(!events_hashes.contains(hash)) {
                 myTable.removeRow(hash);
-              }
-            });
-            finished_hashes.each(function(hash){
-              if(!events_hashes.contains(hash)) {
-                myTableUP.removeRow(hash);
               }
             });
 	    if(queueing_enabled) {
@@ -164,28 +172,45 @@ window.addEvent('domready', function(){
 	    }
 					}
 					waiting=false;
-					ajaxfn.delay(1000);
+					ajaxfn.delay(1500);
 				}
 			}).send();
 		}
 	};
 	ajaxfn();
 // 	ajaxfn.periodical(5000);
+
+	setFilter = function(f) {
+	  // Visually Select the right filter
+	  $("all_filter").removeClass("selectedFilter");
+	  $("downloading_filter").removeClass("selectedFilter");
+	  $("completed_filter").removeClass("selectedFilter");
+	  $("active_filter").removeClass("selectedFilter");
+	  $("inactive_filter").removeClass("selectedFilter");
+	  $(f+"_filter").addClass("selectedFilter");
+	  myTable.setFilter(f);
+	  ajaxfn();
+	  // Remember this via Cookie
+	  Cookie.write('selected_filter', f);
+	}
+
 });
+
+function closeWindows() {
+  MochaUI.closeAll();
+}
 
 // This runs when a person leaves your page.
 
-window.addEvent('unload', function(){
-	if (MochaUI) MochaUI.garbageCleanUp();
-});
+//window.addEvent('unload', function(){
+//	if (MochaUI && Browser.Engine.trident != true) {
+//	  MochaUI.garbageCleanUp();
+//	}
+//});
 
 window.addEvent('keydown', function(event){
   if (event.key == 'a' && event.control) {
     event.stop();
-    if($("Tab1").hasClass('active')) {
-      myTable.selectAll();
-    } else {
-      myTableUP.selectAll();
-    }
+    myTable.selectAll();
   }
 });

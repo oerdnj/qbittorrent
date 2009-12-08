@@ -37,7 +37,7 @@
 #include "ui_rss.h"
 #include "rss.h"
 
-class bittorrent;
+class Bittorrent;
 class FeedList;
 class QTreeWidgetItem;
 
@@ -46,12 +46,13 @@ class RSSImp : public QWidget, public Ui::RSS{
 
 private:
   RssManager *rssmanager;
-  bittorrent *BTSession;
+  Bittorrent *BTSession;
   FeedList *listStreams;
   QTreeWidgetItem* previous_news;
 
 public slots:
   void deleteSelectedItems();
+  void updateRefreshInterval(unsigned int val);
 
 protected slots:
   void on_newFeedButton_clicked();
@@ -80,7 +81,7 @@ protected slots:
   void displayOverwriteError(QString filename);
 
 public:
-  RSSImp(bittorrent *BTSession);
+  RSSImp(Bittorrent *BTSession);
   ~RSSImp();
 
 };

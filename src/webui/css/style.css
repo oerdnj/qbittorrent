@@ -120,3 +120,121 @@ hr {
 	height:100%;
 }
 
+#Filters ul {
+	list-style-type: none;
+}
+
+#Filters ul li {
+	margin-left: -16px;
+}
+
+#Filters ul img {
+	padding-left: 4px;
+	padding-right: 2px;
+	margin-bottom: -4px;
+}
+
+.selectedFilter {
+	background-color: #354158;
+	color: #000;
+}
+
+#properties {
+	background-color: #e5e5e5;
+}
+
+a.propButton {
+	border: 1px solid rgb(85, 81, 91);
+	/*border-radius: 3px;*/
+	padding: 2px;
+	margin-left: 3px;
+	margin-right: 3px;
+}
+
+a.propButton img {
+	margin-bottom: -4px;
+}
+
+/* context menu specific */
+#contextmenu	{ border:1px solid #999; padding:0; background:#eee; width:200px; list-style-type:none; display:none; }
+#contextmenu .separator	{ border-top:1px solid #999; }
+#contextmenu li	{ margin:0; padding:0; }
+#contextmenu li a { display:block; padding:5px 10px 5px 35px; width:155px; font-size:12px; text-decoration:none; font-family:tahoma,arial,sans-serif; color:#000; background-position:8px 2px; background-repeat:no-repeat; }
+#contextmenu li a:hover	{ background-color:#ddd; }
+#contextmenu li a.disabled { color:#ccc; font-style:italic; }
+#contextmenu li a.disabled:hover { background-color:#eee; }
+
+/* context menu items */
+#contextmenu li a.pause	{ background-image:url(../images/skin/pause22.png); }
+#contextmenu li a.start	{ background-image:url(../images/skin/play22.png); }
+#contextmenu li a.recheck	{ background-image:url(../images/oxygen/gear.png); }
+#contextmenu li a.delete	{ background-image:url(../images/skin/delete22.png); }
+#contextmenu li a.deleteHD	{ background-image:url(../images/skin/delete_perm22.png); }
+#contextmenu li a.uploadLimit	{ background-image:url(../images/skin/seeding.png); }
+#contextmenu li a.downloadLimit	{ background-image:url(../images/skin/download.png); }
+
+/* Sliders */
+
+.slider {
+	clear: both;
+	position: relative;
+	font-size: 12px;
+	font-weight: bold;
+	width: 400px;
+	margin-bottom: 15px;	
+}
+
+.sliderWrapper {
+	position: relative;
+	font-size: 1px;
+	line-height: 1px;
+	height: 9px;
+	width: 422px;
+}
+
+.sliderarea {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 7px;
+	width: 420px;
+	font-size: 1px;
+	line-height: 1px;
+	background: #f2f2f2 url(../images/skin/slider-area.gif) repeat-x;
+	border: 1px solid #a3a3a3;
+	border-bottom: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+ 
+.sliderknob {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 9px;
+	width: 19px;
+	font-size: 1px;
+	line-height: 1px;	
+	background: url(../images/skin/knob.gif) no-repeat;
+	cursor: pointer;
+	overflow: hidden;
+	z-index: 2;
+}
+	
+.update {
+	padding-bottom: 5px;	
+}
+
+.mochaToolButton {
+	margin-right: 10px;
+}
+
+/* Mocha Customization */
+#mochaToolbar .divider {
+        background: url(../images/skin/toolbox-divider.gif) left center no-repeat;
+        padding: 25px 0 0 14px;
+}
+
+

@@ -52,10 +52,10 @@ class about : public QDialog, private Ui::AboutDlg{
       lb_name->setText(QString::fromUtf8("<b><h1>")+tr("qBittorrent")+QString::fromUtf8(" "VERSION"</h1></b>"));
       // Thanks
       te_thanks->append(QString::fromUtf8("<a name='top'></a>"));
-      te_thanks->append(QString::fromUtf8("<ul><li>I would like to thank sourceforge.net for hosting qBittorrent project.</li>"));
-      te_thanks->append(QString::fromUtf8("<li>I am happy that Ishan Arora and Arnaud Demaizière are contributing to the project as developers. Their help is greatly appreciated</li>"));
-      te_thanks->append(QString::fromUtf8("<li>I also want to thank Jeffery Fernandez (jeffery@qbittorrent.org), project consultant, RPM packager, for his help and support.</li>"));
-      te_thanks->append(QString::fromUtf8("<li>I am grateful to Peter Koeleman (peter@qbittorrent.org) who is helping port qBittorrent to Windows.</li>"));
+      te_thanks->append(QString::fromUtf8("<ul><li>I would first like to thank sourceforge.net for hosting qBittorrent project and for their support.</li>"));
+      te_thanks->append(QString::fromUtf8("<li>I am pleased that people from all over the world are contributing to qBittorrent: Ishan Arora (India), Arnaud Demaizière (France) and Stephanos Antaris (Greece). Their help is greatly appreciated</li>"));
+      te_thanks->append(QString::fromUtf8("<li>I also want to thank Jeffery Fernandez (jeffery@qbittorrent.org), project consultant, for his help and support since the beginning of this project.</li>"));
+      te_thanks->append(QString::fromUtf8("<li>I am grateful to Peter Koeleman (peter@qbittorrent.org) for working on qBittorrent port to Windows.</li>"));
       te_thanks->append(QString::fromUtf8("<li>Thanks a lot to our graphist Mateusz Toboła (tobejodok@qbittorrent.org) for his great work.</li></ul><br><br>"));
       te_thanks->scrollToAnchor(QString::fromUtf8("top"));
       // Translation
@@ -78,10 +78,11 @@ class about : public QDialog, private Ui::AboutDlg{
           - <u>Japanese:</u> Nardog (nardog@e2umail.com)<br>\
           - <u>Korean:</u> Jin Woo Sin (jin828sin@users.sourceforge.net)<br>\
           - <u>Norwegian:</u> Lars-Erik Labori (hamil@users.sourceforge.net)<br>\
-          - <u>Polish:</u> Jarek Smieja (ajep9691@wp.pl)<br>\
+          - <u>Polish:</u> Mariusz Fik (fisiu@opensuse.org)<br>\
           - <u>Portuguese:</u> Nick Marinho (nickmarinho@gmail.com)<br>\
           - <u>Romanian:</u> Obada Denis (obadadenis@users.sourceforge.net)<br>\
           - <u>Russian:</u> Nick Khazov (m2k3d0n@users.sourceforge.net) and Alexey Morsov (samurai@ricom.ru)<br>\
+          - <u>Serbian:</u> Anaximandar Milet (anaximandar@operamail.com)<br>\
           - <u>Slovak:</u>  helix84<br>\
           - <u>Spanish:</u> Vicente Raul Plata Fonseca (silverxnt@users.sourceforge.net) and Gabriel de Oliveira (deadloop@hotmail.com)<br>\
           - <u>Swedish:</u> Daniel Nylander (po@danielnylander.se)<br>\

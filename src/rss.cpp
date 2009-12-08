@@ -29,12 +29,18 @@
  */
 
 #include "rss.h"
-#include <QTimer>
-#include <QUrl>
+
+#ifdef QT_4_5
+#include <QHash>
+#else
+#include <QMap>
+#define QHash QMap
+#define toHash toMap
+#endif
 
 /** RssFolder **/
 
-RssFolder::RssFolder(RssFolder *parent, RssManager *rssmanager, bittorrent *BTSession, QString name): parent(parent), rssmanager(rssmanager), BTSession(BTSession), name(name) {
+RssFolder::RssFolder(RssFolder *parent, RssManager *rssmanager, Bittorrent *BTSession, QString name): parent(parent), rssmanager(rssmanager), BTSession(BTSession), name(name) {
   downloader = new downloadThread(this);
   connect(downloader, SIGNAL(downloadFinished(QString, QString)), this, SLOT(processFinishedDownload(QString, QString)));
   connect(downloader, SIGNAL(downloadFailure(QString, QString)), this, SLOT(handleDownloadFailure(QString, QString)));
@@ -120,7 +126,7 @@ void RssFolder::refresh() {
 QList<RssItem*> RssFolder::getNewsList() const {
   QList<RssItem*> news;
   foreach(RssFile *child, this->values()) {
-    news.append(child->getNewsList());
+    news << child->getNewsList();
   }
   return news;
 }
@@ -128,7 +134,7 @@ QList<RssItem*> RssFolder::getNewsList() const {
 QList<RssItem*> RssFolder::getUnreadNewsList() const {
   QList<RssItem*> unread_news;
   foreach(RssFile *child, this->values()) {
-    unread_news.append(child->getUnreadNewsList());
+    unread_news << child->getUnreadNewsList();
   }
   return unread_news;
 }
@@ -277,7 +283,7 @@ void RssFolder::addFile(RssFile * item) {
 
 /** RssManager **/
 
-RssManager::RssManager(bittorrent *BTSession): RssFolder(0, this, BTSession, QString::null) {
+RssManager::RssManager(Bittorrent *BTSession): RssFolder(0, this, BTSession, QString::null) {
   loadStreamList();
   connect(&newsRefresher, SIGNAL(timeout()), this, SLOT(refreshAll()));
   QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
@@ -289,6 +295,13 @@ RssManager::~RssManager(){
   qDebug("Deleting RSSManager");
   saveStreamList();
   qDebug("RSSManager deleted");
+}
+
+void RssManager::updateRefreshInterval(unsigned int val){
+  if(refreshInterval != val) {
+    refreshInterval = val;
+    newsRefresher.start(refreshInterval*60000);
+  }
 }
 
 void RssManager::loadStreamList(){
@@ -361,7 +374,7 @@ void RssManager::saveStreamList(){
 
 /** RssStream **/
 
-RssStream::RssStream(RssFolder* parent, RssManager *rssmanager, bittorrent *BTSession, QString _url): parent(parent), rssmanager(rssmanager), BTSession(BTSession), alias(""), iconPath(":/Icons/rss16.png"), refreshed(false), downloadFailure(false), currently_loading(false) {
+RssStream::RssStream(RssFolder* parent, RssManager *rssmanager, Bittorrent *BTSession, QString _url): parent(parent), rssmanager(rssmanager), BTSession(BTSession), alias(""), iconPath(":/Icons/rss16.png"), refreshed(false), downloadFailure(false), currently_loading(false) {
   has_attachments = false;
   qDebug("RSSStream constructed");
   QSettings qBTRSS("qBittorrent", "qBittorrent-rss");
@@ -595,6 +608,7 @@ short RssStream::readDoc(const QDomDocument& doc) {
                 }
               }
             }
+
           } else {
             delete item;
           }
@@ -610,7 +624,7 @@ short RssStream::readDoc(const QDomDocument& doc) {
 
 void RssStream::resizeList() {
   QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
-  unsigned int max_articles = settings.value(QString::fromUtf8("Preferences/RSS/RSSMaxArticlesPerFeed"), 100).toInt();
+  unsigned int max_articles = settings.value(QString::fromUtf8("Preferences/RSS/RSSMaxArticlesPerFeed"), 50).toInt();
   unsigned int nb_articles = this->size();
   if(nb_articles > max_articles) {
     QList<RssItem*> listItem = RssManager::sortNewsList(this->values());
@@ -665,3 +679,4 @@ void RssStream::processDownloadedFile(QString file_path) {
 void RssStream::setDownloadFailed(){
   downloadFailure = true;
 }
+

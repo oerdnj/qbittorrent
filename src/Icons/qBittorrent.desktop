@@ -1,6 +1,6 @@
 [Desktop Entry]
 Categories=Qt;Network;P2P;
-Comment=V1.5.6
+Comment=V2.0.0
 Exec=qbittorrent %f
 GenericName=Bittorrent client
 GenericName[bg]=Торент клиент
@@ -21,6 +21,7 @@ GenericName[pt_BR]=Cliente Bittorrent
 GenericName[ro]=Client Bittorrent
 GenericName[ru]=клиент Bittorrent
 GenericName[sk]=Klient siete Bittorrent
+GenericName[sr]=БитТоррент клијент
 GenericName[sv]=Bittorrent-klient
 GenericName[tr]=Bittorrent istemcisi
 GenericName[uk]=Bittorrent-клієнт

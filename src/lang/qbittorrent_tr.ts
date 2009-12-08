@@ -169,20 +169,170 @@ p, li { white-space: pre-wrap; }
     <name>BandwidthAllocationDialog</name>
     <message>
         <source>Upload limit:</source>
-        <translation>Gönderme Sınırı:</translation>
+        <translation type="obsolete">Gönderme Sınırı:</translation>
     </message>
     <message>
         <source>Download limit:</source>
-        <translation>İndirme Sınırı:</translation>
+        <translation type="obsolete">İndirme Sınırı:</translation>
     </message>
     <message>
         <source>Unlimited</source>
         <comment>Unlimited (bandwidth)</comment>
-        <translation>Sınırsız</translation>
+        <translation type="obsolete">Sınırsız</translation>
     </message>
     <message>
         <source>KiB/s</source>
-        <translation>KB/s</translation>
+        <translation type="obsolete">KB/s</translation>
+    </message>
+</context>
+<context>
+    <name>Bittorrent</name>
+    <message>
+        <source>%1 reached the maximum ratio you set.</source>
+        <translation>%1, ayarladığınız azami orana ulaştı.</translation>
+    </message>
+    <message>
+        <source>qBittorrent is bound to port: TCP/%1</source>
+        <comment>e.g: qBittorrent is bound to port: 6881</comment>
+        <translation>qBittorrent&apos;in bağlı olduğu port: TCP/%1</translation>
+    </message>
+    <message>
+        <source>UPnP support [ON]</source>
+        <translation>UPnP desteği [ON]</translation>
+    </message>
+    <message>
+        <source>UPnP support [OFF]</source>
+        <translation>UPnP desteği [OFF]</translation>
+    </message>
+    <message>
+        <source>NAT-PMP support [ON]</source>
+        <translation>NAT-PMP desteği [ON]</translation>
+    </message>
+    <message>
+        <source>NAT-PMP support [OFF]</source>
+        <translation>NAT-PMP desteği [OFF]</translation>
+    </message>
+    <message>
+        <source>DHT support [ON], port: UDP/%1</source>
+        <translation>DHT desteği [ON], port: UDP/%1</translation>
+    </message>
+    <message>
+        <source>DHT support [OFF]</source>
+        <translation>DHT desteği [OFF]</translation>
+    </message>
+    <message>
+        <source>PeX support [ON]</source>
+        <translation>EşD desteği [ON]</translation>
+    </message>
+    <message>
+        <source>Local Peer Discovery [ON]</source>
+        <translation>Yerel Eş Keşfi [ON]</translation>
+    </message>
+    <message>
+        <source>Local Peer Discovery support [OFF]</source>
+        <translation>Yerel Eş Keşfi desteği [OFF]</translation>
+    </message>
+    <message>
+        <source>Encryption support [ON]</source>
+        <translation>Şifreleme desteği [ON]</translation>
+    </message>
+    <message>
+        <source>Encryption support [FORCED]</source>
+        <translation>Şifreleme desteği [FORCED]</translation>
+    </message>
+    <message>
+        <source>Encryption support [OFF]</source>
+        <translation>Şifreleme desteği [OFF]</translation>
+    </message>
+    <message>
+        <source>Web User Interface Error - Unable to bind Web UI to port %1</source>
+        <translation>Web Kullanıcı Arayüzü Hatası - Web arayüzü bağlanamadı, port %1</translation>
+    </message>
+    <message>
+        <source>&apos;%1&apos; was removed from transfer list and hard disk.</source>
+        <comment>&apos;xxx.avi&apos; was removed...</comment>
+        <translation>&apos;%1&apos;, aktarım listesinden ve sabit diskten kaldırıldı.</translation>
+    </message>
+    <message>
+        <source>&apos;%1&apos; was removed from transfer list.</source>
+        <comment>&apos;xxx.avi&apos; was removed...</comment>
+        <translation>&apos;%1&apos;, aktarım listesinden kaldırıldı.</translation>
+    </message>
+    <message>
+        <source>&apos;%1&apos; is not a valid magnet URI.</source>
+        <translation>&apos;%1&apos; geçerli bir adres değil.</translation>
+    </message>
+    <message>
+        <source>&apos;%1&apos; is already in download list.</source>
+        <comment>e.g: &apos;xxx.avi&apos; is already in download list.</comment>
+        <translation>&apos;%1&apos;, zaten indirme listesinde.</translation>
+    </message>
+    <message>
+        <source>&apos;%1&apos; resumed. (fast resume)</source>
+        <comment>&apos;/home/y/xxx.torrent&apos; was resumed. (fast resume)</comment>
+        <translation>&apos;%1&apos;, devam edildi. (hızlı devam)</translation>
+    </message>
+    <message>
+        <source>&apos;%1&apos; added to download list.</source>
+        <comment>&apos;/home/y/xxx.torrent&apos; was added to download list.</comment>
+        <translation>&apos;%1&apos;, indirme listesine eklendi.</translation>
+    </message>
+    <message>
+        <source>Unable to decode torrent file: &apos;%1&apos;</source>
+        <comment>e.g: Unable to decode torrent file: &apos;/home/y/xxx.torrent&apos;</comment>
+        <translation>Torrent dosyası çözümlenemiyor: &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>This file is either corrupted or this isn&apos;t a torrent.</source>
+        <translation>Bu dosya bozuk ya da torrent dosyası değil.</translation>
+    </message>
+    <message>
+        <source>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;was blocked due to your IP filter&lt;/i&gt;</source>
+        <comment>x.y.z.w was blocked</comment>
+        <translation>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt;, &lt;i&gt;IP süzgeciniz tarafından engellendi&lt;/i&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;was banned due to corrupt pieces&lt;/i&gt;</source>
+        <comment>x.y.z.w was banned</comment>
+        <translation>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt;, &lt;i&gt;bozuk parçalar sebebiyle engellendi&lt;/i&gt;</translation>
+    </message>
+    <message>
+        <source>Recursive download of file %1 embedded in torrent %2</source>
+        <comment>Recursive download of test.torrent embedded in torrent test2</comment>
+        <translation>%1 dosyasının özyineli indirmesi %2 torenti içine gömülü</translation>
+    </message>
+    <message>
+        <source>Unable to decode %1 torrent file.</source>
+        <translation>%1 torent dosyası çözümlenemiyor.</translation>
+    </message>
+    <message>
+        <source>Couldn&apos;t listen on any of the given ports.</source>
+        <translation type="obsolete">Verilen portların hiçbiri algılanamadı.</translation>
+    </message>
+    <message>
+        <source>UPnP/NAT-PMP: Port mapping failure, message: %1</source>
+        <translation>UPnP/NAT-PMP: Port adresleme hatası, ileti: %1</translation>
+    </message>
+    <message>
+        <source>UPnP/NAT-PMP: Port mapping successful, message: %1</source>
+        <translation>UPnP/NAT-PMP: Port adresleme başarılı, ileti: %1</translation>
+    </message>
+    <message>
+        <source>Fast resume data was rejected for torrent %1, checking again...</source>
+        <translation>Hızlı devam verisi %1 torrenti için reddedildi, yeniden denetleniyor...</translation>
+    </message>
+    <message>
+        <source>Url seed lookup failed for url: %1, message: %2</source>
+        <translation>Url gönderme araştırması başarısız: %1, ileti: %2</translation>
+    </message>
+    <message>
+        <source>Downloading &apos;%1&apos;, please wait...</source>
+        <comment>e.g: Downloading &apos;xxx.torrent&apos;, please wait...</comment>
+        <translation>&apos;%1&apos;, indiriliyor, lütfen bekleyin...</translation>
+    </message>
+    <message>
+        <source>Couldn&apos;t listen on port %1, using %2 instead.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -204,7 +354,7 @@ p, li { white-space: pre-wrap; }
     <name>DLListDelegate</name>
     <message>
         <source>KiB/s</source>
-        <translation>KB/s</translation>
+        <translation type="obsolete">KB/s</translation>
     </message>
 </context>
 <context>
@@ -699,11 +849,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Download list:</source>
-        <translation>İndirme listesi:</translation>
+        <translation type="obsolete">İndirme listesi:</translation>
     </message>
     <message>
         <source>Seeding list:</source>
-        <translation>Gönderme listesi:</translation>
+        <translation type="obsolete">Gönderme listesi:</translation>
     </message>
     <message>
         <source>Download folder:</source>
@@ -752,7 +902,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Use the same port for DHT and Bittorrent</source>
-        <translation>DHT ve Bittorrent için aynı portu kullan</translation>
+        <translation type="obsolete">DHT ve Bittorrent için aynı portu kullan</translation>
     </message>
     <message>
         <source>Type:</source>
@@ -824,7 +974,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>transfer lists refresh interval:</source>
-        <translation>aktarım listeleri yenileme süresi:</translation>
+        <translation type="obsolete">aktarım listeleri yenileme süresi:</translation>
     </message>
     <message>
         <source>ms</source>
@@ -958,7 +1108,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Action for double click</source>
         <comment>Action executed when doucle-clicking on an item in transfer (download/upload) list</comment>
-        <translation>Çift tıklama eylemi</translation>
+        <translation type="obsolete">Çift tıklama eylemi</translation>
     </message>
     <message>
         <source>Start/Stop</source>
@@ -970,7 +1120,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Show properties</source>
-        <translation>Özellikleri göster</translation>
+        <translation type="obsolete">Özellikleri göster</translation>
     </message>
     <message>
         <source>Port used for incoming connections:</source>
@@ -984,33 +1134,70 @@ p, li { white-space: pre-wrap; }
         <source>UI</source>
         <translation>Arabirim</translation>
     </message>
+    <message>
+        <source>Disable splash screen</source>
+        <translation>Ön ekranı etkisizleştir</translation>
+    </message>
+    <message>
+        <source>Transfer list refresh interval:</source>
+        <translation>Aktarım listesi yenileme aralığı:</translation>
+    </message>
+    <message>
+        <source>Action on double click</source>
+        <comment>Action executed when doucle-clicking on an item in transfer (download/upload) list</comment>
+        <translation>Çift tıklama eylemi</translation>
+    </message>
+    <message>
+        <source>Downloading:</source>
+        <translation>İndiriliyor:</translation>
+    </message>
+    <message>
+        <source>Completed:</source>
+        <translation>Tamamlandı:</translation>
+    </message>
+    <message>
+        <source>Peer connections</source>
+        <translation>Eş bağlantılar</translation>
+    </message>
+    <message>
+        <source>Resolve peer countries</source>
+        <translation>Eş ülkeleri çöz</translation>
+    </message>
+    <message>
+        <source>Resolve peer host names</source>
+        <translation>Ana makina adı eşlerini çöz</translation>
+    </message>
+    <message>
+        <source>Use a different port for DHT and Bittorrent</source>
+        <translation>DHT ve Bittorrent için farklı bir port kullan</translation>
+    </message>
 </context>
 <context>
     <name>DownloadingTorrents</name>
     <message>
         <source>Name</source>
         <comment>i.e: file name</comment>
-        <translation>Ad</translation>
+        <translation type="obsolete">Ad</translation>
     </message>
     <message>
         <source>Size</source>
         <comment>i.e: file size</comment>
-        <translation>Boyut</translation>
+        <translation type="obsolete">Boyut</translation>
     </message>
     <message>
         <source>Progress</source>
         <comment>i.e: % downloaded</comment>
-        <translation>İlerleme</translation>
+        <translation type="obsolete">İlerleme</translation>
     </message>
     <message>
         <source>DL Speed</source>
         <comment>i.e: Download speed</comment>
-        <translation>İND Hızı</translation>
+        <translation type="obsolete">İND Hızı</translation>
     </message>
     <message>
         <source>UP Speed</source>
         <comment>i.e: Upload speed</comment>
-        <translation>GÖN Hızı</translation>
+        <translation type="obsolete">GÖN Hızı</translation>
     </message>
     <message>
         <source>Seeds/Leechs</source>
@@ -1019,17 +1206,17 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Ratio</source>
-        <translation>Oran</translation>
+        <translation type="obsolete">Oran</translation>
     </message>
     <message>
         <source>ETA</source>
         <comment>i.e: Estimated Time of Arrival / Time left</comment>
-        <translation>Kalan Zaman</translation>
+        <translation type="obsolete">Kalan Zaman</translation>
     </message>
     <message>
         <source>qBittorrent %1 started.</source>
         <comment>e.g: qBittorrent v0.x started.</comment>
-        <translation>qBittorrent %1 başladı.</translation>
+        <translation type="obsolete">qBittorrent %1 başladı.</translation>
     </message>
     <message>
         <source>Be careful, sharing copyrighted material without permission is against the law.</source>
@@ -1083,7 +1270,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Hide or Show Column</source>
-        <translation>Sütunu Gizle ya da Göster</translation>
+        <translation type="obsolete">Sütunu Gizle ya da Göster</translation>
     </message>
     <message>
         <source>UPnP/NAT-PMP: Port mapping failure, message: %1</source>
@@ -1100,7 +1287,60 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Seeds/Leechers</source>
         <comment>i.e: full/partial sources</comment>
-        <translation>Gönderen/Çeken</translation>
+        <translation type="obsolete">Gönderen/Çeken</translation>
+    </message>
+</context>
+<context>
+    <name>EventManager</name>
+    <message>
+        <source>%1/s</source>
+        <comment>e.g. 120 KiB/s</comment>
+        <translation>%1/s</translation>
+    </message>
+    <message>
+        <source>Working</source>
+        <translation>Çalışıyor</translation>
+    </message>
+    <message>
+        <source>Updating...</source>
+        <translation>Güncelleniyor...</translation>
+    </message>
+    <message>
+        <source>Not working</source>
+        <translation>Çalışmıyor</translation>
+    </message>
+    <message>
+        <source>Not contacted yet</source>
+        <translation>Daha bağlanılamadı</translation>
+    </message>
+    <message>
+        <source>this session</source>
+        <translation>bu oturum</translation>
+    </message>
+    <message>
+        <source>/s</source>
+        <comment>/second (i.e. per second)</comment>
+        <translation>/s</translation>
+    </message>
+    <message>
+        <source>Seeded for %1</source>
+        <comment>e.g. Seeded for 3m10s</comment>
+        <translation>Gönderme zamanı: %1</translation>
+    </message>
+    <message>
+        <source>%1 max</source>
+        <comment>e.g. 10 max</comment>
+        <translation>azami: %1</translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <comment>Normal (priority)</comment>
+        <translation type="obsolete">Normal</translation>
+    </message>
+    <message>
+        <source>High</source>
+        <comment>High (priority)</comment>
+        <translation type="obsolete">Yüksek</translation>
     </message>
 </context>
 <context>
@@ -1280,6 +1520,10 @@ p, li { white-space: pre-wrap; }
         <source>Filters could not be exported due to an I/O error.</source>
         <translation>Süzgeçler bir Girdi/Çıktı hatası sebebiyle dışa aktarılamadı.</translation>
     </message>
+    <message>
+        <source>Choose save path</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FeedList</name>
@@ -1308,7 +1552,7 @@ p, li { white-space: pre-wrap; }
     <name>FinishedListDelegate</name>
     <message>
         <source>KiB/s</source>
-        <translation>KB/s</translation>
+        <translation type="obsolete">KB/s</translation>
     </message>
 </context>
 <context>
@@ -1316,20 +1560,20 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Name</source>
         <comment>i.e: file name</comment>
-        <translation>Ad</translation>
+        <translation type="obsolete">Ad</translation>
     </message>
     <message>
         <source>Size</source>
         <comment>i.e: file size</comment>
-        <translation>Boyut</translation>
+        <translation type="obsolete">Boyut</translation>
     </message>
     <message>
         <source>Seeds / Leechers</source>
-        <translation>Gönderen / Çeken</translation>
+        <translation type="obsolete">Gönderen / Çeken</translation>
     </message>
     <message>
         <source>Connected peers</source>
-        <translation>Bağlı eşler</translation>
+        <translation type="obsolete">Bağlı eşler</translation>
     </message>
     <message>
         <source>Progress</source>
@@ -1344,7 +1588,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>UP Speed</source>
         <comment>i.e: Upload speed</comment>
-        <translation>GÖN Hızı</translation>
+        <translation type="obsolete">GÖN Hızı</translation>
     </message>
     <message>
         <source>Seeds/Leechs</source>
@@ -1376,7 +1620,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Ratio</source>
-        <translation>Oran</translation>
+        <translation type="obsolete">Oran</translation>
     </message>
     <message>
         <source>Leechers</source>
@@ -1387,11 +1631,11 @@ p, li { white-space: pre-wrap; }
         <source>Total uploaded</source>
         <comment>i.e: Total amount of uploaded data</comment>
         <translatorcomment>Gönderilen toplam veri</translatorcomment>
-        <translation>Toplam gönderilen</translation>
+        <translation type="obsolete">Toplam gönderilen</translation>
     </message>
     <message>
         <source>Hide or Show Column</source>
-        <translation>Sütunu Gizle veya Göster</translation>
+        <translation type="obsolete">Sütunu Gizle veya Göster</translation>
     </message>
     <message>
         <source>Incomplete torrent in seeding list</source>
@@ -1438,7 +1682,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Are you sure you want to delete the selected item(s) in download list?</source>
-        <translation>İndirme listesindeki seçili öğeleri silmek istediğinize emin misiniz?</translation>
+        <translation type="obsolete">İndirme listesindeki seçili öğeleri silmek istediğinize emin misiniz?</translation>
     </message>
     <message>
         <source>paused</source>
@@ -1454,7 +1698,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Finished</source>
-        <translation>Tamamlandı</translation>
+        <translation type="obsolete">Tamamlandı</translation>
     </message>
     <message>
         <source>Checking...</source>
@@ -1561,7 +1805,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Are you sure? -- qBittorrent</source>
-        <translation>Emin misiniz? -- qBittorrent</translation>
+        <translation type="obsolete">Emin misiniz? -- qBittorrent</translation>
     </message>
     <message>
         <source>&lt;b&gt;qBittorrent&lt;/b&gt;&lt;br&gt;DL Speed: </source>
@@ -1818,7 +2062,7 @@ Lütfen önce diğerini kapatın.</translation>
     </message>
     <message>
         <source>Transfers</source>
-        <translation type="obsolete">Aktarımlar</translation>
+        <translation>Aktarımlar</translation>
     </message>
     <message>
         <source>Are you sure you want to quit qBittorrent?</source>
@@ -1830,7 +2074,7 @@ Lütfen önce diğerini kapatın.</translation>
     </message>
     <message>
         <source>Download finished</source>
-        <translation>İndirme tamamlandı</translation>
+        <translation type="obsolete">İndirme tamamlandı</translation>
     </message>
     <message>
         <source> has finished downloading.</source>
@@ -1848,7 +2092,7 @@ Lütfen önce diğerini kapatın.</translation>
     </message>
     <message>
         <source>Connection status:</source>
-        <translation>Bağlantı durumu:</translation>
+        <translation type="obsolete">Bağlantı durumu:</translation>
     </message>
     <message>
         <source>Offline</source>
@@ -2012,11 +2256,11 @@ Lütfen önce diğerini kapatın.</translation>
     </message>
     <message>
         <source>Connection Status:</source>
-        <translation>Bağlantı Durumu:</translation>
+        <translation type="obsolete">Bağlantı Durumu:</translation>
     </message>
     <message>
         <source>Online</source>
-        <translation>Çevrimiçi</translation>
+        <translation type="obsolete">Çevrimiçi</translation>
     </message>
     <message>
         <source>Firewalled?</source>
@@ -2064,7 +2308,7 @@ Lütfen önce diğerini kapatın.</translation>
     </message>
     <message>
         <source>Downloads</source>
-        <translation>İndirilenler</translation>
+        <translation type="obsolete">İndirilenler</translation>
     </message>
     <message>
         <source>An I/O error occured for torrent %1.
@@ -2078,12 +2322,12 @@ Lütfen önce diğerini kapatın.</translation>
     <message>
         <source>The download list is not empty.
 Are you sure you want to quit qBittorrent?</source>
-        <translation>İndirme listesi boş değil.
+        <translation type="obsolete">İndirme listesi boş değil.
 qBittorrent&apos;ten çıkmak istediğinize emin misiniz?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete the selected item(s) in finished list?</source>
-        <translation>Seçilenleri tamamlanan listesinden silmek istediğinize emin misiniz?</translation>
+        <translation type="obsolete">Seçilenleri tamamlanan listesinden silmek istediğinize emin misiniz?</translation>
     </message>
     <message>
         <source>qBittorrent is bind to port: %1</source>
@@ -2096,11 +2340,11 @@ qBittorrent&apos;ten çıkmak istediğinize emin misiniz?</translation>
     </message>
     <message>
         <source>DHT support [OFF]</source>
-        <translation>DHT desteği [KAPALI]</translation>
+        <translation type="obsolete">DHT desteği [KAPALI]</translation>
     </message>
     <message>
         <source>PeX support [ON]</source>
-        <translation>EşD desteği [AÇIK]</translation>
+        <translation type="obsolete">EşD desteği [AÇIK]</translation>
     </message>
     <message>
         <source>PeX support [OFF]</source>
@@ -2108,19 +2352,19 @@ qBittorrent&apos;ten çıkmak istediğinize emin misiniz?</translation>
     </message>
     <message>
         <source>UPnP support [ON]</source>
-        <translation>UPnP desteği [AÇIK]</translation>
+        <translation type="obsolete">UPnP desteği [AÇIK]</translation>
     </message>
     <message>
         <source>Encryption support [ON]</source>
-        <translation>Şifreleme desteği [AÇIK]</translation>
+        <translation type="obsolete">Şifreleme desteği [AÇIK]</translation>
     </message>
     <message>
         <source>Encryption support [FORCED]</source>
-        <translation>Şifreleme desteği [ZORLANDI]</translation>
+        <translation type="obsolete">Şifreleme desteği [ZORLANDI]</translation>
     </message>
     <message>
         <source>Encryption support [OFF]</source>
-        <translation>Şifreleme desteği [KAPALI]</translation>
+        <translation type="obsolete">Şifreleme desteği [KAPALI]</translation>
     </message>
     <message>
         <source>Alt+1</source>
@@ -2130,12 +2374,12 @@ qBittorrent&apos;ten çıkmak istediğinize emin misiniz?</translation>
     <message>
         <source>Alt+2</source>
         <comment>shortcut to switch to second tab</comment>
-        <translation>Alt+2</translation>
+        <translation type="obsolete">Alt+2</translation>
     </message>
     <message>
         <source>Alt+4</source>
         <comment>shortcut to switch to fourth tab</comment>
-        <translation>Alt+4</translation>
+        <translation type="obsolete">Alt+4</translation>
     </message>
     <message>
         <source>Url download error</source>
@@ -2147,11 +2391,11 @@ qBittorrent&apos;ten çıkmak istediğinize emin misiniz?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete the selected item(s) from download list and from hard drive?</source>
-        <translation>Seçilenleri indirme listesinden ve sabit diskinizden silmek istediğinize emin misiniz?</translation>
+        <translation type="obsolete">Seçilenleri indirme listesinden ve sabit diskinizden silmek istediğinize emin misiniz?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete the selected item(s) from finished list and from hard drive?</source>
-        <translation>Seçilenleri tamamlanan listesinden ve sabit diskinizden silmek istediğinize emin misiniz?</translation>
+        <translation type="obsolete">Seçilenleri tamamlanan listesinden ve sabit diskinizden silmek istediğinize emin misiniz?</translation>
     </message>
     <message>
         <source>&apos;%1&apos; was removed permanently.</source>
@@ -2161,7 +2405,7 @@ qBittorrent&apos;ten çıkmak istediğinize emin misiniz?</translation>
     <message>
         <source>Alt+3</source>
         <comment>shortcut to switch to third tab</comment>
-        <translation>Alt+3</translation>
+        <translation type="obsolete">Alt+3</translation>
     </message>
     <message>
         <source>Ctrl+F</source>
@@ -2171,31 +2415,31 @@ qBittorrent&apos;ten çıkmak istediğinize emin misiniz?</translation>
     <message>
         <source>qBittorrent is bound to port: TCP/%1</source>
         <comment>e.g: qBittorrent is bound to port: 6881</comment>
-        <translation>qBittorrent&apos;in bağlı olduğu port: TCP/%1</translation>
+        <translation type="obsolete">qBittorrent&apos;in bağlı olduğu port: TCP/%1</translation>
     </message>
     <message>
         <source>UPnP support [OFF]</source>
-        <translation>UPnP desteği [KAPALI]</translation>
+        <translation type="obsolete">UPnP desteği [KAPALI]</translation>
     </message>
     <message>
         <source>NAT-PMP support [ON]</source>
-        <translation>NAT-PMP desteği [AÇIK]</translation>
+        <translation type="obsolete">NAT-PMP desteği [AÇIK]</translation>
     </message>
     <message>
         <source>NAT-PMP support [OFF]</source>
-        <translation>NAT-PMP desteği [KAPALI]</translation>
+        <translation type="obsolete">NAT-PMP desteği [KAPALI]</translation>
     </message>
     <message>
         <source>DHT support [ON], port: UDP/%1</source>
-        <translation>DHT desteği [Açık], port: UDP/%1</translation>
+        <translation type="obsolete">DHT desteği [Açık], port: UDP/%1</translation>
     </message>
     <message>
         <source>Local Peer Discovery [ON]</source>
-        <translation>Yerel Eş Keşfi [AÇIK]</translation>
+        <translation type="obsolete">Yerel Eş Keşfi [AÇIK]</translation>
     </message>
     <message>
         <source>Local Peer Discovery support [OFF]</source>
-        <translation>Yerel Eş Keşfi desteği [KAPALI]</translation>
+        <translation type="obsolete">Yerel Eş Keşfi desteği [KAPALI]</translation>
     </message>
     <message>
         <source>&apos;%1&apos; was removed because its ratio reached the maximum value you set.</source>
@@ -2205,35 +2449,144 @@ qBittorrent&apos;ten çıkmak istediğinize emin misiniz?</translation>
     <message>
         <source>qBittorrent %1 (DL: %2KiB/s, UP: %3KiB/s)</source>
         <comment>%1 is qBittorrent version</comment>
-        <translation>qBittorrent %1 (İND: %2KB/s, GÖN: %3KB/s)</translation>
+        <translation type="obsolete">qBittorrent %1 (İND: %2KB/s, GÖN: %3KB/s)</translation>
     </message>
     <message>
         <source>DL: %1 KiB/s</source>
-        <translation>İND: %1 KB/s</translation>
+        <translation type="obsolete">İND: %1 KB/s</translation>
     </message>
     <message>
         <source>UP: %1 KiB/s</source>
-        <translation>GÖN: %1 KB/s</translation>
+        <translation type="obsolete">GÖN: %1 KB/s</translation>
     </message>
     <message>
         <source>Ratio: %1</source>
-        <translation>Oran: %1</translation>
+        <translation type="obsolete">Oran: %1</translation>
     </message>
     <message>
         <source>DHT: %1 nodes</source>
-        <translation>DHT: %1 düğüm</translation>
+        <translation type="obsolete">DHT: %1 düğüm</translation>
     </message>
     <message>
         <source>No direct connections. This may indicate network configuration problems.</source>
-        <translation>Doğrudan bağlantı yok. Bu, ağ yapılandırma problemi olduğunu gösteriyor.</translation>
+        <translation type="obsolete">Doğrudan bağlantı yok. Bu, ağ yapılandırma problemi olduğunu gösteriyor.</translation>
     </message>
     <message>
         <source>Uploads</source>
-        <translation>Gönderilenler</translation>
+        <translation type="obsolete">Gönderilenler</translation>
     </message>
     <message>
         <source>Options were saved successfully.</source>
         <translation>Seçenekler başarıyla kaydedildi.</translation>
+    </message>
+    <message>
+        <source>Download completion</source>
+        <translation>İndirme durumu</translation>
+    </message>
+    <message>
+        <source>Some files are currently transferring.
+Are you sure you want to quit qBittorrent?</source>
+        <translation>Bazı dosyalar hala aktarılıyor.
+qBittorrent&apos;ten çıkmak istediğinize emin misiniz?</translation>
+    </message>
+    <message>
+        <source>Alt+2</source>
+        <comment>shortcut to switch to third tab</comment>
+        <translation>Alt+2</translation>
+    </message>
+    <message>
+        <source>Alt+3</source>
+        <comment>shortcut to switch to fourth tab</comment>
+        <translation>Alt+3</translation>
+    </message>
+    <message>
+        <source>Global Upload Speed Limit</source>
+        <translation>Genel Gönderme Hızı Sınırı</translation>
+    </message>
+    <message>
+        <source>Global Download Speed Limit</source>
+        <translation>Genel İndirme Hızı Sınırı</translation>
+    </message>
+    <message>
+        <source>qBittorrent %1</source>
+        <comment>e.g: qBittorrent vx.x</comment>
+        <translation>qBittorrent %1</translation>
+    </message>
+    <message>
+        <source>qBittorrent %1 (Down: %2/s, Up: %3/s)</source>
+        <comment>%1 is qBittorrent version</comment>
+        <translation>qBittorrent %1 (İND: %2KB/s, GÖN: %3KB/s)</translation>
+    </message>
+</context>
+<context>
+    <name>HttpServer</name>
+    <message>
+        <source>File</source>
+        <translation>Dosya</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Düzenle</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Yardım</translation>
+    </message>
+    <message>
+        <source>Delete from HD</source>
+        <translation>Sabit diskten sil</translation>
+    </message>
+    <message>
+        <source>Download Torrents from their URL or Magnet link</source>
+        <translation>Torrentleri bir adresten ya da ilgili bağlantıdan indir</translation>
+    </message>
+    <message>
+        <source>Only one link per line</source>
+        <translation>Her satıra bir bağlantı</translation>
+    </message>
+    <message>
+        <source>Download</source>
+        <translation>İndir</translation>
+    </message>
+    <message>
+        <source>Download local torrent</source>
+        <translation>Yerel torrenti indir</translation>
+    </message>
+    <message>
+        <source>Torrent files were correctly added to download list.</source>
+        <translation>Torrent dosyaları indirme listesine başarılı bir şekilde eklendi.</translation>
+    </message>
+    <message>
+        <source>Point to torrent file</source>
+        <translation>Torrent dosyasını gösterir</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete the selected torrents from the transfer list and hard disk?</source>
+        <translation>Seçili torrentleri aktarım listesinden ve sabit diskinizden silmek istediğinize emin misiniz?</translation>
+    </message>
+    <message>
+        <source>Download rate limit must be greater than 0 or disabled.</source>
+        <translation>İndirme oranı 0 büyük ya da etkisiz olmalı.</translation>
+    </message>
+    <message>
+        <source>Upload rate limit must be greater than 0 or disabled.</source>
+        <translation>Gönderme oranı 0&apos;dan büyük ya da etkisiz olmalı.</translation>
+    </message>
+    <message>
+        <source>Maximum number of connections limit must be greater than 0 or disabled.</source>
+        <translation>En yüksek sayıdaki bağlantı sınırı 0&apos;dan büyük ya da etkisiz olmalı.</translation>
+    </message>
+    <message>
+        <source>Maximum number of connections per torrent limit must be greater than 0 or disabled.</source>
+        <translation>Torrent başına en yüksek sayıdaki bağlantı sınırı 0&apos;dan büyük ya da etkisiz olmalı.</translation>
+    </message>
+    <message>
+        <source>Maximum number of upload slots per torrent limit must be greater than 0 or disabled.</source>
+        <translation>Torrent başına en yüksek sayıdaki gönderme yuvası sınırı 0&apos;dan yüksek ya da etkisiz olmalı.</translation>
+    </message>
+    <message>
+        <source>Unable to save program preferences, qBittorrent is probably unreachable.</source>
+        <translation>Program yeğlenenleri kaydedilemedi, qBittorrent&apos;e muhtemelen ulaşılamıyor.</translation>
     </message>
 </context>
 <context>
@@ -2304,7 +2657,7 @@ qBittorrent&apos;ten çıkmak istediğinize emin misiniz?</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation>Aç</translation>
+        <translation type="obsolete">Aç</translation>
     </message>
     <message>
         <source>Exit</source>
@@ -2352,7 +2705,7 @@ qBittorrent&apos;ten çıkmak istediğinize emin misiniz?</translation>
     </message>
     <message>
         <source>Torrent Properties</source>
-        <translation>Torrent Özellikleri</translation>
+        <translation type="obsolete">Torrent Özellikleri</translation>
     </message>
     <message>
         <source>Connection Status</source>
@@ -2448,11 +2801,11 @@ qBittorrent&apos;ten çıkmak istediğinize emin misiniz?</translation>
     </message>
     <message>
         <source>Delete Permanently</source>
-        <translation>Tamamen Sil</translation>
+        <translation type="obsolete">Tamamen Sil</translation>
     </message>
     <message>
         <source>Visit website</source>
-        <translation>Siteyi ziyaret et</translation>
+        <translation type="obsolete">Siteyi ziyaret et</translation>
     </message>
     <message>
         <source>Report a bug</source>
@@ -2490,6 +2843,129 @@ qBittorrent&apos;ten çıkmak istediğinize emin misiniz?</translation>
         <source>Console</source>
         <translation>Uçbirim</translation>
     </message>
+    <message>
+        <source>Log Window</source>
+        <translation>Günlük Penceresi</translation>
+    </message>
+    <message>
+        <source>Open torrent</source>
+        <translation>Torrenti aç</translation>
+    </message>
+    <message>
+        <source>Visit Website</source>
+        <translation>Siteyi ziyaret et</translation>
+    </message>
+</context>
+<context>
+    <name>PeerAdditionDlg</name>
+    <message>
+        <source>Invalid IP</source>
+        <translation>Geçersiz IP</translation>
+    </message>
+    <message>
+        <source>The IP you provided is invalid.</source>
+        <translation>Sunduğunuz IP geçersiz.</translation>
+    </message>
+</context>
+<context>
+    <name>PeerListDelegate</name>
+    <message>
+        <source>KiB/s</source>
+        <translation>KB/s</translation>
+    </message>
+</context>
+<context>
+    <name>PeerListWidget</name>
+    <message>
+        <source>IP</source>
+        <translation>IP</translation>
+    </message>
+    <message>
+        <source>Client</source>
+        <comment>i.e.: Client application</comment>
+        <translation>İstemci</translation>
+    </message>
+    <message>
+        <source>Progress</source>
+        <comment>i.e: % downloaded</comment>
+        <translation>İlerleme</translation>
+    </message>
+    <message>
+        <source>Down Speed</source>
+        <comment>i.e: Download speed</comment>
+        <translation>İndirme Hızı</translation>
+    </message>
+    <message>
+        <source>Up Speed</source>
+        <comment>i.e: Upload speed</comment>
+        <translation>Gönderme Hızı</translation>
+    </message>
+    <message>
+        <source>Downloaded</source>
+        <comment>i.e: total data downloaded</comment>
+        <translation>İndirilen</translation>
+    </message>
+    <message>
+        <source>Uploaded</source>
+        <comment>i.e: total data uploaded</comment>
+        <translation>Gönderilen</translation>
+    </message>
+    <message>
+        <source>Add a new peer</source>
+        <translation>Yeni bir eş ekle</translation>
+    </message>
+    <message>
+        <source>Limit upload rate</source>
+        <translation>Gönderme oranını sınırla</translation>
+    </message>
+    <message>
+        <source>Limit download rate</source>
+        <translation>İndirme oranını sınırla</translation>
+    </message>
+    <message>
+        <source>Ban peer permanently</source>
+        <translation>Eşi kalıcı olarak yasakla</translation>
+    </message>
+    <message>
+        <source>Peer addition</source>
+        <translation>Eş ekleme</translation>
+    </message>
+    <message>
+        <source>The peer was added to this torrent.</source>
+        <translation>Eş, bu torrente eklendi.</translation>
+    </message>
+    <message>
+        <source>The peer could not be added to this torrent.</source>
+        <translation>Eş, bu torrente eklenemedi.</translation>
+    </message>
+    <message>
+        <source>Are you sure? -- qBittorrent</source>
+        <translation>Emin misiniz? -- qBittorrent</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to ban permanently the selected peers?</source>
+        <translation>Seçili eşleri kalıcı olarak silmek istediğinizden emin misiniz?</translation>
+    </message>
+    <message>
+        <source>&amp;Yes</source>
+        <translation>&amp;Evet</translation>
+    </message>
+    <message>
+        <source>&amp;No</source>
+        <translation>&amp;Hayır</translation>
+    </message>
+    <message>
+        <source>Manually banning peer %1...</source>
+        <translation>Elle yasaklanan eş: %1...</translation>
+    </message>
+    <message>
+        <source>Upload rate limiting</source>
+        <translation>Gönderme oranını sınırla</translation>
+    </message>
+    <message>
+        <source>Download rate limiting</source>
+        <translation>İndirme oranını sınırla</translation>
+    </message>
 </context>
 <context>
     <name>PropListDelegate</name>
@@ -2519,6 +2995,225 @@ qBittorrent&apos;ten çıkmak istediğinize emin misiniz?</translation>
         <source>Maximum</source>
         <comment>Maximum (priority)</comment>
         <translation>En yüksek</translation>
+    </message>
+</context>
+<context>
+    <name>PropertiesWidget</name>
+    <message>
+        <source>Torrent information</source>
+        <translation type="obsolete">Torrent bilgisi</translation>
+    </message>
+    <message>
+        <source>Save path:</source>
+        <translation>Kayıt Yolu:</translation>
+    </message>
+    <message>
+        <source>Creator:</source>
+        <translation type="obsolete">Oluşturan:</translation>
+    </message>
+    <message>
+        <source>Torrent hash:</source>
+        <translation>Torrent adresleme:</translation>
+    </message>
+    <message>
+        <source>Comment:</source>
+        <translation>Yorum:</translation>
+    </message>
+    <message>
+        <source>Current session</source>
+        <translation type="obsolete">Şimdiki oturum</translation>
+    </message>
+    <message>
+        <source>Total uploaded:</source>
+        <translation type="obsolete">Toplam gönderilen:</translation>
+    </message>
+    <message>
+        <source>Total downloaded:</source>
+        <translation type="obsolete">Toplam indirilen:</translation>
+    </message>
+    <message>
+        <source>Share ratio:</source>
+        <translation>Paylaşım oranı:</translation>
+    </message>
+    <message>
+        <source>Total failed:</source>
+        <translation type="obsolete">Toplam başarısız:</translation>
+    </message>
+    <message>
+        <source>Downloaded pieces</source>
+        <translation type="obsolete">İndirilmiş parçalar</translation>
+    </message>
+    <message>
+        <source>Download in correct order (slower but good for previewing)</source>
+        <translation type="obsolete">Doğru düzende indir (yavaş ama önizleme için iyi)</translation>
+    </message>
+    <message>
+        <source>Current tracker:</source>
+        <translation type="obsolete">Şimdiki izleyici:</translation>
+    </message>
+    <message>
+        <source>Collapse all</source>
+        <translation>Tümünü daralt</translation>
+    </message>
+    <message>
+        <source>Expand all</source>
+        <translation>Tümünü genişlet</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Genel</translation>
+    </message>
+    <message>
+        <source>Trackers</source>
+        <translation>İzleyiciler</translation>
+    </message>
+    <message>
+        <source>URL seeds</source>
+        <translation>URL eşler</translation>
+    </message>
+    <message>
+        <source>Files</source>
+        <translation>Dosyalar</translation>
+    </message>
+    <message>
+        <source>File name</source>
+        <translation type="obsolete">Dosya adı</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation type="obsolete">Boyut</translation>
+    </message>
+    <message>
+        <source>Progress</source>
+        <translation type="obsolete">İlerleme</translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation>Öncelik</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="obsolete">Bilinmeyen</translation>
+    </message>
+    <message>
+        <source>None - Unreachable?</source>
+        <translation type="obsolete">Yok - Erişilemez?</translation>
+    </message>
+    <message>
+        <source>New url seed</source>
+        <comment>New HTTP source</comment>
+        <translation>Yeni gönderen adresi</translation>
+    </message>
+    <message>
+        <source>New url seed:</source>
+        <translation>Yeni gönderen adresi:</translation>
+    </message>
+    <message>
+        <source>qBittorrent</source>
+        <translation>qBittorrent</translation>
+    </message>
+    <message>
+        <source>This url seed is already in the list.</source>
+        <translation>Bu gönderen adresi zaten listede.</translation>
+    </message>
+    <message>
+        <source>Trackers list can&apos;t be empty.</source>
+        <translation type="obsolete">İzleyici listesi boş olamaz.</translation>
+    </message>
+    <message>
+        <source>Choose save path</source>
+        <translation>Kayıt yolunu seçin</translation>
+    </message>
+    <message>
+        <source>Save path creation error</source>
+        <translation>Kayıt yolu oluşturulmada hata</translation>
+    </message>
+    <message>
+        <source>Could not create the save path</source>
+        <translation>Kayıt yolu oluşturulamadı</translation>
+    </message>
+    <message>
+        <source>Downloaded:</source>
+        <translation>İndirilen:</translation>
+    </message>
+    <message>
+        <source>Transfer</source>
+        <translation>Aktarım</translation>
+    </message>
+    <message>
+        <source>Uploaded:</source>
+        <translation>Gönderilen:</translation>
+    </message>
+    <message>
+        <source>Wasted:</source>
+        <translation>Boşa giden:</translation>
+    </message>
+    <message>
+        <source>UP limit:</source>
+        <translation>Gönderme Sınırı:</translation>
+    </message>
+    <message>
+        <source>DL limit:</source>
+        <translation>İndirme Sınırı:</translation>
+    </message>
+    <message>
+        <source>Time elapsed:</source>
+        <translation>Geçen zaman:</translation>
+    </message>
+    <message>
+        <source>Connections:</source>
+        <translation>Bağlantı:</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Bilgi</translation>
+    </message>
+    <message>
+        <source>Created on:</source>
+        <translation>Oluşturma:</translation>
+    </message>
+    <message>
+        <source>Peers</source>
+        <translation>Eşler</translation>
+    </message>
+    <message>
+        <source>Ignored</source>
+        <translation>Yoksayıldı</translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation>Normal</translation>
+    </message>
+    <message>
+        <source>Maximum</source>
+        <translation>En Yüksek</translation>
+    </message>
+    <message>
+        <source>High</source>
+        <translation>Yüksek</translation>
+    </message>
+    <message>
+        <source>this session</source>
+        <translation>bu oturum</translation>
+    </message>
+    <message>
+        <source>%1 max</source>
+        <comment>e.g. 10 max</comment>
+        <translation>azami: %1</translation>
+    </message>
+    <message>
+        <source>Availability:</source>
+        <translation>Kullanılırlık:</translation>
+    </message>
+    <message>
+        <source>/s</source>
+        <comment>/second (i.e. per second)</comment>
+        <translation>/s</translation>
+    </message>
+    <message>
+        <source>Seeded for %1</source>
+        <comment>e.g. Seeded for 3m10s</comment>
+        <translation>Gönderme zamanı:  %1</translation>
     </message>
 </context>
 <context>
@@ -2652,11 +3347,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Bullet</source>
-        <translation type="unfinished"></translation>
+        <translation>Madde imi</translation>
     </message>
     <message>
         <source>Article title</source>
-        <translation type="unfinished"></translation>
+        <translation>Yazı başlığı</translation>
     </message>
 </context>
 <context>
@@ -2999,6 +3694,142 @@ Changelog:
     </message>
 </context>
 <context>
+    <name>SpeedLimitDialog</name>
+    <message>
+        <source>KiB/s</source>
+        <translation>KB/s</translation>
+    </message>
+</context>
+<context>
+    <name>StatusBar</name>
+    <message>
+        <source>Connection status:</source>
+        <translation>Bağlantı durumu:</translation>
+    </message>
+    <message>
+        <source>No direct connections. This may indicate network configuration problems.</source>
+        <translation>Doğrudan bağlantı yok. Bu, ağ yapılandırma problemi olduğunu gösteriyor.</translation>
+    </message>
+    <message>
+        <source>DHT: %1 nodes</source>
+        <translation>DHT: %1 düğüm</translation>
+    </message>
+    <message>
+        <source>Connection Status:</source>
+        <translation>Bağlantı Durumu:</translation>
+    </message>
+    <message>
+        <source>Online</source>
+        <translation>Çevrimiçi</translation>
+    </message>
+    <message>
+        <source>Global Download Speed Limit</source>
+        <translation>Genel İndirme Hızı Sınırı</translation>
+    </message>
+    <message>
+        <source>Global Upload Speed Limit</source>
+        <translation>Genel Gönderme Hızı Sınırı</translation>
+    </message>
+    <message>
+        <source>D: %1/s - T: %2</source>
+        <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
+        <translation>İND: %1/s - Top: %2</translation>
+    </message>
+    <message>
+        <source>U: %1/s - T: %2</source>
+        <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
+        <translation>GÖN: %1/s - Top: %2</translation>
+    </message>
+    <message>
+        <source>D: %1 B/s - T: %2</source>
+        <comment>Download speed: x B/s - Transferred: x MiB</comment>
+        <translation>İND: %1 B/s - Top: %2</translation>
+    </message>
+    <message>
+        <source>U: %1 B/s - T: %2</source>
+        <comment>Upload speed: x B/s - Transferred: x MiB</comment>
+        <translation>GÖN: %1 B/s - Top: %2</translation>
+    </message>
+</context>
+<context>
+    <name>TorrentFilesModel</name>
+    <message>
+        <source>Name</source>
+        <translation>Ad</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Boyut</translation>
+    </message>
+    <message>
+        <source>Progress</source>
+        <translation>İlerleme</translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation>Öncelik</translation>
+    </message>
+</context>
+<context>
+    <name>TrackerList</name>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Durum</translation>
+    </message>
+    <message>
+        <source>Peers</source>
+        <translation>Kaynak</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>İleti</translation>
+    </message>
+    <message>
+        <source>[DHT]</source>
+        <translation>[DHT]</translation>
+    </message>
+    <message>
+        <source>Working</source>
+        <translation>Çalışıyor</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation>Etkisiz</translation>
+    </message>
+    <message>
+        <source>This torrent is private</source>
+        <translation>Bu torrent özel</translation>
+    </message>
+    <message>
+        <source>Updating...</source>
+        <translation>Güncelleniyor...</translation>
+    </message>
+    <message>
+        <source>Not working</source>
+        <translation>Çalışmıyor</translation>
+    </message>
+    <message>
+        <source>Not contacted yet</source>
+        <translation>Daha bağlanılamadı</translation>
+    </message>
+    <message>
+        <source>Add a new tracker</source>
+        <translation>Yeni bir izleyici ekle</translation>
+    </message>
+    <message>
+        <source>[PeX]</source>
+        <translation>[PeX]</translation>
+    </message>
+    <message>
+        <source>[LSD]</source>
+        <translation>[LSD]</translation>
+    </message>
+</context>
+<context>
     <name>TrackersAdditionDlg</name>
     <message>
         <source>Trackers addition dialog</source>
@@ -3007,6 +3838,225 @@ Changelog:
     <message>
         <source>List of trackers to add (one per line):</source>
         <translation>Eklemek için izleyici listesi (satır başına bir tane):</translation>
+    </message>
+</context>
+<context>
+    <name>TransferListDelegate</name>
+    <message>
+        <source>Downloading</source>
+        <translation>İndiriliyor</translation>
+    </message>
+    <message>
+        <source>Paused</source>
+        <translation>Duraklatıldı</translation>
+    </message>
+    <message>
+        <source>Queued</source>
+        <comment>i.e. torrent is queued</comment>
+        <translation>Sırada</translation>
+    </message>
+    <message>
+        <source>Seeding</source>
+        <comment>Torrent is complete and in upload-only mode</comment>
+        <translation>Gönderiliyor</translation>
+    </message>
+    <message>
+        <source>Stalled</source>
+        <comment>Torrent is waiting for download to begin</comment>
+        <translation>Askıda</translation>
+    </message>
+    <message>
+        <source>Checking</source>
+        <comment>Torrent local data is being checked</comment>
+        <translation>Denetleniyor</translation>
+    </message>
+    <message>
+        <source>/s</source>
+        <comment>/second (.i.e per second)</comment>
+        <translation>/s</translation>
+    </message>
+</context>
+<context>
+    <name>TransferListFiltersWidget</name>
+    <message>
+        <source>All</source>
+        <translation>Tümü</translation>
+    </message>
+    <message>
+        <source>Downloading</source>
+        <translation>İndiriliyor</translation>
+    </message>
+    <message>
+        <source>Completed</source>
+        <translation>Tamamlandı</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>Etkin</translation>
+    </message>
+    <message>
+        <source>Inactive</source>
+        <translation>Etkisiz</translation>
+    </message>
+</context>
+<context>
+    <name>TransferListWidget</name>
+    <message>
+        <source>Size</source>
+        <comment>i.e: file size</comment>
+        <translation type="obsolete">Boyut</translation>
+    </message>
+    <message>
+        <source>Progress</source>
+        <comment>i.e: % downloaded</comment>
+        <translation type="obsolete">İlerleme</translation>
+    </message>
+    <message>
+        <source>Seeds/Leechers</source>
+        <comment>i.e: full/partial sources</comment>
+        <translation type="obsolete">Gönderen/Çeken</translation>
+    </message>
+    <message>
+        <source>Ratio</source>
+        <translation type="obsolete">Oran</translation>
+    </message>
+    <message>
+        <source>ETA</source>
+        <comment>i.e: Estimated Time of Arrival / Time left</comment>
+        <translation>Kalan Zaman</translation>
+    </message>
+    <message>
+        <source>&amp;Yes</source>
+        <translation type="obsolete">&amp;Evet</translation>
+    </message>
+    <message>
+        <source>&amp;No</source>
+        <translation type="obsolete">&amp;Hayır</translation>
+    </message>
+    <message>
+        <source>Column visibility</source>
+        <translation>Sütun görünürlüğü</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation>Başlat</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation>Duraklat</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Sil</translation>
+    </message>
+    <message>
+        <source>Preview file</source>
+        <translation>Dosya önizleme</translation>
+    </message>
+    <message>
+        <source>Set upload limit</source>
+        <translation type="obsolete">Gönderme sınırını ayarla</translation>
+    </message>
+    <message>
+        <source>Set download limit</source>
+        <translation type="obsolete">İndirme sınırını ayarla</translation>
+    </message>
+    <message>
+        <source>Open destination folder</source>
+        <translation>Hedef klasörü aç</translation>
+    </message>
+    <message>
+        <source>Buy it</source>
+        <translation>Satın al</translation>
+    </message>
+    <message>
+        <source>Increase priority</source>
+        <translation>Önceliği arttır</translation>
+    </message>
+    <message>
+        <source>Decrease priority</source>
+        <translation>Önceliği düşür</translation>
+    </message>
+    <message>
+        <source>Force recheck</source>
+        <translation>Yeniden denetlemeye çalış</translation>
+    </message>
+    <message>
+        <source>Copy magnet link</source>
+        <translation>Çeken bağlantıyı kopyala</translation>
+    </message>
+    <message>
+        <source>Down Speed</source>
+        <comment>i.e: Download speed</comment>
+        <translation>İndirme Hızı</translation>
+    </message>
+    <message>
+        <source>Up Speed</source>
+        <comment>i.e: Upload speed</comment>
+        <translation>Gönderme Hızı</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <comment>i.e: torrent name</comment>
+        <translation>Ad</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <comment>i.e: torrent size</comment>
+        <translation>Boyut</translation>
+    </message>
+    <message>
+        <source>Done</source>
+        <comment>% Done</comment>
+        <translation>Bitti</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <comment>Torrent status (e.g. downloading, seeding, paused)</comment>
+        <translation>Durum</translation>
+    </message>
+    <message>
+        <source>Seeds</source>
+        <comment>i.e. full sources (often untranslated)</comment>
+        <translation>Gönderenler</translation>
+    </message>
+    <message>
+        <source>Peers</source>
+        <comment>i.e. partial sources (often untranslated)</comment>
+        <translation>Eşler</translation>
+    </message>
+    <message>
+        <source>Ratio</source>
+        <comment>Share ratio</comment>
+        <translation>Oran</translation>
+    </message>
+    <message>
+        <source>Torrent Download Speed Limiting</source>
+        <translation>Torren İndirme Hızı Sınırlama</translation>
+    </message>
+    <message>
+        <source>Torrent Upload Speed Limiting</source>
+        <translation>Torrent Gönderme Hızı Sınırlama</translation>
+    </message>
+    <message>
+        <source>Limit upload rate</source>
+        <translation>Gönderme oranını sınırla</translation>
+    </message>
+    <message>
+        <source>Limit download rate</source>
+        <translation>İndirme oranını sınırla</translation>
+    </message>
+    <message>
+        <source>Super seeding mode</source>
+        <translation>Süper gönderme kipi</translation>
+    </message>
+    <message>
+        <source>Download in sequential order</source>
+        <translation>Sıralı şekilde indir</translation>
+    </message>
+    <message>
+        <source>Download first and last piece first</source>
+        <translation>Önce ilk ve son parçayı indir</translation>
     </message>
 </context>
 <context>
@@ -3089,6 +4139,21 @@ Changelog:
     <message>
         <source>Please contact me if you would like to translate qBittorrent into your own language.</source>
         <translation>Eğer qBittorrent&apos;i kendi dilinize çevirmek isterseniz benimle iletişim kurun.</translation>
+    </message>
+</context>
+<context>
+    <name>addPeerDialog</name>
+    <message>
+        <source>Peer addition</source>
+        <translation>Eş ekleme</translation>
+    </message>
+    <message>
+        <source>IP</source>
+        <translation>IP</translation>
+    </message>
+    <message>
+        <source>Port</source>
+        <translation>Port</translation>
     </message>
 </context>
 <context>
@@ -3189,6 +4254,10 @@ Changelog:
         <source>Download in sequential order (slower but good for previewing)</source>
         <translation>Doğru düzende indir (yavaş ama önizleme için iyi)</translation>
     </message>
+    <message>
+        <source>Skip file checking and start seeding immediately</source>
+        <translation>Dosya denetlemeyi atla ve hemen göndermeye başla</translation>
+    </message>
 </context>
 <context>
     <name>authentication</name>
@@ -3225,28 +4294,28 @@ Changelog:
     <name>bandwidth_dlg</name>
     <message>
         <source>Bandwidth allocation</source>
-        <translation>Bant genişliği tahsisi</translation>
+        <translation type="obsolete">Bant genişliği tahsisi</translation>
     </message>
     <message>
         <source>KiB/s</source>
-        <translation>KB/s</translation>
+        <translation type="obsolete">KB/s</translation>
     </message>
 </context>
 <context>
     <name>bittorrent</name>
     <message>
         <source>%1 reached the maximum ratio you set.</source>
-        <translation>%1, ayarladığınız azami orana ulaştı.</translation>
+        <translation type="obsolete">%1, ayarladığınız azami orana ulaştı.</translation>
     </message>
     <message>
         <source>&apos;%1&apos; was removed permanently.</source>
         <comment>&apos;xxx.avi&apos; was removed permanently.</comment>
-        <translation>&apos;%1&apos; tamamen kaldırıldı.</translation>
+        <translation type="obsolete">&apos;%1&apos; tamamen kaldırıldı.</translation>
     </message>
     <message>
         <source>&apos;%1&apos; was removed.</source>
         <comment>&apos;xxx.avi&apos; was removed.</comment>
-        <translation>&apos;%1&apos; kaldırıldı.</translation>
+        <translation type="obsolete">&apos;%1&apos; kaldırıldı.</translation>
     </message>
     <message>
         <source>&apos;%1&apos; paused.</source>
@@ -3261,74 +4330,142 @@ Changelog:
     <message>
         <source>&apos;%1&apos; is already in download list.</source>
         <comment>e.g: &apos;xxx.avi&apos; is already in download list.</comment>
-        <translation>&apos;%1&apos; zaten indirme listesinde var.</translation>
+        <translation type="obsolete">&apos;%1&apos; zaten indirme listesinde var.</translation>
     </message>
     <message>
         <source>&apos;%1&apos; resumed. (fast resume)</source>
         <comment>&apos;/home/y/xxx.torrent&apos; was resumed. (fast resume)</comment>
-        <translation>&apos;%1&apos; devam ettirildi. (hızlı devam ettir)</translation>
+        <translation type="obsolete">&apos;%1&apos; devam ettirildi. (hızlı devam ettir)</translation>
     </message>
     <message>
         <source>&apos;%1&apos; added to download list.</source>
         <comment>&apos;/home/y/xxx.torrent&apos; was added to download list.</comment>
-        <translation>&apos;%1&apos; indirme listesine eklendi.</translation>
+        <translation type="obsolete">&apos;%1&apos; indirme listesine eklendi.</translation>
     </message>
     <message>
         <source>Unable to decode torrent file: &apos;%1&apos;</source>
         <comment>e.g: Unable to decode torrent file: &apos;/home/y/xxx.torrent&apos;</comment>
-        <translation>Torrent dosyası çözümlenemiyor: &apos;%1&apos;</translation>
+        <translation type="obsolete">Torrent dosyası çözümlenemiyor: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>This file is either corrupted or this isn&apos;t a torrent.</source>
-        <translation>Bu dosya bozuk ya da torrent dosyası değil.</translation>
+        <translation type="obsolete">Bu dosya bozuk ya da torrent dosyası değil.</translation>
     </message>
     <message>
         <source>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;was blocked due to your IP filter&lt;/i&gt;</source>
         <comment>x.y.z.w was blocked</comment>
-        <translation>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt;, &lt;i&gt;IP süzgeciniz tarafından engellendi&lt;/i&gt;</translation>
+        <translation type="obsolete">&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt;, &lt;i&gt;IP süzgeciniz tarafından engellendi&lt;/i&gt;</translation>
     </message>
     <message>
         <source>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;was banned due to corrupt pieces&lt;/i&gt;</source>
         <comment>x.y.z.w was banned</comment>
-        <translation>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt;, &lt;i&gt;bozuk parçalar sebebiyle engellendi&lt;/i&gt;</translation>
+        <translation type="obsolete">&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt;, &lt;i&gt;bozuk parçalar sebebiyle engellendi&lt;/i&gt;</translation>
     </message>
     <message>
         <source>Couldn&apos;t listen on any of the given ports.</source>
-        <translation>Verilen kapıların hiçbiri tanınmadı.</translation>
+        <translation type="obsolete">Verilen kapıların hiçbiri tanınmadı.</translation>
     </message>
     <message>
         <source>UPnP/NAT-PMP: Port mapping failure, message: %1</source>
-        <translation>UPnP/NAT-PMP: Kapı haritalama hatası, ileti: %1</translation>
+        <translation type="obsolete">UPnP/NAT-PMP: Kapı haritalama hatası, ileti: %1</translation>
     </message>
     <message>
         <source>UPnP/NAT-PMP: Port mapping successful, message: %1</source>
-        <translation>UPnP/NAT-PMP: Kapı haritalama başarıyla tamamlandı, ileti: %1</translation>
+        <translation type="obsolete">UPnP/NAT-PMP: Kapı haritalama başarıyla tamamlandı, ileti: %1</translation>
     </message>
     <message>
         <source>Fast resume data was rejected for torrent %1, checking again...</source>
-        <translation>Hızlı devam ettirme verisi %1 torrenti için reddedildi, yeniden denetleniyor...</translation>
+        <translation type="obsolete">Hızlı devam ettirme verisi %1 torrenti için reddedildi, yeniden denetleniyor...</translation>
     </message>
     <message>
         <source>Url seed lookup failed for url: %1, message: %2</source>
-        <translation>Gönderen adresi araması bu adres için başarılamadı: %1, ileti: %2</translation>
+        <translation type="obsolete">Gönderen adresi araması bu adres için başarılamadı: %1, ileti: %2</translation>
     </message>
     <message>
         <source>Downloading &apos;%1&apos;, please wait...</source>
         <comment>e.g: Downloading &apos;xxx.torrent&apos;, please wait...</comment>
-        <translation>&apos;%1&apos; indiriliyor, lütfen bekleyin...</translation>
+        <translation type="obsolete">&apos;%1&apos; indiriliyor, lütfen bekleyin...</translation>
     </message>
     <message>
         <source>&apos;%1&apos; is not a valid magnet URI.</source>
-        <translation>&apos;%1&apos; geçerli bir adres değil.</translation>
+        <translation type="obsolete">&apos;%1&apos; geçerli bir adres değil.</translation>
     </message>
     <message>
         <source>Recursive download of file %1 embedded in torrent %2</source>
         <comment>Recursive download of test.torrent embedded in torrent test2</comment>
-        <translation>%1 dosyasının özyineli indirmesi %2 torenti içine gömülü</translation>
+        <translation type="obsolete">%1 dosyasının özyineli indirmesi %2 torenti içine gömülü</translation>
     </message>
     <message>
         <source>Unable to decode %1 torrent file.</source>
-        <translation>%1 torent dosyası çözümlenemiyor.</translation>
+        <translation type="obsolete">%1 torent dosyası çözümlenemiyor.</translation>
+    </message>
+    <message>
+        <source>qBittorrent is bound to port: TCP/%1</source>
+        <comment>e.g: qBittorrent is bound to port: 6881</comment>
+        <translation type="obsolete">qBittorrent&apos;in bağlı olduğu port: TCP/%1</translation>
+    </message>
+    <message>
+        <source>UPnP support [ON]</source>
+        <translation type="obsolete">UPnP desteği [AÇIK]</translation>
+    </message>
+    <message>
+        <source>UPnP support [OFF]</source>
+        <translation type="obsolete">UPnP desteği [KAPALI]</translation>
+    </message>
+    <message>
+        <source>NAT-PMP support [ON]</source>
+        <translation type="obsolete">NAT-PMP desteği [AÇIK]</translation>
+    </message>
+    <message>
+        <source>NAT-PMP support [OFF]</source>
+        <translation type="obsolete">NAT-PMP desteği [KAPALI]</translation>
+    </message>
+    <message>
+        <source>DHT support [ON], port: UDP/%1</source>
+        <translation type="obsolete">DHT desteği [Açık], port: UDP/%1</translation>
+    </message>
+    <message>
+        <source>DHT support [OFF]</source>
+        <translation type="obsolete">DHT desteği [KAPALI]</translation>
+    </message>
+    <message>
+        <source>PeX support [ON]</source>
+        <translation type="obsolete">EşD desteği [AÇIK]</translation>
+    </message>
+    <message>
+        <source>Local Peer Discovery [ON]</source>
+        <translation type="obsolete">Yerel Eş Keşfi [AÇIK]</translation>
+    </message>
+    <message>
+        <source>Local Peer Discovery support [OFF]</source>
+        <translation type="obsolete">Yerel Eş Keşfi desteği [KAPALI]</translation>
+    </message>
+    <message>
+        <source>Encryption support [ON]</source>
+        <translation type="obsolete">Şifreleme desteği [AÇIK]</translation>
+    </message>
+    <message>
+        <source>Encryption support [FORCED]</source>
+        <translation type="obsolete">Şifreleme desteği [ZORLANDI]</translation>
+    </message>
+    <message>
+        <source>Encryption support [OFF]</source>
+        <translation type="obsolete">Şifreleme desteği [KAPALI]</translation>
+    </message>
+</context>
+<context>
+    <name>confirmDeletionDlg</name>
+    <message>
+        <source>Deletion confirmation - qBittorrent</source>
+        <translation>Silme isteği - qBittorrent</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete the selected torrents from the transfer list?</source>
+        <translation>Seçili torrentleri aktarım listenizden silmek istedğinize emin misiniz?</translation>
+    </message>
+    <message>
+        <source>Delete the files on the hard disk as well</source>
+        <translation>Sabit diskteki dosyaları da sil</translation>
     </message>
 </context>
 <context>
@@ -3602,10 +4739,105 @@ Changelog:
     </message>
 </context>
 <context>
+    <name>downloadThread</name>
+    <message>
+        <source>I/O Error</source>
+        <translation>Girdi/Çıktı Hatası</translation>
+    </message>
+    <message>
+        <source>The remote host name was not found (invalid hostname)</source>
+        <translation>Uzak makina adı bulunamadı (geçersiz makina adı)</translation>
+    </message>
+    <message>
+        <source>The operation was canceled</source>
+        <translation>İşlem iptal edildi</translation>
+    </message>
+    <message>
+        <source>The remote server closed the connection prematurely, before the entire reply was received and processed</source>
+        <translation>Uzak sunucu, yanıt alınmadan ve işlenmeden bağlantıyı kapattı</translation>
+    </message>
+    <message>
+        <source>The connection to the remote server timed out</source>
+        <translation>Uzak sunucuya bağlantı zaman aşımına uğradı</translation>
+    </message>
+    <message>
+        <source>SSL/TLS handshake failed</source>
+        <translation>SSL/TLS başarısız</translation>
+    </message>
+    <message>
+        <source>The remote server refused the connection</source>
+        <translation>Uzak sunucu bağlantıyı reddetti</translation>
+    </message>
+    <message>
+        <source>The connection to the proxy server was refused</source>
+        <translation>Vekil sunucuya bağlantı reddedildi</translation>
+    </message>
+    <message>
+        <source>The proxy server closed the connection prematurely</source>
+        <translation>Vekil sunucu bağlantıyı beklenmeyen şekilde kapattı</translation>
+    </message>
+    <message>
+        <source>The proxy host name was not found</source>
+        <translation>Vekil makina adı bulunamadı</translation>
+    </message>
+    <message>
+        <source>The connection to the proxy timed out or the proxy did not reply in time to the request sent</source>
+        <translation>Vekille olan bağlantı zaman aşımına uğradı ya da vekil gönderilen isteğe zamanında yanıt vermedi</translation>
+    </message>
+    <message>
+        <source>The proxy requires authentication in order to honour the request but did not accept any credentials offered</source>
+        <translation>Vekil, isteği gerçekleştirmek için yetkilendirme gerektiriyor ancak sunulan kimliklerin hiçbirini kabul etmedi</translation>
+    </message>
+    <message>
+        <source>The access to the remote content was denied (401)</source>
+        <translation>Uzak içeriğe giriş reddedildi (401)</translation>
+    </message>
+    <message>
+        <source>The operation requested on the remote content is not permitted</source>
+        <translation>Uzak içerikteki işlem isteğine izin verilmedi</translation>
+    </message>
+    <message>
+        <source>The remote content was not found at the server (404)</source>
+        <translation>Uzak içerik sunucuda bulunamadı (404)</translation>
+    </message>
+    <message>
+        <source>The remote server requires authentication to serve the content but the credentials provided were not accepted</source>
+        <translation>Uzak sunucu, içeriğin uygunluğu için yetkilendirme istiyor ancak istenen kimlik kabul edilmedi</translation>
+    </message>
+    <message>
+        <source>The Network Access API cannot honor the request because the protocol is not known</source>
+        <translation>Ağ Girişi API isteği gerçekleştiremedi çünkü protokol bilinmiyor</translation>
+    </message>
+    <message>
+        <source>The requested operation is invalid for this protocol</source>
+        <translation>İstenen işlem bu protokol için geçersiz</translation>
+    </message>
+    <message>
+        <source>An unknown network-related error was detected</source>
+        <translation>Bilinmeyen ağla ilgili bir hata belirlendi</translation>
+    </message>
+    <message>
+        <source>An unknown proxy-related error was detected</source>
+        <translation>Bilinmeyen vekille ilgili bir hata belirlendi</translation>
+    </message>
+    <message>
+        <source>An unknown error related to the remote content was detected</source>
+        <translation>Bilinmeyen uzak içerikle ilgili bir hata belirlendi</translation>
+    </message>
+    <message>
+        <source>A breakdown in protocol was detected</source>
+        <translation>Protokolde bir hata belirlendi</translation>
+    </message>
+    <message>
+        <source>Unknown error</source>
+        <translation>Bilinmeyen hata</translation>
+    </message>
+</context>
+<context>
     <name>downloading</name>
     <message>
         <source>Search</source>
-        <translation>Ara</translation>
+        <translation type="obsolete">Ara</translation>
     </message>
     <message>
         <source>Total DL Speed:</source>
@@ -3633,15 +4865,15 @@ Changelog:
     </message>
     <message>
         <source>Start</source>
-        <translation>Başlat</translation>
+        <translation type="obsolete">Başlat</translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation>Duraklat</translation>
+        <translation type="obsolete">Duraklat</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Sil</translation>
+        <translation type="obsolete">Sil</translation>
     </message>
     <message>
         <source>Clear</source>
@@ -3649,83 +4881,83 @@ Changelog:
     </message>
     <message>
         <source>Preview file</source>
-        <translation>Dosya önizleme</translation>
+        <translation type="obsolete">Dosya önizleme</translation>
     </message>
     <message>
         <source>Set upload limit</source>
-        <translation>Gönderme sınırını ayarla</translation>
+        <translation type="obsolete">Gönderme sınırını ayarla</translation>
     </message>
     <message>
         <source>Set download limit</source>
-        <translation>İndirme sınırını ayarla</translation>
+        <translation type="obsolete">İndirme sınırını ayarla</translation>
     </message>
     <message>
         <source>Delete Permanently</source>
-        <translation>Kalıcı Olarak Sil</translation>
+        <translation type="obsolete">Kalıcı Olarak Sil</translation>
     </message>
     <message>
         <source>Torrent Properties</source>
-        <translation>Torrent Özellikleri</translation>
+        <translation type="obsolete">Torrent Özellikleri</translation>
     </message>
     <message>
         <source>Open destination folder</source>
-        <translation>Hedef klasörü aç</translation>
+        <translation type="obsolete">Hedef klasörü aç</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Ad</translation>
+        <translation type="obsolete">Ad</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation>Boyut</translation>
+        <translation type="obsolete">Boyut</translation>
     </message>
     <message>
         <source>Progress</source>
-        <translation>İlerleme</translation>
+        <translation type="obsolete">İlerleme</translation>
     </message>
     <message>
         <source>DLSpeed</source>
-        <translation>İND Hızı</translation>
+        <translation type="obsolete">İND Hızı</translation>
     </message>
     <message>
         <source>UpSpeed</source>
-        <translation>GÖN Hızı</translation>
+        <translation type="obsolete">GÖN Hızı</translation>
     </message>
     <message>
         <source>Seeds/Leechs</source>
-        <translation>Gönderen/Çeken</translation>
+        <translation type="obsolete">Gönderen/Çeken</translation>
     </message>
     <message>
         <source>Ratio</source>
-        <translation>Oran</translation>
+        <translation type="obsolete">Oran</translation>
     </message>
     <message>
         <source>ETA</source>
-        <translation>Kalan Zaman</translation>
+        <translation type="obsolete">Kalan Zaman</translation>
     </message>
     <message>
         <source>Buy it</source>
-        <translation>Satın al</translation>
+        <translation type="obsolete">Satın al</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation>Öncelik</translation>
+        <translation type="obsolete">Öncelik</translation>
     </message>
     <message>
         <source>Increase priority</source>
-        <translation>Önceliği arttır</translation>
+        <translation type="obsolete">Önceliği arttır</translation>
     </message>
     <message>
         <source>Decrease priority</source>
-        <translation>Önceliği düşür</translation>
+        <translation type="obsolete">Önceliği düşür</translation>
     </message>
     <message>
         <source>Force recheck</source>
-        <translation>Yeniden denetlemeye çalış</translation>
+        <translation type="obsolete">Yeniden denetlemeye çalış</translation>
     </message>
     <message>
         <source>Copy magnet link</source>
-        <translation>Çeken bağlantıyı kopyala</translation>
+        <translation type="obsolete">Çeken bağlantıyı kopyala</translation>
     </message>
 </context>
 <context>
@@ -3864,7 +5096,7 @@ Bununla birlikte, o eklentiler devre dışı.</translation>
     </message>
     <message>
         <source>Search engine plugin archive could not be read.</source>
-        <translation>Arama motoru eklenti arşivi okunamadı.</translation>
+        <translation type="obsolete">Arama motoru eklenti arşivi okunamadı.</translation>
     </message>
     <message>
         <source>Sorry, %1 search plugin install failed.</source>
@@ -3932,7 +5164,7 @@ Bununla birlikte, o eklentiler devre dışı.</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="obsolete">Bilinmeyen</translation>
+        <translation>Bilinmeyen</translation>
     </message>
     <message>
         <source>h</source>
@@ -4164,7 +5396,7 @@ Bununla birlikte, o eklentiler devre dışı.</translation>
     <name>properties</name>
     <message>
         <source>Torrent Properties</source>
-        <translation>Torrent Özellikleri</translation>
+        <translation type="obsolete">Torrent Özellikleri</translation>
     </message>
     <message>
         <source>Main Infos</source>
@@ -4204,7 +5436,7 @@ Bununla birlikte, o eklentiler devre dışı.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>TAMAM</translation>
+        <translation type="obsolete">TAMAM</translation>
     </message>
     <message>
         <source>Total Failed:</source>
@@ -4244,7 +5476,7 @@ Bununla birlikte, o eklentiler devre dışı.</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation>Bilinmeyen</translation>
+        <translation type="obsolete">Bilinmeyen</translation>
     </message>
     <message>
         <source>Complete: </source>
@@ -4256,11 +5488,11 @@ Bununla birlikte, o eklentiler devre dışı.</translation>
     </message>
     <message>
         <source>Files contained in current torrent:</source>
-        <translation>Şimdiki torrentteki dosya içeriği:</translation>
+        <translation type="obsolete">Şimdiki torrentteki dosya içeriği:</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation>Boyut</translation>
+        <translation type="obsolete">Boyut</translation>
     </message>
     <message>
         <source>Selected</source>
@@ -4292,11 +5524,11 @@ Bununla birlikte, o eklentiler devre dışı.</translation>
     </message>
     <message>
         <source>Trackers:</source>
-        <translation>İzleyiciler:</translation>
+        <translation type="obsolete">İzleyiciler:</translation>
     </message>
     <message>
         <source>None - Unreachable?</source>
-        <translation>Yok - Erişilemez?</translation>
+        <translation type="obsolete">Yok - Erişilemez?</translation>
     </message>
     <message>
         <source>Errors:</source>
@@ -4304,7 +5536,7 @@ Bununla birlikte, o eklentiler devre dışı.</translation>
     </message>
     <message>
         <source>Progress</source>
-        <translation>İlerleme</translation>
+        <translation type="obsolete">İlerleme</translation>
     </message>
     <message>
         <source>Main infos</source>
@@ -4316,31 +5548,31 @@ Bununla birlikte, o eklentiler devre dışı.</translation>
     </message>
     <message>
         <source>Current tracker:</source>
-        <translation>Şimdiki izleyici:</translation>
+        <translation type="obsolete">Şimdiki izleyici:</translation>
     </message>
     <message>
         <source>Total uploaded:</source>
-        <translation>Toplam gönderilen:</translation>
+        <translation type="obsolete">Toplam gönderilen:</translation>
     </message>
     <message>
         <source>Main info</source>
-        <translation>Ana bilgi</translation>
+        <translation type="obsolete">Ana bilgi</translation>
     </message>
     <message>
         <source>Torrent information</source>
-        <translation>Torrent bilgisi</translation>
+        <translation type="obsolete">Torrent bilgisi</translation>
     </message>
     <message>
         <source>Total downloaded:</source>
-        <translation>Toplam indirilen:</translation>
+        <translation type="obsolete">Toplam indirilen:</translation>
     </message>
     <message>
         <source>Total failed:</source>
-        <translation>Toplam başarısız:</translation>
+        <translation type="obsolete">Toplam başarısız:</translation>
     </message>
     <message>
         <source>Torrent content</source>
-        <translation>Torrent içeriği</translation>
+        <translation type="obsolete">Torrent içeriği</translation>
     </message>
     <message>
         <source>Options</source>
@@ -4348,7 +5580,7 @@ Bununla birlikte, o eklentiler devre dışı.</translation>
     </message>
     <message>
         <source>Download in correct order (slower but good for previewing)</source>
-        <translation>Doğru düzende indir (yavaş ama önizleme için iyi)</translation>
+        <translation type="obsolete">Doğru düzende indir (yavaş ama önizleme için iyi)</translation>
     </message>
     <message>
         <source>Share Ratio:</source>
@@ -4364,7 +5596,7 @@ Bununla birlikte, o eklentiler devre dışı.</translation>
     </message>
     <message>
         <source>Save path:</source>
-        <translation>Kayıt yolu:</translation>
+        <translation type="obsolete">Kayıt yolu:</translation>
     </message>
     <message>
         <source>Torrent infos</source>
@@ -4372,27 +5604,27 @@ Bununla birlikte, o eklentiler devre dışı.</translation>
     </message>
     <message>
         <source>Creator:</source>
-        <translation>Oluşturan:</translation>
+        <translation type="obsolete">Oluşturan:</translation>
     </message>
     <message>
         <source>Torrent hash:</source>
-        <translation>Torrent adresleme:</translation>
+        <translation type="obsolete">Torrent adresleme:</translation>
     </message>
     <message>
         <source>Comment:</source>
-        <translation>Yorum:</translation>
+        <translation type="obsolete">Yorum:</translation>
     </message>
     <message>
         <source>Current session</source>
-        <translation>Şimdiki oturum</translation>
+        <translation type="obsolete">Şimdiki oturum</translation>
     </message>
     <message>
         <source>Share ratio:</source>
-        <translation>Paylaşım oranı:</translation>
+        <translation type="obsolete">Paylaşım oranı:</translation>
     </message>
     <message>
         <source>Trackers</source>
-        <translation>İzleyiciler</translation>
+        <translation type="obsolete">İzleyiciler</translation>
     </message>
     <message>
         <source>New tracker</source>
@@ -4404,67 +5636,67 @@ Bununla birlikte, o eklentiler devre dışı.</translation>
     </message>
     <message>
         <source>Priorities:</source>
-        <translation>Öncelikler:</translation>
+        <translation type="obsolete">Öncelikler:</translation>
     </message>
     <message>
         <source>Normal: normal priority. Download order is dependent on availability</source>
-        <translation>Normal: normal öncelik. İndirme düzeni bulunabilmeye bağlı</translation>
+        <translation type="obsolete">Normal: normal öncelik. İndirme düzeni bulunabilmeye bağlı</translation>
     </message>
     <message>
         <source>High: higher than normal priority. Pieces are preferred over pieces with the same availability, but not over pieces with lower availability</source>
-        <translation>Yüksek: normal öncelikden daha yüksek. Parçalar aynı bulunurlukta olan parçaların arasında tercih edilir, ama daha düşük bulunurlukta olan parçalar arasında değil</translation>
+        <translation type="obsolete">Yüksek: normal öncelikden daha yüksek. Parçalar aynı bulunurlukta olan parçaların arasında tercih edilir, ama daha düşük bulunurlukta olan parçalar arasında değil</translation>
     </message>
     <message>
         <source>Maximum: maximum priority, availability is disregarded, the piece is preferred over any other piece with lower priority</source>
-        <translation>En yüksek: en yüksek öncelik, bulunurluk önemsenmez, bu parça kendinden düşük önemdeki her parça arasında tercih edilir</translation>
+        <translation type="obsolete">En yüksek: en yüksek öncelik, bulunurluk önemsenmez, bu parça kendinden düşük önemdeki her parça arasında tercih edilir</translation>
     </message>
     <message>
         <source>File name</source>
-        <translation>Dosya adı</translation>
+        <translation type="obsolete">Dosya adı</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation>Öncelik</translation>
+        <translation type="obsolete">Öncelik</translation>
     </message>
     <message>
         <source>qBittorrent</source>
-        <translation>qBittorrent</translation>
+        <translation type="obsolete">qBittorrent</translation>
     </message>
     <message>
         <source>Trackers list can&apos;t be empty.</source>
-        <translation>İzleyici listesi boş olamaz.</translation>
+        <translation type="obsolete">İzleyici listesi boş olamaz.</translation>
     </message>
     <message>
         <source>Ignored: file is not downloaded at all</source>
-        <translation>Yoksayıldı: dosya hiç indirilmedi</translation>
+        <translation type="obsolete">Yoksayıldı: dosya hiç indirilmedi</translation>
     </message>
     <message>
         <source>Ignored</source>
-        <translation>Yoksayıldı</translation>
+        <translation type="obsolete">Yoksayıldı</translation>
     </message>
     <message>
         <source>Normal</source>
-        <translation>Normal</translation>
+        <translation type="obsolete">Normal</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation>En yüksek</translation>
+        <translation type="obsolete">En yüksek</translation>
     </message>
     <message>
         <source>High</source>
-        <translation>Yüksek</translation>
+        <translation type="obsolete">Yüksek</translation>
     </message>
     <message>
         <source>Url seeds</source>
-        <translation>Gönderen adresleri</translation>
+        <translation type="obsolete">Gönderen adresleri</translation>
     </message>
     <message>
         <source>New url seed:</source>
-        <translation>Yeni gönderen adresi:</translation>
+        <translation type="obsolete">Yeni gönderen adresi:</translation>
     </message>
     <message>
         <source>This url seed is already in the list.</source>
-        <translation>Bu gönderen adresi zaten listede.</translation>
+        <translation type="obsolete">Bu gönderen adresi zaten listede.</translation>
     </message>
     <message>
         <source>None</source>
@@ -4474,47 +5706,47 @@ Bununla birlikte, o eklentiler devre dışı.</translation>
     <message>
         <source>New url seed</source>
         <comment>New HTTP source</comment>
-        <translation>Yeni gönderen adresi</translation>
+        <translation type="obsolete">Yeni gönderen adresi</translation>
     </message>
     <message>
         <source>The following url seeds are available for this torrent:</source>
-        <translation>Bu gönderen adresleri bu torrent için kullanılabilir:</translation>
+        <translation type="obsolete">Bu gönderen adresleri bu torrent için kullanılabilir:</translation>
     </message>
     <message>
         <source>Priorities error</source>
-        <translation>Öncelik hatası</translation>
+        <translation type="obsolete">Öncelik hatası</translation>
     </message>
     <message>
         <source>Error, you can&apos;t filter all the files in a torrent.</source>
-        <translation>Hata, torrentteki bütün dosyaları süzgeçleyemezsiniz.</translation>
+        <translation type="obsolete">Hata, torrentteki bütün dosyaları süzgeçleyemezsiniz.</translation>
     </message>
     <message>
         <source>Downloaded pieces</source>
-        <translation>İndirilmiş parçalar</translation>
+        <translation type="obsolete">İndirilmiş parçalar</translation>
     </message>
     <message>
         <source>Collapse all</source>
-        <translation>Tümünü daralt</translation>
+        <translation type="obsolete">Tümünü daralt</translation>
     </message>
     <message>
         <source>Expand all</source>
-        <translation>Tümünü genişlet</translation>
+        <translation type="obsolete">Tümünü genişlet</translation>
     </message>
     <message>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="obsolete">...</translation>
     </message>
     <message>
         <source>Choose save path</source>
-        <translation>Kayıt yolunu seçin</translation>
+        <translation type="obsolete">Kayıt yolunu seçin</translation>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation>Kayıt yolu oluşturulmada hata</translation>
+        <translation type="obsolete">Kayıt yolu oluşturulmada hata</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation>Kayıt yolu oluşturulamadı</translation>
+        <translation type="obsolete">Kayıt yolu oluşturulamadı</translation>
     </message>
 </context>
 <context>
@@ -4572,7 +5804,7 @@ Bununla birlikte, o eklentiler devre dışı.</translation>
     <name>seeding</name>
     <message>
         <source>Search</source>
-        <translation>Ara</translation>
+        <translation type="obsolete">Ara</translation>
     </message>
     <message>
         <source>The following torrents are finished and shared:</source>
@@ -4580,59 +5812,59 @@ Bununla birlikte, o eklentiler devre dışı.</translation>
     </message>
     <message>
         <source>&lt;u&gt;Note:&lt;/u&gt; It is important that you keep sharing your torrents after they are finished for the well being of the network.</source>
-        <translation>&lt;u&gt;Not:&lt;/u&gt; Torrentlerinizi bittikten sonra da paylaşmak ağın iyi olması açısından önemlidir.</translation>
+        <translation type="obsolete">&lt;u&gt;Not:&lt;/u&gt; Torrentlerinizi bittikten sonra da paylaşmak ağın iyi olması açısından önemlidir.</translation>
     </message>
     <message>
         <source>Start</source>
-        <translation>Başlat</translation>
+        <translation type="obsolete">Başlat</translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation>Duraklat</translation>
+        <translation type="obsolete">Duraklat</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Sil</translation>
+        <translation type="obsolete">Sil</translation>
     </message>
     <message>
         <source>Delete Permanently</source>
-        <translation>Kalıcı Olarak Sil</translation>
+        <translation type="obsolete">Kalıcı Olarak Sil</translation>
     </message>
     <message>
         <source>Torrent Properties</source>
-        <translation>Torrent Özellikleri</translation>
+        <translation type="obsolete">Torrent Özellikleri</translation>
     </message>
     <message>
         <source>Preview file</source>
-        <translation>Dosya önizleme</translation>
+        <translation type="obsolete">Dosya önizleme</translation>
     </message>
     <message>
         <source>Set upload limit</source>
-        <translation>Gönderme sınırını ayarla</translation>
+        <translation type="obsolete">Gönderme sınırını ayarla</translation>
     </message>
     <message>
         <source>Open destination folder</source>
-        <translation>Hedef klasörü aç</translation>
+        <translation type="obsolete">Hedef klasörü aç</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Ad</translation>
+        <translation type="obsolete">Ad</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation>Boyut</translation>
+        <translation type="obsolete">Boyut</translation>
     </message>
     <message>
         <source>Upload Speed</source>
-        <translation>Gönderme Hızı</translation>
+        <translation type="obsolete">Gönderme Hızı</translation>
     </message>
     <message>
         <source>Connected peers</source>
-        <translation>Bağlı eş</translation>
+        <translation type="obsolete">Bağlı eş</translation>
     </message>
     <message>
         <source>Seeds / Leechers</source>
-        <translation>Gönderen / Çeken</translation>
+        <translation type="obsolete">Gönderen / Çeken</translation>
     </message>
     <message>
         <source>Leechers</source>
@@ -4640,15 +5872,15 @@ Bununla birlikte, o eklentiler devre dışı.</translation>
     </message>
     <message>
         <source>Ratio</source>
-        <translation>Oran</translation>
+        <translation type="obsolete">Oran</translation>
     </message>
     <message>
         <source>Buy it</source>
-        <translation>Satın al</translation>
+        <translation type="obsolete">Satın al</translation>
     </message>
     <message>
         <source>Total uploaded</source>
-        <translation>Toplam gönderilen</translation>
+        <translation type="obsolete">Toplam gönderilen</translation>
     </message>
     <message>
         <source>Priority</source>
@@ -4664,30 +5896,30 @@ Bununla birlikte, o eklentiler devre dışı.</translation>
     </message>
     <message>
         <source>Force recheck</source>
-        <translation>Yeniden denetlemeye çalış</translation>
+        <translation type="obsolete">Yeniden denetlemeye çalış</translation>
     </message>
     <message>
         <source>Copy magnet link</source>
-        <translation>Çeken bağlantıyı kopyala</translation>
+        <translation type="obsolete">Çeken bağlantıyı kopyala</translation>
     </message>
 </context>
 <context>
     <name>subDownloadThread</name>
     <message>
         <source>Host is unreachable</source>
-        <translation>Sunucuya erişilemiyor</translation>
+        <translation type="obsolete">Sunucuya erişilemiyor</translation>
     </message>
     <message>
         <source>File was not found (404)</source>
-        <translation>Dosya bulunamadı (404)</translation>
+        <translation type="obsolete">Dosya bulunamadı (404)</translation>
     </message>
     <message>
         <source>Connection was denied</source>
-        <translation>Bağlantı reddedildi</translation>
+        <translation type="obsolete">Bağlantı reddedildi</translation>
     </message>
     <message>
         <source>Url is invalid</source>
-        <translation>Adres geçersiz</translation>
+        <translation type="obsolete">Adres geçersiz</translation>
     </message>
     <message>
         <source>Connection forbidden (403)</source>
@@ -4703,27 +5935,27 @@ Bununla birlikte, o eklentiler devre dışı.</translation>
     </message>
     <message>
         <source>Connection failure</source>
-        <translation>Bağlantı hatası</translation>
+        <translation type="obsolete">Bağlantı hatası</translation>
     </message>
     <message>
         <source>Connection was timed out</source>
-        <translation>Bağlantı zaman aşımına uğradı</translation>
+        <translation type="obsolete">Bağlantı zaman aşımına uğradı</translation>
     </message>
     <message>
         <source>Incorrect network interface</source>
-        <translation>Geçersiz ağ arayüzü</translation>
+        <translation type="obsolete">Geçersiz ağ arayüzü</translation>
     </message>
     <message>
         <source>Unknown error</source>
-        <translation>Bilinmeyen hata</translation>
+        <translation type="obsolete">Bilinmeyen hata</translation>
     </message>
     <message>
         <source>Could not resolve proxy</source>
-        <translation>Vekil çözümlenemedi</translation>
+        <translation type="obsolete">Vekil çözümlenemedi</translation>
     </message>
     <message>
         <source>I/O Error</source>
-        <translation>Girdi/Çıktı Hatası</translation>
+        <translation type="obsolete">Girdi/Çıktı Hatası</translation>
     </message>
 </context>
 <context>
@@ -4774,15 +6006,15 @@ Bununla birlikte, o eklentiler devre dışı.</translation>
     </message>
     <message>
         <source>File name</source>
-        <translation>Dosya adı</translation>
+        <translation type="obsolete">Dosya adı</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation>Boyut</translation>
+        <translation type="obsolete">Boyut</translation>
     </message>
     <message>
         <source>Progress</source>
-        <translation>İlerleme</translation>
+        <translation type="obsolete">İlerleme</translation>
     </message>
     <message>
         <source>Priority</source>
@@ -4801,6 +6033,14 @@ Bununla birlikte, o eklentiler devre dışı.</translation>
         <source>(%1 more are required to download)</source>
         <comment>e.g. (100MiB more are required to download)</comment>
         <translation>(indirilmesi için %1 daha gerekli)</translation>
+    </message>
+    <message>
+        <source>Seeding mode error</source>
+        <translation>Gönderme kipi hatası</translation>
+    </message>
+    <message>
+        <source>You chose to skip file checking. However, local files do not seem to exist in the current destionation folder. Please disable this feature or update the save path.</source>
+        <translation>Dosya denetlemeyi es geçtiniz. Buna rağmen yerel dosyanın mevcut hedef klasör içinde bulunmadığı gözüküyor. Lütfen bu özelliği etkisizleştirin ya da kaydetme yolunu güncelleyin.</translation>
     </message>
 </context>
 </TS>

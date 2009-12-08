@@ -9,16 +9,15 @@ DEBUG_MODE = 0
 TEMPLATE = app
 TARGET = qbittorrent
 CONFIG += qt \
-    thread \
-    x11 \
-    network
+    thread
 
 # Update this VERSION for each release
-DEFINES += VERSION=\\\"v1.5.6\\\"
-DEFINES += VERSION_MAJOR=1
-DEFINES += VERSION_MINOR=5
-DEFINES += VERSION_BUGFIX=6
-!mac:QMAKE_LFLAGS += -Wl,--as-needed
+DEFINES += VERSION=\\\"v2.0.0rc6\\\"
+DEFINES += VERSION_MAJOR=2
+DEFINES += VERSION_MINOR=0
+DEFINES += VERSION_BUGFIX=0
+
+# !mac:QMAKE_LFLAGS += -Wl,--as-needed
 contains(DEBUG_MODE, 1) { 
     CONFIG += debug
     CONFIG -= release
@@ -90,25 +89,55 @@ contains(DEBUG_MODE, 0) {
 # QMAKE_CXXFLAGS_DEBUG += -fwrapv
 unix:QMAKE_LFLAGS_SHAPP += -rdynamic
 CONFIG += link_pkgconfig
-PKGCONFIG += "libtorrent-rasterbar libcurl"
+PKGCONFIG += "libtorrent-rasterbar"
 QT += network \
     xml
 DEFINES += QT_NO_CAST_TO_ASCII
 
-# QT_NO_CAST_FROM_ASCII
 # Windows
 # usually built as static
-# win32:LIBS += -ltorrent -lcurl -lboost_system
+# win32:LIBS += -ltorrent -lboost_system
 # win32:LIBS += -lz ?
 win32:LIBS += -lssl32 \
     -lws2_32 \
     -lwsock32 \
     -ladvapi32 \
     -lwinmm
+
+win32 {
+  DEFINES += WITH_GEOIP_EMBEDDED
+  message("On Windows, GeoIP database must be embedded.")
+}
+
+macx {
+  DEFINES += WITH_GEOIP_EMBEDDED
+  message("On Mac OS X, GeoIP database must be embedded.")
+}
+
+unix:!macx {
+  contains(DEFINES, WITH_GEOIP_EMBEDDED) {
+    message("You chose to embed GeoIP database in qBittorrent executable.")
+  }
+}
+
 RESOURCES = icons.qrc \
     lang.qrc \
     search.qrc \
     webui.qrc
+
+# Add GeoIP resource file if the GeoIP database
+# should be embedded in qBittorrent executable
+contains(DEFINES, WITH_GEOIP_EMBEDDED) {
+    exists("geoip/GeoIP.dat") {
+       message("GeoIP.dat was found in src/geoip/.")
+       RESOURCES += geoip.qrc
+    } else {
+      DEFINES -= WITH_GEOIP_EMBEDDED
+      error("GeoIP.dat was not found in src/geoip/ folder, please follow instructions in src/geoip/README.")
+    }
+} else {
+  message("GeoIP database will not be embedded in qBittorrent executable.")
+}
 
 # Translations
 TRANSLATIONS = $$LANG_PATH/qbittorrent_fr.ts \
@@ -137,97 +166,103 @@ TRANSLATIONS = $$LANG_PATH/qbittorrent_fr.ts \
     $$LANG_PATH/qbittorrent_ja.ts \
     $$LANG_PATH/qbittorrent_hu.ts \
     $$LANG_PATH/qbittorrent_pt_BR.ts \
-    $$LANG_PATH/qbittorrent_cs.ts
+    $$LANG_PATH/qbittorrent_cs.ts \
+    $$LANG_PATH/qbittorrent_sr.ts
 
 # Source code
 HEADERS += GUI.h \
     misc.h \
     options_imp.h \
     about_imp.h \
-    properties_imp.h \
     createtorrent_imp.h \
-    DLListDelegate.h \
-    SearchListDelegate.h \
-    PropListDelegate.h \
-    previewSelect.h \
-    PreviewListDelegate.h \
-    trackerLogin.h \
-    downloadThread.h \
-    downloadFromURLImp.h \
-    torrentAddition.h \
+    searchlistdelegate.h \
+    proplistdelegate.h \
+    previewselect.h \
+    previewlistdelegate.h \
+    trackerlogin.h \
+    downloadthread.h \
+    downloadfromurldlg.h \
+    torrentadditiondlg.h \
     bittorrent.h \
     searchEngine.h \
     rss.h \
     rss_imp.h \
-    FinishedTorrents.h \
-    allocationDlg.h \
-    FinishedListDelegate.h \
+    speedlimitdlg.h \
     qtorrenthandle.h \
-    downloadingTorrents.h \
-    engineSelectDlg.h \
-    pluginSource.h \
-    arborescence.h \
+    engineselectdlg.h \
+    pluginsource.h \
     qgnomelook.h \
-    realprogressbar.h \
-    realprogressbarthread.h \
-    qrealarray.h \
     httpserver.h \
     httpconnection.h \
     httprequestparser.h \
     httpresponsegenerator.h \
     json.h \
     eventmanager.h \
-    filterParserThread.h \
-    TrackersAdditionDlg.h \
-    searchTab.h \
+    filterparserthread.h \
+    trackersadditiondlg.h \
+    searchtab.h \
     console_imp.h \
     ico.h \
     stacktrace.h \
-    torrentPersistentData.h \
-    FeedDownloader.h \
+    torrentpersistentdata.h \
+    feeddownloader.h \
     feedList.h \
-    supportedEngines.h
-FORMS += MainWindow.ui \
-    options.ui \
-    about.ui \
-    properties.ui \
-    createtorrent.ui \
-    preview.ui \
-    login.ui \
-    downloadFromURL.ui \
-    addTorrentDialog.ui \
-    search.ui \
-    rss.ui \
-    seeding.ui \
-    bandwidth_limit.ui \
-    download.ui \
-    engineSelect.ui \
-    pluginSource.ui \
-    trackersAdd.ui \
-    console.ui \
-    FeedDownloader.ui
+    supportedengines.h \
+    transferlistwidget.h \
+    transferlistdelegate.h \
+    transferlistfilterswidget.h \
+    propertieswidget.h \
+    torrentfilesmodel.h \
+    filesystemwatcher.h \
+    peerlistwidget.h \
+    peerlistdelegate.h \
+    reverseresolution.h \
+    preferences.h \
+    geoip.h \
+    peeraddition.h \
+    deletionconfirmationdlg.h \
+    statusbar.h \
+    trackerlist.h \
+    downloadedpiecesbar.h \
+    pieceavailabilitybar.h
+FORMS += ui/mainwindow.ui \
+    ui/options.ui \
+    ui/about.ui \
+    ui/createtorrent.ui \
+    ui/preview.ui \
+    ui/login.ui \
+    ui/downloadfromurldlg.ui \
+    ui/torrentadditiondlg.ui \
+    ui/search.ui \
+    ui/rss.ui \
+    ui/bandwidth_limit.ui \
+    ui/engineselect.ui \
+    ui/pluginsource.ui \
+    ui/trackersadditiondlg.ui \
+    ui/console.ui \
+    ui/feeddownloader.ui \
+    ui/propertieswidget.ui \
+    ui/peer.ui \
+    ui/confirmdeletiondlg.ui
 SOURCES += GUI.cpp \
     main.cpp \
     options_imp.cpp \
-    properties_imp.cpp \
     createtorrent_imp.cpp \
     bittorrent.cpp \
-    searchEngine.cpp \
+    searchengine.cpp \
     rss_imp.cpp \
-    FinishedTorrents.cpp \
     qtorrenthandle.cpp \
-    downloadingTorrents.cpp \
-    engineSelectDlg.cpp \
-    downloadThread.cpp \
-    realprogressbar.cpp \
-    realprogressbarthread.cpp \
-    qrealarray.cpp \
+    engineselectdlg.cpp \
+    downloadthread.cpp \
     httpserver.cpp \
     httpconnection.cpp \
     httprequestparser.cpp \
     httpresponsegenerator.cpp \
     eventmanager.cpp \
-    SearchTab.cpp \
+    searchtab.cpp \
     ico.cpp \
-    rss.cpp
+    rss.cpp \
+    transferlistwidget.cpp \
+    propertieswidget.cpp \
+    peerlistwidget.cpp
 DESTDIR = .

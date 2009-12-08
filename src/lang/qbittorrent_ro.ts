@@ -112,20 +112,170 @@ p, li { white-space: pre-wrap; }(new line)
     <name>BandwidthAllocationDialog</name>
     <message>
         <source>Upload limit:</source>
-        <translation>Limita de Upload:</translation>
+        <translation type="obsolete">Limita de Upload:</translation>
     </message>
     <message>
         <source>Download limit:</source>
-        <translation>Limita de Download:</translation>
+        <translation type="obsolete">Limita de Download:</translation>
     </message>
     <message>
         <source>Unlimited</source>
         <comment>Unlimited (bandwidth)</comment>
-        <translation>Nelimitat</translation>
+        <translation type="obsolete">Nelimitat</translation>
     </message>
     <message>
         <source>KiB/s</source>
-        <translation>KiB/s</translation>
+        <translation type="obsolete">KiB/s</translation>
+    </message>
+</context>
+<context>
+    <name>Bittorrent</name>
+    <message>
+        <source>%1 reached the maximum ratio you set.</source>
+        <translation>%1 a ajuns la rata maximă setată.</translation>
+    </message>
+    <message>
+        <source>qBittorrent is bound to port: TCP/%1</source>
+        <comment>e.g: qBittorrent is bound to port: 6881</comment>
+        <translation>qBittorrent utilizează portul : TCP/%1</translation>
+    </message>
+    <message>
+        <source>UPnP support [ON]</source>
+        <translation>Suport UPnP[Activat]</translation>
+    </message>
+    <message>
+        <source>UPnP support [OFF]</source>
+        <translation>suport de UPnP[Dezactivat]</translation>
+    </message>
+    <message>
+        <source>NAT-PMP support [ON]</source>
+        <translation>suport NAT-PMP[Activat]</translation>
+    </message>
+    <message>
+        <source>NAT-PMP support [OFF]</source>
+        <translation>suport NAT-PMP[Dezactivat]</translation>
+    </message>
+    <message>
+        <source>DHT support [ON], port: UDP/%1</source>
+        <translation>DHT activat, portul : UDP/%1</translation>
+    </message>
+    <message>
+        <source>DHT support [OFF]</source>
+        <translation>Suport DHT[Dezactivat]</translation>
+    </message>
+    <message>
+        <source>PeX support [ON]</source>
+        <translation>Suport PeX[Activat]</translation>
+    </message>
+    <message>
+        <source>Local Peer Discovery [ON]</source>
+        <translation>Căutare peer locali[Activat]</translation>
+    </message>
+    <message>
+        <source>Local Peer Discovery support [OFF]</source>
+        <translation>Căutarea peer locali[Dezactivat]</translation>
+    </message>
+    <message>
+        <source>Encryption support [ON]</source>
+        <translation>Suport de codificate[Activat]</translation>
+    </message>
+    <message>
+        <source>Encryption support [FORCED]</source>
+        <translation>Suport de codificare[Forţat]</translation>
+    </message>
+    <message>
+        <source>Encryption support [OFF]</source>
+        <translation>Suport de codificare [Dezactivat]</translation>
+    </message>
+    <message>
+        <source>Web User Interface Error - Unable to bind Web UI to port %1</source>
+        <translation>Eroare în interfața Web - Nu pot conecta interfața Web cu portul %1</translation>
+    </message>
+    <message>
+        <source>&apos;%1&apos; was removed from transfer list and hard disk.</source>
+        <comment>&apos;xxx.avi&apos; was removed...</comment>
+        <translation>&apos;%1&apos; a fost șters din lista de transferuri și de pe hard disk.</translation>
+    </message>
+    <message>
+        <source>&apos;%1&apos; was removed from transfer list.</source>
+        <comment>&apos;xxx.avi&apos; was removed...</comment>
+        <translation>&apos;%1&apos; a fost șters din lista de transferuri.</translation>
+    </message>
+    <message>
+        <source>&apos;%1&apos; is not a valid magnet URI.</source>
+        <translation>&apos;%1&apos; nu este valid URI.</translation>
+    </message>
+    <message>
+        <source>&apos;%1&apos; is already in download list.</source>
+        <comment>e.g: &apos;xxx.avi&apos; is already in download list.</comment>
+        <translation>&apos;%1&apos; este de acum in lista de descărcare.</translation>
+    </message>
+    <message>
+        <source>&apos;%1&apos; resumed. (fast resume)</source>
+        <comment>&apos;/home/y/xxx.torrent&apos; was resumed. (fast resume)</comment>
+        <translation>&apos;%1&apos; resumat. (resumare rapidă)</translation>
+    </message>
+    <message>
+        <source>&apos;%1&apos; added to download list.</source>
+        <comment>&apos;/home/y/xxx.torrent&apos; was added to download list.</comment>
+        <translation>&apos;%1&apos; adăugat la lista de descărcare.</translation>
+    </message>
+    <message>
+        <source>Unable to decode torrent file: &apos;%1&apos;</source>
+        <comment>e.g: Unable to decode torrent file: &apos;/home/y/xxx.torrent&apos;</comment>
+        <translation>Nu pot decodifica torrent-ul : &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>This file is either corrupted or this isn&apos;t a torrent.</source>
+        <translation>Acest fişier este deteriorat sau nu este torrent.</translation>
+    </message>
+    <message>
+        <source>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;was blocked due to your IP filter&lt;/i&gt;</source>
+        <comment>x.y.z.w was blocked</comment>
+        <translation>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;a fost blocat conform IP filtrului&lt;/i&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;was banned due to corrupt pieces&lt;/i&gt;</source>
+        <comment>x.y.z.w was banned</comment>
+        <translation>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;a fost banat din cauza fragmentelor eronate&lt;/i&gt;</translation>
+    </message>
+    <message>
+        <source>Recursive download of file %1 embedded in torrent %2</source>
+        <comment>Recursive download of test.torrent embedded in torrent test2</comment>
+        <translation>Descarcă recursiv fișierul %1 din torrentul %2</translation>
+    </message>
+    <message>
+        <source>Unable to decode %1 torrent file.</source>
+        <translation>Nu pot citi torrentul %1.</translation>
+    </message>
+    <message>
+        <source>Couldn&apos;t listen on any of the given ports.</source>
+        <translation type="obsolete">Nu pot asculta pe orice port dat.</translation>
+    </message>
+    <message>
+        <source>UPnP/NAT-PMP: Port mapping failure, message: %1</source>
+        <translation>UPnP/NAT-PMP: Port mapping failure, message: %1</translation>
+    </message>
+    <message>
+        <source>UPnP/NAT-PMP: Port mapping successful, message: %1</source>
+        <translation>UPnP/NAT-PMP: Port mapping successful, message: %1</translation>
+    </message>
+    <message>
+        <source>Fast resume data was rejected for torrent %1, checking again...</source>
+        <translation>Resumarea rapidă a fost respinsă pentru torrent-ul %1, verific încă o dată...</translation>
+    </message>
+    <message>
+        <source>Url seed lookup failed for url: %1, message: %2</source>
+        <translation>Conectarea la seed a eşuat pentru : %1, mesajul : %2</translation>
+    </message>
+    <message>
+        <source>Downloading &apos;%1&apos;, please wait...</source>
+        <comment>e.g: Downloading &apos;xxx.torrent&apos;, please wait...</comment>
+        <translation>Descarc &apos;%1&apos;, vă rugăm să aşteptaţi...</translation>
+    </message>
+    <message>
+        <source>Couldn&apos;t listen on port %1, using %2 instead.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -147,7 +297,7 @@ p, li { white-space: pre-wrap; }(new line)
     <name>DLListDelegate</name>
     <message>
         <source>KiB/s</source>
-        <translation>KiB/s</translation>
+        <translation type="obsolete">KiB/s</translation>
     </message>
 </context>
 <context>
@@ -667,11 +817,11 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
     </message>
     <message>
         <source>Download list:</source>
-        <translation>Lista de download:</translation>
+        <translation type="obsolete">Lista de download:</translation>
     </message>
     <message>
         <source>Seeding list:</source>
-        <translation>Lista de sedare:</translation>
+        <translation type="obsolete">Lista de sedare:</translation>
     </message>
     <message>
         <source>Download folder:</source>
@@ -720,7 +870,7 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
     </message>
     <message>
         <source>Use the same port for DHT and Bittorrent</source>
-        <translation>Utilizează acelaș port pentru DHT și Bittorrent</translation>
+        <translation type="obsolete">Utilizează acelaș port pentru DHT și Bittorrent</translation>
     </message>
     <message>
         <source>Type:</source>
@@ -792,7 +942,7 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
     </message>
     <message>
         <source>transfer lists refresh interval:</source>
-        <translation>Intervalul de reînnoire al litei de transferuri:</translation>
+        <translation type="obsolete">Intervalul de reînnoire al litei de transferuri:</translation>
     </message>
     <message>
         <source>ms</source>
@@ -926,7 +1076,7 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
     <message>
         <source>Action for double click</source>
         <comment>Action executed when doucle-clicking on an item in transfer (download/upload) list</comment>
-        <translation>Acțiune pentru dublu click
+        <translation type="obsolete">Acțiune pentru dublu click
 </translation>
     </message>
     <message>
@@ -939,7 +1089,7 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
     </message>
     <message>
         <source>Show properties</source>
-        <translation>Arată proprietățile</translation>
+        <translation type="obsolete">Arată proprietățile</translation>
     </message>
     <message>
         <source>Port used for incoming connections:</source>
@@ -953,33 +1103,70 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
         <source>UI</source>
         <translation>UI</translation>
     </message>
+    <message>
+        <source>Disable splash screen</source>
+        <translation>Dezactivează fereastra de logo</translation>
+    </message>
+    <message>
+        <source>Transfer list refresh interval:</source>
+        <translation>Intervalul de reînnoire a listei de transfer:</translation>
+    </message>
+    <message>
+        <source>Action on double click</source>
+        <comment>Action executed when doucle-clicking on an item in transfer (download/upload) list</comment>
+        <translation>Acțiunea la dublu click</translation>
+    </message>
+    <message>
+        <source>Downloading:</source>
+        <translation>Descărcarea:</translation>
+    </message>
+    <message>
+        <source>Completed:</source>
+        <translation>Completat:</translation>
+    </message>
+    <message>
+        <source>Peer connections</source>
+        <translation>Conectări la peeri</translation>
+    </message>
+    <message>
+        <source>Resolve peer countries</source>
+        <translation>Rezolvă țările din care sunt peer-ii</translation>
+    </message>
+    <message>
+        <source>Resolve peer host names</source>
+        <translation>Rezolvă numele de host pentru peer-i</translation>
+    </message>
+    <message>
+        <source>Use a different port for DHT and Bittorrent</source>
+        <translation>Folosește port separat pentru DHT și Bittorrent</translation>
+    </message>
 </context>
 <context>
     <name>DownloadingTorrents</name>
     <message>
         <source>Name</source>
         <comment>i.e: file name</comment>
-        <translation>Nume</translation>
+        <translation type="obsolete">Nume</translation>
     </message>
     <message>
         <source>Size</source>
         <comment>i.e: file size</comment>
-        <translation>Capacitate</translation>
+        <translation type="obsolete">Capacitate</translation>
     </message>
     <message>
         <source>Progress</source>
         <comment>i.e: % downloaded</comment>
-        <translation>Progress</translation>
+        <translation type="obsolete">Progress</translation>
     </message>
     <message>
         <source>DL Speed</source>
         <comment>i.e: Download speed</comment>
-        <translation>Viteză DL</translation>
+        <translation type="obsolete">Viteză DL</translation>
     </message>
     <message>
         <source>UP Speed</source>
         <comment>i.e: Upload speed</comment>
-        <translation>Viteză UP</translation>
+        <translation type="obsolete">Viteză UP</translation>
     </message>
     <message>
         <source>Seeds/Leechs</source>
@@ -988,17 +1175,17 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
     </message>
     <message>
         <source>Ratio</source>
-        <translation>Rata</translation>
+        <translation type="obsolete">Rata</translation>
     </message>
     <message>
         <source>ETA</source>
         <comment>i.e: Estimated Time of Arrival / Time left</comment>
-        <translation>ETA</translation>
+        <translation type="obsolete">ETA</translation>
     </message>
     <message>
         <source>qBittorrent %1 started.</source>
         <comment>e.g: qBittorrent v0.x started.</comment>
-        <translation>qBittorrent %1 startat.</translation>
+        <translation type="obsolete">qBittorrent %1 startat.</translation>
     </message>
     <message>
         <source>Be careful, sharing copyrighted material without permission is against the law.</source>
@@ -1052,7 +1239,7 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
     </message>
     <message>
         <source>Hide or Show Column</source>
-        <translation>Ascunde sau Afişeaza coloana</translation>
+        <translation type="obsolete">Ascunde sau Afişeaza coloana</translation>
     </message>
     <message>
         <source>UPnP/NAT-PMP: Port mapping failure, message: %1</source>
@@ -1069,7 +1256,59 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
     <message>
         <source>Seeds/Leechers</source>
         <comment>i.e: full/partial sources</comment>
-        <translation>Seederi/Licheri</translation>
+        <translation type="obsolete">Seederi/Licheri</translation>
+    </message>
+</context>
+<context>
+    <name>EventManager</name>
+    <message>
+        <source>%1/s</source>
+        <comment>e.g. 120 KiB/s</comment>
+        <translation>%1/s</translation>
+    </message>
+    <message>
+        <source>Working</source>
+        <translation>Lucrează</translation>
+    </message>
+    <message>
+        <source>Updating...</source>
+        <translation>Reînnoire...</translation>
+    </message>
+    <message>
+        <source>Not working</source>
+        <translation>Nu lucrează</translation>
+    </message>
+    <message>
+        <source>Not contacted yet</source>
+        <translation>Nu a fost contactat</translation>
+    </message>
+    <message>
+        <source>this session</source>
+        <translation>sesiunea aceasta</translation>
+    </message>
+    <message>
+        <source>/s</source>
+        <comment>/second (i.e. per second)</comment>
+        <translation>/s</translation>
+    </message>
+    <message>
+        <source>Seeded for %1</source>
+        <comment>e.g. Seeded for 3m10s</comment>
+        <translation>Sedat pentru %1</translation>
+    </message>
+    <message>
+        <source>%1 max</source>
+        <comment>e.g. 10 max</comment>
+        <translation>%1 max</translation>
+    </message>
+    <message>
+        <source>Ignored</source>
+        <translation type="obsolete">Ignorat</translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <comment>Normal (priority)</comment>
+        <translation type="obsolete">Normal</translation>
     </message>
 </context>
 <context>
@@ -1249,6 +1488,10 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
         <source>Filters could not be exported due to an I/O error.</source>
         <translation>Filtrele nu pot fi exportate din cauza erorilor I/O.</translation>
     </message>
+    <message>
+        <source>Choose save path</source>
+        <translation type="unfinished">Alegeţi calea de salvare</translation>
+    </message>
 </context>
 <context>
     <name>FeedList</name>
@@ -1277,7 +1520,7 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
     <name>FinishedListDelegate</name>
     <message>
         <source>KiB/s</source>
-        <translation>KiB/s</translation>
+        <translation type="obsolete">KiB/s</translation>
     </message>
 </context>
 <context>
@@ -1289,20 +1532,20 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
     <message>
         <source>Name</source>
         <comment>i.e: file name</comment>
-        <translation>Nume</translation>
+        <translation type="obsolete">Nume</translation>
     </message>
     <message>
         <source>Size</source>
         <comment>i.e: file size</comment>
-        <translation>Capacitate</translation>
+        <translation type="obsolete">Capacitate</translation>
     </message>
     <message>
         <source>Seeds / Leechers</source>
-        <translation>Sideri / Leecheri</translation>
+        <translation type="obsolete">Sideri / Leecheri</translation>
     </message>
     <message>
         <source>Connected peers</source>
-        <translation>Peeri conectați</translation>
+        <translation type="obsolete">Peeri conectați</translation>
     </message>
     <message>
         <source>Progress</source>
@@ -1317,7 +1560,7 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
     <message>
         <source>UP Speed</source>
         <comment>i.e: Upload speed</comment>
-        <translation>Viteză UP</translation>
+        <translation type="obsolete">Viteză UP</translation>
     </message>
     <message>
         <source>Seeds/Leechs</source>
@@ -1345,7 +1588,7 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
     </message>
     <message>
         <source>Ratio</source>
-        <translation>Rata</translation>
+        <translation type="obsolete">Rata</translation>
     </message>
     <message>
         <source>Leechers</source>
@@ -1355,11 +1598,11 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
     <message>
         <source>Total uploaded</source>
         <comment>i.e: Total amount of uploaded data</comment>
-        <translation>Total uploadad</translation>
+        <translation type="obsolete">Total uploadad</translation>
     </message>
     <message>
         <source>Hide or Show Column</source>
-        <translation>Ascunde sau Afişeaza coloama</translation>
+        <translation type="obsolete">Ascunde sau Afişeaza coloama</translation>
     </message>
     <message>
         <source>Incomplete torrent in seeding list</source>
@@ -1402,7 +1645,7 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
     </message>
     <message>
         <source>Are you sure you want to delete the selected item(s) in download list?</source>
-        <translation>Sunteţi siguri să ştergeţi itemii selectaţi din lista download?</translation>
+        <translation type="obsolete">Sunteţi siguri să ştergeţi itemii selectaţi din lista download?</translation>
     </message>
     <message>
         <source>paused</source>
@@ -1414,7 +1657,7 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
     </message>
     <message>
         <source>Finished</source>
-        <translation>Finişat</translation>
+        <translation type="obsolete">Finişat</translation>
     </message>
     <message>
         <source>Checking...</source>
@@ -1506,7 +1749,7 @@ qBittorrent va monitoriza directoriul și va adăuga în lista de descărcare a 
     </message>
     <message>
         <source>Are you sure? -- qBittorrent</source>
-        <translation>Sunteţi siguri? -- qBittorrent</translation>
+        <translation type="obsolete">Sunteţi siguri? -- qBittorrent</translation>
     </message>
     <message>
         <source>&lt;b&gt;qBittorrent&lt;/b&gt;&lt;br&gt;DL Speed: </source>
@@ -1726,7 +1969,7 @@ Vă rugăm să-l opriţi.</translation>
     </message>
     <message>
         <source>Transfers</source>
-        <translation type="obsolete">Transferuri</translation>
+        <translation>Transferuri</translation>
     </message>
     <message>
         <source>Are you sure you want to quit qBittorrent?</source>
@@ -1738,7 +1981,7 @@ Vă rugăm să-l opriţi.</translation>
     </message>
     <message>
         <source>Download finished</source>
-        <translation>Descărcarea terminată</translation>
+        <translation type="obsolete">Descărcarea terminată</translation>
     </message>
     <message>
         <source> has finished downloading.</source>
@@ -1760,7 +2003,7 @@ Vă rugăm să-l opriţi.</translation>
     </message>
     <message>
         <source>Connection status:</source>
-        <translation>Starea conectării:</translation>
+        <translation type="obsolete">Starea conectării:</translation>
     </message>
     <message>
         <source>Offline</source>
@@ -1884,11 +2127,11 @@ Vă rugăm să-l opriţi.</translation>
     </message>
     <message>
         <source>Connection Status:</source>
-        <translation>Starea conectării:</translation>
+        <translation type="obsolete">Starea conectării:</translation>
     </message>
     <message>
         <source>Online</source>
-        <translation>Conectat</translation>
+        <translation type="obsolete">Conectat</translation>
     </message>
     <message>
         <source>Firewalled?</source>
@@ -1928,11 +2171,11 @@ Vă rugăm să-l opriţi.</translation>
     </message>
     <message>
         <source>DHT support [OFF]</source>
-        <translation>Suport DHT[Dezactivat]</translation>
+        <translation type="obsolete">Suport DHT[Dezactivat]</translation>
     </message>
     <message>
         <source>PeX support [ON]</source>
-        <translation>Suport PeX[Activat]</translation>
+        <translation type="obsolete">Suport PeX[Activat]</translation>
     </message>
     <message>
         <source>PeX support [OFF]</source>
@@ -1941,32 +2184,32 @@ Vă rugăm să-l opriţi.</translation>
     <message>
         <source>The download list is not empty.
 Are you sure you want to quit qBittorrent?</source>
-        <translation>Lista de descărcare nu este vidă.
+        <translation type="obsolete">Lista de descărcare nu este vidă.
 Doriţi să ieşiţi din qBittorrent?</translation>
     </message>
     <message>
         <source>Downloads</source>
-        <translation>Descărcări</translation>
+        <translation type="obsolete">Descărcări</translation>
     </message>
     <message>
         <source>Are you sure you want to delete the selected item(s) in finished list?</source>
-        <translation>Doriţi să ştergeţi itemii selectaţi ?</translation>
+        <translation type="obsolete">Doriţi să ştergeţi itemii selectaţi ?</translation>
     </message>
     <message>
         <source>UPnP support [ON]</source>
-        <translation>Suport UPnP[Activat]</translation>
+        <translation type="obsolete">Suport UPnP[Activat]</translation>
     </message>
     <message>
         <source>Encryption support [ON]</source>
-        <translation>Suport de codificate[Activat]</translation>
+        <translation type="obsolete">Suport de codificate[Activat]</translation>
     </message>
     <message>
         <source>Encryption support [FORCED]</source>
-        <translation>Suport de codificare[Forţat]</translation>
+        <translation type="obsolete">Suport de codificare[Forţat]</translation>
     </message>
     <message>
         <source>Encryption support [OFF]</source>
-        <translation>Suport de codificare [Dezactivat]</translation>
+        <translation type="obsolete">Suport de codificare [Dezactivat]</translation>
     </message>
     <message>
         <source>Alt+1</source>
@@ -1984,12 +2227,12 @@ Motivul : %2</translation>
     <message>
         <source>Alt+2</source>
         <comment>shortcut to switch to second tab</comment>
-        <translation>Alt+2</translation>
+        <translation type="obsolete">Alt+2</translation>
     </message>
     <message>
         <source>Alt+4</source>
         <comment>shortcut to switch to fourth tab</comment>
-        <translation>Alt+4</translation>
+        <translation type="obsolete">Alt+4</translation>
     </message>
     <message>
         <source>Url download error</source>
@@ -2001,11 +2244,11 @@ Motivul : %2</translation>
     </message>
     <message>
         <source>Are you sure you want to delete the selected item(s) from download list and from hard drive?</source>
-        <translation>Doriţi să ştergeţi itemii selectaţi din listă si de pe hard disk ?</translation>
+        <translation type="obsolete">Doriţi să ştergeţi itemii selectaţi din listă si de pe hard disk ?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete the selected item(s) from finished list and from hard drive?</source>
-        <translation>Doriţi să ştergeţi itemii selectaţi din listă si de pe hard disk ?</translation>
+        <translation type="obsolete">Doriţi să ştergeţi itemii selectaţi din listă si de pe hard disk ?</translation>
     </message>
     <message>
         <source>&apos;%1&apos; was removed permanently.</source>
@@ -2015,7 +2258,7 @@ Motivul : %2</translation>
     <message>
         <source>Alt+3</source>
         <comment>shortcut to switch to third tab</comment>
-        <translation>Alt+3</translation>
+        <translation type="obsolete">Alt+3</translation>
     </message>
     <message>
         <source>Ctrl+F</source>
@@ -2025,31 +2268,31 @@ Motivul : %2</translation>
     <message>
         <source>qBittorrent is bound to port: TCP/%1</source>
         <comment>e.g: qBittorrent is bound to port: 6881</comment>
-        <translation>qBittorrent utilizează portul : TCP/%1</translation>
+        <translation type="obsolete">qBittorrent utilizează portul : TCP/%1</translation>
     </message>
     <message>
         <source>UPnP support [OFF]</source>
-        <translation>suport de UPnP[Dezactivat]</translation>
+        <translation type="obsolete">suport de UPnP[Dezactivat]</translation>
     </message>
     <message>
         <source>NAT-PMP support [ON]</source>
-        <translation>suport NAT-PMP[Activat]</translation>
+        <translation type="obsolete">suport NAT-PMP[Activat]</translation>
     </message>
     <message>
         <source>NAT-PMP support [OFF]</source>
-        <translation>suport NAT-PMP[Dezactivat]</translation>
+        <translation type="obsolete">suport NAT-PMP[Dezactivat]</translation>
     </message>
     <message>
         <source>DHT support [ON], port: UDP/%1</source>
-        <translation>DHT activat, portul : UDP/%1</translation>
+        <translation type="obsolete">DHT activat, portul : UDP/%1</translation>
     </message>
     <message>
         <source>Local Peer Discovery [ON]</source>
-        <translation>Căutare peer locali[Activat]</translation>
+        <translation type="obsolete">Căutare peer locali[Activat]</translation>
     </message>
     <message>
         <source>Local Peer Discovery support [OFF]</source>
-        <translation>Căutarea peer locali[Dezactivat]</translation>
+        <translation type="obsolete">Căutarea peer locali[Dezactivat]</translation>
     </message>
     <message>
         <source>&apos;%1&apos; was removed because its ratio reached the maximum value you set.</source>
@@ -2059,35 +2302,144 @@ Motivul : %2</translation>
     <message>
         <source>qBittorrent %1 (DL: %2KiB/s, UP: %3KiB/s)</source>
         <comment>%1 is qBittorrent version</comment>
-        <translation>qBittorrent %1 (DL: %2KiB/s, UP: %3KiB/s)</translation>
+        <translation type="obsolete">qBittorrent %1 (DL: %2KiB/s, UP: %3KiB/s)</translation>
     </message>
     <message>
         <source>DL: %1 KiB/s</source>
-        <translation>DL: %1 KiB/s</translation>
+        <translation type="obsolete">DL: %1 KiB/s</translation>
     </message>
     <message>
         <source>UP: %1 KiB/s</source>
-        <translation>UP:%1 Kib/s</translation>
+        <translation type="obsolete">UP:%1 Kib/s</translation>
     </message>
     <message>
         <source>Ratio: %1</source>
-        <translation>Ratio: %1</translation>
+        <translation type="obsolete">Ratio: %1</translation>
     </message>
     <message>
         <source>DHT: %1 nodes</source>
-        <translation>DHT: %1 noduri</translation>
+        <translation type="obsolete">DHT: %1 noduri</translation>
     </message>
     <message>
         <source>No direct connections. This may indicate network configuration problems.</source>
-        <translation>Nu sunt connectări directe. Aceasta poate indica la probleme cu rețeaua.</translation>
+        <translation type="obsolete">Nu sunt connectări directe. Aceasta poate indica la probleme cu rețeaua.</translation>
     </message>
     <message>
         <source>Uploads</source>
-        <translation>Upload-uri</translation>
+        <translation type="obsolete">Upload-uri</translation>
     </message>
     <message>
         <source>Options were saved successfully.</source>
         <translation>Opţiunile salvate cu success.</translation>
+    </message>
+    <message>
+        <source>Download completion</source>
+        <translation>Descărcarea completată</translation>
+    </message>
+    <message>
+        <source>Some files are currently transferring.
+Are you sure you want to quit qBittorrent?</source>
+        <translation>Unele fișiere sunt transferate acum.
+Sunteți siguri că doriți să închideți qBittorrent?</translation>
+    </message>
+    <message>
+        <source>Alt+2</source>
+        <comment>shortcut to switch to third tab</comment>
+        <translation>Alt+2</translation>
+    </message>
+    <message>
+        <source>Alt+3</source>
+        <comment>shortcut to switch to fourth tab</comment>
+        <translation>Alt+3</translation>
+    </message>
+    <message>
+        <source>Global Upload Speed Limit</source>
+        <translation>Limita de upload globală</translation>
+    </message>
+    <message>
+        <source>Global Download Speed Limit</source>
+        <translation>Limita de download globală</translation>
+    </message>
+    <message>
+        <source>qBittorrent %1</source>
+        <comment>e.g: qBittorrent vx.x</comment>
+        <translation>qBittorrent %1</translation>
+    </message>
+    <message>
+        <source>qBittorrent %1 (Down: %2/s, Up: %3/s)</source>
+        <comment>%1 is qBittorrent version</comment>
+        <translation>qBittorrent %1 (Down: %2/s, Up: %3/s)</translation>
+    </message>
+</context>
+<context>
+    <name>HttpServer</name>
+    <message>
+        <source>File</source>
+        <translation>Fișier</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Editare</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Ajutor</translation>
+    </message>
+    <message>
+        <source>Delete from HD</source>
+        <translation>Șterge de pe Hard Disc</translation>
+    </message>
+    <message>
+        <source>Download Torrents from their URL or Magnet link</source>
+        <translation>Descarcă fișierele torrent din URL sau link Magnet</translation>
+    </message>
+    <message>
+        <source>Only one link per line</source>
+        <translation>Numai un link pe linie</translation>
+    </message>
+    <message>
+        <source>Download</source>
+        <translation>Descarcă</translation>
+    </message>
+    <message>
+        <source>Download local torrent</source>
+        <translation>Descarcă torrent-ul local</translation>
+    </message>
+    <message>
+        <source>Torrent files were correctly added to download list.</source>
+        <translation>Fișierele torrent care sunt correct adăugate la lista de descărcare.</translation>
+    </message>
+    <message>
+        <source>Point to torrent file</source>
+        <translation>Arată fișierul torrent</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete the selected torrents from the transfer list and hard disk?</source>
+        <translation>Doriți să ștergeți torrent-urile selectate de pe hard disk ?</translation>
+    </message>
+    <message>
+        <source>Download rate limit must be greater than 0 or disabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload rate limit must be greater than 0 or disabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum number of connections limit must be greater than 0 or disabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum number of connections per torrent limit must be greater than 0 or disabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum number of upload slots per torrent limit must be greater than 0 or disabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unable to save program preferences, qBittorrent is probably unreachable.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2150,7 +2502,7 @@ Motivul : %2</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation>Deschide</translation>
+        <translation type="obsolete">Deschide</translation>
     </message>
     <message>
         <source>Exit</source>
@@ -2194,7 +2546,7 @@ Motivul : %2</translation>
     </message>
     <message>
         <source>Torrent Properties</source>
-        <translation>Proprietăţile Torrentului</translation>
+        <translation type="obsolete">Proprietăţile Torrentului</translation>
     </message>
     <message>
         <source>Connection Status</source>
@@ -2290,11 +2642,11 @@ Motivul : %2</translation>
     </message>
     <message>
         <source>Delete Permanently</source>
-        <translation>Şterge permanent</translation>
+        <translation type="obsolete">Şterge permanent</translation>
     </message>
     <message>
         <source>Visit website</source>
-        <translation>Vizitaţi web site-ul</translation>
+        <translation type="obsolete">Vizitaţi web site-ul</translation>
     </message>
     <message>
         <source>Report a bug</source>
@@ -2332,6 +2684,129 @@ Motivul : %2</translation>
         <source>Console</source>
         <translation>Consola</translation>
     </message>
+    <message>
+        <source>Log Window</source>
+        <translation>Fereastra de logare</translation>
+    </message>
+    <message>
+        <source>Open torrent</source>
+        <translation>Deschide torrent</translation>
+    </message>
+    <message>
+        <source>Visit Website</source>
+        <translation>Vizitează Website</translation>
+    </message>
+</context>
+<context>
+    <name>PeerAdditionDlg</name>
+    <message>
+        <source>Invalid IP</source>
+        <translation>IP greşit</translation>
+    </message>
+    <message>
+        <source>The IP you provided is invalid.</source>
+        <translation>IP-ul introdus este greșit.</translation>
+    </message>
+</context>
+<context>
+    <name>PeerListDelegate</name>
+    <message>
+        <source>KiB/s</source>
+        <translation>KiB/s</translation>
+    </message>
+</context>
+<context>
+    <name>PeerListWidget</name>
+    <message>
+        <source>IP</source>
+        <translation>IP</translation>
+    </message>
+    <message>
+        <source>Client</source>
+        <comment>i.e.: Client application</comment>
+        <translation>Client</translation>
+    </message>
+    <message>
+        <source>Progress</source>
+        <comment>i.e: % downloaded</comment>
+        <translation>Progress</translation>
+    </message>
+    <message>
+        <source>Down Speed</source>
+        <comment>i.e: Download speed</comment>
+        <translation>Viteza de descărcare</translation>
+    </message>
+    <message>
+        <source>Up Speed</source>
+        <comment>i.e: Upload speed</comment>
+        <translation>VIteza de încărcare</translation>
+    </message>
+    <message>
+        <source>Downloaded</source>
+        <comment>i.e: total data downloaded</comment>
+        <translation>Descărcat</translation>
+    </message>
+    <message>
+        <source>Uploaded</source>
+        <comment>i.e: total data uploaded</comment>
+        <translation>Încărcat</translation>
+    </message>
+    <message>
+        <source>Add a new peer</source>
+        <translation>Adauga un peer nou</translation>
+    </message>
+    <message>
+        <source>Limit upload rate</source>
+        <translation>Limitează rata de descărcare</translation>
+    </message>
+    <message>
+        <source>Limit download rate</source>
+        <translation>Limitează rata de încărcare</translation>
+    </message>
+    <message>
+        <source>Ban peer permanently</source>
+        <translation>Banează peer-ul permanent</translation>
+    </message>
+    <message>
+        <source>Peer addition</source>
+        <translation>Adăugă peer</translation>
+    </message>
+    <message>
+        <source>The peer was added to this torrent.</source>
+        <translation>Peer a fost adăugat la torrent.</translation>
+    </message>
+    <message>
+        <source>The peer could not be added to this torrent.</source>
+        <translation>Peer-ul nu poate fi adăugat la acest torrent.</translation>
+    </message>
+    <message>
+        <source>Are you sure? -- qBittorrent</source>
+        <translation>Sunteţi siguri? -- qBittorrent</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to ban permanently the selected peers?</source>
+        <translation>Sunteți siguri că doriți să banați peer-ii selectați ?</translation>
+    </message>
+    <message>
+        <source>&amp;Yes</source>
+        <translation>&amp;Yes</translation>
+    </message>
+    <message>
+        <source>&amp;No</source>
+        <translation>&amp;No</translation>
+    </message>
+    <message>
+        <source>Manually banning peer %1...</source>
+        <translation>Manual banez peer-ul %1...</translation>
+    </message>
+    <message>
+        <source>Upload rate limiting</source>
+        <translation>Reînnoiește rata de încărcare</translation>
+    </message>
+    <message>
+        <source>Download rate limiting</source>
+        <translation>Reînnoiește rata de descărcare</translation>
+    </message>
 </context>
 <context>
     <name>PropListDelegate</name>
@@ -2361,6 +2836,225 @@ Motivul : %2</translation>
         <source>Maximum</source>
         <comment>Maximum (priority)</comment>
         <translation>Maximală</translation>
+    </message>
+</context>
+<context>
+    <name>PropertiesWidget</name>
+    <message>
+        <source>Torrent information</source>
+        <translation type="obsolete">Informația torrent-ului</translation>
+    </message>
+    <message>
+        <source>Save path:</source>
+        <translation>Calea de salvare:</translation>
+    </message>
+    <message>
+        <source>Creator:</source>
+        <translation type="obsolete">Creator:</translation>
+    </message>
+    <message>
+        <source>Torrent hash:</source>
+        <translation>Hash-ul torrentului:</translation>
+    </message>
+    <message>
+        <source>Comment:</source>
+        <translation>Comentarii:</translation>
+    </message>
+    <message>
+        <source>Current session</source>
+        <translation type="obsolete">Sesiunea curentă</translation>
+    </message>
+    <message>
+        <source>Total uploaded:</source>
+        <translation type="obsolete">Total încărcat:</translation>
+    </message>
+    <message>
+        <source>Total downloaded:</source>
+        <translation type="obsolete">Total descărcat:</translation>
+    </message>
+    <message>
+        <source>Share ratio:</source>
+        <translation>Raţia de Share:</translation>
+    </message>
+    <message>
+        <source>Total failed:</source>
+        <translation type="obsolete">Total eronat:</translation>
+    </message>
+    <message>
+        <source>Downloaded pieces</source>
+        <translation type="obsolete">Segmente de download</translation>
+    </message>
+    <message>
+        <source>Download in correct order (slower but good for previewing)</source>
+        <translation type="obsolete">Descarcă în ordine corectă (mai încet dar bun pentru preview)</translation>
+    </message>
+    <message>
+        <source>Current tracker:</source>
+        <translation type="obsolete">Tracker-ul curent:</translation>
+    </message>
+    <message>
+        <source>Collapse all</source>
+        <translation>Închide toate</translation>
+    </message>
+    <message>
+        <source>Expand all</source>
+        <translation>Deschide toate</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>General</translation>
+    </message>
+    <message>
+        <source>Trackers</source>
+        <translation>Trackeri</translation>
+    </message>
+    <message>
+        <source>URL seeds</source>
+        <translation>URL-uri de sedare</translation>
+    </message>
+    <message>
+        <source>Files</source>
+        <translation>Fișiere</translation>
+    </message>
+    <message>
+        <source>File name</source>
+        <translation type="obsolete">Numele fişierului</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation type="obsolete">Capacitate</translation>
+    </message>
+    <message>
+        <source>Progress</source>
+        <translation type="obsolete">Progress</translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation>Prioritate</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="obsolete">Necunoscut</translation>
+    </message>
+    <message>
+        <source>None - Unreachable?</source>
+        <translation type="obsolete">Nimic-Neaccesibil?</translation>
+    </message>
+    <message>
+        <source>New url seed</source>
+        <comment>New HTTP source</comment>
+        <translation>Nou URL de sedări</translation>
+    </message>
+    <message>
+        <source>New url seed:</source>
+        <translation>Nou URL de sedări:</translation>
+    </message>
+    <message>
+        <source>qBittorrent</source>
+        <translation>qBittorrent</translation>
+    </message>
+    <message>
+        <source>This url seed is already in the list.</source>
+        <translation>Acest URL este deacum în listă.</translation>
+    </message>
+    <message>
+        <source>Trackers list can&apos;t be empty.</source>
+        <translation type="obsolete">Lista de trackeri nu poate fi vidă.</translation>
+    </message>
+    <message>
+        <source>Choose save path</source>
+        <translation>Alegeţi calea de salvare</translation>
+    </message>
+    <message>
+        <source>Save path creation error</source>
+        <translation>Salvează calea care crează erori</translation>
+    </message>
+    <message>
+        <source>Could not create the save path</source>
+        <translation>Nu pot crea calea de salvare</translation>
+    </message>
+    <message>
+        <source>Downloaded:</source>
+        <translation>Descărcat:</translation>
+    </message>
+    <message>
+        <source>Transfer</source>
+        <translation>Transferat</translation>
+    </message>
+    <message>
+        <source>Uploaded:</source>
+        <translation>Încăcrat:</translation>
+    </message>
+    <message>
+        <source>Wasted:</source>
+        <translation>Pierdut:</translation>
+    </message>
+    <message>
+        <source>UP limit:</source>
+        <translation>UP limită:</translation>
+    </message>
+    <message>
+        <source>DL limit:</source>
+        <translation>DW limită:</translation>
+    </message>
+    <message>
+        <source>Time elapsed:</source>
+        <translation>Timpul estimat:</translation>
+    </message>
+    <message>
+        <source>Connections:</source>
+        <translation>Conectări:</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Informație</translation>
+    </message>
+    <message>
+        <source>Created on:</source>
+        <translation>Creat pe:</translation>
+    </message>
+    <message>
+        <source>Peers</source>
+        <translation>Peer-i</translation>
+    </message>
+    <message>
+        <source>Ignored</source>
+        <translation>Ignorat</translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation>Normal</translation>
+    </message>
+    <message>
+        <source>Maximum</source>
+        <translation>Maximum</translation>
+    </message>
+    <message>
+        <source>High</source>
+        <translation>Mare</translation>
+    </message>
+    <message>
+        <source>this session</source>
+        <translation>sesiunea această</translation>
+    </message>
+    <message>
+        <source>%1 max</source>
+        <comment>e.g. 10 max</comment>
+        <translation>%1 max</translation>
+    </message>
+    <message>
+        <source>Availability:</source>
+        <translation>Disponibilitatea:</translation>
+    </message>
+    <message>
+        <source>/s</source>
+        <comment>/second (i.e. per second)</comment>
+        <translation>/s</translation>
+    </message>
+    <message>
+        <source>Seeded for %1</source>
+        <comment>e.g. Seeded for 3m10s</comment>
+        <translation>Seed-eri pentru %1</translation>
     </message>
 </context>
 <context>
@@ -2494,11 +3188,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Bullet</source>
-        <translation type="unfinished"></translation>
+        <translation>Bullet</translation>
     </message>
     <message>
         <source>Article title</source>
-        <translation type="unfinished"></translation>
+        <translation>TItlul articolului</translation>
     </message>
 </context>
 <context>
@@ -2849,6 +3543,142 @@ Changelog:
     </message>
 </context>
 <context>
+    <name>SpeedLimitDialog</name>
+    <message>
+        <source>KiB/s</source>
+        <translation>KiB/s</translation>
+    </message>
+</context>
+<context>
+    <name>StatusBar</name>
+    <message>
+        <source>Connection status:</source>
+        <translation>Starea conectării:</translation>
+    </message>
+    <message>
+        <source>No direct connections. This may indicate network configuration problems.</source>
+        <translation>Nu sunt connectări directe. Aceasta poate indica la probleme cu rețeaua.</translation>
+    </message>
+    <message>
+        <source>DHT: %1 nodes</source>
+        <translation>DHT: %1 noduri</translation>
+    </message>
+    <message>
+        <source>Connection Status:</source>
+        <translation>Starea conectării:</translation>
+    </message>
+    <message>
+        <source>Online</source>
+        <translation>Conectat</translation>
+    </message>
+    <message>
+        <source>Global Download Speed Limit</source>
+        <translation>Limita globală de descărcare</translation>
+    </message>
+    <message>
+        <source>Global Upload Speed Limit</source>
+        <translation>Limita globală de încărcare</translation>
+    </message>
+    <message>
+        <source>D: %1/s - T: %2</source>
+        <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
+        <translation>D: %1/s - T: %2</translation>
+    </message>
+    <message>
+        <source>U: %1/s - T: %2</source>
+        <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
+        <translation>U: %1/s - T: %2</translation>
+    </message>
+    <message>
+        <source>D: %1 B/s - T: %2</source>
+        <comment>Download speed: x B/s - Transferred: x MiB</comment>
+        <translation>D: %1 B/s - T: %2</translation>
+    </message>
+    <message>
+        <source>U: %1 B/s - T: %2</source>
+        <comment>Upload speed: x B/s - Transferred: x MiB</comment>
+        <translation>U: %1 B/s - T: %2</translation>
+    </message>
+</context>
+<context>
+    <name>TorrentFilesModel</name>
+    <message>
+        <source>Name</source>
+        <translation>Nume</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Capacitate</translation>
+    </message>
+    <message>
+        <source>Progress</source>
+        <translation>Progress</translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation>Prioritate</translation>
+    </message>
+</context>
+<context>
+    <name>TrackerList</name>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Stare</translation>
+    </message>
+    <message>
+        <source>Peers</source>
+        <translation>Peer-i</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Mesaj</translation>
+    </message>
+    <message>
+        <source>[DHT]</source>
+        <translation>[DHT]</translation>
+    </message>
+    <message>
+        <source>Working</source>
+        <translation>Lucrează</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation>Dezactivată</translation>
+    </message>
+    <message>
+        <source>This torrent is private</source>
+        <translation>Acest torrent este privat</translation>
+    </message>
+    <message>
+        <source>Updating...</source>
+        <translation>Reînnoire...</translation>
+    </message>
+    <message>
+        <source>Not working</source>
+        <translation>Nu lucrează</translation>
+    </message>
+    <message>
+        <source>Not contacted yet</source>
+        <translation>Nu a fost contactat</translation>
+    </message>
+    <message>
+        <source>Add a new tracker</source>
+        <translation>Adaugă nou tracker</translation>
+    </message>
+    <message>
+        <source>[PeX]</source>
+        <translation>[PeX]</translation>
+    </message>
+    <message>
+        <source>[LSD]</source>
+        <translation>[LSD]</translation>
+    </message>
+</context>
+<context>
     <name>TrackersAdditionDlg</name>
     <message>
         <source>Trackers addition dialog</source>
@@ -2857,6 +3687,240 @@ Changelog:
     <message>
         <source>List of trackers to add (one per line):</source>
         <translation>Lista trackerilor(unul pe linie):</translation>
+    </message>
+</context>
+<context>
+    <name>TransferListDelegate</name>
+    <message>
+        <source>KiB/s</source>
+        <translation type="obsolete">KiB/s</translation>
+    </message>
+    <message>
+        <source>Downloading</source>
+        <translation>Descărcarea</translation>
+    </message>
+    <message>
+        <source>Paused</source>
+        <translation>Pauzat</translation>
+    </message>
+    <message>
+        <source>Queued</source>
+        <comment>i.e. torrent is queued</comment>
+        <translation>În coadă</translation>
+    </message>
+    <message>
+        <source>Seeding</source>
+        <comment>Torrent is complete and in upload-only mode</comment>
+        <translation>Sedarea</translation>
+    </message>
+    <message>
+        <source>Stalled</source>
+        <comment>Torrent is waiting for download to begin</comment>
+        <translation>Oprit</translation>
+    </message>
+    <message>
+        <source>Checking</source>
+        <comment>Torrent local data is being checked</comment>
+        <translation>Verificare</translation>
+    </message>
+    <message>
+        <source>/s</source>
+        <comment>/second (.i.e per second)</comment>
+        <translation>/s</translation>
+    </message>
+</context>
+<context>
+    <name>TransferListFiltersWidget</name>
+    <message>
+        <source>All</source>
+        <translation>Toate</translation>
+    </message>
+    <message>
+        <source>Downloading</source>
+        <translation>Descărcarea</translation>
+    </message>
+    <message>
+        <source>Completed</source>
+        <translation>Completat</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>Activ</translation>
+    </message>
+    <message>
+        <source>Inactive</source>
+        <translation>Inactiv</translation>
+    </message>
+</context>
+<context>
+    <name>TransferListWidget</name>
+    <message>
+        <source>Name</source>
+        <comment>i.e: file name</comment>
+        <translation type="obsolete">Nume</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <comment>i.e: file size</comment>
+        <translation type="obsolete">Capacitate</translation>
+    </message>
+    <message>
+        <source>Progress</source>
+        <comment>i.e: % downloaded</comment>
+        <translation type="obsolete">Progress</translation>
+    </message>
+    <message>
+        <source>DL Speed</source>
+        <comment>i.e: Download speed</comment>
+        <translation type="obsolete">Viteză DL</translation>
+    </message>
+    <message>
+        <source>UP Speed</source>
+        <comment>i.e: Upload speed</comment>
+        <translation type="obsolete">Viteză UP</translation>
+    </message>
+    <message>
+        <source>Seeds/Leechers</source>
+        <comment>i.e: full/partial sources</comment>
+        <translation type="obsolete">Seederi/Licheri</translation>
+    </message>
+    <message>
+        <source>Ratio</source>
+        <translation type="obsolete">Rata</translation>
+    </message>
+    <message>
+        <source>ETA</source>
+        <comment>i.e: Estimated Time of Arrival / Time left</comment>
+        <translation>ETA</translation>
+    </message>
+    <message>
+        <source>&amp;Yes</source>
+        <translation type="obsolete">&amp;Yes</translation>
+    </message>
+    <message>
+        <source>&amp;No</source>
+        <translation type="obsolete">&amp;No</translation>
+    </message>
+    <message>
+        <source>Column visibility</source>
+        <translation>Vizibilitatea coloanei</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation>Start</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation>Pauză</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Şterge</translation>
+    </message>
+    <message>
+        <source>Preview file</source>
+        <translation>Preview fişier</translation>
+    </message>
+    <message>
+        <source>Delete Permanently</source>
+        <translation type="obsolete">Şterge permanent</translation>
+    </message>
+    <message>
+        <source>Open destination folder</source>
+        <translation>Deschide directoriul destinaţie</translation>
+    </message>
+    <message>
+        <source>Buy it</source>
+        <translation>Buy it</translation>
+    </message>
+    <message>
+        <source>Increase priority</source>
+        <translation>Incrementează prioritatea</translation>
+    </message>
+    <message>
+        <source>Decrease priority</source>
+        <translation>Decrementează prioritatea</translation>
+    </message>
+    <message>
+        <source>Force recheck</source>
+        <translation>Reverificarea forţată</translation>
+    </message>
+    <message>
+        <source>Copy magnet link</source>
+        <translation>Copie link-ul magnet</translation>
+    </message>
+    <message>
+        <source>Down Speed</source>
+        <comment>i.e: Download speed</comment>
+        <translation>Viteza de descărcare</translation>
+    </message>
+    <message>
+        <source>Up Speed</source>
+        <comment>i.e: Upload speed</comment>
+        <translation>Viteza de încărcare</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <comment>i.e: torrent name</comment>
+        <translation>Nume</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <comment>i.e: torrent size</comment>
+        <translation>Capacitate</translation>
+    </message>
+    <message>
+        <source>Done</source>
+        <comment>% Done</comment>
+        <translation>Obținut</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <comment>Torrent status (e.g. downloading, seeding, paused)</comment>
+        <translation>Stare</translation>
+    </message>
+    <message>
+        <source>Seeds</source>
+        <comment>i.e. full sources (often untranslated)</comment>
+        <translation>Seeds</translation>
+    </message>
+    <message>
+        <source>Peers</source>
+        <comment>i.e. partial sources (often untranslated)</comment>
+        <translation>Peer-i</translation>
+    </message>
+    <message>
+        <source>Ratio</source>
+        <comment>Share ratio</comment>
+        <translation>Rata</translation>
+    </message>
+    <message>
+        <source>Torrent Download Speed Limiting</source>
+        <translation>Limitarea vitezei de descărcare pentru torrent</translation>
+    </message>
+    <message>
+        <source>Torrent Upload Speed Limiting</source>
+        <translation>Limitarea vitezei de încărcare pentru torrent</translation>
+    </message>
+    <message>
+        <source>Limit upload rate</source>
+        <translation>Limitează rata de încărcare</translation>
+    </message>
+    <message>
+        <source>Limit download rate</source>
+        <translation>Limitează rata de descărcare</translation>
+    </message>
+    <message>
+        <source>Super seeding mode</source>
+        <translation>Mod de super sedare</translation>
+    </message>
+    <message>
+        <source>Download in sequential order</source>
+        <translation>Descarcă în ordine secvențială</translation>
+    </message>
+    <message>
+        <source>Download first and last piece first</source>
+        <translation>Descarcă prima și ultima parte din fișier</translation>
     </message>
 </context>
 <context>
@@ -2923,6 +3987,21 @@ Changelog:
     <message>
         <source>Please contact me if you would like to translate qBittorrent into your own language.</source>
         <translation>Contactaţimă dacă doriţi să traduceţi qBittorrent in limba dumneavoastră.</translation>
+    </message>
+</context>
+<context>
+    <name>addPeerDialog</name>
+    <message>
+        <source>Peer addition</source>
+        <translation>Adaugă peer</translation>
+    </message>
+    <message>
+        <source>IP</source>
+        <translation>IP</translation>
+    </message>
+    <message>
+        <source>Port</source>
+        <translation>Port</translation>
     </message>
 </context>
 <context>
@@ -3019,6 +4098,10 @@ Changelog:
         <source>Download in sequential order (slower but good for previewing)</source>
         <translation>Descarcă în ordine secvențială (încet dar bine pentru preview)</translation>
     </message>
+    <message>
+        <source>Skip file checking and start seeding immediately</source>
+        <translation>Nu verifica integritatea, începe sedarea imediat</translation>
+    </message>
 </context>
 <context>
     <name>authentication</name>
@@ -3055,28 +4138,28 @@ Changelog:
     <name>bandwidth_dlg</name>
     <message>
         <source>Bandwidth allocation</source>
-        <translation>Alocare bandwidth</translation>
+        <translation type="obsolete">Alocare bandwidth</translation>
     </message>
     <message>
         <source>KiB/s</source>
-        <translation>KiB/s</translation>
+        <translation type="obsolete">KiB/s</translation>
     </message>
 </context>
 <context>
     <name>bittorrent</name>
     <message>
         <source>%1 reached the maximum ratio you set.</source>
-        <translation>%1 a ajuns la rata maximă</translation>
+        <translation type="obsolete">%1 a ajuns la rata maximă</translation>
     </message>
     <message>
         <source>&apos;%1&apos; was removed permanently.</source>
         <comment>&apos;xxx.avi&apos; was removed permanently.</comment>
-        <translation>&apos;%1&apos; a fost şters pentru totdeauna.</translation>
+        <translation type="obsolete">&apos;%1&apos; a fost şters pentru totdeauna.</translation>
     </message>
     <message>
         <source>&apos;%1&apos; was removed.</source>
         <comment>&apos;xxx.avi&apos; was removed.</comment>
-        <translation>&apos;%1&apos; a fost şters.</translation>
+        <translation type="obsolete">&apos;%1&apos; a fost şters.</translation>
     </message>
     <message>
         <source>&apos;%1&apos; paused.</source>
@@ -3091,74 +4174,142 @@ Changelog:
     <message>
         <source>&apos;%1&apos; is already in download list.</source>
         <comment>e.g: &apos;xxx.avi&apos; is already in download list.</comment>
-        <translation>&apos;%1&apos; este de acum in lista de descărcare.</translation>
+        <translation type="obsolete">&apos;%1&apos; este de acum in lista de descărcare.</translation>
     </message>
     <message>
         <source>&apos;%1&apos; resumed. (fast resume)</source>
         <comment>&apos;/home/y/xxx.torrent&apos; was resumed. (fast resume)</comment>
-        <translation>&apos;%1&apos; resumat. (resumare rapidă)</translation>
+        <translation type="obsolete">&apos;%1&apos; resumat. (resumare rapidă)</translation>
     </message>
     <message>
         <source>&apos;%1&apos; added to download list.</source>
         <comment>&apos;/home/y/xxx.torrent&apos; was added to download list.</comment>
-        <translation>&apos;%1&apos; adăugat la lista de descărcare.</translation>
+        <translation type="obsolete">&apos;%1&apos; adăugat la lista de descărcare.</translation>
     </message>
     <message>
         <source>Unable to decode torrent file: &apos;%1&apos;</source>
         <comment>e.g: Unable to decode torrent file: &apos;/home/y/xxx.torrent&apos;</comment>
-        <translation>Nu pot decodifica torrent-ul : &apos;%1&apos;</translation>
+        <translation type="obsolete">Nu pot decodifica torrent-ul : &apos;%1&apos;</translation>
     </message>
     <message>
         <source>This file is either corrupted or this isn&apos;t a torrent.</source>
-        <translation>Acest fişier este deteriorat sau nu este torrent.</translation>
+        <translation type="obsolete">Acest fişier este deteriorat sau nu este torrent.</translation>
     </message>
     <message>
         <source>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;was blocked due to your IP filter&lt;/i&gt;</source>
         <comment>x.y.z.w was blocked</comment>
-        <translation>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;a fost blocat conform IP filtrului&lt;/i&gt;</translation>
+        <translation type="obsolete">&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;a fost blocat conform IP filtrului&lt;/i&gt;</translation>
     </message>
     <message>
         <source>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;was banned due to corrupt pieces&lt;/i&gt;</source>
         <comment>x.y.z.w was banned</comment>
-        <translation>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;a fost banat din cauza fragmentelor eronate&lt;/i&gt;</translation>
+        <translation type="obsolete">&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;a fost banat din cauza fragmentelor eronate&lt;/i&gt;</translation>
     </message>
     <message>
         <source>Couldn&apos;t listen on any of the given ports.</source>
-        <translation>Nu pot asculta pe orice port dat.</translation>
+        <translation type="obsolete">Nu pot asculta pe orice port dat.</translation>
     </message>
     <message>
         <source>UPnP/NAT-PMP: Port mapping failure, message: %1</source>
-        <translation>UPnP/NAT-PMP: Port mapping failure, message: %1</translation>
+        <translation type="obsolete">UPnP/NAT-PMP: Port mapping failure, message: %1</translation>
     </message>
     <message>
         <source>UPnP/NAT-PMP: Port mapping successful, message: %1</source>
-        <translation>UPnP/NAT-PMP: Port mapping successful, message: %1</translation>
+        <translation type="obsolete">UPnP/NAT-PMP: Port mapping successful, message: %1</translation>
     </message>
     <message>
         <source>Fast resume data was rejected for torrent %1, checking again...</source>
-        <translation>Resumarea rapidă a fost respinsă pentru torrent-ul %1, verific încă o dată...</translation>
+        <translation type="obsolete">Resumarea rapidă a fost respinsă pentru torrent-ul %1, verific încă o dată...</translation>
     </message>
     <message>
         <source>Url seed lookup failed for url: %1, message: %2</source>
-        <translation>Conectarea la seed a eşuat pentru : %1, mesajul : %2</translation>
+        <translation type="obsolete">Conectarea la seed a eşuat pentru : %1, mesajul : %2</translation>
     </message>
     <message>
         <source>Downloading &apos;%1&apos;, please wait...</source>
         <comment>e.g: Downloading &apos;xxx.torrent&apos;, please wait...</comment>
-        <translation>Descarc &apos;%1&apos;, vă rugăm să aşteptaţi...</translation>
+        <translation type="obsolete">Descarc &apos;%1&apos;, vă rugăm să aşteptaţi...</translation>
     </message>
     <message>
         <source>&apos;%1&apos; is not a valid magnet URI.</source>
-        <translation>&apos;%1&apos; nu este valid URI.</translation>
+        <translation type="obsolete">&apos;%1&apos; nu este valid URI.</translation>
     </message>
     <message>
         <source>Recursive download of file %1 embedded in torrent %2</source>
         <comment>Recursive download of test.torrent embedded in torrent test2</comment>
-        <translation>Descarcă recursiv fișierul %1 din torrentul %2</translation>
+        <translation type="obsolete">Descarcă recursiv fișierul %1 din torrentul %2</translation>
     </message>
     <message>
         <source>Unable to decode %1 torrent file.</source>
-        <translation>Nu pot citi torrentul %1.</translation>
+        <translation type="obsolete">Nu pot citi torrentul %1.</translation>
+    </message>
+    <message>
+        <source>qBittorrent is bound to port: TCP/%1</source>
+        <comment>e.g: qBittorrent is bound to port: 6881</comment>
+        <translation type="obsolete">qBittorrent utilizează portul : TCP/%1</translation>
+    </message>
+    <message>
+        <source>UPnP support [ON]</source>
+        <translation type="obsolete">Suport UPnP[Activat]</translation>
+    </message>
+    <message>
+        <source>UPnP support [OFF]</source>
+        <translation type="obsolete">suport de UPnP[Dezactivat]</translation>
+    </message>
+    <message>
+        <source>NAT-PMP support [ON]</source>
+        <translation type="obsolete">suport NAT-PMP[Activat]</translation>
+    </message>
+    <message>
+        <source>NAT-PMP support [OFF]</source>
+        <translation type="obsolete">suport NAT-PMP[Dezactivat]</translation>
+    </message>
+    <message>
+        <source>DHT support [ON], port: UDP/%1</source>
+        <translation type="obsolete">DHT activat, portul : UDP/%1</translation>
+    </message>
+    <message>
+        <source>DHT support [OFF]</source>
+        <translation type="obsolete">Suport DHT[Dezactivat]</translation>
+    </message>
+    <message>
+        <source>PeX support [ON]</source>
+        <translation type="obsolete">Suport PeX[Activat]</translation>
+    </message>
+    <message>
+        <source>Local Peer Discovery [ON]</source>
+        <translation type="obsolete">Căutare peer locali[Activat]</translation>
+    </message>
+    <message>
+        <source>Local Peer Discovery support [OFF]</source>
+        <translation type="obsolete">Căutarea peer locali[Dezactivat]</translation>
+    </message>
+    <message>
+        <source>Encryption support [ON]</source>
+        <translation type="obsolete">Suport de codificate[Activat]</translation>
+    </message>
+    <message>
+        <source>Encryption support [FORCED]</source>
+        <translation type="obsolete">Suport de codificare[Forţat]</translation>
+    </message>
+    <message>
+        <source>Encryption support [OFF]</source>
+        <translation type="obsolete">Suport de codificare [Dezactivat]</translation>
+    </message>
+</context>
+<context>
+    <name>confirmDeletionDlg</name>
+    <message>
+        <source>Deletion confirmation - qBittorrent</source>
+        <translation>Confirmarea ștergerii - qBittorrent</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete the selected torrents from the transfer list?</source>
+        <translation>Sunteți siguri că doriți să ștergeți torrent-urile selectate ?</translation>
+    </message>
+    <message>
+        <source>Delete the files on the hard disk as well</source>
+        <translation>Șterge și de pe hard disk</translation>
     </message>
 </context>
 <context>
@@ -3444,10 +4595,105 @@ Changelog:
     </message>
 </context>
 <context>
+    <name>downloadThread</name>
+    <message>
+        <source>I/O Error</source>
+        <translation>Eroare de intrare/eşire</translation>
+    </message>
+    <message>
+        <source>The remote host name was not found (invalid hostname)</source>
+        <translation>Numele host-ului nu a fost găsit(nume invalid)</translation>
+    </message>
+    <message>
+        <source>The operation was canceled</source>
+        <translation>Operțiunea a fost anulată</translation>
+    </message>
+    <message>
+        <source>The remote server closed the connection prematurely, before the entire reply was received and processed</source>
+        <translation>Serverul a închis conectarea înainte ca să recepționez și proceses răspunsul</translation>
+    </message>
+    <message>
+        <source>The connection to the remote server timed out</source>
+        <translation>Timpul de conectare la server a expirat</translation>
+    </message>
+    <message>
+        <source>SSL/TLS handshake failed</source>
+        <translation>Conectarea SSL/TLS eșuată</translation>
+    </message>
+    <message>
+        <source>The remote server refused the connection</source>
+        <translation>Serverul refuză conectarea</translation>
+    </message>
+    <message>
+        <source>The connection to the proxy server was refused</source>
+        <translation>Conectarea prin proxy server refuzată</translation>
+    </message>
+    <message>
+        <source>The proxy server closed the connection prematurely</source>
+        <translation>Serverul proxy a închis conectarea pre deverme</translation>
+    </message>
+    <message>
+        <source>The proxy host name was not found</source>
+        <translation>Numele serverului proxy nu este găsit</translation>
+    </message>
+    <message>
+        <source>The connection to the proxy timed out or the proxy did not reply in time to the request sent</source>
+        <translation>Timpul de conectare la proxy a expirat</translation>
+    </message>
+    <message>
+        <source>The proxy requires authentication in order to honour the request but did not accept any credentials offered</source>
+        <translation>The proxy requires authentication in order to honour the request but did not accept any credentials offered</translation>
+    </message>
+    <message>
+        <source>The access to the remote content was denied (401)</source>
+        <translation>The access to the remote content was denied (401)</translation>
+    </message>
+    <message>
+        <source>The operation requested on the remote content is not permitted</source>
+        <translation>The operation requested on the remote content is not permitted</translation>
+    </message>
+    <message>
+        <source>The remote content was not found at the server (404)</source>
+        <translation>The remote content was not found at the server (404)</translation>
+    </message>
+    <message>
+        <source>The remote server requires authentication to serve the content but the credentials provided were not accepted</source>
+        <translation>The remote server requires authentication to serve the content but the credentials provided were not accepted</translation>
+    </message>
+    <message>
+        <source>The Network Access API cannot honor the request because the protocol is not known</source>
+        <translation>The Network Access API cannot honor the request because the protocol is not known</translation>
+    </message>
+    <message>
+        <source>The requested operation is invalid for this protocol</source>
+        <translation>The requested operation is invalid for this protocol</translation>
+    </message>
+    <message>
+        <source>An unknown network-related error was detected</source>
+        <translation>An unknown network-related error was detected</translation>
+    </message>
+    <message>
+        <source>An unknown proxy-related error was detected</source>
+        <translation>An unknown proxy-related error was detected</translation>
+    </message>
+    <message>
+        <source>An unknown error related to the remote content was detected</source>
+        <translation>An unknown error related to the remote content was detected</translation>
+    </message>
+    <message>
+        <source>A breakdown in protocol was detected</source>
+        <translation>A breakdown in protocol was detected</translation>
+    </message>
+    <message>
+        <source>Unknown error</source>
+        <translation>Eroare necunoscută</translation>
+    </message>
+</context>
+<context>
     <name>downloading</name>
     <message>
         <source>Search</source>
-        <translation>Caută</translation>
+        <translation type="obsolete">Caută</translation>
     </message>
     <message>
         <source>Total DL Speed:</source>
@@ -3475,15 +4721,15 @@ Changelog:
     </message>
     <message>
         <source>Start</source>
-        <translation>Start</translation>
+        <translation type="obsolete">Start</translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation>Pauză</translation>
+        <translation type="obsolete">Pauză</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Şterge</translation>
+        <translation type="obsolete">Şterge</translation>
     </message>
     <message>
         <source>Clear</source>
@@ -3491,83 +4737,83 @@ Changelog:
     </message>
     <message>
         <source>Preview file</source>
-        <translation>Preview fişier</translation>
+        <translation type="obsolete">Preview fişier</translation>
     </message>
     <message>
         <source>Set upload limit</source>
-        <translation>Setează limita de upload</translation>
+        <translation type="obsolete">Setează limita de upload</translation>
     </message>
     <message>
         <source>Set download limit</source>
-        <translation>Setează limita de download</translation>
+        <translation type="obsolete">Setează limita de download</translation>
     </message>
     <message>
         <source>Delete Permanently</source>
-        <translation>Şterge permanent</translation>
+        <translation type="obsolete">Şterge permanent</translation>
     </message>
     <message>
         <source>Torrent Properties</source>
-        <translation>Proprietăţile Torrentului</translation>
+        <translation type="obsolete">Proprietăţile Torrentului</translation>
     </message>
     <message>
         <source>Open destination folder</source>
-        <translation>Deschide directoriul destinaţie</translation>
+        <translation type="obsolete">Deschide directoriul destinaţie</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Nume</translation>
+        <translation type="obsolete">Nume</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation>Capacitate</translation>
+        <translation type="obsolete">Capacitate</translation>
     </message>
     <message>
         <source>Progress</source>
-        <translation>Progress</translation>
+        <translation type="obsolete">Progress</translation>
     </message>
     <message>
         <source>DLSpeed</source>
-        <translation>VitezaDL</translation>
+        <translation type="obsolete">VitezaDL</translation>
     </message>
     <message>
         <source>UpSpeed</source>
-        <translation>VitezaUP</translation>
+        <translation type="obsolete">VitezaUP</translation>
     </message>
     <message>
         <source>Seeds/Leechs</source>
-        <translation>Sideri/Licheri</translation>
+        <translation type="obsolete">Sideri/Licheri</translation>
     </message>
     <message>
         <source>Ratio</source>
-        <translation>Rata</translation>
+        <translation type="obsolete">Rata</translation>
     </message>
     <message>
         <source>ETA</source>
-        <translation>ETA</translation>
+        <translation type="obsolete">ETA</translation>
     </message>
     <message>
         <source>Buy it</source>
-        <translation>Buy it</translation>
+        <translation type="obsolete">Buy it</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation>Prioritate</translation>
+        <translation type="obsolete">Prioritate</translation>
     </message>
     <message>
         <source>Increase priority</source>
-        <translation>Incrementează prioritatea</translation>
+        <translation type="obsolete">Incrementează prioritatea</translation>
     </message>
     <message>
         <source>Decrease priority</source>
-        <translation>Decrementează prioritatea</translation>
+        <translation type="obsolete">Decrementează prioritatea</translation>
     </message>
     <message>
         <source>Force recheck</source>
-        <translation>Reverificarea forţată</translation>
+        <translation type="obsolete">Reverificarea forţată</translation>
     </message>
     <message>
         <source>Copy magnet link</source>
-        <translation>Copie magent link-ul</translation>
+        <translation type="obsolete">Copie magent link-ul</translation>
     </message>
 </context>
 <context>
@@ -3706,7 +4952,7 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
     <message>
         <source>Search engine plugin archive could not be read.</source>
-        <translation>Arhiva cu motorul de căutare nu poate fi citită.</translation>
+        <translation type="obsolete">Arhiva cu motorul de căutare nu poate fi citită.</translation>
     </message>
     <message>
         <source>Sorry, %1 search plugin install failed.</source>
@@ -3769,7 +5015,7 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="obsolete">Necunoscut</translation>
+        <translation>Necunoscut</translation>
     </message>
     <message>
         <source>h</source>
@@ -4001,7 +5247,7 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     <name>properties</name>
     <message>
         <source>Torrent Properties</source>
-        <translation>Proprietăţile Torrentului</translation>
+        <translation type="obsolete">Proprietăţile Torrentului</translation>
     </message>
     <message>
         <source>Main Infos</source>
@@ -4041,7 +5287,7 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="obsolete">OK</translation>
     </message>
     <message>
         <source>Total Failed:</source>
@@ -4081,7 +5327,7 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
     <message>
         <source>Unknown</source>
-        <translation>Necunoscut</translation>
+        <translation type="obsolete">Necunoscut</translation>
     </message>
     <message>
         <source>Complete: </source>
@@ -4093,11 +5339,11 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
     <message>
         <source>Files contained in current torrent:</source>
-        <translation>Fişiere conţinute in Torrentul curent:</translation>
+        <translation type="obsolete">Fişiere conţinute in Torrentul curent:</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation>Capacitate</translation>
+        <translation type="obsolete">Capacitate</translation>
     </message>
     <message>
         <source>Selected</source>
@@ -4129,11 +5375,11 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
     <message>
         <source>Trackers:</source>
-        <translation>Trackere:</translation>
+        <translation type="obsolete">Trackere:</translation>
     </message>
     <message>
         <source>None - Unreachable?</source>
-        <translation>Nimic-Neaccesibil?</translation>
+        <translation type="obsolete">Nimic-Neaccesibil?</translation>
     </message>
     <message>
         <source>Errors:</source>
@@ -4141,7 +5387,7 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
     <message>
         <source>Progress</source>
-        <translation>Progress</translation>
+        <translation type="obsolete">Progress</translation>
     </message>
     <message>
         <source>Main infos</source>
@@ -4153,31 +5399,31 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
     <message>
         <source>Current tracker:</source>
-        <translation>Tracker-ul curent:</translation>
+        <translation type="obsolete">Tracker-ul curent:</translation>
     </message>
     <message>
         <source>Total uploaded:</source>
-        <translation>Total încărcat:</translation>
+        <translation type="obsolete">Total încărcat:</translation>
     </message>
     <message>
         <source>Main info</source>
-        <translation>Informația principală</translation>
+        <translation type="obsolete">Informația principală</translation>
     </message>
     <message>
         <source>Torrent information</source>
-        <translation>Informația torrent-ului</translation>
+        <translation type="obsolete">Informația torrent-ului</translation>
     </message>
     <message>
         <source>Total downloaded:</source>
-        <translation>Total descărcat:</translation>
+        <translation type="obsolete">Total descărcat:</translation>
     </message>
     <message>
         <source>Total failed:</source>
-        <translation>Total eronat:</translation>
+        <translation type="obsolete">Total eronat:</translation>
     </message>
     <message>
         <source>Torrent content</source>
-        <translation>Conţinutul torentului</translation>
+        <translation type="obsolete">Conţinutul torentului</translation>
     </message>
     <message>
         <source>Options</source>
@@ -4185,7 +5431,7 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
     <message>
         <source>Download in correct order (slower but good for previewing)</source>
-        <translation>Descarcă în ordine corectă (mai încet dar bun pentru preview)</translation>
+        <translation type="obsolete">Descarcă în ordine corectă (mai încet dar bun pentru preview)</translation>
     </message>
     <message>
         <source>Share Ratio:</source>
@@ -4201,7 +5447,7 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
     <message>
         <source>Save path:</source>
-        <translation>Calea de salvare:</translation>
+        <translation type="obsolete">Calea de salvare:</translation>
     </message>
     <message>
         <source>Torrent infos</source>
@@ -4209,27 +5455,27 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
     <message>
         <source>Creator:</source>
-        <translation>Creator:</translation>
+        <translation type="obsolete">Creator:</translation>
     </message>
     <message>
         <source>Torrent hash:</source>
-        <translation>Hash-ul torrentului:</translation>
+        <translation type="obsolete">Hash-ul torrentului:</translation>
     </message>
     <message>
         <source>Comment:</source>
-        <translation>Comentarii:</translation>
+        <translation type="obsolete">Comentarii:</translation>
     </message>
     <message>
         <source>Current session</source>
-        <translation>Sesiunea curentă</translation>
+        <translation type="obsolete">Sesiunea curentă</translation>
     </message>
     <message>
         <source>Share ratio:</source>
-        <translation>Raţia de Share:</translation>
+        <translation type="obsolete">Raţia de Share:</translation>
     </message>
     <message>
         <source>Trackers</source>
-        <translation>Trackeri</translation>
+        <translation type="obsolete">Trackeri</translation>
     </message>
     <message>
         <source>New tracker</source>
@@ -4241,67 +5487,67 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
     <message>
         <source>Priorities:</source>
-        <translation>Priorităţi:</translation>
+        <translation type="obsolete">Priorităţi:</translation>
     </message>
     <message>
         <source>Normal: normal priority. Download order is dependent on availability</source>
-        <translation>Normal: prioritate normală. Ordinea de descărcare depinde de avaibilitate</translation>
+        <translation type="obsolete">Normal: prioritate normală. Ordinea de descărcare depinde de avaibilitate</translation>
     </message>
     <message>
         <source>High: higher than normal priority. Pieces are preferred over pieces with the same availability, but not over pieces with lower availability</source>
-        <translation>Inaltă: mai sus ca prioritatea normală</translation>
+        <translation type="obsolete">Inaltă: mai sus ca prioritatea normală</translation>
     </message>
     <message>
         <source>Maximum: maximum priority, availability is disregarded, the piece is preferred over any other piece with lower priority</source>
-        <translation>Maximală: prioritatea maximală</translation>
+        <translation type="obsolete">Maximală: prioritatea maximală</translation>
     </message>
     <message>
         <source>File name</source>
-        <translation>Numele fişierului</translation>
+        <translation type="obsolete">Numele fişierului</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation>Prioritate</translation>
+        <translation type="obsolete">Prioritate</translation>
     </message>
     <message>
         <source>qBittorrent</source>
-        <translation>qBittorrent</translation>
+        <translation type="obsolete">qBittorrent</translation>
     </message>
     <message>
         <source>Trackers list can&apos;t be empty.</source>
-        <translation>Lista de trackeri nu poate fi vidă.</translation>
+        <translation type="obsolete">Lista de trackeri nu poate fi vidă.</translation>
     </message>
     <message>
         <source>Ignored: file is not downloaded at all</source>
-        <translation>Ignorat: fişierul nu este descărcat tot</translation>
+        <translation type="obsolete">Ignorat: fişierul nu este descărcat tot</translation>
     </message>
     <message>
         <source>Ignored</source>
-        <translation>Ignorat</translation>
+        <translation type="obsolete">Ignorat</translation>
     </message>
     <message>
         <source>Normal</source>
-        <translation>Normal</translation>
+        <translation type="obsolete">Normal</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation>Maximum</translation>
+        <translation type="obsolete">Maximum</translation>
     </message>
     <message>
         <source>High</source>
-        <translation>Înaltă</translation>
+        <translation type="obsolete">Înaltă</translation>
     </message>
     <message>
         <source>Url seeds</source>
-        <translation>Sedări URL</translation>
+        <translation type="obsolete">Sedări URL</translation>
     </message>
     <message>
         <source>New url seed:</source>
-        <translation>Nou URL de sedări:</translation>
+        <translation type="obsolete">Nou URL de sedări:</translation>
     </message>
     <message>
         <source>This url seed is already in the list.</source>
-        <translation>Acest URL este deacum în listă.</translation>
+        <translation type="obsolete">Acest URL este deacum în listă.</translation>
     </message>
     <message>
         <source>None</source>
@@ -4311,47 +5557,47 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     <message>
         <source>New url seed</source>
         <comment>New HTTP source</comment>
-        <translation>Nou URL de sedări</translation>
+        <translation type="obsolete">Nou URL de sedări</translation>
     </message>
     <message>
         <source>The following url seeds are available for this torrent:</source>
-        <translation>Următoarele sedări URL sunt accesibile pentru acest torrent:</translation>
+        <translation type="obsolete">Următoarele sedări URL sunt accesibile pentru acest torrent:</translation>
     </message>
     <message>
         <source>Priorities error</source>
-        <translation>Eroare de prorităţi</translation>
+        <translation type="obsolete">Eroare de prorităţi</translation>
     </message>
     <message>
         <source>Error, you can&apos;t filter all the files in a torrent.</source>
-        <translation>Eroare, nu puteţi filtra toate fişierele în un torrent.</translation>
+        <translation type="obsolete">Eroare, nu puteţi filtra toate fişierele în un torrent.</translation>
     </message>
     <message>
         <source>Downloaded pieces</source>
-        <translation>Segmente de download</translation>
+        <translation type="obsolete">Segmente de download</translation>
     </message>
     <message>
         <source>Collapse all</source>
-        <translation>Închide toate</translation>
+        <translation type="obsolete">Închide toate</translation>
     </message>
     <message>
         <source>Expand all</source>
-        <translation>Deschide toate</translation>
+        <translation type="obsolete">Deschide toate</translation>
     </message>
     <message>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="obsolete">...</translation>
     </message>
     <message>
         <source>Choose save path</source>
-        <translation>Alegeţi calea de salvare</translation>
+        <translation type="obsolete">Alegeţi calea de salvare</translation>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation>Salvează calea care crează erori</translation>
+        <translation type="obsolete">Salvează calea care crează erori</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation>Nu pot crea calea de salvare</translation>
+        <translation type="obsolete">Nu pot crea calea de salvare</translation>
     </message>
 </context>
 <context>
@@ -4409,7 +5655,7 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     <name>seeding</name>
     <message>
         <source>Search</source>
-        <translation>Caută</translation>
+        <translation type="obsolete">Caută</translation>
     </message>
     <message>
         <source>The following torrents are finished and shared:</source>
@@ -4417,59 +5663,59 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
     <message>
         <source>&lt;u&gt;Note:&lt;/u&gt; It is important that you keep sharing your torrents after they are finished for the well being of the network.</source>
-        <translation>&lt;u&gt;Notă:&lt;/u&gt; Este important să distribuiţi torentele dvs. după ce leaţi descărcat pentru ca alţi utilizatori sa le poată lua.</translation>
+        <translation type="obsolete">&lt;u&gt;Notă:&lt;/u&gt; Este important să distribuiţi torentele dvs. după ce leaţi descărcat pentru ca alţi utilizatori sa le poată lua.</translation>
     </message>
     <message>
         <source>Start</source>
-        <translation>Start</translation>
+        <translation type="obsolete">Start</translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation>Pauză</translation>
+        <translation type="obsolete">Pauză</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Şterge</translation>
+        <translation type="obsolete">Şterge</translation>
     </message>
     <message>
         <source>Delete Permanently</source>
-        <translation>Şterge permanent</translation>
+        <translation type="obsolete">Şterge permanent</translation>
     </message>
     <message>
         <source>Torrent Properties</source>
-        <translation>Proprietăţile Torrentului</translation>
+        <translation type="obsolete">Proprietăţile Torrentului</translation>
     </message>
     <message>
         <source>Preview file</source>
-        <translation>Preview fişier</translation>
+        <translation type="obsolete">Preview fişier</translation>
     </message>
     <message>
         <source>Set upload limit</source>
-        <translation>Setaţi limita de upload</translation>
+        <translation type="obsolete">Setaţi limita de upload</translation>
     </message>
     <message>
         <source>Open destination folder</source>
-        <translation>Deschide directoriul destinaţie</translation>
+        <translation type="obsolete">Deschide directoriul destinaţie</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>Nume</translation>
+        <translation type="obsolete">Nume</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation>Capacitate</translation>
+        <translation type="obsolete">Capacitate</translation>
     </message>
     <message>
         <source>Upload Speed</source>
-        <translation>Viteza upload</translation>
+        <translation type="obsolete">Viteza upload</translation>
     </message>
     <message>
         <source>Connected peers</source>
-        <translation>Peeri conectați</translation>
+        <translation type="obsolete">Peeri conectați</translation>
     </message>
     <message>
         <source>Seeds / Leechers</source>
-        <translation>Sederi / Leecheri</translation>
+        <translation type="obsolete">Sederi / Leecheri</translation>
     </message>
     <message>
         <source>Leechers</source>
@@ -4477,15 +5723,15 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
     <message>
         <source>Ratio</source>
-        <translation>Rata</translation>
+        <translation type="obsolete">Rata</translation>
     </message>
     <message>
         <source>Buy it</source>
-        <translation>Buy it</translation>
+        <translation type="obsolete">Buy it</translation>
     </message>
     <message>
         <source>Total uploaded</source>
-        <translation>Total încărcat</translation>
+        <translation type="obsolete">Total încărcat</translation>
     </message>
     <message>
         <source>Priority</source>
@@ -4501,30 +5747,30 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
     <message>
         <source>Force recheck</source>
-        <translation>Reverificarea forţată</translation>
+        <translation type="obsolete">Reverificarea forţată</translation>
     </message>
     <message>
         <source>Copy magnet link</source>
-        <translation>Copie magnet link-ul</translation>
+        <translation type="obsolete">Copie magnet link-ul</translation>
     </message>
 </context>
 <context>
     <name>subDownloadThread</name>
     <message>
         <source>Host is unreachable</source>
-        <translation>Calculatorul nu poate fi accesat</translation>
+        <translation type="obsolete">Calculatorul nu poate fi accesat</translation>
     </message>
     <message>
         <source>File was not found (404)</source>
-        <translation>Fişierul nu a fost găsit(404)</translation>
+        <translation type="obsolete">Fişierul nu a fost găsit(404)</translation>
     </message>
     <message>
         <source>Connection was denied</source>
-        <translation>Conectarea a fost interzisă</translation>
+        <translation type="obsolete">Conectarea a fost interzisă</translation>
     </message>
     <message>
         <source>Url is invalid</source>
-        <translation>Adresa URL nu este validă</translation>
+        <translation type="obsolete">Adresa URL nu este validă</translation>
     </message>
     <message>
         <source>Connection forbidden (403)</source>
@@ -4540,27 +5786,27 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
     <message>
         <source>Connection failure</source>
-        <translation>Conectarea eşuată</translation>
+        <translation type="obsolete">Conectarea eşuată</translation>
     </message>
     <message>
         <source>Connection was timed out</source>
-        <translation>Timpul de conectare expirat</translation>
+        <translation type="obsolete">Timpul de conectare expirat</translation>
     </message>
     <message>
         <source>Incorrect network interface</source>
-        <translation>Interfaţa de reţea incorectă</translation>
+        <translation type="obsolete">Interfaţa de reţea incorectă</translation>
     </message>
     <message>
         <source>Unknown error</source>
-        <translation>Eroare necunoscută</translation>
+        <translation type="obsolete">Eroare necunoscută</translation>
     </message>
     <message>
         <source>Could not resolve proxy</source>
-        <translation>Proxy nu a putut fi rezolvata</translation>
+        <translation type="obsolete">Proxy nu a putut fi rezolvata</translation>
     </message>
     <message>
         <source>I/O Error</source>
-        <translation>Eroare de intrare/eşire</translation>
+        <translation type="obsolete">Eroare de intrare/eşire</translation>
     </message>
 </context>
 <context>
@@ -4611,15 +5857,15 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
     <message>
         <source>File name</source>
-        <translation>Numele fişierului</translation>
+        <translation type="obsolete">Numele fişierului</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation>Capacitate</translation>
+        <translation type="obsolete">Capacitate</translation>
     </message>
     <message>
         <source>Progress</source>
-        <translation>Progress</translation>
+        <translation type="obsolete">Progress</translation>
     </message>
     <message>
         <source>Priority</source>
@@ -4638,6 +5884,14 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
         <source>(%1 more are required to download)</source>
         <comment>e.g. (100MiB more are required to download)</comment>
         <translation>(%1 mai mult este necesar pentru a descărca)</translation>
+    </message>
+    <message>
+        <source>Seeding mode error</source>
+        <translation>Eroare în modul de sedare</translation>
+    </message>
+    <message>
+        <source>You chose to skip file checking. However, local files do not seem to exist in the current destionation folder. Please disable this feature or update the save path.</source>
+        <translation>You chose to skip file checking. However, local files do not seem to exist in the current destionation folder. Please disable this feature or update the save path.</translation>
     </message>
 </context>
 </TS>

@@ -41,16 +41,20 @@
 #include <QList>
 #include <QPair>
 #include <QThread>
+#include <ctime>
+#include <QDateTime>
+#include <boost/date_time/posix_time/posix_time_types.hpp>
+#include <boost/date_time/posix_time/conversion.hpp>
 
 #ifndef Q_WS_WIN
 #ifdef Q_WS_MAC
-  #include <sys/param.h>
-  #include <sys/mount.h>
+#include <sys/param.h>
+#include <sys/mount.h>
 #else
-  #include <sys/vfs.h>
+#include <sys/vfs.h>
 #endif
 #else
-  #include <winbase.h>
+#include <winbase.h>
 #endif
 
 #include <libtorrent/torrent_info.hpp>
@@ -139,7 +143,7 @@ public:
       unsigned long long *ret;
       if (pGetDiskFreeSpaceEx((LPCTSTR)path.ucs2(), &bytesFree, &bytesTotal, NULL)) {
         tmp = (unsigned long long*)&bytesFree
-        return ret;
+              return ret;
       } else {
         return -1;
       }
@@ -153,14 +157,14 @@ public:
   // use Binary prefix standards from IEC 60027-2
   // see http://en.wikipedia.org/wiki/Kilobyte
   // value must be given in bytes
-  static QString friendlyUnit(float val) {
+  static QString friendlyUnit(double val) {
     if(val < 0)
       return tr("Unknown", "Unknown (size)");
     const QString units[5] = {tr("B", "bytes"), tr("KiB", "kibibytes (1024 bytes)"), tr("MiB", "mebibytes (1024 kibibytes)"), tr("GiB", "gibibytes (1024 mibibytes)"), tr("TiB", "tebibytes (1024 gibibytes)")};
     char i = 0;
     while(val > 1024. && i++<6)
       val /= 1024.;
-    return QString(QByteArray::number(val, 'f', 1)) + units[(int)i];
+    return QString(QByteArray::number(val, 'f', 1)) + " " + units[(int)i];
   }
 
   static bool isPreviewable(QString extension){
@@ -219,13 +223,6 @@ public:
     return qBtPath;
   }
 
-  static void fixTrackersTiers(std::vector<announce_entry> trackers) {
-    unsigned int nbTrackers = trackers.size();
-    for(unsigned int i=0; i<nbTrackers; ++i) {
-      trackers[i].tier = i;
-    }
-  }
-
   // Insertion sort, used instead of bubble sort because it is
   // approx. 5 times faster.
   template <class T> static void insertSort(QList<QPair<int, T> > &list, const QPair<int, T>& value, Qt::SortOrder sortOrder) {
@@ -272,29 +269,6 @@ public:
     list.insert(i, value);
   }
 
-  static float getPluginVersion(QString filePath) {
-    QFile plugin(filePath);
-    if(!plugin.exists()){
-      qDebug("%s plugin does not exist, returning 0.0", filePath.toLocal8Bit().data());
-      return 0.0;
-    }
-    if(!plugin.open(QIODevice::ReadOnly | QIODevice::Text)){
-      return 0.0;
-    }
-    float version = 0.0;
-    while (!plugin.atEnd()){
-      QByteArray line = plugin.readLine();
-      if(line.startsWith("#VERSION: ")){
-        line = line.split(' ').last();
-        line.replace("\n", "");
-        version = line.toFloat();
-        qDebug("plugin %s version: %.2f", filePath.toLocal8Bit().data(), version);
-        break;
-      }
-    }
-    return version;
-  }
-
   static QString magnetUriToHash(QString magnet_uri) {
     QString hash = "";
     QRegExp reg("urn:btih:([A-Z2-7=]+)");
@@ -306,6 +280,12 @@ public:
     }
     qDebug("magnetUriToHash: hash: %s", hash.toLocal8Bit().data());
     return hash;
+  }
+
+  static QString boostTimeToQString(boost::optional<boost::posix_time::ptime> boostDate) {
+    if(!boostDate) return tr("Unknown");
+    struct std::tm tm = boost::posix_time::to_tm(*boostDate);
+    return QDateTime::fromTime_t(mktime(&tm)).toString(Qt::DefaultLocaleLongDate);
   }
 
   // Take a number of seconds and return an user-friendly

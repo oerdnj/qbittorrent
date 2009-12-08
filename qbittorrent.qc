@@ -12,8 +12,8 @@
   <dep type='libboost'>
     <required/>
   </dep>
-  <dep type='libcurl'>
-    <required/>
+  <dep type='libnotify'>
   </dep>
-  <dep type='libzzip'/>
+  <dep type='geoip-database'>
+  </dep>
 </qconf>

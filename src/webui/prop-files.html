@@ -1,0 +1,186 @@
+            <span id="torrentFiles">
+            <table class="torrentTable" cellpadding="0" cellspacing="0">
+                    <thead>
+                            <tr>
+                                    <th>_(Name)</th>
+                                    <th>_(Size)</th>
+                                    <th style="width: 90px;">_(Progress)</th>
+                                    <th>_(Priority)</th>
+                            </tr>
+                    </thead>
+                    <tbody id="filesTable"></tbody>
+            </table>
+            </span>
+
+<script type="text/javascript">
+    var waitingTorrentFiles=false;
+    var current_hash = "";
+    
+var setFilePriority = function(id, priority) {
+  if(current_hash == "") return;
+  new Request({url: '/command/setFilePrio', method: 'post', data: {'hash': current_hash, 'id': id, 'priority': priority}}).send();
+}
+
+var createPriorityCombo = function(id, selected_prio) {
+    var select = new Element('select');
+    select.set('id', 'comboPrio'+id);
+    select.addEvent('change', function(e){
+      var new_prio = $('comboPrio'+id).get('value');
+      setFilePriority(id, new_prio);
+    });
+    var opt = new Element("option");
+    opt.set('value', '0')
+    opt.set('html', "_(Ignored)");
+    if(selected_prio == 0)
+      opt.setAttribute('selected', '');
+    opt.injectInside(select);
+    opt = new Element("option");
+    opt.set('value', '1')
+    opt.set('html', "_(Normal)");
+    if(selected_prio == 1)
+      opt.setAttribute('selected', '');
+    opt.injectInside(select);
+    opt = new Element("option");
+    opt.set('value', '2')
+    opt.set('html', "_(High)");
+    if(selected_prio == 2)
+      opt.setAttribute('selected', '');
+    opt.injectInside(select);
+    opt = new Element("option");
+    opt.set('value', '7')
+    opt.set('html', "_(Maximum)");
+    if(selected_prio == 7)
+      opt.setAttribute('selected', '');
+    opt.injectInside(select);
+    return select;
+}
+
+ var filesDynTable = new Class ({
+
+	initialize: function(){
+	},
+	
+	setup: function(table){
+		this.table = $(table);
+		this.rows = new Hash();
+	},
+        
+        removeRow: function(id){
+          if(this.rows.has(id)) {
+            var tr = this.rows.get(id);
+            tr.dispose();
+            this.rows.erase(id);
+            return true;
+          }
+          return false;
+	},
+        
+        removeAllRows: function() {
+          this.rows.each(function(tr, id) {
+            this.removeRow(id);
+          }.bind(this));
+        },
+        
+        updateRow: function(tr, row){
+          var tds = tr.getElements('td');
+          for(var i=0; i<row.length; i++) {
+            if(i==2) {
+	      tds[i].set('html', '');
+	      tds[i].adopt(new ProgressBar(row[i].toFloat(), {width:80}));
+	    } else {
+              if(i==3) {
+                tds[i].getChildren('select').set('value', row[i]);
+                //tds[i].set('html', '');
+                //tds[i].adopt(createPriorityCombo(id,row[i]));
+              } else {
+                tds[i].set('html', row[i]);
+              }
+            }
+          }
+          return true;
+	},
+        
+        insertRow: function(id, row) {
+          if(this.rows.has(id)) {
+            var tr = this.rows.get(id);
+            this.updateRow(tr, row);
+            return;
+          }
+          //this.removeRow(id);
+          var tr = new Element('tr');
+          this.rows.set(id, tr);
+          for(var i=0; i<row.length; i++)
+          {
+                  var td = new Element('td');
+                  if(i==2) {
+		    td.adopt(new ProgressBar(row[i].toFloat(), {width:80}));
+		  } else {
+                    if(i == 3) {
+                      td.adopt(createPriorityCombo(id,row[i]));
+                    } else {
+                      td.set('html', row[i]);
+                    }
+                  }
+                  td.injectInside(tr);
+          }
+          tr.injectInside(this.table);
+        },
+});
+    
+    var loadTorrentFilesData = function() {
+      if(!$defined($('filesTable'))) {
+        // Tab changed
+        return;
+      }
+      var new_hash = myTable.getCurrentTorrentHash();
+      if(new_hash == "") {
+        fTable.removeAllRows();
+        loadTorrentFilesData.delay(1500);
+        return;
+      }
+      if(new_hash != current_hash) {
+        fTable.removeAllRows();
+        current_hash = new_hash;
+      }
+      var url = 'json/propertiesFiles/'+current_hash;
+      if (!waitingTorrentFiles) {
+        waitingTorrentFiles=true;
+        var request = new Request.JSON({
+                url: url,
+                noCache: true,
+                method: 'get',
+                onFailure: function() {
+                        $('error_div').set('html', 'qBittorrent client is not reachable');
+                        waitingTorrentFiles=false;
+                        loadTorrentFilesData.delay(2000);
+                },
+                onSuccess: function(files) {
+                         $('error_div').set('html', '');
+                        if(files){
+                          // Update Trackers data
+                          var i=0;
+                          files.each(function(file){
+                            var row = new Array();
+                            row.length = 4;
+                            row[0] = file.name;
+                            row[1] = file.size;
+                            row[2] = (file.progress*100).round(1);
+                            row[3] = file.priority;
+                            fTable.insertRow(i, row);
+                            i++;
+                          }.bind(this));
+                        } else {
+                          fTable.removeAllRows();
+                        }
+                        waitingTorrentFiles=false;
+                        loadTorrentFilesData.delay(1500);
+                }
+        }).send();
+      }
+            
+    }
+    fTable = new filesDynTable();
+    fTable.setup($('filesTable'));
+    // Initial loading
+    loadTorrentFilesData();
+</script>
