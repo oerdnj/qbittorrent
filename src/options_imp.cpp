@@ -104,9 +104,9 @@ options_imp::options_imp(QWidget *parent):QDialog(parent){
   comboI18n->addItem((QIcon(QString::fromUtf8(":/Icons/flags/czech.png"))), QString::fromUtf8("Čeština"));
   locales << "cs_CZ";
   comboI18n->addItem((QIcon(QString::fromUtf8(":/Icons/flags/slovakia.png"))), QString::fromUtf8("Slovenčina"));
-  locales << "sr_CS";
-  comboI18n->addItem((QIcon(QString::fromUtf8(":/Icons/flags/serbia.png"))), QString::fromUtf8("Србин"));
   locales << "sk_SK";
+  comboI18n->addItem((QIcon(QString::fromUtf8(":/Icons/flags/serbia.png"))), QString::fromUtf8("Српски"));
+  locales << "sr_CS";
   comboI18n->addItem((QIcon(QString::fromUtf8(":/Icons/flags/romania.png"))), QString::fromUtf8("Română"));
   locales << "ro_RO";
   comboI18n->addItem((QIcon(QString::fromUtf8(":/Icons/flags/turkey.png"))), QString::fromUtf8("Türkçe"));
@@ -465,7 +465,8 @@ void options_imp::saveOptions(){
   {
     settings.setValue("Port", webUiPort());
     settings.setValue("Username", webUiUsername());
-    settings.setValue("Password", webUiPassword());
+    // FIXME: Check that the password is valid (not empty at least)
+    Preferences::setWebUiPassword(webUiPassword());
   }
   // End Web UI
   settings.endGroup();
