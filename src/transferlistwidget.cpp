@@ -762,7 +762,10 @@ void TransferListWidget::displayDLHoSMenu(const QPoint&){
   hideshowColumn.setTitle(tr("Column visibility"));
   QList<QAction*> actions;
   for(int i=0; i < TR_HASH; ++i) {
-    if(!BTSession->isQueueingEnabled() && i == TR_PRIORITY) continue;
+    if(!BTSession->isQueueingEnabled() && i == TR_PRIORITY) {
+      actions.append(0);
+      continue;
+    }
     QIcon icon;
     if(isColumnHidden(i))
       icon = QIcon(QString::fromUtf8(":/Icons/oxygen/button_cancel.png"));
@@ -771,9 +774,12 @@ void TransferListWidget::displayDLHoSMenu(const QPoint&){
     actions.append(hideshowColumn.addAction(icon, listModel->headerData(i, Qt::Horizontal).toString()));
   }
   // Call menu
-  QAction *act = hideshowColumn.exec(QCursor::pos());
-  int col = actions.indexOf(act);
-  setColumnHidden(col, !isColumnHidden(col));
+  QAction *act = 0;
+  act = hideshowColumn.exec(QCursor::pos());
+  if(act) {
+    int col = actions.indexOf(act);
+    setColumnHidden(col, !isColumnHidden(col));
+  }
 }
 
 #ifdef LIBTORRENT_0_15
@@ -840,8 +846,10 @@ void TransferListWidget::displayListMenu(const QPoint&) {
   connect(&actionForce_recheck, SIGNAL(triggered()), this, SLOT(recheckSelectedTorrents()));
   QAction actionCopy_magnet_link(QIcon(QString::fromUtf8(":/Icons/magnet.png")), tr("Copy magnet link"), 0);
   connect(&actionCopy_magnet_link, SIGNAL(triggered()), this, SLOT(copySelectedMagnetURIs()));
+#ifdef LIBTORRENT_0_15
   QAction actionSuper_seeding_mode(tr("Super seeding mode"), 0);
   connect(&actionSuper_seeding_mode, SIGNAL(triggered()), this, SLOT(toggleSelectedTorrentsSuperSeeding()));
+#endif
   QAction actionSequential_download(tr("Download in sequential order"), 0);
   connect(&actionSequential_download, SIGNAL(triggered()), this, SLOT(toggleSelectedTorrentsSequentialDownload()));
   QAction actionFirstLastPiece_prio(tr("Download first and last piece first"), 0);
