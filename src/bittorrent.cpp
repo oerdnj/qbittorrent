@@ -303,7 +303,7 @@ void Bittorrent::configureSession() {
   // * Session settings
   session_settings sessionSettings;
   if(Preferences::isUtorrentSpoofingEnabled()) {
-    sessionSettings.user_agent = "uTorrent/1850";
+    sessionSettings.user_agent = "uTorrent/1850(17414)";
   } else {
     sessionSettings.user_agent = "qBittorrent "VERSION;
   }
@@ -1362,7 +1362,7 @@ void Bittorrent::setDeleteRatio(float ratio) {
 
 // Set DHT port (>= 1000 or 0 if same as BT)
 void Bittorrent::setDHTPort(int dht_port) {
-  if(dht_port == 0 or dht_port >= 1000) {
+  if(dht_port == 0 || dht_port >= 1000) {
     struct dht_settings DHTSettings;
     DHTSettings.service_port = dht_port;
     s->set_dht_settings(DHTSettings);
@@ -1664,14 +1664,16 @@ QString Bittorrent::getSavePath(QString hash) {
     qDebug("Using default save path because none was set: %s", defaultSavePath.toLocal8Bit().data());
     savePath = defaultSavePath;
   }
+  // Clean path
+  savePath = misc::expandPath(savePath);
   // Checking if savePath Dir exists
   // create it if it is not
   QDir saveDir(savePath);
   if(!saveDir.exists()) {
-    if(!saveDir.mkpath(saveDir.path())) {
+    if(!saveDir.mkpath(saveDir.absolutePath())) {
       std::cerr << "Couldn't create the save directory: " << saveDir.path().toLocal8Bit().data() << "\n";
       // XXX: handle this better
-      return QDir::homePath();
+      //return QDir::homePath();
     }
   }
   return savePath;

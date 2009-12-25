@@ -50,6 +50,7 @@
 #include "ui_torrentadditiondlg.h"
 #include "torrentpersistentdata.h"
 #include "torrentfilesmodel.h"
+#include "preferences.h"
 
 using namespace libtorrent;
 
@@ -89,13 +90,8 @@ public:
     // Remember columns width
     readSettings();
     //torrentContentList->header()->setResizeMode(0, QHeaderView::Stretch);
-    QString home = QDir::homePath();
-    if(home[home.length()-1] != QDir::separator()){
-      home += QDir::separator();
-    }
-    QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
-    savePathTxt->setText(settings.value(QString::fromUtf8("LastDirTorrentAdd"), home+QString::fromUtf8("qBT_dir")).toString());
-    if(settings.value("Preferences/Downloads/StartInPause", false).toBool()) {
+    savePathTxt->setText(Preferences::getSavePath());
+    if(Preferences::addTorrentsInPause()) {
       addInPause->setChecked(true);
       addInPause->setEnabled(false);
     }
@@ -201,7 +197,7 @@ QPoint screenCenter() const{
 public slots:
 
   void updateDiskSpaceLabels() {
-    long long available = misc::freeDiskSpaceOnPath(savePathTxt->text());
+    long long available = misc::freeDiskSpaceOnPath(misc::expandPath(savePathTxt->text()));
     lbl_disk_space->setText(misc::friendlyUnit(available));
 
     // Determine torrent size
@@ -231,9 +227,10 @@ public slots:
 
   void on_browseButton_clicked(){
     QString dir;
-    QDir saveDir(savePathTxt->text());
-    if(saveDir.exists()){
-      dir = QFileDialog::getExistingDirectory(this, tr("Choose save path"), savePathTxt->text());
+    QString save_path = misc::expandPath(savePathTxt->text());
+    QDir saveDir(save_path);
+    if(!save_path.isEmpty() && saveDir.exists()){
+      dir = QFileDialog::getExistingDirectory(this, tr("Choose save path"), saveDir.absolutePath());
     }else{
       dir = QFileDialog::getExistingDirectory(this, tr("Choose save path"), QDir::homePath());
     }
@@ -305,11 +302,11 @@ public slots:
   }
 
   void on_OkButton_clicked(){
-    QDir savePath(savePathTxt->text());
     if(savePathTxt->text().trimmed().isEmpty()){
       QMessageBox::critical(0, tr("Empty save path"), tr("Please enter a save path"));
       return;
     }
+    QDir savePath(misc::expandPath(savePathTxt->text()));
     // Check if savePath exists
     if(!savePath.exists()){
       if(!savePath.mkpath(savePath.path())){
@@ -319,9 +316,6 @@ public slots:
     }
     // Save savepath
     TorrentTempData::setSavePath(hash, savePath.path());
-    // Save last dir to remember it
-    QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
-    settings.setValue(QString::fromUtf8("LastDirTorrentAdd"), savePathTxt->text());
     // Create .incremental file if necessary
     TorrentTempData::setSequential(hash, checkIncrementalDL->isChecked());
 #ifdef LIBTORRENT_0_15

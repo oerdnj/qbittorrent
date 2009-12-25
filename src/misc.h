@@ -271,14 +271,30 @@ public:
 
   static QString magnetUriToHash(QString magnet_uri) {
     QString hash = "";
-    QRegExp reg("urn:btih:([A-Z2-7=]+)");
-    int pos = reg.indexIn(magnet_uri);
+    QRegExp regHex("urn:btih:([0-9A-Za-z]+)");
+    // Hex
+    int pos = regHex.indexIn(magnet_uri);
     if(pos > -1) {
-      sha1_hash sha1;
-      sha1.assign(base32decode(reg.cap(1).toStdString()));
-      hash = misc::toQString(sha1);
+      QString found = regHex.cap(1);
+      if(found.length() == 40) {
+        sha1_hash sha1;
+        sha1.assign(QString(QByteArray::fromHex(regHex.cap(1).toLocal8Bit())).toStdString());
+        qDebug("magnetUriToHash (Hex): hash: %s", misc::toString(sha1).c_str());
+        return misc::toQString(sha1);
+      }
     }
-    qDebug("magnetUriToHash: hash: %s", hash.toLocal8Bit().data());
+    // Base 32
+    QRegExp regBase32("urn:btih:([A-Za-z2-7=]+)");
+    pos = regBase32.indexIn(magnet_uri);
+    if(pos > -1) {
+      QString found = regBase32.cap(1);
+      if(found.length() > 20 && (found.length()*5)%40 == 0) {
+        sha1_hash sha1;
+        sha1.assign(base32decode(regBase32.cap(1).toStdString()));
+        hash = misc::toQString(sha1);
+      }
+    }
+    qDebug("magnetUriToHash (base32): hash: %s", hash.toLocal8Bit().data());
     return hash;
   }
 
@@ -286,6 +302,23 @@ public:
     if(!boostDate) return tr("Unknown");
     struct std::tm tm = boost::posix_time::to_tm(*boostDate);
     return QDateTime::fromTime_t(mktime(&tm)).toString(Qt::DefaultLocaleLongDate);
+  }
+
+  // Replace ~ in path
+  static QString expandPath(QString path) {
+    path = path.trimmed();
+    if(path.isEmpty()) return path;
+    if(path.length() == 1) {
+      if(path[0] == '~' ) return QDir::homePath();
+    }
+    if(path[0] == '~' && path[1] == QDir::separator()) {
+      path = path.replace(0, 1, QDir::homePath());
+    } else {
+      if(QDir::isAbsolutePath(path)) {
+        path = QDir(path).absolutePath();
+      }
+    }
+    return QDir::cleanPath(path);
   }
 
   // Take a number of seconds and return an user-friendly
