@@ -63,7 +63,7 @@
 enum ProxyType {HTTP=1, SOCKS5=2, HTTP_PW=3, SOCKS5_PW=4};
 
 // Main constructor
-Bittorrent::Bittorrent() : preAllocateAll(false), addInPause(false), ratio_limit(-1), UPnPEnabled(false), NATPMPEnabled(false), LSDEnabled(false), DHTEnabled(false), queueingEnabled(false), geoipDBLoaded(false), exiting(false) {
+Bittorrent::Bittorrent() : preAllocateAll(false), addInPause(false), ratio_limit(-1), UPnPEnabled(false), NATPMPEnabled(false), LSDEnabled(false), DHTEnabled(false), current_dht_port(0), queueingEnabled(false), geoipDBLoaded(false), exiting(false) {
   resolve_countries = false;
   // To avoid some exceptions
   fs::path::default_name_check(fs::no_check);
@@ -241,9 +241,9 @@ void Bittorrent::configureSession() {
   // Connection
   // * Ports binding
   unsigned short old_listenPort = getListenPort();
-  setListeningPort(Preferences::getSessionPort());
-  unsigned short new_listenPort = getListenPort();
-  if(new_listenPort != old_listenPort) {
+  unsigned short new_listenPort = Preferences::getSessionPort();
+  if(old_listenPort != new_listenPort) {
+    setListeningPort(new_listenPort);
     addConsoleMessage(tr("qBittorrent is bound to port: TCP/%1", "e.g: qBittorrent is bound to port: 6881").arg( misc::toQString(new_listenPort)));
   }
   // * Global download limit
@@ -346,10 +346,13 @@ void Bittorrent::configureSession() {
   if(Preferences::isDHTEnabled()) {
     // Set DHT Port
     if(enableDHT(true)) {
-      int dht_port = new_listenPort;
-      if(!Preferences::isDHTPortSameAsBT())
+      int dht_port;
+      if(Preferences::isDHTPortSameAsBT())
+        dht_port = 0;
+      else
         dht_port = Preferences::getDHTPort();
       setDHTPort(dht_port);
+      if(dht_port == 0) dht_port = new_listenPort;
       addConsoleMessage(tr("DHT support [ON], port: UDP/%1").arg(dht_port), QString::fromUtf8("blue"));
     } else {
       addConsoleMessage(tr("DHT support [OFF]"), QString::fromUtf8("red"));
@@ -1363,9 +1366,11 @@ void Bittorrent::setDeleteRatio(float ratio) {
 // Set DHT port (>= 1000 or 0 if same as BT)
 void Bittorrent::setDHTPort(int dht_port) {
   if(dht_port == 0 || dht_port >= 1000) {
+    if(dht_port == current_dht_port) return;
     struct dht_settings DHTSettings;
     DHTSettings.service_port = dht_port;
     s->set_dht_settings(DHTSettings);
+    current_dht_port = dht_port;
     qDebug("Set DHT Port to %d", dht_port);
   }
 }
@@ -1512,18 +1517,6 @@ void Bittorrent::readAlerts() {
         }
       }
     }
-    else if (listen_failed_alert* p = dynamic_cast<listen_failed_alert*>(a.get())) {
-      // Level: fatal
-      int tried_port = p->endpoint.port();
-      srand(time(0));
-      int fallback_port = tried_port;
-      do {
-        fallback_port = rand() % 64512 + 1024;
-      } while(fallback_port == tried_port);
-      addConsoleMessage(tr("Couldn't listen on port %1, using %2 instead.").arg(QString::number(tried_port)).arg(QString::number(fallback_port)), QString::fromUtf8("red"));
-      setListeningPort(fallback_port);
-      //emit portListeningFailure();
-    }
     /*else if (torrent_paused_alert* p = dynamic_cast<torrent_paused_alert*>(a.get())) {
       QTorrentHandle h(p->handle);
       qDebug("Received a torrent_paused_alert for %s", h.hash().toLocal8Bit().data());
@@ -1643,6 +1636,7 @@ QHash<QString, TrackerInfos> Bittorrent::getTrackersInfo(QString hash) const{
 }
 
 int Bittorrent::getListenPort() const{
+  qDebug("LISTEN PORT: %d", s->listen_port());
   return s->listen_port();
 }
 
