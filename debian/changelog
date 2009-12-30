@@ -1,3 +1,10 @@
+qbittorrent (2.0.4-1) unstable; urgency=low
+
+  * New upstream version.
+  * debian/copyright: updated catalan translation.
+
+ -- Cristian Greco <cristian@regolo.cc>  Wed, 30 Dec 2009 18:50:49 +0100
+
 qbittorrent (2.0.3-1) unstable; urgency=low
 
   * New upstream version.
