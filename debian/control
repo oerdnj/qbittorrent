@@ -15,30 +15,21 @@ Package: qbittorrent
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
          python (>= 2.5), geoip-database
-Description: bittorrent client using libtorrent-rasterbar with a nice Qt4 GUI
- qBittorrent is a feature rich bittorrent client written in C++ and Qt4 which
- is based on libtorrent-rasterbar. It can be considered as a good alternative
- to other clients. Most important features are:
+Description: bittorrent client based on libtorrent-rasterbar with a Qt4 GUI
+ BitTorrent client written in C++ and based on libtorrent-rasterbar with a Qt4
+ user interface. qBittorrent is a feature rich but lightweight client that is
+ very similar to uTorrent. Its main features are:
  .
-  * UPnP / NAT-PMP port forwarding support
-  * Encryption support (compatible with Azureus)
-  * Download from RSS streams
-  * An integrated search engine
+  * Polished uTorrent-like user interface
+  * Well integrated and extensible search engine
+  * Remote control through a Web user interface
+  * Vuze-compatible protocol encryption
+  * uTorrent-compatible Peer eXchange (PeX)
   * DHT (trackerless) support
-  * uTorrent Peer eXchange support (PeX)
-  * Directory scanning with automated download of torrents inside
-  * Good internationalization (~25 languages supported)
-  * Media File previewing while downloading
-  * Torrent trackers edition and prioritizing
-  * Styles support
-  * Files prioritizing in a torrent
-  * Tracker authentication support
-  * Unicode support
-  * Torrent downloading directly from their url
-  * Connection though a proxy
-  * IP Filtering similar to the one in eMule
+  * UPnP / NAT-PMP port forwarding
+  * RSS support with advanced download filters
+  * Advanced control over torrent content and trackers
+  * IP Filtering (eMule / Peer Guardian filters)
   * Torrents queueing and prioritizing
-  * Web user interface for remote control
-  * Azureus spoofing to avoid ban
-  * Allow to buy your downloads thanks to Sharemonkey
-
+  * Good localization (~25 languages supported)
+  * Unicode support
