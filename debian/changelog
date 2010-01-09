@@ -1,3 +1,10 @@
+qbittorrent (2.0.6-1) unstable; urgency=low
+
+  * New upstream version.
+  * debian/control: update package description to specify IPv6 support.
+
+ -- Cristian Greco <cristian@regolo.cc>  Sat, 09 Jan 2010 11:37:54 +0100
+
 qbittorrent (2.0.5-1) unstable; urgency=low
 
   * New upstream version.
