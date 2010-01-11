@@ -257,6 +257,7 @@ public:
     // Restore saved info
     enableDl_cb->setChecked(filters.isDownloadingEnabled());
     fillFiltersList();
+    filtersList->sortItems(Qt::AscendingOrder);
     if(filters.size() > 0) {
       // Select first filter
       filtersList->setCurrentItem(filtersList->item(0));
@@ -267,6 +268,8 @@ public:
   }
 
   ~FeedDownloaderDlg() {
+    if(enableDl_cb->isChecked())
+      emit filteringEnabled();
     // Make sure we save everything
     saveCurrentFilterSettings();
     filters.save();
@@ -374,11 +377,14 @@ protected slots:
           QMessageBox::warning(0, tr("Invalid filter name"), tr("This filter name is already in use."));
         }
       }while(!validated);
+      // Save the current filter
+      saveCurrentFilterSettings();
       // Rename the filter
       filters.rename(current_name, new_name);
       if(selected_filter == current_name)
         selected_filter = new_name;
       item->setText(new_name);
+      filtersList->sortItems(Qt::AscendingOrder);
     }
   }
 
@@ -432,6 +438,7 @@ protected slots:
       }
     }while(!validated);
     QListWidgetItem *it = new QListWidgetItem(filter_name, filtersList);
+    filtersList->sortItems(Qt::AscendingOrder);
     filtersList->setCurrentItem(it);
     //showFilterSettings(it);
   }
@@ -487,15 +494,18 @@ protected slots:
     // Append file extension
     if(!destination.endsWith(".filters"))
       destination += ".filters";
-    if(QFile::exists(destination)) {
+    /*if(QFile::exists(destination)) {
       int ret = QMessageBox::question(0, tr("Overwriting confirmation"), tr("Are you sure you want to overwrite existing file?"), QMessageBox::Yes|QMessageBox::No);
       if(ret != QMessageBox::Yes) return;
-    }
+    }*/
     if(filters.serialize(destination))
       QMessageBox::information(0, tr("Export successful"), tr("Filters export was successful."));
     else
       QMessageBox::warning(0, tr("Export failure"), tr("Filters could not be exported due to an I/O error."));
   }
+
+signals:
+  void filteringEnabled();
 
 };
 
