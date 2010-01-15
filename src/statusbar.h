@@ -190,15 +190,15 @@ public slots:
     long new_limit = SpeedLimitDialog::askSpeedLimit(&ok, tr("Global Upload Speed Limit"), BTSession->getSession()->upload_rate_limit());
     if(ok) {
       if(new_limit <= 0) {
-         qDebug("Setting global upload rate limit to Unlimited");
+        qDebug("Setting global upload rate limit to Unlimited");
         BTSession->getSession()->set_upload_rate_limit(-1);
         Preferences::setGlobalUploadLimit(-1);
       } else {
-          qDebug("Setting global upload rate limit to %.1fKb/s", new_limit/1024.);
-        BTSession->getSession()->set_upload_rate_limit(new_limit);
+        qDebug("Setting global upload rate limit to %.1fKb/s", new_limit/1024.);
         Preferences::setGlobalUploadLimit(new_limit/1024.);
+        BTSession->getSession()->set_upload_rate_limit(new_limit);
       }
-     }
+    }
   }
 };
 

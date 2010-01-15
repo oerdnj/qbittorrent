@@ -66,13 +66,18 @@ private:
   PropListDelegate *PropDelegate;
   PeerListWidget *peersList;
   TrackerList *trackerList;
-  QAction *actionIgnored;
-  QAction *actionNormal;
-  QAction *actionMaximum;
-  QAction *actionHigh;
   QList<int> slideSizes;
   DownloadedPiecesBar *downloaded_pieces;
   PieceAvailabilityBar *pieces_availability;
+
+public:
+  PropertiesWidget(QWidget *parent, GUI* main_window, TransferListWidget *transferList, Bittorrent* BTSession);
+  ~PropertiesWidget();
+  const QTorrentHandle& getCurrentTorrent() const;
+  Bittorrent* getBTSession() const;
+  TrackerList* getTrackerList() const { return trackerList; }
+  PeerListWidget* getPeerList() const { return peersList; }
+  QTreeView* getFilesList() const { return filesList; }
 
 protected:
   QPushButton* getButtonFromIndex(int index);
@@ -86,10 +91,6 @@ protected slots:
   void on_peers_button_clicked();
   void on_url_seeds_button_clicked();
   void on_files_button_clicked();
-  void ignoreSelection();
-  void normalSelection();
-  void highSelection();
-  void maximumSelection();
   void askWebSeed();
   void deleteSelectedUrlSeeds();
   void displayFilesListMenu(const QPoint& pos);
@@ -97,6 +98,8 @@ protected slots:
   void filteredFilesChanged();
   void showPiecesDownloaded(bool show);
   void showPiecesAvailability(bool show);
+  void updateSavePath(QTorrentHandle& h);
+  void renameSelectedFile();
 
 public slots:
   void loadDynamicData();
@@ -106,12 +109,8 @@ public slots:
   void readSettings();
   void saveSettings();
   void reloadPreferences();
+  void openDoubleClickedFile(QModelIndex);
 
-public:
-  PropertiesWidget(QWidget *parent, GUI* main_window, TransferListWidget *transferList, Bittorrent* BTSession);
-  ~PropertiesWidget();
-  const QTorrentHandle& getCurrentTorrent() const;
-  Bittorrent* getBTSession() const;
 };
 
 #endif // PROPERTIESWIDGET_H

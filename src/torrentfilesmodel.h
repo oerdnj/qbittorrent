@@ -42,6 +42,8 @@
 using namespace libtorrent;
 
 enum TreeItemType {TFILE, FOLDER, ROOT};
+#define IGNORED 0
+#define NORMAL 1
 
 class TreeItem {
 private:
@@ -50,14 +52,20 @@ private:
   TreeItem *parentItem;
   TreeItemType type;
   qulonglong total_done;
+  int file_index;
 
 public:
   // File Construction
-  TreeItem(file_entry f, TreeItem *parent) {
+  TreeItem(file_entry f, TreeItem *parent, int _file_index) {
     Q_ASSERT(parent);
     parentItem = parent;
     type = TFILE;
-    itemData << misc::toQString(f.path.string()).split("/").last();
+    file_index = _file_index;
+    QString name = misc::toQString(f.path.string()).split("/").last();
+    // Do not display incomplete extensions
+    if(name.endsWith(".!qB"))
+      name.chop(4);
+    itemData << name;
     qDebug("Created a TreeItem file with name %s", getName().toLocal8Bit().data());
     qDebug("parent is %s", parent->getName().toLocal8Bit().data());
     itemData << QVariant((qulonglong)f.size);
@@ -74,6 +82,9 @@ public:
   TreeItem(QString name, TreeItem *parent=0) {
     parentItem = parent;
     type = FOLDER;
+    // Do not display incomplete extensions
+    if(name.endsWith(".!qB"))
+      name.chop(4);
     itemData << name;
     itemData << 0.; // Size
     itemData << 0.; // Progress;
@@ -94,6 +105,15 @@ public:
   ~TreeItem() {
     qDebug("Deleting item: %s", getName().toLocal8Bit().data());
     qDeleteAll(childItems);
+  }
+
+  TreeItemType getType() const {
+    return type;
+  }
+
+  int getFileIndex() const {
+    Q_ASSERT(type ==TFILE);
+    return file_index;
   }
 
   void deleteAllChildren() {
@@ -190,12 +210,8 @@ public:
       itemData.replace(3, new_prio);
       // Update parent
       if(parentItem) {
-        if(new_prio == 0 || old_prio == 0) {
-          // Files got filtered or unfiltered
-          // Update parent size and progress
-          parentItem->updateSize();
-          parentItem->updateProgress();
-        }
+        parentItem->updateSize();
+        parentItem->updateProgress();
         parentItem->updatePriority();
       }
     }
@@ -292,7 +308,7 @@ public:
   TorrentFilesModel(QObject *parent=0): QAbstractItemModel(parent) {
     files_index = 0;
     QList<QVariant> rootData;
-    rootData << tr("Name") << tr("Size") << tr("Progress") << tr("Priority");
+    rootData << tr("Name") << tr("Size") << tr("Progress");
     rootItem = new TreeItem(rootData);
   }
 
@@ -311,7 +327,7 @@ public:
 
   void updateFilesPriorities(std::vector<int> fprio) {
     for(unsigned int i=0; i<fprio.size(); ++i) {
-      qDebug("Called updateFilesPriorities with %d", fprio[i]);
+      //qDebug("Called updateFilesPriorities with %d", fprio[i]);
       files_index[i]->setPriority(fprio[i]);
     }
     emit layoutChanged();
@@ -320,7 +336,7 @@ public:
   std::vector<int> getFilesPriorities(unsigned int nbFiles) const {
     std::vector<int> prio;
     for(unsigned int i=0; i<nbFiles; ++i) {
-      qDebug("Called getFilesPriorities: %d", files_index[i]->getPriority());
+      //qDebug("Called getFilesPriorities: %d", files_index[i]->getPriority());
       prio.push_back(files_index[i]->getPriority());
     }
     return prio;
@@ -340,26 +356,47 @@ public:
 
   bool setData(const QModelIndex & index, const QVariant & value, int role = Qt::EditRole) {
     if(!index.isValid()) return false;
-    if (role != Qt::EditRole) return false;
-    TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
-    switch(index.column()) {
-    case 0:
-      item->setName(value.toString());
-      break;
-    case 1:
-      item->setSize(value.toULongLong());
-      break;
-    case 2:
-      item->setProgress(value.toDouble());
-      break;
-    case 3:
-      item->setPriority(value.toInt());
-      break;
-    default:
-      return false;
+    if (role == Qt::CheckStateRole) {
+      TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+      if(item->getPriority() != value.toInt()) {
+        if(value.toInt() == Qt::Checked)
+          item->setPriority(1);
+        else
+          item->setPriority(0);
+        emit filteredFilesChanged();
+        emit dataChanged(this->index(0,0), this->index(rowCount(), 0));
+      }
+      return true;
     }
-    emit dataChanged(index, index);
-    return true;
+    if (role == Qt::EditRole) {
+      TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+      switch(index.column()) {
+      case 0:
+        item->setName(value.toString());
+        break;
+      case 1:
+        item->setSize(value.toULongLong());
+        break;
+      case 2:
+        item->setProgress(value.toDouble());
+        break;
+      default:
+        return false;
+      }
+      emit dataChanged(index, index);
+      return true;
+    }
+    return false;
+  }
+
+  TreeItemType getType(const QModelIndex &index) {
+    TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+    return item->getType();
+  }
+
+  int getFileIndex(const QModelIndex &index) {
+    TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+    return item->getFileIndex();
   }
 
   QVariant data(const QModelIndex &index, int role=Qt::DisplayRole) const {
@@ -372,6 +409,11 @@ public:
       else
         return QIcon(":/Icons/oxygen/file.png");
     }
+    if(role == Qt::CheckStateRole) {
+      if(item->data(3).toInt() == 0)
+        return Qt::Unchecked;
+      return Qt::Checked;
+    }
     if (role != Qt::DisplayRole)
       return QVariant();
 
@@ -382,7 +424,7 @@ public:
     if (!index.isValid())
       return 0;
 
-    return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+    return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable;
   }
 
   QVariant headerData(int section, Qt::Orientation orientation, int role) const {
@@ -457,14 +499,15 @@ public:
 
     TreeItem *parent = this->rootItem;
     if(t.num_files() ==1) {
-      TreeItem *f = new TreeItem(t.file_at(0), parent);
+      TreeItem *f = new TreeItem(t.file_at(0), parent, 0);
       //parent->appendChild(f);
       files_index[0] = f;
       emit layoutChanged();
       return;
     }
     // Create parent folder
-    TreeItem *current_parent = new TreeItem(misc::toQString(t.name()), parent);
+    QString root_name = misc::toQString(t.file_at(0).path.string()).split(QDir::separator()).first();
+    TreeItem *current_parent = new TreeItem(root_name, parent);
     //parent->appendChild(current_parent);
     TreeItem *root_folder = current_parent;
 
@@ -489,7 +532,7 @@ public:
         current_parent = new_parent;
       }
       // Actually create the file
-      TreeItem *f = new TreeItem(*fi, current_parent);
+      TreeItem *f = new TreeItem(*fi, current_parent, i);
       //current_parent->appendChild(f);
       files_index[i] = f;
       fi++;
@@ -497,6 +540,10 @@ public:
     }
     emit layoutChanged();
   }
+
+public:
+signals:
+  void filteredFilesChanged();
 };
 
 

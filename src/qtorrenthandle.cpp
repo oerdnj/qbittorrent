@@ -36,6 +36,7 @@
 #include <math.h>
 #include "misc.h"
 #include "qtorrenthandle.h"
+#include "torrentpersistentdata.h"
 #include <libtorrent/magnet_uri.hpp>
 #include <libtorrent/torrent_info.hpp>
 
@@ -62,7 +63,11 @@ QString QTorrentHandle::hash() const {
 
 QString QTorrentHandle::name() const {
   Q_ASSERT(h.is_valid());
-  return misc::toQString(h.name());
+  QString name = TorrentPersistentData::getName(hash());
+  if(name.isEmpty()) {
+    name = misc::toQString(h.name());
+  }
+  return name;
 }
 
 QString QTorrentHandle::creation_date() const {
@@ -352,11 +357,11 @@ size_type QTorrentHandle::total_payload_upload() {
 // to all files in a torrent
 QStringList QTorrentHandle::files_path() const {
   Q_ASSERT(h.is_valid());
-  QString saveDir = misc::toQString(h.save_path().string()) + QDir::separator();
+  QDir saveDir(misc::toQString(h.save_path().string()));
   QStringList res;
   torrent_info::file_iterator fi = h.get_torrent_info().begin_files();
   while(fi != h.get_torrent_info().end_files()) {
-    res << QDir::cleanPath(saveDir + misc::toQString(fi->path.string()));
+    res << QDir::cleanPath(saveDir.absoluteFilePath(misc::toQString(fi->path.string())));
     fi++;
   }
   return res;
@@ -412,10 +417,12 @@ bool QTorrentHandle::is_sequential_download() const {
   return h.is_sequential_download();
 }
 
+#ifndef DISABLE_GUI
 bool QTorrentHandle::resolve_countries() const {
   Q_ASSERT(h.is_valid());
   return h.resolve_countries();
 }
+#endif
 
 bool QTorrentHandle::priv() const {
   Q_ASSERT(h.is_valid());
@@ -531,7 +538,6 @@ void QTorrentHandle::move_storage(QString new_path) const {
 
 void QTorrentHandle::file_priority(int index, int priority) const {
   Q_ASSERT(h.is_valid());
-  if(is_seed()) return;
   h.file_priority(index, priority);
 }
 
@@ -540,12 +546,19 @@ void QTorrentHandle::super_seeding(bool on) const {
   Q_ASSERT(h.is_valid());
   h.super_seeding(on);
 }
+
+void QTorrentHandle::flush_cache() const {
+  Q_ASSERT(h.is_valid());
+  h.flush_cache();
+}
 #endif
 
+#ifndef DISABLE_GUI
 void QTorrentHandle::resolve_countries(bool r) {
   Q_ASSERT(h.is_valid());
   h.resolve_countries(r);
 }
+#endif
 
 void QTorrentHandle::connect_peer(libtorrent::asio::ip::tcp::endpoint const& adr, int source) const {
   Q_ASSERT(h.is_valid());
@@ -616,6 +629,10 @@ void QTorrentHandle::prioritize_first_last_piece(bool b) {
   qDebug("last piece of the file is %d/%d", last_piece, h.get_torrent_info().num_pieces()-1);
   h.piece_priority(first_piece, prio);
   h.piece_priority(last_piece, prio);
+}
+
+void QTorrentHandle::rename_file(int index, QString name) {
+  h.rename_file(index, name.toStdString());
 }
 
 //

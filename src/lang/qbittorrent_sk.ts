@@ -273,6 +273,30 @@ p, li { white-space: pre-wrap; }
         <comment>e.g: Downloading &apos;xxx.torrent&apos;, please wait...</comment>
         <translation>Prebieha sťahovanie „%1“, čakajte prosím...</translation>
     </message>
+    <message>
+        <source>Using a disk cache size of %1 MiB</source>
+        <translation>Používa sa veľkosť vyrovnávacej diskovej pamäte %1 MiB</translation>
+    </message>
+    <message>
+        <source>PeX support [OFF]</source>
+        <translation>Podpora PeX [VYP]</translation>
+    </message>
+    <message>
+        <source>Restart is required to toggle PeX support</source>
+        <translation>Na prepnutie podpory PeX je potrebný reštart</translation>
+    </message>
+    <message>
+        <source>The Web UI is listening on port %1</source>
+        <translation>Webové rozhranie počúva na porte %1</translation>
+    </message>
+    <message>
+        <source>HTTP user agent is %1</source>
+        <translation>HTTP user agent je %1</translation>
+    </message>
+    <message>
+        <source>Reason: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConsoleDlg</name>
@@ -348,7 +372,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Proxy</source>
-        <translation>Proxy</translation>
+        <translation type="obsolete">Proxy</translation>
     </message>
     <message>
         <source>Proxy Settings</source>
@@ -364,7 +388,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Port:</source>
-        <translation>Port:</translation>
+        <translation type="obsolete">Port:</translation>
     </message>
     <message>
         <source>Proxy server requires authentication</source>
@@ -372,7 +396,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Authentication</source>
-        <translation>Autentifikácia</translation>
+        <translation type="obsolete">Autentifikácia</translation>
     </message>
     <message>
         <source>User Name:</source>
@@ -380,7 +404,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Password:</source>
-        <translation>Heslo:</translation>
+        <translation type="obsolete">Heslo:</translation>
     </message>
     <message>
         <source>Enable connection through a proxy server</source>
@@ -432,11 +456,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Activate IP Filtering</source>
-        <translation>Aktivovať filtrovanie IP</translation>
+        <translation type="obsolete">Aktivovať filtrovanie IP</translation>
     </message>
     <message>
         <source>Filter Settings</source>
-        <translation>Nastavenie filtra</translation>
+        <translation type="obsolete">Nastavenie filtra</translation>
     </message>
     <message>
         <source>Start IP</source>
@@ -460,7 +484,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>IP Filter</source>
-        <translation>IP filter</translation>
+        <translation type="obsolete">IP filter</translation>
     </message>
     <message>
         <source> Add Range</source>
@@ -496,7 +520,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Language:</source>
-        <translation>Jazyk:</translation>
+        <translation type="obsolete">Jazyk:</translation>
     </message>
     <message>
         <source>Behaviour</source>
@@ -520,7 +544,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>KiB/s</source>
-        <translation>KiB/s</translation>
+        <translation type="obsolete">KiB/s</translation>
     </message>
     <message>
         <source>1 KiB DL = </source>
@@ -556,11 +580,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>DHT port:</source>
-        <translation>Port DHT:</translation>
+        <translation type="obsolete">Port DHT:</translation>
     </message>
     <message>
         <source>&lt;b&gt;Note:&lt;/b&gt; Changes will be applied after qBittorrent is restarted.</source>
-        <translation>&lt;b&gt;Pozn.:&lt;/b&gt; Zmeny sa prejavia po reštarte qBittorrent.</translation>
+        <translation type="obsolete">&lt;b&gt;Pozn.:&lt;/b&gt; Zmeny sa prejavia po reštarte qBittorrent.</translation>
     </message>
     <message>
         <source>&lt;b&gt;Translators note:&lt;/b&gt; If qBittorrent is not available in your language, &lt;br/&gt;and if you would like to translate it in your mother tongue, &lt;br/&gt;please contact me (chris@qbittorrent.org).</source>
@@ -604,7 +628,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connection</source>
-        <translation>Spojenie</translation>
+        <translation type="obsolete">Spojenie</translation>
     </message>
     <message>
         <source>Peer eXchange (PeX)</source>
@@ -644,7 +668,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Plastique style (KDE like)</source>
-        <translation>Plastický štýl (ako KDE)</translation>
+        <translation type="obsolete">Plastický štýl (ako KDE)</translation>
     </message>
     <message>
         <source>Cleanlooks style (GNOME like)</source>
@@ -656,7 +680,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>CDE style (Common Desktop Environment like)</source>
-        <translation>Štýl CDE (ako Common Desktop Environment)</translation>
+        <translation type="obsolete">Štýl CDE (ako Common Desktop Environment)</translation>
     </message>
     <message>
         <source>MacOS style (MacOSX only)</source>
@@ -676,31 +700,31 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>HTTP</source>
-        <translation>HTTP</translation>
+        <translation type="obsolete">HTTP</translation>
     </message>
     <message>
         <source>SOCKS5</source>
-        <translation>SOCKS5</translation>
+        <translation type="obsolete">SOCKS5</translation>
     </message>
     <message>
         <source>Affected connections</source>
-        <translation>Ovplyvnené spojenia</translation>
+        <translation type="obsolete">Ovplyvnené spojenia</translation>
     </message>
     <message>
         <source>Use proxy for connections to trackers</source>
-        <translation>Používať proxy pre spojenia s trackermi</translation>
+        <translation type="obsolete">Používať proxy pre spojenia s trackermi</translation>
     </message>
     <message>
         <source>Use proxy for connections to regular peers</source>
-        <translation>Používať proxy pre spojenia s obyčajnými rovesníkmi</translation>
+        <translation type="obsolete">Používať proxy pre spojenia s obyčajnými rovesníkmi</translation>
     </message>
     <message>
         <source>Use proxy for connections to web seeds</source>
-        <translation>Používať proxy pre spojenia k web seedom</translation>
+        <translation type="obsolete">Používať proxy pre spojenia k web seedom</translation>
     </message>
     <message>
         <source>Use proxy for DHT messages</source>
-        <translation>Používať proxy pre DHT správy</translation>
+        <translation type="obsolete">Používať proxy pre DHT správy</translation>
     </message>
     <message>
         <source>Encryption</source>
@@ -712,19 +736,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Enabled</source>
-        <translation>Zapnuté</translation>
+        <translation type="obsolete">Zapnuté</translation>
     </message>
     <message>
         <source>Forced</source>
-        <translation>Vynútené</translation>
+        <translation type="obsolete">Vynútené</translation>
     </message>
     <message>
         <source>Disabled</source>
-        <translation>Vypnuté</translation>
+        <translation type="obsolete">Vypnuté</translation>
     </message>
     <message>
         <source>Preferences</source>
-        <translation>Nastavenia</translation>
+        <translation type="obsolete">Nastavenia</translation>
     </message>
     <message>
         <source>General</source>
@@ -736,48 +760,48 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>User interface settings</source>
-        <translation>Nastavenia používateľského rozhrania</translation>
+        <translation type="obsolete">Nastavenia používateľského rozhrania</translation>
     </message>
     <message>
         <source>Visual style:</source>
-        <translation>Vizuálny štýl:</translation>
+        <translation type="obsolete">Vizuálny štýl:</translation>
     </message>
     <message>
         <source>Cleanlooks style (Gnome like)</source>
-        <translation>Čistý vzhľad (ako GNOME)</translation>
+        <translation type="obsolete">Čistý vzhľad (ako GNOME)</translation>
     </message>
     <message>
         <source>Motif style (Unix like)</source>
-        <translation>Štýl Motif (ako Unix)</translation>
+        <translation type="obsolete">Štýl Motif (ako Unix)</translation>
     </message>
     <message>
         <source>Ask for confirmation on exit when download list is not empty</source>
-        <translation>Potvrdenie skončenia v prípade, že zoznam sťahovaní nie je prázdny</translation>
+        <translation type="obsolete">Potvrdenie skončenia v prípade, že zoznam sťahovaní nie je prázdny</translation>
     </message>
     <message>
         <source>Display current speed in title bar</source>
-        <translation>Zobraziť aktuálnu rýchlosť sťahovania v titulnom pruhu</translation>
+        <translation type="obsolete">Zobraziť aktuálnu rýchlosť sťahovania v titulnom pruhu</translation>
     </message>
     <message>
         <source>System tray icon</source>
-        <translation>Ikona v oznamovacej oblasti (systray)</translation>
+        <translation type="obsolete">Ikona v oznamovacej oblasti (systray)</translation>
     </message>
     <message>
         <source>Disable system tray icon</source>
-        <translation>Vypnúť ikonu v oznamovacej oblasti</translation>
+        <translation type="obsolete">Vypnúť ikonu v oznamovacej oblasti</translation>
     </message>
     <message>
         <source>Close to tray</source>
         <comment>i.e: The systray tray icon will still be visible when closing the main window.</comment>
-        <translation>Zatvoriť do oznamovacej oblasti</translation>
+        <translation type="obsolete">Zatvoriť do oznamovacej oblasti</translation>
     </message>
     <message>
         <source>Minimize to tray</source>
-        <translation>Minimalizovať do oznamovacej oblasti</translation>
+        <translation type="obsolete">Minimalizovať do oznamovacej oblasti</translation>
     </message>
     <message>
         <source>Show notification balloons in tray</source>
-        <translation>Zobrazovať bublinové upozornenia v oblasti upozornení</translation>
+        <translation type="obsolete">Zobrazovať bublinové upozornenia v oblasti upozornení</translation>
     </message>
     <message>
         <source>Media player:</source>
@@ -785,7 +809,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Downloads</source>
-        <translation>Sťahovania</translation>
+        <translation type="obsolete">Sťahovania</translation>
     </message>
     <message>
         <source>Put downloads in this folder:</source>
@@ -793,25 +817,25 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Pre-allocate all files</source>
-        <translation>Dopredu alokovať všetky súbory</translation>
+        <translation type="obsolete">Dopredu alokovať všetky súbory</translation>
     </message>
     <message>
         <source>When adding a torrent</source>
-        <translation>Pri pridávaní torrentu</translation>
+        <translation type="obsolete">Pri pridávaní torrentu</translation>
     </message>
     <message>
         <source>Display torrent content and some options</source>
-        <translation>Zobraziť obsah torrentu a nejaké voľby</translation>
+        <translation type="obsolete">Zobraziť obsah torrentu a nejaké voľby</translation>
     </message>
     <message>
         <source>Do not start download automatically</source>
         <comment>The torrent will be added to download list in pause state</comment>
-        <translation>Nezačínať sťahovanie automaticky</translation>
+        <translation type="obsolete">Nezačínať sťahovanie automaticky</translation>
     </message>
     <message>
         <source>Folder watching</source>
         <comment>qBittorrent will watch a directory and automatically download torrents present in it</comment>
-        <translation>Sledovanie priečinkov</translation>
+        <translation type="obsolete">Sledovanie priečinkov</translation>
     </message>
     <message>
         <source>Transfer lists double-click</source>
@@ -828,19 +852,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Download folder:</source>
-        <translation>Cieľový priečinok:</translation>
+        <translation type="obsolete">Cieľový priečinok:</translation>
     </message>
     <message>
         <source>Temp folder:</source>
-        <translation>Pridať priečinok</translation>
+        <translation type="obsolete">Pridať priečinok</translation>
     </message>
     <message>
         <source>Automatically download torrents present in this folder:</source>
-        <translation>Automaticky sťahovať torrenty z tohto priečinka:</translation>
+        <translation type="obsolete">Automaticky sťahovať torrenty z tohto priečinka:</translation>
     </message>
     <message>
         <source>Listening port</source>
-        <translation>Počúvať na porte</translation>
+        <translation type="obsolete">Počúvať na porte</translation>
     </message>
     <message>
         <source>to</source>
@@ -849,27 +873,27 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Enable UPnP port mapping</source>
-        <translation>Zapnúť mapovanie portov UPnP</translation>
+        <translation type="obsolete">Zapnúť mapovanie portov UPnP</translation>
     </message>
     <message>
         <source>Enable NAT-PMP port mapping</source>
-        <translation>Zapnúť mapovanie portov NAT-PMP</translation>
+        <translation type="obsolete">Zapnúť mapovanie portov NAT-PMP</translation>
     </message>
     <message>
         <source>Global bandwidth limiting</source>
-        <translation>Globálny limit pásma</translation>
+        <translation type="obsolete">Globálny limit pásma</translation>
     </message>
     <message>
         <source>Upload:</source>
-        <translation>Nahrávanie:</translation>
+        <translation type="obsolete">Nahrávanie:</translation>
     </message>
     <message>
         <source>Download:</source>
-        <translation>Sťahovanie:</translation>
+        <translation type="obsolete">Sťahovanie:</translation>
     </message>
     <message>
         <source>Bittorrent features</source>
-        <translation>Možnosti siete Bittorrent</translation>
+        <translation type="obsolete">Možnosti siete Bittorrent</translation>
     </message>
     <message>
         <source>Use the same port for DHT and Bittorrent</source>
@@ -877,39 +901,39 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Type:</source>
-        <translation>Typ:</translation>
+        <translation type="obsolete">Typ:</translation>
     </message>
     <message>
         <source>(None)</source>
-        <translation>(žiadny)</translation>
+        <translation type="obsolete">(žiadny)</translation>
     </message>
     <message>
         <source>Proxy:</source>
-        <translation>Proxy:</translation>
+        <translation type="obsolete">Proxy:</translation>
     </message>
     <message>
         <source>Username:</source>
-        <translation>Meno používateľa:</translation>
+        <translation type="obsolete">Meno používateľa:</translation>
     </message>
     <message>
         <source>Bittorrent</source>
-        <translation>Bittorrent</translation>
+        <translation type="obsolete">Bittorrent</translation>
     </message>
     <message>
         <source>Connections limit</source>
-        <translation>Limit spojení</translation>
+        <translation type="obsolete">Limit spojení</translation>
     </message>
     <message>
         <source>Global maximum number of connections:</source>
-        <translation>Maximálny globálny počet spojení:</translation>
+        <translation type="obsolete">Maximálny globálny počet spojení:</translation>
     </message>
     <message>
         <source>Maximum number of connections per torrent:</source>
-        <translation>Maximálny počet spojení na torrent:</translation>
+        <translation type="obsolete">Maximálny počet spojení na torrent:</translation>
     </message>
     <message>
         <source>Maximum number of upload slots per torrent:</source>
-        <translation>Maximálny počet slotov pre nahrávanie na torrent:</translation>
+        <translation type="obsolete">Maximálny počet slotov pre nahrávanie na torrent:</translation>
     </message>
     <message>
         <source>Additional Bittorrent features</source>
@@ -917,7 +941,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Enable DHT network (decentralized)</source>
-        <translation>Zapnúť sieť DHT (decentralizovaná)</translation>
+        <translation type="obsolete">Zapnúť sieť DHT (decentralizovaná)</translation>
     </message>
     <message>
         <source>Enable Peer eXchange (PeX)</source>
@@ -925,23 +949,23 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Enable Local Peer Discovery</source>
-        <translation>Zapnúť Local Peer Discovery</translation>
+        <translation type="obsolete">Zapnúť Local Peer Discovery</translation>
     </message>
     <message>
         <source>Encryption:</source>
-        <translation>Šifrovanie:</translation>
+        <translation type="obsolete">Šifrovanie:</translation>
     </message>
     <message>
         <source>Share ratio settings</source>
-        <translation>Nastavenia pomeru zdieľania</translation>
+        <translation type="obsolete">Nastavenia pomeru zdieľania</translation>
     </message>
     <message>
         <source>Desired ratio:</source>
-        <translation>Požadovaný pomer:</translation>
+        <translation type="obsolete">Požadovaný pomer:</translation>
     </message>
     <message>
         <source>Filter file path:</source>
-        <translation>Cesta k súboru filtov:</translation>
+        <translation type="obsolete">Cesta k súboru filtov:</translation>
     </message>
     <message>
         <source>transfer lists refresh interval:</source>
@@ -949,39 +973,39 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>ms</source>
-        <translation>ms</translation>
+        <translation type="obsolete">ms</translation>
     </message>
     <message>
         <source>RSS</source>
-        <translation>RSS</translation>
+        <translation type="obsolete">RSS</translation>
     </message>
     <message>
         <source>RSS feeds refresh interval:</source>
-        <translation>Interval obnovovania RSS kanálov:</translation>
+        <translation type="obsolete">Interval obnovovania RSS kanálov:</translation>
     </message>
     <message>
         <source>minutes</source>
-        <translation>minút</translation>
+        <translation type="obsolete">minút</translation>
     </message>
     <message>
         <source>Maximum number of articles per feed:</source>
-        <translation>Maximálny počet článkov na kanál:</translation>
+        <translation type="obsolete">Maximálny počet článkov na kanál:</translation>
     </message>
     <message>
         <source>File system</source>
-        <translation>Súborový systém</translation>
+        <translation type="obsolete">Súborový systém</translation>
     </message>
     <message>
         <source>Remove finished torrents when their ratio reaches:</source>
-        <translation>Odstrániť dokončené torrenty, keď ich pomer dosiahne:</translation>
+        <translation type="obsolete">Odstrániť dokončené torrenty, keď ich pomer dosiahne:</translation>
     </message>
     <message>
         <source>System default</source>
-        <translation>Štandardné nastavenie systému</translation>
+        <translation type="obsolete">Štandardné nastavenie systému</translation>
     </message>
     <message>
         <source>Start minimized</source>
-        <translation>Spustiť minimalizované</translation>
+        <translation type="obsolete">Spustiť minimalizované</translation>
     </message>
     <message>
         <source>Action on double click in transfer lists</source>
@@ -1022,59 +1046,55 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Web UI</source>
-        <translation>Webové rozhranie</translation>
+        <translation type="obsolete">Webové rozhranie</translation>
     </message>
     <message>
         <source>Enable Web User Interface</source>
-        <translation>Zapnúť webové rozhranie</translation>
+        <translation type="obsolete">Zapnúť webové rozhranie</translation>
     </message>
     <message>
         <source>HTTP Server</source>
-        <translation>HTTP Server</translation>
-    </message>
-    <message>
-        <source>Enable RSS support</source>
-        <translation></translation>
+        <translation type="obsolete">HTTP Server</translation>
     </message>
     <message>
         <source>RSS settings</source>
-        <translation>Nastavenia RSS</translation>
+        <translation type="obsolete">Nastavenia RSS</translation>
     </message>
     <message>
         <source>Enable queueing system</source>
-        <translation>Zapnúť systém frontu</translation>
+        <translation type="obsolete">Zapnúť systém frontu</translation>
     </message>
     <message>
         <source>Maximum active downloads:</source>
-        <translation>Maximum aktívnych sťahovaní:</translation>
+        <translation type="obsolete">Maximum aktívnych sťahovaní:</translation>
     </message>
     <message>
         <source>Torrent queueing</source>
-        <translation>Zaraďovanie torrentov do frontu</translation>
+        <translation type="obsolete">Zaraďovanie torrentov do frontu</translation>
     </message>
     <message>
         <source>Maximum active torrents:</source>
-        <translation>Maximum aktívnych torrentov:</translation>
+        <translation type="obsolete">Maximum aktívnych torrentov:</translation>
     </message>
     <message>
         <source>Display top toolbar</source>
-        <translation>Zobrazovať horný panel nástrojov</translation>
+        <translation type="obsolete">Zobrazovať horný panel nástrojov</translation>
     </message>
     <message>
         <source>Search engine proxy settings</source>
-        <translation>Proxy nastavenie vyhľadávača</translation>
+        <translation type="obsolete">Proxy nastavenie vyhľadávača</translation>
     </message>
     <message>
         <source>Bittorrent proxy settings</source>
-        <translation>Nastavenie Bittorrent proxy</translation>
+        <translation type="obsolete">Nastavenie Bittorrent proxy</translation>
     </message>
     <message>
         <source>Maximum active uploads:</source>
-        <translation>Max. aktívnych nahrávaní:</translation>
+        <translation type="obsolete">Max. aktívnych nahrávaní:</translation>
     </message>
     <message utf8="true">
         <source>Spoof µtorrent to avoid ban (requires restart)</source>
-        <translation>Predstierať µtorrent aby sme sa vyhli blokovaniu (vyžaduje reštart)</translation>
+        <translation type="obsolete">Predstierať µtorrent aby sme sa vyhli blokovaniu (vyžaduje reštart)</translation>
     </message>
     <message>
         <source>Action for double click</source>
@@ -1083,11 +1103,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Start/Stop</source>
-        <translation>Spustiť/Zastaviť</translation>
+        <translation type="obsolete">Spustiť/Zastaviť</translation>
     </message>
     <message>
         <source>Open folder</source>
-        <translation>Otvoriť priečinok</translation>
+        <translation type="obsolete">Otvoriť priečinok</translation>
     </message>
     <message>
         <source>Show properties</source>
@@ -1095,52 +1115,52 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Port used for incoming connections:</source>
-        <translation>Port pre prichádzajúce spojenia:</translation>
+        <translation type="obsolete">Port pre prichádzajúce spojenia:</translation>
     </message>
     <message>
         <source>Random</source>
-        <translation>Náhodný</translation>
+        <translation type="obsolete">Náhodný</translation>
     </message>
     <message>
         <source>UI</source>
-        <translation>Rozhranie</translation>
+        <translation type="obsolete">Rozhranie</translation>
     </message>
     <message>
         <source>Disable splash screen</source>
-        <translation>Vypnúť štartovaciu obrazovku</translation>
+        <translation type="obsolete">Vypnúť štartovaciu obrazovku</translation>
     </message>
     <message>
         <source>Transfer list refresh interval:</source>
-        <translation>Interval obnovenia zoznamu prenosov:</translation>
+        <translation type="obsolete">Interval obnovenia zoznamu prenosov:</translation>
     </message>
     <message>
         <source>Action on double click</source>
         <comment>Action executed when doucle-clicking on an item in transfer (download/upload) list</comment>
-        <translation>Operácia po dvojitom kliknutí</translation>
+        <translation type="obsolete">Operácia po dvojitom kliknutí</translation>
     </message>
     <message>
         <source>Downloading:</source>
-        <translation>Sťahuje sa:</translation>
+        <translation type="obsolete">Sťahuje sa:</translation>
     </message>
     <message>
         <source>Completed:</source>
-        <translation>Hotovo:</translation>
+        <translation type="obsolete">Hotovo:</translation>
     </message>
     <message>
         <source>Peer connections</source>
-        <translation>Pripojení</translation>
+        <translation type="obsolete">Pripojení</translation>
     </message>
     <message>
         <source>Resolve peer countries</source>
-        <translation>Prekladať krajiny rovesníkov</translation>
+        <translation type="obsolete">Prekladať krajiny rovesníkov</translation>
     </message>
     <message>
         <source>Resolve peer host names</source>
-        <translation>Prekladať názvy počítačov rovesníkov</translation>
+        <translation type="obsolete">Prekladať názvy počítačov rovesníkov</translation>
     </message>
     <message>
         <source>Use a different port for DHT and Bittorrent</source>
-        <translation>Používať odlišný port pre DHT a Bittorrent</translation>
+        <translation type="obsolete">Používať odlišný port pre DHT a Bittorrent</translation>
     </message>
 </context>
 <context>
@@ -1474,11 +1494,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Overwriting confirmation</source>
-        <translation>Potvrdenie prepísania</translation>
+        <translation type="obsolete">Potvrdenie prepísania</translation>
     </message>
     <message>
         <source>Are you sure you want to overwrite existing file?</source>
-        <translation>Ste si istý, že chcete prepísať existujúci súbor?</translation>
+        <translation type="obsolete">Ste si istý, že chcete prepísať existujúci súbor?</translation>
     </message>
     <message>
         <source>Export successful</source>
@@ -1498,7 +1518,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Choose save path</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukladať kam</translation>
     </message>
 </context>
 <context>
@@ -1513,15 +1533,15 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>I/O Error</source>
         <comment>Input/Output Error</comment>
-        <translation>V/V Chyba</translation>
+        <translation type="obsolete">V/V Chyba</translation>
     </message>
     <message>
         <source>Couldn&apos;t open %1 in read mode.</source>
-        <translation>Nebolo možné otvoriť %1 v režime pre čítanie.</translation>
+        <translation type="obsolete">Nebolo možné otvoriť %1 v režime pre čítanie.</translation>
     </message>
     <message>
         <source>%1 is not a valid PeerGuardian P2B file.</source>
-        <translation>%1 nie je platný súbor PeerGuardian P2B.</translation>
+        <translation type="obsolete">%1 nie je platný súbor PeerGuardian P2B.</translation>
     </message>
 </context>
 <context>
@@ -2460,6 +2480,36 @@ Ste si istý, že chcete ukončiť Bittorrent?</translation>
     </message>
 </context>
 <context>
+    <name>HeadlessLoader</name>
+    <message>
+        <source>Information</source>
+        <translation>Informácie</translation>
+    </message>
+    <message>
+        <source>To control qBittorrent, access the Web UI at http://localhost:%1</source>
+        <translation>qBittorrentmôžete ovládať z webového rozhrania na adrese http://localhost:%1</translation>
+    </message>
+    <message>
+        <source>The Web UI administrator user name is: %1</source>
+        <translation>Používateľské meno správcu webového rozhrania je: %1</translation>
+    </message>
+    <message>
+        <source>The Web UI administrator password is still the default one: %1</source>
+        <translation>Heslo správcu webového rozhrania je stále predvolená hodnota: %1</translation>
+    </message>
+    <message>
+        <source>This is a security risk, please consider changing your password from program preferences.</source>
+        <translation>Toto je bezpečnostné riziko. Prosím, zmeňte si heslo v Nastaveniach programu.</translation>
+    </message>
+</context>
+<context>
+    <name>HttpConnection</name>
+    <message>
+        <source>Your IP address has been banned after too many failed authentication attempts.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>HttpServer</name>
     <message>
         <source>File</source>
@@ -2528,6 +2578,62 @@ Ste si istý, že chcete ukončiť Bittorrent?</translation>
     <message>
         <source>Unable to save program preferences, qBittorrent is probably unreachable.</source>
         <translation>Nepodarilo sa uložiť nastavenia programu, qBittorrent je pravdepodobne nedostupný.</translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation>Jazyk</translation>
+    </message>
+    <message>
+        <source>The port used for incoming connections must be greater than 1024 and less than 65535.</source>
+        <translation>Port pre prichádzajúce spojenia musí byť medzi 1024 a 65535.</translation>
+    </message>
+    <message>
+        <source>The port used for the Web UI must be greater than 1024 and less than 65535.</source>
+        <translation>Port pre webové rozhranie musí byť medzi 1024 a 65535.</translation>
+    </message>
+    <message>
+        <source>The Web UI username must be at least 3 characters long.</source>
+        <translation>Používateľské meno pre webové rozhranie musí mať dĺžku aspoň 3 znaky.</translation>
+    </message>
+    <message>
+        <source>The Web UI password must be at least 3 characters long.</source>
+        <translation>Heslo pre webové rozhranie musí mať dĺžku aspoň 3 znaky.</translation>
+    </message>
+    <message>
+        <source>Downloaded</source>
+        <comment>Is the file downloaded or not?</comment>
+        <translation>Stiahnuté</translation>
+    </message>
+</context>
+<context>
+    <name>LegalNotice</name>
+    <message>
+        <source>Legal Notice</source>
+        <translation>Právny oznam</translation>
+    </message>
+    <message>
+        <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by mean of upload. And of course, any content you share if your sole responsatibility.
+
+You probably knew this, so we won&apos;t tell you again.</source>
+        <translation>qBittorrent je program na zdieľanie súborov. Keď spustíte torrent, jeho údaje sa sprístupnia iným na stiahnutie. A samozrejme, akýkoľvek obsah, ktorý zdieľate je jedine na vašu vlastnú zodpovednosť.
+
+Pravdepodobne ste to už vedelí, tak to už nebudeme opakovať.</translation>
+    </message>
+    <message>
+        <source>Press any key to accept and continue...</source>
+        <translation>Pokračujte stlačením wubovoľného klávesu...</translation>
+    </message>
+    <message>
+        <source>Legal notice</source>
+        <translation>Právne upozornenie</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Zrušiť</translation>
+    </message>
+    <message>
+        <source>I Agree</source>
+        <translation>Súhlasím</translation>
     </message>
 </context>
 <context>
@@ -2901,6 +3007,486 @@ Ste si istý, že chcete ukončiť Bittorrent?</translation>
     </message>
 </context>
 <context>
+    <name>Preferences</name>
+    <message>
+        <source>Preferences</source>
+        <translation>Nastavenia</translation>
+    </message>
+    <message>
+        <source>UI</source>
+        <translation>Rozhranie</translation>
+    </message>
+    <message>
+        <source>Downloads</source>
+        <translation>Sťahovania</translation>
+    </message>
+    <message>
+        <source>Connection</source>
+        <translation>Spojenie</translation>
+    </message>
+    <message>
+        <source>Bittorrent</source>
+        <translation>Bittorrent</translation>
+    </message>
+    <message>
+        <source>Proxy</source>
+        <translation>Proxy</translation>
+    </message>
+    <message>
+        <source>IP Filter</source>
+        <translation>IP filter</translation>
+    </message>
+    <message>
+        <source>Web UI</source>
+        <translation>Webové rozhranie</translation>
+    </message>
+    <message>
+        <source>RSS</source>
+        <translation>RSS</translation>
+    </message>
+    <message>
+        <source>User interface</source>
+        <translation>Nastavenia používateľského rozhrania</translation>
+    </message>
+    <message>
+        <source>Language:</source>
+        <translation>Jazyk:</translation>
+    </message>
+    <message>
+        <source>(Requires restart)</source>
+        <translation>Obnoviť RSS kanály</translation>
+    </message>
+    <message>
+        <source>Visual style:</source>
+        <translation>Vizuálny štýl:</translation>
+    </message>
+    <message>
+        <source>System default</source>
+        <translation>Štandardné nastavenie systému</translation>
+    </message>
+    <message>
+        <source>Plastique style (KDE like)</source>
+        <translation>Plastický štýl (ako KDE)</translation>
+    </message>
+    <message>
+        <source>Cleanlooks style (Gnome like)</source>
+        <translation>Čistý vzhľad (ako GNOME)</translation>
+    </message>
+    <message>
+        <source>Motif style (Unix like)</source>
+        <translation>Štýl Motif (ako Unix)</translation>
+    </message>
+    <message>
+        <source>CDE style (Common Desktop Environment like)</source>
+        <translation>Štýl CDE (ako Common Desktop Environment)</translation>
+    </message>
+    <message>
+        <source>Ask for confirmation on exit when download list is not empty</source>
+        <translation>Potvrdenie ukončenia v prípade, že zoznam sťahovaní nie je prázdny</translation>
+    </message>
+    <message>
+        <source>Display top toolbar</source>
+        <translation>Zobrazovať horný panel nástrojov</translation>
+    </message>
+    <message>
+        <source>Disable splash screen</source>
+        <translation>Vypnúť štartovaciu obrazovku</translation>
+    </message>
+    <message>
+        <source>Display current speed in title bar</source>
+        <translation>Zobraziť aktuálnu rýchlosť sťahovania v titulnom pruhu</translation>
+    </message>
+    <message>
+        <source>Transfer list</source>
+        <translation>Zoznam prenosov</translation>
+    </message>
+    <message>
+        <source>Refresh interval:</source>
+        <translation>Interval obnovovania:</translation>
+    </message>
+    <message>
+        <source>ms</source>
+        <translation>ms</translation>
+    </message>
+    <message>
+        <source>Use alternating row colors</source>
+        <extracomment>In transfer list, one every two rows will have grey background.</extracomment>
+        <translation>Používať striedavé farby pozadia riadkov</translation>
+    </message>
+    <message>
+        <source>Action on double click:</source>
+        <comment>Action executed when doucle-clicking on an item in transfer (download/upload) list</comment>
+        <translation>Operácia po dvojitom kliknutí:</translation>
+    </message>
+    <message>
+        <source>Downloading:</source>
+        <translation>Sťahuje sa:</translation>
+    </message>
+    <message>
+        <source>Start/Stop</source>
+        <translation>Spustiť/zastaviť</translation>
+    </message>
+    <message>
+        <source>Open folder</source>
+        <translation>Otvoriť priečinok</translation>
+    </message>
+    <message>
+        <source>Completed:</source>
+        <translation>Dokončené: </translation>
+    </message>
+    <message>
+        <source>System tray icon</source>
+        <translation>Ikona v oznamovacej oblasti (systray)</translation>
+    </message>
+    <message>
+        <source>Disable system tray icon</source>
+        <translation>Vypnúť ikonu v oznamovacej oblasti</translation>
+    </message>
+    <message>
+        <source>Close to tray</source>
+        <comment>i.e: The systray tray icon will still be visible when closing the main window.</comment>
+        <translation>Zatvoriť do oznamovacej oblasti</translation>
+    </message>
+    <message>
+        <source>Minimize to tray</source>
+        <translation>Minimalizovať do oznamovacej oblasti</translation>
+    </message>
+    <message>
+        <source>Start minimized</source>
+        <translation>Spustiť minimalizované</translation>
+    </message>
+    <message>
+        <source>Show notification balloons in tray</source>
+        <translation>Zobrazovať bublinové upozornenia v oblasti upozornení</translation>
+    </message>
+    <message>
+        <source>File system</source>
+        <translation>Súborový systém</translation>
+    </message>
+    <message>
+        <source>QGroupBox::title {
+font-weight: normal;
+margin-left: -3px;
+}
+QGroupBox {
+  border-width: 0;
+}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Destination Folder:</source>
+        <translation>Cieľový priečinok:</translation>
+    </message>
+    <message>
+        <source>Append the torrent&apos;s label</source>
+        <translation>Pridať označenie torrentu</translation>
+    </message>
+    <message>
+        <source>Use a different folder for incomplete downloads:</source>
+        <translation>Používať odlišný priečinok pre nedokončené sťahovania:</translation>
+    </message>
+    <message>
+        <source>QLineEdit {
+  margin-left: 23px;
+}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Automatically load .torrent files from:</source>
+        <translation>Automaticky načítavať torrenty z:</translation>
+    </message>
+    <message>
+        <source>Append .!qB extension to incomplete files</source>
+        <translation>Pridávať nedosťahovaným súborom príponu.!qB</translation>
+    </message>
+    <message>
+        <source>Pre-allocate all files</source>
+        <translation>Dopredu alokovať všetky súbory</translation>
+    </message>
+    <message>
+        <source>Disk cache:</source>
+        <translation>Disková vyrovnávacia pamäť:</translation>
+    </message>
+    <message>
+        <source>MiB (advanced)</source>
+        <translation>MiB (pokročilé)</translation>
+    </message>
+    <message>
+        <source>Torrent queueing</source>
+        <translation>Zaraďovanie torrentov do frontu</translation>
+    </message>
+    <message>
+        <source>Enable queueing system</source>
+        <translation>Zapnúť systém frontu</translation>
+    </message>
+    <message>
+        <source>Maximum active downloads:</source>
+        <translation>Maximum aktívnych sťahovaní:</translation>
+    </message>
+    <message>
+        <source>Maximum active uploads:</source>
+        <translation>Max. aktívnych nahrávaní:</translation>
+    </message>
+    <message>
+        <source>Maximum active torrents:</source>
+        <translation>Maximum aktívnych torrentov:</translation>
+    </message>
+    <message>
+        <source>When adding a torrent</source>
+        <translation>Pri pridávaní torrentu</translation>
+    </message>
+    <message>
+        <source>Display torrent content and some options</source>
+        <translation>Zobraziť obsah torrentu a nejaké voľby</translation>
+    </message>
+    <message>
+        <source>Do not start download automatically</source>
+        <comment>The torrent will be added to download list in pause state</comment>
+        <translation>Nezačínať sťahovanie automaticky</translation>
+    </message>
+    <message>
+        <source>Listening port</source>
+        <translation>Počúvať na porte</translation>
+    </message>
+    <message>
+        <source>Port used for incoming connections:</source>
+        <translation>Port pre prichádzajúce spojenia:</translation>
+    </message>
+    <message>
+        <source>Random</source>
+        <translation>Náhodný</translation>
+    </message>
+    <message>
+        <source>Enable UPnP port mapping</source>
+        <translation>Zapnúť mapovanie portov UPnP</translation>
+    </message>
+    <message>
+        <source>Enable NAT-PMP port mapping</source>
+        <translation>Zapnúť mapovanie portov NAT-PMP</translation>
+    </message>
+    <message>
+        <source>Connections limit</source>
+        <translation>Limit spojení</translation>
+    </message>
+    <message>
+        <source>Global maximum number of connections:</source>
+        <translation>Maximálny globálny počet spojení:</translation>
+    </message>
+    <message>
+        <source>Maximum number of connections per torrent:</source>
+        <translation>Maximálny počet spojení na torrent:</translation>
+    </message>
+    <message>
+        <source>Maximum number of upload slots per torrent:</source>
+        <translation>Maximálny počet slotov pre nahrávanie na torrent:</translation>
+    </message>
+    <message>
+        <source>Global bandwidth limiting</source>
+        <translation>Globálny limit pásma</translation>
+    </message>
+    <message>
+        <source>Upload:</source>
+        <translation>Nahrávanie:</translation>
+    </message>
+    <message>
+        <source>Download:</source>
+        <translation>Sťahovanie:</translation>
+    </message>
+    <message>
+        <source>KiB/s</source>
+        <translation>KiB/s</translation>
+    </message>
+    <message>
+        <source>Peer connections</source>
+        <translation>Pripojení</translation>
+    </message>
+    <message>
+        <source>Resolve peer countries</source>
+        <translation>Prekladať krajiny rovesníkov</translation>
+    </message>
+    <message>
+        <source>Resolve peer host names</source>
+        <translation>Prekladať názvy počítačov rovesníkov</translation>
+    </message>
+    <message>
+        <source>Bittorrent features</source>
+        <translation>Možnosti siete Bittorrent</translation>
+    </message>
+    <message>
+        <source>Enable DHT network (decentralized)</source>
+        <translation>Zapnúť sieť DHT (decentralizovaná)</translation>
+    </message>
+    <message>
+        <source>Use a different port for DHT and Bittorrent</source>
+        <translation>Používať odlišný port pre DHT a Bittorrent</translation>
+    </message>
+    <message>
+        <source>DHT port:</source>
+        <translation>Port DHT:</translation>
+    </message>
+    <message>
+        <source>Enable Peer Exchange / PeX (requires restart)</source>
+        <translation>Zapnúť Peer eXchange / PeX (vyžaduje reštart)</translation>
+    </message>
+    <message>
+        <source>Enable Local Peer Discovery</source>
+        <translation>Zapnúť Local Peer Discovery</translation>
+    </message>
+    <message>
+        <source>Encryption:</source>
+        <translation>Šifrovanie:</translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Zapnuté</translation>
+    </message>
+    <message>
+        <source>Forced</source>
+        <translation>Vynútené</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation>Vypnuté</translation>
+    </message>
+    <message>
+        <source>Share ratio settings</source>
+        <translation>Nastavenia pomeru zdieľania</translation>
+    </message>
+    <message>
+        <source>Desired ratio:</source>
+        <translation>Požadovaný pomer:</translation>
+    </message>
+    <message>
+        <source>Remove finished torrents when their ratio reaches:</source>
+        <translation>Odstrániť dokončené torrenty, keď ich pomer dosiahne:</translation>
+    </message>
+    <message>
+        <source>Type:</source>
+        <translation>Typ:</translation>
+    </message>
+    <message>
+        <source>(None)</source>
+        <translation>(žiadny)</translation>
+    </message>
+    <message>
+        <source>HTTP</source>
+        <translation>HTTP</translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation>Port:</translation>
+    </message>
+    <message>
+        <source>Authentication</source>
+        <translation>Autentifikácia</translation>
+    </message>
+    <message>
+        <source>Username:</source>
+        <translation>Meno používateľa:</translation>
+    </message>
+    <message>
+        <source>Password:</source>
+        <translation>Heslo:</translation>
+    </message>
+    <message>
+        <source>SOCKS5</source>
+        <translation>SOCKS5</translation>
+    </message>
+    <message>
+        <source>Filter Settings</source>
+        <translation>Nastavenie filtra</translation>
+    </message>
+    <message>
+        <source>Activate IP Filtering</source>
+        <translation>Aktivovať filtrovanie IP</translation>
+    </message>
+    <message>
+        <source>Enable Web User Interface</source>
+        <translation>Zapnúť webové rozhranie</translation>
+    </message>
+    <message>
+        <source>HTTP Server</source>
+        <translation>HTTP Server</translation>
+    </message>
+    <message>
+        <source>Enable RSS support</source>
+        <translation>Zapnúť podporu RSS</translation>
+    </message>
+    <message>
+        <source>RSS settings</source>
+        <translation>Nastavenia RSS</translation>
+    </message>
+    <message>
+        <source>RSS feeds refresh interval:</source>
+        <translation>Interval obnovovania RSS kanálov:</translation>
+    </message>
+    <message>
+        <source>minutes</source>
+        <translation>minút</translation>
+    </message>
+    <message>
+        <source>Maximum number of articles per feed:</source>
+        <translation>Maximálny počet článkov na kanál:</translation>
+    </message>
+    <message>
+        <source>Filter path (.dat, .p2p, .p2b):</source>
+        <translation>Cesta k filtrom (.dat, .p2p, .p2b):</translation>
+    </message>
+    <message>
+        <source>HTTP Communications (trackers, Web seeds, search engine)</source>
+        <translation>HTTP komunikácia (trackery, web seedy, vyhľadávač)</translation>
+    </message>
+    <message>
+        <source>Host:</source>
+        <translation>Počítač:</translation>
+    </message>
+    <message>
+        <source>Peer Communications</source>
+        <translation>Komunikácia s rovesníkmi</translation>
+    </message>
+    <message>
+        <source>SOCKS4</source>
+        <translation>SOCKS4</translation>
+    </message>
+    <message>
+        <source>Client whitelisting workaround</source>
+        <translation>Dočasné riešenie bielou listinou klientov</translation>
+    </message>
+    <message>
+        <source>Identify as:</source>
+        <translation>Identifikovať sa ako:</translation>
+    </message>
+    <message>
+        <source>qBittorrent</source>
+        <translation>qBittorrent</translation>
+    </message>
+    <message>
+        <source>Vuze</source>
+        <translation>Vuze</translation>
+    </message>
+    <message utf8="true">
+        <source>µTorrent</source>
+        <translation>µTorrent</translation>
+    </message>
+    <message>
+        <source>Version:</source>
+        <translation>Verzia:</translation>
+    </message>
+    <message>
+        <source>Build:</source>
+        <extracomment>Software Build nulmber:</extracomment>
+        <translation>Zostavenie:</translation>
+    </message>
+    <message>
+        <source>Reset to latest software version</source>
+        <translation>Vrátiť na poslednú verziu softvéru</translation>
+    </message>
+    <message>
+        <source>KTorrent</source>
+        <translation>KTorrent</translation>
+    </message>
+</context>
+<context>
     <name>PropListDelegate</name>
     <message>
         <source>False</source>
@@ -2912,22 +3498,22 @@ Ste si istý, že chcete ukončiť Bittorrent?</translation>
     </message>
     <message>
         <source>Ignored</source>
-        <translation>Ignorovaný</translation>
+        <translation type="obsolete">Ignorovaný</translation>
     </message>
     <message>
         <source>Normal</source>
         <comment>Normal (priority)</comment>
-        <translation>Normálna</translation>
+        <translation type="obsolete">Normálna</translation>
     </message>
     <message>
         <source>High</source>
         <comment>High (priority)</comment>
-        <translation>Vysoká</translation>
+        <translation type="obsolete">Vysoká</translation>
     </message>
     <message>
         <source>Maximum</source>
         <comment>Maximum (priority)</comment>
-        <translation>Maximálna</translation>
+        <translation type="obsolete">Maximálna</translation>
     </message>
 </context>
 <context>
@@ -3010,7 +3596,7 @@ Ste si istý, že chcete ukončiť Bittorrent?</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation>Priorita</translation>
+        <translation type="obsolete">Priorita</translation>
     </message>
     <message>
         <source>None - Unreachable?</source>
@@ -3095,19 +3681,19 @@ Ste si istý, že chcete ukončiť Bittorrent?</translation>
     </message>
     <message>
         <source>Ignored</source>
-        <translation>Ignorované</translation>
+        <translation type="obsolete">Ignorované</translation>
     </message>
     <message>
         <source>Normal</source>
-        <translation>Normálna</translation>
+        <translation type="obsolete">Normálna</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation>Maximálna</translation>
+        <translation type="obsolete">Maximálna</translation>
     </message>
     <message>
         <source>High</source>
-        <translation>Vysoká</translation>
+        <translation type="obsolete">Vysoká</translation>
     </message>
     <message>
         <source>this session</source>
@@ -3135,6 +3721,46 @@ Ste si istý, že chcete ukončiť Bittorrent?</translation>
     <message>
         <source>Comment:</source>
         <translation>Komentár:</translation>
+    </message>
+    <message>
+        <source>Rename...</source>
+        <translation>Premenovať...</translation>
+    </message>
+    <message>
+        <source>New name:</source>
+        <translation>Nový názov:</translation>
+    </message>
+    <message>
+        <source>The file could not be renamed</source>
+        <translation>Nebolo možné premenovať súbor</translation>
+    </message>
+    <message>
+        <source>This name is already in use in this folder. Please use a different name.</source>
+        <translation>Tento názov sa v tomto adresári už používa. Prosím, zvoľte iný názov.</translation>
+    </message>
+    <message>
+        <source>The folder could not be renamed</source>
+        <translation>Nebolo možné premenovať adresár</translation>
+    </message>
+    <message>
+        <source>Rename the file</source>
+        <translation>Premenovať súbor</translation>
+    </message>
+    <message>
+        <source>This file name contains forbidden characters, please choose a different one.</source>
+        <translation>Tento názov súboru obsahuje nepovolené znaky, preto zvoľte iný.</translation>
+    </message>
+    <message>
+        <source>I/O Error</source>
+        <translation>V/V chyba</translation>
+    </message>
+    <message>
+        <source>This file does not exist yet.</source>
+        <translation>Tento súbor zatiaľ neexistuje.</translation>
+    </message>
+    <message>
+        <source>This folder does not exist yet.</source>
+        <translation>Tento priečinok zatiaľ neexistuje.</translation>
     </message>
 </context>
 <context>
@@ -3266,7 +3892,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Bullet</source>
-        <translation>Odrážka</translation>
+        <translation type="obsolete">Odrážka</translation>
     </message>
     <message>
         <source>Article title</source>
@@ -3682,7 +4308,7 @@ Záznam zmien:</translation>
     </message>
     <message>
         <source>Offline. This usually means that qBittorrent failed to listen on the selected port for incoming connections.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odpojený. To zvyčajne znamená, že qBittorrent nedokázal počúvať prichádzajúce spojenia na zvolenom porte.</translation>
     </message>
 </context>
 <context>
@@ -3701,7 +4327,7 @@ Záznam zmien:</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation>Priorita</translation>
+        <translation type="obsolete">Priorita</translation>
     </message>
 </context>
 <context>
@@ -3773,6 +4399,34 @@ Záznam zmien:</translation>
         <source>List of trackers to add (one per line):</source>
         <translation>Pridať nasledovné trackery (jeden tracker na riadok):</translation>
     </message>
+    <message utf8="true">
+        <source>µTorrent compatible list URL:</source>
+        <translation>Zoznam URL kompatibilný s µTorrent:</translation>
+    </message>
+    <message>
+        <source>I/O Error</source>
+        <translation>V/V Chyba</translation>
+    </message>
+    <message>
+        <source>Error while trying to open the downloaded file.</source>
+        <translation>Chyba počas pokusu otvoriť stiahnutý súbor.</translation>
+    </message>
+    <message>
+        <source>No change</source>
+        <translation>Bez zmeny</translation>
+    </message>
+    <message>
+        <source>No additional trackers were found.</source>
+        <translation>Neboli nájdené žiadne ďalšie trackery.</translation>
+    </message>
+    <message>
+        <source>Download error</source>
+        <translation>Chyba pri sťahovaní</translation>
+    </message>
+    <message>
+        <source>The trackers list could not be downloaded, reason: %1</source>
+        <translation>Trackery nebolo možné stiahnuť. Dôvod: %1</translation>
+    </message>
 </context>
 <context>
     <name>TransferListDelegate</name>
@@ -3835,6 +4489,38 @@ Záznam zmien:</translation>
     <message>
         <source>Inactive</source>
         <translation>Neaktívne</translation>
+    </message>
+    <message>
+        <source>All labels</source>
+        <translation>Všetky označenia</translation>
+    </message>
+    <message>
+        <source>Unlabeled</source>
+        <translation>Bez označenia</translation>
+    </message>
+    <message>
+        <source>Remove label</source>
+        <translation> Odstrániť označenie</translation>
+    </message>
+    <message>
+        <source>Add label</source>
+        <translation>Pridať označenie</translation>
+    </message>
+    <message>
+        <source>New Label</source>
+        <translation>Nové označenie</translation>
+    </message>
+    <message>
+        <source>Label:</source>
+        <translation>Označenie:</translation>
+    </message>
+    <message>
+        <source>Invalid label name</source>
+        <translation>Neplatný názov označenia</translation>
+    </message>
+    <message>
+        <source>Please don&apos;t use any special characters in the label name.</source>
+        <translation>Prosím, nepoužívajte v názve označenia špeciálne znaky.</translation>
     </message>
 </context>
 <context>
@@ -3995,6 +4681,48 @@ Záznam zmien:</translation>
         <source>Download first and last piece first</source>
         <translation>Sťahovať najprv prvú a poslednú časť</translation>
     </message>
+    <message>
+        <source>Label</source>
+        <translation>Označenie</translation>
+    </message>
+    <message>
+        <source>New Label</source>
+        <translation>Nové označenie</translation>
+    </message>
+    <message>
+        <source>Label:</source>
+        <translation>Označenie:</translation>
+    </message>
+    <message>
+        <source>New...</source>
+        <comment>New label...</comment>
+        <translation>Nové...</translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <comment>Reset label</comment>
+        <translation>Vrátiť</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Premenovať</translation>
+    </message>
+    <message>
+        <source>New name:</source>
+        <translation>Nový názov:</translation>
+    </message>
+    <message>
+        <source>Rename...</source>
+        <translation>Premenovať...</translation>
+    </message>
+    <message>
+        <source>Invalid label name</source>
+        <translation>Neplatný názov označenia</translation>
+    </message>
+    <message>
+        <source>Please don&apos;t use any special characters in the label name.</source>
+        <translation>Prosím, nepoužívajte v názve označenia špeciálne znaky.</translation>
+    </message>
 </context>
 <context>
     <name>Ui</name>
@@ -4053,6 +4781,33 @@ Záznam zmien:</translation>
     <message>
         <source>Please contact me if you would like to translate qBittorrent into your own language.</source>
         <translation type="obsolete">Prosím, kontaktujte ma ak chcete preložiť qBittorrent do vášho jazyka.</translation>
+    </message>
+</context>
+<context>
+    <name>UsageDisplay</name>
+    <message>
+        <source>Usage:</source>
+        <translation>Použitie:</translation>
+    </message>
+    <message>
+        <source>displays program version</source>
+        <translation>zobrazí verziu programu</translation>
+    </message>
+    <message>
+        <source>disable splash screen</source>
+        <translation>vypnúť štartovaciu obrazovku</translation>
+    </message>
+    <message>
+        <source>displays this help message</source>
+        <translation>zobrazí túto správu Pomocníka</translation>
+    </message>
+    <message>
+        <source>changes the webui port (current: %1)</source>
+        <translation>zmení port webového rozhrania (momentálne: %1)</translation>
+    </message>
+    <message>
+        <source>[files or urls]: downloads the torrents passed by the user (optional)</source>
+        <translation>[súbory alebo URL]: stiahne uvedené torrenty (nepovinné)</translation>
     </message>
 </context>
 <context>
@@ -4145,19 +4900,19 @@ Záznam zmien:</translation>
     </message>
     <message>
         <source>Ignored</source>
-        <translation>Ignorovaný</translation>
+        <translation type="obsolete">Ignorovaný</translation>
     </message>
     <message>
         <source>Normal</source>
-        <translation>Normálna</translation>
+        <translation type="obsolete">Normálna</translation>
     </message>
     <message>
         <source>High</source>
-        <translation>Vysoká</translation>
+        <translation type="obsolete">Vysoká</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation>Maximálna</translation>
+        <translation type="obsolete">Maximálna</translation>
     </message>
     <message>
         <source>Collapse all</source>
@@ -4190,6 +4945,10 @@ Záznam zmien:</translation>
     <message>
         <source>Skip file checking and start seeding immediately</source>
         <translation>Preskočiť kontrolu súborov a začať seedovať okamžite</translation>
+    </message>
+    <message>
+        <source>Label:</source>
+        <translation>Označenie:</translation>
     </message>
 </context>
 <context>
@@ -4961,7 +5720,7 @@ Záznam zmien:</translation>
     </message>
     <message>
         <source>You can get new search engine plugins here: &lt;a href=&quot;http://plugins.qbittorrent.org&quot;&gt;http://plugins.qbittorrent.org&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Nové zásuvné moduly vyhľadávačov nájdete tu: &lt;a href=&quot;http://plugins.qbittorrent.org&quot;&gt;http://plugins.qbittorrent.org&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -6034,7 +6793,7 @@ Tieto moduly však boli vypnuté.</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation>Priorita</translation>
+        <translation type="obsolete">Priorita</translation>
     </message>
     <message>
         <source>Unknown</source>
@@ -6057,6 +6816,50 @@ Tieto moduly však boli vypnuté.</translation>
     <message>
         <source>You chose to skip file checking. However, local files do not seem to exist in the current destionation folder. Please disable this feature or update the save path.</source>
         <translation>Rozhodli ste sa preskočiť kontrolu súborov. Zdá sa však, že lokálne súbory neexistujú v aktuálnom cieľovom priečinku torrentu. Prosím, vypnite túto možnosť alebo aktualizujte cieľovú cestu.</translation>
+    </message>
+    <message>
+        <source>Rename...</source>
+        <translation>Premenovať...</translation>
+    </message>
+    <message>
+        <source>New name:</source>
+        <translation>Nový názov:</translation>
+    </message>
+    <message>
+        <source>The file could not be renamed</source>
+        <translation>Nepodarilo sa premenovať súbor</translation>
+    </message>
+    <message>
+        <source>This name is already in use in this folder. Please use a different name.</source>
+        <translation>Tento názov už používa iná položka. Prosím, zvoľte iný názov.</translation>
+    </message>
+    <message>
+        <source>The folder could not be renamed</source>
+        <translation>Nepodarilo sa premenovať adresár</translation>
+    </message>
+    <message>
+        <source>Rename the file</source>
+        <translation>Premenovať súbor</translation>
+    </message>
+    <message>
+        <source>Unable to decode magnet link:</source>
+        <translation>Nepodarilo sa dekódovať odkaz Magnet:</translation>
+    </message>
+    <message>
+        <source>Magnet Link</source>
+        <translation>Odkaz Magnet</translation>
+    </message>
+    <message>
+        <source>Invalid label name</source>
+        <translation>Neplatný názov označenia</translation>
+    </message>
+    <message>
+        <source>Please don&apos;t use any special characters in the label name.</source>
+        <translation>Prosím, nepoužívajte v názve označenia špeciálne znaky.</translation>
+    </message>
+    <message>
+        <source>This file name contains forbidden characters, please choose a different one.</source>
+        <translation>Tento názov súboru obsahuje nepovolené znaky, preto zvoľte iný.</translation>
     </message>
 </context>
 </TS>
