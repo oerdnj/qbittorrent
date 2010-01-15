@@ -180,25 +180,40 @@ License: Creative Commons Public Domain Dedication
 
 
 File: src/update_qrc_files.py,
-      src/search_engines/engines/isohunt.py
-      src/search_engines/engines/btjunkie.py
+      src/search_engine/engines/isohunt.py
+      src/search_engine/engines/btjunkie.py
+      src/search_engine/engines/vertor.py
       src/search_engine/helpers.py
       src/search_engine/nova2dl.py
+      src/search_engine/novaprinter.py
 Copyright: Christophe Dumez <chris@qbittorrent.org>
 License: BSD-3
 
-Files: src/search_engines/nova2.py
-       src/search_engines/engines/mininova.py
-       src/search_engines/engines/piratebay.py
+Files: src/search_engine/nova2.py
+       src/search_engine/engines/mininova.py
+       src/search_engine/engines/piratebay.py
 Copyright: Fabien Devaux <fab@gnux.info>
 License: BSD-3
 
-Files: src/search_engines/engines/torrentreactor.py
+Files: src/search_engine/engines/torrentreactor.py
 Copyright: Gekko Dam Beer (gekko04@users.sourceforge.net)
+License: BSD-3
+
+Files: src/search_engine/socks.py
+Copyright: Copyright 2006 Dan-Haim
 License: BSD-3
 
     Redistribution and use in source and binary forms, with or without
     modification, are permitted under the terms of the BSD License.
+
+    1. Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+    2. Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+    3. Neither the name of the University nor the names of its contributors
+       may be used to endorse or promote products derived from this software
+       without specific prior written permission.
 
     THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
     ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
