@@ -34,8 +34,12 @@
 #include <QMap>
 #include <QUrl>
 #include <QStringList>
+#ifdef DISABLE_GUI
+#include <QCoreApplication>
+#else
 #include <QApplication>
 #include <QPalette>
+#endif
 #include <QPointer>
 
 #include <libtorrent/session.hpp>
@@ -108,12 +112,19 @@ private:
   bool LSDEnabled;
   bool DHTEnabled;
   int current_dht_port;
+  bool PeXEnabled;
   bool queueingEnabled;
+  bool appendLabelToSavePath;
+#ifdef LIBTORRENT_0_15
+  bool appendqBExtension;
+#endif
   QString defaultSavePath;
   QString defaultTempPath;
   // GeoIP
+#ifndef DISABLE_GUI
   bool resolve_countries;
   bool geoipDBLoaded;
+#endif
   // ETA Computation
   QPointer<QTimer> timerETA;
   QHash<QString, QList<int> > ETA_samples;
@@ -195,10 +206,18 @@ public slots:
   void setGlobalRatio(float ratio);
   void setDeleteRatio(float ratio);
   void setDHTPort(int dht_port);
-  void setProxySettings(proxy_settings proxySettings, bool trackers=true, bool peers=true, bool web_seeds=true, bool dht=true);
+  void setPeerProxySettings(proxy_settings proxySettings);
+  void setHTTPProxySettings(proxy_settings proxySettings);
   void setSessionSettings(session_settings sessionSettings);
   void startTorrentsInPause(bool b);
   void setDefaultTempPath(QString temppath);
+  void setAppendLabelToSavePath(bool append);
+  void appendLabelToTorrentSavePath(QTorrentHandle h);
+  void changeLabelInTorrentSavePath(QTorrentHandle h, QString old_label, QString new_label);
+#ifdef LIBTORRENT_0_15
+  void appendqBextensionToTorrent(QTorrentHandle h, bool append);
+  void setAppendqBExtension(bool append);
+#endif
   void applyEncryptionSettings(pe_settings se);
   void setDownloadLimit(QString hash, long val);
   void setUploadLimit(QString hash, long val);
@@ -206,7 +225,11 @@ public slots:
   void enableNATPMP(bool b);
   void enableLSD(bool b);
   bool enableDHT(bool b);
+#ifdef DISABLE_GUI
+  void addConsoleMessage(QString msg, QString color=QString::null);
+#else
   void addConsoleMessage(QString msg, QColor color=QApplication::palette().color(QPalette::WindowText));
+#endif
   void addPeerBanMessage(QString msg, bool from_ipfilter);
   void processDownloadedFile(QString, QString);
   void addMagnetSkipAddDlg(QString uri);
@@ -234,6 +257,8 @@ signals:
   void downloadFromUrlFailure(QString url, QString reason);
   void torrentFinishedChecking(QTorrentHandle& h);
   void metadataReceived(QTorrentHandle &h);
+  void savePathChanged(QTorrentHandle &h);
+  void newConsoleMessage(QString msg);
 };
 
 #endif

@@ -41,10 +41,26 @@
 #include <QList>
 #include <QPair>
 #include <QThread>
+#include <QUrl>
 #include <ctime>
 #include <QDateTime>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 #include <boost/date_time/posix_time/conversion.hpp>
+
+#ifdef DISABLE_GUI
+#include <QCoreApplication>
+#else
+#include <QApplication>
+#endif
+
+#ifdef Q_WS_WIN
+#include <shlobj.h>
+#endif
+
+#ifdef Q_WS_MAC
+#include <Files.h>
+#include <Folders.h>
+#endif
 
 #ifndef Q_WS_WIN
 #ifdef Q_WS_MAC
@@ -107,6 +123,173 @@ public:
     return x;
   }
 
+  static void copyDir(QString src_path, QString dst_path) {
+    QDir sourceDir(src_path);
+    if(!sourceDir.exists()) return;
+    // Create destination directory
+    QDir destDir(dst_path);
+    if(!destDir.exists()) {
+      if(!destDir.mkpath(destDir.absolutePath())) return;
+    }
+    // List source directory
+    QFileInfoList content = sourceDir.entryInfoList();
+    foreach(const QFileInfo& child, content) {
+      if(child.fileName()[0] == '.') continue;
+      if(child.isDir()) {
+        copyDir(child.absoluteFilePath(), dst_path+QDir::separator()+QDir(child.absoluteFilePath()).dirName());
+        continue;
+      }
+      QString src_child_path = child.absoluteFilePath();
+      QString dest_child_path = destDir.absoluteFilePath(child.fileName());
+      // Copy the file from src to dest
+      QFile::copy(src_child_path, dest_child_path);
+      // Remove source file
+      QFile::remove(src_child_path);
+    }
+    // Remove source folder
+    QString dir_name = sourceDir.dirName();
+    if(sourceDir.cdUp()) {
+      sourceDir.rmdir(dir_name);
+    }
+  }
+
+  // Introduced in v2.1.0
+  // For backward compatibility
+  // Remove after some releases
+  static void moveToXDGFolders() {
+    QString old_qBtPath = QDir::homePath()+QDir::separator()+QString::fromUtf8(".qbittorrent") + QDir::separator();
+    if(QDir(old_qBtPath).exists()) {
+      // Copy BT_backup folder
+      QString old_BTBackupPath = old_qBtPath + "BT_backup";
+      if(QDir(old_BTBackupPath).exists()) {
+        copyDir(old_BTBackupPath, BTBackupLocation());
+      }
+      // Copy search engine folder
+      QString old_searchPath = old_qBtPath + "search_engine";
+      if(QDir(old_searchPath).exists()) {
+        copyDir(old_searchPath, searchEngineLocation());
+      }
+      // Copy *_state files
+      if(QFile::exists(old_qBtPath+"dht_state")) {
+        QFile::copy(old_qBtPath+"dht_state", cacheLocation()+QDir::separator()+"dht_state");
+        QFile::remove(old_qBtPath+"dht_state");
+      }
+      if(QFile::exists(old_qBtPath+"ses_state")) {
+        QFile::copy(old_qBtPath+"ses_state", cacheLocation()+QDir::separator()+"ses_state");
+        QFile::remove(old_qBtPath+"ses_state");
+      }
+      // Remove .qbittorrent folder if empty
+      QDir::home().rmdir(".qbittorrent");
+    }
+  }
+
+  static QString toValidFileSystemName(QString filename) {
+    qDebug("toValidFSName: %s", filename.toLocal8Bit().data());
+    filename = filename.replace("\\", "/").trimmed();
+    QRegExp regex("[/:?\"*<>|]");
+    filename = filename.replace(regex, " ").trimmed();
+    qDebug("toValidFSName, result: %s", filename.toLocal8Bit().data());
+    return filename;
+  }
+
+  static bool isValidFileSystemName(QString filename) {
+    filename = filename.replace("\\", "/").trimmed();
+    if(filename.isEmpty()) return false;
+    QRegExp regex("[/:?\"*<>|]");
+    if(filename.contains(regex))
+      return false;
+    return true;
+  }
+
+#ifdef Q_WS_MAC
+  static QString getFullPath(const FSRef &ref)
+  {
+    QByteArray ba(2048, 0);
+    if (FSRefMakePath(&ref, reinterpret_cast<UInt8 *>(ba.data()), ba.size()) == noErr)
+      return QString::fromUtf8(ba).normalized(QString::NormalizationForm_C);
+    return QString();
+  }
+#endif
+
+  static QString QDesktopServicesDataLocation() {
+#ifdef Q_WS_WIN
+#if defined Q_WS_WINCE
+    if (SHGetSpecialFolderPath(0, path, CSIDL_APPDATA, FALSE))
+#else
+      if (SHGetSpecialFolderPath(0, path, CSIDL_LOCAL_APPDATA, FALSE))
+#endif
+        result = QString::fromWCharArray(path);
+    if (!QCoreApplication::applicationName().isEmpty())
+      result = result + QLatin1String("\\") + qApp->applicationName();
+#else
+#ifdef Q_WS_MAC
+    // http://developer.apple.com/documentation/Carbon/Reference/Folder_Manager/Reference/reference.html
+    FSRef ref;
+    OSErr err = FSFindFolder(kUserDomain, kApplicationSupportFolderType, false, &ref);
+    if (err)
+      return QString();
+    QString path = getFullPath(ref);
+    path += QLatin1Char('/') + qApp->applicationName();
+    return path;
+#else
+    QString xdgDataHome = QLatin1String(qgetenv("XDG_DATA_HOME"));
+    if (xdgDataHome.isEmpty())
+      xdgDataHome = QDir::homePath() + QLatin1String("/.local/share");
+    xdgDataHome += QLatin1String("/data/")
+                   + qApp->applicationName();
+    return xdgDataHome;
+#endif
+#endif
+  }
+
+  static QString QDesktopServicesCacheLocation() {
+#ifdef Q_WS_WIN
+    return QDesktopServicesDataLocation() + QLatin1String("\\cache");
+#else
+#ifdef Q_WS_MAC
+    // http://developer.apple.com/documentation/Carbon/Reference/Folder_Manager/Reference/reference.html
+    FSRef ref;
+    OSErr err = FSFindFolder(kUserDomain, kCachedDataFolderType, false, &ref);
+    if (err)
+      return QString();
+    QString path = getFullPath(ref);
+    path += QLatin1Char('/') + qApp->applicationName();
+    return path;
+#else
+    QString xdgCacheHome = QLatin1String(qgetenv("XDG_CACHE_HOME"));
+    if (xdgCacheHome.isEmpty())
+      xdgCacheHome = QDir::homePath() + QLatin1String("/.cache");
+    xdgCacheHome += QLatin1Char('/') + QCoreApplication::applicationName();
+    return xdgCacheHome;
+#endif
+#endif
+  }
+
+  static QString searchEngineLocation() {
+    QString location = QDir::cleanPath(QDesktopServicesDataLocation()
+                                       + QDir::separator() + "search_engine");
+    QDir locationDir(location);
+    if(!locationDir.exists())
+      locationDir.mkpath(locationDir.absolutePath());
+    return location;
+  }
+
+  static QString BTBackupLocation() {
+    QString location = QDir::cleanPath(QDesktopServicesDataLocation()
+                                       + QDir::separator() + "BT_backup");
+    QDir locationDir(location);
+    if(!locationDir.exists())
+      locationDir.mkpath(locationDir.absolutePath());
+    return location;
+  }
+
+  static QString cacheLocation() {
+    QString location = QDir::cleanPath(QDesktopServicesCacheLocation());
+    QDir locationDir(location);
+    if(!locationDir.exists())
+      locationDir.mkpath(locationDir.absolutePath());
+    return location;
+  }
 
   static long long freeDiskSpaceOnPath(QString path) {
     if(path.isEmpty()) return -1;
@@ -212,17 +395,6 @@ public:
     return false;
   }
 
-  // return qBittorrent config path
-  static QString qBittorrentPath() {
-    QString qBtPath = QDir::homePath()+QDir::separator()+QString::fromUtf8(".qbittorrent") + QDir::separator();
-    // Create dir if it does not exist
-    if(!QFile::exists(qBtPath)){
-      QDir dir(qBtPath);
-      dir.mkpath(qBtPath);
-    }
-    return qBtPath;
-  }
-
   // Insertion sort, used instead of bubble sort because it is
   // approx. 5 times faster.
   template <class T> static void insertSort(QList<QPair<int, T> > &list, const QPair<int, T>& value, Qt::SortOrder sortOrder) {
@@ -269,6 +441,31 @@ public:
     list.insert(i, value);
   }
 
+  static bool removeEmptyTree(QString path) {
+    QDir dir(path);
+    foreach(QString child, dir.entryList(QDir::AllDirs)) {
+      if(child == "." || child == "..") continue;
+      return removeEmptyTree(dir.absoluteFilePath(child));
+    }
+    QString dir_name = dir.dirName();
+    if(dir.cdUp()) {
+      return dir.rmdir(dir_name);
+    }
+    return false;
+  }
+
+  static QString magnetUriToName(QString magnet_uri) {
+    QString name = "";
+    QRegExp regHex("dn=([^&]+)");
+    int pos = regHex.indexIn(magnet_uri);
+    if(pos > -1) {
+      QString found = regHex.cap(1);
+      // URL decode
+      name = QUrl::fromPercentEncoding(found.toLocal8Bit()).replace("+", " ");
+    }
+    return name;
+  }
+
   static QString magnetUriToHash(QString magnet_uri) {
     QString hash = "";
     QRegExp regHex("urn:btih:([0-9A-Za-z]+)");
@@ -277,8 +474,7 @@ public:
     if(pos > -1) {
       QString found = regHex.cap(1);
       if(found.length() == 40) {
-        sha1_hash sha1;
-        sha1.assign(QString(QByteArray::fromHex(regHex.cap(1).toLocal8Bit())).toStdString());
+        sha1_hash sha1(QString(QByteArray::fromHex(regHex.cap(1).toLocal8Bit())).toStdString());
         qDebug("magnetUriToHash (Hex): hash: %s", misc::toString(sha1).c_str());
         return misc::toQString(sha1);
       }
@@ -289,8 +485,7 @@ public:
     if(pos > -1) {
       QString found = regBase32.cap(1);
       if(found.length() > 20 && (found.length()*5)%40 == 0) {
-        sha1_hash sha1;
-        sha1.assign(base32decode(regBase32.cap(1).toStdString()));
+        sha1_hash sha1(base32decode(regBase32.cap(1).toStdString()));
         hash = misc::toQString(sha1);
       }
     }

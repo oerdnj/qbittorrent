@@ -34,7 +34,7 @@
 #include "ui_options.h"
 #include <libtorrent/ip_filter.hpp>
 
-enum ProxyType {HTTP=1, SOCKS5=2, HTTP_PW=3, SOCKS5_PW=4};
+enum ProxyType {HTTP=1, SOCKS5=2, HTTP_PW=3, SOCKS5_PW=4, SOCKS4=5};
 
 // actions on double-click on torrents
 enum DoubleClickAction {TOGGLE_PAUSE, OPEN_DEST};
@@ -43,7 +43,7 @@ using namespace libtorrent;
 
 class QCloseEvent;
 
-class options_imp : public QDialog, private Ui::Dialog {
+class options_imp : public QDialog, private Ui_Preferences {
   Q_OBJECT
 
 private:
@@ -99,7 +99,6 @@ protected:
   int getDHTPort() const;
   bool isLSDEnabled() const;
   bool isRSSEnabled() const;
-  bool isUtorrentSpoofingEnabled() const;
   int getEncryptionSetting() const;
   float getDesiredRatio() const;
   float getDeleteRatio() const;
@@ -109,19 +108,15 @@ protected:
   QString getHTTPProxyUsername() const;
   QString getHTTPProxyPassword() const;
   int getHTTPProxyType() const;
-  bool isProxyEnabled() const;
+  bool isPeerProxyEnabled() const;
   bool isHTTPProxyEnabled() const;
-  bool isProxyAuthEnabled() const;
+  bool isPeerProxyAuthEnabled() const;
   bool isHTTPProxyAuthEnabled() const;
-  QString getProxyIp() const;
-  unsigned short getProxyPort() const;
-  QString getProxyUsername() const;
-  QString getProxyPassword() const;
-  int getProxyType() const;
-  bool useProxyForTrackers() const;
-  bool useProxyForPeers() const;
-  bool useProxyForWebseeds() const;
-  bool useProxyForDHT() const;
+  QString getPeerProxyIp() const;
+  unsigned short getPeerProxyPort() const;
+  QString getPeerProxyUsername() const;
+  QString getPeerProxyPassword() const;
+  int getPeerProxyType() const;
   // IP Filter
   bool isFilteringEnabled() const;
   QString getFilter() const;
@@ -140,10 +135,10 @@ protected slots:
   void enableDownloadLimit(bool checked);
   void enableTempPathInput(bool checked);
   void enableDirScan(bool checked);
-  void enableProxy(int comboIndex);
-  void enableProxyAuth(bool checked);
-  void enableProxyHTTP(int comboIndex);
-  void enableProxyAuthHTTP(bool checked);
+  void enablePeerProxy(int comboIndex);
+  void enablePeerProxyAuth(bool checked);
+  void enableHTTPProxy(int comboIndex);
+  void enableHTTPProxyAuth(bool checked);
   void enableMaxConnecsLimit(bool checked);
   void enableMaxConnecsLimitPerTorrent(bool checked);
   void enableMaxUploadsLimitPerTorrent(bool checked);
@@ -154,6 +149,7 @@ protected slots:
   void enableDHTSettings(bool checked);
   void enableDHTPortSettings(bool checked);
   void enableQueueingSystem(bool checked);
+  void enableSpoofingSettings(int index);
   void setStyle(int style);
   void on_buttonBox_accepted();
   void closeEvent(QCloseEvent *e);
@@ -176,6 +172,7 @@ protected slots:
 public slots:
   void setLocale(QString locale);
   void useStyle();
+  void on_resetPeerVersion_button_clicked();
 
 signals:
   void status_changed() const;

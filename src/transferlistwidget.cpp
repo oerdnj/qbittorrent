@@ -44,6 +44,7 @@
 #include <QTimer>
 #include <QSettings>
 #include <QClipboard>
+#include <QInputDialog>
 #include <QColor>
 #include <QUrl>
 #include <QMenu>
@@ -52,14 +53,13 @@
 
 TransferListWidget::TransferListWidget(QWidget *parent, GUI *main_window, Bittorrent *_BTSession):
     QTreeView(parent), BTSession(_BTSession), main_window(main_window) {
-
   QSettings settings("qBittorrent", "qBittorrent");
   // Create and apply delegate
   listDelegate = new TransferListDelegate(this);
   setItemDelegate(listDelegate);
 
   // Create transfer list model
-  listModel = new QStandardItemModel(0,12);
+  listModel = new QStandardItemModel(0,13);
   listModel->setHeaderData(TR_NAME, Qt::Horizontal, tr("Name", "i.e: torrent name"));
   listModel->setHeaderData(TR_PRIORITY, Qt::Horizontal, "#");
   listModel->horizontalHeaderItem(TR_PRIORITY)->setTextAlignment(Qt::AlignRight);
@@ -79,14 +79,22 @@ TransferListWidget::TransferListWidget(QWidget *parent, GUI *main_window, Bittor
   listModel->setHeaderData(TR_RATIO, Qt::Horizontal, tr("Ratio", "Share ratio"));
   listModel->horizontalHeaderItem(TR_RATIO)->setTextAlignment(Qt::AlignRight);
   listModel->setHeaderData(TR_ETA, Qt::Horizontal, tr("ETA", "i.e: Estimated Time of Arrival / Time left"));
+  listModel->setHeaderData(TR_LABEL, Qt::Horizontal, tr("Label"));
 
   // Set Sort/Filter proxy
+  labelFilterModel = new QSortFilterProxyModel();
+  labelFilterModel->setDynamicSortFilter(true);
+  labelFilterModel->setSourceModel(listModel);
+  labelFilterModel->setFilterKeyColumn(TR_LABEL);
+  labelFilterModel->setFilterRole(Qt::DisplayRole);
+
   proxyModel = new QSortFilterProxyModel();
   proxyModel->setDynamicSortFilter(true);
-  proxyModel->setSourceModel(listModel);
+  proxyModel->setSourceModel(labelFilterModel);
   proxyModel->setFilterKeyColumn(TR_STATUS);
   proxyModel->setFilterRole(Qt::DisplayRole);
   setModel(proxyModel);
+
 
   // Visual settings
   setRootIsDecorated(false);
@@ -95,8 +103,10 @@ TransferListWidget::TransferListWidget(QWidget *parent, GUI *main_window, Bittor
   setSelectionMode(QAbstractItemView::ExtendedSelection);
   setItemsExpandable(false);
   setAutoScroll(true);
+  setDragDropMode(QAbstractItemView::DragOnly);
 
   hideColumn(TR_PRIORITY);
+  //hideColumn(TR_LABEL);
   hideColumn(TR_HASH);
   loadHiddenColumns();
   // Load last columns width for transfer list
@@ -133,6 +143,7 @@ TransferListWidget::~TransferListWidget() {
   saveHiddenColumns();
   // Clean up
   delete refreshTimer;
+  delete labelFilterModel;
   delete proxyModel;
   delete listModel;
   delete listDelegate;
@@ -152,6 +163,8 @@ void TransferListWidget::addTorrent(QTorrentHandle& h) {
     listModel->setData(listModel->index(row, TR_ETA), QVariant((qlonglong)-1));
     listModel->setData(listModel->index(row, TR_SEEDS), QVariant((double)0.0));
     listModel->setData(listModel->index(row, TR_PEERS), QVariant((double)0.0));
+    QString label = TorrentPersistentData::getLabel(h.hash());
+    listModel->setData(listModel->index(row, TR_LABEL), QVariant(label));
     if(BTSession->isQueueingEnabled())
       listModel->setData(listModel->index(row, TR_PRIORITY), QVariant((int)h.queue_position()));
     listModel->setData(listModel->index(row, TR_HASH), QVariant(h.hash()));
@@ -178,11 +191,18 @@ void TransferListWidget::addTorrent(QTorrentHandle& h) {
     // Select first torrent to be added
     if(listModel->rowCount() == 1)
       selectionModel()->setCurrentIndex(proxyModel->index(row, TR_NAME), QItemSelectionModel::SelectCurrent|QItemSelectionModel::Rows);
+    // Emit signal
+    emit torrentAdded(listModel->index(row, 0));
+    // Refresh the list
     refreshList();
   } catch(invalid_handle e) {
     // Remove added torrent
     listModel->removeRow(row);
   }
+}
+
+QStandardItemModel* TransferListWidget::getSourceModel() const {
+  return listModel;
 }
 
 void TransferListWidget::setRowColor(int row, QColor color) {
@@ -193,6 +213,7 @@ void TransferListWidget::setRowColor(int row, QColor color) {
 }
 
 void TransferListWidget::deleteTorrent(int row, bool refresh_list) {
+  emit torrentAboutToBeRemoved(listModel->index(row, 0));
   listModel->removeRow(row);
   if(refresh_list)
     refreshList();
@@ -220,6 +241,11 @@ void TransferListWidget::pauseTorrent(int row, bool refresh_list) {
   setRowColor(row, QString::fromUtf8("red"));
   if(refresh_list)
     refreshList();
+}
+
+
+int TransferListWidget::getNbTorrents() const {
+  return listModel->rowCount();
 }
 
 // Wrapper slot for bittorrent signal
@@ -405,7 +431,9 @@ void TransferListWidget::setFinished(QTorrentHandle &h) {
       listModel->setData(listModel->index(row, TR_PRIORITY), QVariant((int)-1));
     }
   } catch(invalid_handle e) {
-    if(row >= 0) deleteTorrent(row);
+    if(row >= 0) {
+      deleteTorrent(row);
+    }
   }
 }
 
@@ -462,8 +490,23 @@ QString TransferListWidget::getHashFromRow(int row) const {
   return listModel->data(listModel->index(row, TR_HASH)).toString();
 }
 
+QModelIndex TransferListWidget::mapToSource(QModelIndex index) const {
+  return labelFilterModel->mapToSource(proxyModel->mapToSource(index));
+}
+
+QModelIndex TransferListWidget::mapFromSource(QModelIndex index) const {
+  return proxyModel->mapFromSource(labelFilterModel->mapFromSource(index));
+}
+
+
+QStringList TransferListWidget::getCustomLabels() const {
+  QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
+  settings.beginGroup(QString::fromUtf8("TransferListFilters"));
+  return settings.value("customLabels", QStringList()).toStringList();
+}
+
 void TransferListWidget::torrentDoubleClicked(QModelIndex index) {
-  int row = proxyModel->mapToSource(index).row();
+  int row = mapToSource(index).row();
   QString hash = getHashFromRow(row);
   QTorrentHandle h = BTSession->getTorrentHandle(hash);
   if(!h.is_valid()) return;
@@ -495,7 +538,7 @@ void TransferListWidget::startSelectedTorrents() {
   QModelIndexList selectedIndexes = selectionModel()->selectedRows();
   foreach(const QModelIndex &index, selectedIndexes) {
     // Get the file hash
-    int row = proxyModel->mapToSource(index).row();
+    int row = mapToSource(index).row();
     QString hash = getHashFromRow(row);
     QTorrentHandle h = BTSession->getTorrentHandle(hash);
     if(h.is_valid() && h.is_paused()) {
@@ -522,7 +565,7 @@ void TransferListWidget::pauseSelectedTorrents() {
   QModelIndexList selectedIndexes = selectionModel()->selectedRows();
   foreach(const QModelIndex &index, selectedIndexes) {
     // Get the file hash
-    int row = proxyModel->mapToSource(index).row();
+    int row = mapToSource(index).row();
     QString hash = getHashFromRow(row);
     QTorrentHandle h = BTSession->getTorrentHandle(hash);
     if(h.is_valid() && !h.is_paused()) {
@@ -554,10 +597,11 @@ void TransferListWidget::deleteSelectedTorrents() {
       QStringList hashes;
       foreach(const QModelIndex &index, selectedIndexes) {
         // Get the file hash
-        hashes << getHashFromRow(proxyModel->mapToSource(index).row());
+        hashes << getHashFromRow(mapToSource(index).row());
       }
       foreach(const QString &hash, hashes) {
-        deleteTorrent(getRowFromHash(hash), false);
+        int row = getRowFromHash(hash);
+        deleteTorrent(row, false);
         BTSession->deleteTorrent(hash, delete_local_files);
       }
       refreshList();
@@ -569,7 +613,7 @@ void TransferListWidget::deleteSelectedTorrents() {
 void TransferListWidget::increasePrioSelectedTorrents() {
   QModelIndexList selectedIndexes = selectionModel()->selectedRows();
   foreach(const QModelIndex &index, selectedIndexes) {
-    QTorrentHandle h = BTSession->getTorrentHandle(getHashFromRow(proxyModel->mapToSource(index).row()));
+    QTorrentHandle h = BTSession->getTorrentHandle(getHashFromRow(mapToSource(index).row()));
     if(h.is_valid() && !h.is_seed()) {
       h.queue_position_up();
     }
@@ -581,7 +625,7 @@ void TransferListWidget::increasePrioSelectedTorrents() {
 void TransferListWidget::decreasePrioSelectedTorrents() {
   QModelIndexList selectedIndexes = selectionModel()->selectedRows();
   foreach(const QModelIndex &index, selectedIndexes) {
-    QTorrentHandle h = BTSession->getTorrentHandle(getHashFromRow(proxyModel->mapToSource(index).row()));
+    QTorrentHandle h = BTSession->getTorrentHandle(getHashFromRow(mapToSource(index).row()));
     if(h.is_valid() && !h.is_seed()) {
       h.queue_position_down();
     }
@@ -592,7 +636,7 @@ void TransferListWidget::decreasePrioSelectedTorrents() {
 void TransferListWidget::buySelectedTorrents() const {
   QModelIndexList selectedIndexes = selectionModel()->selectedRows();
   foreach(const QModelIndex &index, selectedIndexes) {
-    QTorrentHandle h = BTSession->getTorrentHandle(getHashFromRow(proxyModel->mapToSource(index).row()));
+    QTorrentHandle h = BTSession->getTorrentHandle(getHashFromRow(mapToSource(index).row()));
     if(h.is_valid())
       QDesktopServices::openUrl("http://match.sharemonkey.com/?info_hash="+h.hash()+"&n="+h.name()+"&cid=33");
   }
@@ -602,7 +646,7 @@ void TransferListWidget::copySelectedMagnetURIs() const {
   QModelIndexList selectedIndexes = selectionModel()->selectedRows();
   QStringList magnet_uris;
   foreach(const QModelIndex &index, selectedIndexes) {
-    QTorrentHandle h = BTSession->getTorrentHandle(getHashFromRow(proxyModel->mapToSource(index).row()));
+    QTorrentHandle h = BTSession->getTorrentHandle(getHashFromRow(mapToSource(index).row()));
     if(h.is_valid() && h.has_metadata())
       magnet_uris << misc::toQString(make_magnet_uri(h.get_torrent_info()));
   }
@@ -617,7 +661,7 @@ void TransferListWidget::openSelectedTorrentsFolder() const {
   QModelIndexList selectedIndexes = selectionModel()->selectedRows();
   QStringList pathsList;
   foreach(const QModelIndex &index, selectedIndexes) {
-    QTorrentHandle h = BTSession->getTorrentHandle(getHashFromRow(proxyModel->mapToSource(index).row()));
+    QTorrentHandle h = BTSession->getTorrentHandle(getHashFromRow(mapToSource(index).row()));
     if(h.is_valid()) {
       QString savePath = h.save_path();
       if(!pathsList.contains(savePath)) {
@@ -632,7 +676,7 @@ void TransferListWidget::previewSelectedTorrents() {
   QModelIndexList selectedIndexes = selectionModel()->selectedRows();
   QStringList pathsList;
   foreach(const QModelIndex &index, selectedIndexes) {
-    QTorrentHandle h = BTSession->getTorrentHandle(getHashFromRow(proxyModel->mapToSource(index).row()));
+    QTorrentHandle h = BTSession->getTorrentHandle(getHashFromRow(mapToSource(index).row()));
     if(h.is_valid() && h.has_metadata()) {
       new previewSelect(this, h);
     }
@@ -647,7 +691,7 @@ void TransferListWidget::setDlLimitSelectedTorrents() {
   bool all_same_limit = true;
   foreach(const QModelIndex &index, selectedIndexes) {
     // Get the file hash
-    QString hash = getHashFromRow(proxyModel->mapToSource(index).row());
+    QString hash = getHashFromRow(mapToSource(index).row());
     QTorrentHandle h = BTSession->getTorrentHandle(hash);
     if(h.is_valid() && !h.is_seed()) {
       selected_torrents << h;
@@ -683,7 +727,7 @@ void TransferListWidget::setUpLimitSelectedTorrents() {
   bool all_same_limit = true;
   foreach(const QModelIndex &index, selectedIndexes) {
     // Get the file hash
-    QString hash = getHashFromRow(proxyModel->mapToSource(index).row());
+    QString hash = getHashFromRow(mapToSource(index).row());
     QTorrentHandle h = BTSession->getTorrentHandle(hash);
     if(h.is_valid()) {
       selected_torrents << h;
@@ -714,7 +758,7 @@ void TransferListWidget::setUpLimitSelectedTorrents() {
 void TransferListWidget::recheckSelectedTorrents() {
   QModelIndexList selectedIndexes = selectionModel()->selectedRows();
   foreach(const QModelIndex &index, selectedIndexes){
-    QString hash = getHashFromRow(proxyModel->mapToSource(index).row());
+    QString hash = getHashFromRow(mapToSource(index).row());
     QTorrentHandle h = BTSession->getTorrentHandle(hash);
     if(h.is_valid() && h.has_metadata())
       h.force_recheck();
@@ -788,7 +832,7 @@ void TransferListWidget::toggleSelectedTorrentsSuperSeeding() {
   QModelIndexList selectedIndexes = selectionModel()->selectedRows();
   foreach(const QModelIndex &index, selectedIndexes) {
     // Get the file hash
-    QString hash = getHashFromRow(proxyModel->mapToSource(index).row());
+    QString hash = getHashFromRow(mapToSource(index).row());
     QTorrentHandle h = BTSession->getTorrentHandle(hash);
     if(h.is_valid() && h.has_metadata()) {
       h.super_seeding(!h.super_seeding());
@@ -801,7 +845,7 @@ void TransferListWidget::toggleSelectedTorrentsSequentialDownload() {
   QModelIndexList selectedIndexes = selectionModel()->selectedRows();
   foreach(const QModelIndex &index, selectedIndexes) {
     // Get the file hash
-    QString hash = getHashFromRow(proxyModel->mapToSource(index).row());
+    QString hash = getHashFromRow(mapToSource(index).row());
     QTorrentHandle h = BTSession->getTorrentHandle(hash);
     if(h.is_valid() && h.has_metadata()) {
       h.set_sequential_download(!h.is_sequential_download());
@@ -813,10 +857,73 @@ void TransferListWidget::toggleSelectedFirstLastPiecePrio() {
   QModelIndexList selectedIndexes = selectionModel()->selectedRows();
   foreach(const QModelIndex &index, selectedIndexes) {
     // Get the file hash
-    QString hash = getHashFromRow(proxyModel->mapToSource(index).row());
+    QString hash = getHashFromRow(mapToSource(index).row());
     QTorrentHandle h = BTSession->getTorrentHandle(hash);
     if(h.is_valid() && h.has_metadata()) {
       h.prioritize_first_last_piece(!h.first_last_piece_first());
+    }
+  }
+}
+
+void TransferListWidget::askNewLabelForSelection() {
+  // Ask for label
+  bool ok;
+  QString label = "";
+  bool invalid;
+  do {
+    invalid = false;
+    label = QInputDialog::getText(this, tr("New Label"), tr("Label:"), QLineEdit::Normal, label, &ok);
+    if (ok && !label.isEmpty()) {
+      if(misc::isValidFileSystemName(label)) {
+        setSelectionLabel(label);
+      } else {
+        QMessageBox::warning(this, tr("Invalid label name"), tr("Please don't use any special characters in the label name."));
+        invalid = true;
+      }
+    }
+  }while(invalid);
+}
+
+void TransferListWidget::renameSelectedTorrent() {
+   QModelIndexList selectedIndexes = selectionModel()->selectedRows();
+   if(selectedIndexes.size() != 1) return;
+   if(!selectedIndexes.first().isValid()) return;
+   QString hash = getHashFromRow(mapToSource(selectedIndexes.first()).row());
+   QTorrentHandle h = BTSession->getTorrentHandle(hash);
+   if(!h.is_valid()) return;
+   // Ask for a new Name
+   bool ok;
+   QString name = QInputDialog::getText(this, tr("Rename"), tr("New name:"), QLineEdit::Normal, h.name(), &ok);
+   if (ok && !name.isEmpty()) {
+     // Remember the name
+     TorrentPersistentData::saveName(hash, name);
+     // Visually change the name
+     proxyModel->setData(selectedIndexes.first(), name);
+   }
+}
+
+void TransferListWidget::setSelectionLabel(QString label) {
+  QModelIndexList selectedIndexes = selectionModel()->selectedRows();
+  foreach(const QModelIndex &index, selectedIndexes) {
+    QString hash = getHashFromRow(mapToSource(index).row());
+    QString old_label = proxyModel->data(proxyModel->index(index.row(), TR_LABEL)).toString();
+    proxyModel->setData(proxyModel->index(index.row(), TR_LABEL), QVariant(label));
+    TorrentPersistentData::saveLabel(hash, label);
+    emit torrentChangedLabel(old_label, label);
+    // Update save path if necessary
+    BTSession->changeLabelInTorrentSavePath(BTSession->getTorrentHandle(hash), old_label, label);
+  }
+}
+
+void TransferListWidget::removeLabelFromRows(QString label) {
+  for(int i=0; i<listModel->rowCount(); ++i) {
+    if(listModel->data(listModel->index(i, TR_LABEL)) == label) {
+      QString hash = getHashFromRow(i);
+      listModel->setData(listModel->index(i, TR_LABEL), "", Qt::DisplayRole);
+      TorrentPersistentData::saveLabel(hash, "");
+      emit torrentChangedLabel(label, "");
+      // Update save path if necessary
+      BTSession->changeLabelInTorrentSavePath(BTSession->getTorrentHandle(hash), label, "");
     }
   }
 }
@@ -851,6 +958,8 @@ void TransferListWidget::displayListMenu(const QPoint&) {
   QAction actionSuper_seeding_mode(tr("Super seeding mode"), 0);
   connect(&actionSuper_seeding_mode, SIGNAL(triggered()), this, SLOT(toggleSelectedTorrentsSuperSeeding()));
 #endif
+  QAction actionRename(QIcon(QString::fromUtf8(":/Icons/oxygen/edit_clear.png")), tr("Rename..."), 0);
+  connect(&actionRename, SIGNAL(triggered()), this, SLOT(renameSelectedTorrent()));
   QAction actionSequential_download(tr("Download in sequential order"), 0);
   connect(&actionSequential_download, SIGNAL(triggered()), this, SLOT(toggleSelectedTorrentsSequentialDownload()));
   QAction actionFirstLastPiece_prio(tr("Download first and last piece first"), 0);
@@ -872,7 +981,7 @@ void TransferListWidget::displayListMenu(const QPoint&) {
   qDebug("Displaying menu");
   foreach(const QModelIndex &index, selectedIndexes) {
     // Get the file name
-    QString hash = getHashFromRow(proxyModel->mapToSource(index).row());
+    QString hash = getHashFromRow(mapToSource(index).row());
     // Get handle and pause the torrent
     h = BTSession->getTorrentHandle(hash);
     if(!h.is_valid()) continue;
@@ -926,6 +1035,19 @@ void TransferListWidget::displayListMenu(const QPoint&) {
   }
   listMenu.addSeparator();
   listMenu.addAction(&actionDelete);
+  listMenu.addSeparator();
+  if(selectedIndexes.size() == 1)
+    listMenu.addAction(&actionRename);
+  // Label Menu
+  QStringList customLabels = getCustomLabels();
+  QList<QAction*> labelActions;
+  QMenu *labelMenu = listMenu.addMenu(QIcon(":/Icons/oxygen/feed-subscribe.png"), tr("Label"));
+  labelActions << labelMenu->addAction(QIcon(":/Icons/oxygen/list-add.png"), tr("New...", "New label..."));
+  labelActions << labelMenu->addAction(QIcon(":/Icons/oxygen/edit-clear.png"), tr("Reset", "Reset label"));
+  labelMenu->addSeparator();
+  foreach(const QString &label, customLabels) {
+    labelActions << labelMenu->addAction(QIcon(":/Icons/oxygen/folder.png"), label);
+  }
   listMenu.addSeparator();
   if(one_not_seed)
     listMenu.addAction(&actionSet_download_limit);
@@ -989,7 +1111,25 @@ void TransferListWidget::displayListMenu(const QPoint&) {
     listMenu.addAction(&actionCopy_magnet_link);
   listMenu.addAction(&actionBuy_it);
   // Call menu
-  listMenu.exec(QCursor::pos());
+  QAction *act = 0;
+  act = listMenu.exec(QCursor::pos());
+  if(act) {
+    // Parse label actions only (others have slots assigned)
+    int i = labelActions.indexOf(act);
+    if(i >= 0) {
+      // Label action
+      if(i == 0) {
+        // New Label
+        askNewLabelForSelection();
+      } else {
+        QString label = "";
+        if(i > 1)
+          label = customLabels.at(i-2);
+        // Update Label
+        setSelectionLabel(label);
+      }
+    }
+  }
 }
 
 // Save columns width in a file to remember them
@@ -1093,7 +1233,7 @@ void TransferListWidget::loadLastSortedColumn() {
 void TransferListWidget::currentChanged(const QModelIndex& current, const QModelIndex&) {
   QTorrentHandle h;
   if(current.isValid()) {
-    int row = proxyModel->mapToSource(current).row();
+    int row = mapToSource(current).row();
     h = BTSession->getTorrentHandle(getHashFromRow(row));
     // Scroll Fix
     scrollTo(current);
@@ -1101,7 +1241,20 @@ void TransferListWidget::currentChanged(const QModelIndex& current, const QModel
   emit currentTorrentChanged(h);
 }
 
-void TransferListWidget::applyFilter(int f) {
+void TransferListWidget::applyLabelFilter(QString label) {
+  if(label == "all") {
+    labelFilterModel->setFilterRegExp(QRegExp());
+    return;
+  }
+  if(label == "none") {
+    labelFilterModel->setFilterRegExp(QRegExp("^$"));
+    return;
+  }
+  qDebug("Applying Label filter: %s", label.toLocal8Bit().data());
+  labelFilterModel->setFilterRegExp(QRegExp("^"+label+"$", Qt::CaseSensitive));
+}
+
+void TransferListWidget::applyStatusFilter(int f) {
   switch(f) {
   case FILTER_DOWNLOADING:
     proxyModel->setFilterRegExp(QRegExp(QString::number(STATE_DOWNLOADING)+"|"+QString::number(STATE_STALLED_DL)+"|"+

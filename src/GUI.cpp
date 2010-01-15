@@ -60,6 +60,8 @@
 #include "speedlimitdlg.h"
 #include "preferences.h"
 #include "console_imp.h"
+#include "trackerlist.h"
+#include "peerlistwidget.h"
 #include "torrentpersistentdata.h"
 #include "transferlistfilterswidget.h"
 #include "propertieswidget.h"
@@ -78,6 +80,7 @@ using namespace libtorrent;
 // Constructor
 GUI::GUI(QWidget *parent, QStringList torrentCmdLine) : QMainWindow(parent), displaySpeedInTitle(false), force_exit(false) {
   setupUi(this);
+
   setWindowTitle(tr("qBittorrent %1", "e.g: qBittorrent v0.x").arg(QString::fromUtf8(VERSION)));
   // Setting icons
   this->setWindowIcon(QIcon(QString::fromUtf8(":/Icons/skin/qbittorrent32.png")));
@@ -650,8 +653,12 @@ void GUI::processParams(const QStringList& params) {
       BTSession->downloadFromUrl(param);
     }else{
       if(param.startsWith("magnet:", Qt::CaseInsensitive)) {
-        // FIXME: Possibily skipped torrent addition dialog
-        BTSession->addMagnetUri(param);
+        if(useTorrentAdditionDialog) {
+          torrentAdditionDialog *dialog = new torrentAdditionDialog(this, BTSession);
+          dialog->showLoadMagnetURI(param);
+        } else {
+          BTSession->addMagnetUri(param);
+        }
       } else {
         if(useTorrentAdditionDialog) {
           torrentAdditionDialog *dialog = new torrentAdditionDialog(this, BTSession);
@@ -724,7 +731,10 @@ void GUI::loadPreferences(bool configure_session) {
   }
   unsigned int new_refreshInterval = Preferences::getRefreshInterval();
   transferList->setRefreshInterval(new_refreshInterval);
-
+  transferList->setAlternatingRowColors(Preferences::useAlternatingRowColors());
+  properties->getFilesList()->setAlternatingRowColors(Preferences::useAlternatingRowColors());
+  properties->getTrackerList()->setAlternatingRowColors(Preferences::useAlternatingRowColors());
+  properties->getPeerList()->setAlternatingRowColors(Preferences::useAlternatingRowColors());
   // Queueing System
   if(Preferences::isQueueingSystemEnabled()) {
     if(!configure_session || !BTSession->isQueueingEnabled()) {
@@ -832,9 +842,16 @@ void GUI::showNotificationBaloon(QString title, QString msg) const {
  *****************************************************/
 
 void GUI::downloadFromURLList(const QStringList& url_list) {
+  QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
+  bool useTorrentAdditionDialog = settings.value(QString::fromUtf8("Preferences/Downloads/AdditionDialog"), true).toBool();
   foreach(const QString url, url_list) {
     if(url.startsWith("magnet:", Qt::CaseInsensitive)) {
-      BTSession->addMagnetUri(url);
+      if(useTorrentAdditionDialog) {
+        torrentAdditionDialog *dialog = new torrentAdditionDialog(this, BTSession);
+        dialog->showLoadMagnetURI(url);
+      } else {
+        BTSession->addMagnetUri(url);
+      }
     } else {
       BTSession->downloadFromUrl(url);
     }

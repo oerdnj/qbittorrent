@@ -78,11 +78,30 @@ public:
     settings.setValue("torrents-tmp", all_data);
   }
 
+  static void setFilesPath(QString hash, QStringList path_list) {
+    QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent-resume"));
+    QHash<QString, QVariant> all_data = settings.value("torrents-tmp", QHash<QString, QVariant>()).toHash();
+    QHash<QString, QVariant> data = all_data[hash].toHash();
+    data["files_path"] = path_list;
+    all_data[hash] = data;
+    settings.setValue("torrents-tmp", all_data);
+  }
+
   static void setSavePath(QString hash, QString save_path) {
     QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent-resume"));
     QHash<QString, QVariant> all_data = settings.value("torrents-tmp", QHash<QString, QVariant>()).toHash();
     QHash<QString, QVariant> data = all_data[hash].toHash();
     data["save_path"] = save_path;
+    all_data[hash] = data;
+    settings.setValue("torrents-tmp", all_data);
+  }
+
+  static void setLabel(QString hash, QString label) {
+    QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent-resume"));
+    QHash<QString, QVariant> all_data = settings.value("torrents-tmp", QHash<QString, QVariant>()).toHash();
+    QHash<QString, QVariant> data = all_data[hash].toHash();
+    qDebug("Saving label %s to tmp data", label.toLocal8Bit().data());
+    data["label"] = label;
     all_data[hash] = data;
     settings.setValue("torrents-tmp", all_data);
   }
@@ -134,6 +153,23 @@ public:
       return data["save_path"].toString();
     qDebug("Warning Temp::getSavePath returns null string!");
     return QString::null;
+  }
+
+  static QStringList getFilesPath(QString hash) {
+    QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent-resume"));
+    QHash<QString, QVariant> all_data = settings.value("torrents-tmp", QHash<QString, QVariant>()).toHash();
+    QHash<QString, QVariant> data = all_data[hash].toHash();
+    if(data.contains("files_path"))
+      return data["files_path"].toStringList();
+    return QStringList();
+  }
+
+  static QString getLabel(QString hash) {
+    QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent-resume"));
+    QHash<QString, QVariant> all_data = settings.value("torrents-tmp", QHash<QString, QVariant>()).toHash();
+    QHash<QString, QVariant> data = all_data[hash].toHash();
+    qDebug("Got label %s from tmp data", data.value("label", "").toString().toLocal8Bit().data());
+    return data.value("label", "").toString();
   }
 
   static std::vector<int> getFilesPriority(QString hash) {
@@ -211,6 +247,26 @@ public:
     qDebug("TorrentPersistentData: Saving save_path: %s, hash: %s", save_path.toLocal8Bit().data(), hash.toLocal8Bit().data());
   }
 
+  static void saveLabel(QString hash, QString label) {
+    Q_ASSERT(!hash.isEmpty());
+    QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent-resume"));
+    QHash<QString, QVariant> all_data = settings.value("torrents", QHash<QString, QVariant>()).toHash();
+    QHash<QString, QVariant> data = all_data[hash].toHash();
+    data["label"] = label;
+    all_data[hash] = data;
+    settings.setValue("torrents", all_data);
+  }
+
+  static void saveName(QString hash, QString name) {
+    Q_ASSERT(!hash.isEmpty());
+    QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent-resume"));
+    QHash<QString, QVariant> all_data = settings.value("torrents", QHash<QString, QVariant>()).toHash();
+    QHash<QString, QVariant> data = all_data[hash].toHash();
+    data["name"] = name;
+    all_data[hash] = data;
+    settings.setValue("torrents", all_data);
+  }
+
   static void savePriority(QTorrentHandle h) {
     QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent-resume"));
     QHash<QString, QVariant> all_data = settings.value("torrents", QHash<QString, QVariant>()).toHash();
@@ -236,6 +292,20 @@ public:
     QHash<QString, QVariant> data = all_data[hash].toHash();
     //qDebug("TorrentPersistentData: getSavePath %s", data["save_path"].toString().toLocal8Bit().data());
     return data["save_path"].toString();
+  }
+
+  static QString getLabel(QString hash) {
+    QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent-resume"));
+    QHash<QString, QVariant> all_data = settings.value("torrents", QHash<QString, QVariant>()).toHash();
+    QHash<QString, QVariant> data = all_data[hash].toHash();
+    return data.value("label", "").toString();
+  }
+
+  static QString getName(QString hash) {
+    QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent-resume"));
+    QHash<QString, QVariant> all_data = settings.value("torrents", QHash<QString, QVariant>()).toHash();
+    QHash<QString, QVariant> data = all_data[hash].toHash();
+    return data.value("name", "").toString();
   }
 
   static int getPriority(QString hash) {

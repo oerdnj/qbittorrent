@@ -48,7 +48,8 @@ class SpeedLimitDialog : public QDialog, private Ui_bandwidth_dlg {
       setupUi(this);
       qDebug("Bandwidth allocation dialog creation");
       // Connect to slots
-      connect(bandwidthSlider, SIGNAL(valueChanged(int)), this, SLOT(updateBandwidthLabel(int)));
+      connect(bandwidthSlider, SIGNAL(valueChanged(int)), this, SLOT(updateSpinValue(int)));
+      connect(spinBandwidth, SIGNAL(valueChanged(int)), this, SLOT(updateSliderValue(int)));
     }
 
     ~SpeedLimitDialog(){
@@ -74,14 +75,25 @@ class SpeedLimitDialog : public QDialog, private Ui_bandwidth_dlg {
     }
 
   protected slots:
-    void updateBandwidthLabel(int val){
+    void updateSpinValue(int val) const {
+      qDebug("Called updateSpinValue with %d", val);
       if(val <= 0){
-        limit_lbl->setText(QString::fromUtf8("∞"));
-        kb_lbl->setText(QString::fromUtf8(""));
+        spinBandwidth->setValue(0);
+        spinBandwidth->setSpecialValueText(QString::fromUtf8("∞"));
+        spinBandwidth->setSuffix(QString::fromUtf8(""));
       }else{
-        limit_lbl->setText(misc::toQString(val));
-        kb_lbl->setText(tr("KiB/s"));
+        spinBandwidth->setValue(val);
+        spinBandwidth->setSuffix(" "+tr("KiB/s"));
       }
+    }
+
+    void updateSliderValue(int val) const {
+      if(val <= 0) {
+        spinBandwidth->setValue(0);
+        spinBandwidth->setSpecialValueText(QString::fromUtf8("∞"));
+        spinBandwidth->setSuffix(QString::fromUtf8(""));
+      }
+      bandwidthSlider->setValue(val);
     }
 
     long getSpeedLimit() const {
@@ -94,6 +106,7 @@ class SpeedLimitDialog : public QDialog, private Ui_bandwidth_dlg {
     void setMaxValue(long val) const {
       if(val > 0) {
         bandwidthSlider->setMaximum(val);
+        spinBandwidth->setMaximum(val);
       }
     }
 
@@ -101,6 +114,7 @@ class SpeedLimitDialog : public QDialog, private Ui_bandwidth_dlg {
       if(val < 0) val = 0;
       if(val > bandwidthSlider->maximum()) val = bandwidthSlider->maximum();
       bandwidthSlider->setValue(val);
+      updateSpinValue(val);
     }
 };
 

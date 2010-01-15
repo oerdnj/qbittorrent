@@ -33,12 +33,12 @@
 #include "bittorrent.h"
 #include "misc.h"
 #include "preferences.h"
-#include "proplistdelegate.h"
+//#include "proplistdelegate.h"
 #include "torrentpersistentdata.h"
 #include <QDebug>
 
 EventManager::EventManager(QObject *parent, Bittorrent *BTSession)
-    : QObject(parent), BTSession(BTSession)
+  : QObject(parent), BTSession(BTSession)
 {
 }
 
@@ -122,14 +122,162 @@ QList<QVariantMap> EventManager::getPropFilesInfo(QString hash) const {
   return files;
 }
 
+void EventManager::setGlobalPreferences(QVariantMap m) const {
+  // UI
+  if(m.contains("locale"))
+    Preferences::setLocale(m["locale"].toString());
+  // Downloads
+  if(m.contains("save_path"))
+    Preferences::setSavePath(m["save_path"].toString());
+  if(m.contains("temp_path_enabled"))
+    Preferences::setTempPathEnabled(m["temp_path_enabled"].toBool());
+  if(m.contains("temp_path"))
+    Preferences::setTempPath(m["temp_path"].toString());
+  if(m.contains("scan_dir"))
+    Preferences::setScanDir(m["scan_dir"].toString());
+  if(m.contains("preallocate_all"))
+    Preferences::preAllocateAllFiles(m["preallocate_all"].toBool());
+  if(m.contains("queueing_enabled"))
+    Preferences::setQueueingSystemEnabled(m["queueing_enabled"].toBool());
+  if(m.contains("max_active_downloads"))
+    Preferences::setMaxActiveDownloads(m["max_active_downloads"].toInt());
+  if(m.contains("max_active_torrents"))
+    Preferences::setMaxActiveTorrents(m["max_active_torrents"].toInt());
+  if(m.contains("max_active_uploads"))
+    Preferences::setMaxActiveUploads(m["max_active_uploads"].toInt());
+#ifdef LIBTORRENT_0_15
+  if(m.contains("incomplete_files_ext"))
+    Preferences::useIncompleteFilesExtension(m["incomplete_files_ext"].toBool());
+#endif
+  // Connection
+  if(m.contains("listen_port"))
+    Preferences::setSessionPort(m["listen_port"].toInt());
+  if(m.contains("upnp"))
+    Preferences::setUPnPEnabled(m["upnp"].toBool());
+  if(m.contains("natpmp"))
+    Preferences::setNATPMPEnabled(m["natpmp"].toBool());
+  if(m.contains("dl_limit"))
+    Preferences::setGlobalDownloadLimit(m["dl_limit"].toInt());
+  if(m.contains("up_limit"))
+    Preferences::setGlobalUploadLimit(m["up_limit"].toInt());
+  if(m.contains("max_connec"))
+    Preferences::setMaxConnecs(m["max_connec"].toInt());
+  if(m.contains("max_connec_per_torrent"))
+    Preferences::setMaxConnecsPerTorrent(m["max_connec_per_torrent"].toInt());
+  if(m.contains("max_uploads_per_torrent"))
+    Preferences::setMaxUploadsPerTorrent(m["max_uploads_per_torrent"].toInt());
+  // Bittorrent
+  if(m.contains("dht"))
+    Preferences::setDHTEnabled(m["dht"].toBool());
+  if(m.contains("pex"))
+    Preferences::setPeXEnabled(m["pex"].toBool());
+  qDebug("Pex support: %d", (int)m["pex"].toBool());
+  if(m.contains("lsd"))
+    Preferences::setLSDEnabled(m["lsd"].toBool());
+  if(m.contains("encryption"))
+    Preferences::setEncryptionSetting(m["encryption"].toInt());
+  if(m.contains("peer_id"))
+    Preferences::setPeerID(m["peer_id"].toString());
+  if(m.contains("peer_version"))
+    Preferences::setClientVersion(m["peer_version"].toString());
+  if(m.contains("peer_build"))
+    Preferences::setClientBuild(m["peer_build"].toString());
+  // Proxy
+  if(m.contains("proxy_type"))
+    Preferences::setPeerProxyType(m["proxy_type"].toInt());
+  if(m.contains("proxy_ip"))
+    Preferences::setPeerProxyIp(m["proxy_ip"].toString());
+  if(m.contains("proxy_port"))
+    Preferences::setPeerProxyPort(m["proxy_port"].toUInt());
+  if(m.contains("proxy_auth_enabled"))
+    Preferences::setPeerProxyAuthEnabled(m["proxy_auth_enabled"].toBool());
+  if(m.contains("proxy_username"))
+    Preferences::setPeerProxyUsername(m["proxy_username"].toString());
+  if(m.contains("proxy_password"))
+    Preferences::setPeerProxyPassword(m["proxy_password"].toString());
+  if(m.contains("http_proxy_type"))
+    Preferences::setHTTPProxyType(m["http_proxy_type"].toInt());
+  if(m.contains("http_proxy_ip"))
+    Preferences::setHTTPProxyIp(m["http_proxy_ip"].toString());
+  if(m.contains("http_proxy_port"))
+    Preferences::setHTTPProxyPort(m["http_proxy_port"].toUInt());
+  if(m.contains("http_proxy_auth_enabled"))
+    Preferences::setHTTPProxyAuthEnabled(m["http_proxy_auth_enabled"].toBool());
+  if(m.contains("http_proxy_username"))
+    Preferences::setHTTPProxyUsername(m["http_proxy_username"].toString());
+  if(m.contains("http_proxy_password"))
+    Preferences::setHTTPProxyPassword(m["http_proxy_password"].toString());
+  // IP Filter
+  if(m.contains("ip_filter_enabled"))
+    Preferences::setFilteringEnabled(m["ip_filter_enabled"].toBool());
+  if(m.contains("ip_filter_path"))
+    Preferences::setFilter(m["ip_filter_path"].toString());
+  // Web UI
+  if(m.contains("web_ui_port"))
+    Preferences::setWebUiPort(m["web_ui_port"].toUInt());
+  if(m.contains("web_ui_username"))
+    Preferences::setWebUiUsername(m["web_ui_username"].toString());
+  if(m.contains("web_ui_password"))
+    Preferences::setWebUiPassword(m["web_ui_password"].toString());
+  // Reload preferences
+  BTSession->configureSession();
+}
+
 QVariantMap EventManager::getGlobalPreferences() const {
   QVariantMap data;
+  // UI
+  data["locale"] = Preferences::getLocale();
+  // Downloads
+  data["save_path"] = Preferences::getSavePath();
+  data["temp_path_enabled"] = Preferences::isTempPathEnabled();
+  data["temp_path"] = Preferences::getTempPath();
+  data["scan_dir_enabled"] = Preferences::isDirScanEnabled();
+  data["scan_dir"] = Preferences::getScanDir();
+  data["preallocate_all"] = Preferences::preAllocateAllFiles();
+  data["queueing_enabled"] = Preferences::isQueueingSystemEnabled();
+  data["max_active_downloads"] = Preferences::getMaxActiveDownloads();
+  data["max_active_torrents"] = Preferences::getMaxActiveTorrents();
+  data["max_active_uploads"] = Preferences::getMaxActiveUploads();
+#ifdef LIBTORRENT_0_15
+  data["incomplete_files_ext"] = Preferences::useIncompleteFilesExtension();
+#endif
+  // Connection
+  data["listen_port"] = Preferences::getSessionPort();
+  data["upnp"] = Preferences::isUPnPEnabled();
+  data["natpmp"] = Preferences::isNATPMPEnabled();
   data["dl_limit"] = Preferences::getGlobalDownloadLimit();
   data["up_limit"] = Preferences::getGlobalUploadLimit();
-  data["dht"] = Preferences::isDHTEnabled();
   data["max_connec"] = Preferences::getMaxConnecs();
   data["max_connec_per_torrent"] = Preferences::getMaxConnecsPerTorrent();
   data["max_uploads_per_torrent"] = Preferences::getMaxUploadsPerTorrent();
+  // Bittorrent
+  data["dht"] = Preferences::isDHTEnabled();
+  data["pex"] = Preferences::isPeXEnabled();
+  data["lsd"] = Preferences::isLSDEnabled();
+  data["encryption"] = Preferences::getEncryptionSetting();
+  data["peer_id"] = Preferences::getPeerID();
+  data["peer_version"] = Preferences::getClientVersion();
+  data["peer_build"] = Preferences::getClientBuild();
+  // Proxy
+  data["proxy_type"] = Preferences::getPeerProxyType();
+  data["proxy_ip"] = Preferences::getPeerProxyIp();
+  data["proxy_port"] = Preferences::getPeerProxyPort();
+  data["proxy_auth_enabled"] = Preferences::isPeerProxyAuthEnabled();
+  data["proxy_username"] = Preferences::getPeerProxyUsername();
+  data["proxy_password"] = Preferences::getPeerProxyPassword();
+  data["http_proxy_type"] = Preferences::getHTTPProxyType();
+  data["http_proxy_ip"] = Preferences::getHTTPProxyIp();
+  data["http_proxy_port"] = Preferences::getHTTPProxyPort();
+  data["http_proxy_auth_enabled"] = Preferences::isHTTPProxyAuthEnabled();
+  data["http_proxy_username"] = Preferences::getHTTPProxyUsername();
+  data["http_proxy_password"] = Preferences::getHTTPProxyPassword();
+  // IP Filter
+  data["ip_filter_enabled"] = Preferences::isFilteringEnabled();
+  data["ip_filter_path"] = Preferences::getFilter();
+  // Web UI
+  data["web_ui_port"] = Preferences::getWebUiPort();
+  data["web_ui_username"] = Preferences::getWebUiUsername();
+  data["web_ui_password"] = Preferences::getWebUiPassword();
   return data;
 }
 
@@ -162,10 +310,10 @@ QVariantMap EventManager::getPropGeneralInfo(QString hash) const {
     data["nb_connections"] = QString::number(h.num_connections())+" ("+tr("%1 max", "e.g. 10 max").arg(QString::number(h.connections_limit()))+")";
     // Update ratio info
     double ratio = BTSession->getRealRatio(h.hash());
-      if(ratio > 100.)
-        data["share_ratio"] = QString::fromUtf8("∞");
-      else
-        data["share_ratio"] = QString(QByteArray::number(ratio, 'f', 1));
+    if(ratio > 100.)
+      data["share_ratio"] = QString::fromUtf8("∞");
+    else
+      data["share_ratio"] = QString(QByteArray::number(ratio, 'f', 1));
   }
   return data;
 }

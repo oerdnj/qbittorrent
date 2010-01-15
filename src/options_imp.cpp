@@ -162,11 +162,12 @@ options_imp::options_imp(QWidget *parent):QDialog(parent){
   connect(checkRatioRemove,  SIGNAL(toggled(bool)), this, SLOT(enableDeleteRatio(bool)));
   connect(checkDHT, SIGNAL(toggled(bool)), this, SLOT(enableDHTSettings(bool)));
   connect(checkDifferentDHTPort, SIGNAL(toggled(bool)), this, SLOT(enableDHTPortSettings(bool)));
+  connect(comboPeerID, SIGNAL(currentIndexChanged(int)), this, SLOT(enableSpoofingSettings(int)));
   // Proxy tab
-  connect(comboProxyType_http, SIGNAL(currentIndexChanged(int)),this, SLOT(enableProxyHTTP(int)));
-  connect(checkProxyAuth_http,  SIGNAL(toggled(bool)), this, SLOT(enableProxyAuthHTTP(bool)));
-  connect(comboProxyType, SIGNAL(currentIndexChanged(int)),this, SLOT(enableProxy(int)));
-  connect(checkProxyAuth,  SIGNAL(toggled(bool)), this, SLOT(enableProxyAuth(bool)));
+  connect(comboProxyType_http, SIGNAL(currentIndexChanged(int)),this, SLOT(enableHTTPProxy(int)));
+  connect(checkProxyAuth_http,  SIGNAL(toggled(bool)), this, SLOT(enableHTTPProxyAuth(bool)));
+  connect(comboProxyType, SIGNAL(currentIndexChanged(int)),this, SLOT(enablePeerProxy(int)));
+  connect(checkProxyAuth,  SIGNAL(toggled(bool)), this, SLOT(enablePeerProxyAuth(bool)));
   // Misc tab
   connect(checkIPFilter, SIGNAL(toggled(bool)), this, SLOT(enableFilter(bool)));
   connect(checkEnableRSS, SIGNAL(toggled(bool)), this, SLOT(enableRSS(bool)));
@@ -181,6 +182,7 @@ options_imp::options_imp(QWidget *parent):QDialog(parent){
   connect(checkConfirmExit, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkSpeedInTitle, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(spinRefreshInterval, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
+  connect(checkAltRowColors, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkNoSystray, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkCloseToSystray, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkMinimizeToSysTray, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
@@ -190,7 +192,10 @@ options_imp::options_imp(QWidget *parent):QDialog(parent){
   connect(checkNoSplash, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   // Downloads tab
   connect(textSavePath, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
+  connect(checkAppendLabel, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+  connect(checkAppendqB, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkPreallocateAll, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+  connect(spinCache, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(checkAdditionDialog, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkStartPaused, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkScanDir, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
@@ -213,10 +218,13 @@ options_imp::options_imp(QWidget *parent):QDialog(parent){
   connect(spinMaxConnecPerTorrent, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(spinMaxUploadsPerTorrent, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(checkDHT, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+  connect(checkPeX, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkDifferentDHTPort, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(spinDHTPort, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(checkLSD, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
-  connect(checkAzureusSpoof, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+  connect(comboPeerID, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApplyButton()));
+  connect(client_version, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
+  connect(client_build, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
   connect(comboEncryption, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApplyButton()));
   connect(checkRatioLimit, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkRatioRemove, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
@@ -235,10 +243,6 @@ options_imp::options_imp(QWidget *parent):QDialog(parent){
   connect(checkProxyAuth, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(textProxyUsername, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
   connect(textProxyPassword, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
-  connect(checkProxyTrackers, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
-  connect(checkProxyPeers, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
-  connect(checkProxyWebseeds, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
-  connect(checkProxyDHT, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   // Misc tab
   connect(checkIPFilter, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(textFilterPath, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
@@ -263,6 +267,9 @@ options_imp::options_imp(QWidget *parent):QDialog(parent){
   }
   // Tab selection mecanism
   connect(tabSelection, SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)), this, SLOT(changePage(QListWidgetItem *, QListWidgetItem*)));
+#ifndef LIBTORRENT_0_15
+  checkAppendqB->setVisible(false);
+#endif
   // Adapt size
   loadWindowState();
   show();
@@ -353,6 +360,7 @@ void options_imp::saveOptions(){
   settings.setValue(QString::fromUtf8("ExitConfirm"), confirmOnExit());
   settings.setValue(QString::fromUtf8("SpeedInTitleBar"), speedInTitleBar());
   settings.setValue(QString::fromUtf8("RefreshInterval"), getRefreshInterval());
+  settings.setValue(QString::fromUtf8("AlternatingRowColors"), checkAltRowColors->isChecked());
   settings.setValue(QString::fromUtf8("SystrayEnabled"), systrayIntegration());
   settings.setValue(QString::fromUtf8("CloseToTray"), closeToTray());
   settings.setValue(QString::fromUtf8("MinimizeToTray"), minimizeToTray());
@@ -367,7 +375,12 @@ void options_imp::saveOptions(){
   settings.setValue(QString::fromUtf8("SavePath"), getSavePath());
   settings.setValue(QString::fromUtf8("TempPathEnabled"), isTempPathEnabled());
   settings.setValue(QString::fromUtf8("TempPath"), getTempPath());
+  settings.setValue(QString::fromUtf8("AppendLabel"), checkAppendLabel->isChecked());
+#ifdef LIBTORRENT_0_15
+  settings.setValue(QString::fromUtf8("UseIncompleteExtension"), checkAppendqB->isChecked());
+#endif
   settings.setValue(QString::fromUtf8("PreAllocation"), preAllocateAllFiles());
+  settings.setValue(QString::fromUtf8("DiskCache"), spinCache->value());
   settings.setValue(QString::fromUtf8("AdditionDialog"), useAdditionDialog());
   settings.setValue(QString::fromUtf8("StartInPause"), addTorrentsInPause());
   settings.setValue(QString::fromUtf8("ScanDir"), getScanDir());
@@ -384,23 +397,18 @@ void options_imp::saveOptions(){
   settings.setValue(QString::fromUtf8("GlobalUPLimit"), getGlobalBandwidthLimits().second);
   settings.setValue("ResolvePeerCountries", checkResolveCountries->isChecked());
   settings.setValue("ResolvePeerHostNames", checkResolveHosts->isChecked());
-  settings.setValue(QString::fromUtf8("ProxyType"), getProxyType());
+  settings.setValue(QString::fromUtf8("ProxyType"), getPeerProxyType());
   //if(isProxyEnabled()) {
   settings.beginGroup("Proxy");
   // Proxy is enabled, save settings
-  settings.setValue(QString::fromUtf8("IP"), getProxyIp());
-  settings.setValue(QString::fromUtf8("Port"), getProxyPort());
-  settings.setValue(QString::fromUtf8("Authentication"), isProxyAuthEnabled());
+  settings.setValue(QString::fromUtf8("IP"), getPeerProxyIp());
+  settings.setValue(QString::fromUtf8("Port"), getPeerProxyPort());
+  settings.setValue(QString::fromUtf8("Authentication"), isPeerProxyAuthEnabled());
   //if(isProxyAuthEnabled()) {
   // Credentials
-  settings.setValue(QString::fromUtf8("Username"), getProxyUsername());
-  settings.setValue(QString::fromUtf8("Password"), getProxyPassword());
+  settings.setValue(QString::fromUtf8("Username"), getPeerProxyUsername());
+  settings.setValue(QString::fromUtf8("Password"), getPeerProxyPassword());
   //}
-  // Affected connections
-  settings.setValue(QString::fromUtf8("AffectTrackers"), useProxyForTrackers());
-  settings.setValue(QString::fromUtf8("AffectPeers"), useProxyForPeers());
-  settings.setValue(QString::fromUtf8("AffectWebSeeds"), useProxyForWebseeds());
-  settings.setValue(QString::fromUtf8("AffectDHT"), useProxyForDHT());
   settings.endGroup(); // End Proxy
   //}
   settings.setValue(QString::fromUtf8("HTTPProxyType"), getHTTPProxyType());
@@ -425,10 +433,28 @@ void options_imp::saveOptions(){
   settings.setValue(QString::fromUtf8("MaxConnecsPerTorrent"), getMaxConnecsPerTorrent());
   settings.setValue(QString::fromUtf8("MaxUploadsPerTorrent"), getMaxUploadsPerTorrent());
   settings.setValue(QString::fromUtf8("DHT"), isDHTEnabled());
+  settings.setValue(QString::fromUtf8("PeX"), checkPeX->isChecked());
   settings.setValue(QString::fromUtf8("sameDHTPortAsBT"), isDHTPortSameAsBT());
   settings.setValue(QString::fromUtf8("DHTPort"), getDHTPort());
   settings.setValue(QString::fromUtf8("LSD"), isLSDEnabled());
-  settings.setValue(QString::fromUtf8("utorrentSpoof"), isUtorrentSpoofingEnabled());
+  // Peer ID usurpation
+  switch(comboPeerID->currentIndex()) {
+  case 3: // KTorrent
+    Preferences::setPeerID("KT");
+    Preferences::setClientVersion(client_version->text());
+    break;
+  case 2: // uTorrent
+    Preferences::setPeerID("UT");
+    Preferences::setClientVersion(client_version->text());
+    Preferences::setClientBuild(client_build->text());
+    break;
+  case 1: // Vuze
+    Preferences::setPeerID("AZ");
+    Preferences::setClientVersion(client_version->text());
+    break;
+  default: //qBittorrent
+    Preferences::setPeerID("qB");
+  }
   settings.setValue(QString::fromUtf8("Encryption"), getEncryptionSetting());
   settings.setValue(QString::fromUtf8("DesiredRatio"), getDesiredRatio());
   settings.setValue(QString::fromUtf8("MaxRatio"), getDeleteRatio());
@@ -474,58 +500,42 @@ void options_imp::saveOptions(){
   settings.endGroup();
 }
 
-bool options_imp::isUtorrentSpoofingEnabled() const {
-  return checkAzureusSpoof->isChecked();
-}
-
 bool options_imp::isFilteringEnabled() const{
   return checkIPFilter->isChecked();
 }
 
-int options_imp::getProxyType() const{
-  if(comboProxyType->currentIndex() == HTTP){
-    if(isProxyAuthEnabled()){
-      return HTTP_PW;
-    }else{
-      return HTTP;
+int options_imp::getPeerProxyType() const{
+  switch(comboProxyType->currentIndex()) {
+  case 1:
+    return SOCKS4;
+    break;
+  case 2:
+    if(isPeerProxyAuthEnabled()){
+      return SOCKS5_PW;
     }
-  }else{
-    if(comboProxyType->currentIndex() == SOCKS5){
-      if(isProxyAuthEnabled()){
-        return SOCKS5_PW;
-      }else{
-        return SOCKS5;
-      }
-    }
+    return SOCKS5;
+  default:
+    return -1;
   }
-  return -1; // disabled
 }
 
 int options_imp::getHTTPProxyType() const {
-  if(comboProxyType_http->currentIndex() == HTTP){
-    if(isHTTPProxyAuthEnabled()){
-      return HTTP_PW;
-    }else{
+  switch(comboProxyType_http->currentIndex()) {
+  case 1: {
+      if(isHTTPProxyAuthEnabled()){
+        return HTTP_PW;
+      }
       return HTTP;
     }
+  case 2: {
+      if(isHTTPProxyAuthEnabled()) {
+        return SOCKS5_PW;
+      }
+      return SOCKS5;
+    }
+  default:
+    return -1; // Disabled
   }
-  return -1; // disabled
-}
-
-bool options_imp::useProxyForTrackers() const{
-  return checkProxyTrackers->isChecked();
-}
-
-bool options_imp::useProxyForPeers() const{
-  return checkProxyPeers->isChecked();
-}
-
-bool options_imp::useProxyForWebseeds() const{
-  return checkProxyWebseeds->isChecked();
-}
-
-bool options_imp::useProxyForDHT() const{
-  return checkProxyDHT->isChecked();
 }
 
 int options_imp::getStyle() const{
@@ -552,6 +562,7 @@ void options_imp::loadOptions(){
   checkConfirmExit->setChecked(Preferences::confirmOnExit());
   checkSpeedInTitle->setChecked(Preferences::speedInTitleBar());
   spinRefreshInterval->setValue(Preferences::getRefreshInterval());
+  checkAltRowColors->setChecked(Preferences::useAlternatingRowColors());
   checkNoSystray->setChecked(!Preferences::systrayIntegration());
   checkDisplayToolbar->setChecked(Preferences::isToolbarDisplayed());
   checkNoSplash->setChecked(Preferences::isSlashScreenDisabled());
@@ -576,7 +587,12 @@ void options_imp::loadOptions(){
     enableTempPathInput(checkTempFolder->isChecked());
   }
   textTempPath->setText(Preferences::getTempPath());
+  checkAppendLabel->setChecked(Preferences::appendTorrentLabel());
+#ifdef LIBTORRENT_0_15
+  checkAppendqB->setChecked(Preferences::useIncompleteFilesExtension());
+#endif
   checkPreallocateAll->setChecked(Preferences::preAllocateAllFiles());
+  spinCache->setValue(Preferences::diskCacheSize());
   checkAdditionDialog->setChecked(Preferences::useAdditionDialog());
   checkStartPaused->setChecked(Preferences::addTorrentsInPause());
   strValue = Preferences::getScanDir();
@@ -629,46 +645,48 @@ void options_imp::loadOptions(){
   checkResolveCountries->setChecked(Preferences::resolvePeerCountries());
   checkResolveHosts->setChecked(Preferences::resolvePeerHostNames());
 
-  intValue = Preferences::getProxyType();
-  if(intValue <= 0) {
-    intValue = 0;
-  } else {
-    if(intValue%2 == 0) {
-      intValue = 2;
-    }else {
-      intValue = 1;
-    }
+  intValue = Preferences::getPeerProxyType();
+  switch(intValue) {
+  case SOCKS4:
+    comboProxyType->setCurrentIndex(1);
+    break;
+  case SOCKS5:
+  case SOCKS5_PW:
+    comboProxyType->setCurrentIndex(2);
+    break;
+  default:
+    comboProxyType->setCurrentIndex(0);
   }
-  comboProxyType->setCurrentIndex(intValue);
-  enableProxy(intValue);
+  enablePeerProxy(comboProxyType->currentIndex());
   //if(isProxyEnabled()) {
   // Proxy is enabled, save settings
-  textProxyIP->setText(Preferences::getProxyIp());
-  spinProxyPort->setValue(Preferences::getProxyPort());
-  checkProxyAuth->setChecked(Preferences::isProxyAuthEnabled());
-  textProxyUsername->setText(Preferences::getProxyUsername());
-  textProxyPassword->setText(Preferences::getProxyPassword());
-  enableProxyAuth(checkProxyAuth->isChecked());
-  // Affected connections
-  checkProxyTrackers->setChecked(Preferences::useProxyForTrackers());
-  checkProxyPeers->setChecked(Preferences::useProxyForPeers());
-  checkProxyWebseeds->setChecked(Preferences::useProxyForWebseeds());
-  checkProxyDHT->setChecked(Preferences::useProxyForDHT());
+  textProxyIP->setText(Preferences::getPeerProxyIp());
+  spinProxyPort->setValue(Preferences::getPeerProxyPort());
+  checkProxyAuth->setChecked(Preferences::isPeerProxyAuthEnabled());
+  textProxyUsername->setText(Preferences::getPeerProxyUsername());
+  textProxyPassword->setText(Preferences::getPeerProxyPassword());
+  enablePeerProxyAuth(checkProxyAuth->isChecked());
   //}
   intValue = Preferences::getHTTPProxyType();
-  if(intValue <= 0) {
-    intValue = 0;
-  } else {
-    intValue = 1;
+  switch(intValue) {
+  case HTTP:
+  case HTTP_PW:
+    comboProxyType_http->setCurrentIndex(1);
+    break;
+  case SOCKS5:
+  case SOCKS5_PW:
+    comboProxyType_http->setCurrentIndex(2);
+    break;
+  default:
+    comboProxyType_http->setCurrentIndex(0);
   }
-  comboProxyType_http->setCurrentIndex(intValue);
-  enableProxyHTTP(intValue);
+  enableHTTPProxy(comboProxyType_http->currentIndex());
   textProxyUsername_http->setText(Preferences::getHTTPProxyUsername());
   textProxyPassword_http->setText(Preferences::getHTTPProxyPassword());
   textProxyIP_http->setText(Preferences::getHTTPProxyIp());
   spinProxyPort_http->setValue(Preferences::getHTTPProxyPort());
   checkProxyAuth_http->setChecked(Preferences::isHTTPProxyAuthEnabled());
-  enableProxyAuthHTTP(checkProxyAuth_http->isChecked());
+  enableHTTPProxyAuth(checkProxyAuth_http->isChecked());
   // End HTTPProxy
   // End Connection preferences
   // Bittorrent preferences
@@ -710,8 +728,34 @@ void options_imp::loadOptions(){
   checkDifferentDHTPort->setChecked(!Preferences::isDHTPortSameAsBT());
   enableDHTPortSettings(checkDifferentDHTPort->isChecked());
   spinDHTPort->setValue(Preferences::getDHTPort());
+  checkPeX->setChecked(Preferences::isPeXEnabled());
   checkLSD->setChecked(Preferences::isLSDEnabled());
-  checkAzureusSpoof->setChecked(Preferences::isUtorrentSpoofingEnabled());
+  // Peer ID usurpation
+  QString peer_id = Preferences::getPeerID();
+  if(peer_id == "UT") {
+    // uTorrent
+    comboPeerID->setCurrentIndex(2);
+    enableSpoofingSettings(2);
+    client_version->setText(Preferences::getClientVersion());
+    client_build->setText(Preferences::getClientBuild());
+  } else {
+    if(peer_id == "AZ") {
+      // Vuze
+      comboPeerID->setCurrentIndex(1);
+      enableSpoofingSettings(1);
+      client_version->setText(Preferences::getClientVersion());
+    } else {
+      if(peer_id == "KT") {
+        comboPeerID->setCurrentIndex(3);
+        enableSpoofingSettings(3);
+        client_version->setText(Preferences::getClientVersion());
+      } else {
+        // qBittorrent
+        comboPeerID->setCurrentIndex(0);
+        enableSpoofingSettings(0);
+      }
+    }
+  }
   comboEncryption->setCurrentIndex(Preferences::getEncryptionSetting());
   floatValue = Preferences::getDesiredRatio();
   if(floatValue >= 1.) {
@@ -770,6 +814,62 @@ void options_imp::loadOptions(){
 // [min, max]
 int options_imp::getPort() const{
   return spinPort->value();
+}
+
+void options_imp::enableSpoofingSettings(int index) {
+  switch(index) {
+  case 0: // qBittorrent
+    resetPeerVersion_button->setEnabled(false);
+    version_label->setEnabled(false);
+    client_version->setEnabled(false);
+    client_version->clear();
+    build_label->setEnabled(false);
+    client_build->setEnabled(false);
+    client_build->clear();
+    break;
+  case 1: // Vuze
+    resetPeerVersion_button->setEnabled(true);
+    version_label->setEnabled(true);
+    client_version->setEnabled(true);
+    client_version->setText(Preferences::getDefaultClientVersion("AZ"));
+    build_label->setEnabled(false);
+    client_build->setEnabled(false);
+    client_build->clear();
+    break;
+  case 2: // uTorrent
+    resetPeerVersion_button->setEnabled(true);
+    version_label->setEnabled(true);
+    client_version->setEnabled(true);
+    client_version->setText(Preferences::getDefaultClientVersion("UT"));
+    build_label->setEnabled(true);
+    client_build->setEnabled(true);
+    client_build->setText(Preferences::getDefaultClientBuild("UT"));
+    break;
+  case 3: // KTorrent
+    resetPeerVersion_button->setEnabled(true);
+    version_label->setEnabled(true);
+    client_version->setEnabled(true);
+    client_version->setText(Preferences::getDefaultClientVersion("KT"));
+    build_label->setEnabled(false);
+    client_build->setEnabled(false);
+    client_build->clear();
+    break;
+  }
+}
+
+void options_imp::on_resetPeerVersion_button_clicked() {
+  switch(comboPeerID->currentIndex()) {
+  case 1: // Vuze
+    client_version->setText(Preferences::getDefaultClientVersion("AZ"));
+    break;
+  case 3: // KTorrent
+    client_version->setText(Preferences::getDefaultClientVersion("KT"));
+    break;
+  case 2: // uTorrent
+    client_version->setText(Preferences::getDefaultClientVersion("UT"));
+    client_build->setText(Preferences::getDefaultClientBuild("UT"));
+    break;
+  }
 }
 
 void options_imp::on_randomButton_clicked() {
@@ -1119,15 +1219,19 @@ void options_imp::enableDeleteRatio(bool checked){
   }
 }
 
-void options_imp::enableProxy(int index){
+void options_imp::enablePeerProxy(int index){
   if(index){
     //enable
     lblProxyIP->setEnabled(true);
     textProxyIP->setEnabled(true);
     lblProxyPort->setEnabled(true);
     spinProxyPort->setEnabled(true);
-    checkProxyAuth->setEnabled(true);
-    ProxyConnecsBox->setEnabled(true);
+    if(index > 1) {
+      checkProxyAuth->setEnabled(true);
+    } else {
+      checkProxyAuth->setEnabled(false);
+      checkProxyAuth->setChecked(false);
+    }
   }else{
     //disable
     lblProxyIP->setEnabled(false);
@@ -1135,12 +1239,11 @@ void options_imp::enableProxy(int index){
     lblProxyPort->setEnabled(false);
     spinProxyPort->setEnabled(false);
     checkProxyAuth->setEnabled(false);
-    checkProxyAuth->setEnabled(false);
-    ProxyConnecsBox->setEnabled(false);
+    checkProxyAuth->setChecked(false);
   }
 }
 
-void options_imp::enableProxyHTTP(int index){
+void options_imp::enableHTTPProxy(int index){
   if(index){
     //enable
     lblProxyIP_http->setEnabled(true);
@@ -1155,11 +1258,11 @@ void options_imp::enableProxyHTTP(int index){
     lblProxyPort_http->setEnabled(false);
     spinProxyPort_http->setEnabled(false);
     checkProxyAuth_http->setEnabled(false);
-    checkProxyAuth_http->setEnabled(false);
+    checkProxyAuth_http->setChecked(false);
   }
 }
 
-void options_imp::enableProxyAuth(bool checked){
+void options_imp::enablePeerProxyAuth(bool checked){
   if(checked){
     lblProxyUsername->setEnabled(true);
     lblProxyPassword->setEnabled(true);
@@ -1173,7 +1276,7 @@ void options_imp::enableProxyAuth(bool checked){
   }
 }
 
-void options_imp::enableProxyAuthHTTP(bool checked){
+void options_imp::enableHTTPProxyAuth(bool checked){
   if(checked){
     lblProxyUsername_http->setEnabled(true);
     lblProxyPassword_http->setEnabled(true);
@@ -1218,7 +1321,7 @@ bool options_imp::isDHTPortSameAsBT() const {
 }
 
 // Proxy settings
-bool options_imp::isProxyEnabled() const{
+bool options_imp::isPeerProxyEnabled() const{
   return comboProxyType->currentIndex();
 }
 
@@ -1226,11 +1329,11 @@ bool options_imp::isHTTPProxyEnabled() const {
   return comboProxyType_http->currentIndex();
 }
 
-bool options_imp::isProxyAuthEnabled() const{
+bool options_imp::isPeerProxyAuthEnabled() const{
   return checkProxyAuth->isChecked();
 }
 
-QString options_imp::getProxyIp() const{
+QString options_imp::getPeerProxyIp() const{
   QString ip = textProxyIP->text();
   ip = ip.trimmed();
   return ip;
@@ -1242,7 +1345,7 @@ QString options_imp::getHTTPProxyIp() const{
   return ip;
 }
 
-unsigned short options_imp::getProxyPort() const{
+unsigned short options_imp::getPeerProxyPort() const{
   return spinProxyPort->value();
 }
 
@@ -1250,7 +1353,7 @@ unsigned short options_imp::getHTTPProxyPort() const{
   return spinProxyPort_http->value();
 }
 
-QString options_imp::getProxyUsername() const{
+QString options_imp::getPeerProxyUsername() const{
   QString username = textProxyUsername->text();
   username = username.trimmed();
   return username;
@@ -1262,7 +1365,7 @@ QString options_imp::getHTTPProxyUsername() const{
   return username;
 }
 
-QString options_imp::getProxyPassword() const{
+QString options_imp::getPeerProxyPassword() const{
   QString password = textProxyPassword->text();
   password = password.trimmed();
   return password;

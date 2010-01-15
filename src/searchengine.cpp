@@ -210,6 +210,9 @@ void SearchEngine::on_search_button_clicked(){
     search_button->setText("Search");
     return;
   }
+  // Reload environment variables (proxy)
+  searchProcess->setEnvironment(QProcess::systemEnvironment());
+
   QString pattern = search_pattern->text().trimmed();
   // No search pattern entered
   if(pattern.isEmpty()){
@@ -240,7 +243,7 @@ void SearchEngine::on_search_button_clicked(){
   QStringList params;
   QStringList engineNames;
   search_stopped = false;
-  params << misc::qBittorrentPath()+"search_engine"+QDir::separator()+"nova2.py";
+  params << misc::searchEngineLocation()+QDir::separator()+"nova2.py";
   params << supported_engines->enginesEnabled().join(",");
   qDebug("Search with category: %s", selectedCategory().toLocal8Bit().data());
   params << selectedCategory();
@@ -301,15 +304,21 @@ void SearchEngine::saveResultsColumnsWidth() {
 }
 
 void SearchEngine::downloadTorrent(QString engine_url, QString torrent_url) {
-  QProcess *downloadProcess = new QProcess(this);
-  connect(downloadProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(downloadFinished(int,QProcess::ExitStatus)));
-  downloaders << downloadProcess;
-  QStringList params;
-  params << misc::qBittorrentPath()+"search_engine"+QDir::separator()+"nova2dl.py";
-  params << engine_url;
-  params << torrent_url;
-  // Launch search
-  downloadProcess->start("python", params, QIODevice::ReadOnly);
+  if(torrent_url.startsWith("magnet:")) {
+    QStringList urls;
+    urls << torrent_url;
+    parent->downloadFromURLList(urls);
+  } else {
+    QProcess *downloadProcess = new QProcess(this);
+    connect(downloadProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(downloadFinished(int,QProcess::ExitStatus)));
+    downloaders << downloadProcess;
+    QStringList params;
+    params << misc::searchEngineLocation()+QDir::separator()+"nova2dl.py";
+    params << engine_url;
+    params << torrent_url;
+    // Launch search
+    downloadProcess->start("python", params, QIODevice::ReadOnly);
+  }
 }
 
 void SearchEngine::searchStarted(){
@@ -358,10 +367,7 @@ void SearchEngine::downloadFinished(int exitcode, QProcess::ExitStatus) {
 void SearchEngine::updateNova() {
   qDebug("Updating nova");
   // create search_engine directory if necessary
-  QDir search_dir(misc::qBittorrentPath()+"search_engine");
-  if(!search_dir.exists()){
-    search_dir.mkdir(misc::qBittorrentPath()+"search_engine");
-  }
+  QDir search_dir(misc::searchEngineLocation());
   QFile package_file(search_dir.path()+QDir::separator()+"__init__.py");
   package_file.open(QIODevice::WriteOnly | QIODevice::Text);
   package_file.close();
@@ -372,7 +378,7 @@ void SearchEngine::updateNova() {
   package_file2.open(QIODevice::WriteOnly | QIODevice::Text);
   package_file2.close();
   // Copy search plugin files (if necessary)
-  QString filePath = misc::qBittorrentPath()+"search_engine"+QDir::separator()+"nova2.py";
+  QString filePath = misc::searchEngineLocation()+QDir::separator()+"nova2.py";
   if(getPluginVersion(":/search_engine/nova2.py") > getPluginVersion(filePath)) {
     if(QFile::exists(filePath))
       QFile::remove(filePath);
@@ -380,33 +386,37 @@ void SearchEngine::updateNova() {
   }
   // Set permissions
   QFile::Permissions perm=QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner | QFile::ReadUser | QFile::WriteUser | QFile::ExeUser | QFile::ReadGroup | QFile::ReadGroup;
-  QFile(misc::qBittorrentPath()+"search_engine"+QDir::separator()+"nova2.py").setPermissions(perm);
+  QFile(misc::searchEngineLocation()+QDir::separator()+"nova2.py").setPermissions(perm);
 
-  filePath = misc::qBittorrentPath()+"search_engine"+QDir::separator()+"nova2dl.py";
+  filePath = misc::searchEngineLocation()+QDir::separator()+"nova2dl.py";
   if(getPluginVersion(":/search_engine/nova2dl.py") > getPluginVersion(filePath)) {
     if(QFile::exists(filePath)){
       QFile::remove(filePath);
     }
     QFile::copy(":/search_engine/nova2dl.py", filePath);
   }
-  QFile(misc::qBittorrentPath()+"search_engine"+QDir::separator()+"nova2dl.py").setPermissions(perm);
-  filePath = misc::qBittorrentPath()+"search_engine"+QDir::separator()+"novaprinter.py";
+  QFile(misc::searchEngineLocation()+QDir::separator()+"nova2dl.py").setPermissions(perm);
+  filePath = misc::searchEngineLocation()+QDir::separator()+"novaprinter.py";
   if(getPluginVersion(":/search_engine/novaprinter.py") > getPluginVersion(filePath)) {
     if(QFile::exists(filePath)){
       QFile::remove(filePath);
     }
     QFile::copy(":/search_engine/novaprinter.py", filePath);
   }
-  QFile(misc::qBittorrentPath()+"search_engine"+QDir::separator()+"novaprinter.py").setPermissions(perm);
-  filePath = misc::qBittorrentPath()+"search_engine"+QDir::separator()+"helpers.py";
+  QFile(misc::searchEngineLocation()+QDir::separator()+"novaprinter.py").setPermissions(perm);
+  filePath = misc::searchEngineLocation()+QDir::separator()+"helpers.py";
   if(getPluginVersion(":/search_engine/helpers.py") > getPluginVersion(filePath)) {
     if(QFile::exists(filePath)){
       QFile::remove(filePath);
     }
     QFile::copy(":/search_engine/helpers.py", filePath);
   }
-  QFile(misc::qBittorrentPath()+"search_engine"+QDir::separator()+"helpers.py").setPermissions(perm);
-  QString destDir = misc::qBittorrentPath()+"search_engine"+QDir::separator()+"engines"+QDir::separator();
+  QFile(misc::searchEngineLocation()+QDir::separator()+"socks.py").setPermissions(perm);
+  filePath = misc::searchEngineLocation()+QDir::separator()+"socks.py";
+  if(!QFile::exists(filePath)) {
+    QFile::copy(":/search_engine/socks.py", filePath);
+  }
+  QString destDir = misc::searchEngineLocation()+QDir::separator()+"engines"+QDir::separator();
   QDir shipped_subDir(":/search_engine/engines/");
   QStringList files = shipped_subDir.entryList();
   foreach(const QString &file, files){

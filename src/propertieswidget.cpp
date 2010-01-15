@@ -38,6 +38,7 @@
 #include <QMessageBox>
 #include <QMenu>
 #include <QFileDialog>
+#include <QDesktopServices>
 #include <QInputDialog>
 #include "propertieswidget.h"
 #include "transferlistwidget.h"
@@ -78,26 +79,19 @@ PropertiesWidget::PropertiesWidget(QWidget *parent, GUI* main_window, TransferLi
   PropDelegate = new PropListDelegate(this);
   filesList->setItemDelegate(PropDelegate);
 
-  // QActions
-  actionIgnored = new QAction(tr("Ignored"), this);
-  actionNormal = new QAction(tr("Normal"), this);
-  actionMaximum = new QAction(tr("Maximum"), this);
-  actionHigh = new QAction(tr("High"), this);
-
   // SIGNAL/SLOTS
   connect(filesList, SIGNAL(clicked(const QModelIndex&)), filesList, SLOT(edit(const QModelIndex&)));
   connect(collapseAllButton, SIGNAL(clicked()), filesList, SLOT(collapseAll()));
   connect(expandAllButton, SIGNAL(clicked()), filesList, SLOT(expandAll()));
   connect(filesList, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(displayFilesListMenu(const QPoint&)));
-  connect(actionIgnored, SIGNAL(triggered()), this, SLOT(ignoreSelection()));
-  connect(actionNormal, SIGNAL(triggered()), this, SLOT(normalSelection()));
-  connect(actionHigh, SIGNAL(triggered()), this, SLOT(highSelection()));
-  connect(actionMaximum, SIGNAL(triggered()), this, SLOT(maximumSelection()));
+  connect(filesList, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(openDoubleClickedFile(QModelIndex)));
+  connect(PropListModel, SIGNAL(filteredFilesChanged()), this, SLOT(filteredFilesChanged()));
   connect(addWS_button, SIGNAL(clicked()), this, SLOT(askWebSeed()));
   connect(deleteWS_button, SIGNAL(clicked()), this, SLOT(deleteSelectedUrlSeeds()));
   connect(transferList, SIGNAL(currentTorrentChanged(QTorrentHandle&)), this, SLOT(loadTorrentInfos(QTorrentHandle &)));
   connect(PropDelegate, SIGNAL(filteredFilesChanged()), this, SLOT(filteredFilesChanged()));
   connect(stackedProperties, SIGNAL(currentChanged(int)), this, SLOT(loadDynamicData()));
+  connect(BTSession, SIGNAL(savePathChanged(QTorrentHandle&)), this, SLOT(updateSavePath(QTorrentHandle&)));
 
   // Downloaded pieces progress bar
   downloaded_pieces = new DownloadedPiecesBar(this);
@@ -107,7 +101,14 @@ PropertiesWidget::PropertiesWidget(QWidget *parent, GUI* main_window, TransferLi
   ProgressHLayout_2->insertWidget(1, pieces_availability);
   // Tracker list
   trackerList = new TrackerList(this);
-  verticalLayout_trackers->addWidget(trackerList);
+#ifdef LIBTORRENT_0_15
+  trackerUpButton->setVisible(false);
+  trackerDownButton->setVisible(false);
+#else
+  connect(trackerUpButton, SIGNAL(clicked()), trackerList, SLOT(moveSelectionUp()));
+  connect(trackerDownButton, SIGNAL(clicked()), trackerList, SLOT(moveSelectionDown()));
+#endif
+  horizontalLayout_trackers->insertWidget(0, trackerList);
   // Peers list
   peersList = new PeerListWidget(this);
   peerpage_layout->addWidget(peersList);
@@ -125,13 +126,7 @@ PropertiesWidget::~PropertiesWidget() {
   delete pieces_availability;
   delete PropListModel;
   delete PropDelegate;
-  // Delete QActions
-  delete actionIgnored;
-  delete actionNormal;
-  delete actionMaximum;
-  delete actionHigh;
 }
-
 
 void PropertiesWidget::showPiecesAvailability(bool show) {
   avail_pieces_lbl->setVisible(show);
@@ -209,6 +204,12 @@ const QTorrentHandle& PropertiesWidget::getCurrentTorrent() const {
 
 Bittorrent* PropertiesWidget::getBTSession() const {
   return BTSession;
+}
+
+void PropertiesWidget::updateSavePath(QTorrentHandle& _h) {
+  if(h.is_valid() && h == _h) {
+    save_path->setText(TorrentPersistentData::getSavePath(h.hash()));
+  }
 }
 
 void PropertiesWidget::loadTorrentInfos(QTorrentHandle &_h) {
@@ -468,119 +469,218 @@ void PropertiesWidget::on_files_button_clicked() {
   }
 }
 
+void PropertiesWidget::openDoubleClickedFile(QModelIndex index) {
+  if(!index.isValid()) return;
+  if(!h.is_valid() || !h.has_metadata()) return;
+  if(PropListModel->getType(index) == TFILE) {
+    int i = PropListModel->getFileIndex(index);
+    QDir saveDir(h.save_path());
+    QString filename = misc::toQString(h.get_torrent_info().file_at(i).path.string());
+    QString file_path = QDir::cleanPath(saveDir.absoluteFilePath(filename));
+    qDebug("Trying to open file at %s", file_path.toLocal8Bit().data());
+#ifdef LIBTORRENT_0_15
+    // Flush data
+    h.flush_cache();
+#endif
+    if(QFile::exists(file_path))
+      QDesktopServices::openUrl("file://"+file_path);
+    else
+      QMessageBox::warning(this, tr("I/O Error"), tr("This file does not exist yet."));
+  } else {
+    // FOLDER
+    QStringList path_items;
+    path_items << index.data().toString();
+    QModelIndex parent = PropListModel->parent(index);
+    while(parent.isValid()) {
+      path_items.prepend(parent.data().toString());
+      parent = PropListModel->parent(parent);
+    }
+    QDir saveDir(h.save_path());
+    QString filename = path_items.join(QDir::separator());
+    QString file_path = QDir::cleanPath(saveDir.absoluteFilePath(filename));
+    qDebug("Trying to open folder at %s", file_path.toLocal8Bit().data());
+#ifdef LIBTORRENT_0_15
+    // Flush data
+    h.flush_cache();
+#endif
+    if(QFile::exists(file_path))
+      QDesktopServices::openUrl("file://"+file_path);
+    else
+      QMessageBox::warning(this, tr("I/O Error"), tr("This folder does not exist yet."));
+  }
+}
+
 void PropertiesWidget::displayFilesListMenu(const QPoint&){
-  //if(h.get_torrent_info().num_files() == 1) return;
-  QMenu myFilesLlistMenu(this);
-  //QModelIndex index;
-  // Enable/disable pause/start action given the DL state
-  //QModelIndexList selectedIndexes = filesList->selectionModel()->selectedIndexes();
-  myFilesLlistMenu.setTitle(tr("Priority"));
-  myFilesLlistMenu.addAction(actionIgnored);
-  myFilesLlistMenu.addAction(actionNormal);
-  myFilesLlistMenu.addAction(actionHigh);
-  myFilesLlistMenu.addAction(actionMaximum);
-  // Call menu
-  myFilesLlistMenu.exec(QCursor::pos());
-}
-
-void PropertiesWidget::ignoreSelection(){
-  QModelIndexList selectedIndexes = filesList->selectionModel()->selectedIndexes();
-  foreach(const QModelIndex &index, selectedIndexes){
-    if(index.column() == PRIORITY){
-      if(PropListModel->data(index) != QVariant(IGNORED)){
-        PropListModel->setData(index, QVariant(IGNORED));
-        filteredFilesChanged();
-      }
-    }
-  }
-}
-
-void PropertiesWidget::normalSelection(){
-  QModelIndexList selectedIndexes = filesList->selectionModel()->selectedIndexes();
-  foreach(const QModelIndex &index, selectedIndexes){
-    if(index.column() == PRIORITY){
-      if(PropListModel->data(index) != QVariant(NORMAL)){
-        PropListModel->setData(index, QVariant(NORMAL));
-        filteredFilesChanged();
-      }
-    }
-  }
-}
-
-void PropertiesWidget::highSelection(){
-  QModelIndexList selectedIndexes = filesList->selectionModel()->selectedIndexes();
-  foreach(const QModelIndex &index, selectedIndexes){
-    if(index.column() == PRIORITY){
-      if(PropListModel->data(index) != QVariant(HIGH)){
-        PropListModel->setData(index, QVariant(HIGH));
-        filteredFilesChanged();
-      }
-    }
-  }
-}
-
-void PropertiesWidget::maximumSelection(){
-  QModelIndexList selectedIndexes = filesList->selectionModel()->selectedIndexes();
-  foreach(const QModelIndex &index, selectedIndexes){
-    if(index.column() == PRIORITY){
-      if(PropListModel->data(index) != QVariant(MAXIMUM)){
-        PropListModel->setData(index, QVariant(MAXIMUM));
-        filteredFilesChanged();
-      }
-    }
-  }
-}
-
-void PropertiesWidget::askWebSeed(){
-  bool ok;
-  // Ask user for a new url seed
-  QString url_seed = QInputDialog::getText(this, tr("New url seed", "New HTTP source"),
-                                           tr("New url seed:"), QLineEdit::Normal,
-                                           QString::fromUtf8("http://www."), &ok);
-  if(!ok) return;
-  qDebug("Adding %s web seed", url_seed.toLocal8Bit().data());
-  if(!listWebSeeds->findItems(url_seed, Qt::MatchFixedString).empty()) {
-    QMessageBox::warning(this, tr("qBittorrent"),
-                         tr("This url seed is already in the list."),
-                         QMessageBox::Ok);
+  QMenu myFilesLlistMenu;
+  QModelIndexList selectedRows = filesList->selectionModel()->selectedRows(0);
+  QAction *actRename = 0;
+  if(selectedRows.size() == 1) {
+    actRename = myFilesLlistMenu.addAction(QIcon(QString::fromUtf8(":/Icons/oxygen/edit_clear.png")), tr("Rename..."));
+    //myFilesLlistMenu.addSeparator();
+  } else {
     return;
   }
-  h.add_url_seed(url_seed);
-  // Refresh the seeds list
-  loadUrlSeeds();
-}
-
-void PropertiesWidget::deleteSelectedUrlSeeds(){
-  QList<QListWidgetItem *> selectedItems = listWebSeeds->selectedItems();
-  bool change = false;
-  foreach(QListWidgetItem *item, selectedItems){
-    QString url_seed = item->text();
-    h.remove_url_seed(url_seed);
-    change = true;
-  }
-  if(change){
-    // Refresh list
-    loadUrlSeeds();
+  // Call menu
+  QAction *act = myFilesLlistMenu.exec(QCursor::pos());
+  if(act) {
+    if(act == actRename) {
+      renameSelectedFile();
+    }
   }
 }
 
-bool PropertiesWidget::applyPriorities() {
-  qDebug("Saving pieces priorities");
-  std::vector<int> priorities = PropListModel->getFilesPriorities(h.get_torrent_info().num_files());
-  bool first_last_piece_first = false;
-  // Save first/last piece first option state
-  if(h.first_last_piece_first())
-    first_last_piece_first = true;
-  // Prioritize the files
-  qDebug("prioritize files: %d", priorities[0]);
-  h.prioritize_files(priorities);
-  // Restore first/last piece first option if necessary
-  if(first_last_piece_first)
-    h.prioritize_first_last_piece(true);
-  return true;
-}
-    
-void PropertiesWidget::on_changeSavePathButton_clicked() {
+void PropertiesWidget::renameSelectedFile() {
+  QModelIndexList selectedIndexes = filesList->selectionModel()->selectedRows(0);
+  Q_ASSERT(selectedIndexes.size() == 1);
+  QModelIndex index = selectedIndexes.first();
+  // Ask for new name
+  bool ok;
+  QString new_name_last = QInputDialog::getText(this, tr("Rename the file"),
+                                                tr("New name:"), QLineEdit::Normal,
+                                                index.data().toString(), &ok);
+  if (ok && !new_name_last.isEmpty()) {
+    if(!misc::isValidFileSystemName(new_name_last)) {
+      QMessageBox::warning(this, tr("The file could not be renamed"),
+                           tr("This file name contains forbidden characters, please choose a different one."),
+                           QMessageBox::Ok);
+      return;
+    }
+    if(PropListModel->getType(index)==TFILE) {
+      // File renaming
+      int file_index = PropListModel->getFileIndex(index);
+      if(!h.is_valid() || !h.has_metadata()) return;
+      QString old_name = misc::toQString(h.get_torrent_info().file_at(file_index).path.string());
+      if(old_name.endsWith(".!qB") && !new_name_last.endsWith(".!qB")) {
+        new_name_last += ".!qB";
+      }
+      QStringList path_items = old_name.split(QDir::separator());
+      path_items.removeLast();
+      path_items << new_name_last;
+      QString new_name = path_items.join(QDir::separator());
+      if(old_name == new_name) {
+        qDebug("Name did not change");
+        return;
+      }
+      // Check if that name is already used
+      for(int i=0; i<h.num_files(); ++i) {
+        if(i == file_index) continue;
+#ifdef Q_WS_WIN
+        if(misc::toQString(h.get_torrent_info().file_at(i).path.string()).compare(new_name, Qt::CaseInsensitive) == 0) {
+#else
+          if(misc::toQString(h.get_torrent_info().file_at(i).path.string()).compare(new_name, Qt::CaseSensitive) == 0) {
+#endif
+            // Display error message
+            QMessageBox::warning(this, tr("The file could not be renamed"),
+                                 tr("This name is already in use in this folder. Please use a different name."),
+                                 QMessageBox::Ok);
+            return;
+          }
+        }
+        qDebug("Renaming %s to %s", old_name.toLocal8Bit().data(), new_name.toLocal8Bit().data());
+        h.rename_file(file_index, new_name);
+        // Rename if torrent files model too
+        if(new_name_last.endsWith(".!qB"))
+          new_name_last.chop(4);
+        PropListModel->setData(index, new_name_last);
+      } else {
+        // Folder renaming
+        QStringList path_items;
+        path_items << index.data().toString();
+        QModelIndex parent = PropListModel->parent(index);
+        while(parent.isValid()) {
+          path_items.prepend(parent.data().toString());
+          parent = PropListModel->parent(parent);
+        }
+        QString old_path = path_items.join(QDir::separator());
+        path_items.removeLast();
+        path_items << new_name_last;
+        QString new_path = path_items.join(QDir::separator());
+        // Check for overwriting
+        int num_files = h.num_files();
+        for(int i=0; i<num_files; ++i) {
+          QString current_name = misc::toQString(h.get_torrent_info().file_at(i).path.string());
+#ifdef Q_WS_WIN
+          if(current_name.contains(new_path, Qt::CaseInsensitive)) {
+#else
+            if(current_name.contains(new_path, Qt::CaseSensitive)) {
+#endif
+              QMessageBox::warning(this, tr("The folder could not be renamed"),
+                                   tr("This name is already in use in this folder. Please use a different name."),
+                                   QMessageBox::Ok);
+              return;
+            }
+          }
+          // Replace path in all files
+          for(int i=0; i<num_files; ++i) {
+            QString current_name = misc::toQString(h.get_torrent_info().file_at(i).path.string());
+            QString new_name = current_name.replace(old_path, new_path);
+            qDebug("Rename %s to %s", current_name.toLocal8Bit().data(), new_name.toLocal8Bit().data());
+            h.rename_file(i, new_name);
+          }
+          // Rename folder in torrent files model too
+          PropListModel->setData(index, new_name_last);
+          // Remove old folder
+          QDir old_folder(h.save_path()+QDir::separator()+old_path);
+          int timeout = 10;
+          while(!misc::removeEmptyTree(old_folder.absolutePath()) && timeout > 0) {
+            SleeperThread::msleep(100);
+            --timeout;
+          }
+        }
+      }
+    }
+
+    void PropertiesWidget::askWebSeed(){
+      bool ok;
+      // Ask user for a new url seed
+      QString url_seed = QInputDialog::getText(this, tr("New url seed", "New HTTP source"),
+                                               tr("New url seed:"), QLineEdit::Normal,
+                                               QString::fromUtf8("http://www."), &ok);
+      if(!ok) return;
+      qDebug("Adding %s web seed", url_seed.toLocal8Bit().data());
+      if(!listWebSeeds->findItems(url_seed, Qt::MatchFixedString).empty()) {
+        QMessageBox::warning(this, tr("qBittorrent"),
+                             tr("This url seed is already in the list."),
+                             QMessageBox::Ok);
+        return;
+      }
+      h.add_url_seed(url_seed);
+      // Refresh the seeds list
+      loadUrlSeeds();
+    }
+
+    void PropertiesWidget::deleteSelectedUrlSeeds(){
+      QList<QListWidgetItem *> selectedItems = listWebSeeds->selectedItems();
+      bool change = false;
+      foreach(QListWidgetItem *item, selectedItems){
+        QString url_seed = item->text();
+        h.remove_url_seed(url_seed);
+        change = true;
+      }
+      if(change){
+        // Refresh list
+        loadUrlSeeds();
+      }
+    }
+
+    bool PropertiesWidget::applyPriorities() {
+      qDebug("Saving pieces priorities");
+      std::vector<int> priorities = PropListModel->getFilesPriorities(h.get_torrent_info().num_files());
+      bool first_last_piece_first = false;
+      // Save first/last piece first option state
+      if(h.first_last_piece_first())
+        first_last_piece_first = true;
+      // Prioritize the files
+      qDebug("prioritize files: %d", priorities[0]);
+      h.prioritize_files(priorities);
+      // Restore first/last piece first option if necessary
+      if(first_last_piece_first)
+        h.prioritize_first_last_piece(true);
+      return true;
+    }
+
+
+    void PropertiesWidget::on_changeSavePathButton_clicked() {
       if(!h.is_valid()) return;
       QString dir;
       QDir saveDir(h.save_path());
@@ -608,8 +708,8 @@ void PropertiesWidget::on_changeSavePathButton_clicked() {
       }
     }
 
-void PropertiesWidget::filteredFilesChanged() {
-  if(h.is_valid()) {
-    applyPriorities();
-  }
-}
+    void PropertiesWidget::filteredFilesChanged() {
+      if(h.is_valid()) {
+        applyPriorities();
+      }
+    }
