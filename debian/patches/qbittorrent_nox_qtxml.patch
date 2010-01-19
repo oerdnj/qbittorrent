@@ -1,0 +1,18 @@
+Author: Cristian Greco <cristian@regolo.cc>
+Description: qbittorrent-nox doesn't need to link against libqt4-xml.
+
+--- a/src/src.pro
++++ b/src/src.pro
+@@ -105,8 +105,10 @@
+ unix:QMAKE_LFLAGS_SHAPP += -rdynamic
+ CONFIG += link_pkgconfig
+ PKGCONFIG += "libtorrent-rasterbar"
+-QT += network \
+-    xml
++QT += network
++!contains(DEFINES, DISABLE_GUI) {
++    QT += xml
++}
+ DEFINES += QT_NO_CAST_TO_ASCII
+ 
+ # Windows
