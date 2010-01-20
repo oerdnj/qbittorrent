@@ -5,8 +5,8 @@ qbittorrent (2.1.0-1) unstable; urgency=low
     headless client.
   * qbittorrent_nox_qtxml.patch: new patch, qbittorrent-nox doesn't need
     to link against libqt4-xml.
-  * debian/NEWS: informations about relevant changes with this new version.
-  * debian/qbittorrent-nox.README.Debian: informations about the WebUI for
+  * debian/NEWS: information about relevant changes with this new version.
+  * debian/qbittorrent-nox.README.Debian: information about the WebUI for
     qbittorrent-nox package.
   * debian/copyright: updated.
 
