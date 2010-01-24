@@ -1,3 +1,10 @@
+qbittorrent (2.1.2-1) unstable; urgency=low
+
+  * New upstream version.
+  * qbittorrent_nox_qtxml.patch: deleted, fixed upstream.
+
+ -- Cristian Greco <cristian@regolo.cc>  Sun, 24 Jan 2010 19:56:47 +0100
+
 qbittorrent (2.1.0-1) unstable; urgency=low
 
   * New upstream version.
