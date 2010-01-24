@@ -281,61 +281,61 @@ p, li { white-space: pre-wrap; }
         <translation>&apos;%1&apos; no es una URI válida.</translation>
     </message>
     <message>
-        <location filename="../bittorrent.cpp" line="763"/>
-        <location filename="../bittorrent.cpp" line="923"/>
+        <location filename="../bittorrent.cpp" line="766"/>
         <location filename="../bittorrent.cpp" line="926"/>
+        <location filename="../bittorrent.cpp" line="929"/>
         <source>&apos;%1&apos; is already in download list.</source>
         <comment>e.g: &apos;xxx.avi&apos; is already in download list.</comment>
         <translation>&apos;%1&apos; ya está en la lista de descargas.</translation>
     </message>
     <message>
-        <location filename="../bittorrent.cpp" line="859"/>
-        <location filename="../bittorrent.cpp" line="1069"/>
-        <location filename="../bittorrent.cpp" line="1074"/>
+        <location filename="../bittorrent.cpp" line="862"/>
+        <location filename="../bittorrent.cpp" line="1077"/>
+        <location filename="../bittorrent.cpp" line="1082"/>
         <source>&apos;%1&apos; resumed. (fast resume)</source>
         <comment>&apos;/home/y/xxx.torrent&apos; was resumed. (fast resume)</comment>
         <translation>&apos;%1&apos; reiniciado. (reinicio rápido)</translation>
     </message>
     <message>
-        <location filename="../bittorrent.cpp" line="861"/>
-        <location filename="../bittorrent.cpp" line="1071"/>
-        <location filename="../bittorrent.cpp" line="1076"/>
+        <location filename="../bittorrent.cpp" line="864"/>
+        <location filename="../bittorrent.cpp" line="1079"/>
+        <location filename="../bittorrent.cpp" line="1084"/>
         <source>&apos;%1&apos; added to download list.</source>
         <comment>&apos;/home/y/xxx.torrent&apos; was added to download list.</comment>
         <translation>&apos;%1&apos; agregado a la lista de descargas.</translation>
     </message>
     <message>
-        <location filename="../bittorrent.cpp" line="897"/>
-        <location filename="../bittorrent.cpp" line="901"/>
+        <location filename="../bittorrent.cpp" line="900"/>
+        <location filename="../bittorrent.cpp" line="904"/>
         <source>Unable to decode torrent file: &apos;%1&apos;</source>
         <comment>e.g: Unable to decode torrent file: &apos;/home/y/xxx.torrent&apos;</comment>
         <translation>Imposible decodificar el archivo torrent: &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="../bittorrent.cpp" line="904"/>
+        <location filename="../bittorrent.cpp" line="907"/>
         <source>This file is either corrupted or this isn&apos;t a torrent.</source>
         <translation>Este archivo puede estar corrupto, o no ser un torrent.</translation>
     </message>
     <message>
-        <location filename="../bittorrent.cpp" line="1328"/>
+        <location filename="../bittorrent.cpp" line="1336"/>
         <source>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;was blocked due to your IP filter&lt;/i&gt;</source>
         <comment>x.y.z.w was blocked</comment>
         <translation>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;fue bloqueado debido al filtro IP&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../bittorrent.cpp" line="1330"/>
+        <location filename="../bittorrent.cpp" line="1338"/>
         <source>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;was banned due to corrupt pieces&lt;/i&gt;</source>
         <comment>x.y.z.w was banned</comment>
         <translation>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;Fue bloqueado debido a fragmentos corruptos&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../bittorrent.cpp" line="1720"/>
+        <location filename="../bittorrent.cpp" line="1728"/>
         <source>Recursive download of file %1 embedded in torrent %2</source>
         <comment>Recursive download of test.torrent embedded in torrent test2</comment>
         <translation>Descarga recursiva de archivo %1 inscrustada en Torrent %2</translation>
     </message>
     <message>
-        <location filename="../bittorrent.cpp" line="1731"/>
+        <location filename="../bittorrent.cpp" line="1739"/>
         <source>Unable to decode %1 torrent file.</source>
         <translation>No se puede descodificar %1 archivo torrent.</translation>
     </message>
@@ -348,32 +348,32 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">No se pudo escuchar en ninguno de los puertos brindados.</translation>
     </message>
     <message>
-        <location filename="../bittorrent.cpp" line="1866"/>
+        <location filename="../bittorrent.cpp" line="1878"/>
         <source>UPnP/NAT-PMP: Port mapping failure, message: %1</source>
         <translation>UPnP/NAT-PMP: Falló el mapeo del puerto, mensaje: %1</translation>
     </message>
     <message>
-        <location filename="../bittorrent.cpp" line="1871"/>
+        <location filename="../bittorrent.cpp" line="1883"/>
         <source>UPnP/NAT-PMP: Port mapping successful, message: %1</source>
         <translation>UPnP/NAT-PMP: Mapeo del puerto exitoso, mensaje: %1</translation>
     </message>
     <message>
-        <location filename="../bittorrent.cpp" line="1886"/>
+        <location filename="../bittorrent.cpp" line="1898"/>
         <source>Fast resume data was rejected for torrent %1, checking again...</source>
         <translation>Se negaron los datos para reinicio rápido del torrent: %1, verificando de nuevo...</translation>
     </message>
     <message>
-        <location filename="../bittorrent.cpp" line="1887"/>
+        <location filename="../bittorrent.cpp" line="1899"/>
         <source>Reason: %1</source>
         <translation>Razón: %1</translation>
     </message>
     <message>
-        <location filename="../bittorrent.cpp" line="1892"/>
+        <location filename="../bittorrent.cpp" line="1904"/>
         <source>Url seed lookup failed for url: %1, message: %2</source>
         <translation>Falló la búsqueda de semilla por Url para la Url: %1, mensaje: %2</translation>
     </message>
     <message>
-        <location filename="../bittorrent.cpp" line="1980"/>
+        <location filename="../bittorrent.cpp" line="2010"/>
         <source>Downloading &apos;%1&apos;, please wait...</source>
         <comment>e.g: Downloading &apos;xxx.torrent&apos;, please wait...</comment>
         <translation>Descargando &apos;%1&apos;, por favor espere...</translation>
@@ -1788,12 +1788,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">No se pudo crear el directorio:</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="631"/>
+        <location filename="../GUI.cpp" line="614"/>
         <source>Open Torrent Files</source>
         <translation>Abrir archivos Torrent</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="632"/>
+        <location filename="../GUI.cpp" line="615"/>
         <source>Torrent Files</source>
         <translation>Archivos Torrent</translation>
     </message>
@@ -1835,12 +1835,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">¿Seguro que quieres eliminar todos los archivos de la lista de descargas?</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="529"/>
+        <location filename="../GUI.cpp" line="512"/>
         <source>&amp;Yes</source>
         <translation>&amp;Sí</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="529"/>
+        <location filename="../GUI.cpp" line="512"/>
         <source>&amp;No</source>
         <translation>&amp;No</translation>
     </message>
@@ -1927,8 +1927,8 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete"> qBittorrent</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="527"/>
-        <location filename="../GUI.cpp" line="811"/>
+        <location filename="../GUI.cpp" line="510"/>
+        <location filename="../GUI.cpp" line="794"/>
         <source>qBittorrent</source>
         <translation>qBittorrent</translation>
     </message>
@@ -2178,7 +2178,7 @@ Por favor cierra el otro antes.</translation>
         <translation type="obsolete">Por favor espere...</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="139"/>
+        <location filename="../GUI.cpp" line="138"/>
         <source>Transfers</source>
         <translation>Transferencia</translation>
     </message>
@@ -2204,7 +2204,7 @@ Por favor cierra el otro antes.</translation>
         <translation type="obsolete">Motor de Búsqueda</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="84"/>
+        <location filename="../GUI.cpp" line="83"/>
         <source>qBittorrent %1</source>
         <comment>e.g: qBittorrent v0.x</comment>
         <translation>qBittorrent %1</translation>
@@ -2272,15 +2272,15 @@ Por favor cierra el otro antes.</translation>
         <translation type="obsolete">qBittorrent %1 iniciado.</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="806"/>
-        <location filename="../GUI.cpp" line="814"/>
+        <location filename="../GUI.cpp" line="789"/>
+        <location filename="../GUI.cpp" line="797"/>
         <source>DL speed: %1 KiB/s</source>
         <comment>e.g: Download speed: 10 KiB/s</comment>
         <translation>Vel. de Bajada: %1 KiB/s</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="808"/>
-        <location filename="../GUI.cpp" line="817"/>
+        <location filename="../GUI.cpp" line="791"/>
+        <location filename="../GUI.cpp" line="800"/>
         <source>UP speed: %1 KiB/s</source>
         <comment>e.g: Upload speed: 10 KiB/s</comment>
         <translation>Vel. de Subida: %1 KiB/s</translation>
@@ -2301,7 +2301,7 @@ Por favor cierra el otro antes.</translation>
         <translation type="obsolete">Detenida</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="527"/>
+        <location filename="../GUI.cpp" line="510"/>
         <source>Are you sure you want to quit?</source>
         <translation>¿Seguro que quiere salir?</translation>
     </message>
@@ -2364,13 +2364,13 @@ Por favor cierra el otro antes.</translation>
         <translation type="obsolete">&apos;%1&apos; reiniciado.</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="304"/>
+        <location filename="../GUI.cpp" line="303"/>
         <source>%1 has finished downloading.</source>
         <comment>e.g: xxx.avi has finished downloading.</comment>
         <translation>%1 ha terminado de descargarse.</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="310"/>
+        <location filename="../GUI.cpp" line="309"/>
         <source>I/O Error</source>
         <comment>i.e: Input/Output Error</comment>
         <translation>Error de Entrada/Salida</translation>
@@ -2425,28 +2425,28 @@ Por favor cierra el otro antes.</translation>
         <translation type="obsolete">Descargando &apos;%1&apos;, por favor espera...</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="314"/>
+        <location filename="../GUI.cpp" line="313"/>
         <source>An error occured (full disk?), &apos;%1&apos; paused.</source>
         <comment>e.g: An error occured (full disk?), &apos;xxx.avi&apos; paused.</comment>
         <translation>Ha ocurrido un error (¿Disco lleno?), &apos;%1&apos; pausado.</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="153"/>
+        <location filename="../GUI.cpp" line="152"/>
         <source>Search</source>
         <translation>Buscar</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="258"/>
+        <location filename="../GUI.cpp" line="257"/>
         <source>RSS</source>
         <translation>RSS</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="304"/>
+        <location filename="../GUI.cpp" line="303"/>
         <source>Download completion</source>
         <translation>Descarga completada</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="310"/>
+        <location filename="../GUI.cpp" line="309"/>
         <source>An I/O error occured for torrent %1.
  Reason: %2</source>
         <comment>e.g: An error occured for torrent xxx.avi.
@@ -2455,35 +2455,35 @@ Por favor cierra el otro antes.</translation>
  Razón: %2</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="323"/>
+        <location filename="../GUI.cpp" line="322"/>
         <source>Alt+2</source>
         <comment>shortcut to switch to third tab</comment>
         <translation>Alt+2</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="327"/>
+        <location filename="../GUI.cpp" line="326"/>
         <source>Alt+3</source>
         <comment>shortcut to switch to fourth tab</comment>
         <translation>Alt+3</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="412"/>
+        <location filename="../GUI.cpp" line="411"/>
         <source>Global Upload Speed Limit</source>
         <translation>Límite global de subida</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="430"/>
+        <location filename="../GUI.cpp" line="429"/>
         <source>Global Download Speed Limit</source>
         <translation>Limite global de bajada</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="732"/>
+        <location filename="../GUI.cpp" line="715"/>
         <source>qBittorrent %1</source>
         <comment>e.g: qBittorrent vx.x</comment>
         <translation>qBittorrent %1</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="823"/>
+        <location filename="../GUI.cpp" line="806"/>
         <source>qBittorrent %1 (Down: %2/s, Up: %3/s)</source>
         <comment>%1 is qBittorrent version</comment>
         <translation>qBittorrent %1 (Bajada: %2/s, Subida: %3/s)</translation>
@@ -2553,7 +2553,7 @@ Are you sure you want to quit qBittorrent?</source>
         <translation type="obsolete">Radio</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="321"/>
+        <location filename="../GUI.cpp" line="320"/>
         <source>Alt+1</source>
         <comment>shortcut to switch to first tab</comment>
         <translation>Alt+1</translation>
@@ -2574,12 +2574,12 @@ Are you sure you want to quit qBittorrent?</source>
         <translation type="obsolete">Alt+4</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="406"/>
+        <location filename="../GUI.cpp" line="405"/>
         <source>Url download error</source>
         <translation>Error de descarga de Url</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="406"/>
+        <location filename="../GUI.cpp" line="405"/>
         <source>Couldn&apos;t download file at url: %1, reason: %2.</source>
         <translation>No se pudo descargar el archivo en la url: %1, razón: %2.</translation>
     </message>
@@ -2610,7 +2610,7 @@ Are you sure you want to quit qBittorrent?</source>
         <translation type="obsolete">Alt+3</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="325"/>
+        <location filename="../GUI.cpp" line="324"/>
         <source>Ctrl+F</source>
         <comment>shortcut to switch to search tab</comment>
         <translation>Ctrl + F</translation>
@@ -2621,7 +2621,7 @@ Are you sure you want to quit qBittorrent?</source>
         <translation type="obsolete">&apos;%1&apos; fue eliminado porque su radio llegó al valor máximo que estableciste.</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="528"/>
+        <location filename="../GUI.cpp" line="511"/>
         <source>Some files are currently transferring.
 Are you sure you want to quit qBittorrent?</source>
         <translation>Algunos archivos están aún transfiriendose.
@@ -2653,7 +2653,7 @@ Are you sure you want to quit qBittorrent?</source>
         <translation type="obsolete">qBittorrent %1 (DL: %2KiB/s, UP: %3KiB/s)</translation>
     </message>
     <message>
-        <location filename="../GUI.cpp" line="704"/>
+        <location filename="../GUI.cpp" line="687"/>
         <source>Options were saved successfully.</source>
         <translation>Opciones guardadas correctamente.</translation>
     </message>
@@ -2821,11 +2821,19 @@ Are you sure you want to quit qBittorrent?</source>
         <translation>Aviso Legal</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="104"/>
-        <location filename="../main.cpp" line="112"/>
         <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by mean of upload. And of course, any content you share if your sole responsatibility.
 
 You probably knew this, so we won&apos;t tell you again.</source>
+        <translation type="obsolete">qBittorrent es un programa para compartir archivos. Cuando se ejecuta un torrente, sus datos se pondrán a disposición de los demás por medio de subida. Y, por supuesto, cualquier contenido que usted comparte es bajo su responsabilidad.
+
+Probablemente esto es algo que ya sabía, así que no le dirá otra vez.</translation>
+    </message>
+    <message>
+        <location filename="../main.cpp" line="104"/>
+        <location filename="../main.cpp" line="112"/>
+        <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.
+
+No further notices will be issued.</source>
         <translation>qBittorrent es un programa para compartir archivos. Cuando se ejecuta un torrente, sus datos se pondrán a disposición de los demás por medio de subida. Y, por supuesto, cualquier contenido que usted comparte es bajo su responsabilidad.
 
 Probablemente esto es algo que ya sabía, así que no le dirá otra vez.</translation>
@@ -3170,9 +3178,14 @@ Probablemente esto es algo que ya sabía, así que no le dirá otra vez.</transl
 <context>
     <name>PeerListDelegate</name>
     <message>
-        <location filename="../peerlistdelegate.h" line="59"/>
         <source>KiB/s</source>
-        <translation>KiB/s</translation>
+        <translation type="obsolete">KiB/s</translation>
+    </message>
+    <message>
+        <location filename="../peerlistdelegate.h" line="60"/>
+        <source>/s</source>
+        <comment>/second (i.e. per second)</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3334,7 +3347,7 @@ Probablemente esto es algo que ya sabía, así que no le dirá otra vez.</transl
     </message>
     <message>
         <location filename="../ui/options.ui" line="200"/>
-        <location filename="../ui/options.ui" line="2636"/>
+        <location filename="../ui/options.ui" line="2645"/>
         <source>RSS</source>
         <translation></translation>
     </message>
@@ -3787,119 +3800,119 @@ QGroupBox {
     </message>
     <message>
         <location filename="../ui/options.ui" line="1955"/>
-        <location filename="../ui/options.ui" line="2150"/>
+        <location filename="../ui/options.ui" line="2153"/>
         <source>Type:</source>
         <translation>Tipo:</translation>
     </message>
     <message>
         <location filename="../ui/options.ui" line="1963"/>
-        <location filename="../ui/options.ui" line="2158"/>
+        <location filename="../ui/options.ui" line="2161"/>
         <source>(None)</source>
         <translation>(Ninguno)</translation>
     </message>
     <message>
         <location filename="../ui/options.ui" line="1968"/>
-        <location filename="../ui/options.ui" line="2173"/>
+        <location filename="../ui/options.ui" line="2176"/>
         <source>HTTP</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../ui/options.ui" line="1984"/>
-        <location filename="../ui/options.ui" line="2184"/>
+        <location filename="../ui/options.ui" line="2187"/>
         <source>Host:</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../ui/options.ui" line="2010"/>
-        <location filename="../ui/options.ui" line="2210"/>
-        <location filename="../ui/options.ui" line="2494"/>
+        <location filename="../ui/options.ui" line="2213"/>
+        <location filename="../ui/options.ui" line="2500"/>
         <source>Port:</source>
         <translation>Puerto:</translation>
     </message>
     <message>
-        <location filename="../ui/options.ui" line="2050"/>
-        <location filename="../ui/options.ui" line="2250"/>
-        <location filename="../ui/options.ui" line="2530"/>
+        <location filename="../ui/options.ui" line="2053"/>
+        <location filename="../ui/options.ui" line="2256"/>
+        <location filename="../ui/options.ui" line="2539"/>
         <source>Authentication</source>
         <translation>Autentificación</translation>
     </message>
     <message>
-        <location filename="../ui/options.ui" line="2064"/>
-        <location filename="../ui/options.ui" line="2264"/>
-        <location filename="../ui/options.ui" line="2538"/>
+        <location filename="../ui/options.ui" line="2067"/>
+        <location filename="../ui/options.ui" line="2270"/>
+        <location filename="../ui/options.ui" line="2547"/>
         <source>Username:</source>
         <translation>Nombre de Usuario:</translation>
     </message>
     <message>
-        <location filename="../ui/options.ui" line="2074"/>
-        <location filename="../ui/options.ui" line="2274"/>
-        <location filename="../ui/options.ui" line="2545"/>
+        <location filename="../ui/options.ui" line="2077"/>
+        <location filename="../ui/options.ui" line="2280"/>
+        <location filename="../ui/options.ui" line="2554"/>
         <source>Password:</source>
         <translation>Contraseña:</translation>
     </message>
     <message>
-        <location filename="../ui/options.ui" line="2142"/>
+        <location filename="../ui/options.ui" line="2145"/>
         <source>Peer Communications</source>
         <translation>Comunicaciones Pares</translation>
     </message>
     <message>
-        <location filename="../ui/options.ui" line="2163"/>
+        <location filename="../ui/options.ui" line="2166"/>
         <source>SOCKS4</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../ui/options.ui" line="1973"/>
-        <location filename="../ui/options.ui" line="2168"/>
+        <location filename="../ui/options.ui" line="2171"/>
         <source>SOCKS5</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/options.ui" line="2378"/>
+        <location filename="../ui/options.ui" line="2384"/>
         <source>Filter Settings</source>
         <translation>Preferencias del Filtro</translation>
     </message>
     <message>
-        <location filename="../ui/options.ui" line="2384"/>
+        <location filename="../ui/options.ui" line="2390"/>
         <source>Activate IP Filtering</source>
         <translation>Activar Filtro IP</translation>
     </message>
     <message>
-        <location filename="../ui/options.ui" line="2400"/>
+        <location filename="../ui/options.ui" line="2406"/>
         <source>Filter path (.dat, .p2p, .p2b):</source>
         <translation>Ruta de Filtro (.dat, .p2p, .p2b):</translation>
     </message>
     <message>
-        <location filename="../ui/options.ui" line="2475"/>
+        <location filename="../ui/options.ui" line="2481"/>
         <source>Enable Web User Interface</source>
         <translation>Habilitar Interfaz de Usuario Web</translation>
     </message>
     <message>
-        <location filename="../ui/options.ui" line="2488"/>
+        <location filename="../ui/options.ui" line="2494"/>
         <source>HTTP Server</source>
         <translation>Servidor HTTP</translation>
     </message>
     <message>
-        <location filename="../ui/options.ui" line="2642"/>
+        <location filename="../ui/options.ui" line="2651"/>
         <source>Enable RSS support</source>
         <translation>Activar soporte RSS</translation>
     </message>
     <message>
-        <location filename="../ui/options.ui" line="2652"/>
+        <location filename="../ui/options.ui" line="2661"/>
         <source>RSS settings</source>
         <translation>Ajustes RSS</translation>
     </message>
     <message>
-        <location filename="../ui/options.ui" line="2689"/>
+        <location filename="../ui/options.ui" line="2698"/>
         <source>RSS feeds refresh interval:</source>
         <translation>Intervalo de actualización de Canales RSS:</translation>
     </message>
     <message>
-        <location filename="../ui/options.ui" line="2709"/>
+        <location filename="../ui/options.ui" line="2718"/>
         <source>minutes</source>
         <translation>minutos</translation>
     </message>
     <message>
-        <location filename="../ui/options.ui" line="2733"/>
+        <location filename="../ui/options.ui" line="2742"/>
         <source>Maximum number of articles per feed:</source>
         <translation>Número máximo de artículos por Canal:</translation>
     </message>
@@ -3915,23 +3928,30 @@ QGroupBox {
         <translation type="obsolete">Verdadero</translation>
     </message>
     <message>
+        <location filename="../proplistdelegate.h" line="89"/>
         <source>Ignored</source>
-        <translation type="obsolete">Mínima</translation>
+        <translation type="unfinished">Mínima</translation>
     </message>
     <message>
+        <location filename="../proplistdelegate.h" line="98"/>
+        <location filename="../proplistdelegate.h" line="148"/>
         <source>Normal</source>
         <comment>Normal (priority)</comment>
-        <translation type="obsolete">Normal</translation>
+        <translation type="unfinished">Normal</translation>
     </message>
     <message>
+        <location filename="../proplistdelegate.h" line="92"/>
+        <location filename="../proplistdelegate.h" line="149"/>
         <source>High</source>
         <comment>High (priority)</comment>
-        <translation type="obsolete">Alta</translation>
+        <translation type="unfinished">Alta</translation>
     </message>
     <message>
+        <location filename="../proplistdelegate.h" line="95"/>
+        <location filename="../proplistdelegate.h" line="150"/>
         <source>Maximum</source>
         <comment>Maximum (priority)</comment>
-        <translation type="obsolete">Máxima</translation>
+        <translation type="unfinished">Máxima</translation>
     </message>
 </context>
 <context>
@@ -4184,12 +4204,12 @@ QGroupBox {
     </message>
     <message>
         <location filename="../propertieswidget.cpp" line="574"/>
-        <location filename="../propertieswidget.cpp" line="608"/>
+        <location filename="../propertieswidget.cpp" line="612"/>
         <source>This name is already in use in this folder. Please use a different name.</source>
         <translation>Este nombre ya está en uso. Por favor, use un nombre diferente.</translation>
     </message>
     <message>
-        <location filename="../propertieswidget.cpp" line="607"/>
+        <location filename="../propertieswidget.cpp" line="611"/>
         <source>The folder could not be renamed</source>
         <translation>No se puede cambiar el nombre de archivo</translation>
     </message>
@@ -4198,23 +4218,23 @@ QGroupBox {
         <translation type="obsolete">Nada - ¿Inaccesible?</translation>
     </message>
     <message>
-        <location filename="../propertieswidget.cpp" line="636"/>
+        <location filename="../propertieswidget.cpp" line="648"/>
         <source>New url seed</source>
         <comment>New HTTP source</comment>
         <translation>Nueva semilla url</translation>
     </message>
     <message>
-        <location filename="../propertieswidget.cpp" line="637"/>
+        <location filename="../propertieswidget.cpp" line="649"/>
         <source>New url seed:</source>
         <translation>Nueva semilla url:</translation>
     </message>
     <message>
-        <location filename="../propertieswidget.cpp" line="642"/>
+        <location filename="../propertieswidget.cpp" line="654"/>
         <source>qBittorrent</source>
         <translation>qBittorrent</translation>
     </message>
     <message>
-        <location filename="../propertieswidget.cpp" line="643"/>
+        <location filename="../propertieswidget.cpp" line="655"/>
         <source>This url seed is already in the list.</source>
         <translation>Esta semilla url ya está en la lista.</translation>
     </message>
@@ -4223,18 +4243,18 @@ QGroupBox {
         <translation type="obsolete">La lista de trackers no puede estar vacía.</translation>
     </message>
     <message>
-        <location filename="../propertieswidget.cpp" line="688"/>
-        <location filename="../propertieswidget.cpp" line="690"/>
+        <location filename="../propertieswidget.cpp" line="700"/>
+        <location filename="../propertieswidget.cpp" line="702"/>
         <source>Choose save path</source>
         <translation>Seleccione un directorio de destino</translation>
     </message>
     <message>
-        <location filename="../propertieswidget.cpp" line="697"/>
+        <location filename="../propertieswidget.cpp" line="709"/>
         <source>Save path creation error</source>
         <translation>Error en la creación del directorio de destino</translation>
     </message>
     <message>
-        <location filename="../propertieswidget.cpp" line="697"/>
+        <location filename="../propertieswidget.cpp" line="709"/>
         <source>Could not create the save path</source>
         <translation>No se pudo crear el directorio de destino</translation>
     </message>
@@ -4882,23 +4902,24 @@ Log:
 <context>
     <name>TorrentFilesModel</name>
     <message>
-        <location filename="../torrentfilesmodel.h" line="311"/>
+        <location filename="../torrentfilesmodel.h" line="310"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../torrentfilesmodel.h" line="311"/>
+        <location filename="../torrentfilesmodel.h" line="310"/>
         <source>Size</source>
         <translation>Tamaño</translation>
     </message>
     <message>
-        <location filename="../torrentfilesmodel.h" line="311"/>
+        <location filename="../torrentfilesmodel.h" line="310"/>
         <source>Progress</source>
         <translation>Progreso</translation>
     </message>
     <message>
+        <location filename="../torrentfilesmodel.h" line="310"/>
         <source>Priority</source>
-        <translation type="obsolete">Prioridad</translation>
+        <translation type="unfinished">Prioridad</translation>
     </message>
 </context>
 <context>
@@ -5209,27 +5230,27 @@ Log:
         <translation type="obsolete">&amp;No</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="807"/>
+        <location filename="../transferlistwidget.cpp" line="830"/>
         <source>Column visibility</source>
         <translation>Visibilidad de columnas</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="933"/>
+        <location filename="../transferlistwidget.cpp" line="956"/>
         <source>Start</source>
         <translation>Comenzar</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="935"/>
+        <location filename="../transferlistwidget.cpp" line="958"/>
         <source>Pause</source>
         <translation>Pausar</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="937"/>
+        <location filename="../transferlistwidget.cpp" line="960"/>
         <source>Delete</source>
         <translation>Borrar</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="939"/>
+        <location filename="../transferlistwidget.cpp" line="962"/>
         <source>Preview file</source>
         <translation>Vista previa</translation>
     </message>
@@ -5289,118 +5310,118 @@ Log:
     </message>
     <message>
         <location filename="../transferlistwidget.cpp" line="82"/>
-        <location filename="../transferlistwidget.cpp" line="1044"/>
+        <location filename="../transferlistwidget.cpp" line="1067"/>
         <source>Label</source>
         <translation>Etiqueta</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="713"/>
+        <location filename="../transferlistwidget.cpp" line="735"/>
         <source>Torrent Download Speed Limiting</source>
         <translation>Límite de velocidad de Bajada Torrent</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="749"/>
+        <location filename="../transferlistwidget.cpp" line="771"/>
         <source>Torrent Upload Speed Limiting</source>
         <translation>Límite de velocidad de Subida Torrent</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="875"/>
+        <location filename="../transferlistwidget.cpp" line="898"/>
         <source>New Label</source>
         <translation>Nueva Etiqueta</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="875"/>
+        <location filename="../transferlistwidget.cpp" line="898"/>
         <source>Label:</source>
         <translation>Etiqueta:</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="880"/>
+        <location filename="../transferlistwidget.cpp" line="903"/>
         <source>Invalid label name</source>
         <translation>Nombre de Etiqueta no válido</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="880"/>
+        <location filename="../transferlistwidget.cpp" line="903"/>
         <source>Please don&apos;t use any special characters in the label name.</source>
         <translation>Por favor, no utilice caracteres especiales para el nombre de la Etiqueta.</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="896"/>
+        <location filename="../transferlistwidget.cpp" line="919"/>
         <source>Rename</source>
         <translation>Renombrar</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="896"/>
+        <location filename="../transferlistwidget.cpp" line="919"/>
         <source>New name:</source>
         <translation>Nuevo nombre:</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="941"/>
+        <location filename="../transferlistwidget.cpp" line="964"/>
         <source>Limit upload rate</source>
         <translation>Tasa límite de Subida</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="943"/>
+        <location filename="../transferlistwidget.cpp" line="966"/>
         <source>Limit download rate</source>
         <translation>Tasa límite de Bajada</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="945"/>
+        <location filename="../transferlistwidget.cpp" line="968"/>
         <source>Open destination folder</source>
         <translation>Abrir carpeta de destino</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="947"/>
+        <location filename="../transferlistwidget.cpp" line="970"/>
         <source>Buy it</source>
         <translation>Comprar</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="949"/>
+        <location filename="../transferlistwidget.cpp" line="972"/>
         <source>Increase priority</source>
         <translation>Aumentar prioridad</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="951"/>
+        <location filename="../transferlistwidget.cpp" line="974"/>
         <source>Decrease priority</source>
         <translation>Disminuir prioridad</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="953"/>
+        <location filename="../transferlistwidget.cpp" line="976"/>
         <source>Force recheck</source>
         <translation>Forzar verificación de archivo</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="955"/>
+        <location filename="../transferlistwidget.cpp" line="978"/>
         <source>Copy magnet link</source>
         <translation>Copiar magnet link</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="958"/>
+        <location filename="../transferlistwidget.cpp" line="981"/>
         <source>Super seeding mode</source>
         <translation>Modo de SuperSiembra</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="961"/>
+        <location filename="../transferlistwidget.cpp" line="984"/>
         <source>Rename...</source>
         <translation>Renombrar...</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="963"/>
+        <location filename="../transferlistwidget.cpp" line="986"/>
         <source>Download in sequential order</source>
         <translation>Descargar en orden secuencial</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="965"/>
+        <location filename="../transferlistwidget.cpp" line="988"/>
         <source>Download first and last piece first</source>
         <translation>Descargar primero, primeras y últimas partes</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="1045"/>
+        <location filename="../transferlistwidget.cpp" line="1068"/>
         <source>New...</source>
         <comment>New label...</comment>
         <translation>Nueva...</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="1046"/>
+        <location filename="../transferlistwidget.cpp" line="1069"/>
         <source>Reset</source>
         <comment>Reset label</comment>
         <translation>Borrar todas las Etiquetas</translation>
@@ -6657,31 +6678,31 @@ De cualquier forma, esos plugins fueron deshabilitados.</translation>
 <context>
     <name>misc</name>
     <message>
-        <location filename="../misc.h" line="346"/>
+        <location filename="../misc.h" line="365"/>
         <source>B</source>
         <comment>bytes</comment>
         <translation>B</translation>
     </message>
     <message>
-        <location filename="../misc.h" line="346"/>
+        <location filename="../misc.h" line="365"/>
         <source>KiB</source>
         <comment>kibibytes (1024 bytes)</comment>
         <translation>KiB</translation>
     </message>
     <message>
-        <location filename="../misc.h" line="346"/>
+        <location filename="../misc.h" line="365"/>
         <source>MiB</source>
         <comment>mebibytes (1024 kibibytes)</comment>
         <translation>MiB</translation>
     </message>
     <message>
-        <location filename="../misc.h" line="346"/>
+        <location filename="../misc.h" line="365"/>
         <source>GiB</source>
         <comment>gibibytes (1024 mibibytes)</comment>
         <translation>GiB</translation>
     </message>
     <message>
-        <location filename="../misc.h" line="346"/>
+        <location filename="../misc.h" line="365"/>
         <source>TiB</source>
         <comment>tebibytes (1024 gibibytes)</comment>
         <translation>TiB</translation>
@@ -6702,7 +6723,7 @@ De cualquier forma, esos plugins fueron deshabilitados.</translation>
         <translation type="obsolete"> d</translation>
     </message>
     <message>
-        <location filename="../misc.h" line="497"/>
+        <location filename="../misc.h" line="516"/>
         <source>Unknown</source>
         <translation>Desconocido</translation>
     </message>
@@ -6717,31 +6738,31 @@ De cualquier forma, esos plugins fueron deshabilitados.</translation>
         <translation type="obsolete">d</translation>
     </message>
     <message>
-        <location filename="../misc.h" line="345"/>
+        <location filename="../misc.h" line="364"/>
         <source>Unknown</source>
         <comment>Unknown (size)</comment>
         <translation>Desconocido</translation>
     </message>
     <message>
-        <location filename="../misc.h" line="526"/>
+        <location filename="../misc.h" line="545"/>
         <source>&lt; 1m</source>
         <comment>&lt; 1 minute</comment>
         <translation>&lt;1m</translation>
     </message>
     <message>
-        <location filename="../misc.h" line="530"/>
+        <location filename="../misc.h" line="549"/>
         <source>%1m</source>
         <comment>e.g: 10minutes</comment>
         <translation>%1m</translation>
     </message>
     <message>
-        <location filename="../misc.h" line="535"/>
+        <location filename="../misc.h" line="554"/>
         <source>%1h%2m</source>
         <comment>e.g: 3hours 5minutes</comment>
         <translation>%1h%2m</translation>
     </message>
     <message>
-        <location filename="../misc.h" line="540"/>
+        <location filename="../misc.h" line="559"/>
         <source>%1d%2h%3m</source>
         <comment>e.g: 2days 10hours 2minutes</comment>
         <translation>%1d%2h%3m</translation>
@@ -7536,8 +7557,8 @@ De cualquier forma, esos plugins fueron deshabilitados.</translation>
         <translation type="obsolete">Verdadero</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="210"/>
-        <location filename="../torrentadditiondlg.h" line="213"/>
+        <location filename="../torrentadditiondlg.h" line="194"/>
+        <location filename="../torrentadditiondlg.h" line="197"/>
         <source>Unable to decode torrent file:</source>
         <translation>Imposible decodificar el archivo torrent:</translation>
     </message>
@@ -7546,8 +7567,8 @@ De cualquier forma, esos plugins fueron deshabilitados.</translation>
         <translation type="obsolete">Este archivo puede estar corrupto, o no ser un torrent.</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="400"/>
-        <location filename="../torrentadditiondlg.h" line="402"/>
+        <location filename="../torrentadditiondlg.h" line="388"/>
+        <location filename="../torrentadditiondlg.h" line="390"/>
         <source>Choose save path</source>
         <translation>Elegir directorio de destino</translation>
     </message>
@@ -7560,111 +7581,111 @@ De cualquier forma, esos plugins fueron deshabilitados.</translation>
         <translation type="obsolete">Desconocido</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="172"/>
+        <location filename="../torrentadditiondlg.h" line="156"/>
         <source>Unable to decode magnet link:</source>
         <translation>No se puede descodificar el enlace magnet:</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="176"/>
+        <location filename="../torrentadditiondlg.h" line="160"/>
         <source>Magnet Link</source>
         <translation>Enlace magnet</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="261"/>
+        <location filename="../torrentadditiondlg.h" line="245"/>
         <source>Rename...</source>
         <translation>Renombrar...</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="281"/>
+        <location filename="../torrentadditiondlg.h" line="265"/>
         <source>Rename the file</source>
         <translation>Renombrar archivo</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="282"/>
+        <location filename="../torrentadditiondlg.h" line="266"/>
         <source>New name:</source>
         <translation>Nuevo nombre:</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="286"/>
-        <location filename="../torrentadditiondlg.h" line="312"/>
+        <location filename="../torrentadditiondlg.h" line="270"/>
+        <location filename="../torrentadditiondlg.h" line="296"/>
         <source>The file could not be renamed</source>
         <translation>No se puede cambiar el nombre de archivo</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="287"/>
+        <location filename="../torrentadditiondlg.h" line="271"/>
         <source>This file name contains forbidden characters, please choose a different one.</source>
         <translation>Este nombre de archivo contiene caracteres prohibidos, por favor, elija uno otro.</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="313"/>
-        <location filename="../torrentadditiondlg.h" line="345"/>
+        <location filename="../torrentadditiondlg.h" line="297"/>
+        <location filename="../torrentadditiondlg.h" line="330"/>
         <source>This name is already in use in this folder. Please use a different name.</source>
         <translation>Este nombre ya está en uso. Por favor, use un nombre diferente.</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="344"/>
+        <location filename="../torrentadditiondlg.h" line="329"/>
         <source>The folder could not be renamed</source>
         <translation>No se puede cambiar el nombre de archivo</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="383"/>
+        <location filename="../torrentadditiondlg.h" line="371"/>
         <source>(%1 left after torrent download)</source>
         <comment>e.g. (100MiB left after torrent download)</comment>
         <translation>(%1 disponible después de descargar el torrent)</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="386"/>
+        <location filename="../torrentadditiondlg.h" line="374"/>
         <source>(%1 more are required to download)</source>
         <comment>e.g. (100MiB more are required to download)</comment>
         <translation>(Se necesitan más %1)</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="425"/>
+        <location filename="../torrentadditiondlg.h" line="413"/>
         <source>Empty save path</source>
         <translation>Ruta de destino vacía</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="425"/>
+        <location filename="../torrentadditiondlg.h" line="413"/>
         <source>Please enter a save path</source>
         <translation>Por favor introduzca un directorio de destino</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="432"/>
+        <location filename="../torrentadditiondlg.h" line="420"/>
         <source>Save path creation error</source>
         <translation>Error en la creación del directorio de destino</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="432"/>
+        <location filename="../torrentadditiondlg.h" line="420"/>
         <source>Could not create the save path</source>
         <translation>Imposible crear el directorio de destino</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="438"/>
+        <location filename="../torrentadditiondlg.h" line="426"/>
         <source>Invalid label name</source>
         <translation>Nombre de Etiqueta no válido</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="438"/>
+        <location filename="../torrentadditiondlg.h" line="426"/>
         <source>Please don&apos;t use any special characters in the label name.</source>
         <translation>Por favor, no utilice caracteres especiales para el nombre de la Etiqueta.</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="473"/>
+        <location filename="../torrentadditiondlg.h" line="461"/>
         <source>Seeding mode error</source>
         <translation>Error en la Siembra</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="473"/>
+        <location filename="../torrentadditiondlg.h" line="461"/>
         <source>You chose to skip file checking. However, local files do not seem to exist in the current destionation folder. Please disable this feature or update the save path.</source>
         <translation>Usted ha decidido ignorar la verificación de archivos. Sin embargo, los archivos locales no parecen existir en la carpeta destino actual. Por favor, desactive esta función o actualice la ruta de destino.</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="480"/>
+        <location filename="../torrentadditiondlg.h" line="468"/>
         <source>Invalid file selection</source>
         <translation>Selección de archivo inválida</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.h" line="480"/>
+        <location filename="../torrentadditiondlg.h" line="468"/>
         <source>You must select at least one file in the torrent</source>
         <translation>Debe seleccionar al menos un archivo torrent</translation>
     </message>

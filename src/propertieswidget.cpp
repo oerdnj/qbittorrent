@@ -409,7 +409,7 @@ QPushButton* PropertiesWidget::getButtonFromIndex(int index) {
     return url_seeds_button;
   case FILES_TAB:
     return files_button;
-      default:
+  default:
     return main_infos_button;
   }
 }
@@ -576,8 +576,11 @@ void PropertiesWidget::renameSelectedFile() {
             return;
           }
         }
+        bool force_recheck = QFile::exists(h.save_path()+QDir::separator()+new_name);
         qDebug("Renaming %s to %s", old_name.toLocal8Bit().data(), new_name.toLocal8Bit().data());
         h.rename_file(file_index, new_name);
+        // Force recheck
+        if(force_recheck) h.force_recheck();
         // Rename if torrent files model too
         if(new_name_last.endsWith(".!qB"))
           new_name_last.chop(4);
@@ -595,14 +598,15 @@ void PropertiesWidget::renameSelectedFile() {
         path_items.removeLast();
         path_items << new_name_last;
         QString new_path = path_items.join(QDir::separator());
+        if(!new_path.endsWith(QDir::separator())) new_path += QDir::separator();
         // Check for overwriting
         int num_files = h.num_files();
         for(int i=0; i<num_files; ++i) {
           QString current_name = misc::toQString(h.get_torrent_info().file_at(i).path.string());
 #ifdef Q_WS_WIN
-          if(current_name.contains(new_path, Qt::CaseInsensitive)) {
+          if(current_name.startsWith(new_path, Qt::CaseInsensitive)) {
 #else
-            if(current_name.contains(new_path, Qt::CaseSensitive)) {
+            if(current_name.startsWith(new_path, Qt::CaseSensitive)) {
 #endif
               QMessageBox::warning(this, tr("The folder could not be renamed"),
                                    tr("This name is already in use in this folder. Please use a different name."),
@@ -610,13 +614,21 @@ void PropertiesWidget::renameSelectedFile() {
               return;
             }
           }
+          bool force_recheck = false;
           // Replace path in all files
           for(int i=0; i<num_files; ++i) {
             QString current_name = misc::toQString(h.get_torrent_info().file_at(i).path.string());
-            QString new_name = current_name.replace(old_path, new_path);
-            qDebug("Rename %s to %s", current_name.toLocal8Bit().data(), new_name.toLocal8Bit().data());
-            h.rename_file(i, new_name);
+            if(current_name.startsWith(old_path)) {
+              QString new_name = current_name;
+              new_name.replace(0, old_path.length(), new_path);
+              if(!force_recheck && QFile::exists(h.save_path()+QDir::separator()+new_name))
+                force_recheck = true;
+              qDebug("Rename %s to %s", current_name.toLocal8Bit().data(), new_name.toLocal8Bit().data());
+              h.rename_file(i, new_name);
+            }
           }
+          // Force recheck
+          if(force_recheck) h.force_recheck();
           // Rename folder in torrent files model too
           PropListModel->setData(index, new_name_last);
           // Remove old folder

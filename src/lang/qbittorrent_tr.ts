@@ -2671,12 +2671,6 @@ qBittorrent&apos;ten çıkmak istediğinize emin misiniz?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by mean of upload. And of course, any content you share if your sole responsatibility.
-
-You probably knew this, so we won&apos;t tell you again.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Press any key to accept and continue...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2690,6 +2684,12 @@ You probably knew this, so we won&apos;t tell you again.</source>
     </message>
     <message>
         <source>I Agree</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.
+
+No further notices will be issued.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2975,7 +2975,12 @@ You probably knew this, so we won&apos;t tell you again.</source>
     <name>PeerListDelegate</name>
     <message>
         <source>KiB/s</source>
-        <translation>KB/s</translation>
+        <translation type="obsolete">KB/s</translation>
+    </message>
+    <message>
+        <source>/s</source>
+        <comment>/second (i.e. per second)</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3563,22 +3568,22 @@ QGroupBox {
     </message>
     <message>
         <source>Ignored</source>
-        <translation type="obsolete">Önemsiz</translation>
+        <translation type="unfinished">Önemsiz</translation>
     </message>
     <message>
         <source>Normal</source>
         <comment>Normal (priority)</comment>
-        <translation type="obsolete">Normal</translation>
+        <translation type="unfinished">Normal</translation>
     </message>
     <message>
         <source>High</source>
         <comment>High (priority)</comment>
-        <translation type="obsolete">Yüksek</translation>
+        <translation type="unfinished">Yüksek</translation>
     </message>
     <message>
         <source>Maximum</source>
         <comment>Maximum (priority)</comment>
-        <translation type="obsolete">En yüksek</translation>
+        <translation type="unfinished">En yüksek</translation>
     </message>
 </context>
 <context>
@@ -4395,7 +4400,7 @@ Changelog:
     </message>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">Öncelik</translation>
+        <translation type="unfinished">Öncelik</translation>
     </message>
 </context>
 <context>

@@ -95,7 +95,7 @@ public:
     savePathTxt->setText(Preferences::getSavePath());
     if(Preferences::addTorrentsInPause()) {
       addInPause->setChecked(true);
-      addInPause->setEnabled(false);
+      //addInPause->setEnabled(false);
     }
 #ifndef LIBTORRENT_0_15
     addInSeed->setVisible(false);
@@ -112,7 +112,7 @@ public:
     QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
     // Restore size and position
     resize(settings.value(QString::fromUtf8("TorrentAdditionDlg/size"), size()).toSize());
-    move(settings.value(QString::fromUtf8("TorrentAdditionDlg/pos"), screenCenter()).toPoint());
+    move(settings.value(QString::fromUtf8("TorrentAdditionDlg/pos"), misc::screenCenter(this)).toPoint());
     // Restore column width
     QVariantList contentColsWidths = settings.value(QString::fromUtf8("TorrentAdditionDlg/filesColsWidth"), QVariantList()).toList();
     if(contentColsWidths.empty()) {
@@ -122,22 +122,6 @@ public:
         torrentContentList->setColumnWidth(i, contentColsWidths.at(i).toInt());
       }
     }
-  }
-
-  // Screen center point
-  QPoint screenCenter() const{
-    int scrn = 0;
-    QWidget *w = this->topLevelWidget();
-
-    if(w)
-      scrn = QApplication::desktop()->screenNumber(w);
-    else if(QApplication::desktop()->isVirtualDesktop())
-      scrn = QApplication::desktop()->screenNumber(QCursor::pos());
-    else
-      scrn = QApplication::desktop()->screenNumber(this);
-
-    QRect desk(QApplication::desktop()->availableGeometry(scrn));
-    return QPoint((desk.width() - this->frameGeometry().width()) / 2, (desk.height() - this->frameGeometry().height()) / 2);
   }
 
   void saveSettings() {
@@ -333,13 +317,14 @@ public slots:
           path_items.removeLast();
           path_items << new_name_last;
           QString new_path = path_items.join(QDir::separator());
+          if(!new_path.endsWith(QDir::separator())) new_path += QDir::separator();
           // Check for overwriting
           for(uint i=0; i<nbFiles; ++i) {
             QString current_name = files_path.at(i);
 #ifdef Q_WS_WIN
-            if(current_name.contains(new_path, Qt::CaseInsensitive)) {
+            if(current_name.startsWith(new_path, Qt::CaseInsensitive)) {
 #else
-              if(current_name.contains(new_path, Qt::CaseSensitive)) {
+              if(current_name.startsWith(new_path, Qt::CaseSensitive)) {
 #endif
                 QMessageBox::warning(this, tr("The folder could not be renamed"),
                                      tr("This name is already in use in this folder. Please use a different name."),
@@ -350,10 +335,13 @@ public slots:
             // Replace path in all files
             for(uint i=0; i<nbFiles; ++i) {
               QString current_name = files_path.at(i);
-              QString new_name = current_name.replace(old_path, new_path);
-              qDebug("Rename %s to %s", current_name.toLocal8Bit().data(), new_name.toLocal8Bit().data());
-              // Rename in files_path
-              files_path.replace(i, new_name);
+              if(current_name.startsWith(old_path)) {
+                QString new_name = current_name;
+                new_name.replace(0, old_path.length(), new_path);
+                qDebug("Rename %s to %s", current_name.toLocal8Bit().data(), new_name.toLocal8Bit().data());
+                // Rename in files_path
+                files_path.replace(i, new_name);
+              }
             }
             // Rename folder in torrent files model too
             PropListModel->setData(index, new_name_last);

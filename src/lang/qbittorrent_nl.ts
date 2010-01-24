@@ -2632,12 +2632,6 @@ Are you sure you want to quit qBittorrent?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by mean of upload. And of course, any content you share if your sole responsatibility.
-
-You probably knew this, so we won&apos;t tell you again.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Press any key to accept and continue...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2651,6 +2645,12 @@ You probably knew this, so we won&apos;t tell you again.</source>
     </message>
     <message>
         <source>I Agree</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.
+
+No further notices will be issued.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2936,7 +2936,12 @@ You probably knew this, so we won&apos;t tell you again.</source>
     <name>PeerListDelegate</name>
     <message>
         <source>KiB/s</source>
-        <translation type="unfinished">KiB/s</translation>
+        <translation type="obsolete">KiB/s</translation>
+    </message>
+    <message>
+        <source>/s</source>
+        <comment>/second (i.e. per second)</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3524,22 +3529,22 @@ QGroupBox {
     </message>
     <message>
         <source>Ignored</source>
-        <translation type="obsolete">Genegeerd</translation>
+        <translation type="unfinished">Genegeerd</translation>
     </message>
     <message>
         <source>Normal</source>
         <comment>Normal (priority)</comment>
-        <translation type="obsolete">Normaal</translation>
+        <translation type="unfinished">Normaal</translation>
     </message>
     <message>
         <source>High</source>
         <comment>High (priority)</comment>
-        <translation type="obsolete">Hoog</translation>
+        <translation type="unfinished">Hoog</translation>
     </message>
     <message>
         <source>Maximum</source>
         <comment>Maximum (priority)</comment>
-        <translation type="obsolete">Maximum</translation>
+        <translation type="unfinished">Maximum</translation>
     </message>
 </context>
 <context>
@@ -4360,7 +4365,7 @@ Changelog:
     </message>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">Prioriteit</translation>
+        <translation type="unfinished">Prioriteit</translation>
     </message>
 </context>
 <context>

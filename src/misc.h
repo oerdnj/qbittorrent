@@ -51,6 +51,7 @@
 #include <QCoreApplication>
 #else
 #include <QApplication>
+#include <QDesktopWidget>
 #endif
 
 #ifdef Q_WS_WIN
@@ -265,6 +266,24 @@ public:
 #endif
   }
 
+#ifndef DISABLE_GUI
+  // Get screen center
+  static QPoint screenCenter(QWidget *win) {
+    int scrn = 0;
+    QWidget *w = win->window();
+
+    if(w)
+      scrn = QApplication::desktop()->screenNumber(w);
+    else if(QApplication::desktop()->isVirtualDesktop())
+      scrn = QApplication::desktop()->screenNumber(QCursor::pos());
+    else
+      scrn = QApplication::desktop()->screenNumber(win);
+
+    QRect desk(QApplication::desktop()->availableGeometry(scrn));
+    return QPoint((desk.width() - win->frameGeometry().width()) / 2, (desk.height() - win->frameGeometry().height()) / 2);
+  }
+#endif
+
   static QString searchEngineLocation() {
     QString location = QDir::cleanPath(QDesktopServicesDataLocation()
                                        + QDir::separator() + "search_engine");
@@ -345,7 +364,7 @@ public:
       return tr("Unknown", "Unknown (size)");
     const QString units[5] = {tr("B", "bytes"), tr("KiB", "kibibytes (1024 bytes)"), tr("MiB", "mebibytes (1024 kibibytes)"), tr("GiB", "gibibytes (1024 mibibytes)"), tr("TiB", "tebibytes (1024 gibibytes)")};
     char i = 0;
-    while(val > 1024. && i++<6)
+    while(val >= 1024. && i++<6)
       val /= 1024.;
     return QString(QByteArray::number(val, 'f', 1)) + " " + units[(int)i];
   }
