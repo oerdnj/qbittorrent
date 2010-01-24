@@ -1767,7 +1767,7 @@ Are you sure you want to quit qBittorrent?</source>
         <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by mean of upload. And of course, any content you share if your sole responsatibility.
 
 You probably knew this, so we won&apos;t tell you again.</source>
-        <translation>qBittorrent 是一個檔案分享程式。當你執行一個 torrent 時, 它的資料會上傳給其他人。所以, 你分享的任何內容, 你都負有完全的責任。
+        <translation type="obsolete">qBittorrent 是一個檔案分享程式。當你執行一個 torrent 時, 它的資料會上傳給其他人。所以, 你分享的任何內容, 你都負有完全的責任。
 
 你可能已經知道了, 所以我們不會再跟你講。</translation>
     </message>
@@ -1786,6 +1786,14 @@ You probably knew this, so we won&apos;t tell you again.</source>
     <message>
         <source>I Agree</source>
         <translation>我同意</translation>
+    </message>
+    <message>
+        <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.
+
+No further notices will be issued.</source>
+        <translation>qBittorrent 是一個檔案分享程式。當你執行一個 torrent 時, 它的資料會上傳給其他人。所以, 你分享的任何內容, 你都負有完全的責任。
+
+你可能已經知道了, 所以我們不會再跟你講。</translation>
     </message>
 </context>
 <context>
@@ -1934,7 +1942,12 @@ You probably knew this, so we won&apos;t tell you again.</source>
     <name>PeerListDelegate</name>
     <message>
         <source>KiB/s</source>
-        <translation>KiB/s</translation>
+        <translation type="obsolete">KiB/s</translation>
+    </message>
+    <message>
+        <source>/s</source>
+        <comment>/second (i.e. per second)</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2522,22 +2535,22 @@ QGroupBox {
     <name>PropListDelegate</name>
     <message>
         <source>Ignored</source>
-        <translation type="obsolete">忽略</translation>
+        <translation type="unfinished">忽略</translation>
     </message>
     <message>
         <source>Normal</source>
         <comment>Normal (priority)</comment>
-        <translation type="obsolete">一般</translation>
+        <translation type="unfinished">一般</translation>
     </message>
     <message>
         <source>High</source>
         <comment>High (priority)</comment>
-        <translation type="obsolete">高</translation>
+        <translation type="unfinished">高</translation>
     </message>
     <message>
         <source>Maximum</source>
         <comment>Maximum (priority)</comment>
-        <translation type="obsolete">最高</translation>
+        <translation type="unfinished">最高</translation>
     </message>
 </context>
 <context>
@@ -3273,7 +3286,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">優先度</translation>
+        <translation type="unfinished">優先度</translation>
     </message>
 </context>
 <context>

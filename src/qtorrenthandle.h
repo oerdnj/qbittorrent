@@ -126,6 +126,7 @@ class QTorrentHandle {
 #endif
     bool priv() const;
     bool first_last_piece_first() const;
+    QString root_path() const;
 
     //
     // Setters
@@ -164,6 +165,7 @@ class QTorrentHandle {
     void add_tracker(announce_entry const& url);
     void prioritize_first_last_piece(bool b);
     void rename_file(int index, QString name);
+    bool save_torrent_file(QString path);
 
     //
     // Operators

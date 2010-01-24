@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.0" language="ro_RO">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -2527,7 +2527,7 @@ Sunteți siguri că doriți să închideți qBittorrent?</translation>
         <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by mean of upload. And of course, any content you share if your sole responsatibility.
 
 You probably knew this, so we won&apos;t tell you again.</source>
-        <translation>qBittorrent este o aplicație pentru shimb de fișiere. Când rulați acest client, datele sunt publicate la alți - aceasta înseamnă upload. Conținutul publicat este pe propria răspundere.
+        <translation type="obsolete">qBittorrent este o aplicație pentru shimb de fișiere. Când rulați acest client, datele sunt publicate la alți - aceasta înseamnă upload. Conținutul publicat este pe propria răspundere.
 
 Probabil cunoașteți aceasta, deci noi nu vă vom mai aminti.</translation>
     </message>
@@ -2546,6 +2546,14 @@ Probabil cunoașteți aceasta, deci noi nu vă vom mai aminti.</translation>
     <message>
         <source>I Agree</source>
         <translation>Acceptare</translation>
+    </message>
+    <message>
+        <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.
+
+No further notices will be issued.</source>
+        <translation>qBittorrent este o aplicație pentru shimb de fișiere. Când rulați acest client, datele sunt publicate la alți - aceasta înseamnă upload. Conținutul publicat este pe propria răspundere.
+
+Probabil cunoașteți aceasta, deci noi nu vă vom mai aminti.</translation>
     </message>
 </context>
 <context>
@@ -2818,7 +2826,12 @@ Probabil cunoașteți aceasta, deci noi nu vă vom mai aminti.</translation>
     <name>PeerListDelegate</name>
     <message>
         <source>KiB/s</source>
-        <translation>KiB/s</translation>
+        <translation type="obsolete">KiB/s</translation>
+    </message>
+    <message>
+        <source>/s</source>
+        <comment>/second (i.e. per second)</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3414,22 +3427,22 @@ QGroupBox {(new line)
     </message>
     <message>
         <source>Ignored</source>
-        <translation type="obsolete">Ignorat</translation>
+        <translation type="unfinished">Ignorat</translation>
     </message>
     <message>
         <source>Normal</source>
         <comment>Normal (priority)</comment>
-        <translation type="obsolete">Normal</translation>
+        <translation type="unfinished">Normal</translation>
     </message>
     <message>
         <source>High</source>
         <comment>High (priority)</comment>
-        <translation type="obsolete">Înaltă</translation>
+        <translation type="unfinished">Înaltă</translation>
     </message>
     <message>
         <source>Maximum</source>
         <comment>Maximum (priority)</comment>
-        <translation type="obsolete">Maximală</translation>
+        <translation type="unfinished">Maximală</translation>
     </message>
 </context>
 <context>
@@ -4254,7 +4267,7 @@ Changelog:
     </message>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">Prioritate</translation>
+        <translation type="unfinished">Prioritate</translation>
     </message>
 </context>
 <context>

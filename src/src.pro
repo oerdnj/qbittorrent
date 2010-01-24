@@ -11,10 +11,10 @@ CONFIG += qt \
     thread
 
 # Update this VERSION for each release
-DEFINES += VERSION=\\\"v2.1.0\\\"
+DEFINES += VERSION=\\\"v2.1.2\\\"
 DEFINES += VERSION_MAJOR=2
 DEFINES += VERSION_MINOR=1
-DEFINES += VERSION_BUGFIX=0
+DEFINES += VERSION_BUGFIX=2
 # NORMAL,ALPHA,BETA,RELEASE_CANDIDATE,DEVEL
 DEFINES += VERSION_TYPE=NORMAL
 
@@ -105,8 +105,10 @@ contains(DEFINES, DISABLE_GUI) {
 unix:QMAKE_LFLAGS_SHAPP += -rdynamic
 CONFIG += link_pkgconfig
 PKGCONFIG += "libtorrent-rasterbar"
-QT += network \
-    xml
+QT += network
+!contains(DEFINES, DISABLE_GUI) {
+    QT += xml
+}
 DEFINES += QT_NO_CAST_TO_ASCII
 
 # Windows

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.0" language="en_US">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -2589,7 +2589,7 @@ Está certo que quer sair do qBittorrent?</translation>
         <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by mean of upload. And of course, any content you share if your sole responsatibility.
 
 You probably knew this, so we won&apos;t tell you again.</source>
-        <translation>qBittorrent é um programa de compartilhamento de arquivos. Quando você roda um torrent os dados estarão disponiveis para upload. E com certeza todo o conteúdo que você compartilha será de sua inteira responsabilidade.
+        <translation type="obsolete">qBittorrent é um programa de compartilhamento de arquivos. Quando você roda um torrent os dados estarão disponiveis para upload. E com certeza todo o conteúdo que você compartilha será de sua inteira responsabilidade.
 
 Você com certeza sabe disso e não vamos falar isso novamente.</translation>
     </message>
@@ -2608,6 +2608,14 @@ Você com certeza sabe disso e não vamos falar isso novamente.</translation>
     <message>
         <source>I Agree</source>
         <translation>Eu aceito</translation>
+    </message>
+    <message>
+        <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.
+
+No further notices will be issued.</source>
+        <translation>qBittorrent é um programa de compartilhamento de arquivos. Quando você roda um torrent os dados estarão disponiveis para upload. E com certeza todo o conteúdo que você compartilha será de sua inteira responsabilidade.
+
+Você com certeza sabe disso e não vamos falar isso novamente.</translation>
     </message>
 </context>
 <context>
@@ -2888,7 +2896,12 @@ Você com certeza sabe disso e não vamos falar isso novamente.</translation>
     <name>PeerListDelegate</name>
     <message>
         <source>KiB/s</source>
-        <translation>KiB/s</translation>
+        <translation type="obsolete">KiB/s</translation>
+    </message>
+    <message>
+        <source>/s</source>
+        <comment>/second (i.e. per second)</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3484,22 +3497,22 @@ QGroupBox {
     </message>
     <message>
         <source>Ignored</source>
-        <translation type="obsolete">Ignorado</translation>
+        <translation type="unfinished">Ignorado</translation>
     </message>
     <message>
         <source>Normal</source>
         <comment>Normal (priority)</comment>
-        <translation type="obsolete">Normal</translation>
+        <translation type="unfinished">Normal</translation>
     </message>
     <message>
         <source>High</source>
         <comment>High (priority)</comment>
-        <translation type="obsolete">Alta</translation>
+        <translation type="unfinished">Alta</translation>
     </message>
     <message>
         <source>Maximum</source>
         <comment>Maximum (priority)</comment>
-        <translation type="obsolete">Máxima</translation>
+        <translation type="unfinished">Máxima</translation>
     </message>
 </context>
 <context>
@@ -4402,7 +4415,7 @@ Log de mudanças:</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">Prioridade</translation>
+        <translation type="unfinished">Prioridade</translation>
     </message>
 </context>
 <context>

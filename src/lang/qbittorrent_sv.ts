@@ -1672,7 +1672,7 @@ Are you sure you want to quit qBittorrent?</source>
         <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by mean of upload. And of course, any content you share if your sole responsatibility.
 
 You probably knew this, so we won&apos;t tell you again.</source>
-        <translation>qBittorrent är ett fildelarprogram. När du kör en torrent så kommer dess data att göras tillgängligt för andra. Och så klart, allt innehåll som du delar ut är fullständigt på ditt ansvar.
+        <translation type="obsolete">qBittorrent är ett fildelarprogram. När du kör en torrent så kommer dess data att göras tillgängligt för andra. Och så klart, allt innehåll som du delar ut är fullständigt på ditt ansvar.
 
 Du visste antagligen redan detta så vi kommer inte att berätta det igen.</translation>
     </message>
@@ -1691,6 +1691,14 @@ Du visste antagligen redan detta så vi kommer inte att berätta det igen.</tran
     <message>
         <source>I Agree</source>
         <translation>Jag godkänner</translation>
+    </message>
+    <message>
+        <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.
+
+No further notices will be issued.</source>
+        <translation>qBittorrent är ett fildelarprogram. När du kör en torrent så kommer dess data att göras tillgängligt för andra. Och så klart, allt innehåll som du delar ut är fullständigt på ditt ansvar.
+
+Du visste antagligen redan detta så vi kommer inte att berätta det igen.</translation>
     </message>
 </context>
 <context>
@@ -1839,7 +1847,12 @@ Du visste antagligen redan detta så vi kommer inte att berätta det igen.</tran
     <name>PeerListDelegate</name>
     <message>
         <source>KiB/s</source>
-        <translation>KiB/s</translation>
+        <translation type="obsolete">KiB/s</translation>
+    </message>
+    <message>
+        <source>/s</source>
+        <comment>/second (i.e. per second)</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2427,22 +2440,22 @@ QGroupBox {
     <name>PropListDelegate</name>
     <message>
         <source>Ignored</source>
-        <translation type="obsolete">Ignoreras</translation>
+        <translation type="unfinished">Ignoreras</translation>
     </message>
     <message>
         <source>Normal</source>
         <comment>Normal (priority)</comment>
-        <translation type="obsolete">Normal</translation>
+        <translation type="unfinished">Normal</translation>
     </message>
     <message>
         <source>High</source>
         <comment>High (priority)</comment>
-        <translation type="obsolete">Hög</translation>
+        <translation type="unfinished">Hög</translation>
     </message>
     <message>
         <source>Maximum</source>
         <comment>Maximum (priority)</comment>
-        <translation type="obsolete">Maximal</translation>
+        <translation type="unfinished">Maximal</translation>
     </message>
 </context>
 <context>
@@ -3174,7 +3187,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">Prioritet</translation>
+        <translation type="unfinished">Prioritet</translation>
     </message>
 </context>
 <context>

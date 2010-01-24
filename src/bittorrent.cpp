@@ -746,15 +746,18 @@ QTorrentHandle Bittorrent::addMagnetUri(QString magnet_uri, bool resumed) {
     addConsoleMessage(tr("'%1' is not a valid magnet URI.").arg(magnet_uri));
     return h;
   }
+  QDir torrentBackup(misc::BTBackupLocation());
   if(resumed) {
     qDebug("Resuming magnet URI: %s", hash.toLocal8Bit().data());
+    // Load metadata
+    if(QFile::exists(torrentBackup.path()+QDir::separator()+hash+QString(".torrent")))
+      return addTorrent(torrentBackup.path()+QDir::separator()+hash+QString(".torrent"), false, false, true);
   } else {
     qDebug("Adding new magnet URI");
   }
 
   bool fastResume=false;
   Q_ASSERT(magnet_uri.startsWith("magnet:"));
-  QDir torrentBackup(misc::BTBackupLocation());
 
   // Check if torrent is already in download list
   if(s->find_torrent(sha1_hash(hash.toLocal8Bit().data())).is_valid()) {
@@ -799,7 +802,7 @@ QTorrentHandle Bittorrent::addMagnetUri(QString magnet_uri, bool resumed) {
   else
     p.storage_mode = storage_mode_sparse;
   // Start in pause
-  p.paused = false;
+  p.paused = true;
   p.duplicate_is_error = false; // Already checked
   p.auto_managed = false; // Because it is added in paused state
   // Adding torrent to Bittorrent session
@@ -839,7 +842,7 @@ QTorrentHandle Bittorrent::addMagnetUri(QString magnet_uri, bool resumed) {
     }
     QString label = TorrentTempData::getLabel(hash);
     // Save persistent data for new torrent
-    TorrentPersistentData::saveTorrentPersistentData(h);
+    TorrentPersistentData::saveTorrentPersistentData(h, true);
     // Save Label
     if(!label.isEmpty()) {
       TorrentPersistentData::saveLabel(hash, label);
@@ -850,7 +853,7 @@ QTorrentHandle Bittorrent::addMagnetUri(QString magnet_uri, bool resumed) {
       TorrentPersistentData::saveSavePath(hash, savePath);
     }
   }
-  if(!addInPause && !fastResume) {
+  if(!fastResume && (!addInPause || (Preferences::useAdditionDialog()))) {
     // Start torrent because it was added in paused state
     h.resume();
   }
@@ -1020,11 +1023,16 @@ QTorrentHandle Bittorrent::addTorrent(QString path, bool fromScanDir, QString fr
       h.set_sequential_download(TorrentTempData::isSequential(hash));
       // Import Files names from torrent addition dialog
       QStringList files_path = TorrentTempData::getFilesPath(hash);
+      bool force_recheck = false;
       if(files_path.size() == h.num_files()) {
         for(int i=0; i<h.num_files(); ++i) {
           QString path = files_path.at(i);
+          if(!force_recheck && QFile::exists(h.save_path()+QDir::separator()+path))
+            force_recheck = true;
           h.rename_file(i, path);
         }
+        // Force recheck
+        if(force_recheck) h.force_recheck();
       }
     }
     QString label = TorrentTempData::getLabel(hash);
@@ -1053,7 +1061,7 @@ QTorrentHandle Bittorrent::addTorrent(QString path, bool fromScanDir, QString fr
     // Copy it to torrentBackup directory
     QFile::copy(file, newFile);
   }
-  if(!addInPause && !fastResume) {
+  if(!fastResume && (!addInPause || (Preferences::useAdditionDialog() && !fromScanDir))) {
     // Start torrent because it was added in paused state
     h.resume();
   }
@@ -1599,9 +1607,9 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
     }
   }
 
-  // Set DHT port (>= 1000 or 0 if same as BT)
+  // Set DHT port (>= 1 or 0 if same as BT)
   void Bittorrent::setDHTPort(int dht_port) {
-    if(dht_port == 0 || dht_port >= 1000) {
+    if(dht_port >= 0) {
       if(dht_port == current_dht_port) return;
       struct dht_settings DHTSettings;
       DHTSettings.service_port = dht_port;
@@ -1667,7 +1675,7 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
       qDebug("Disabling HTTP communications proxy");
 #ifdef Q_WS_WIN
       putenv("http_proxy=");
-      putenv("sock_proxy=")
+      putenv("sock_proxy=");
 #else
       unsetenv("http_proxy");
       unsetenv("sock_proxy");
@@ -1767,6 +1775,10 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
             appendqBextensionToTorrent(h, true);
 #endif
           emit metadataReceived(h);
+          // Save metadata
+          QDir torrentBackup(misc::BTBackupLocation());
+          if(!QFile::exists(torrentBackup.path()+QDir::separator()+h.hash()+QString(".torrent")))
+            h.save_torrent_file(torrentBackup.path()+QDir::separator()+h.hash()+QString(".torrent"));
           if(h.is_paused()) {
             // XXX: Unfortunately libtorrent-rasterbar does not send a torrent_paused_alert
             // and the torrent can be paused when metadata is received
@@ -1908,9 +1920,27 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
           }
           emit torrentFinishedChecking(h);
           emit metadataReceived(h);
+          if(torrentsToPausedAfterChecking.contains(hash)) {
+            torrentsToPausedAfterChecking.removeOne(hash);
+            h.pause();
+            emit pausedTorrent(h);
+          }
         }
       }
       a = s->pop_alert();
+    }
+  }
+
+  void Bittorrent::recheckTorrent(QString hash) {
+    QTorrentHandle h = getTorrentHandle(hash);
+    if(h.is_valid() && h.has_metadata()) {
+      if(h.is_paused()) {
+        if(!torrentsToPausedAfterChecking.contains(h.hash())) {
+          torrentsToPausedAfterChecking << h.hash();
+          h.resume();
+        }
+      }
+      h.force_recheck();
     }
   }
 

@@ -295,7 +295,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Reason: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Dôvod: %1</translation>
     </message>
 </context>
 <context>
@@ -2615,7 +2615,7 @@ Ste si istý, že chcete ukončiť Bittorrent?</translation>
         <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by mean of upload. And of course, any content you share if your sole responsatibility.
 
 You probably knew this, so we won&apos;t tell you again.</source>
-        <translation>qBittorrent je program na zdieľanie súborov. Keď spustíte torrent, jeho údaje sa sprístupnia iným na stiahnutie. A samozrejme, akýkoľvek obsah, ktorý zdieľate je jedine na vašu vlastnú zodpovednosť.
+        <translation type="obsolete">qBittorrent je program na zdieľanie súborov. Keď spustíte torrent, jeho údaje sa sprístupnia iným na stiahnutie. A samozrejme, akýkoľvek obsah, ktorý zdieľate je jedine na vašu vlastnú zodpovednosť.
 
 Pravdepodobne ste to už vedelí, tak to už nebudeme opakovať.</translation>
     </message>
@@ -2634,6 +2634,14 @@ Pravdepodobne ste to už vedelí, tak to už nebudeme opakovať.</translation>
     <message>
         <source>I Agree</source>
         <translation>Súhlasím</translation>
+    </message>
+    <message>
+        <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.
+
+No further notices will be issued.</source>
+        <translation>qBittorrent je program na zdieľanie súborov. Keď spustíte torrent, jeho údaje sa sprístupnia iným na stiahnutie. A samozrejme, akýkoľvek obsah, ktorý zdieľate je jedine na vašu vlastnú zodpovednosť.
+
+Pravdepodobne ste to už vedelí, tak to už nebudeme opakovať.</translation>
     </message>
 </context>
 <context>
@@ -2910,7 +2918,12 @@ Pravdepodobne ste to už vedelí, tak to už nebudeme opakovať.</translation>
     <name>PeerListDelegate</name>
     <message>
         <source>KiB/s</source>
-        <translation>KiB/s</translation>
+        <translation type="obsolete">KiB/s</translation>
+    </message>
+    <message>
+        <source>/s</source>
+        <comment>/second (i.e. per second)</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3171,7 +3184,7 @@ margin-left: -3px;
 QGroupBox {
   border-width: 0;
 }</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Destination Folder:</source>
@@ -3189,7 +3202,7 @@ QGroupBox {
         <source>QLineEdit {
   margin-left: 23px;
 }</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Automatically load .torrent files from:</source>
@@ -3498,22 +3511,22 @@ QGroupBox {
     </message>
     <message>
         <source>Ignored</source>
-        <translation type="obsolete">Ignorovaný</translation>
+        <translation type="unfinished">Ignorovaný</translation>
     </message>
     <message>
         <source>Normal</source>
         <comment>Normal (priority)</comment>
-        <translation type="obsolete">Normálna</translation>
+        <translation type="unfinished">Normálna</translation>
     </message>
     <message>
         <source>High</source>
         <comment>High (priority)</comment>
-        <translation type="obsolete">Vysoká</translation>
+        <translation type="unfinished">Vysoká</translation>
     </message>
     <message>
         <source>Maximum</source>
         <comment>Maximum (priority)</comment>
-        <translation type="obsolete">Maximálna</translation>
+        <translation type="unfinished">Maximálna</translation>
     </message>
 </context>
 <context>
@@ -4327,7 +4340,7 @@ Záznam zmien:</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">Priorita</translation>
+        <translation type="unfinished">Priorita</translation>
     </message>
 </context>
 <context>

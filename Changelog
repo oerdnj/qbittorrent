@@ -1,3 +1,30 @@
+* Sun Jan 24 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.1.2
+    - FEATURE: Added back file prioritizing in a torrent
+    - BUGFIX: Fix issue causing torrents not to be displayed in the list
+    - BUGFIX: Make sure invalid torrent are removed from the transfer list
+    - BUGFIX: Fix overwrite check when renaming a folder in a torrent
+    - BUGFIX: Force a recheck after renaming files to avoid overwriting
+    - BUGFIX: Improve "Open destination folder" behavior
+    - BUGFIX: Fix race condition in RSS that could cause a crash on startup
+    - BUGFIX: Improved user friendlyness of size units
+    - BUGFIX: Optimized transfer list repainting
+    - COSMETIC: Improved transfer speed display in peers list
+
+* Wed Jan 20 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.1.1
+    - BUGFIX: Fix compilation with Qt4.4
+    - BUGFIX: Save torrent metadata so that it does not have to be re-downloaded on restart (Magnet links)
+    - BUGFIX: Fix folder renaming in a torrent (would rename children under certain conditions)
+    - BUGFIX: Nox version no longer requires libQtXml
+    - BUGFIX: Configure file now checks for pkg-config executable which is required
+    - BUGFIX: Torrents added from magnet links were not remembered on restart
+    - BUGFIX: "Add in pause" setting can be ignored from torrent addition dialog
+    - BUGFIX: Fix renaming of files with unicode characters in their name
+    - BUGFIX: Fix typo in legal notice (startup)
+    - BUGFIX: Can listen on ports < 1024 (must be root)
+    - BUGFIX: Paused torrents can now be rechecked
+    - BUGFIX: Fix "open torrent destination" feature when path contains spaces
+    - I18N: Updated translations (Hungarian, Chinese, Russian)
+
 * Mon Jan 18 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.1.0
     - FEATURE: Graphical User Interface can be disabled at compilation time (headless running)
     - FEATURE: Torrents can be labeled/categorized
