@@ -1,3 +1,11 @@
+qbittorrent (2.1.3-1) unstable; urgency=low
+
+  * New upstream version.
+  * debian/NEWS: fix debian-news-entry-without-blank-line.
+  * debian/control: bump up standards-version to 3.8.4 (no changes).
+
+ -- Cristian Greco <cristian@regolo.cc>  Fri, 05 Feb 2010 11:46:36 +0100
+
 qbittorrent (2.1.2-1) unstable; urgency=low
 
   * New upstream version.
