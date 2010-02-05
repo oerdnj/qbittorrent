@@ -1,3 +1,12 @@
+* Sun Jan 31 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.1.3
+    - BUGFIX: Fix "Append .!qB extension to complete files" (libtorrent v0.15)
+    - BUGFIX: Make sure bandwidth limiting dialogs are centered on screen
+    - BUGFIX: Added support for HTTP redirection
+    - BUGFIX: Fix compilation error when geoip database is embedded
+    - BUGFIX: Fix crash when double-clicking on a torrent that has no metadata to open its save path
+    - BUGFIX: Fix Scan directory preferences in Web UI
+    - BUGFIX: Clear torrent error state when resuming it
+
 * Sun Jan 24 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.1.2
     - FEATURE: Added back file prioritizing in a torrent
     - BUGFIX: Fix issue causing torrents not to be displayed in the list
