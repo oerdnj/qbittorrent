@@ -1747,7 +1747,7 @@ qBittorrent beobachtet das Verzeichniss und starten den Download von vorhandenen
     <message>
         <source>ETA</source>
         <comment>i.e: Estimated Time of Arrival / Time left</comment>
-        <translation type="obsolete">vorraussichtliche Ankunftszeit</translation>
+        <translation type="obsolete">ETA</translation>
     </message>
     <message>
         <source>Finished</source>
@@ -2632,12 +2632,12 @@ Möchten sie qBittorrent wirklich beenden?</translation>
     <message>
         <location filename="../GUI.cpp" line="411"/>
         <source>Global Upload Speed Limit</source>
-        <translation>Globale Upload-Geschwindigkeit</translation>
+        <translation>Globale UL-Rate</translation>
     </message>
     <message>
         <location filename="../GUI.cpp" line="429"/>
         <source>Global Download Speed Limit</source>
-        <translation>Globale Download-Geschwindigkeit</translation>
+        <translation>Globale DL-Rate</translation>
     </message>
     <message>
         <location filename="../GUI.cpp" line="511"/>
@@ -2847,7 +2847,7 @@ Sind Sie sicher, daß sie qBittorrent beenden möchten?</translation>
         <location filename="../httpserver.cpp" line="81"/>
         <source>Downloaded</source>
         <comment>Is the file downloaded or not?</comment>
-        <translation>Downgeloaded</translation>
+        <translation>Runtergeladen</translation>
     </message>
     <message>
         <location filename="../httpserver.cpp" line="82"/>
@@ -3227,7 +3227,7 @@ Wahrscheinlich haben wir Ihnen hiermit nichts Neues erzählt und werden Sie auch
         <location filename="../peerlistdelegate.h" line="60"/>
         <source>/s</source>
         <comment>/second (i.e. per second)</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">/s</translation>
     </message>
 </context>
 <context>
@@ -3253,25 +3253,25 @@ Wahrscheinlich haben wir Ihnen hiermit nichts Neues erzählt und werden Sie auch
         <location filename="../peerlistwidget.cpp" line="58"/>
         <source>Down Speed</source>
         <comment>i.e: Download speed</comment>
-        <translation>Download Geschwindigkeit</translation>
+        <translation>DL-Rate</translation>
     </message>
     <message>
         <location filename="../peerlistwidget.cpp" line="59"/>
         <source>Up Speed</source>
         <comment>i.e: Upload speed</comment>
-        <translation>Upload Geschwindigkeit</translation>
+        <translation>UL-Rate</translation>
     </message>
     <message>
         <location filename="../peerlistwidget.cpp" line="60"/>
         <source>Downloaded</source>
         <comment>i.e: total data downloaded</comment>
-        <translation>Downgeloaded</translation>
+        <translation>Runtergeladen</translation>
     </message>
     <message>
         <location filename="../peerlistwidget.cpp" line="61"/>
         <source>Uploaded</source>
         <comment>i.e: total data uploaded</comment>
-        <translation>Upgeloaded</translation>
+        <translation>Hochgeladen</translation>
     </message>
     <message>
         <location filename="../peerlistwidget.cpp" line="131"/>
@@ -4050,7 +4050,7 @@ QGroupBox {
         <location filename="../ui/propertieswidget.ui" line="82"/>
         <location filename="../ui/propertieswidget.ui" line="206"/>
         <source>Downloaded:</source>
-        <translation>Downgeloaded:</translation>
+        <translation>Runtergeladen:</translation>
     </message>
     <message>
         <location filename="../ui/propertieswidget.ui" line="136"/>
@@ -4065,7 +4065,7 @@ QGroupBox {
     <message>
         <location filename="../ui/propertieswidget.ui" line="196"/>
         <source>Uploaded:</source>
-        <translation>Upgeloaded:</translation>
+        <translation>Hochgeladen:</translation>
     </message>
     <message>
         <location filename="../ui/propertieswidget.ui" line="216"/>
@@ -4075,12 +4075,12 @@ QGroupBox {
     <message>
         <location filename="../ui/propertieswidget.ui" line="268"/>
         <source>UP limit:</source>
-        <translation>UP Begrenzung:</translation>
+        <translation>UL-Limit:</translation>
     </message>
     <message>
         <location filename="../ui/propertieswidget.ui" line="278"/>
         <source>DL limit:</source>
-        <translation>DL Begrenzung:</translation>
+        <translation>DL-Limit:</translation>
     </message>
     <message>
         <location filename="../ui/propertieswidget.ui" line="288"/>
@@ -4941,12 +4941,12 @@ Changelog:
     <message>
         <location filename="../statusbar.h" line="174"/>
         <source>Global Download Speed Limit</source>
-        <translation>Begrenzung der globalen Download-Geschwindigkeit</translation>
+        <translation>Begrenzung der globalen DL-Rate</translation>
     </message>
     <message>
         <location filename="../statusbar.h" line="190"/>
         <source>Global Upload Speed Limit</source>
-        <translation>Begrenzung der globalen Upload-Geschwindigkeit</translation>
+        <translation>Begrenzung der globalen UL-Rate</translation>
     </message>
 </context>
 <context>
@@ -5234,13 +5234,13 @@ Changelog:
         <location filename="../transferlistwidget.cpp" line="75"/>
         <source>Down Speed</source>
         <comment>i.e: Download speed</comment>
-        <translation>Download-Geschwindigkeit</translation>
+        <translation>DL-Rate</translation>
     </message>
     <message>
         <location filename="../transferlistwidget.cpp" line="77"/>
         <source>Up Speed</source>
         <comment>i.e: Upload speed</comment>
-        <translation>Upload-Geschwindigkeit</translation>
+        <translation>UL-Rate</translation>
     </message>
     <message>
         <source>Ratio</source>
@@ -5250,7 +5250,7 @@ Changelog:
         <location filename="../transferlistwidget.cpp" line="81"/>
         <source>ETA</source>
         <comment>i.e: Estimated Time of Arrival / Time left</comment>
-        <translation>voraussichtliche Ankunftszeit</translation>
+        <translation type="unfinished">ETA</translation>
     </message>
     <message>
         <source>&amp;Yes</source>
@@ -5261,27 +5261,27 @@ Changelog:
         <translation type="obsolete">&amp;Nein</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="833"/>
+        <location filename="../transferlistwidget.cpp" line="841"/>
         <source>Column visibility</source>
         <translation>Sichtbarkeit der Spalten</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="959"/>
+        <location filename="../transferlistwidget.cpp" line="972"/>
         <source>Start</source>
         <translation>Start</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="961"/>
+        <location filename="../transferlistwidget.cpp" line="974"/>
         <source>Pause</source>
         <translation>Anhalten</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="963"/>
+        <location filename="../transferlistwidget.cpp" line="976"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="965"/>
+        <location filename="../transferlistwidget.cpp" line="978"/>
         <source>Preview file</source>
         <translation>Vorschau-Datei</translation>
     </message>
@@ -5333,118 +5333,118 @@ Changelog:
     </message>
     <message>
         <location filename="../transferlistwidget.cpp" line="82"/>
-        <location filename="../transferlistwidget.cpp" line="1070"/>
+        <location filename="../transferlistwidget.cpp" line="1083"/>
         <source>Label</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="738"/>
+        <location filename="../transferlistwidget.cpp" line="746"/>
         <source>Torrent Download Speed Limiting</source>
-        <translation>Begrenzung der Torrent-Download-Geschwindigkeit</translation>
+        <translation>Begrenzung der Torrent-DL-Rate</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="774"/>
+        <location filename="../transferlistwidget.cpp" line="782"/>
         <source>Torrent Upload Speed Limiting</source>
-        <translation>Begrenzung der Torrent-Upload-Geschwindigkeit</translation>
+        <translation>Begrenzung der Torrent-UL-Rate</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="901"/>
+        <location filename="../transferlistwidget.cpp" line="909"/>
         <source>New Label</source>
         <translation>Neues Label</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="901"/>
+        <location filename="../transferlistwidget.cpp" line="909"/>
         <source>Label:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="906"/>
+        <location filename="../transferlistwidget.cpp" line="914"/>
         <source>Invalid label name</source>
         <translation>Ungültiger Labelname</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="906"/>
+        <location filename="../transferlistwidget.cpp" line="914"/>
         <source>Please don&apos;t use any special characters in the label name.</source>
         <translation>Bitte keine Sonderzeichen im Labelname verwenden.</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="922"/>
+        <location filename="../transferlistwidget.cpp" line="930"/>
         <source>Rename</source>
         <translation>Umbenennen</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="922"/>
+        <location filename="../transferlistwidget.cpp" line="930"/>
         <source>New name:</source>
         <translation>Neuer Name:</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="967"/>
+        <location filename="../transferlistwidget.cpp" line="980"/>
         <source>Limit upload rate</source>
         <translation>Begrenze Uploadrate</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="969"/>
+        <location filename="../transferlistwidget.cpp" line="982"/>
         <source>Limit download rate</source>
         <translation>Begrenze Downloadrate</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="971"/>
+        <location filename="../transferlistwidget.cpp" line="984"/>
         <source>Open destination folder</source>
         <translation>Zielverzeichniss öffnen</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="973"/>
+        <location filename="../transferlistwidget.cpp" line="986"/>
         <source>Buy it</source>
         <translation>Kaufen</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="975"/>
+        <location filename="../transferlistwidget.cpp" line="988"/>
         <source>Increase priority</source>
         <translation>Priorität erhöhen</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="977"/>
+        <location filename="../transferlistwidget.cpp" line="990"/>
         <source>Decrease priority</source>
         <translation>Priorität verringern</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="979"/>
+        <location filename="../transferlistwidget.cpp" line="992"/>
         <source>Force recheck</source>
         <translation>Erzwinge erneutes Überprüfen</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="981"/>
+        <location filename="../transferlistwidget.cpp" line="994"/>
         <source>Copy magnet link</source>
         <translation>Kopiere Magnet-Link</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="984"/>
+        <location filename="../transferlistwidget.cpp" line="997"/>
         <source>Super seeding mode</source>
         <translation>Super-Seeding-Modus</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="987"/>
+        <location filename="../transferlistwidget.cpp" line="1000"/>
         <source>Rename...</source>
         <translation>Umbenennen...</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="989"/>
+        <location filename="../transferlistwidget.cpp" line="1002"/>
         <source>Download in sequential order</source>
         <translation>Der Reihe nach downloaden</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="991"/>
+        <location filename="../transferlistwidget.cpp" line="1004"/>
         <source>Download first and last piece first</source>
         <translation>Erste und letzte Teile zuerst laden</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="1071"/>
+        <location filename="../transferlistwidget.cpp" line="1084"/>
         <source>New...</source>
         <comment>New label...</comment>
         <translation>Neu...</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="1072"/>
+        <location filename="../transferlistwidget.cpp" line="1085"/>
         <source>Reset</source>
         <comment>Reset label</comment>
         <translation>Zurück setzen</translation>
@@ -5630,12 +5630,12 @@ Changelog:
         <translation>Torrent Inhalt:</translation>
     </message>
     <message>
-        <location filename="../ui/torrentadditiondlg.ui" line="264"/>
+        <location filename="../ui/torrentadditiondlg.ui" line="254"/>
         <source>Download in sequential order (slower but good for previewing)</source>
         <translation>Der Reihe nach laden (langsamer, aber besser zum Vorschauen)</translation>
     </message>
     <message>
-        <location filename="../ui/torrentadditiondlg.ui" line="271"/>
+        <location filename="../ui/torrentadditiondlg.ui" line="261"/>
         <source>Skip file checking and start seeding immediately</source>
         <translation>Überspringe das Überprüfen der Datei und direkt mit dem seeden beginnen</translation>
     </message>
@@ -5656,17 +5656,17 @@ Changelog:
         <translation type="obsolete">In richtiger Reihenfolge herunterladen (langsamer, aber besser zum Vorschauen)</translation>
     </message>
     <message>
-        <location filename="../ui/torrentadditiondlg.ui" line="278"/>
+        <location filename="../ui/torrentadditiondlg.ui" line="268"/>
         <source>Add to download list in paused state</source>
         <translation>Der Download Liste im Pause-Modus hinzufügen</translation>
     </message>
     <message>
-        <location filename="../ui/torrentadditiondlg.ui" line="319"/>
+        <location filename="../ui/torrentadditiondlg.ui" line="309"/>
         <source>Add</source>
         <translation>Hinzufügen</translation>
     </message>
     <message>
-        <location filename="../ui/torrentadditiondlg.ui" line="326"/>
+        <location filename="../ui/torrentadditiondlg.ui" line="316"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
@@ -5699,12 +5699,12 @@ Changelog:
         <translation type="obsolete">Maximum</translation>
     </message>
     <message>
-        <location filename="../ui/torrentadditiondlg.ui" line="224"/>
+        <location filename="../ui/torrentadditiondlg.ui" line="219"/>
         <source>Collapse all</source>
         <translation>Alle reduzieren</translation>
     </message>
     <message>
-        <location filename="../ui/torrentadditiondlg.ui" line="242"/>
+        <location filename="../ui/torrentadditiondlg.ui" line="232"/>
         <source>Expand all</source>
         <translation>Alle erweitern</translation>
     </message>
@@ -7533,7 +7533,7 @@ Die Plugins wurden jedoch deaktiviert.</translation>
     </message>
     <message>
         <source>Upload Speed</source>
-        <translation type="obsolete">Upload-Geschwindigkeit</translation>
+        <translation type="obsolete">UL-Rate</translation>
     </message>
     <message>
         <source>Connected peers</source>
