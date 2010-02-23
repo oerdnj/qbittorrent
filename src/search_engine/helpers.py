@@ -22,7 +22,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-#VERSION: 1.3
+#VERSION: 1.31
 
 # Author:
 #  Christophe DUMEZ (chris@qbittorrent.org)
@@ -84,15 +84,14 @@ def download_file(url, referer=None):
         req.add_header('referer', referer)
     response = urllib2.urlopen(req)
     dat = response.read()
-    # Check if data is gzip encoded
-    response_info = response.info()
-    content_encoding = response_info.get('Content-Encoding')
-    if content_encoding is not None and 'gzip' in content_encoding:
+    # Check if it is gzipped
+    if dat[:2] == '\037\213':
         # Data is gzip encoded, decode it
         compressedstream = StringIO.StringIO(dat)
         gzipper = gzip.GzipFile(fileobj=compressedstream)
         extracted_data = gzipper.read()
         dat = extracted_data
+        
     # Write it to a file
     file.write(dat)
     file.close()
