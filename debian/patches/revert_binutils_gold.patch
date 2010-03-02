@@ -1,0 +1,52 @@
+Author: Cristian Greco <cristian@regolo.cc>
+Description: Revert upstream changes which try to fix #556300 (FTBFS against
+binutils-gold) because (1) the bug should really be fixed in
+libtorrent-rasterbar and (2) using pkg-config --static results in unneeded
+dependencies addition.
+
+--- a/configure
++++ b/configure
+@@ -359,18 +359,12 @@
+ 			return false;
+ 		for(int n = 0; n < incs.count(); ++n)
+ 			conf->addIncludePath(incs[n]);
+-		//if(!libs.isEmpty())
+-		//	conf->addLib(libs);
++		if(!libs.isEmpty())
++			conf->addLib(libs);
+ 		if(!conf->findPkgConfig("libtorrent-rasterbar", mode, adv_ver, &version, &incs, &libs, &other))
+                         printf("\nWarning: libtorrent-rasterbar v%s was detected. Some feature will be disabled because they require v%s.\n", version.toLocal8Bit().data(), adv_ver.toUtf8().data());
+ 		else
+ 			conf->addDefine("LIBTORRENT_0_15");
+-		// Get linking parameters
+-		QStringList params;
+-		QByteArray staticlibs;
+-		params << "--static" << "--libs" << "libtorrent-rasterbar";
+-		conf->doCommand("pkg-config", params, &staticlibs);
+-		conf->addLib(staticlibs.trimmed());
+ 		return true;
+ 	}
+ };
+--- a/qcm/libtorrent-rasterbar.qcm
++++ b/qcm/libtorrent-rasterbar.qcm
+@@ -20,18 +20,12 @@
+ 			return false;
+ 		for(int n = 0; n < incs.count(); ++n)
+ 			conf->addIncludePath(incs[n]);
+-		//if(!libs.isEmpty())
+-		//	conf->addLib(libs);
++		if(!libs.isEmpty())
++			conf->addLib(libs);
+ 		if(!conf->findPkgConfig("libtorrent-rasterbar", mode, adv_ver, &version, &incs, &libs, &other))
+                         printf("\nWarning: libtorrent-rasterbar v%s was detected. Some feature will be disabled because they require v%s.\n", version.toLocal8Bit().data(), adv_ver.toUtf8().data());
+ 		else
+ 			conf->addDefine("LIBTORRENT_0_15");
+-		// Get linking parameters
+-		QStringList params;
+-		QByteArray staticlibs;
+-		params << "--static" << "--libs" << "libtorrent-rasterbar";
+-		conf->doCommand("pkg-config", params, &staticlibs);
+-		conf->addLib(staticlibs.trimmed());
+ 		return true;
+ 	}
+ };
