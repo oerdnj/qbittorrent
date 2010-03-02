@@ -1,3 +1,16 @@
+qbittorrent (2.1.5-1) unstable; urgency=low
+
+  * New upstream version.
+    - Fix action on selected torrents - should fix problems with deleting
+      the wrong selected torrents (Closes: #568944).
+  * debian/control: bump build-dep on libtorrent-rasterbar (>= 0.14.9).
+  * debian/patches/revert_binutils_gold.patch: new patch, revert upstream
+    changes which try to fix #556300 (FTBFS against binutils-gold) because
+    (1) the bug should really fixed in libtorrent-rasterbar and (2) using
+    `pkg-config --static` results in unneeded dependencies addition.
+
+ -- Cristian Greco <cristian@regolo.cc>  Tue, 02 Mar 2010 17:40:10 +0100
+
 qbittorrent (2.1.4-1) unstable; urgency=low
 
   * New upstream version.
