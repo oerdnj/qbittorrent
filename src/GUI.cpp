@@ -217,7 +217,10 @@ GUI::~GUI() {
   delete status_bar;
   delete transferList;
   delete guiUpdater;
-
+  if (console)
+    delete console;
+  if(options)
+    delete options;
   if(rssWidget)
     delete rssWidget;
   delete searchEngine;
@@ -393,7 +396,7 @@ void GUI::readParamsOnSocket() {
   if(clientConnection) {
     QByteArray params = clientConnection->readAll();
     if(!params.isEmpty()) {
-      processParams(QString::fromUtf8(params.data()).split(QString::fromUtf8("\n")));
+      processParams(QString::fromLocal8Bit(params.constData()).split("\n"));
       qDebug("Received parameters from another instance");
     }
     clientConnection->deleteLater();
@@ -420,7 +423,11 @@ void GUI::on_actionSet_global_upload_limit_triggered() {
 }
 
 void GUI::on_actionShow_console_triggered() {
-  new consoleDlg(this, BTSession);
+  if(!console) {
+    console = new consoleDlg(this, BTSession);
+  } else {
+    console->setFocus();
+  }
 }
 
 void GUI::on_actionSet_global_download_limit_triggered() {
@@ -911,6 +918,9 @@ void GUI::on_actionOptions_triggered() {
   if(!options) {
     options = new options_imp(this);
     connect(options, SIGNAL(status_changed()), this, SLOT(optionsSaved()));
+  } else {
+    // Get focus
+    options->setFocus();
   }
 }
 
