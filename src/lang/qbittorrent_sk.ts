@@ -109,6 +109,62 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>AdvancedSettings</name>
+    <message>
+        <source>Property</source>
+        <translation>Vlastnosť</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>Hodnota</translation>
+    </message>
+    <message>
+        <source>Ignore transfer limits on local network</source>
+        <translation>Ignorovať prenosové limity na lokálnej sieti</translation>
+    </message>
+    <message>
+        <source>Include TCP/IP overhead in transfer limits</source>
+        <translation>Zarátavať réžiu TCP/IP do prenosových limitov</translation>
+    </message>
+    <message>
+        <source>Disk write cache size</source>
+        <translation>Veľkosť vyrovnávacej pamäte pre zápis na disk</translation>
+    </message>
+    <message>
+        <source> MiB</source>
+        <translation>MiB</translation>
+    </message>
+    <message>
+        <source>Outgoing ports (Min) [0: Disabled]</source>
+        <translation>Odcházajúce porty (min) [0: Vyonuté]</translation>
+    </message>
+    <message>
+        <source>Outgoing ports (Max) [0: Disabled]</source>
+        <translation>Odcházajúce porty (max) [0: Vyonuté]</translation>
+    </message>
+    <message>
+        <source>Recheck torrents on completion</source>
+        <translation>Znovu skontrolovať torrenty po dokončení</translation>
+    </message>
+    <message>
+        <source>Transfer list refresh interval</source>
+        <translation>Interval obnovovania zoznamu prenosov</translation>
+    </message>
+    <message>
+        <source> ms</source>
+        <comment> milliseconds</comment>
+        <translation>ms</translation>
+    </message>
+    <message>
+        <source>Resolve peer countries (GeoIP)</source>
+        <translation>Prekladať názvy krajín rovesníkov (GeoIP)</translation>
+    </message>
+    <message>
+        <source>Resolve peer host names</source>
+        <translation>Prekladať názvy počítačov rovesníkov</translation>
+    </message>
+</context>
+<context>
     <name>BandwidthAllocationDialog</name>
     <message>
         <source>Upload limit:</source>
@@ -296,6 +352,18 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Reason: %1</source>
         <translation>Dôvod: %1</translation>
+    </message>
+    <message>
+        <source>Note: new trackers were added to the existing torrent.</source>
+        <translation>Pozn.: Do existujúceho torrentu boli pridané nové trackery.</translation>
+    </message>
+    <message>
+        <source>Note: new URL seeds were added to the existing torrent.</source>
+        <translation>Pozn.: Do existujúceho torrentu boli pridané nové URL seedy.</translation>
+    </message>
+    <message>
+        <source>An I/O error occured, &apos;%1&apos; paused.</source>
+        <translation>Vyskytla sa V/V chyba, „%1“ pozastavené.</translation>
     </message>
 </context>
 <context>
@@ -2232,7 +2300,7 @@ Najskôr ho prosím zatvorte.</translation>
     <message>
         <source>An error occured (full disk?), &apos;%1&apos; paused.</source>
         <comment>e.g: An error occured (full disk?), &apos;xxx.avi&apos; paused.</comment>
-        <translation>Vyskytla sa chyba (plný disk?), „%1“ pozastavené.</translation>
+        <translation type="obsolete">Vyskytla sa chyba (plný disk?), „%1“ pozastavené.</translation>
     </message>
     <message>
         <source>Search</source>
@@ -2478,6 +2546,14 @@ Ste si istý, že chcete ukončiť Bittorrent?</translation>
         <comment>%1 is qBittorrent version</comment>
         <translation>qBittorrent %1 (sťah: %2/s, nahr: %3/s)</translation>
     </message>
+    <message>
+        <source>Use normal speed limits</source>
+        <translation>Používať normálne rýchlostné obmedzenia</translation>
+    </message>
+    <message>
+        <source>Use alternative speed limits</source>
+        <translation>Používať alternatívne rýchlostné obmedzenia</translation>
+    </message>
 </context>
 <context>
     <name>HeadlessLoader</name>
@@ -2506,7 +2582,17 @@ Ste si istý, že chcete ukončiť Bittorrent?</translation>
     <name>HttpConnection</name>
     <message>
         <source>Your IP address has been banned after too many failed authentication attempts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vaša IP adresa bola zablokovaná po príliš mnohých pokusoch o autentifikáciu.</translation>
+    </message>
+    <message>
+        <source>D: %1/s - T: %2</source>
+        <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
+        <translation>Sťah.: %1/s - Pren.: %2</translation>
+    </message>
+    <message>
+        <source>U: %1/s - T: %2</source>
+        <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
+        <translation>Nahr.: %1/s - Pren.: %2</translation>
     </message>
 </context>
 <context>
@@ -2621,7 +2707,7 @@ Pravdepodobne ste to už vedelí, tak to už nebudeme opakovať.</translation>
     </message>
     <message>
         <source>Press any key to accept and continue...</source>
-        <translation>Pokračujte stlačením wubovoľného klávesu...</translation>
+        <translation type="obsolete">Pokračujte stlačením ľubovoľného klávesu...</translation>
     </message>
     <message>
         <source>Legal notice</source>
@@ -2639,9 +2725,13 @@ Pravdepodobne ste to už vedelí, tak to už nebudeme opakovať.</translation>
         <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.
 
 No further notices will be issued.</source>
-        <translation>qBittorrent je program na zdieľanie súborov. Keď spustíte torrent, jeho údaje sa sprístupnia iným na stiahnutie. A samozrejme, akýkoľvek obsah, ktorý zdieľate je jedine na vašu vlastnú zodpovednosť.
+        <translation>qBittorrent je program na zdieľanie súborov. Keď spustíte torrent, jeho dáta sa sprástupnia iným prostredníctvom nahrávania. Za akýkoľvek obsah, ktorý zdieľate, nesiete zodpovednosť vy.
 
-Pravdepodobne ste to už vedelí, tak to už nebudeme opakovať.</translation>
+Už vás nebudeme ďalej upozorňovať.</translation>
+    </message>
+    <message>
+        <source>Press %1 key to accept and continue...</source>
+        <translation>Pokračujte stlačením klávesu %1...</translation>
     </message>
 </context>
 <context>
@@ -2852,7 +2942,7 @@ Pravdepodobne ste to už vedelí, tak to už nebudeme opakovať.</translation>
     </message>
     <message>
         <source>Set upload limit</source>
-        <translation>Nastaviť limit nahrávania</translation>
+        <translation>Nastaviť obmedzenie nahrávania</translation>
     </message>
     <message>
         <source>Set download limit</source>
@@ -2902,6 +2992,10 @@ Pravdepodobne ste to už vedelí, tak to už nebudeme opakovať.</translation>
         <source>Visit Website</source>
         <translation>Navštíviť webstránku</translation>
     </message>
+    <message>
+        <source>Use alternative speed limits</source>
+        <translation>Používať alternatívne rýchlostné obmedzenia</translation>
+    </message>
 </context>
 <context>
     <name>PeerAdditionDlg</name>
@@ -2923,7 +3017,7 @@ Pravdepodobne ste to už vedelí, tak to už nebudeme opakovať.</translation>
     <message>
         <source>/s</source>
         <comment>/second (i.e. per second)</comment>
-        <translation type="unfinished">/s</translation>
+        <translation>/s</translation>
     </message>
 </context>
 <context>
@@ -3075,23 +3169,23 @@ Pravdepodobne ste to už vedelí, tak to už nebudeme opakovať.</translation>
     </message>
     <message>
         <source>System default</source>
-        <translation>Štandardné nastavenie systému</translation>
+        <translation type="obsolete">Štandardné nastavenie systému</translation>
     </message>
     <message>
         <source>Plastique style (KDE like)</source>
-        <translation>Plastický štýl (ako KDE)</translation>
+        <translation type="obsolete">Plastický štýl (ako KDE)</translation>
     </message>
     <message>
         <source>Cleanlooks style (Gnome like)</source>
-        <translation>Čistý vzhľad (ako GNOME)</translation>
+        <translation type="obsolete">Čistý vzhľad (ako GNOME)</translation>
     </message>
     <message>
         <source>Motif style (Unix like)</source>
-        <translation>Štýl Motif (ako Unix)</translation>
+        <translation type="obsolete">Štýl Motif (ako Unix)</translation>
     </message>
     <message>
         <source>CDE style (Common Desktop Environment like)</source>
-        <translation>Štýl CDE (ako Common Desktop Environment)</translation>
+        <translation type="obsolete">Štýl CDE (ako Common Desktop Environment)</translation>
     </message>
     <message>
         <source>Ask for confirmation on exit when download list is not empty</source>
@@ -3115,11 +3209,11 @@ Pravdepodobne ste to už vedelí, tak to už nebudeme opakovať.</translation>
     </message>
     <message>
         <source>Refresh interval:</source>
-        <translation>Interval obnovovania:</translation>
+        <translation type="obsolete">Interval obnovovania:</translation>
     </message>
     <message>
         <source>ms</source>
-        <translation>ms</translation>
+        <translation type="obsolete">ms</translation>
     </message>
     <message>
         <source>Use alternating row colors</source>
@@ -3184,7 +3278,13 @@ margin-left: -3px;
 QGroupBox {
   border-width: 0;
 }</source>
-        <translation></translation>
+        <translation>QGroupBox::title {
+font-weight: normal;
+margin-left: -3px;
+}
+QGroupBox {
+  border-width: 0;
+}</translation>
     </message>
     <message>
         <source>Destination Folder:</source>
@@ -3202,11 +3302,13 @@ QGroupBox {
         <source>QLineEdit {
   margin-left: 23px;
 }</source>
-        <translation></translation>
+        <translation>QLineEdit {
+  margin-left: 23px;
+}</translation>
     </message>
     <message>
         <source>Automatically load .torrent files from:</source>
-        <translation>Automaticky načítavať torrenty z:</translation>
+        <translation type="obsolete">Automaticky načítavať torrenty z:</translation>
     </message>
     <message>
         <source>Append .!qB extension to incomplete files</source>
@@ -3218,11 +3320,11 @@ QGroupBox {
     </message>
     <message>
         <source>Disk cache:</source>
-        <translation>Disková vyrovnávacia pamäť:</translation>
+        <translation type="obsolete">Disková vyrovnávacia pamäť:</translation>
     </message>
     <message>
         <source>MiB (advanced)</source>
-        <translation>MiB (pokročilé)</translation>
+        <translation type="obsolete">MiB (pokročilé)</translation>
     </message>
     <message>
         <source>Torrent queueing</source>
@@ -3295,7 +3397,7 @@ QGroupBox {
     </message>
     <message>
         <source>Global bandwidth limiting</source>
-        <translation>Globálny limit pásma</translation>
+        <translation type="obsolete">Globálny limit pásma</translation>
     </message>
     <message>
         <source>Upload:</source>
@@ -3311,15 +3413,15 @@ QGroupBox {
     </message>
     <message>
         <source>Peer connections</source>
-        <translation>Pripojení</translation>
+        <translation type="obsolete">Pripojení</translation>
     </message>
     <message>
         <source>Resolve peer countries</source>
-        <translation>Prekladať krajiny rovesníkov</translation>
+        <translation type="obsolete">Prekladať krajiny rovesníkov</translation>
     </message>
     <message>
         <source>Resolve peer host names</source>
-        <translation>Prekladať názvy počítačov rovesníkov</translation>
+        <translation type="obsolete">Prekladať názvy počítačov rovesníkov</translation>
     </message>
     <message>
         <source>Bittorrent features</source>
@@ -3498,6 +3600,63 @@ QGroupBox {
         <source>KTorrent</source>
         <translation>KTorrent</translation>
     </message>
+    <message>
+        <source>Speed</source>
+        <translation>Rýchlosť</translation>
+    </message>
+    <message>
+        <source>Global speed limits</source>
+        <translation>Globálne rýchlostné obmedzenia</translation>
+    </message>
+    <message>
+        <source>Alternative global speed limits</source>
+        <translation>Alternatívne globálne rýchlostné obmedzenia</translation>
+    </message>
+    <message>
+        <source>Scheduled times:</source>
+        <translation>Naplánované časy:</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <extracomment>time1 to time2</extracomment>
+        <translation>do</translation>
+    </message>
+    <message>
+        <source>On days:</source>
+        <translation>V dňoch:</translation>
+    </message>
+    <message>
+        <source>Every day</source>
+        <translation>Každý deň</translation>
+    </message>
+    <message>
+        <source>Week days</source>
+        <translation>Pracovné dni</translation>
+    </message>
+    <message>
+        <source>Week ends</source>
+        <translation>Víkendy</translation>
+    </message>
+    <message>
+        <source>Advanced</source>
+        <translation>Rozšírené</translation>
+    </message>
+    <message>
+        <source>Copy .torrent files to:</source>
+        <translation>Kopírovať .torrent súbory do:</translation>
+    </message>
+    <message>
+        <source>Check Folders for .torrent Files:</source>
+        <translation>Kontrolovať .torrent súbory v priečinkoch:</translation>
+    </message>
+    <message>
+        <source>Add folder ...</source>
+        <translation>Pridať priečinok ...</translation>
+    </message>
+    <message>
+        <source>Remove folder</source>
+        <translation>Odstrániť priečinok ...</translation>
+    </message>
 </context>
 <context>
     <name>PropListDelegate</name>
@@ -3511,22 +3670,26 @@ QGroupBox {
     </message>
     <message>
         <source>Ignored</source>
-        <translation type="unfinished">Ignorovaný</translation>
+        <translation type="obsolete">Ignorovaný</translation>
     </message>
     <message>
         <source>Normal</source>
         <comment>Normal (priority)</comment>
-        <translation type="unfinished">Normálna</translation>
+        <translation>Normálna</translation>
     </message>
     <message>
         <source>High</source>
         <comment>High (priority)</comment>
-        <translation type="unfinished">Vysoká</translation>
+        <translation>Vysoká</translation>
     </message>
     <message>
         <source>Maximum</source>
         <comment>Maximum (priority)</comment>
-        <translation type="unfinished">Maximálna</translation>
+        <translation>Maximálna</translation>
+    </message>
+    <message>
+        <source>Not downloaded</source>
+        <translation>Nestiahnuté</translation>
     </message>
 </context>
 <context>
@@ -3609,7 +3772,7 @@ QGroupBox {
     </message>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">Priorita</translation>
+        <translation>Priorita</translation>
     </message>
     <message>
         <source>None - Unreachable?</source>
@@ -3698,15 +3861,15 @@ QGroupBox {
     </message>
     <message>
         <source>Normal</source>
-        <translation type="obsolete">Normálna</translation>
+        <translation>Normálna</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation type="obsolete">Maximálna</translation>
+        <translation>Maximálna</translation>
     </message>
     <message>
         <source>High</source>
-        <translation type="obsolete">Vysoká</translation>
+        <translation>Vysoká</translation>
     </message>
     <message>
         <source>this session</source>
@@ -4052,6 +4215,17 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>ScanFoldersModel</name>
+    <message>
+        <source>Watched Folder</source>
+        <translation>Sledovaný priečinok</translation>
+    </message>
+    <message>
+        <source>Download here</source>
+        <translation>Stiahnuť sem</translation>
+    </message>
+</context>
+<context>
     <name>SearchCategories</name>
     <message>
         <source>All categories</source>
@@ -4234,6 +4408,10 @@ Záznam zmien:</translation>
         <source>Unknown</source>
         <translation>Neznámy</translation>
     </message>
+    <message>
+        <source>Search</source>
+        <translation>Vyhľadávanie</translation>
+    </message>
 </context>
 <context>
     <name>SearchTab</name>
@@ -4323,6 +4501,14 @@ Záznam zmien:</translation>
         <source>Offline. This usually means that qBittorrent failed to listen on the selected port for incoming connections.</source>
         <translation>Odpojený. To zvyčajne znamená, že qBittorrent nedokázal počúvať prichádzajúce spojenia na zvolenom porte.</translation>
     </message>
+    <message>
+        <source>Click to disable alternative speed limits</source>
+        <translation>Kliknutím vypnete alternatívne globálne rýchlostné obmedzenia</translation>
+    </message>
+    <message>
+        <source>Click to enable alternative speed limits</source>
+        <translation>Kliknutím zapnete alternatívne globálne rýchlostné obmedzenia</translation>
+    </message>
 </context>
 <context>
     <name>TorrentFilesModel</name>
@@ -4340,7 +4526,7 @@ Záznam zmien:</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation type="unfinished">Priorita</translation>
+        <translation>Priorita</translation>
     </message>
 </context>
 <context>
@@ -4479,6 +4665,11 @@ Záznam zmien:</translation>
         <source>/s</source>
         <comment>/second (.i.e per second)</comment>
         <translation>/s</translation>
+    </message>
+    <message>
+        <source>KiB/s</source>
+        <comment>KiB/second (.i.e per second)</comment>
+        <translation>KiB/s</translation>
     </message>
 </context>
 <context>
@@ -4736,6 +4927,26 @@ Záznam zmien:</translation>
         <source>Please don&apos;t use any special characters in the label name.</source>
         <translation>Prosím, nepoužívajte v názve označenia špeciálne znaky.</translation>
     </message>
+    <message>
+        <source>Added On</source>
+        <comment>Torrent was added to transfer list on 01/01/2010 08:00</comment>
+        <translation>Pridané</translation>
+    </message>
+    <message>
+        <source>Completed On</source>
+        <comment>Torrent was completed on 01/01/2010 08:00</comment>
+        <translation>Dokončené</translation>
+    </message>
+    <message>
+        <source>Down Limit</source>
+        <comment>i.e: Download limit</comment>
+        <translation>Limit sťah.</translation>
+    </message>
+    <message>
+        <source>Up Limit</source>
+        <comment>i.e: Upload limit</comment>
+        <translation>Limit nahr.</translation>
+    </message>
 </context>
 <context>
     <name>Ui</name>
@@ -4917,15 +5128,15 @@ Záznam zmien:</translation>
     </message>
     <message>
         <source>Normal</source>
-        <translation type="obsolete">Normálna</translation>
+        <translation>Normálna</translation>
     </message>
     <message>
         <source>High</source>
-        <translation type="obsolete">Vysoká</translation>
+        <translation>Vysoká</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation type="obsolete">Maximálna</translation>
+        <translation>Maximálna</translation>
     </message>
     <message>
         <source>Collapse all</source>
@@ -6083,7 +6294,7 @@ Tieto moduly však boli vypnuté.</translation>
     </message>
     <message>
         <source>Choose scan directory</source>
-        <translation>Zvoliť adresár pre prezeranie</translation>
+        <translation type="obsolete">Zvoliť adresár pre prezeranie</translation>
     </message>
     <message>
         <source>Choose an ipfilter.dat file</source>
@@ -6109,6 +6320,34 @@ Tieto moduly však boli vypnuté.</translation>
     <message>
         <source>Filters</source>
         <translation>Filtre</translation>
+    </message>
+    <message>
+        <source>Choose export directory</source>
+        <translation>Vyberte adresár, kde sa bude exportovať</translation>
+    </message>
+    <message>
+        <source>Add directory to scan</source>
+        <translation>Vyberte adresár, ktorý sa bude prehliadať</translation>
+    </message>
+    <message>
+        <source>Folder is already being watched.</source>
+        <translation>Priečinok sa už sleduje.</translation>
+    </message>
+    <message>
+        <source>Folder does not exist.</source>
+        <translation>Priečinok neexistuje.</translation>
+    </message>
+    <message>
+        <source>Folder is not readable.</source>
+        <translation>Priečinok nemožno prečítať.</translation>
+    </message>
+    <message>
+        <source>Failure</source>
+        <translation>Zlyhanie</translation>
+    </message>
+    <message>
+        <source>Failed to add Scan Folder &apos;%1&apos;: %2</source>
+        <translation>Nepodarilo sa pridať priečinok na prehľadanie: „%s“: %2</translation>
     </message>
 </context>
 <context>
@@ -6806,7 +7045,7 @@ Tieto moduly však boli vypnuté.</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">Priorita</translation>
+        <translation>Priorita</translation>
     </message>
     <message>
         <source>Unknown</source>

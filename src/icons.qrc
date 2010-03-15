@@ -1,13 +1,16 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
+  <file>Icons/slow48.png</file>
   <file>Icons/rss32.png</file>
   <file>Icons/sphere2.png</file>
   <file>Icons/downarrow.png</file>
   <file>Icons/url.png</file>
   <file>Icons/locale.png</file>
   <file>Icons/loading.png</file>
+  <file>Icons/slow.png</file>
   <file>Icons/magnet.png</file>
   <file>Icons/sphere.png</file>
+  <file>Icons/slow_off.png</file>
   <file>Icons/uparrow.png</file>
   <file>Icons/rss16.png</file>
   <file>Icons/skin/checkingUP.png</file>
@@ -146,6 +149,7 @@
   <file>Icons/oxygen/encrypted.png</file>
   <file>Icons/oxygen/edit_clear.png</file>
   <file>Icons/oxygen/download.png</file>
+  <file>Icons/oxygen/gear32.png</file>
   <file>Icons/oxygen/gear.png</file>
   <file>Icons/oxygen/remove.png</file>
   <file>Icons/oxygen/dialog-warning.png</file>
@@ -154,6 +158,7 @@
   <file>Icons/oxygen/unsubscribe16.png</file>
   <file>Icons/oxygen/subscribe.png</file>
   <file>Icons/oxygen/edit-copy.png</file>
+  <file>Icons/oxygen/chronometer.png</file>
   <file>Icons/oxygen/bt_settings.png</file>
   <file>Icons/oxygen/document-new.png</file>
   <file>Icons/oxygen/preferences-desktop.png</file>

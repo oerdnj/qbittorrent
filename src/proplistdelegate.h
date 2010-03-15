@@ -86,7 +86,7 @@ public:
         QString text = "";
         switch(index.data().toInt()) {
         case 0:
-          text = tr("Ignored");
+          text = tr("Not downloaded");
           break;
         case 2:
           text = tr("High", "High (priority)");

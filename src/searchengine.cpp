@@ -58,7 +58,7 @@ SearchEngine::SearchEngine(GUI *parent, Bittorrent *BTSession) : QWidget(parent)
   // new qCompleter to the search pattern
   startSearchHistory();
   createCompleter();
-#ifdef QT_4_5
+#if QT_VERSION >= 0x040500
   tabWidget->setTabsClosable(true);
   connect(tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
 #else
@@ -88,6 +88,7 @@ SearchEngine::SearchEngine(GUI *parent, Bittorrent *BTSession) : QWidget(parent)
   // Fill in category combobox
   fillCatCombobox();
   connect(search_pattern, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(displayPatternContextMenu(QPoint)));
+  connect(search_pattern, SIGNAL(textEdited(QString)), this, SLOT(searchTextEdited(QString)));
 }
 
 void SearchEngine::fillCatCombobox() {
@@ -95,7 +96,7 @@ void SearchEngine::fillCatCombobox() {
   comboCategory->addItem(full_cat_names["all"], QVariant("all"));
   QStringList supported_cat = supported_engines->supportedCategories();
   foreach(QString cat, supported_cat) {
-    qDebug("Supported category: %s", cat.toLocal8Bit().data());
+    qDebug("Supported category: %s", qPrintable(cat));
     comboCategory->addItem(full_cat_names[cat], QVariant(cat));
   }
 }
@@ -118,7 +119,7 @@ SearchEngine::~SearchEngine(){
     downloader->waitForFinished();
     delete downloader;
   }
-#ifndef QT_4_5
+#if QT_VERSION < 0x040500
   delete closeTab_button;
 #endif
   delete searchTimeout;
@@ -199,6 +200,11 @@ void SearchEngine::saveSearchHistory() {
   settings.setValue("Search/searchHistory",searchHistory.stringList());
 }
 
+void SearchEngine::searchTextEdited(QString) {
+  // Enable search button
+  search_button->setText(tr("Search"));
+}
+
 // Function called when we click on search button
 void SearchEngine::on_search_button_clicked(){
   if(searchProcess->state() != QProcess::NotRunning){
@@ -207,8 +213,10 @@ void SearchEngine::on_search_button_clicked(){
     if(searchTimeout->isActive()) {
       searchTimeout->stop();
     }
-    search_button->setText("Search");
-    return;
+    if(search_button->text() != tr("Search")) {
+      search_button->setText(tr("Search"));
+      return;
+    }
   }
   searchProcess->waitForFinished();
   // Reload environment variables (proxy)
@@ -226,7 +234,7 @@ void SearchEngine::on_search_button_clicked(){
   all_tab.append(currentSearchTab);
   tabWidget->addTab(currentSearchTab, pattern);
   tabWidget->setCurrentWidget(currentSearchTab);
-#ifndef QT_4_5
+#if QT_VERSION < 0x040500
   closeTab_button->setEnabled(true);
 #endif
   // if the pattern is not in the pattern
@@ -246,7 +254,7 @@ void SearchEngine::on_search_button_clicked(){
   search_stopped = false;
   params << misc::searchEngineLocation()+QDir::separator()+"nova2.py";
   params << supported_engines->enginesEnabled().join(",");
-  qDebug("Search with category: %s", selectedCategory().toLocal8Bit().data());
+  qDebug("Search with category: %s", qPrintable(selectedCategory()));
   params << selectedCategory();
   params << pattern.split(" ");
   // Update SearchEngine widgets
@@ -293,11 +301,11 @@ void SearchEngine::saveResultsColumnsWidth() {
         new_width_list << width_list.at(i);
       } else if(treeview->columnWidth(i)>=1) {
         // usual case, save the current width
-        new_width_list << QString::fromUtf8(misc::toString(treeview->columnWidth(i)).c_str());
+        new_width_list << QString::number(treeview->columnWidth(i));
       } else {
         // default width
         treeview->resizeColumnToContents(i);
-        new_width_list << QString::fromUtf8(misc::toString(treeview->columnWidth(i)).c_str());
+        new_width_list << QString::number(treeview->columnWidth(i));
       }
     }
     settings.setValue("SearchResultsColsWidth", new_width_list.join(" "));
@@ -345,7 +353,7 @@ void SearchEngine::readSearchOutput(){
     appendSearchResult(QString::fromUtf8(line));
   }
   if(currentSearchTab)
-    currentSearchTab->getCurrentLabel()->setText(tr("Results")+QString::fromUtf8(" <i>(")+misc::toQString(nb_search_results)+QString::fromUtf8(")</i>:"));
+    currentSearchTab->getCurrentLabel()->setText(tr("Results")+QString::fromUtf8(" <i>(")+QString::number(nb_search_results)+QString::fromUtf8(")</i>:"));
 }
 
 void SearchEngine::downloadFinished(int exitcode, QProcess::ExitStatus) {
@@ -424,14 +432,15 @@ void SearchEngine::updateNova() {
     QString shipped_file = shipped_subDir.path()+"/"+file;
     // Copy python classes
     if(file.endsWith(".py")) {
-      if(getPluginVersion(shipped_file) > getPluginVersion(destDir+file) ) {
-        qDebug("shippped %s is more recent then local plugin, updating", file.toLocal8Bit().data());
-        if(QFile::exists(destDir+file)) {
-          qDebug("Removing old %s", (destDir+file).toLocal8Bit().data());
-          QFile::remove(destDir+file);
+      const QString &dest_file = destDir+file;
+      if(getPluginVersion(shipped_file) > getPluginVersion(dest_file) ) {
+        qDebug("shippped %s is more recent then local plugin, updating", qPrintable(file));
+        if(QFile::exists(dest_file)) {
+          qDebug("Removing old %s", qPrintable(dest_file));
+          QFile::remove(dest_file);
         }
-        qDebug("%s copied to %s", shipped_file.toLocal8Bit().data(), (destDir+file).toLocal8Bit().data());
-        QFile::copy(shipped_file, destDir+file);
+        qDebug("%s copied to %s", qPrintable(shipped_file), qPrintable(dest_file));
+        QFile::copy(shipped_file, dest_file);
       }
     } else {
       // Copy icons
@@ -470,7 +479,7 @@ void SearchEngine::searchFinished(int exitcode,QProcess::ExitStatus){
     }
   }
   if(currentSearchTab)
-    currentSearchTab->getCurrentLabel()->setText(tr("Results", "i.e: Search results")+QString::fromUtf8(" <i>(")+misc::toQString(nb_search_results)+QString::fromUtf8(")</i>:"));
+    currentSearchTab->getCurrentLabel()->setText(tr("Results", "i.e: Search results")+QString::fromUtf8(" <i>(")+QString::number(nb_search_results)+QString::fromUtf8(")</i>:"));
   search_button->setText("Search");
 }
 
@@ -523,7 +532,7 @@ void SearchEngine::appendSearchResult(QString line){
   download_button->setEnabled(true);
 }
 
-#ifdef QT_4_5
+#if QT_VERSION >= 0x040500
 void SearchEngine::closeTab(int index) {
   if(index == tabWidget->indexOf(currentSearchTab)) {
     qDebug("Deleted current search Tab");

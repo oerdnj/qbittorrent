@@ -144,6 +144,62 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>AdvancedSettings</name>
+    <message>
+        <source>Property</source>
+        <translation>Властивість</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>Значення</translation>
+    </message>
+    <message>
+        <source>Disk write cache size</source>
+        <translation>Розмір дискового кешу</translation>
+    </message>
+    <message>
+        <source> MiB</source>
+        <translation> МіБ</translation>
+    </message>
+    <message>
+        <source>Outgoing ports (Min) [0: Disabled]</source>
+        <translation>Вихідні порти (мін.) [0: Вимкнено]</translation>
+    </message>
+    <message>
+        <source>Outgoing ports (Max) [0: Disabled]</source>
+        <translation>Вихідні порти (макс.) [0: Вимкнено]</translation>
+    </message>
+    <message>
+        <source>Ignore transfer limits on local network</source>
+        <translation>Ігнорувати ліміти швидкості для локальної мережі</translation>
+    </message>
+    <message>
+        <source>Include TCP/IP overhead in transfer limits</source>
+        <translation>Включати заголовки протоколу в ліміти швидкості</translation>
+    </message>
+    <message>
+        <source>Recheck torrents on completion</source>
+        <translation>Перепровіряти торренти після завантаження</translation>
+    </message>
+    <message>
+        <source>Transfer list refresh interval</source>
+        <translation>Інтервал оновлення списку завантажень</translation>
+    </message>
+    <message>
+        <source> ms</source>
+        <comment> milliseconds</comment>
+        <translation>мс</translation>
+    </message>
+    <message>
+        <source>Resolve peer countries (GeoIP)</source>
+        <translation>Дізнаватись країну сервера (GeoIP)</translation>
+    </message>
+    <message>
+        <source>Resolve peer host names</source>
+        <translation>Дізнаватись адресу сервера</translation>
+    </message>
+</context>
+<context>
     <name>BandwidthAllocationDialog</name>
     <message>
         <source>Upload limit:</source>
@@ -331,6 +387,18 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Reason: %1</source>
         <translation>Причина: %1</translation>
+    </message>
+    <message>
+        <source>Note: new trackers were added to the existing torrent.</source>
+        <translation>Нові трекери було додано до існуючого торрента.</translation>
+    </message>
+    <message>
+        <source>Note: new URL seeds were added to the existing torrent.</source>
+        <translation>Нові URL-сіди було додано до існуючого торрента.</translation>
+    </message>
+    <message>
+        <source>An I/O error occured, &apos;%1&apos; paused.</source>
+        <translation>Сталася помилка вводу/виводу, &apos;%1&apos; зупинено.</translation>
     </message>
 </context>
 <context>
@@ -2054,7 +2122,7 @@ Please close the other one first.</source>
     <message>
         <source>An error occured (full disk?), &apos;%1&apos; paused.</source>
         <comment>e.g: An error occured (full disk?), &apos;xxx.avi&apos; paused.</comment>
-        <translation>Сталася помилка (заповнено диск?), &apos;%1&apos; призупинено.</translation>
+        <translation type="obsolete">Сталася помилка (заповнено диск?), &apos;%1&apos; призупинено.</translation>
     </message>
     <message>
         <source>Search</source>
@@ -2265,6 +2333,14 @@ Are you sure you want to quit qBittorrent?</source>
         <comment>%1 is qBittorrent version</comment>
         <translation>qBittorrent %1 (Зав.: %2/с, Вив.: %3/с)</translation>
     </message>
+    <message>
+        <source>Use normal speed limits</source>
+        <translation>Використовувати звичайні ліміти швидкості</translation>
+    </message>
+    <message>
+        <source>Use alternative speed limits</source>
+        <translation>Використовувати альтернативні ліміти швидкості</translation>
+    </message>
 </context>
 <context>
     <name>HeadlessLoader</name>
@@ -2294,6 +2370,16 @@ Are you sure you want to quit qBittorrent?</source>
     <message>
         <source>Your IP address has been banned after too many failed authentication attempts.</source>
         <translation>Вашу IP-адресу було заблоковано, через те, що було здійснено забагато спроб автентифікації.</translation>
+    </message>
+    <message>
+        <source>D: %1/s - T: %2</source>
+        <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
+        <translation>Зав.: %1/с (%2)</translation>
+    </message>
+    <message>
+        <source>U: %1/s - T: %2</source>
+        <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
+        <translation>Вив.: %1/с (%2)</translation>
     </message>
 </context>
 <context>
@@ -2408,7 +2494,7 @@ You probably knew this, so we won&apos;t tell you again.</source>
     </message>
     <message>
         <source>Press any key to accept and continue...</source>
-        <translation>Натисніть будь-яку клавішу, щоб погодитись і продовжити...</translation>
+        <translation type="obsolete">Натисніть будь-яку клавішу, щоб погодитись і продовжити...</translation>
     </message>
     <message>
         <source>Legal notice</source>
@@ -2426,7 +2512,13 @@ You probably knew this, so we won&apos;t tell you again.</source>
         <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.
 
 No further notices will be issued.</source>
-        <translation type="unfinished"></translation>
+        <translation>qBittorrent - це програма для роздачі файлів. Коли ви запускаєте торрент, його дані будуть доступні іншим через вивантаження. Всі дані, які ви роздаєте, на вашій відповідальності
+
+Ця замітка більше не з&apos;являтиметься.</translation>
+    </message>
+    <message>
+        <source>Press %1 key to accept and continue...</source>
+        <translation>Натисніть %1, щоб погодитись і продовжити...</translation>
     </message>
 </context>
 <context>
@@ -2695,6 +2787,10 @@ No further notices will be issued.</source>
         <source>Visit Website</source>
         <translation>Відвідати вебсайт</translation>
     </message>
+    <message>
+        <source>Use alternative speed limits</source>
+        <translation>Використовувати альтернативні обмеження швидкості</translation>
+    </message>
 </context>
 <context>
     <name>PeerAdditionDlg</name>
@@ -2716,7 +2812,7 @@ No further notices will be issued.</source>
     <message>
         <source>/s</source>
         <comment>/second (i.e. per second)</comment>
-        <translation type="unfinished">/с</translation>
+        <translation>/с</translation>
     </message>
 </context>
 <context>
@@ -2868,23 +2964,23 @@ No further notices will be issued.</source>
     </message>
     <message>
         <source>System default</source>
-        <translation>Стандартний</translation>
+        <translation type="obsolete">Стандартний</translation>
     </message>
     <message>
         <source>Plastique style (KDE like)</source>
-        <translation>Plastique (як в KDE)</translation>
+        <translation type="obsolete">Plastique (як в KDE)</translation>
     </message>
     <message>
         <source>Cleanlooks style (Gnome like)</source>
-        <translation>Cleanlooks (як в GNOME)</translation>
+        <translation type="obsolete">Cleanlooks (як в GNOME)</translation>
     </message>
     <message>
         <source>Motif style (Unix like)</source>
-        <translation>Motif (як в Unix)</translation>
+        <translation type="obsolete">Motif (як в Unix)</translation>
     </message>
     <message>
         <source>CDE style (Common Desktop Environment like)</source>
-        <translation>CDE (як в Common Desktop Environment)</translation>
+        <translation type="obsolete">CDE (як в Common Desktop Environment)</translation>
     </message>
     <message>
         <source>Ask for confirmation on exit when download list is not empty</source>
@@ -2908,11 +3004,11 @@ No further notices will be issued.</source>
     </message>
     <message>
         <source>Refresh interval:</source>
-        <translation>Оновлювати кожні:</translation>
+        <translation type="obsolete">Оновлювати кожні:</translation>
     </message>
     <message>
         <source>ms</source>
-        <translation>мс</translation>
+        <translation type="obsolete">мс</translation>
     </message>
     <message>
         <source>Use alternating row colors</source>
@@ -3007,7 +3103,7 @@ QGroupBox {
     </message>
     <message>
         <source>Automatically load .torrent files from:</source>
-        <translation>Автоматично завантажувати .torrent файли з:</translation>
+        <translation type="obsolete">Автоматично завантажувати .torrent файли з:</translation>
     </message>
     <message>
         <source>Append .!qB extension to incomplete files</source>
@@ -3019,11 +3115,11 @@ QGroupBox {
     </message>
     <message>
         <source>Disk cache:</source>
-        <translation>Дисковий кеш:</translation>
+        <translation type="obsolete">Дисковий кеш:</translation>
     </message>
     <message>
         <source>MiB (advanced)</source>
-        <translation>МіБ (розширено)</translation>
+        <translation type="obsolete">МіБ (розширено)</translation>
     </message>
     <message>
         <source>Torrent queueing</source>
@@ -3096,7 +3192,7 @@ QGroupBox {
     </message>
     <message>
         <source>Global bandwidth limiting</source>
-        <translation>Глобальні обмеження швидкості</translation>
+        <translation type="obsolete">Глобальні обмеження швидкості</translation>
     </message>
     <message>
         <source>Upload:</source>
@@ -3112,15 +3208,15 @@ QGroupBox {
     </message>
     <message>
         <source>Peer connections</source>
-        <translation>Під&apos;єднання пірів</translation>
+        <translation type="obsolete">Під&apos;єднання пірів</translation>
     </message>
     <message>
         <source>Resolve peer countries</source>
-        <translation>Дізнаватись країну</translation>
+        <translation type="obsolete">Дізнаватись країну</translation>
     </message>
     <message>
         <source>Resolve peer host names</source>
-        <translation>Дізнаватись адресу сервера</translation>
+        <translation type="obsolete">Дізнаватись адресу сервера</translation>
     </message>
     <message>
         <source>Bittorrent features</source>
@@ -3299,6 +3395,63 @@ QGroupBox {
         <source>KTorrent</source>
         <translation>KTorrent</translation>
     </message>
+    <message>
+        <source>Speed</source>
+        <translation>Швидкість</translation>
+    </message>
+    <message>
+        <source>Advanced</source>
+        <translation>Додатково</translation>
+    </message>
+    <message>
+        <source>Copy .torrent files to:</source>
+        <translation>Копіювати torrent-файли до:</translation>
+    </message>
+    <message>
+        <source>Global speed limits</source>
+        <translation>Глобальні обмеження швидкості</translation>
+    </message>
+    <message>
+        <source>Alternative global speed limits</source>
+        <translation>Альтернативні глобальні обмеження швидкості</translation>
+    </message>
+    <message>
+        <source>Scheduled times:</source>
+        <translation>Розклад:</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <extracomment>time1 to time2</extracomment>
+        <translation>-</translation>
+    </message>
+    <message>
+        <source>On days:</source>
+        <translation>Дні:</translation>
+    </message>
+    <message>
+        <source>Every day</source>
+        <translation>Щодня</translation>
+    </message>
+    <message>
+        <source>Week days</source>
+        <translation>Дні тижня</translation>
+    </message>
+    <message>
+        <source>Week ends</source>
+        <translation>Вихідні</translation>
+    </message>
+    <message>
+        <source>Check Folders for .torrent Files:</source>
+        <translation>Перевіряти папки на torrent-файли:</translation>
+    </message>
+    <message>
+        <source>Add folder ...</source>
+        <translation>Додати папку...</translation>
+    </message>
+    <message>
+        <source>Remove folder</source>
+        <translation>Вилучити папку</translation>
+    </message>
 </context>
 <context>
     <name>PropListDelegate</name>
@@ -3312,22 +3465,26 @@ QGroupBox {
     </message>
     <message>
         <source>Ignored</source>
-        <translation type="unfinished">Ігнорувати</translation>
+        <translation type="obsolete">Ігнорувати</translation>
     </message>
     <message>
         <source>Normal</source>
         <comment>Normal (priority)</comment>
-        <translation type="unfinished">Нормальний</translation>
+        <translation>Нормальний</translation>
     </message>
     <message>
         <source>High</source>
         <comment>High (priority)</comment>
-        <translation type="unfinished">Високий</translation>
+        <translation>Високий</translation>
     </message>
     <message>
         <source>Maximum</source>
         <comment>Maximum (priority)</comment>
-        <translation type="unfinished">Максимальний</translation>
+        <translation>Максимальний</translation>
+    </message>
+    <message>
+        <source>Not downloaded</source>
+        <translation>Не завантажується</translation>
     </message>
 </context>
 <context>
@@ -3414,7 +3571,7 @@ QGroupBox {
     </message>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">Пріоритет</translation>
+        <translation>Пріоритет</translation>
     </message>
     <message>
         <source>Unknown</source>
@@ -3503,11 +3660,11 @@ QGroupBox {
     </message>
     <message>
         <source>Maximum</source>
-        <translation type="obsolete">Максимальний</translation>
+        <translation>Максимальний</translation>
     </message>
     <message>
         <source>High</source>
-        <translation type="obsolete">Високий</translation>
+        <translation>Високий</translation>
     </message>
     <message>
         <source>this session</source>
@@ -3571,6 +3728,10 @@ QGroupBox {
     <message>
         <source>This folder does not exist yet.</source>
         <translation>Ця папка ще не існує.</translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation>Нормальний</translation>
     </message>
 </context>
 <context>
@@ -3843,6 +4004,17 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>ScanFoldersModel</name>
+    <message>
+        <source>Watched Folder</source>
+        <translation>Папка спостерігання</translation>
+    </message>
+    <message>
+        <source>Download here</source>
+        <translation>Завантажувати сюди</translation>
+    </message>
+</context>
+<context>
     <name>SearchCategories</name>
     <message>
         <source>All categories</source>
@@ -4026,6 +4198,10 @@ Changelog:
         <source>Unknown</source>
         <translation>Невідомо</translation>
     </message>
+    <message>
+        <source>Search</source>
+        <translation>Пошук</translation>
+    </message>
 </context>
 <context>
     <name>SearchTab</name>
@@ -4115,6 +4291,14 @@ Changelog:
         <source>Offline. This usually means that qBittorrent failed to listen on the selected port for incoming connections.</source>
         <translation>Не в мережі. Зазвичай це означає, що qBittorrent не зміг приєднатись до вибраного порту і очікувати вхідні з&apos;єднання.</translation>
     </message>
+    <message>
+        <source>Click to disable alternative speed limits</source>
+        <translation>Клацніть, щоб вимкнути альтернативні обмеження швидкості</translation>
+    </message>
+    <message>
+        <source>Click to enable alternative speed limits</source>
+        <translation>Клацніть, щоб увімкнути альтернативні обмеження швидкості</translation>
+    </message>
 </context>
 <context>
     <name>TorrentFilesModel</name>
@@ -4132,7 +4316,7 @@ Changelog:
     </message>
     <message>
         <source>Priority</source>
-        <translation type="unfinished">Пріоритет</translation>
+        <translation>Пріоритет</translation>
     </message>
 </context>
 <context>
@@ -4271,6 +4455,11 @@ Changelog:
         <source>/s</source>
         <comment>/second (.i.e per second)</comment>
         <translation>/с</translation>
+    </message>
+    <message>
+        <source>KiB/s</source>
+        <comment>KiB/second (.i.e per second)</comment>
+        <translation>КіБ/с</translation>
     </message>
 </context>
 <context>
@@ -4517,6 +4706,26 @@ Changelog:
         <source>Please don&apos;t use any special characters in the label name.</source>
         <translation>Будь ласка, не використовуйте спеціальних символів в назві мітки.</translation>
     </message>
+    <message>
+        <source>Added On</source>
+        <comment>Torrent was added to transfer list on 01/01/2010 08:00</comment>
+        <translation>Додано</translation>
+    </message>
+    <message>
+        <source>Completed On</source>
+        <comment>Torrent was completed on 01/01/2010 08:00</comment>
+        <translation>Завершено</translation>
+    </message>
+    <message>
+        <source>Down Limit</source>
+        <comment>i.e: Download limit</comment>
+        <translation>Ліміт завантаження</translation>
+    </message>
+    <message>
+        <source>Up Limit</source>
+        <comment>i.e: Upload limit</comment>
+        <translation>Ліміт вивантаження</translation>
+    </message>
 </context>
 <context>
     <name>Ui</name>
@@ -4698,15 +4907,15 @@ Changelog:
     </message>
     <message>
         <source>Normal</source>
-        <translation type="obsolete">Нормально</translation>
+        <translation>Нормальний</translation>
     </message>
     <message>
         <source>High</source>
-        <translation type="obsolete">Високий</translation>
+        <translation>Високий</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation type="obsolete">Максимальний</translation>
+        <translation>Максимальний</translation>
     </message>
     <message>
         <source>Collapse all</source>
@@ -5718,7 +5927,7 @@ However, those plugins were disabled.</source>
     </message>
     <message>
         <source>Choose scan directory</source>
-        <translation>Виберіть директорію для сканування</translation>
+        <translation type="obsolete">Виберіть директорію для сканування</translation>
     </message>
     <message>
         <source>Choose an ipfilter.dat file</source>
@@ -5744,6 +5953,34 @@ However, those plugins were disabled.</source>
     <message>
         <source>Filters</source>
         <translation>Фільтри</translation>
+    </message>
+    <message>
+        <source>Choose export directory</source>
+        <translation>Виберіть папку для експорту</translation>
+    </message>
+    <message>
+        <source>Add directory to scan</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Folder is already being watched.</source>
+        <translation>За папкою вже ведеться стеження.</translation>
+    </message>
+    <message>
+        <source>Folder does not exist.</source>
+        <translation>Папка не існує.</translation>
+    </message>
+    <message>
+        <source>Folder is not readable.</source>
+        <translation>Папку неможливо прочитати.</translation>
+    </message>
+    <message>
+        <source>Failure</source>
+        <translation>Провал</translation>
+    </message>
+    <message>
+        <source>Failed to add Scan Folder &apos;%1&apos;: %2</source>
+        <translation>Не вдалося просканувати папку &apos;%1&apos;: %2</translation>
     </message>
 </context>
 <context>
@@ -6365,7 +6602,7 @@ However, those plugins were disabled.</source>
     </message>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">Пріоритет</translation>
+        <translation>Пріоритет</translation>
     </message>
     <message>
         <source>Unknown</source>

@@ -82,46 +82,46 @@ class misc : public QObject{
   Q_OBJECT
 
 public:
-  // Convert any type of variable to C++ String
-  // convert=true will convert -1 to 0
-  template <class T> static std::string toString(const T& x, bool convert=false) {
-    std::ostringstream o;
-    if(!(o<<x)) {
-      throw std::runtime_error("::toString()");
-    }
-    if(o.str() == "-1" && convert)
-      return "0";
-    return o.str();
+  static inline QString toQString(std::string str) {
+    return QString::fromLocal8Bit(str.c_str());
   }
 
-  template <class T> static QString toQString(const T& x, bool convert=false) {
-    std::ostringstream o;
-    if(!(o<<x)) {
-      throw std::runtime_error("::toString()");
-    }
-    if(o.str() == "-1" && convert)
-      return QString::fromUtf8("0");
-    return QString::fromUtf8(o.str().c_str());
+  static inline QString toQString(char* str) {
+    return QString::fromLocal8Bit(str);
   }
 
-  template <class T> static QByteArray toQByteArray(const T& x, bool convert=false) {
+  static inline QString toQString(sha1_hash hash) {
     std::ostringstream o;
-    if(!(o<<x)) {
-      throw std::runtime_error("::toString()");
-    }
-    if(o.str() == "-1" && convert)
-      return "0";
-    return QByteArray(o.str().c_str());
+    o << hash;
+    return QString(o.str().c_str());
   }
 
-  // Convert C++ string to any type of variable
-  template <class T> static T fromString(const std::string& s) {
-    T x;
-    std::istringstream i(s);
-    if(!(i>>x)) {
-      throw std::runtime_error("::fromString()");
+  static inline sha1_hash QStringToSha1(const QString& s) {
+      std::istringstream i(s.toStdString());
+      sha1_hash x;
+      i>>x;
+      return x;
     }
-    return x;
+
+  static bool sameFiles(QString path1, QString path2) {
+    QFile f1(path1);
+    if(!f1.exists()) return false;
+    QFile f2(path2);
+    if(!f2.exists()) return false;
+    QByteArray content1, content2;
+    if(f1.open(QIODevice::ReadOnly)) {
+      content1 = f1.readAll();
+      f1.close();
+    } else {
+      return false;
+    }
+    if(f2.open(QIODevice::ReadOnly)) {
+      content1 = f2.readAll();
+      f2.close();
+    } else {
+      return false;
+    }
+    return content1 == content2;
   }
 
   static void copyDir(QString src_path, QString dst_path) {
@@ -133,22 +133,22 @@ public:
       if(!destDir.mkpath(destDir.absolutePath())) return;
     }
     // List source directory
-    QFileInfoList content = sourceDir.entryInfoList();
+    const QFileInfoList &content = sourceDir.entryInfoList();
     foreach(const QFileInfo& child, content) {
       if(child.fileName()[0] == '.') continue;
       if(child.isDir()) {
         copyDir(child.absoluteFilePath(), dst_path+QDir::separator()+QDir(child.absoluteFilePath()).dirName());
         continue;
       }
-      QString src_child_path = child.absoluteFilePath();
-      QString dest_child_path = destDir.absoluteFilePath(child.fileName());
+      const QString &src_child_path = child.absoluteFilePath();
+      const QString &dest_child_path = destDir.absoluteFilePath(child.fileName());
       // Copy the file from src to dest
       QFile::copy(src_child_path, dest_child_path);
       // Remove source file
       QFile::remove(src_child_path);
     }
     // Remove source folder
-    QString dir_name = sourceDir.dirName();
+    const QString &dir_name = sourceDir.dirName();
     if(sourceDir.cdUp()) {
       sourceDir.rmdir(dir_name);
     }
@@ -158,15 +158,15 @@ public:
   // For backward compatibility
   // Remove after some releases
   static void moveToXDGFolders() {
-    QString old_qBtPath = QDir::homePath()+QDir::separator()+QString::fromUtf8(".qbittorrent") + QDir::separator();
+    const QString &old_qBtPath = QDir::homePath()+QDir::separator()+QString::fromUtf8(".qbittorrent") + QDir::separator();
     if(QDir(old_qBtPath).exists()) {
       // Copy BT_backup folder
-      QString old_BTBackupPath = old_qBtPath + "BT_backup";
+      const QString &old_BTBackupPath = old_qBtPath + "BT_backup";
       if(QDir(old_BTBackupPath).exists()) {
         copyDir(old_BTBackupPath, BTBackupLocation());
       }
       // Copy search engine folder
-      QString old_searchPath = old_qBtPath + "search_engine";
+      const QString &old_searchPath = old_qBtPath + "search_engine";
       if(QDir(old_searchPath).exists()) {
         copyDir(old_searchPath, searchEngineLocation());
       }
@@ -185,22 +185,24 @@ public:
   }
 
   static QString toValidFileSystemName(QString filename) {
-    qDebug("toValidFSName: %s", filename.toLocal8Bit().data());
+    qDebug("toValidFSName: %s", qPrintable(filename));
     filename = filename.replace("\\", "/").trimmed();
-    QRegExp regex("[/:?\"*<>|]");
+    const QRegExp regex("[/:?\"*<>|]");
     filename = filename.replace(regex, " ").trimmed();
-    qDebug("toValidFSName, result: %s", filename.toLocal8Bit().data());
+    qDebug("toValidFSName, result: %s", qPrintable(filename));
     return filename;
   }
 
   static bool isValidFileSystemName(QString filename) {
     filename = filename.replace("\\", "/").trimmed();
     if(filename.isEmpty()) return false;
-    QRegExp regex("[/:?\"*<>|]");
+    const QRegExp regex("[/:?\"*<>|]");
     if(filename.contains(regex))
       return false;
     return true;
   }
+
+/* Ported from Qt4 to drop dependency on QtGui */
 
 #ifdef Q_WS_MAC
   static QString getFullPath(const FSRef &ref)
@@ -266,11 +268,13 @@ public:
 #endif
   }
 
+  /* End of Qt4 code */
+
 #ifndef DISABLE_GUI
   // Get screen center
   static QPoint screenCenter(QWidget *win) {
     int scrn = 0;
-    QWidget *w = win->window();
+    const QWidget *w = win->window();
 
     if(w)
       scrn = QApplication::desktop()->screenNumber(w);
@@ -285,7 +289,7 @@ public:
 #endif
 
   static QString searchEngineLocation() {
-    QString location = QDir::cleanPath(QDesktopServicesDataLocation()
+    const QString &location = QDir::cleanPath(QDesktopServicesDataLocation()
                                        + QDir::separator() + "search_engine");
     QDir locationDir(location);
     if(!locationDir.exists())
@@ -294,7 +298,7 @@ public:
   }
 
   static QString BTBackupLocation() {
-    QString location = QDir::cleanPath(QDesktopServicesDataLocation()
+    const QString &location = QDir::cleanPath(QDesktopServicesDataLocation()
                                        + QDir::separator() + "BT_backup");
     QDir locationDir(location);
     if(!locationDir.exists())
@@ -303,7 +307,7 @@ public:
   }
 
   static QString cacheLocation() {
-    QString location = QDir::cleanPath(QDesktopServicesCacheLocation());
+    const QString &location = QDir::cleanPath(QDesktopServicesCacheLocation());
     QDir locationDir(location);
     if(!locationDir.exists())
       locationDir.mkpath(locationDir.absolutePath());
@@ -320,7 +324,8 @@ public:
 #ifndef Q_WS_WIN
     unsigned long long available;
     struct statfs stats;
-    int ret = statfs ((dir_path.path()+"/.").toLocal8Bit().data(), &stats) ;
+    const QString &statfs_path = dir_path.path()+"/.";
+    const int ret = statfs (qPrintable(statfs_path), &stats) ;
     if(ret == 0) {
       available = ((unsigned long long)stats.f_bavail) *
                   ((unsigned long long)stats.f_bsize) ;
@@ -366,7 +371,7 @@ public:
     char i = 0;
     while(val >= 1024. && i++<6)
       val /= 1024.;
-    return QString(QByteArray::number(val, 'f', 1)) + " " + units[(int)i];
+    return QString::number(val, 'f', 1) + " " + units[(int)i];
   }
 
   static bool isPreviewable(QString extension){
@@ -414,59 +419,13 @@ public:
     return false;
   }
 
-  // Insertion sort, used instead of bubble sort because it is
-  // approx. 5 times faster.
-  template <class T> static void insertSort(QList<QPair<int, T> > &list, const QPair<int, T>& value, Qt::SortOrder sortOrder) {
-    int i = 0;
-    if(sortOrder == Qt::AscendingOrder) {
-      while(i < list.size() and value.second > list.at(i).second) {
-        ++i;
-      }
-    }else{
-      while(i < list.size() and value.second < list.at(i).second) {
-        ++i;
-      }
-    }
-    list.insert(i, value);
-  }
-
-  template <class T> static void insertSort2(QList<QPair<int, T> > &list, const QPair<int, T>& value, Qt::SortOrder sortOrder=Qt::AscendingOrder) {
-    int i = 0;
-    if(sortOrder == Qt::AscendingOrder) {
-      while(i < list.size() and value.first > list.at(i).first) {
-        ++i;
-      }
-    }else{
-      while(i < list.size() and value.first < list.at(i).first) {
-        ++i;
-      }
-    }
-    list.insert(i, value);
-  }
-
-  // Can't use template class for QString because >,< use unicode code for sorting
-  // which is not what a human would expect when sorting strings.
-  static void insertSortString(QList<QPair<int, QString> > &list, QPair<int, QString> value, Qt::SortOrder sortOrder) {
-    int i = 0;
-    if(sortOrder == Qt::AscendingOrder) {
-      while(i < list.size() and QString::localeAwareCompare(value.second, list.at(i).second) > 0) {
-        ++i;
-      }
-    }else{
-      while(i < list.size() and QString::localeAwareCompare(value.second, list.at(i).second) < 0) {
-        ++i;
-      }
-    }
-    list.insert(i, value);
-  }
-
   static bool removeEmptyTree(QString path) {
     QDir dir(path);
-    foreach(QString child, dir.entryList(QDir::AllDirs)) {
+    foreach(const QString &child, dir.entryList(QDir::AllDirs)) {
       if(child == "." || child == "..") continue;
       return removeEmptyTree(dir.absoluteFilePath(child));
     }
-    QString dir_name = dir.dirName();
+    const QString &dir_name = dir.dirName();
     if(dir.cdUp()) {
       return dir.rmdir(dir_name);
     }
@@ -476,9 +435,9 @@ public:
   static QString magnetUriToName(QString magnet_uri) {
     QString name = "";
     QRegExp regHex("dn=([^&]+)");
-    int pos = regHex.indexIn(magnet_uri);
+    const int pos = regHex.indexIn(magnet_uri);
     if(pos > -1) {
-      QString found = regHex.cap(1);
+      const QString &found = regHex.cap(1);
       // URL decode
       name = QUrl::fromPercentEncoding(found.toLocal8Bit()).replace("+", " ");
     }
@@ -491,10 +450,10 @@ public:
     // Hex
     int pos = regHex.indexIn(magnet_uri);
     if(pos > -1) {
-      QString found = regHex.cap(1);
+      const QString &found = regHex.cap(1);
       if(found.length() == 40) {
-        sha1_hash sha1(QString(QByteArray::fromHex(regHex.cap(1).toLocal8Bit())).toStdString());
-        qDebug("magnetUriToHash (Hex): hash: %s", misc::toString(sha1).c_str());
+        const sha1_hash sha1(QString(QByteArray::fromHex(regHex.cap(1).toLocal8Bit())).toStdString());
+        qDebug("magnetUriToHash (Hex): hash: %s", qPrintable(misc::toQString(sha1)));
         return misc::toQString(sha1);
       }
     }
@@ -502,17 +461,17 @@ public:
     QRegExp regBase32("urn:btih:([A-Za-z2-7=]+)");
     pos = regBase32.indexIn(magnet_uri);
     if(pos > -1) {
-      QString found = regBase32.cap(1);
+      const QString &found = regBase32.cap(1);
       if(found.length() > 20 && (found.length()*5)%40 == 0) {
-        sha1_hash sha1(base32decode(regBase32.cap(1).toStdString()));
+        const sha1_hash sha1(base32decode(regBase32.cap(1).toStdString()));
         hash = misc::toQString(sha1);
       }
     }
-    qDebug("magnetUriToHash (base32): hash: %s", hash.toLocal8Bit().data());
+    qDebug("magnetUriToHash (base32): hash: %s", qPrintable(hash));
     return hash;
   }
 
-  static QString boostTimeToQString(boost::optional<boost::posix_time::ptime> boostDate) {
+  static QString boostTimeToQString(const boost::optional<boost::posix_time::ptime> boostDate) {
     if(!boostDate) return tr("Unknown");
     struct std::tm tm = boost::posix_time::to_tm(*boostDate);
     return QDateTime::fromTime_t(mktime(&tm)).toString(Qt::DefaultLocaleLongDate);
@@ -546,17 +505,17 @@ public:
     }
     int minutes = seconds / 60;
     if(minutes < 60) {
-      return tr("%1m","e.g: 10minutes").arg(QString::QString::fromUtf8(misc::toString(minutes).c_str()));
+      return tr("%1m","e.g: 10minutes").arg(QString::number(minutes));
     }
     int hours = minutes / 60;
     minutes = minutes - hours*60;
     if(hours < 24) {
-      return tr("%1h%2m", "e.g: 3hours 5minutes").arg(QString::fromUtf8(misc::toString(hours).c_str())).arg(QString::fromUtf8(misc::toString(minutes).c_str()));
+      return tr("%1h%2m", "e.g: 3hours 5minutes").arg(QString::number(hours)).arg(QString::number(minutes));
     }
     int days = hours / 24;
     hours = hours - days * 24;
     if(days < 100) {
-      return tr("%1d%2h%3m", "e.g: 2days 10hours 2minutes").arg(QString::fromUtf8(misc::toString(days).c_str())).arg(QString::fromUtf8(misc::toString(hours).c_str())).arg(QString::fromUtf8(misc::toString(minutes).c_str()));
+      return tr("%1d%2h%3m", "e.g: 2days 10hours 2minutes").arg(QString::number(days)).arg(QString::number(hours)).arg(QString::number(minutes));
     }
     return QString::fromUtf8("∞");
   }

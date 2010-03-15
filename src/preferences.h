@@ -35,8 +35,10 @@
 #include <QCryptographicHash>
 #include <QPair>
 #include <QDir>
+#include <QTime>
 
 #define QBT_REALM "Web UI Access"
+enum scheduler_days { EVERY_DAY, WEEK_DAYS, WEEK_ENDS, MON, TUE, WED, THU, FRI, SAT, SUN };
 
 class Preferences {
 public:
@@ -51,9 +53,14 @@ public:
     settings.setValue(QString::fromUtf8("Preferences/General/Locale"), locale);
   }
 
-  static int getStyle() {
+  static QString getStyle() {
     QSettings settings("qBittorrent", "qBittorrent");
-    return settings.value(QString::fromUtf8("Preferences/General/Style"), 0).toInt();
+    return settings.value(QString::fromUtf8("Preferences/General/Style"), "").toString();
+  }
+
+  static void setStyle(QString style) {
+    QSettings settings("qBittorrent", "qBittorrent");
+    settings.setValue(QString::fromUtf8("Preferences/General/Style"), style);
   }
 
   static bool confirmOnExit() {
@@ -64,11 +71,6 @@ public:
   static bool speedInTitleBar() {
     QSettings settings("qBittorrent", "qBittorrent");
     return settings.value(QString::fromUtf8("Preferences/General/SpeedInTitleBar"), false).toBool();
-  }
-
-  static unsigned int getRefreshInterval() {
-    QSettings settings("qBittorrent", "qBittorrent");
-    return settings.value(QString::fromUtf8("Preferences/General/RefreshInterval"), 1500).toUInt();
   }
 
   static bool useAlternatingRowColors() {
@@ -119,11 +121,7 @@ public:
   // Downloads
   static QString getSavePath() {
     QSettings settings("qBittorrent", "qBittorrent");
-    QString home = QDir::homePath();
-    if(home[home.length()-1] != QDir::separator()){
-      home += QDir::separator();
-    }
-    return settings.value(QString::fromUtf8("Preferences/Downloads/SavePath"), home+"qBT_dir").toString();
+    return settings.value(QString::fromUtf8("Preferences/Downloads/SavePath"), QDir::home().absoluteFilePath("qBT_dir")).toString();
   }
 
   static void setSavePath(QString save_path) {
@@ -143,8 +141,8 @@ public:
 
   static QString getTempPath() {
     QSettings settings("qBittorrent", "qBittorrent");
-    QString home = QDir::homePath();
-    return settings.value(QString::fromUtf8("Preferences/Downloads/TempPath"), home+"qBT_dir"+QDir::separator()+"temp").toString();
+    QString temp = QDir::home().absoluteFilePath("qBT_dir")+QDir::separator()+"temp";
+    return settings.value(QString::fromUtf8("Preferences/Downloads/TempPath"), temp).toString();
   }
 
   static void setTempPath(QString path) {
@@ -179,11 +177,6 @@ public:
     return settings.setValue(QString::fromUtf8("Preferences/Downloads/PreAllocation"), enabled);
   }
 
-  static int diskCacheSize() {
-    QSettings settings("qBittorrent", "qBittorrent");
-    return settings.value(QString::fromUtf8("Preferences/Downloads/DiskCache"), 16).toInt();
-  }
-
   static bool useAdditionDialog() {
     QSettings settings("qBittorrent", "qBittorrent");
     return settings.value(QString::fromUtf8("Preferences/Downloads/AdditionDialog"), true).toBool();
@@ -194,22 +187,43 @@ public:
     return settings.value(QString::fromUtf8("Preferences/Downloads/StartInPause"), false).toBool();
   }
 
-  static bool isDirScanEnabled() {
+  static QStringList getScanDirs() {
     QSettings settings("qBittorrent", "qBittorrent");
-    return !settings.value(QString::fromUtf8("Preferences/Downloads/ScanDir"), QString()).toString().isEmpty();
+    return settings.value(QString::fromUtf8("Preferences/Downloads/ScanDirs"), QStringList()).toStringList();
   }
 
-  static QString getScanDir() {
+  // This must be called somewhere with data from the model
+  static void setScanDirs(const QStringList &dirs) {
     QSettings settings("qBittorrent", "qBittorrent");
-    return settings.value(QString::fromUtf8("Preferences/Downloads/ScanDir"), QString()).toString();
+    settings.setValue(QString::fromUtf8("Preferences/Downloads/ScanDirs"), dirs);
   }
 
-  static void setScanDir(QString path) {
+  static QVariantList getDownloadInScanDirs() {
+    QSettings settings("qBittorrent", "qBittorrent");
+    return settings.value(QString::fromUtf8("Preferences/Downloads/DownloadInScanDirs"), QVariantList()).toList();
+  }
+
+  static void setDownloadInScanDirs(const QVariantList &list) {
+    QSettings settings("qBittorrent", "qBittorrent");
+    settings.setValue(QString::fromUtf8("Preferences/Downloads/DownloadInScanDirs"), list);
+  }
+
+  static bool isTorrentExportEnabled() {
+    QSettings settings("qBittorrent", "qBittorrent");
+    return !settings.value(QString::fromUtf8("Preferences/Downloads/TorrentExport"), QString()).toString().isEmpty();
+  }
+
+  static QString getExportDir() {
+    QSettings settings("qBittorrent", "qBittorrent");
+    return settings.value(QString::fromUtf8("Preferences/Downloads/TorrentExport"), QString()).toString();
+  }
+
+  static void setExportDir(QString path) {
     path = path.trimmed();
     if(path.isEmpty())
       path = QString();
     QSettings settings("qBittorrent", "qBittorrent");
-    settings.setValue(QString::fromUtf8("Preferences/Downloads/ScanDir"), path);
+    settings.setValue(QString::fromUtf8("Preferences/Downloads/TorrentExport"), path);
   }
 
   static int getActionOnDblClOnTorrentDl() {
@@ -266,7 +280,7 @@ public:
 
   static int getGlobalUploadLimit() {
     QSettings settings("qBittorrent", "qBittorrent");
-    return settings.value(QString::fromUtf8("Preferences/Connection/GlobalUPLimit"), -1).toInt();
+    return settings.value(QString::fromUtf8("Preferences/Connection/GlobalUPLimit"), 50).toInt();
   }
 
   static void setGlobalUploadLimit(int limit) {
@@ -275,14 +289,76 @@ public:
     settings.setValue("Preferences/Connection/GlobalUPLimit", limit);
   }
 
-  static bool resolvePeerCountries() {
+  static int getAltGlobalDownloadLimit() {
     QSettings settings("qBittorrent", "qBittorrent");
-    return settings.value(QString::fromUtf8("Preferences/Connection/ResolvePeerCountries"), true).toBool();
+    return settings.value(QString::fromUtf8("Preferences/Connection/GlobalDLLimitAlt"), 10).toInt();
   }
 
-  static bool resolvePeerHostNames() {
+  static void setAltGlobalDownloadLimit(int limit) {
     QSettings settings("qBittorrent", "qBittorrent");
-    return settings.value(QString::fromUtf8("Preferences/Connection/ResolvePeerHostNames"), false).toBool();
+    if(limit <= 0) limit = -1;
+    settings.setValue("Preferences/Connection/GlobalDLLimitAlt", limit);
+  }
+
+  static int getAltGlobalUploadLimit() {
+    QSettings settings("qBittorrent", "qBittorrent");
+    return settings.value(QString::fromUtf8("Preferences/Connection/GlobalUPLimitAlt"), 10).toInt();
+  }
+
+  static void setAltGlobalUploadLimit(int limit) {
+    QSettings settings("qBittorrent", "qBittorrent");
+    if(limit <= 0) limit = -1;
+    settings.setValue("Preferences/Connection/GlobalUPLimitAlt", limit);
+  }
+
+  static bool isAltBandwidthEnabled() {
+    QSettings settings("qBittorrent", "qBittorrent");
+    return settings.value("Preferences/Connection/alt_speeds_on", false).toBool();
+  }
+
+  static void setAltBandwidthEnabled(bool enabled) {
+    QSettings settings("qBittorrent", "qBittorrent");
+    settings.setValue("Preferences/Connection/alt_speeds_on", enabled);
+  }
+
+  static void setSchedulerEnabled(bool enabled) {
+    QSettings settings("qBittorrent", "qBittorrent");
+    settings.setValue(QString::fromUtf8("Preferences/Scheduler/Enabled"), enabled);
+  }
+
+  static bool isSchedulerEnabled() {
+    QSettings settings("qBittorrent", "qBittorrent");
+    return settings.value(QString::fromUtf8("Preferences/Scheduler/Enabled"), false).toBool();
+  }
+
+  static QTime getSchedulerStartTime() {
+    QSettings settings("qBittorrent", "qBittorrent");
+    return settings.value(QString::fromUtf8("Preferences/Scheduler/start_time"), QTime(8,0)).toTime();
+  }
+
+  static void setSchedulerStartTime(QTime time) {
+    QSettings settings("qBittorrent", "qBittorrent");
+    settings.setValue(QString::fromUtf8("Preferences/Scheduler/start_time"), time);
+  }
+
+  static QTime getSchedulerEndTime() {
+    QSettings settings("qBittorrent", "qBittorrent");
+    return settings.value(QString::fromUtf8("Preferences/Scheduler/end_time"), QTime(20,0)).toTime();
+  }
+
+  static void setSchedulerEndTime(QTime time) {
+    QSettings settings("qBittorrent", "qBittorrent");
+    settings.setValue(QString::fromUtf8("Preferences/Scheduler/end_time"), time);
+  }
+
+  static scheduler_days getSchedulerDays() {
+    QSettings settings("qBittorrent", "qBittorrent");
+    return (scheduler_days)settings.value(QString::fromUtf8("Preferences/Scheduler/days"), EVERY_DAY).toInt();
+  }
+
+  static void setSchedulerDays(scheduler_days days) {
+    QSettings settings("qBittorrent", "qBittorrent");
+    settings.setValue(QString::fromUtf8("Preferences/Scheduler/days"), (int)days);
   }
 
   // Proxy options
@@ -737,6 +813,97 @@ public:
       pass_ha1 = md5.result().toHex();
     }
     return pass_ha1;
+  }
+
+  // Advanced settings
+  static uint diskCacheSize() {
+    QSettings settings("qBittorrent", "qBittorrent");
+    return settings.value(QString::fromUtf8("Preferences/Downloads/DiskCache"), 16).toUInt();
+  }
+
+  static void setDiskCacheSize(uint size) {
+    QSettings settings("qBittorrent", "qBittorrent");
+    settings.setValue(QString::fromUtf8("Preferences/Downloads/DiskCache"), size);
+  }
+
+  static uint outgoingPortsMin() {
+    QSettings settings("qBittorrent", "qBittorrent");
+    return settings.value(QString::fromUtf8("Preferences/Advanced/OutgoingPortsMin"), 0).toUInt();
+  }
+
+  static void setOutgoingPortsMin(uint val) {
+    QSettings settings("qBittorrent", "qBittorrent");
+    settings.setValue(QString::fromUtf8("Preferences/Advanced/OutgoingPortsMin"), val);
+  }
+
+  static uint outgoingPortsMax() {
+    QSettings settings("qBittorrent", "qBittorrent");
+    return settings.value(QString::fromUtf8("Preferences/Advanced/OutgoingPortsMax"), 0).toUInt();
+  }
+
+  static void setOutgoingPortsMax(uint val) {
+    QSettings settings("qBittorrent", "qBittorrent");
+    settings.setValue(QString::fromUtf8("Preferences/Advanced/OutgoingPortsMax"), val);
+  }
+
+  static bool ignoreLimitsOnLAN() {
+    QSettings settings("qBittorrent", "qBittorrent");
+    return settings.value(QString::fromUtf8("Preferences/Advanced/IgnoreLimitsLAN"), true).toBool();
+  }
+
+  static void ignoreLimitsOnLAN(bool ignore) {
+    QSettings settings("qBittorrent", "qBittorrent");
+    settings.setValue(QString::fromUtf8("Preferences/Advanced/IgnoreLimitsLAN"), ignore);
+  }
+
+  static bool includeOverheadInLimits() {
+    QSettings settings("qBittorrent", "qBittorrent");
+    return settings.value(QString::fromUtf8("Preferences/Advanced/IncludeOverhead"), false).toBool();
+  }
+
+  static void includeOverheadInLimits(bool include) {
+    QSettings settings("qBittorrent", "qBittorrent");
+    settings.setValue(QString::fromUtf8("Preferences/Advanced/IncludeOverhead"), include);
+  }
+
+  static bool recheckTorrentsOnCompletion() {
+    QSettings settings("qBittorrent", "qBittorrent");
+    return settings.value(QString::fromUtf8("Preferences/Advanced/RecheckOnCompletion"), false).toBool();
+  }
+
+  static void recheckTorrentsOnCompletion(bool recheck) {
+    QSettings settings("qBittorrent", "qBittorrent");
+    settings.setValue(QString::fromUtf8("Preferences/Advanced/RecheckOnCompletion"), recheck);
+  }
+
+  static unsigned int getRefreshInterval() {
+    QSettings settings("qBittorrent", "qBittorrent");
+    return settings.value(QString::fromUtf8("Preferences/General/RefreshInterval"), 1500).toUInt();
+  }
+
+  static void setRefreshInterval(uint interval) {
+    QSettings settings("qBittorrent", "qBittorrent");
+    settings.setValue(QString::fromUtf8("Preferences/General/RefreshInterval"), interval);
+  }
+
+  static bool resolvePeerCountries() {
+    QSettings settings("qBittorrent", "qBittorrent");
+    return settings.value(QString::fromUtf8("Preferences/Connection/ResolvePeerCountries"), true).toBool();
+  }
+
+  static void resolvePeerCountries(bool resolve) {
+    QSettings settings("qBittorrent", "qBittorrent");
+    settings.setValue(QString::fromUtf8("Preferences/Connection/ResolvePeerCountries"), resolve);
+  }
+
+  static bool resolvePeerHostNames() {
+    QSettings settings("qBittorrent", "qBittorrent");
+    return settings.value(QString::fromUtf8("Preferences/Connection/ResolvePeerHostNames"), false).toBool();
+  }
+
+  static void resolvePeerHostNames(bool resolve) {
+    QSettings settings("qBittorrent", "qBittorrent");
+    settings.setValue(QString::fromUtf8("Preferences/Connection/ResolvePeerHostNames"), resolve);
   }
 
 };

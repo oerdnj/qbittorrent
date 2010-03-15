@@ -41,11 +41,13 @@
 #include "downloadthread.h"
 #include "filterparserthread.h"
 #include "preferences.h"
+#include "scannedfoldersmodel.h"
 #ifndef DISABLE_GUI
 #include "geoip.h"
 #endif
 #include "torrentpersistentdata.h"
 #include "httpserver.h"
+#include "bandwidthscheduler.h"
 #include <libtorrent/extensions/ut_metadata.hpp>
 #ifdef LIBTORRENT_0_15
 #include <libtorrent/extensions/lt_trackers.hpp>
@@ -59,19 +61,24 @@
 #include <libtorrent/alert_types.hpp>
 #include <libtorrent/torrent_info.hpp>
 #include <boost/filesystem/exception.hpp>
+#include <queue>
 
-#define MAX_TRACKER_ERRORS 2
-#define MAX_RATIO 100.
+const int MAX_TRACKER_ERRORS = 2;
+const float MAX_RATIO = 100.;
 enum ProxyType {HTTP=1, SOCKS5=2, HTTP_PW=3, SOCKS5_PW=4, SOCKS4=5};
-
 enum VersionType { NORMAL,ALPHA,BETA,RELEASE_CANDIDATE,DEVEL };
 
 // Main constructor
-Bittorrent::Bittorrent() : preAllocateAll(false), addInPause(false), ratio_limit(-1), UPnPEnabled(false), NATPMPEnabled(false), LSDEnabled(false), DHTEnabled(false), current_dht_port(0), queueingEnabled(false), exiting(false) {
+Bittorrent::Bittorrent()
+    : m_scanFolders(ScanFoldersModel::instance(this)),
+    preAllocateAll(false), addInPause(false), ratio_limit(-1),
+    UPnPEnabled(false), NATPMPEnabled(false), LSDEnabled(false),
+    DHTEnabled(false), current_dht_port(0), queueingEnabled(false),
+    torrentExport(false), exiting(false)
 #ifndef DISABLE_GUI
-  geoipDBLoaded = false;
-  resolve_countries = false;
+    , geoipDBLoaded(false), resolve_countries(false)
 #endif
+{
   // To avoid some exceptions
   fs::path::default_name_check(fs::no_check);
   // For backward compatibility
@@ -101,9 +108,9 @@ Bittorrent::Bittorrent() : preAllocateAll(false), addInPause(false), ratio_limit
     }
   }
   // Construct session
-  s = new session(fingerprint(peer_id.toLocal8Bit().data(), version.at(0), version.at(1), version.at(2), version.at(3)), 0);
-  std::cout << "Peer ID: " << fingerprint(peer_id.toLocal8Bit().data(), version.at(0), version.at(1), version.at(2), version.at(3)).to_string() << std::endl;
-  addConsoleMessage("Peer ID: "+misc::toQString(fingerprint(peer_id.toLocal8Bit().data(), version.at(0), version.at(1), version.at(2), version.at(3)).to_string()));
+  s = new session(fingerprint(peer_id.toLocal8Bit().constData(), version.at(0), version.at(1), version.at(2), version.at(3)), 0);
+  std::cout << "Peer ID: " << fingerprint(peer_id.toLocal8Bit().constData(), version.at(0), version.at(1), version.at(2), version.at(3)).to_string() << std::endl;
+  addConsoleMessage("Peer ID: "+misc::toQString(fingerprint(peer_id.toLocal8Bit().constData(), version.at(0), version.at(1), version.at(2), version.at(3)).to_string()));
 
   // Set severity level of libtorrent session
   s->set_alert_mask(alert::error_notification | alert::peer_notification | alert::port_mapping_notification | alert::storage_notification | alert::tracker_notification | alert::status_notification | alert::ip_block_notification);
@@ -133,6 +140,7 @@ Bittorrent::Bittorrent() : preAllocateAll(false), addInPause(false), ratio_limit
 #ifdef LIBTORRENT_0_15
   appendqBExtension = Preferences::useIncompleteFilesExtension();
 #endif
+  connect(m_scanFolders, SIGNAL(torrentsAdded(QStringList&)), this, SLOT(addTorrentsFromScanFolder(QStringList&)));
   // Apply user settings to Bittorrent session
   configureSession();
   qDebug("* BTSession constructed");
@@ -164,8 +172,6 @@ Bittorrent::~Bittorrent() {
     session_proxy sp = s->abort();
     delete s;
   }
-  // Disable directory scanning
-  disableDirectoryScanning();
   // Delete our objects
   delete timerAlerts;
   if(BigRatioTimer)
@@ -173,9 +179,8 @@ Bittorrent::~Bittorrent() {
   if(filterParser)
     delete filterParser;
   delete downloader;
-  if(FSWatcher) {
-    delete FSWatcher;
-  }
+  if(bd_scheduler)
+    delete bd_scheduler;
   // HTTP Server
   if(httpServer)
     delete httpServer;
@@ -185,7 +190,7 @@ Bittorrent::~Bittorrent() {
 }
 
 void Bittorrent::preAllocateAllFiles(bool b) {
-  bool change = (preAllocateAll != b);
+  const bool change = (preAllocateAll != b);
   if(change) {
     qDebug("PreAllocateAll changed, reloading all torrents!");
     preAllocateAll = b;
@@ -197,14 +202,13 @@ void Bittorrent::deleteBigRatios() {
   std::vector<torrent_handle> torrents = getTorrents();
   std::vector<torrent_handle>::iterator torrentIT;
   for(torrentIT = torrents.begin(); torrentIT != torrents.end(); torrentIT++) {
-    QTorrentHandle h = QTorrentHandle(*torrentIT);
+    const QTorrentHandle h(*torrentIT);
     if(!h.is_valid()) continue;
     if(h.is_seed()) {
-      QString hash = h.hash();
-      float ratio = getRealRatio(hash);
+      const QString hash = h.hash();
+      const float ratio = getRealRatio(hash);
       if(ratio <= MAX_RATIO && ratio > ratio_limit) {
-        QString fileName = h.name();
-        addConsoleMessage(tr("%1 reached the maximum ratio you set.").arg(fileName));
+        addConsoleMessage(tr("%1 reached the maximum ratio you set.").arg(h.name()));
         deleteTorrent(hash);
         //emit torrent_ratio_deleted(fileName);
       }
@@ -234,8 +238,8 @@ void Bittorrent::setUploadLimit(QString hash, long val) {
 void Bittorrent::handleDownloadFailure(QString url, QString reason) {
   emit downloadFromUrlFailure(url, reason);
   // Clean up
-  QUrl qurl = QUrl::fromEncoded(url.toLocal8Bit());
-  int index = url_skippingDlg.indexOf(qurl);
+  const QUrl &qurl = QUrl::fromEncoded(url.toLocal8Bit());
+  const int index = url_skippingDlg.indexOf(qurl);
   if(index >= 0)
     url_skippingDlg.removeAt(index);
   if(savepath_fromurl.contains(qurl))
@@ -270,24 +274,39 @@ void Bittorrent::configureSession() {
 #endif
   preAllocateAllFiles(Preferences::preAllocateAllFiles());
   startTorrentsInPause(Preferences::addTorrentsInPause());
-  // * Scan dir
-  QString scan_dir = Preferences::getScanDir();
-  if(scan_dir.isEmpty()) {
-    disableDirectoryScanning();
-  }else{
-    //Interval first
-    enableDirectoryScanning(scan_dir);
+  // * Scan dirs
+  const QStringList &scan_dirs = Preferences::getScanDirs();
+  foreach (const QString &dir, scan_dirs) {
+    m_scanFolders->addPath(dir);
+  }
+  const QVariantList &downloadInDirList = Preferences::getDownloadInScanDirs();
+  for (int i = 0; i < downloadInDirList.count(); ++i) {
+    m_scanFolders->setDownloadAtPath(i, downloadInDirList.at(i).toBool());
+  }
+  // * Export Dir
+  const bool newTorrentExport = Preferences::isTorrentExportEnabled();
+  if(torrentExport != newTorrentExport) {
+    torrentExport = newTorrentExport;
+    if(torrentExport) {
+      qDebug("Torrent export is enabled, exporting the current torrents");
+      exportTorrentFiles(Preferences::getExportDir());
+    }
   }
   // Connection
   // * Ports binding
-  unsigned short old_listenPort = getListenPort();
-  unsigned short new_listenPort = Preferences::getSessionPort();
+  const unsigned short old_listenPort = getListenPort();
+  const unsigned short new_listenPort = Preferences::getSessionPort();
   if(old_listenPort != new_listenPort) {
     setListeningPort(new_listenPort);
-    addConsoleMessage(tr("qBittorrent is bound to port: TCP/%1", "e.g: qBittorrent is bound to port: 6881").arg( misc::toQString(new_listenPort)));
+    addConsoleMessage(tr("qBittorrent is bound to port: TCP/%1", "e.g: qBittorrent is bound to port: 6881").arg(QString::number(new_listenPort)));
   }
   // * Global download limit
-  int down_limit = Preferences::getGlobalDownloadLimit();
+  const bool alternative_speeds = Preferences::isAltBandwidthEnabled();
+  int down_limit;
+  if(alternative_speeds)
+    down_limit = Preferences::getAltGlobalDownloadLimit();
+  else
+    down_limit = Preferences::getGlobalDownloadLimit();
   if(down_limit <= 0) {
     // Download limit disabled
     setDownloadRateLimit(-1);
@@ -295,7 +314,11 @@ void Bittorrent::configureSession() {
     // Enabled
     setDownloadRateLimit(down_limit*1024);
   }
-  int up_limit = Preferences::getGlobalUploadLimit();
+  int up_limit;
+  if(alternative_speeds)
+    up_limit = Preferences::getAltGlobalUploadLimit();
+  else
+    up_limit = Preferences::getGlobalUploadLimit();
   // * Global Upload limit
   if(up_limit <= 0) {
     // Upload limit disabled
@@ -304,10 +327,19 @@ void Bittorrent::configureSession() {
     // Enabled
     setUploadRateLimit(up_limit*1024);
   }
+  if(Preferences::isSchedulerEnabled()) {
+    if(!bd_scheduler) {
+      bd_scheduler = new BandwidthScheduler(this);
+      connect(bd_scheduler, SIGNAL(switchToAlternativeMode(bool)), this, SLOT(useAlternativeSpeedsLimit(bool)));
+    }
+    bd_scheduler->start();
+  } else {
+    if(bd_scheduler) delete bd_scheduler;
+  }
 #ifndef DISABLE_GUI
   // Resolve countries
   qDebug("Loading country resolution settings");
-  bool new_resolv_countries = Preferences::resolvePeerCountries();
+  const bool new_resolv_countries = Preferences::resolvePeerCountries();
   if(resolve_countries != new_resolv_countries) {
     qDebug("in country reoslution settings");
     resolve_countries = new_resolv_countries;
@@ -350,7 +382,7 @@ void Bittorrent::configureSession() {
     QString version = Preferences::getClientVersion().replace(".", "");
     while(version.size() < 4)
       version.append("0");
-    QString build = Preferences::getClientBuild();
+    const QString build = Preferences::getClientBuild();
     sessionSettings.user_agent = QString("uTorrent/"+version+"("+build+")").toStdString();
   } else {
     if(peer_id == "AZ") {
@@ -398,7 +430,13 @@ void Bittorrent::configureSession() {
     sessionSettings.active_limit = -1;
     setQueueingEnabled(false);
   }
+  // Outgoing ports
+  sessionSettings.outgoing_ports = std::make_pair(Preferences::outgoingPortsMin(), Preferences::outgoingPortsMax());
   setSessionSettings(sessionSettings);
+  // Ignore limits on LAN
+  sessionSettings.ignore_limits_on_local_network = Preferences::ignoreLimitsOnLAN();
+  // Include overhead in transfer limits
+  sessionSettings.rate_limit_ip_overhead = Preferences::includeOverheadInLimits();
   // Bittorrent
   // * Max connections limit
   setMaxConnections(Preferences::getMaxConnecs());
@@ -443,7 +481,7 @@ void Bittorrent::configureSession() {
     addConsoleMessage(tr("Local Peer Discovery support [OFF]"), QString::fromUtf8("blue"));
   }
   // * Encryption
-  int encryptionState = Preferences::getEncryptionSetting();
+  const int encryptionState = Preferences::getEncryptionSetting();
   // The most secure, rc4 only so that all streams and encrypted
   pe_settings encryptionSettings;
   encryptionSettings.allowed_enc_level = pe_settings::rc4;
@@ -478,9 +516,9 @@ void Bittorrent::configureSession() {
   }
   // Update Web UI
   if (Preferences::isWebUiEnabled()) {
-    quint16 port = Preferences::getWebUiPort();
-    QString username = Preferences::getWebUiUsername();
-    QString password = Preferences::getWebUiPassword();
+    const quint16 port = Preferences::getWebUiPort();
+    const QString username = Preferences::getWebUiUsername();
+    const QString password = Preferences::getWebUiPassword();
     initWebUi(username, password, port);
   } else if(httpServer) {
     delete httpServer;
@@ -578,10 +616,24 @@ bool Bittorrent::initWebUi(QString username, QString password, int port) {
   return success; 
 }
 
+void Bittorrent::useAlternativeSpeedsLimit(bool alternative) {
+  // Save new state to remember it on startup
+  Preferences::setAltBandwidthEnabled(alternative);
+  // Apply settings to the bittorrent session
+  if(alternative) {
+    s->set_download_rate_limit(Preferences::getAltGlobalDownloadLimit()*1024);
+    s->set_upload_rate_limit(Preferences::getAltGlobalUploadLimit()*1024);
+  } else {
+    s->set_download_rate_limit(Preferences::getGlobalDownloadLimit()*1024);
+    s->set_upload_rate_limit(Preferences::getGlobalUploadLimit()*1024);
+  }
+  emit alternativeSpeedsModeChanged(alternative);
+}
+
 void Bittorrent::takeETASamples() {
   bool change = false;;
   foreach(const QString &hash, ETA_samples.keys()) {
-    QTorrentHandle h = getTorrentHandle(hash);
+    const QTorrentHandle &h = getTorrentHandle(hash);
     if(h.is_valid() && !h.is_paused() && !h.is_seed()) {
       QList<int> samples = ETA_samples.value(h.hash(), QList<int>());
       if(samples.size() >= MAX_SAMPLES)
@@ -604,11 +656,11 @@ void Bittorrent::takeETASamples() {
 // CSA: Current Speed Algorithm
 // WINX: Window of X Algorithm
 qlonglong Bittorrent::getETA(QString hash) {
-  QTorrentHandle h = getTorrentHandle(hash);
+  const QTorrentHandle &h = getTorrentHandle(hash);
   if(!h.is_valid() || h.state() != torrent_status::downloading || !h.active_time())
     return -1;
   // See if the torrent is going to be completed soon
-  qulonglong bytes_left = h.actual_size() - h.total_wanted_done();
+  const qulonglong bytes_left = h.actual_size() - h.total_wanted_done();
   if(h.actual_size() > 10485760L) { // Size > 10MiB
     if(h.progress() >= (float)0.99 && bytes_left < 10485760L) { // Progress>99% but less than 10MB left.
       // Compute by taking samples
@@ -620,11 +672,11 @@ qlonglong Bittorrent::getETA(QString hash) {
         connect(timerETA, SIGNAL(timeout()), this, SLOT(takeETASamples()));
         timerETA->start();
       } else {
-        QList<int> samples = ETA_samples.value(h.hash(), QList<int>());
-        int nb_samples = samples.size();
+        const QList<int> &samples = ETA_samples.value(h.hash(), QList<int>());
+        const int nb_samples = samples.size();
         if(nb_samples > 3) {
           long sum_samples = 0;
-          foreach(int val, samples) {
+          foreach(const int val, samples) {
             sum_samples += val;
           }
           // Use WINX
@@ -644,14 +696,14 @@ std::vector<torrent_handle> Bittorrent::getTorrents() const {
 
 // Return the torrent handle, given its hash
 QTorrentHandle Bittorrent::getTorrentHandle(QString hash) const{
-  return QTorrentHandle(s->find_torrent(misc::fromString<sha1_hash>((hash.toStdString()))));
+  return QTorrentHandle(s->find_torrent(misc::QStringToSha1(hash)));
 }
 
 bool Bittorrent::hasActiveTorrents() const {
   std::vector<torrent_handle> torrents = getTorrents();
   std::vector<torrent_handle>::iterator torrentIT;
   for(torrentIT = torrents.begin(); torrentIT != torrents.end(); torrentIT++) {
-    QTorrentHandle h = QTorrentHandle(*torrentIT);
+    const QTorrentHandle &h = QTorrentHandle(*torrentIT);
     if(h.is_valid() && !h.is_paused() && !h.is_queued())
       return true;
   }
@@ -666,14 +718,13 @@ void Bittorrent::banIP(QString ip) {
 // Delete a torrent from the session, given its hash
 // permanent = true means that the torrent will be removed from the hard-drive too
 void Bittorrent::deleteTorrent(QString hash, bool delete_local_files) {
-  qDebug("Deleting torrent with hash: %s", hash.toLocal8Bit().data());
-  QTorrentHandle h = getTorrentHandle(hash);
+  qDebug("Deleting torrent with hash: %s", qPrintable(hash));
+  const QTorrentHandle &h = getTorrentHandle(hash);
   if(!h.is_valid()) {
     qDebug("/!\\ Error: Invalid handle");
     return;
   }
-  QString savePath = h.save_path();
-  QString fileName = h.name();
+  const QString &fileName = h.name();
   // Remove it from session
   if(delete_local_files)
     s->remove_torrent(h.get_torrent_handle(), session::delete_files);
@@ -683,7 +734,7 @@ void Bittorrent::deleteTorrent(QString hash, bool delete_local_files) {
   QDir torrentBackup(misc::BTBackupLocation());
   QStringList filters;
   filters << hash+".*";
-  QStringList files = torrentBackup.entryList(filters, QDir::Files, QDir::Unsorted);
+  const QStringList &files = torrentBackup.entryList(filters, QDir::Files, QDir::Unsorted);
   foreach(const QString &file, files) {
     torrentBackup.remove(file);
   }
@@ -741,14 +792,14 @@ void Bittorrent::resumeTorrent(QString hash) {
 
 QTorrentHandle Bittorrent::addMagnetUri(QString magnet_uri, bool resumed) {
   QTorrentHandle h;
-  QString hash = misc::magnetUriToHash(magnet_uri);
+  const QString &hash = misc::magnetUriToHash(magnet_uri);
   if(hash.isEmpty()) {
     addConsoleMessage(tr("'%1' is not a valid magnet URI.").arg(magnet_uri));
     return h;
   }
-  QDir torrentBackup(misc::BTBackupLocation());
+  const QDir &torrentBackup(misc::BTBackupLocation());
   if(resumed) {
-    qDebug("Resuming magnet URI: %s", hash.toLocal8Bit().data());
+    qDebug("Resuming magnet URI: %s", qPrintable(hash));
     // Load metadata
     if(QFile::exists(torrentBackup.path()+QDir::separator()+hash+QString(".torrent")))
       return addTorrent(torrentBackup.path()+QDir::separator()+hash+QString(".torrent"), false, false, true);
@@ -760,7 +811,7 @@ QTorrentHandle Bittorrent::addMagnetUri(QString magnet_uri, bool resumed) {
   Q_ASSERT(magnet_uri.startsWith("magnet:"));
 
   // Check if torrent is already in download list
-  if(s->find_torrent(sha1_hash(hash.toLocal8Bit().data())).is_valid()) {
+  if(s->find_torrent(sha1_hash(hash.toLocal8Bit().constData())).is_valid()) {
     qDebug("/!\\ Torrent is already in download list");
     // Update info Bar
     addConsoleMessage(tr("'%1' is already in download list.", "e.g: 'xxx.avi' is already in download list.").arg(magnet_uri));
@@ -771,21 +822,22 @@ QTorrentHandle Bittorrent::addMagnetUri(QString magnet_uri, bool resumed) {
   //Getting fast resume data if existing
   std::vector<char> buf;
   if(resumed) {
-    qDebug("Trying to load fastresume data: %s", (torrentBackup.path()+QDir::separator()+hash+QString(".fastresume")).toLocal8Bit().data());
-    if (load_file((torrentBackup.path()+QDir::separator()+hash+QString(".fastresume")).toLocal8Bit().data(), buf) == 0) {
+    const QString &fastresume_path = torrentBackup.path()+QDir::separator()+hash+QString(".fastresume");
+    qDebug("Trying to load fastresume data: %s", qPrintable(fastresume_path));
+    if (load_file(fastresume_path.toLocal8Bit().constData(), buf) == 0) {
       fastResume = true;
       p.resume_data = &buf;
       qDebug("Successfuly loaded");
     }
   }
-  QString savePath = getSavePath(hash);
+  const QString &savePath = getSavePath(hash);
   if(!defaultTempPath.isEmpty() && resumed && !TorrentPersistentData::isSeed(hash)) {
     qDebug("addMagnetURI: Temp folder is enabled.");
-    p.save_path = defaultTempPath.toLocal8Bit().data();
-    qDebug("addMagnetURI: using save_path: %s", defaultTempPath.toLocal8Bit().data());
+    p.save_path = defaultTempPath.toLocal8Bit().constData();
+    qDebug("addMagnetURI: using save_path: %s", qPrintable(defaultTempPath));
   } else {
-    p.save_path = savePath.toLocal8Bit().data();
-    qDebug("addMagnetURI: using save_path: %s", savePath.toLocal8Bit().data());
+    p.save_path = savePath.toLocal8Bit().constData();
+    qDebug("addMagnetURI: using save_path: %s", qPrintable(savePath));
   }
 
 #ifdef LIBTORRENT_0_15
@@ -840,7 +892,7 @@ QTorrentHandle Bittorrent::addMagnetUri(QString magnet_uri, bool resumed) {
       qDebug("addMagnetURI Setting download as sequential (from tmp data)");
       h.set_sequential_download(TorrentTempData::isSequential(hash));
     }
-    QString label = TorrentTempData::getLabel(hash);
+    const QString &label = TorrentTempData::getLabel(hash);
     // Save persistent data for new torrent
     TorrentPersistentData::saveTorrentPersistentData(h, true);
     // Save Label
@@ -849,7 +901,7 @@ QTorrentHandle Bittorrent::addMagnetUri(QString magnet_uri, bool resumed) {
     }
     // Save save_path
     if(!defaultTempPath.isEmpty()) {
-      qDebug("addTorrent: Saving save_path in persistent data: %s", savePath.toLocal8Bit().data());
+      qDebug("addTorrent: Saving save_path in persistent data: %s", qPrintable(savePath));
       TorrentPersistentData::saveSavePath(hash, savePath);
     }
   }
@@ -870,29 +922,29 @@ QTorrentHandle Bittorrent::addMagnetUri(QString magnet_uri, bool resumed) {
 QTorrentHandle Bittorrent::addTorrent(QString path, bool fromScanDir, QString from_url, bool resumed) {
   QTorrentHandle h;
   bool fastResume=false;
-  QDir torrentBackup(misc::BTBackupLocation());
-  QString file, hash;
+  const QDir &torrentBackup(misc::BTBackupLocation());
+  QString hash;
   boost::intrusive_ptr<torrent_info> t;
 
   // Checking if BT_backup Dir exists
   // create it if it is not
   if(! torrentBackup.exists()) {
     if(! torrentBackup.mkpath(torrentBackup.path())) {
-      std::cerr << "Couldn't create the directory: '" << torrentBackup.path().toLocal8Bit().data() << "'\n";
+      std::cerr << "Couldn't create the directory: '" << qPrintable(torrentBackup.path()) << "'\n";
       exit(1);
     }
   }
   // Processing torrents
-  file = path.trimmed().replace("file://", "", Qt::CaseInsensitive);
+  const QString &file = path.trimmed().replace("file://", "", Qt::CaseInsensitive);
   if(file.isEmpty()) {
     return h;
   }
   Q_ASSERT(!file.startsWith("http://", Qt::CaseInsensitive) && !file.startsWith("https://", Qt::CaseInsensitive) && !file.startsWith("ftp://", Qt::CaseInsensitive));
 
-  qDebug("Adding %s to download list", file.toLocal8Bit().data());
+  qDebug("Adding %s to download list", qPrintable(file));
   try {
     // Getting torrent file informations
-    t = new torrent_info(file.toLocal8Bit().data());
+    t = new torrent_info(file.toLocal8Bit().constData());
     if(!t->is_valid())
       throw std::exception();
   } catch(std::exception&) {
@@ -911,25 +963,64 @@ QTorrentHandle Bittorrent::addTorrent(QString path, bool fromScanDir, QString fr
     }
     return h;
   }
-  qDebug(" -> Hash: %s", misc::toString(t->info_hash()).c_str());
-  qDebug(" -> Name: %s", t->name().c_str());
   hash = misc::toQString(t->info_hash());
+
+  qDebug(" -> Hash: %s", qPrintable(hash));
+  qDebug(" -> Name: %s", t->name().c_str());
 
   // Check if torrent is already in download list
   if(s->find_torrent(t->info_hash()).is_valid()) {
     qDebug("/!\\ Torrent is already in download list");
     // Update info Bar
-    if(!fromScanDir) {
-      if(!from_url.isNull()) {
-        // If download from url, remove temp file
-        QFile::remove(file);
-        addConsoleMessage(tr("'%1' is already in download list.", "e.g: 'xxx.avi' is already in download list.").arg(from_url));
-        //emit duplicateTorrent(from_url);
-      }else{
-        addConsoleMessage(tr("'%1' is already in download list.", "e.g: 'xxx.avi' is already in download list.").arg(file));
-        //emit duplicateTorrent(file);
-      }
+    if(!from_url.isNull()) {
+      // If download from url, remove temp file
+      QFile::remove(file);
+      addConsoleMessage(tr("'%1' is already in download list.", "e.g: 'xxx.avi' is already in download list.").arg(from_url));
+      //emit duplicateTorrent(from_url);
     }else{
+      addConsoleMessage(tr("'%1' is already in download list.", "e.g: 'xxx.avi' is already in download list.").arg(file));
+      //emit duplicateTorrent(file);
+    }
+    // Check if the torrent contains trackers or url seeds we don't know about
+    // and add them
+    QTorrentHandle h_ex = getTorrentHandle(hash);
+    if(h_ex.is_valid()) {
+      std::vector<announce_entry> old_trackers = h_ex.trackers();
+      std::vector<announce_entry> new_trackers = t->trackers();
+      bool trackers_added = false;
+      for(std::vector<announce_entry>::iterator it=new_trackers.begin();it!=new_trackers.end();it++) {
+        std::string tracker_url = it->url;
+        bool found = false;
+        for(std::vector<announce_entry>::iterator itold=old_trackers.begin();itold!=old_trackers.end();itold++) {
+          if(tracker_url == itold->url) {
+            found = true;
+            break;
+          }
+        }
+        if(found) {
+          trackers_added = true;
+          announce_entry entry(tracker_url);
+          h_ex.add_tracker(entry);
+        }
+      }
+      if(trackers_added) {
+        addConsoleMessage(tr("Note: new trackers were added to the existing torrent."));
+      }
+      bool urlseeds_added = false;
+      const QStringList &old_urlseeds = h_ex.url_seeds();
+      std::vector<std::string> new_urlseeds = t->url_seeds();
+      for(std::vector<std::string>::iterator it = new_urlseeds.begin(); it != new_urlseeds.end(); it++) {
+        const QString &new_url = misc::toQString(it->c_str());
+        if(!old_urlseeds.contains(new_url)) {
+          urlseeds_added = true;
+          h_ex.add_url_seed(new_url);
+        }
+      }
+      if(urlseeds_added) {
+        addConsoleMessage(tr("Note: new URL seeds were added to the existing torrent."));
+      }
+    }
+    if(fromScanDir) {
       // Delete torrent from scan dir
       QFile::remove(file);
     }
@@ -939,8 +1030,9 @@ QTorrentHandle Bittorrent::addTorrent(QString path, bool fromScanDir, QString fr
   //Getting fast resume data if existing
   std::vector<char> buf;
   if(resumed) {
-    qDebug("Trying to load fastresume data: %s", (torrentBackup.path()+QDir::separator()+hash+QString(".fastresume")).toLocal8Bit().data());
-    if (load_file((torrentBackup.path()+QDir::separator()+hash+QString(".fastresume")).toLocal8Bit().data(), buf) == 0) {
+    const QString &fastresume_path = torrentBackup.path()+QDir::separator()+hash+QString(".fastresume");
+    qDebug("Trying to load fastresume data: %s", qPrintable(fastresume_path));
+    if (load_file(fastresume_path.toLocal8Bit().constData(), buf) == 0) {
       fastResume = true;
       p.resume_data = &buf;
       qDebug("Successfuly loaded");
@@ -951,15 +1043,15 @@ QTorrentHandle Bittorrent::addTorrent(QString path, bool fromScanDir, QString fr
     // Enforcing the save path defined before URL download (from RSS for example)
     savePath = savepath_fromurl.take(QUrl::fromEncoded(from_url.toLocal8Bit()));
   } else {
-    savePath = getSavePath(hash);
+    savePath = getSavePath(hash, fromScanDir, path);
   }
   if(!defaultTempPath.isEmpty() && resumed && !TorrentPersistentData::isSeed(hash)) {
     qDebug("addTorrent::Temp folder is enabled.");
-    p.save_path = defaultTempPath.toLocal8Bit().data();
-    qDebug("addTorrent: using save_path: %s", defaultTempPath.toLocal8Bit().data());
+    p.save_path = defaultTempPath.toLocal8Bit().constData();
+    qDebug("addTorrent: using save_path: %s", qPrintable(defaultTempPath));
   } else {
-    p.save_path = savePath.toLocal8Bit().data();
-    qDebug("addTorrent: using save_path: %s", savePath.toLocal8Bit().data());
+    p.save_path = savePath.toLocal8Bit().constData();
+    qDebug("addTorrent: using save_path: %s", qPrintable(savePath));
   }
 
 #ifdef LIBTORRENT_0_15
@@ -970,11 +1062,6 @@ QTorrentHandle Bittorrent::addTorrent(QString path, bool fromScanDir, QString fr
     p.seed_mode=false;
   }
 #endif
-  // TODO: Remove in v1.6.0: For backward compatibility only
-  if(QFile::exists(misc::BTBackupLocation()+QDir::separator()+hash+".finished")) {
-    p.save_path = savePath.toLocal8Bit().data();
-    QFile::remove(misc::BTBackupLocation()+QDir::separator()+hash+".finished");
-  }
   p.ti = t;
   // Preallocate all?
   if(preAllocateAll)
@@ -1022,11 +1109,11 @@ QTorrentHandle Bittorrent::addTorrent(QString path, bool fromScanDir, QString fr
       h.prioritize_files(TorrentTempData::getFilesPriority(hash));
       h.set_sequential_download(TorrentTempData::isSequential(hash));
       // Import Files names from torrent addition dialog
-      QStringList files_path = TorrentTempData::getFilesPath(hash);
+      const QStringList &files_path = TorrentTempData::getFilesPath(hash);
       bool force_recheck = false;
       if(files_path.size() == h.num_files()) {
         for(int i=0; i<h.num_files(); ++i) {
-          QString path = files_path.at(i);
+          const QString &path = files_path.at(i);
           if(!force_recheck && QFile::exists(h.save_path()+QDir::separator()+path))
             force_recheck = true;
           h.rename_file(i, path);
@@ -1035,7 +1122,7 @@ QTorrentHandle Bittorrent::addTorrent(QString path, bool fromScanDir, QString fr
         if(force_recheck) h.force_recheck();
       }
     }
-    QString label = TorrentTempData::getLabel(hash);
+    const QString &label = TorrentTempData::getLabel(hash);
     // Save persistent data for new torrent
     TorrentPersistentData::saveTorrentPersistentData(h);
     // Save Label
@@ -1044,7 +1131,7 @@ QTorrentHandle Bittorrent::addTorrent(QString path, bool fromScanDir, QString fr
     }
     // Save save_path
     if(!defaultTempPath.isEmpty()) {
-      qDebug("addTorrent: Saving save_path in persistent data: %s", savePath.toLocal8Bit().data());
+      qDebug("addTorrent: Saving save_path in persistent data: %s", qPrintable(savePath));
       TorrentPersistentData::saveSavePath(hash, savePath);
     }
 #ifdef LIBTORRENT_0_15
@@ -1052,14 +1139,28 @@ QTorrentHandle Bittorrent::addTorrent(QString path, bool fromScanDir, QString fr
     if(appendqBExtension)
       appendqBextensionToTorrent(h, true);
 #endif
-  }
-  QString newFile = torrentBackup.path() + QDir::separator() + hash + ".torrent";
-  if(file != newFile) {
-    // Delete file from torrentBackup directory in case it exists because
-    // QFile::copy() do not overwrite
-    QFile::remove(newFile);
-    // Copy it to torrentBackup directory
-    QFile::copy(file, newFile);
+    // Backup torrent file
+    const QString &newFile = torrentBackup.absoluteFilePath(hash + ".torrent");
+    if(file != newFile) {
+      // Delete file from torrentBackup directory in case it exists because
+      // QFile::copy() do not overwrite
+      QFile::remove(newFile);
+      // Copy it to torrentBackup directory
+      QFile::copy(file, newFile);
+    }
+    // Copy the torrent file to the export folder
+    if(torrentExport) {
+      QDir exportPath(Preferences::getExportDir());
+      if(exportPath.exists() || exportPath.mkpath(exportPath.absolutePath())) {
+        QString torrent_path = exportPath.absoluteFilePath(h.name()+".torrent");
+        if(QFile::exists(torrent_path) && misc::sameFiles(file, torrent_path)) {
+          // Append hash to torrent name to make it unique
+          torrent_path = exportPath.absoluteFilePath(h.name()+"-"+h.hash()+".torrent");
+        }
+        QFile::copy(file, torrent_path);
+        //h.save_torrent_file(torrent_path);
+      }
+    }
   }
   if(!fastResume && (!addInPause || (Preferences::useAdditionDialog() && !fromScanDir))) {
     // Start torrent because it was added in paused state
@@ -1087,6 +1188,43 @@ QTorrentHandle Bittorrent::addTorrent(QString path, bool fromScanDir, QString fr
   return h;
 }
 
+void Bittorrent::exportTorrentFiles(QString path) {
+  Q_ASSERT(torrentExport);
+  QDir exportDir(path);
+  if(!exportDir.exists()) {
+    if(!exportDir.mkpath(exportDir.absolutePath())) {
+      std::cerr << "Error: Could not create torrent export directory: " << qPrintable(exportDir.absolutePath()) << std::endl;
+      return;
+    }
+  }
+  QDir torrentBackup(misc::BTBackupLocation());
+  std::vector<torrent_handle> handles = s->get_torrents();
+  std::vector<torrent_handle>::iterator itr;
+  for(itr=handles.begin(); itr != handles.end(); itr++) {
+    const QTorrentHandle h(*itr);
+    if(!h.is_valid()) {
+      std::cerr << "Torrent Export: torrent is invalid, skipping..." << std::endl;
+      continue;
+    }
+    const QString &src_path = torrentBackup.absoluteFilePath(h.hash()+".torrent");
+    if(QFile::exists(src_path)) {
+      QString dst_path = exportDir.absoluteFilePath(h.name()+".torrent");
+      if(QFile::exists(dst_path)) {
+        if(!misc::sameFiles(src_path, dst_path)) {
+          dst_path = exportDir.absoluteFilePath(h.name()+"-"+h.hash()+".torrent");
+        } else {
+          qDebug("Torrent Export: Destination file exists, skipping...");
+          continue;
+        }
+      }
+      qDebug("Export Torrent: %s -> %s", qPrintable(src_path), qPrintable(dst_path));
+      QFile::copy(src_path, dst_path);
+    } else {
+      std::cerr << "Error: could not export torrent "<< qPrintable(h.hash()) << ", maybe it has not metadata yet." <<std::endl;
+    }
+  }
+}
+
 // Set the maximum number of opened connections
 void Bittorrent::setMaxConnections(int maxConnec) {
   s->set_max_connections(maxConnec);
@@ -1097,7 +1235,7 @@ void Bittorrent::setMaxConnectionsPerTorrent(int max) {
   std::vector<torrent_handle> handles = s->get_torrents();
   unsigned int nbHandles = handles.size();
   for(unsigned int i=0; i<nbHandles; ++i) {
-    QTorrentHandle h = handles[i];
+    QTorrentHandle h(handles[i]);
     if(!h.is_valid()) {
       qDebug("/!\\ Error: Invalid handle");
       continue;
@@ -1111,7 +1249,7 @@ void Bittorrent::setMaxUploadsPerTorrent(int max) {
   std::vector<torrent_handle> handles = s->get_torrents();
   unsigned int nbHandles = handles.size();
   for(unsigned int i=0; i<nbHandles; ++i) {
-    QTorrentHandle h = handles[i];
+    QTorrentHandle h(handles[i]);
     if(!h.is_valid()) {
       qDebug("/!\\ Error: Invalid handle");
       continue;
@@ -1178,7 +1316,8 @@ void Bittorrent::enableLSD(bool b) {
 }
 
 void Bittorrent::loadSessionState() {
-  boost::filesystem::ifstream ses_state_file((misc::cacheLocation()+QDir::separator()+QString::fromUtf8("ses_state")).toLocal8Bit().data()
+  const QString &state_path = misc::cacheLocation()+QDir::separator()+QString::fromUtf8("ses_state");
+  boost::filesystem::ifstream ses_state_file(state_path.toLocal8Bit().constData()
                                              , std::ios_base::binary);
   ses_state_file.unsetf(std::ios_base::skipws);
   s->load_state(bdecode(
@@ -1189,7 +1328,8 @@ void Bittorrent::loadSessionState() {
 void Bittorrent::saveSessionState() {
   qDebug("Saving session state to disk...");
   entry session_state = s->state();
-  boost::filesystem::ofstream out((misc::cacheLocation()+QDir::separator()+QString::fromUtf8("ses_state")).toLocal8Bit().data()
+  const QString &state_path = misc::cacheLocation()+QDir::separator()+QString::fromUtf8("ses_state");
+  boost::filesystem::ofstream out(state_path.toLocal8Bit().constData()
                                   , std::ios_base::binary);
   out.unsetf(std::ios_base::skipws);
   bencode(std::ostream_iterator<char>(out), session_state);
@@ -1200,9 +1340,9 @@ bool Bittorrent::enableDHT(bool b) {
   if(b) {
     if(!DHTEnabled) {
       entry dht_state;
-      QString dht_state_path = misc::cacheLocation()+QDir::separator()+QString::fromUtf8("dht_state");
+      const QString &dht_state_path = misc::cacheLocation()+QDir::separator()+QString::fromUtf8("dht_state");
       if(QFile::exists(dht_state_path)) {
-        boost::filesystem::ifstream dht_state_file(dht_state_path.toLocal8Bit().data(), std::ios_base::binary);
+        boost::filesystem::ifstream dht_state_file(dht_state_path.toLocal8Bit().constData(), std::ios_base::binary);
         dht_state_file.unsetf(std::ios_base::skipws);
         try{
           dht_state = bdecode(std::istream_iterator<char>(dht_state_file), std::istream_iterator<char>());
@@ -1232,6 +1372,9 @@ bool Bittorrent::enableDHT(bool b) {
 
 float Bittorrent::getRealRatio(QString hash) const{
   QTorrentHandle h = getTorrentHandle(hash);
+  if(!h.is_valid()) {
+    return 0.;
+  }
   Q_ASSERT(h.total_done() >= 0);
   Q_ASSERT(h.all_time_upload() >= 0);
   if(h.total_done() == 0) {
@@ -1294,12 +1437,12 @@ void Bittorrent::saveFastResumeData() {
     --num_resume_data;
     if (!rd->resume_data) continue;
     QDir torrentBackup(misc::BTBackupLocation());
-    QTorrentHandle h(rd->handle);
+    const QTorrentHandle h(rd->handle);
     if(!h.is_valid()) continue;
     // Remove old fastresume file if it exists
     QFile::remove(torrentBackup.path()+QDir::separator()+ h.hash() + ".fastresume");
-    QString file = h.hash()+".fastresume";
-    boost::filesystem::ofstream out(fs::path(torrentBackup.path().toLocal8Bit().data()) / file.toLocal8Bit().data(), std::ios_base::binary);
+    const QString &file = h.hash()+".fastresume";
+    boost::filesystem::ofstream out(fs::path(torrentBackup.path().toLocal8Bit().constData()) / file.toLocal8Bit().constData(), std::ios_base::binary);
     out.unsetf(std::ios_base::skipws);
     bencode(std::ostream_iterator<char>(out), *rd->resume_data);
     // Remove torrent from session
@@ -1340,15 +1483,14 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
 
   bool Bittorrent::isFilePreviewPossible(QString hash) const{
     // See if there are supported files in the torrent
-    QTorrentHandle h = getTorrentHandle(hash);
+    const QTorrentHandle &h = getTorrentHandle(hash);
     if(!h.is_valid()) {
       qDebug("/!\\ Error: Invalid handle");
       return false;
     }
-    unsigned int nbFiles = h.num_files();
+    const unsigned int nbFiles = h.num_files();
     for(unsigned int i=0; i<nbFiles; ++i) {
-      QString fileName = h.file_at(i);
-      QString extension = fileName.split('.').last();
+      QString extension = h.file_at(i).split('.').last();
       if(misc::isPreviewable(extension))
         return true;
     }
@@ -1356,14 +1498,14 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
   }
 
   void Bittorrent::addTorrentsFromScanFolder(QStringList &pathList) {
-    QString dir_path = FSWatcher->directories().first();
     foreach(const QString &file, pathList) {
-      QString fullPath = dir_path+QDir::separator()+file;
+      qDebug("File %s added", qPrintable(file));
       try {
-        torrent_info t(fullPath.toLocal8Bit().data());
-        addTorrent(fullPath, true);
+        torrent_info t(file.toLocal8Bit().constData());
+        if(t.is_valid())
+          addTorrent(file, true);
       } catch(std::exception&) {
-        qDebug("Ignoring incomplete torrent file: %s", fullPath.toLocal8Bit().data());
+        qDebug("Ignoring incomplete torrent file: %s", qPrintable(file));
       }
     }
   }
@@ -1410,19 +1552,21 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
     h.file_progress(fp);
     for(int i=0; i<h.num_files(); ++i) {
       if(append) {
-        qulonglong file_size = h.filesize_at(i);
+        const qulonglong file_size = h.filesize_at(i);
         if(file_size > 0 && (fp[i]/(double)file_size) < 1.) {
-          QString name = misc::toQString(h.get_torrent_info().file_at(i).path.string());
+          const QString &name = misc::toQString(h.get_torrent_info().file_at(i).path.string());
           if(!name.endsWith(".!qB")) {
-            qDebug("Renaming %s to %s", name.toLocal8Bit().data(), (name+".!qB").toLocal8Bit().data());
-            h.rename_file(i, name + ".!qB");
+            const QString &new_name = name+".!qB";
+            qDebug("Renaming %s to %s", qPrintable(name), qPrintable(new_name));
+            h.rename_file(i, new_name);
           }
         }
       } else {
         QString name = misc::toQString(h.get_torrent_info().file_at(i).path.string());
         if(name.endsWith(".!qB")) {
+          const QString old_name = name;
           name.chop(4);
-          qDebug("Renaming %s to %s", (name+".!qB").toLocal8Bit().data(), name.toLocal8Bit().data());
+          qDebug("Renaming %s to %s", qPrintable(old_name), qPrintable(name));
           h.rename_file(i, name);
         }
       }
@@ -1433,9 +1577,9 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
   void Bittorrent::changeLabelInTorrentSavePath(QTorrentHandle h, QString old_label, QString new_label) {
     if(!h.is_valid()) return;
     if(!appendLabelToSavePath) return;
-    QString old_save_path = TorrentPersistentData::getSavePath(h.hash());
+    const QString &old_save_path = TorrentPersistentData::getSavePath(h.hash());
     QDir old_dir(old_save_path);
-    bool move_storage = (old_dir == QDir(h.save_path()));
+    const bool move_storage = (old_dir == QDir(h.save_path()));
     if(!old_label.isEmpty()) {
       Q_ASSERT(old_dir.dirName() == old_label);
       QString path = old_save_path;
@@ -1462,13 +1606,13 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
 
   void Bittorrent::appendLabelToTorrentSavePath(QTorrentHandle h) {
     if(!h.is_valid()) return;
-    QString label = TorrentPersistentData::getLabel(h.hash());
+    const QString &label = TorrentPersistentData::getLabel(h.hash());
     if(label.isEmpty()) return;
     // Current save path
-    QString old_save_path = TorrentPersistentData::getSavePath(h.hash());
-    QDir old_dir(old_save_path);
+    const QString &old_save_path = TorrentPersistentData::getSavePath(h.hash());
+    const QDir &old_dir(old_save_path);
     if(old_dir.dirName() != label) {
-      QString new_save_path = old_dir.absoluteFilePath(label);
+      const QString &new_save_path = old_dir.absoluteFilePath(label);
       TorrentPersistentData::saveSavePath(h.hash(), new_save_path);
       if(old_dir == QDir(h.save_path())) {
         // Move storage
@@ -1508,39 +1652,6 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
   }
 #endif
 
-  // Enable directory scanning
-  void Bittorrent::enableDirectoryScanning(QString scan_dir) {
-    if(!scan_dir.isEmpty()) {
-      QDir newDir(scan_dir);
-      if(!newDir.exists()) {
-        qDebug("Scan dir %s does not exist, create it", scan_dir.toUtf8().data());
-        newDir.mkpath(scan_dir);
-      }
-      if(FSWatcher == 0) {
-        // Set up folder watching
-        FSWatcher = new FileSystemWatcher(this);
-        connect(FSWatcher, SIGNAL(torrentsAdded(QStringList&)), this, SLOT(addTorrentsFromScanFolder(QStringList&)));
-        FSWatcher->addPath(scan_dir);
-      } else {
-        QString old_scan_dir = "";
-        if(!FSWatcher->directories().empty())
-          old_scan_dir = FSWatcher->directories().first();
-        if(QDir(old_scan_dir) != QDir(scan_dir)) {
-          if(!old_scan_dir.isEmpty())
-            FSWatcher->removePath(old_scan_dir);
-          FSWatcher->addPath(scan_dir);
-        }
-      }
-    }
-  }
-
-  // Disable directory scanning
-  void Bittorrent::disableDirectoryScanning() {
-    if(FSWatcher) {
-      delete FSWatcher;
-    }
-  }
-
   // Set the ports range in which is chosen the port the Bittorrent
   // session will listen to
   void Bittorrent::setListeningPort(int port) {
@@ -1575,9 +1686,9 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
       ratio = 0;
     }
     std::vector<torrent_handle> handles = s->get_torrents();
-    unsigned int nbHandles = handles.size();
-    for(unsigned int i=0; i<nbHandles; ++i) {
-      QTorrentHandle h = handles[i];
+    std::vector<torrent_handle>::iterator it;
+    for(it = handles.begin(); it != handles.end(); it++) {
+      QTorrentHandle h(*it);
       if(!h.is_valid()) {
         qDebug("/!\\ Error: Invalid handle");
         continue;
@@ -1642,19 +1753,19 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
   }
 
   // Set BT session settings (user_agent)
-  void Bittorrent::setSessionSettings(session_settings sessionSettings) {
+  void Bittorrent::setSessionSettings(const session_settings &sessionSettings) {
     qDebug("Set session settings");
     s->set_settings(sessionSettings);
   }
 
   // Set Proxy
-  void Bittorrent::setPeerProxySettings(proxy_settings proxySettings) {
+  void Bittorrent::setPeerProxySettings(const proxy_settings &proxySettings) {
     qDebug("Set Peer Proxy settings");
     s->set_peer_proxy(proxySettings);
     s->set_dht_proxy(proxySettings);
   }
 
-  void Bittorrent::setHTTPProxySettings(proxy_settings proxySettings) {
+  void Bittorrent::setHTTPProxySettings(const proxy_settings &proxySettings) {
     s->set_tracker_proxy(proxySettings);
     s->set_web_seed_proxy(proxySettings);
     QString proxy_str;
@@ -1686,16 +1797,16 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
 #ifdef Q_WS_WIN
     char proxystr[512];
     if(proxySettings.type == proxy_settings::socks5 || proxySettings.type == proxy_settings::socks5_pw)
-      snprintf(proxystr, 512, "sock_proxy=%s", proxy_str.toLocal8Bit().data());
+      snprintf(proxystr, 512, "sock_proxy=%s", proxy_str.toLocal8Bit().constData());
     else
-      snprintf(proxystr, 512, "http_proxy=%s", proxy_str.toLocal8Bit().data());
+      snprintf(proxystr, 512, "http_proxy=%s", proxy_str.toLocal8Bit().constData());
     putenv(proxystr);
 #else
-    qDebug("HTTP communications proxy string: %s", proxy_str.toLocal8Bit().data());
+    qDebug("HTTP communications proxy string: %s", qPrintable(proxy_str));
     if(proxySettings.type == proxy_settings::socks5 || proxySettings.type == proxy_settings::socks5_pw)
-      setenv("sock_proxy", proxy_str.toLocal8Bit().data(), 1);
+      setenv("sock_proxy", proxy_str.toLocal8Bit().constData(), 1);
     else
-      setenv("http_proxy", proxy_str.toLocal8Bit().data(), 1);
+      setenv("http_proxy", proxy_str.toLocal8Bit().constData(), 1);
 #endif
   }
 
@@ -1708,58 +1819,66 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
         QTorrentHandle h(p->handle);
         if(h.is_valid()) {
           emit finishedTorrent(h);
-          QString hash = h.hash();
-          // Remember finished state
-          TorrentPersistentData::saveSeedStatus(h);
+          const QString &hash = h.hash();
 #ifdef LIBTORRENT_0_15
-           // Remove .!qB extension if necessary
+          // Remove .!qB extension if necessary
           if(appendqBExtension)
             appendqBextensionToTorrent(h, false);
 #endif
           // Move to download directory if necessary
           if(!defaultTempPath.isEmpty()) {
             // Check if directory is different
-            QDir current_dir(h.save_path());
-            QDir save_dir(getSavePath(h.hash()));
+            const QDir &current_dir(h.save_path());
+            const QDir &save_dir(getSavePath(hash));
             if(current_dir != save_dir) {
               h.move_storage(save_dir.path());
             }
           }
-          h.save_resume_data();
-          // Check if there are torrent files inside
-          for(int i=0; i<h.get_torrent_info().num_files(); ++i) {
-            QString torrent_relpath = misc::toQString(h.get_torrent_info().file_at(i).path);
-            if(torrent_relpath.endsWith(".torrent")) {
-              addConsoleMessage(tr("Recursive download of file %1 embedded in torrent %2", "Recursive download of test.torrent embedded in torrent test2").arg(torrent_relpath).arg(h.name()));
-              QString torrent_fullpath = h.save_path()+QDir::separator()+torrent_relpath;
-              boost::intrusive_ptr<torrent_info> t;
-              try {
-                t = new torrent_info(torrent_fullpath.toLocal8Bit().data());
-                QString sub_hash = misc::toQString(t->info_hash());
-                // Passing the save path along to the sub torrent file
-                TorrentTempData::setSavePath(sub_hash, h.save_path());
-                addTorrent(torrent_fullpath);
-              } catch(std::exception&) {
-                qDebug("Caught error loading torrent");
-                addConsoleMessage(tr("Unable to decode %1 torrent file.").arg(torrent_fullpath), QString::fromUtf8("red"));
+          const bool was_already_seeded = TorrentPersistentData::isSeed(hash);
+          if(!was_already_seeded) {
+            h.save_resume_data();
+            // Check if there are torrent files inside
+            for(int i=0; i<h.get_torrent_info().num_files(); ++i) {
+              const QString &torrent_relpath = misc::toQString(h.get_torrent_info().file_at(i).path.string());
+              if(torrent_relpath.endsWith(".torrent")) {
+                addConsoleMessage(tr("Recursive download of file %1 embedded in torrent %2", "Recursive download of test.torrent embedded in torrent test2").arg(torrent_relpath).arg(h.name()));
+                const QString &torrent_fullpath = h.save_path()+QDir::separator()+torrent_relpath;
+                try {
+                  boost::intrusive_ptr<torrent_info> t = new torrent_info(torrent_fullpath.toLocal8Bit().constData());
+                  const QString &sub_hash = misc::toQString(t->info_hash());
+                  // Passing the save path along to the sub torrent file
+                  TorrentTempData::setSavePath(sub_hash, h.save_path());
+                  addTorrent(torrent_fullpath);
+                } catch(std::exception&) {
+                  qDebug("Caught error loading torrent");
+                  addConsoleMessage(tr("Unable to decode %1 torrent file.").arg(torrent_fullpath), QString::fromUtf8("red"));
+                }
               }
             }
           }
-          qDebug("Received finished alert for %s", h.name().toLocal8Bit().data());
+          // Recheck if the user asked to
+          if(Preferences::recheckTorrentsOnCompletion() && !was_already_seeded) {
+            // Remember finished state
+            TorrentPersistentData::saveSeedStatus(h);
+            h.force_recheck();
+          } else {
+            // Remember finished state
+            TorrentPersistentData::saveSeedStatus(h);
+          }
+          qDebug("Received finished alert for %s", qPrintable(h.name()));
         }
       }
       else if (save_resume_data_alert* p = dynamic_cast<save_resume_data_alert*>(a.get())) {
-        QDir torrentBackup(misc::BTBackupLocation());
-        QTorrentHandle h(p->handle);
+        const QDir &torrentBackup(misc::BTBackupLocation());
+        const QTorrentHandle h(p->handle);
         if(h.is_valid()) {
-          QString file = h.hash()+".fastresume";
+          const QString &file = h.hash()+".fastresume";
           // Delete old fastresume file if necessary
           if(QFile::exists(file))
             QFile::remove(file);
-          qDebug("Saving fastresume data in %s", file.toLocal8Bit().data());
-          if (p->resume_data)
-          {
-            boost::filesystem::ofstream out(fs::path(torrentBackup.path().toLocal8Bit().data()) / file.toLocal8Bit().data(), std::ios_base::binary);
+          qDebug("Saving fastresume data in %s", qPrintable(file));
+          if (p->resume_data) {
+            boost::filesystem::ofstream out(fs::path(torrentBackup.path().toLocal8Bit().constData()) / file.toLocal8Bit().constData(), std::ios_base::binary);
             out.unsetf(std::ios_base::skipws);
             bencode(std::ostream_iterator<char>(out), *p->resume_data);
           }
@@ -1773,7 +1892,7 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
       else if (metadata_received_alert* p = dynamic_cast<metadata_received_alert*>(a.get())) {
         QTorrentHandle h(p->handle);
         if(h.is_valid()) {
-          qDebug("Received metadata for %s", h.hash().toLocal8Bit().data());
+          qDebug("Received metadata for %s", qPrintable(h.hash()));
 #ifdef LIBTORRENT_0_15
           // Append .!qB to incomplete files
           if(appendqBExtension)
@@ -1781,9 +1900,29 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
 #endif
           emit metadataReceived(h);
           // Save metadata
-          QDir torrentBackup(misc::BTBackupLocation());
+          const QDir &torrentBackup(misc::BTBackupLocation());
           if(!QFile::exists(torrentBackup.path()+QDir::separator()+h.hash()+QString(".torrent")))
             h.save_torrent_file(torrentBackup.path()+QDir::separator()+h.hash()+QString(".torrent"));
+          // Copy the torrent file to the export folder
+          if(torrentExport) {
+            QDir exportPath(Preferences::getExportDir());
+            if(exportPath.exists() || exportPath.mkpath(exportPath.absolutePath())) {
+              QString torrent_path = exportPath.absoluteFilePath(h.name()+".torrent");
+              bool duplicate = false;
+              if(QFile::exists(torrent_path)) {
+                // Append hash to torrent name to make it unique
+                torrent_path = exportPath.absoluteFilePath(h.name()+"-"+h.hash()+".torrent");
+                duplicate = true;
+              }
+              h.save_torrent_file(torrent_path);
+              if(duplicate) {
+                // Remove duplicate file if indentical
+                if(misc::sameFiles(exportPath.absoluteFilePath(h.name()+".torrent"), torrent_path)) {
+                  QFile::remove(torrent_path);
+                }
+              }
+            }
+          }
           if(h.is_paused()) {
             // XXX: Unfortunately libtorrent-rasterbar does not send a torrent_paused_alert
             // and the torrent can be paused when metadata is received
@@ -1796,6 +1935,8 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
         if(h.is_valid()) {
           h.auto_managed(false);
           std::cerr << "File Error: " << p->message().c_str() << std::endl;
+          addConsoleMessage(tr("An I/O error occured, '%1' paused.").arg(h.name()));
+          addConsoleMessage(tr("Reason: %1").arg(misc::toQString(p->message())));
           if(h.is_valid()) {
             emit fullDiskError(h, misc::toQString(p->message()));
             h.pause();
@@ -1809,8 +1950,9 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
         if(appendqBExtension) {
           QString name = misc::toQString(h.get_torrent_info().file_at(p->index).path.string());
           if(name.endsWith(".!qB")) {
+            const QString old_name = name;
             name.chop(4);
-            qDebug("Renaming %s to %s", (name+".!qB").toLocal8Bit().data(), name.toLocal8Bit().data());
+            qDebug("Renaming %s to %s", qPrintable(old_name), qPrintable(name));
             h.rename_file(p->index, name);
           }
         }
@@ -1818,7 +1960,6 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
 #endif
       /*else if (torrent_paused_alert* p = dynamic_cast<torrent_paused_alert*>(a.get())) {
       QTorrentHandle h(p->handle);
-      qDebug("Received a torrent_paused_alert for %s", h.hash().toLocal8Bit().data());
       if(h.is_valid()) {
         emit torrentPaused(h);
       }
@@ -1830,7 +1971,7 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
           // Authentication
           if(p->status_code != 401) {
             qDebug("Received a tracker error for %s: %s", p->url.c_str(), p->msg.c_str());
-            QString tracker_url = misc::toQString(p->url);
+            const QString &tracker_url = misc::toQString(p->url);
             QHash<QString, TrackerInfos> trackers_data = trackersInfos.value(h.hash(), QHash<QString, TrackerInfos>());
             TrackerInfos data = trackers_data.value(tracker_url, TrackerInfos(tracker_url));
             data.last_message = misc::toQString(p->msg);
@@ -1846,12 +1987,12 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
         }
       }
       else if (tracker_reply_alert* p = dynamic_cast<tracker_reply_alert*>(a.get())) {
-        QTorrentHandle h(p->handle);
+        const QTorrentHandle h(p->handle);
         if(h.is_valid()){
-          qDebug("Received a tracker reply from %s", p->url.c_str());
+          qDebug("Received a tracker reply from %s (Num_peers=%d)", p->url.c_str(), p->num_peers);
           // Connection was successful now. Remove possible old errors
           QHash<QString, TrackerInfos> trackers_data = trackersInfos.value(h.hash(), QHash<QString, TrackerInfos>());
-          QString tracker_url = misc::toQString(p->url);
+          const QString &tracker_url = misc::toQString(p->url);
           TrackerInfos data = trackers_data.value(tracker_url, TrackerInfos(tracker_url));
           data.last_message = ""; // Reset error/warning message
           data.num_peers = p->num_peers;
@@ -1863,11 +2004,11 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
           trackersInfos[h.hash()] = trackers_data;
         }
       } else if (tracker_warning_alert* p = dynamic_cast<tracker_warning_alert*>(a.get())) {
-        QTorrentHandle h(p->handle);
+        const QTorrentHandle h(p->handle);
         if(h.is_valid()){
           // Connection was successful now but there is a warning message
           QHash<QString, TrackerInfos> trackers_data = trackersInfos.value(h.hash(), QHash<QString, TrackerInfos>());
-          QString tracker_url = misc::toQString(p->url);
+          const QString &tracker_url = misc::toQString(p->url);
           TrackerInfos data = trackers_data.value(tracker_url, TrackerInfos(tracker_url));
           data.last_message = misc::toQString(p->msg); // Store warning message
 #ifndef LIBTORRENT_0_15
@@ -1880,12 +2021,12 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
         }
       }
       else if (portmap_error_alert* p = dynamic_cast<portmap_error_alert*>(a.get())) {
-        addConsoleMessage(tr("UPnP/NAT-PMP: Port mapping failure, message: %1").arg(QString(p->message().c_str())), "red");
+        addConsoleMessage(tr("UPnP/NAT-PMP: Port mapping failure, message: %1").arg(misc::toQString(p->message())), "red");
         //emit UPnPError(QString(p->msg().c_str()));
       }
       else if (portmap_alert* p = dynamic_cast<portmap_alert*>(a.get())) {
         qDebug("UPnP Success, msg: %s", p->message().c_str());
-        addConsoleMessage(tr("UPnP/NAT-PMP: Port mapping successful, message: %1").arg(QString(p->message().c_str())), "blue");
+        addConsoleMessage(tr("UPnP/NAT-PMP: Port mapping successful, message: %1").arg(misc::toQString(p->message())), "blue");
         //emit UPnPSuccess(QString(p->msg().c_str()));
       }
       else if (peer_blocked_alert* p = dynamic_cast<peer_blocked_alert*>(a.get())) {
@@ -1897,34 +2038,35 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
         //emit peerBlocked(QString::fromUtf8(p->ip.to_string().c_str()));
       }
       else if (fastresume_rejected_alert* p = dynamic_cast<fastresume_rejected_alert*>(a.get())) {
-        QTorrentHandle h(p->handle);
+        const QTorrentHandle h(p->handle);
         if(h.is_valid()){
-          qDebug("/!\\ Fast resume failed for %s, reason: %s", h.name().toLocal8Bit().data(), p->message().c_str());
+          qDebug("/!\\ Fast resume failed for %s, reason: %s", qPrintable(h.name()), p->message().c_str());
           addConsoleMessage(tr("Fast resume data was rejected for torrent %1, checking again...").arg(h.name()), QString::fromUtf8("red"));
-          addConsoleMessage(tr("Reason: %1").arg(QString::fromUtf8(p->message().c_str())));
+          addConsoleMessage(tr("Reason: %1").arg(misc::toQString(p->message())));
           //emit fastResumeDataRejected(h.name());
         }
       }
       else if (url_seed_alert* p = dynamic_cast<url_seed_alert*>(a.get())) {
-        addConsoleMessage(tr("Url seed lookup failed for url: %1, message: %2").arg(QString::fromUtf8(p->url.c_str())).arg(QString::fromUtf8(p->message().c_str())), QString::fromUtf8("red"));
+        addConsoleMessage(tr("Url seed lookup failed for url: %1, message: %2").arg(misc::toQString(p->url)).arg(misc::toQString(p->message())), QString::fromUtf8("red"));
         //emit urlSeedProblem(QString::fromUtf8(p->url.c_str()), QString::fromUtf8(p->msg().c_str()));
       }
       else if (torrent_checked_alert* p = dynamic_cast<torrent_checked_alert*>(a.get())) {
         QTorrentHandle h(p->handle);
         if(h.is_valid()){
-          QString hash = h.hash();
-          qDebug("%s have just finished checking", hash.toLocal8Bit().data());
+          const QString &hash = h.hash();
+          qDebug("%s have just finished checking", qPrintable(hash));
+          // Save seed status
+          TorrentPersistentData::saveSeedStatus(h);
           // Move to temp directory if necessary
           if(!h.is_seed() && !defaultTempPath.isEmpty()) {
             // Check if directory is different
-            QDir current_dir(h.save_path());
-            QDir save_dir(getSavePath(h.hash()));
+            const QDir &current_dir(h.save_path());
+            const QDir &save_dir(getSavePath(h.hash()));
             if(current_dir == save_dir) {
               h.move_storage(defaultTempPath);
             }
           }
           emit torrentFinishedChecking(h);
-          emit metadataReceived(h);
           if(torrentsToPausedAfterChecking.contains(hash)) {
             torrentsToPausedAfterChecking.removeOne(hash);
             h.pause();
@@ -1962,29 +2104,34 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
     return s->status();
   }
 
-  QString Bittorrent::getSavePath(QString hash) {
+  QString Bittorrent::getSavePath(QString hash, bool fromScanDir, QString filePath) {
     QString savePath;
     if(TorrentTempData::hasTempData(hash)) {
       savePath = TorrentTempData::getSavePath(hash);
-      if(savePath.isEmpty())
+      if(savePath.isEmpty()) {
         savePath = defaultSavePath;
+      }
       if(appendLabelToSavePath) {
         qDebug("appendLabelToSavePath is true");
-        QString label = TorrentTempData::getLabel(hash);
+        const QString &label = TorrentTempData::getLabel(hash);
         if(!label.isEmpty()) {
-          QDir save_dir(savePath);
+          const QDir &save_dir(savePath);
           if(save_dir.dirName() != label) {
             savePath = save_dir.absoluteFilePath(label);
           }
         }
       }
-      qDebug("getSavePath, got save_path from temp data: %s", savePath.toLocal8Bit().data());
+      qDebug("getSavePath, got save_path from temp data: %s", qPrintable(savePath));
     } else {
       savePath = TorrentPersistentData::getSavePath(hash);
-      if(savePath.isEmpty())
-        savePath = defaultSavePath;
-      if(appendLabelToSavePath) {
-        QString label = TorrentPersistentData::getLabel(hash);
+      if(savePath.isEmpty()) {
+        if(fromScanDir && m_scanFolders->downloadInTorrentFolder(filePath))
+          savePath = QFileInfo(filePath).dir().path();
+        else
+          savePath = defaultSavePath;
+      }
+      if(!fromScanDir && appendLabelToSavePath) {
+        const QString &label = TorrentPersistentData::getLabel(hash);
         if(!label.isEmpty()) {
           QDir save_dir(savePath);
           if(save_dir.dirName() != label) {
@@ -1992,7 +2139,7 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
           }
         }
       }
-      qDebug("getSavePath, got save_path from persistent data: %s", savePath.toLocal8Bit().data());
+      qDebug("getSavePath, got save_path from persistent data: %s", qPrintable(savePath));
     }
     // Clean path
     savePath = misc::expandPath(savePath);
@@ -2001,7 +2148,7 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
     QDir saveDir(savePath);
     if(!saveDir.exists()) {
       if(!saveDir.mkpath(saveDir.absolutePath())) {
-        std::cerr << "Couldn't create the save directory: " << saveDir.path().toLocal8Bit().data() << "\n";
+        std::cerr << "Couldn't create the save directory: " << qPrintable(saveDir.path()) << "\n";
         // XXX: Do something else?
       }
     }
@@ -2019,7 +2166,7 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
                       );
     //emit aboutToDownloadFromUrl(url);
     // Launch downloader thread
-    downloader->downloadUrl(url);
+    downloader->downloadTorrentUrl(url);
   }
 
   void Bittorrent::downloadFromURLList(const QStringList& urls) {
@@ -2034,7 +2181,7 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
 
   void Bittorrent::downloadUrlAndSkipDialog(QString url, QString save_path) {
     //emit aboutToDownloadFromUrl(url);
-    QUrl qurl = QUrl::fromEncoded(url.toLocal8Bit());
+    const QUrl &qurl = QUrl::fromEncoded(url.toLocal8Bit());
     if(!save_path.isEmpty())
       savepath_fromurl[qurl] = save_path;
     url_skippingDlg << qurl;
@@ -2044,7 +2191,7 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
 
   // Add to Bittorrent session the downloaded torrent file
   void Bittorrent::processDownloadedFile(QString url, QString file_path) {
-    int index = url_skippingDlg.indexOf(QUrl::fromEncoded(url.toLocal8Bit()));
+    const int index = url_skippingDlg.indexOf(QUrl::fromEncoded(url.toLocal8Bit()));
     if(index < 0) {
       // Add file to torrent download list
       emit newDownloadedTorrent(file_path, url);
@@ -2058,7 +2205,7 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
   // session. Payload means that it only take into
   // account "useful" part of the rate
   float Bittorrent::getPayloadDownloadRate() const{
-    session_status sessionStatus = s->status();
+    const session_status &sessionStatus = s->status();
     return sessionStatus.payload_download_rate;
   }
 
@@ -2066,7 +2213,7 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
   // session. Payload means that it only take into
   // account "useful" part of the rate
   float Bittorrent::getPayloadUploadRate() const{
-    session_status sessionStatus = s->status();
+    const session_status &sessionStatus = s->status();
     return sessionStatus.payload_upload_rate;
   }
 
@@ -2076,7 +2223,8 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
     if(DHTEnabled) {
       try{
         entry dht_state = s->dht_state();
-        boost::filesystem::ofstream out((misc::cacheLocation()+QDir::separator()+QString::fromUtf8("dht_state")).toLocal8Bit().data(), std::ios_base::binary);
+        const QString &dht_path = misc::cacheLocation()+QDir::separator()+QString::fromUtf8("dht_state");
+        boost::filesystem::ofstream out(dht_path.toLocal8Bit().constData(), std::ios_base::binary);
         out.unsetf(std::ios_base::skipws);
         bencode(std::ostream_iterator<char>(out), dht_state);
         qDebug("DHT entry saved");
@@ -2095,25 +2243,18 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
   // backup directory
   void Bittorrent::startUpTorrents() {
     qDebug("Resuming unfinished torrents");
-    QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
-    QDir torrentBackup(misc::BTBackupLocation());
-    QStringList known_torrents = TorrentPersistentData::knownTorrents();
-
-    if(known_torrents.empty() && !settings.value("v1_4_x_torrent_imported", false).toBool()) {
-      qDebug("No known torrent, importing old torrents");
-      importOldTorrents();
-      return;
-    }
+    const QDir &torrentBackup(misc::BTBackupLocation());
+    const QStringList &known_torrents = TorrentPersistentData::knownTorrents();
 
     // Safety measure because some people reported torrent loss since
     // we switch the v1.5 way of resuming torrents on startup
     QStringList filters;
     filters << "*.torrent";
-    QStringList torrents_on_hd = torrentBackup.entryList(filters, QDir::Files, QDir::Unsorted);
+    const QStringList &torrents_on_hd = torrentBackup.entryList(filters, QDir::Files, QDir::Unsorted);
     foreach(QString hash, torrents_on_hd) {
       hash.chop(8); // remove trailing .torrent
       if(!known_torrents.contains(hash)) {
-        std::cerr << "ERROR Detected!!! Adding back torrent " << hash.toLocal8Bit().data() << " which got lost for some reason." << std::endl;
+        std::cerr << "ERROR Detected!!! Adding back torrent " << qPrintable(hash) << " which got lost for some reason." << std::endl;
         addTorrent(torrentBackup.path()+QDir::separator()+hash+".torrent", false, QString(), true);
       }
     }
@@ -2121,7 +2262,7 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
 
     qDebug("Starting up torrents");
     if(isQueueingEnabled()) {
-      QList<QPair<int, QString> > hashes;
+      priority_queue<QPair<int, QString>, vector<QPair<int, QString> >, std::greater<QPair<int, QString> > > torrent_queue;
       foreach(const QString &hash, known_torrents) {
         QString filePath;
         if(TorrentPersistentData::isMagnet(hash)) {
@@ -2129,14 +2270,17 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
         } else {
           filePath = torrentBackup.path()+QDir::separator()+hash+".torrent";
         }
-        int prio = TorrentPersistentData::getPriority(hash);
-        misc::insertSort2<QString>(hashes, qMakePair(prio, hash));
+        const int prio = TorrentPersistentData::getPriority(hash);
+        torrent_queue.push(qMakePair(prio, hash));
       }
       // Resume downloads
-      QPair<int, QString> couple;
-      foreach(couple, hashes) {
-        QString hash = couple.second;
-        qDebug("Starting up torrent %s", hash.toLocal8Bit().data());
+      int prio = -1;
+      while(!torrent_queue.empty()) {
+        int new_prio = torrent_queue.top().first;
+        Q_ASSERT(new_prio >= prio);
+        const QString &hash = torrent_queue.top().second;
+        torrent_queue.pop();
+        qDebug("Starting up torrent %s", qPrintable(hash));
         if(TorrentPersistentData::isMagnet(hash)) {
           addMagnetUri(TorrentPersistentData::getMagnetUri(hash), true);
         } else {
@@ -2146,7 +2290,7 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
     } else {
       // Resume downloads
       foreach(const QString &hash, known_torrents) {
-        qDebug("Starting up torrent %s", hash.toLocal8Bit().data());
+        qDebug("Starting up torrent %s", qPrintable(hash));
         if(TorrentPersistentData::isMagnet(hash))
           addMagnetUri(TorrentPersistentData::getMagnetUri(hash), true);
         else
@@ -2154,203 +2298,4 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
       }
     }
     qDebug("Unfinished torrents resumed");
-  }
-
-  // Import torrents temp data from v1.4.0 or earlier: save_path, filtered pieces
-  // TODO: Remove in qBittorrent v2.2.0
-  void Bittorrent::importOldTempData(QString torrent_path) {
-    // Create torrent hash
-    boost::intrusive_ptr<torrent_info> t;
-    try {
-      t = new torrent_info(torrent_path.toLocal8Bit().data());
-      QString hash = misc::toQString(t->info_hash());
-      // Load save path
-      QFile savepath_file(misc::BTBackupLocation()+QDir::separator()+hash+".savepath");
-      QByteArray line;
-      QString savePath;
-      if(savepath_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        line = savepath_file.readAll();
-        savepath_file.close();
-        qDebug(" -> Save path: %s", line.data());
-        savePath = QString::fromUtf8(line.data());
-        qDebug("Imported the following save path: %s", savePath.toLocal8Bit().data());
-        TorrentTempData::setSavePath(hash, savePath);
-      }
-      // Load pieces priority
-      QFile pieces_file(misc::BTBackupLocation()+QDir::separator()+hash+".priorities");
-      if(pieces_file.exists()){
-        // Read saved file
-        if(pieces_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-          QByteArray pieces_priorities = pieces_file.readAll();
-          pieces_file.close();
-          QList<QByteArray> pieces_priorities_list = pieces_priorities.split('\n');
-          std::vector<int> pp;
-          for(int i=0; i<t->num_files(); ++i) {
-            int priority = pieces_priorities_list.at(i).toInt();
-            if( priority < 0 || priority > 7) {
-              priority = 1;
-            }
-            //qDebug("Setting piece piority to %d", priority);
-            pp.push_back(priority);
-          }
-          TorrentTempData::setFilesPriority(hash, pp);
-          qDebug("Successfuly imported pieces_priority");
-        }
-      }
-      // Load sequential
-      if(QFile::exists(misc::BTBackupLocation()+QDir::separator()+hash+".incremental")) {
-        qDebug("Imported torrent was sequential");
-        TorrentTempData::setSequential(hash, true);
-      }
-    } catch(std::exception&) {
-    }
-  }
-
-  // Trackers, web seeds, speed limits
-  // TODO: Remove in qBittorrent v2.2.0
-  void Bittorrent::applyFormerAttributeFiles(QTorrentHandle h) {
-    // Load trackers
-    QDir torrentBackup(misc::BTBackupLocation());
-    QFile tracker_file(torrentBackup.path()+QDir::separator()+ h.hash() + ".trackers");
-    if(tracker_file.exists()) {
-      if(tracker_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QStringList lines = QString::fromUtf8(tracker_file.readAll().data()).split("\n");
-        std::vector<announce_entry> trackers;
-        foreach(const QString &line, lines) {
-          QStringList parts = line.split("|");
-          if(parts.size() != 2) continue;
-          announce_entry t(parts[0].toStdString());
-          t.tier = parts[1].toInt();
-          trackers.push_back(t);
-        }
-        if(!trackers.empty()) {
-          h.replace_trackers(trackers);
-          h.force_reannounce();
-        }
-      }
-    }
-    // Load Web seeds
-    QFile urlseeds_file(misc::BTBackupLocation()+QDir::separator()+h.hash()+".urlseeds");
-    if(urlseeds_file.exists()) {
-      if(urlseeds_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QByteArray urlseeds_lines = urlseeds_file.readAll();
-        urlseeds_file.close();
-        QList<QByteArray> url_seeds = urlseeds_lines.split('\n');
-        // First remove from the torrent the url seeds that were deleted
-        // in a previous session
-        QStringList seeds_to_delete;
-        QStringList existing_seeds = h.url_seeds();
-        foreach(const QString &existing_seed, existing_seeds) {
-          if(!url_seeds.contains(existing_seed.toLocal8Bit())) {
-            seeds_to_delete << existing_seed;
-          }
-        }
-        foreach(const QString &existing_seed, seeds_to_delete) {
-          h.remove_url_seed(existing_seed);
-        }
-        // Add the ones that were added in a previous session
-        foreach(const QByteArray &url_seed, url_seeds) {
-          if(!url_seed.isEmpty()) {
-            // XXX: Should we check if it is already in the list before adding it
-            // or is libtorrent clever enough to know
-            h.add_url_seed(url_seed);
-          }
-        }
-      }
-    }
-    // Load speed limits
-    QFile speeds_file(misc::BTBackupLocation()+QDir::separator()+h.hash()+".speedLimits");
-    if(speeds_file.exists()) {
-      if(speeds_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QByteArray speed_limits = speeds_file.readAll();
-        speeds_file.close();
-        QList<QByteArray> speeds = speed_limits.split(' ');
-        if(speeds.size() != 2) {
-          std::cerr << "Invalid .speedLimits file for " << h.hash().toStdString() << '\n';
-          return;
-        }
-        h.set_download_limit(speeds.at(0).toInt());
-        h.set_upload_limit(speeds.at(1).toInt());
-      }
-    }
-  }
-
-  // Import torrents from v1.4.0 or earlier
-  // TODO: Remove in qBittorrent v2.2.0
-  void Bittorrent::importOldTorrents() {
-    QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
-    Q_ASSERT(!settings.value("v1_4_x_torrent_imported", false).toBool());
-    // Import old torrent
-    QDir torrentBackup(misc::BTBackupLocation());
-    QStringList fileNames;
-    QStringList filters;
-    filters << "*.torrent";
-    fileNames = torrentBackup.entryList(filters, QDir::Files, QDir::Unsorted);
-    if(isQueueingEnabled()) {
-      QList<QPair<int, QString> > filePaths;
-      foreach(const QString &fileName, fileNames) {
-        QString filePath = torrentBackup.path()+QDir::separator()+fileName;
-        int prio = 99999;
-        // Get priority
-        QString prioPath = filePath;
-        prioPath.replace(".torrent", ".prio");
-        if(QFile::exists(prioPath)) {
-          QFile prio_file(prioPath);
-          if(prio_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            bool ok = false;
-            prio = prio_file.readAll().toInt(&ok);
-            if(!ok)
-              prio = 99999;
-            prio_file.close();
-          }
-        }
-        misc::insertSort2<QString>(filePaths, qMakePair(prio, filePath));
-      }
-      // Resume downloads
-      QPair<int, QString> fileName;
-      foreach(fileName, filePaths) {
-        importOldTempData(fileName.second);
-        QTorrentHandle h = addTorrent(fileName.second, false, QString(), true);
-        // Sequential download
-        if(TorrentTempData::hasTempData(h.hash())) {
-          qDebug("addTorrent: Setting download as sequential (from tmp data)");
-          h.set_sequential_download(TorrentTempData::isSequential(h.hash()));
-        }
-        applyFormerAttributeFiles(h);
-        QString savePath = TorrentTempData::getSavePath(h.hash());
-        // Save persistent data for new torrent
-        TorrentPersistentData::saveTorrentPersistentData(h);
-        // Save save_path
-        if(!defaultTempPath.isEmpty() && !savePath.isNull()) {
-          qDebug("addTorrent: Saving save_path in persistent data: %s", savePath.toLocal8Bit().data());
-          TorrentPersistentData::saveSavePath(h.hash(), savePath);
-        }
-      }
-    } else {
-      QStringList filePaths;
-      foreach(const QString &fileName, fileNames) {
-        filePaths.append(torrentBackup.path()+QDir::separator()+fileName);
-      }
-      // Resume downloads
-      foreach(const QString &fileName, filePaths) {
-        importOldTempData(fileName);
-        QTorrentHandle h = addTorrent(fileName, false, QString(), true);
-        // Sequential download
-        if(TorrentTempData::hasTempData(h.hash())) {
-          qDebug("addTorrent: Setting download as sequential (from tmp data)");
-          h.set_sequential_download(TorrentTempData::isSequential(h.hash()));
-        }
-        applyFormerAttributeFiles(h);
-        QString savePath = TorrentTempData::getSavePath(h.hash());
-        // Save persistent data for new torrent
-        TorrentPersistentData::saveTorrentPersistentData(h);
-        // Save save_path
-        if(!defaultTempPath.isEmpty() && !savePath.isNull()) {
-          qDebug("addTorrent: Saving save_path in persistent data: %s", savePath.toLocal8Bit().data());
-          TorrentPersistentData::saveSavePath(h.hash(), savePath);
-        }
-      }
-    }
-    settings.setValue("v1_4_x_torrent_imported", true);
-    std::cout << "Successfully imported torrents from v1.4.x (or previous) instance" << std::endl;
   }

@@ -35,18 +35,9 @@
 #ifndef DISABLE_GUI
 #include <QApplication>
 #include <QMessageBox>
+#include <QStyleFactory>
 #include <QSplashScreen>
-#include <QPlastiqueStyle>
-#include "qgnomelook.h"
-#include <QMotifStyle>
-#include <QCDEStyle>
 #include <QPushButton>
-#ifdef Q_WS_WIN
-#include <QWindowsXPStyle>
-#endif
-#ifdef Q_WS_MAC
-#include <QMacStyle>
-#endif
 #include "GUI.h"
 #include "ico.h"
 #else
@@ -81,14 +72,14 @@ class UsageDisplay: public QObject {
 
 public:
   static void displayUsage(char* prg_name) {
-    std::cout << tr("Usage:").toLocal8Bit().data() << std::endl;
-    std::cout << '\t' << prg_name << " --version: " << tr("displays program version").toLocal8Bit().data() << std::endl;
+    std::cout << qPrintable(tr("Usage:")) << std::endl;
+    std::cout << '\t' << prg_name << " --version: " << qPrintable(tr("displays program version")) << std::endl;
 #ifndef DISABLE_GUI
-    std::cout << '\t' << prg_name << " --no-splash: " << tr("disable splash screen").toLocal8Bit().data() << std::endl;
+    std::cout << '\t' << prg_name << " --no-splash: " << qPrintable(tr("disable splash screen")) << std::endl;
 #endif
-    std::cout << '\t' << prg_name << " --help: " << tr("displays this help message").toLocal8Bit().data() << std::endl;
-    std::cout << '\t' << prg_name << " --webui-port=x: " << tr("changes the webui port (current: %1)").arg(QString::number(Preferences::getWebUiPort())).toLocal8Bit().data() << std::endl;
-    std::cout << '\t' << prg_name << " " << tr("[files or urls]: downloads the torrents passed by the user (optional)").toLocal8Bit().data() << std::endl;
+    std::cout << '\t' << prg_name << " --help: " << qPrintable(tr("displays this help message")) << std::endl;
+    std::cout << '\t' << prg_name << " --webui-port=x: " << qPrintable(tr("changes the webui port (current: %1)").arg(QString::number(Preferences::getWebUiPort()))) << std::endl;
+    std::cout << '\t' << prg_name << " " << qPrintable(tr("[files or urls]: downloads the torrents passed by the user (optional)")) << std::endl;
   }
 };
 
@@ -101,19 +92,22 @@ public:
     if(settings.value(QString::fromUtf8("LegalNotice/Accepted"), false).toBool()) // Already accepted once
       return true;
 #ifdef DISABLE_GUI
-    std::cout << std::endl << "*** " << tr("Legal Notice").toLocal8Bit().data() << " ***" << std::endl;
-    std::cout << tr("qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.\n\nNo further notices will be issued.").toLocal8Bit().data() << std::endl << std::endl;
-    std::cout << tr("Press any key to accept and continue...").toLocal8Bit().data() << std::endl;
-    getchar(); // Read pressed key
-    // Save the answer
-    settings.setValue(QString::fromUtf8("LegalNotice/Accepted"), true);
-    return true;
+    std::cout << std::endl << "*** " << qPrintable(tr("Legal Notice")) << " ***" << std::endl;
+    std::cout << qPrintable(tr("qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.\n\nNo further notices will be issued.")) << std::endl << std::endl;
+    std::cout << qPrintable(tr("Press %1 key to accept and continue...").arg("'y'")) << std::endl;
+    char ret = getchar(); // Read pressed key
+    if(ret == 'y' || ret == 'Y') {
+      // Save the answer
+      settings.setValue(QString::fromUtf8("LegalNotice/Accepted"), true);
+      return true;
+    }
+    return false;
 #else
     QMessageBox msgBox;
     msgBox.setText(tr("qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.\n\nNo further notices will be issued."));
     msgBox.setWindowTitle(tr("Legal notice"));
     msgBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
-    QAbstractButton *agree_button =msgBox.addButton(tr("I Agree"), QMessageBox::AcceptRole);
+    QAbstractButton *agree_button = msgBox.addButton(tr("I Agree"), QMessageBox::AcceptRole);
     msgBox.exec();
     if(msgBox.clickedButton() == agree_button) {
       // Save the answer
@@ -160,37 +154,11 @@ void sigabrtHandler(int) {
 #endif
 
 #ifndef DISABLE_GUI
-void useStyle(QApplication *app, int style){
-  switch(style) {
-  case 1:
-    app->setStyle(new QPlastiqueStyle());
-    break;
-  case 2:
-    app->setStyle(new QGnomeLookStyle());
-    break;
-  case 3:
-    app->setStyle(new QMotifStyle());
-    break;
-  case 4:
-    app->setStyle(new QCDEStyle());
-    break;
-#ifdef Q_WS_MAC
-  case 5:
-    app->setStyle(new QMacStyle());
-    break;
-#endif
-#ifdef Q_WS_WIN
-  case 6:
-    app->setStyle(new QWindowsXPStyle());
-    break;
-#endif
-  default:
-    if(app->style()->objectName() == "cleanlooks") {
-      // Force our own cleanlooks style
-      qDebug("Forcing our own cleanlooks style");
-      app->setStyle(new QGnomeLookStyle());
-    }
+void useStyle(QApplication *app, QString style){
+  if(!style.isEmpty()) {
+    QApplication::setStyle(QStyleFactory::create(style));
   }
+  Preferences::setStyle(app->style()->objectName());
 }
 #endif
 
@@ -247,9 +215,9 @@ int main(int argc, char *argv[]){
     settings.setValue(QString::fromUtf8("Preferences/General/Locale"), locale);
   }
   if(translator.load(QString::fromUtf8(":/lang/qbittorrent_") + locale)){
-    qDebug("%s locale recognized, using translation.", (const char*)locale.toLocal8Bit());
+    qDebug("%s locale recognized, using translation.", qPrintable(locale));
   }else{
-    qDebug("%s locale unrecognized, using default (en_GB).", (const char*)locale.toLocal8Bit());
+    qDebug("%s locale unrecognized, using default (en_GB).", qPrintable(locale));
   }
   app->installTranslator(&translator);
   app->setApplicationName(QString::fromUtf8("qBittorrent"));
@@ -274,7 +242,7 @@ int main(int argc, char *argv[]){
       } else {
 #endif
         if(QString::fromLocal8Bit(argv[i]).startsWith("--webui-port=")) {
-          QStringList parts = QString::fromUtf8(argv[i]).split("=");
+          QStringList parts = QString::fromLocal8Bit(argv[i]).split("=");
           if(parts.size() == 2) {
             bool ok = false;
             int new_port = parts.last().toInt(&ok);
@@ -300,7 +268,7 @@ int main(int argc, char *argv[]){
   }
 
 #ifndef DISABLE_GUI
-  useStyle(app, settings.value("Preferences/General/Style", 0).toInt());
+  useStyle(app, settings.value("Preferences/General/Style", "").toString());
   app->setStyleSheet("QStatusBar::item { border-width: 0; }");
   QSplashScreen *splash = 0;
   if(!no_splash) {

@@ -63,7 +63,7 @@ class about : public QDialog, private Ui::AboutDlg{
       te_translation->append(tr("I would like to thank the following people who volunteered to translate qBittorrent:")+QString::fromUtf8("<br>"));
       te_translation->append(QString::fromUtf8(
           "<i>- <u>Brazilian:</u> Nick Marinho (nickmarinho@gmail.com)<br>\
-          - <u>Bulgarian:</u> Tsvetan & Boiko Bankov (emerge_life@users.sourceforge.net)<br>\
+          - <u>Bulgarian:</u> Tsvetan & Boyko Bankoff (emerge_life@users.sourceforge.net)<br>\
           - <u>Catalan:</u> Francisco Luque Contreras (frannoe@ya.com)<br>\
           - <u>Chinese (Simplified):</u> Guo Yue (yue.guo0418@gmail.com)<br>\
           - <u>Chinese (Traditional):</u> Yi-Shun Wang (dnextstep@gmail.com)<br>\
@@ -87,7 +87,7 @@ class about : public QDialog, private Ui::AboutDlg{
           - <u>Spanish:</u> Francisco Luque Contreras (frannoe@ya.com)<br>\
           - <u>Swedish:</u> Daniel Nylander (po@danielnylander.se)<br>\
           - <u>Turkish:</u> Hasan YILMAZ (iletisim@hedefturkce.com) and Erdem Bingöl (erdem84@gmail.com)<br>\
-          - <u>Ukrainian:</u> Andrey Shpachenko (masterfix@users.sourceforge.net)<br><br>"));
+          - <u>Ukrainian:</u> Andrey Shpachenko (masterfix@users.sourceforge.net) and Oleh Prypin (blaxpirit@gmail.com)<br><br>"));
       te_translation->append(tr("Please contact me if you would like to translate qBittorrent into your own language."));
       te_translation->scrollToAnchor(QString::fromUtf8("top"));
       // License

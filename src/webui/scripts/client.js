@@ -106,10 +106,38 @@ window.addEvent('load', function(){
   initializeWindows();
   var r=0;
   var waiting=false;
+  var waitingTrInfo = false;
   
   var stateToImg = function(state){
     return 'images/skin/'+state+'.png';
   };
+  var loadTransferInfo = function() {
+    var url = 'json/transferInfo';
+    if(!waitingTrInfo) {
+      waitingTrInfo = true;
+      var request = new Request.JSON({
+                    url: url,
+                    noCache: true,
+                    method: 'get',
+                    onFailure: function() {
+                      $('error_div').set('html', 'qBittorrent client is not reachable');
+                      waitingTrInfo=false;
+                      loadTransferInfo.delay(4000);
+                    },
+                    onSuccess: function(info) {
+                      if(info) {
+                        $("DlInfos").set('html', info.DlInfos);
+                        $("UpInfos").set('html', info.UpInfos);
+                        waitingTrInfo=false;
+                        loadTransferInfo.delay(3000);
+                      }
+                    }
+                  }).send();
+    }
+  };
+  $('DlInfos').addEvent('click', globalDownloadLimitFN);
+  $('UpInfos').addEvent('click', globalUploadLimitFN);
+  
 	var ajaxfn = function(){
 		var queueing_enabled = false;
 		var url = 'json/events';
@@ -178,6 +206,7 @@ window.addEvent('load', function(){
 		}
 	};
 	ajaxfn();
+        loadTransferInfo();
 // 	ajaxfn.periodical(5000);
 
 	setFilter = function(f) {

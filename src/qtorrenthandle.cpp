@@ -326,7 +326,7 @@ size_type QTorrentHandle::total_redundant_bytes() const {
   return h.status().total_redundant_bytes;
 }
 
-void QTorrentHandle::file_progress(std::vector<size_type>& fp) {
+void QTorrentHandle::file_progress(std::vector<size_type>& fp) const {
   Q_ASSERT(h.is_valid());
   return h.file_progress(fp);
 }
@@ -336,27 +336,27 @@ bool QTorrentHandle::is_checking() const {
   return h.status().state == torrent_status::checking_files || h.status().state == torrent_status::checking_resume_data;
 }
 
-size_type QTorrentHandle::total_done() {
+size_type QTorrentHandle::total_done() const {
   Q_ASSERT(h.is_valid());
   return h.status().total_done;
 }
 
-size_type QTorrentHandle::all_time_download() {
+size_type QTorrentHandle::all_time_download() const {
   Q_ASSERT(h.is_valid());
   return h.status().all_time_download;
 }
 
-size_type QTorrentHandle::all_time_upload() {
+size_type QTorrentHandle::all_time_upload() const {
   Q_ASSERT(h.is_valid());
   return h.status().all_time_upload;
 }
 
-size_type QTorrentHandle::total_payload_download() {
+size_type QTorrentHandle::total_payload_download() const {
   Q_ASSERT(h.is_valid());
   return h.status().total_payload_download;
 }
 
-size_type QTorrentHandle::total_payload_upload() {
+size_type QTorrentHandle::total_payload_upload() const {
   Q_ASSERT(h.is_valid());
   return h.status().total_payload_upload;
 }
@@ -481,12 +481,12 @@ void QTorrentHandle::resume() {
 
 void QTorrentHandle::remove_url_seed(QString seed) {
   Q_ASSERT(h.is_valid());
-  h.remove_url_seed(misc::toString((const char*)seed.toLocal8Bit()));
+  h.remove_url_seed(seed.toStdString());
 }
 
 void QTorrentHandle::add_url_seed(QString seed) {
   Q_ASSERT(h.is_valid());
-  h.add_url_seed(misc::toString((const char*)seed.toLocal8Bit()));
+  h.add_url_seed(seed.toStdString());
 }
 
 void QTorrentHandle::set_max_uploads(int val) {
@@ -505,6 +505,8 @@ void QTorrentHandle::prioritize_files(std::vector<int> v) {
   if(v.size() != (unsigned int)h.get_torrent_info().num_files())
     return;
   h.prioritize_files(v);
+  // Save seed status
+  TorrentPersistentData::saveSeedStatus(*this);
 }
 
 void QTorrentHandle::set_ratio(float ratio) const {
@@ -546,7 +548,7 @@ void QTorrentHandle::set_sequential_download(bool b) {
 
 void QTorrentHandle::set_tracker_login(QString username, QString password) {
   Q_ASSERT(h.is_valid());
-  h.set_tracker_login(std::string(username.toLocal8Bit().data()), std::string(password.toLocal8Bit().data()));
+  h.set_tracker_login(std::string(username.toLocal8Bit().constData()), std::string(password.toLocal8Bit().constData()));
 }
 
 void QTorrentHandle::force_recheck() const {
@@ -556,12 +558,14 @@ void QTorrentHandle::force_recheck() const {
 
 void QTorrentHandle::move_storage(QString new_path) const {
   Q_ASSERT(h.is_valid());
-  h.move_storage(new_path.toLocal8Bit().data());
+  h.move_storage(new_path.toLocal8Bit().constData());
 }
 
 void QTorrentHandle::file_priority(int index, int priority) const {
   Q_ASSERT(h.is_valid());
   h.file_priority(index, priority);
+  // Save seed status
+  TorrentPersistentData::saveSeedStatus(*this);
 }
 
 #ifdef LIBTORRENT_0_15
@@ -602,7 +606,7 @@ bool QTorrentHandle::save_torrent_file(QString path) {
     torrent_file["info"] = meta;
     if(!h.trackers().empty())
       torrent_file["announce"] = h.trackers().front().url;
-    boost::filesystem::ofstream out(path.toLocal8Bit().data(), std::ios_base::binary);
+    boost::filesystem::ofstream out(path.toLocal8Bit().constData(), std::ios_base::binary);
     out.unsetf(std::ios_base::skipws);
     bencode(std::ostream_iterator<char>(out), torrent_file);
     return true;
@@ -672,7 +676,7 @@ void QTorrentHandle::prioritize_first_last_piece(bool b) {
 }
 
 void QTorrentHandle::rename_file(int index, QString name) {
-  h.rename_file(index, std::string(name.toLocal8Bit().data()));
+  h.rename_file(index, std::string(name.toLocal8Bit().constData()));
 }
 
 //

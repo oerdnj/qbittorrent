@@ -35,7 +35,7 @@
 #include <QList>
 #include <QTemporaryFile>
 #include <QSettings>
-#include <QDomDocument>
+#include <QXmlStreamReader>
 #include <QTime>
 #include <QUrl>
 #include <QTimer>
@@ -49,7 +49,7 @@
 #include "bittorrent.h"
 #include "downloadthread.h"
 
-#ifdef QT_4_5
+#if QT_VERSION >= 0x040500
 #include <QHash>
 #else
 #include <QMap>
@@ -92,7 +92,7 @@ public:
   enum FileType {STREAM, FOLDER};
 
   RssFile(): QObject() {}
-  virtual ~RssFile() {}
+  virtual ~RssFile() {};
 
   virtual unsigned int getNbUnRead() const = 0;
   virtual FileType getType() const = 0;
@@ -172,10 +172,10 @@ protected:
       parts = rx.capturedTexts();
     }
     bool ok[4];
-    int day    = parts[nday].toInt(&ok[0]);
+    const int day    = parts[nday].toInt(&ok[0]);
     int year   = parts[nyear].toInt(&ok[1]);
-    int hour   = parts[nhour].toInt(&ok[2]);
-    int minute = parts[nmin].toInt(&ok[3]);
+    const int hour   = parts[nhour].toInt(&ok[2]);
+    const int minute = parts[nmin].toInt(&ok[3]);
     if (!ok[0] || !ok[1] || !ok[2] || !ok[3])
       return QDateTime::currentDateTime();
     int second = 0;
@@ -267,36 +267,46 @@ protected:
 
 public:
   // public constructor
-  RssItem(RssStream* parent, const QDomElement& properties): parent(parent), read(false) {
+  RssItem(RssStream* parent, QXmlStreamReader& xml): parent(parent), read(false) {
     is_valid = false;
     torrent_url = QString::null;
     news_link = QString::null;
     title = QString::null;
-    QDomElement property = properties.firstChild().toElement();
-    while(!property.isNull()) {
-      if (property.tagName() == "title") {
-        title = property.text();
-        if(title.isEmpty()) {
-          is_valid = false;
-          return;
+    while(!xml.atEnd()) {
+      xml.readNext();
+
+      if(xml.isEndElement() && xml.name() == "item")
+        break;
+
+      if(xml.isStartElement()) {
+        if(xml.name() == "title") {
+          title = xml.readElementText();
+          if(title.isEmpty()) {
+            is_valid = false;
+            return;
+          }
+        }
+        else if(xml.name() == "enclosure") {
+          if(xml.attributes().value("type") == "application/x-bittorrent") {
+            torrent_url = xml.attributes().value("url").toString();
+          }
+        }
+        else if(xml.name() == "link") {
+          news_link = xml.readElementText();
+        }
+        else if(xml.name() == "description") {
+          description = xml.readElementText();
+        }
+        else if(xml.name() == "pubDate") {
+          date = parseDate(xml.readElementText());
+        }
+        else if(xml.name() == "author") {
+          author = xml.readElementText();
         }
       }
-      else if (property.tagName() == "enclosure") {
-        if(property.attribute("type", "") == "application/x-bittorrent") {
-          torrent_url = property.attribute("url", QString::null);
-        }
-      }
-      else if (property.tagName() == "link")
-        news_link = property.text();
-      else if (property.tagName() == "description")
-        description = property.text();
-      else if (property.tagName() == "pubDate")
-        date = parseDate(property.text());
-      else if (property.tagName() == "author")
-        author = property.text();
-      property = property.nextSibling().toElement();
     }
-    is_valid = true;
+    if(!title.isEmpty())
+      is_valid = true;
   }
 
   RssItem(RssStream* parent, QString _title, QString _torrent_url, QString _news_link, QString _description, QDateTime _date, QString _author, bool _read):
@@ -329,9 +339,8 @@ public:
   }
 
   static RssItem* fromHash(RssStream* parent, QHash<QString, QVariant> h) {
-    RssItem * item = new RssItem(parent, h["title"].toString(), h["torrent_url"].toString(), h["news_link"].toString(),
-                                 h["description"].toString(), h["date"].toDateTime(), h["author"].toString(), h["read"].toBool());
-    return item;
+    return new RssItem(parent, h["title"].toString(), h["torrent_url"].toString(), h["news_link"].toString(),
+                       h["description"].toString(), h["date"].toDateTime(), h["author"].toString(), h["read"].toBool());
   }
 
   RssStream* getParent() const {
@@ -435,7 +444,7 @@ public:
   QString getIconUrl();
 
 private:
-  short readDoc(const QDomDocument& doc);
+  short readDoc(QIODevice* device);
   void resizeList();
   short openRss();
 };
@@ -525,7 +534,7 @@ public:
     list.insert(i, item);
   }
 
-  static QList<RssItem*> sortNewsList(QList<RssItem*> news_list) {
+  static QList<RssItem*> sortNewsList(const QList<RssItem*>& news_list) {
     QList<RssItem*> new_list;
     foreach(RssItem *item, news_list) {
       insertSortElem(new_list, item);

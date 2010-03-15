@@ -155,6 +155,62 @@ Wszystkie prawa zastrżeżone © 2006 Christophe Dumez&lt;br&gt;(new line)
     </message>
 </context>
 <context>
+    <name>AdvancedSettings</name>
+    <message>
+        <source>Property</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignore transfer limits on local network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Include TCP/IP overhead in transfer limits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disk write cache size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> MiB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Outgoing ports (Min) [0: Disabled]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Outgoing ports (Max) [0: Disabled]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Recheck torrents on completion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Transfer list refresh interval</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> ms</source>
+        <comment> milliseconds</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resolve peer countries (GeoIP)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resolve peer host names</source>
+        <translation type="unfinished">Odczytuje nazwy hostów partnerów</translation>
+    </message>
+</context>
+<context>
     <name>BandwidthAllocationDialog</name>
     <message>
         <source>Upload limit:</source>
@@ -333,19 +389,31 @@ Wszystkie prawa zastrżeżone © 2006 Christophe Dumez&lt;br&gt;(new line)
     </message>
     <message>
         <source>Restart is required to toggle PeX support</source>
-        <translation>Zmiana statusu PeX wymaga ponownego uruchomienia</translation>
+        <translation type="unfinished">Zmiana statusu PeX wymaga ponownego uruchomienia</translation>
     </message>
     <message>
         <source>The Web UI is listening on port %1</source>
-        <translation>Interfejs www nasłuchuje na porcie: %1</translation>
+        <translation type="unfinished">Interfejs www nasłuchuje na porcie: %1</translation>
     </message>
     <message>
         <source>HTTP user agent is %1</source>
-        <translation>HTTP user agent: %1</translation>
+        <translation type="unfinished">HTTP user agent: %1</translation>
     </message>
     <message>
         <source>Reason: %1</source>
-        <translation>Powód: %1</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note: new trackers were added to the existing torrent.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note: new URL seeds were added to the existing torrent.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An I/O error occured, &apos;%1&apos; paused.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2335,7 +2403,7 @@ Zamknij najpierw okno podglądu.</translation>
     <message>
         <source>An error occured (full disk?), &apos;%1&apos; paused.</source>
         <comment>e.g: An error occured (full disk?), &apos;xxx.avi&apos; paused.</comment>
-        <translation>Wystąpił błąd (brak miejsca?), &apos;%1&apos; wstrzymany.</translation>
+        <translation type="obsolete">Wystąpił błąd (brak miejsca?), &apos;%1&apos; wstrzymany.</translation>
     </message>
     <message>
         <source>Search</source>
@@ -2540,7 +2608,7 @@ Czy napewno zamknąć qBittorrent?</translation>
     </message>
     <message>
         <source>Download completion</source>
-        <translation>Zakończenie pobierania</translation>
+        <translation type="unfinished">Zakończenie pobierania</translation>
     </message>
     <message>
         <source>Some files are currently transferring.
@@ -2576,6 +2644,14 @@ Czy napewno zamknąć qBittorrent?</translation>
         <comment>%1 is qBittorrent version</comment>
         <translation>qBittorrent %1 (Pobieranie: %2/s, Wysyłanie: %3/s)</translation>
     </message>
+    <message>
+        <source>Use normal speed limits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use alternative speed limits</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>HeadlessLoader</name>
@@ -2585,19 +2661,19 @@ Czy napewno zamknąć qBittorrent?</translation>
     </message>
     <message>
         <source>To control qBittorrent, access the Web UI at http://localhost:%1</source>
-        <translation>Aby uzyskać dostęp do qBittorrent należy przejść w przeglądarce pod adres http://localhost:%1</translation>
+        <translation type="unfinished">Aby uzyskać dostęp do qBittorrent należy przejść w przeglądarce pod adres http://localhost:%1</translation>
     </message>
     <message>
         <source>The Web UI administrator user name is: %1</source>
-        <translation>Nazwa administratora interfejsu www to: %1</translation>
+        <translation type="unfinished">Nazwa administratora interfejsu www to: %1</translation>
     </message>
     <message>
         <source>The Web UI administrator password is still the default one: %1</source>
-        <translation>Hasło administratora interfejsu www ustawione nadal na domyślne: %1</translation>
+        <translation type="unfinished">Hasło administratora interfejsu www ustawione nadal na domyślne: %1</translation>
     </message>
     <message>
         <source>This is a security risk, please consider changing your password from program preferences.</source>
-        <translation>Proszę rozważyć zmianę hasła w ustawieniach programu.</translation>
+        <translation type="unfinished">Proszę rozważyć zmianę hasła w ustawieniach programu.</translation>
     </message>
 </context>
 <context>
@@ -2605,6 +2681,16 @@ Czy napewno zamknąć qBittorrent?</translation>
     <message>
         <source>Your IP address has been banned after too many failed authentication attempts.</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>D: %1/s - T: %2</source>
+        <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
+        <translation type="unfinished">Pobieranie: %1/s - Pobrano: %2</translation>
+    </message>
+    <message>
+        <source>U: %1/s - T: %2</source>
+        <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
+        <translation type="unfinished">Wysyłanie: %1/s - Wysłano: %2</translation>
     </message>
 </context>
 <context>
@@ -2627,7 +2713,7 @@ Czy napewno zamknąć qBittorrent?</translation>
     </message>
     <message>
         <source>Download Torrents from their URL or Magnet link</source>
-        <translation>Pobierz pliki torrent z adresu www lub magnet</translation>
+        <translation type="unfinished">Pobierz pliki torrent z adresu www lub magnet</translation>
     </message>
     <message>
         <source>Only one link per line</source>
@@ -2700,14 +2786,14 @@ Czy napewno zamknąć qBittorrent?</translation>
     <message>
         <source>Downloaded</source>
         <comment>Is the file downloaded or not?</comment>
-        <translation>Pobrano</translation>
+        <translation type="unfinished">Pobrano</translation>
     </message>
 </context>
 <context>
     <name>LegalNotice</name>
     <message>
         <source>Legal Notice</source>
-        <translation>Notka o legalności</translation>
+        <translation type="unfinished">Notka o legalności</translation>
     </message>
     <message>
         <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by mean of upload. And of course, any content you share if your sole responsatibility.
@@ -2722,27 +2808,29 @@ W przyszłości powiadomienie nie będzie wyświetlane.</translation>
     </message>
     <message>
         <source>Press any key to accept and continue...</source>
-        <translation>Nacisnij dowolny klawisz aby akceptować i kontynuować...</translation>
+        <translation type="obsolete">Nacisnij dowolny klawisz aby akceptować i kontynuować...</translation>
     </message>
     <message>
         <source>Legal notice</source>
-        <translation>Notka o legalności</translation>
+        <translation type="unfinished">Notka o legalności</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Anuluj</translation>
+        <translation type="unfinished">Anuluj</translation>
     </message>
     <message>
         <source>I Agree</source>
-        <translation>Zgadzam się</translation>
+        <translation type="unfinished">Zgadzam się</translation>
     </message>
     <message>
         <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.
 
 No further notices will be issued.</source>
-        <translation>qBittorrent jest programem do wymiany plików. Uruchomienie torrenta powoduje, że jego zawartość jest dostępna dla innych. Użytkownik ponosi pełną odpowiedzialność za udostępniane treści.
-
-W przyszłości powiadomienie nie będzie wyświetlane.</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Press %1 key to accept and continue...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3019,6 +3107,10 @@ W przyszłości powiadomienie nie będzie wyświetlane.</translation>
         <source>Visit Website</source>
         <translation>Odwiedź stronę</translation>
     </message>
+    <message>
+        <source>Use alternative speed limits</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PeerAdditionDlg</name>
@@ -3192,23 +3284,23 @@ W przyszłości powiadomienie nie będzie wyświetlane.</translation>
     </message>
     <message>
         <source>System default</source>
-        <translation>Domyślny systemu</translation>
+        <translation type="obsolete">Domyślny systemu</translation>
     </message>
     <message>
         <source>Plastique style (KDE like)</source>
-        <translation>Styl Plastique (jak KDE3)</translation>
+        <translation type="obsolete">Styl Plastique (jak KDE3)</translation>
     </message>
     <message>
         <source>Cleanlooks style (Gnome like)</source>
-        <translation>Styl Cleanlooks (jak GNOME)</translation>
+        <translation type="obsolete">Styl Cleanlooks (jak GNOME)</translation>
     </message>
     <message>
         <source>Motif style (Unix like)</source>
-        <translation>Styl Motif (jak Unix)</translation>
+        <translation type="obsolete">Styl Motif (jak Unix)</translation>
     </message>
     <message>
         <source>CDE style (Common Desktop Environment like)</source>
-        <translation>Styl CDE (jak Common Desktop Environment)</translation>
+        <translation type="obsolete">Styl CDE (jak Common Desktop Environment)</translation>
     </message>
     <message>
         <source>Ask for confirmation on exit when download list is not empty</source>
@@ -3232,11 +3324,11 @@ W przyszłości powiadomienie nie będzie wyświetlane.</translation>
     </message>
     <message>
         <source>Refresh interval:</source>
-        <translation>Częstotliwość odświeżania:</translation>
+        <translation type="obsolete">Częstotliwość odświeżania:</translation>
     </message>
     <message>
         <source>ms</source>
-        <translation>ms</translation>
+        <translation type="obsolete">ms</translation>
     </message>
     <message>
         <source>Use alternating row colors</source>
@@ -3301,7 +3393,7 @@ margin-left: -3px;
 QGroupBox {
   border-width: 0;
 }</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Destination Folder:</source>
@@ -3309,25 +3401,25 @@ QGroupBox {
     </message>
     <message>
         <source>Append the torrent&apos;s label</source>
-        <translation>Dodaje etykietę torrenta do nazwy katalogu</translation>
+        <translation type="unfinished">Dodaje etykietę torrenta do nazwy katalogu</translation>
     </message>
     <message>
         <source>Use a different folder for incomplete downloads:</source>
-        <translation>Katalog dla niekompletnych pobierań:</translation>
+        <translation type="unfinished">Katalog dla niekompletnych pobierań:</translation>
     </message>
     <message>
         <source>QLineEdit {
   margin-left: 23px;
 }</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Automatically load .torrent files from:</source>
-        <translation>Automatyczne pobieranie plików .torrent z katalogu:</translation>
+        <translation type="obsolete">Automatyczne pobieranie plików .torrent z katalogu:</translation>
     </message>
     <message>
         <source>Append .!qB extension to incomplete files</source>
-        <translation>Dodaje rozszerzenie .!qB dla niekompletnych plików</translation>
+        <translation type="unfinished">Dodaje rozszerzenie .!qB dla niekompletnych plików</translation>
     </message>
     <message>
         <source>Pre-allocate all files</source>
@@ -3335,11 +3427,11 @@ QGroupBox {
     </message>
     <message>
         <source>Disk cache:</source>
-        <translation>Pamięć podręczna na dysku:</translation>
+        <translation type="obsolete">Pamięć podręczna na dysku:</translation>
     </message>
     <message>
         <source>MiB (advanced)</source>
-        <translation>MiB (zaawansowane)</translation>
+        <translation type="obsolete">MiB (zaawansowane)</translation>
     </message>
     <message>
         <source>Torrent queueing</source>
@@ -3363,7 +3455,7 @@ QGroupBox {
     </message>
     <message>
         <source>When adding a torrent</source>
-        <translation>Podczas dodawania torrenta</translation>
+        <translation type="unfinished">Podczas dodawania torrenta</translation>
     </message>
     <message>
         <source>Display torrent content and some options</source>
@@ -3412,7 +3504,7 @@ QGroupBox {
     </message>
     <message>
         <source>Global bandwidth limiting</source>
-        <translation>Ogólne ograniczenie przepustowości łącza</translation>
+        <translation type="obsolete">Ogólne ograniczenie przepustowości łącza</translation>
     </message>
     <message>
         <source>Upload:</source>
@@ -3428,15 +3520,15 @@ QGroupBox {
     </message>
     <message>
         <source>Peer connections</source>
-        <translation>Połączenia z partnerami</translation>
+        <translation type="obsolete">Połączenia z partnerami</translation>
     </message>
     <message>
         <source>Resolve peer countries</source>
-        <translation>Odczytuje kraje partnerów</translation>
+        <translation type="obsolete">Odczytuje kraje partnerów</translation>
     </message>
     <message>
         <source>Resolve peer host names</source>
-        <translation>Odczytuje nazwy hostów partnerów</translation>
+        <translation type="obsolete">Odczytuje nazwy hostów partnerów</translation>
     </message>
     <message>
         <source>Bittorrent features</source>
@@ -3484,7 +3576,7 @@ QGroupBox {
     </message>
     <message>
         <source>Desired ratio:</source>
-        <translation>Żądany współczynnik:</translation>
+        <translation type="unfinished">Żądany współczynnik:</translation>
     </message>
     <message>
         <source>Remove finished torrents when their ratio reaches:</source>
@@ -3508,7 +3600,7 @@ QGroupBox {
     </message>
     <message>
         <source>Authentication</source>
-        <translation>Autentykacja</translation>
+        <translation type="unfinished">Autentykacja</translation>
     </message>
     <message>
         <source>Username:</source>
@@ -3552,19 +3644,19 @@ QGroupBox {
     </message>
     <message>
         <source>minutes</source>
-        <translation>minut</translation>
+        <translation type="unfinished">minut</translation>
     </message>
     <message>
         <source>Maximum number of articles per feed:</source>
-        <translation>Maksymalna ilość wiadomości na kanał RSS:</translation>
+        <translation type="unfinished">Maksymalna ilość wiadomości na kanał RSS:</translation>
     </message>
     <message>
         <source>Filter path (.dat, .p2p, .p2b):</source>
-        <translation>Plik filtra (.dat, .p2p, .p2b):</translation>
+        <translation type="unfinished">Plik filtra (.dat, .p2p, .p2b):</translation>
     </message>
     <message>
         <source>HTTP Communications (trackers, Web seeds, search engine)</source>
-        <translation>Połączenia HTTP (trackery, seedy www, wtyczki wyszukiwania)</translation>
+        <translation type="unfinished">Połączenia HTTP (trackery, seedy www, wtyczki wyszukiwania)</translation>
     </message>
     <message>
         <source>Host:</source>
@@ -3572,19 +3664,19 @@ QGroupBox {
     </message>
     <message>
         <source>Peer Communications</source>
-        <translation>Połączenia z partnerami</translation>
+        <translation type="unfinished">Połączenia z partnerami</translation>
     </message>
     <message>
         <source>SOCKS4</source>
-        <translation>SOCKS4</translation>
+        <translation type="unfinished">SOCKS4</translation>
     </message>
     <message>
         <source>Client whitelisting workaround</source>
-        <translation>Naśladowanie innych klientów w celu ominięcia blokad</translation>
+        <translation type="unfinished">Naśladowanie innych klientów w celu ominięcia blokad</translation>
     </message>
     <message>
         <source>Identify as:</source>
-        <translation>Identyfikuj się jako:</translation>
+        <translation type="unfinished">Identyfikuj się jako:</translation>
     </message>
     <message>
         <source>qBittorrent</source>
@@ -3605,15 +3697,72 @@ QGroupBox {
     <message>
         <source>Build:</source>
         <extracomment>Software Build nulmber:</extracomment>
-        <translation>Wydanie:</translation>
+        <translation type="unfinished">Wydanie:</translation>
     </message>
     <message>
         <source>Reset to latest software version</source>
-        <translation>Przywraca ostatnią wersję programu</translation>
+        <translation type="unfinished">Przywraca ostatnią wersję programu</translation>
     </message>
     <message>
         <source>KTorrent</source>
         <translation>KTorrent</translation>
+    </message>
+    <message>
+        <source>Speed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Global speed limits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alternative global speed limits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scheduled times:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>to</source>
+        <extracomment>time1 to time2</extracomment>
+        <translation type="unfinished">do</translation>
+    </message>
+    <message>
+        <source>On days:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Every day</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Week days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Week ends</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy .torrent files to:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check Folders for .torrent Files:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add folder ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove folder</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3628,7 +3777,7 @@ QGroupBox {
     </message>
     <message>
         <source>Ignored</source>
-        <translation type="unfinished">Ignorowany</translation>
+        <translation type="obsolete">Ignorowany</translation>
     </message>
     <message>
         <source>Normal</source>
@@ -3644,6 +3793,10 @@ QGroupBox {
         <source>Maximum</source>
         <comment>Maximum (priority)</comment>
         <translation type="unfinished">Maksymalny</translation>
+    </message>
+    <message>
+        <source>Not downloaded</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3734,7 +3887,7 @@ QGroupBox {
     </message>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">Priorytet</translation>
+        <translation type="unfinished">Priorytet</translation>
     </message>
     <message>
         <source>Unknown</source>
@@ -3827,15 +3980,15 @@ QGroupBox {
     </message>
     <message>
         <source>Normal</source>
-        <translation type="obsolete">Normalny</translation>
+        <translation type="unfinished">Normalny</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation type="obsolete">Maksymalny</translation>
+        <translation type="unfinished">Maksymalny</translation>
     </message>
     <message>
         <source>High</source>
-        <translation type="obsolete">Wysoki</translation>
+        <translation type="unfinished">Wysoki</translation>
     </message>
     <message>
         <source>this session</source>
@@ -3894,11 +4047,11 @@ QGroupBox {
     </message>
     <message>
         <source>This file does not exist yet.</source>
-        <translation>Plik jeszcze nie istnieje.</translation>
+        <translation type="unfinished">Plik jeszcze nie istnieje.</translation>
     </message>
     <message>
         <source>This folder does not exist yet.</source>
-        <translation>Katalog jeszcze nie istnieje.</translation>
+        <translation type="unfinished">Katalog jeszcze nie istnieje.</translation>
     </message>
 </context>
 <context>
@@ -3916,7 +4069,7 @@ QGroupBox {
     </message>
     <message>
         <source>New subscription</source>
-        <translation>Nowy kanał RSS</translation>
+        <translation type="unfinished">Nowy kanał RSS</translation>
     </message>
     <message>
         <source>Mark items read</source>
@@ -3924,19 +4077,19 @@ QGroupBox {
     </message>
     <message>
         <source>Update all</source>
-        <translation>Odśwież wszystkie</translation>
+        <translation type="unfinished">Odśwież wszystkie</translation>
     </message>
     <message>
         <source>Feed URL</source>
-        <translation>Adres kanału RSS</translation>
+        <translation type="unfinished">Adres kanału RSS</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation>Odśwież</translation>
+        <translation type="unfinished">Odśwież</translation>
     </message>
     <message>
         <source>New folder</source>
-        <translation>Nowy katalog</translation>
+        <translation type="unfinished">Nowy katalog</translation>
     </message>
     <message>
         <source>RSS feeds</source>
@@ -3948,7 +4101,7 @@ QGroupBox {
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Torrents:&lt;/span&gt; &lt;span style=&quot; font-style:italic;&quot;&gt;(double-click to download)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="unfinished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -3956,11 +4109,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Article title</source>
-        <translation>Tytuł</translation>
+        <translation type="unfinished">Tytuł</translation>
     </message>
     <message>
         <source>Update all feeds</source>
-        <translation>Odśwież wszystkie kanały RSS</translation>
+        <translation type="unfinished">Odśwież wszystkie kanały RSS</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -3976,19 +4129,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Download torrent</source>
-        <translation>Pobierz torrenta</translation>
+        <translation type="unfinished">Pobierz torrenta</translation>
     </message>
     <message>
         <source>Open news URL</source>
-        <translation>Otwórz URL wiadomości</translation>
+        <translation type="unfinished">Otwórz URL wiadomości</translation>
     </message>
     <message>
         <source>Copy feed URL</source>
-        <translation>Kopiuj adres kanału RSS</translation>
+        <translation type="unfinished">Kopiuj adres kanału RSS</translation>
     </message>
     <message>
         <source>RSS feed downloader</source>
-        <translation>Pobieranie z kanałów RSS</translation>
+        <translation type="unfinished">Pobieranie z kanałów RSS</translation>
     </message>
     <message>
         <source>Create</source>
@@ -4000,7 +4153,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Refresh RSS streams</source>
-        <translation>Odśwież strumienie RSS</translation>
+        <translation type="unfinished">Odśwież strumienie RSS</translation>
     </message>
     <message>
         <source>Add a new RSS stream</source>
@@ -4039,7 +4192,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Stream URL:</source>
-        <translation>URL dla nowego kanału RSS:</translation>
+        <translation type="unfinished">URL dla nowego kanału RSS:</translation>
     </message>
     <message>
         <source>Please choose a new name for this stream</source>
@@ -4091,24 +4244,24 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Please choose a folder name</source>
-        <translation>Wprowadź nazwę katalogu</translation>
+        <translation type="unfinished">Wprowadź nazwę katalogu</translation>
     </message>
     <message>
         <source>Folder name:</source>
-        <translation>Nazwa dla nowego katalogu:</translation>
+        <translation type="unfinished">Nazwa dla nowego katalogu:</translation>
     </message>
     <message>
         <source>New folder</source>
-        <translation>Nowy katalog</translation>
+        <translation type="unfinished">Nowy katalog</translation>
     </message>
     <message>
         <source>Overwrite attempt</source>
-        <translation>Próba nadpisania</translation>
+        <translation type="unfinished">Próba nadpisania</translation>
     </message>
     <message>
         <source>You cannot overwrite %1 item.</source>
         <comment>You cannot overwrite myFolder item.</comment>
-        <translation>Nie mozna nadpisać katalogu %1.</translation>
+        <translation type="unfinished">Nie mozna nadpisać katalogu %1.</translation>
     </message>
     <message>
         <source>qBittorrent</source>
@@ -4120,11 +4273,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Are you sure you want to delete these elements from the list?</source>
-        <translation>Czy chcesz usunąć wybrane elementy z listy?</translation>
+        <translation type="unfinished">Czy chcesz usunąć wybrane elementy z listy?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this element from the list?</source>
-        <translation>Czy chcesz usunąć wybrany element z listy?</translation>
+        <translation type="unfinished">Czy chcesz usunąć wybrany element z listy?</translation>
     </message>
     <message>
         <source>Please choose a new name for this RSS feed</source>
@@ -4176,6 +4329,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Never</source>
         <translation type="obsolete">Nigdy</translation>
+    </message>
+</context>
+<context>
+    <name>ScanFoldersModel</name>
+    <message>
+        <source>Watched Folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download here</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4363,6 +4527,10 @@ Zmiany:
         <source>Unknown</source>
         <translation>Nieznany</translation>
     </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished">Szukaj</translation>
+    </message>
 </context>
 <context>
     <name>SearchTab</name>
@@ -4451,6 +4619,14 @@ Zmiany:
     <message>
         <source>Offline. This usually means that qBittorrent failed to listen on the selected port for incoming connections.</source>
         <translation>Offline. Oznacza, że qBittorent nie jest w stanie nasłuchiwać połączeń przychodzących na wybranym porcie.</translation>
+    </message>
+    <message>
+        <source>Click to disable alternative speed limits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click to enable alternative speed limits</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4543,7 +4719,7 @@ Zmiany:
     </message>
     <message utf8="true">
         <source>µTorrent compatible list URL:</source>
-        <translation>Adres kompatybilny z µTorrent:</translation>
+        <translation type="unfinished">Adres kompatybilny z µTorrent:</translation>
     </message>
     <message>
         <source>I/O Error</source>
@@ -4608,6 +4784,11 @@ Zmiany:
         <source>/s</source>
         <comment>/second (.i.e per second)</comment>
         <translation>/s</translation>
+    </message>
+    <message>
+        <source>KiB/s</source>
+        <comment>KiB/second (.i.e per second)</comment>
+        <translation type="unfinished">KiB/s</translation>
     </message>
 </context>
 <context>
@@ -4880,6 +5061,26 @@ Zmiany:
         <source>Please don&apos;t use any special characters in the label name.</source>
         <translation>Nie należy używać żadnych znaków specjalnych w nazwach etykiet.</translation>
     </message>
+    <message>
+        <source>Added On</source>
+        <comment>Torrent was added to transfer list on 01/01/2010 08:00</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Completed On</source>
+        <comment>Torrent was completed on 01/01/2010 08:00</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Down Limit</source>
+        <comment>i.e: Download limit</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Up Limit</source>
+        <comment>i.e: Upload limit</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Ui</name>
@@ -5085,15 +5286,15 @@ Zmiany:
     </message>
     <message>
         <source>Normal</source>
-        <translation type="obsolete">Normalny</translation>
+        <translation type="unfinished">Normalny</translation>
     </message>
     <message>
         <source>High</source>
-        <translation type="obsolete">Wysoki</translation>
+        <translation type="unfinished">Wysoki</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation type="obsolete">Maksymalny</translation>
+        <translation type="unfinished">Maksymalny</translation>
     </message>
     <message>
         <source>Collapse all</source>
@@ -5593,15 +5794,15 @@ Zmiany:
     </message>
     <message>
         <source>The operation was canceled</source>
-        <translation>Operacja została anulowana</translation>
+        <translation type="unfinished">Operacja została anulowana</translation>
     </message>
     <message>
         <source>The remote server closed the connection prematurely, before the entire reply was received and processed</source>
-        <translation>Zdalny serwer przedwcześnie zakończył połączenie, zanim otrzymano i przetworzono odpowiedź</translation>
+        <translation type="unfinished">Zdalny serwer przedwcześnie zakończył połączenie, zanim otrzymano i przetworzono odpowiedź</translation>
     </message>
     <message>
         <source>The connection to the remote server timed out</source>
-        <translation>Przekroczono czas oczekiwania na połącznie ze zdalnym serwerem</translation>
+        <translation type="unfinished">Przekroczono czas oczekiwania na połącznie ze zdalnym serwerem</translation>
     </message>
     <message>
         <source>SSL/TLS handshake failed</source>
@@ -5609,19 +5810,19 @@ Zmiany:
     </message>
     <message>
         <source>The remote server refused the connection</source>
-        <translation>Zdalny serwer odrzucił połączenie</translation>
+        <translation type="unfinished">Zdalny serwer odrzucił połączenie</translation>
     </message>
     <message>
         <source>The connection to the proxy server was refused</source>
-        <translation>Połączenie z serwerem proxy zostało odrzucone</translation>
+        <translation type="unfinished">Połączenie z serwerem proxy zostało odrzucone</translation>
     </message>
     <message>
         <source>The proxy server closed the connection prematurely</source>
-        <translation>Serwer proxy przedwcześnie zakończył połączenie</translation>
+        <translation type="unfinished">Serwer proxy przedwcześnie zakończył połączenie</translation>
     </message>
     <message>
         <source>The proxy host name was not found</source>
-        <translation>Nie znaleziono nazwy hosta serwera proxy</translation>
+        <translation type="unfinished">Nie znaleziono nazwy hosta serwera proxy</translation>
     </message>
     <message>
         <source>The connection to the proxy timed out or the proxy did not reply in time to the request sent</source>
@@ -5948,22 +6149,22 @@ Jednak tamte wtyczki były wyłączone.</translation>
     <message>
         <source>%1 search engine plugin could not be updated, keeping old version.</source>
         <comment>%1 is the name of the search engine</comment>
-        <translation>Nie można zaktualizować wtyczki wyszukiwania %1, pozostaje stara wersja.</translation>
+        <translation type="unfinished">Nie można zaktualizować wtyczki wyszukiwania %1, pozostaje stara wersja.</translation>
     </message>
     <message>
         <source>%1 search engine plugin could not be installed.</source>
         <comment>%1 is the name of the search engine</comment>
-        <translation>Wtyczka wyszukiwania %1 nie może być zainstalowana.</translation>
+        <translation type="unfinished">Wtyczka wyszukiwania %1 nie może być zainstalowana.</translation>
     </message>
     <message>
         <source>%1 search engine plugin was successfully updated.</source>
         <comment>%1 is the name of the search engine</comment>
-        <translation>Pomyślnie zaktualizowano wtyczkę wyszukiwania %1.</translation>
+        <translation type="unfinished">Pomyślnie zaktualizowano wtyczkę wyszukiwania %1.</translation>
     </message>
     <message>
         <source>%1 search engine plugin was successfully installed.</source>
         <comment>%1 is the name of the search engine</comment>
-        <translation>Pomyślnie zainstalowano wtyczkę wyszukiwania %1.</translation>
+        <translation type="unfinished">Pomyślnie zainstalowano wtyczkę wyszukiwania %1.</translation>
     </message>
     <message>
         <source>Search engine plugin archive could not be read.</source>
@@ -5976,7 +6177,7 @@ Jednak tamte wtyczki były wyłączone.</translation>
     </message>
     <message>
         <source>New search engine plugin URL</source>
-        <translation>URL nowej wtyczki wyszukiwania</translation>
+        <translation type="unfinished">URL nowej wtyczki wyszukiwania</translation>
     </message>
     <message>
         <source>URL:</source>
@@ -6162,7 +6363,7 @@ Jednak tamte wtyczki były wyłączone.</translation>
     </message>
     <message>
         <source>Choose scan directory</source>
-        <translation>Wybierz katalog przeszukiwania</translation>
+        <translation type="obsolete">Wybierz katalog przeszukiwania</translation>
     </message>
     <message>
         <source>Choose an ipfilter.dat file</source>
@@ -6192,6 +6393,34 @@ Jednak tamte wtyczki były wyłączone.</translation>
     <message>
         <source>Filters</source>
         <translation>Filtry</translation>
+    </message>
+    <message>
+        <source>Choose export directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add directory to scan</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Folder is already being watched.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Folder does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Folder is not readable.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failure</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to add Scan Folder &apos;%1&apos;: %2</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6867,7 +7096,7 @@ Jednak tamte wtyczki były wyłączone.</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">Priorytet</translation>
+        <translation type="unfinished">Priorytet</translation>
     </message>
     <message>
         <source>Seeding mode error</source>
@@ -6903,7 +7132,7 @@ Jednak tamte wtyczki były wyłączone.</translation>
     </message>
     <message>
         <source>Unable to decode magnet link:</source>
-        <translation>Nie można odczytać adresu magnet:</translation>
+        <translation type="unfinished">Nie można odczytać adresu magnet:</translation>
     </message>
     <message>
         <source>Magnet Link</source>

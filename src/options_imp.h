@@ -42,6 +42,7 @@ enum DoubleClickAction {TOGGLE_PAUSE, OPEN_DEST};
 using namespace libtorrent;
 
 class QCloseEvent;
+class AdvancedSettings;
 
 class options_imp : public QDialog, private Ui_Preferences {
   Q_OBJECT
@@ -50,6 +51,8 @@ private:
   QButtonGroup choiceLanguage;
   QStringList locales;
   QAbstractButton *applyButton;
+  AdvancedSettings *advancedSettings;
+  QList<QString> addedScanDirs;
 
 public:
   // Contructor / Destructor
@@ -63,10 +66,9 @@ protected:
   void loadOptions();
   // General options
   QString getLocale() const;
-  int getStyle() const;
+  QString getStyle() const;
   bool confirmOnExit() const;
   bool speedInTitleBar() const;
-  unsigned int getRefreshInterval() const;
   bool systrayIntegration() const;
   bool minimizeToTray() const;
   bool closeToTray() const;
@@ -81,8 +83,7 @@ protected:
   bool preAllocateAllFiles() const;
   bool useAdditionDialog() const;
   bool addTorrentsInPause() const;
-  bool isDirScanEnabled() const;
-  QString getScanDir() const;
+  QString getExportDir() const;
   int getActionOnDblClOnTorrentDl() const;
   int getActionOnDblClOnTorrentFn() const;
   // Connection options
@@ -134,7 +135,7 @@ protected slots:
   void enableUploadLimit(bool checked);
   void enableDownloadLimit(bool checked);
   void enableTempPathInput(bool checked);
-  void enableDirScan(bool checked);
+  void enableTorrentExport(bool checked);
   void enablePeerProxy(int comboIndex);
   void enablePeerProxyAuth(bool checked);
   void enableHTTPProxy(int comboIndex);
@@ -142,6 +143,7 @@ protected slots:
   void enableMaxConnecsLimit(bool checked);
   void enableMaxConnecsLimitPerTorrent(bool checked);
   void enableMaxUploadsLimitPerTorrent(bool checked);
+  void enableSchedulerFields(bool checked);
   void enableShareRatio(bool checked);
   void enableDeleteRatio(bool checked);
   void enableFilter(bool checked);
@@ -150,12 +152,12 @@ protected slots:
   void enableDHTPortSettings(bool checked);
   void enableQueueingSystem(bool checked);
   void enableSpoofingSettings(int index);
-  void setStyle(int style);
+  void setStyle(QString style);
   void on_buttonBox_accepted();
   void closeEvent(QCloseEvent *e);
   void on_buttonBox_rejected();
   void applySettings(QAbstractButton* button);
-  void on_browseScanDirButton_clicked();
+  void on_browseExportDirButton_clicked();
   void on_browseFilterButton_clicked();
   void on_browseSaveDirButton_clicked();
   void on_browseTempDirButton_clicked();
@@ -168,6 +170,9 @@ protected slots:
   void loadWindowState();
   void saveWindowState() const;
   void on_randomButton_clicked();
+  void on_addScanFolderButton_clicked();
+  void on_removeScanFolderButton_clicked();
+  void handleScanFolderViewSelectionChanged();
 
 public slots:
   void setLocale(QString locale);
