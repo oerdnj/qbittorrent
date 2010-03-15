@@ -156,6 +156,62 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>AdvancedSettings</name>
+    <message>
+        <source>Property</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignore transfer limits on local network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Include TCP/IP overhead in transfer limits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disk write cache size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> MiB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Outgoing ports (Min) [0: Disabled]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Outgoing ports (Max) [0: Disabled]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Recheck torrents on completion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Transfer list refresh interval</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> ms</source>
+        <comment> milliseconds</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resolve peer countries (GeoIP)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resolve peer host names</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>BandwidthAllocationDialog</name>
     <message>
         <source>Upload limit:</source>
@@ -342,6 +398,18 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Reason: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note: new trackers were added to the existing torrent.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note: new URL seeds were added to the existing torrent.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An I/O error occured, &apos;%1&apos; paused.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2280,7 +2348,7 @@ Stop het eerste proccess eerst.
     <message>
         <source>An error occured (full disk?), &apos;%1&apos; paused.</source>
         <comment>e.g: An error occured (full disk?), &apos;xxx.avi&apos; paused.</comment>
-        <translation>Er is een fout opgetreden (schijf vol?), &apos;%1&apos; gepauzeerd.</translation>
+        <translation type="obsolete">Er is een fout opgetreden (schijf vol?), &apos;%1&apos; gepauzeerd.</translation>
     </message>
     <message>
         <source>Search</source>
@@ -2498,6 +2566,14 @@ Are you sure you want to quit qBittorrent?</source>
         <comment>%1 is qBittorrent version</comment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Use normal speed limits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use alternative speed limits</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>HeadlessLoader</name>
@@ -2526,6 +2602,16 @@ Are you sure you want to quit qBittorrent?</source>
     <name>HttpConnection</name>
     <message>
         <source>Your IP address has been banned after too many failed authentication attempts.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>D: %1/s - T: %2</source>
+        <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>U: %1/s - T: %2</source>
+        <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2632,10 +2718,6 @@ Are you sure you want to quit qBittorrent?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Press any key to accept and continue...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Legal notice</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2651,6 +2733,10 @@ Are you sure you want to quit qBittorrent?</source>
         <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.
 
 No further notices will be issued.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Press %1 key to accept and continue...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2920,6 +3006,10 @@ No further notices will be issued.</source>
         <source>Visit Website</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Use alternative speed limits</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PeerAdditionDlg</name>
@@ -3092,26 +3182,6 @@ No further notices will be issued.</source>
         <translation type="unfinished">Visuele stijl:</translation>
     </message>
     <message>
-        <source>System default</source>
-        <translation type="unfinished">Systeem standaard</translation>
-    </message>
-    <message>
-        <source>Plastique style (KDE like)</source>
-        <translation type="unfinished">Plastique stijl (zoals KDE)</translation>
-    </message>
-    <message>
-        <source>Cleanlooks style (Gnome like)</source>
-        <translation type="unfinished">Cleanlooks stijl (zoals Gnome)</translation>
-    </message>
-    <message>
-        <source>Motif style (Unix like)</source>
-        <translation type="unfinished">Motif stijl (zoals Unix)</translation>
-    </message>
-    <message>
-        <source>CDE style (Common Desktop Environment like)</source>
-        <translation type="unfinished">CDE stijl (zoals Common Desktop Environment)</translation>
-    </message>
-    <message>
         <source>Ask for confirmation on exit when download list is not empty</source>
         <translation type="unfinished">Toestemming vragen tijdens afsluiten als de downloadlijst niet leeg is</translation>
     </message>
@@ -3130,14 +3200,6 @@ No further notices will be issued.</source>
     <message>
         <source>Transfer list</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Refresh interval:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ms</source>
-        <translation type="unfinished">ms</translation>
     </message>
     <message>
         <source>Use alternating row colors</source>
@@ -3223,24 +3285,12 @@ QGroupBox {
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Automatically load .torrent files from:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Append .!qB extension to incomplete files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pre-allocate all files</source>
         <translation type="unfinished">Schijfruimte vooraf toewijzen voor alle bestanden</translation>
-    </message>
-    <message>
-        <source>Disk cache:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>MiB (advanced)</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Torrent queueing</source>
@@ -3312,10 +3362,6 @@ QGroupBox {
         <translation type="unfinished">Maximum aantal uploads per torrent:</translation>
     </message>
     <message>
-        <source>Global bandwidth limiting</source>
-        <translation type="unfinished">Globaal bandbreedtelimiet</translation>
-    </message>
-    <message>
         <source>Upload:</source>
         <translation type="unfinished">Upload:</translation>
     </message>
@@ -3326,18 +3372,6 @@ QGroupBox {
     <message>
         <source>KiB/s</source>
         <translation type="unfinished">KiB/s</translation>
-    </message>
-    <message>
-        <source>Peer connections</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Resolve peer countries</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Resolve peer host names</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Bittorrent features</source>
@@ -3477,7 +3511,7 @@ QGroupBox {
     </message>
     <message>
         <source>SOCKS4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SOCKS4</translation>
     </message>
     <message>
         <source>Client whitelisting workaround</source>
@@ -3516,6 +3550,63 @@ QGroupBox {
         <source>KTorrent</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Speed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Global speed limits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alternative global speed limits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scheduled times:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>to</source>
+        <extracomment>time1 to time2</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>On days:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Every day</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Week days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Week ends</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy .torrent files to:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check Folders for .torrent Files:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add folder ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove folder</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PropListDelegate</name>
@@ -3529,7 +3620,7 @@ QGroupBox {
     </message>
     <message>
         <source>Ignored</source>
-        <translation type="unfinished">Genegeerd</translation>
+        <translation type="obsolete">Genegeerd</translation>
     </message>
     <message>
         <source>Normal</source>
@@ -3545,6 +3636,10 @@ QGroupBox {
         <source>Maximum</source>
         <comment>Maximum (priority)</comment>
         <translation type="unfinished">Maximum</translation>
+    </message>
+    <message>
+        <source>Not downloaded</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3639,7 +3734,7 @@ QGroupBox {
     </message>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">Prioriteit</translation>
+        <translation type="unfinished">Prioriteit</translation>
     </message>
     <message>
         <source>Unknown</source>
@@ -3732,15 +3827,15 @@ QGroupBox {
     </message>
     <message>
         <source>Normal</source>
-        <translation type="obsolete">Normaal</translation>
+        <translation type="unfinished">Normaal</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation type="obsolete">Maximum</translation>
+        <translation type="unfinished">Maximum</translation>
     </message>
     <message>
         <source>High</source>
-        <translation type="obsolete">Hoog</translation>
+        <translation type="unfinished">Hoog</translation>
     </message>
     <message>
         <source>this session</source>
@@ -4076,6 +4171,17 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>ScanFoldersModel</name>
+    <message>
+        <source>Watched Folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download here</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SearchCategories</name>
     <message>
         <source>All categories</source>
@@ -4259,6 +4365,10 @@ Changelog:
         <source>Unknown</source>
         <translation>Onbekend</translation>
     </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished">Zoeken</translation>
+    </message>
 </context>
 <context>
     <name>SearchTab</name>
@@ -4346,6 +4456,14 @@ Changelog:
     </message>
     <message>
         <source>Offline. This usually means that qBittorrent failed to listen on the selected port for incoming connections.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click to disable alternative speed limits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click to enable alternative speed limits</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4504,6 +4622,11 @@ Changelog:
         <source>/s</source>
         <comment>/second (.i.e per second)</comment>
         <translation type="unfinished">/s</translation>
+    </message>
+    <message>
+        <source>KiB/s</source>
+        <comment>KiB/second (.i.e per second)</comment>
+        <translation type="unfinished">KiB/s</translation>
     </message>
 </context>
 <context>
@@ -4781,6 +4904,26 @@ Changelog:
         <source>Please don&apos;t use any special characters in the label name.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Added On</source>
+        <comment>Torrent was added to transfer list on 01/01/2010 08:00</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Completed On</source>
+        <comment>Torrent was completed on 01/01/2010 08:00</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Down Limit</source>
+        <comment>i.e: Download limit</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Up Limit</source>
+        <comment>i.e: Upload limit</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Ui</name>
@@ -4974,15 +5117,15 @@ Changelog:
     </message>
     <message>
         <source>Normal</source>
-        <translation type="obsolete">Normaal</translation>
+        <translation type="unfinished">Normaal</translation>
     </message>
     <message>
         <source>High</source>
-        <translation type="obsolete">Hoog</translation>
+        <translation type="unfinished">Hoog</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation type="obsolete">Maximum</translation>
+        <translation type="unfinished">Maximum</translation>
     </message>
     <message>
         <source>Collapse all</source>
@@ -6074,7 +6217,7 @@ De plugins zijn uitgeschakeld.</translation>
     </message>
     <message>
         <source>Choose scan directory</source>
-        <translation>Kies scanmap</translation>
+        <translation type="obsolete">Kies scanmap</translation>
     </message>
     <message>
         <source>Choose an ipfilter.dat file</source>
@@ -6100,6 +6243,34 @@ De plugins zijn uitgeschakeld.</translation>
     <message>
         <source>Filters</source>
         <translation>Filters</translation>
+    </message>
+    <message>
+        <source>Choose export directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add directory to scan</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Folder is already being watched.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Folder does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Folder is not readable.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failure</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to add Scan Folder &apos;%1&apos;: %2</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6804,7 +6975,7 @@ selecteer alstublieft een er van:</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">Prioriteit</translation>
+        <translation type="unfinished">Prioriteit</translation>
     </message>
     <message>
         <source>Seeding mode error</source>

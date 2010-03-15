@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="en_US">
+<TS version="2.0">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -106,6 +106,62 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Um cliente Bittorrent programado em C++, baseado no toolkit Qt4&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;e libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2009 Christophe Dumez&lt;br /&gt;&lt;br /&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Home Page:&lt;/span&gt; &lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>AdvancedSettings</name>
+    <message>
+        <source>Property</source>
+        <translation>Propriedade</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>Valor</translation>
+    </message>
+    <message>
+        <source>Ignore transfer limits on local network</source>
+        <translation>Ignorar limite de transferência na internet local</translation>
+    </message>
+    <message>
+        <source>Include TCP/IP overhead in transfer limits</source>
+        <translation>Incluir sobrecarga TCP/IP no limite de transferência</translation>
+    </message>
+    <message>
+        <source>Disk write cache size</source>
+        <translation>Tamanho de cache em disco</translation>
+    </message>
+    <message>
+        <source> MiB</source>
+        <translation>MiB</translation>
+    </message>
+    <message>
+        <source>Outgoing ports (Min) [0: Disabled]</source>
+        <translation>Portas de saída (Min) [0: Desabilitado]</translation>
+    </message>
+    <message>
+        <source>Outgoing ports (Max) [0: Disabled]</source>
+        <translation>Portas de saída (Max) [0: Desabilitado]</translation>
+    </message>
+    <message>
+        <source>Recheck torrents on completion</source>
+        <translation>Rechecar torrents em completação</translation>
+    </message>
+    <message>
+        <source>Transfer list refresh interval</source>
+        <translation>Intervalo de atualização da lista de transferência</translation>
+    </message>
+    <message>
+        <source> ms</source>
+        <comment> milliseconds</comment>
+        <translation>ms</translation>
+    </message>
+    <message>
+        <source>Resolve peer countries (GeoIP)</source>
+        <translation>Resolver peer dos países (GeoIP)</translation>
+    </message>
+    <message>
+        <source>Resolve peer host names</source>
+        <translation>Resolver nomes de peer</translation>
     </message>
 </context>
 <context>
@@ -295,7 +351,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Reason: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Motivo: %1</translation>
+    </message>
+    <message>
+        <source>Note: new trackers were added to the existing torrent.</source>
+        <translation>Nota: novos trackers foram adicionados no torrent existente.</translation>
+    </message>
+    <message>
+        <source>Note: new URL seeds were added to the existing torrent.</source>
+        <translation>Nota: nova URL de seed foi adicionada ao torrent existente.</translation>
+    </message>
+    <message>
+        <source>An I/O error occured, &apos;%1&apos; paused.</source>
+        <translation>Um erro de I/O aconteceu, &apos;%1&apos; foi pausado.</translation>
     </message>
 </context>
 <context>
@@ -2206,7 +2274,7 @@ Por favor feche o outro primeiro.</translation>
     <message>
         <source>An error occured (full disk?), &apos;%1&apos; paused.</source>
         <comment>e.g: An error occured (full disk?), &apos;xxx.avi&apos; paused.</comment>
-        <translation>Ocorreu um erro (disco cheio?), &apos;%1&apos; pausado.</translation>
+        <translation type="obsolete">Ocorreu um erro (disco cheio?), &apos;%1&apos; pausado.</translation>
     </message>
     <message>
         <source>Search</source>
@@ -2452,6 +2520,14 @@ Está certo que quer sair do qBittorrent?</translation>
         <comment>%1 is qBittorrent version</comment>
         <translation>qBittorrent %1 (Down: %2/s, Up: %3/s)</translation>
     </message>
+    <message>
+        <source>Use normal speed limits</source>
+        <translation>Usar limite de velocidade normal</translation>
+    </message>
+    <message>
+        <source>Use alternative speed limits</source>
+        <translation>Usar limite de velocidade alternativo</translation>
+    </message>
 </context>
 <context>
     <name>HeadlessLoader</name>
@@ -2480,7 +2556,17 @@ Está certo que quer sair do qBittorrent?</translation>
     <name>HttpConnection</name>
     <message>
         <source>Your IP address has been banned after too many failed authentication attempts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seu endereço IP fo banido após várias tentativas de autenticação.</translation>
+    </message>
+    <message>
+        <source>D: %1/s - T: %2</source>
+        <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
+        <translation>D: %1/s - T: %2</translation>
+    </message>
+    <message>
+        <source>U: %1/s - T: %2</source>
+        <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
+        <translation>U: %1/s - T: %2</translation>
     </message>
 </context>
 <context>
@@ -2595,7 +2681,7 @@ Você com certeza sabe disso e não vamos falar isso novamente.</translation>
     </message>
     <message>
         <source>Press any key to accept and continue...</source>
-        <translation>Pressione qualquer tecla para aceitar e continuar...</translation>
+        <translation type="obsolete">Pressione qualquer tecla para aceitar e continuar...</translation>
     </message>
     <message>
         <source>Legal notice</source>
@@ -2613,9 +2699,13 @@ Você com certeza sabe disso e não vamos falar isso novamente.</translation>
         <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.
 
 No further notices will be issued.</source>
-        <translation>qBittorrent é um programa de compartilhamento de arquivos. Quando você roda um torrent os dados estarão disponiveis para upload. E com certeza todo o conteúdo que você compartilha será de sua inteira responsabilidade.
+        <translation>qBittorrent é um programa de compartilhamento de arquivos. Quando você o usa, os dados enviados estarão disponíveis para outros ue fizerem o mesmo upload. Todo conteúdo compartilhado por você é de sua inteira responsabilidade.
 
-Você com certeza sabe disso e não vamos falar isso novamente.</translation>
+Nenhum outro aviso será dado.</translation>
+    </message>
+    <message>
+        <source>Press %1 key to accept and continue...</source>
+        <translation>Pressione a tecla %1 para aceitar e continuar...</translation>
     </message>
 </context>
 <context>
@@ -2880,6 +2970,10 @@ Você com certeza sabe disso e não vamos falar isso novamente.</translation>
         <source>Visit Website</source>
         <translation>Visitar website</translation>
     </message>
+    <message>
+        <source>Use alternative speed limits</source>
+        <translation>Usar limite de velocidade alternativo</translation>
+    </message>
 </context>
 <context>
     <name>PeerAdditionDlg</name>
@@ -2901,7 +2995,7 @@ Você com certeza sabe disso e não vamos falar isso novamente.</translation>
     <message>
         <source>/s</source>
         <comment>/second (i.e. per second)</comment>
-        <translation type="unfinished">/s</translation>
+        <translation>/s</translation>
     </message>
 </context>
 <context>
@@ -3053,23 +3147,23 @@ Você com certeza sabe disso e não vamos falar isso novamente.</translation>
     </message>
     <message>
         <source>System default</source>
-        <translation>Padrão do sistema</translation>
+        <translation type="obsolete">Padrão do sistema</translation>
     </message>
     <message>
         <source>Plastique style (KDE like)</source>
-        <translation>Estilo plástico (tipo KDE)</translation>
+        <translation type="obsolete">Estilo plástico (tipo KDE)</translation>
     </message>
     <message>
         <source>Cleanlooks style (Gnome like)</source>
-        <translation>Estilo Cleanlooks (tipo Gnome)</translation>
+        <translation type="obsolete">Estilo Cleanlooks (tipo Gnome)</translation>
     </message>
     <message>
         <source>Motif style (Unix like)</source>
-        <translation>Estilo Motif (tipo Unix)</translation>
+        <translation type="obsolete">Estilo Motif (tipo Unix)</translation>
     </message>
     <message>
         <source>CDE style (Common Desktop Environment like)</source>
-        <translation>Estilo CDE (tipo Common Desktop Environment)</translation>
+        <translation type="obsolete">Estilo CDE (tipo Common Desktop Environment)</translation>
     </message>
     <message>
         <source>Ask for confirmation on exit when download list is not empty</source>
@@ -3093,11 +3187,11 @@ Você com certeza sabe disso e não vamos falar isso novamente.</translation>
     </message>
     <message>
         <source>Refresh interval:</source>
-        <translation>Intervalo de atualização:</translation>
+        <translation type="obsolete">Intervalo de atualização:</translation>
     </message>
     <message>
         <source>ms</source>
-        <translation>ms</translation>
+        <translation type="obsolete">ms</translation>
     </message>
     <message>
         <source>Use alternating row colors</source>
@@ -3192,7 +3286,7 @@ QGroupBox {
     </message>
     <message>
         <source>Automatically load .torrent files from:</source>
-        <translation>Carregar automáticamente arquivos .torrent de:</translation>
+        <translation type="obsolete">Carregar automáticamente arquivos .torrent de:</translation>
     </message>
     <message>
         <source>Append .!qB extension to incomplete files</source>
@@ -3204,11 +3298,11 @@ QGroupBox {
     </message>
     <message>
         <source>Disk cache:</source>
-        <translation>Cache de disco:</translation>
+        <translation type="obsolete">Cache de disco:</translation>
     </message>
     <message>
         <source>MiB (advanced)</source>
-        <translation>MiB (avançado)</translation>
+        <translation type="obsolete">MiB (avançado)</translation>
     </message>
     <message>
         <source>Torrent queueing</source>
@@ -3281,7 +3375,7 @@ QGroupBox {
     </message>
     <message>
         <source>Global bandwidth limiting</source>
-        <translation>Limite global de banda</translation>
+        <translation type="obsolete">Limite global de banda</translation>
     </message>
     <message>
         <source>Upload:</source>
@@ -3297,15 +3391,15 @@ QGroupBox {
     </message>
     <message>
         <source>Peer connections</source>
-        <translation>Conexões de Peer</translation>
+        <translation type="obsolete">Conexões de Peer</translation>
     </message>
     <message>
         <source>Resolve peer countries</source>
-        <translation>Resolver países de peer</translation>
+        <translation type="obsolete">Resolver países de peer</translation>
     </message>
     <message>
         <source>Resolve peer host names</source>
-        <translation>Resolver nomes dos peers</translation>
+        <translation type="obsolete">Resolver nomes dos peers</translation>
     </message>
     <message>
         <source>Bittorrent features</source>
@@ -3484,6 +3578,63 @@ QGroupBox {
         <source>KTorrent</source>
         <translation>KTorrent</translation>
     </message>
+    <message>
+        <source>Speed</source>
+        <translation>Velocidade</translation>
+    </message>
+    <message>
+        <source>Global speed limits</source>
+        <translation>Limite global de velocidade</translation>
+    </message>
+    <message>
+        <source>Alternative global speed limits</source>
+        <translation>Limite alternativo de velocidade global</translation>
+    </message>
+    <message>
+        <source>Scheduled times:</source>
+        <translation>Horários programados:</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <extracomment>time1 to time2</extracomment>
+        <translation>para</translation>
+    </message>
+    <message>
+        <source>On days:</source>
+        <translation>Nos dias:</translation>
+    </message>
+    <message>
+        <source>Every day</source>
+        <translation>Todo dia</translation>
+    </message>
+    <message>
+        <source>Week days</source>
+        <translation>Dias da semana</translation>
+    </message>
+    <message>
+        <source>Week ends</source>
+        <translation>Fins de semana</translation>
+    </message>
+    <message>
+        <source>Advanced</source>
+        <translation>Avançado</translation>
+    </message>
+    <message>
+        <source>Copy .torrent files to:</source>
+        <translation>Copiar arquivos .torrent para:</translation>
+    </message>
+    <message>
+        <source>Check Folders for .torrent Files:</source>
+        <translation>Buscar nas pastas por arquivos .torrent:</translation>
+    </message>
+    <message>
+        <source>Add folder ...</source>
+        <translation>Adicionar pasta ...</translation>
+    </message>
+    <message>
+        <source>Remove folder</source>
+        <translation>Remover pasta</translation>
+    </message>
 </context>
 <context>
     <name>PropListDelegate</name>
@@ -3497,22 +3648,26 @@ QGroupBox {
     </message>
     <message>
         <source>Ignored</source>
-        <translation type="unfinished">Ignorado</translation>
+        <translation type="obsolete">Ignorado</translation>
     </message>
     <message>
         <source>Normal</source>
         <comment>Normal (priority)</comment>
-        <translation type="unfinished">Normal</translation>
+        <translation>Normal</translation>
     </message>
     <message>
         <source>High</source>
         <comment>High (priority)</comment>
-        <translation type="unfinished">Alta</translation>
+        <translation>Alta</translation>
     </message>
     <message>
         <source>Maximum</source>
         <comment>Maximum (priority)</comment>
-        <translation type="unfinished">Máxima</translation>
+        <translation>Máxima</translation>
+    </message>
+    <message>
+        <source>Not downloaded</source>
+        <translation>Não baixado</translation>
     </message>
 </context>
 <context>
@@ -3603,7 +3758,7 @@ QGroupBox {
     </message>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">Prioridade</translation>
+        <translation>Prioridade</translation>
     </message>
     <message>
         <source>Unknown</source>
@@ -3696,15 +3851,15 @@ QGroupBox {
     </message>
     <message>
         <source>Normal</source>
-        <translation type="obsolete">Normal</translation>
+        <translation>Normal</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation type="obsolete">Máximo</translation>
+        <translation>Máximo</translation>
     </message>
     <message>
         <source>High</source>
-        <translation type="obsolete">Forte</translation>
+        <translation>Alto</translation>
     </message>
     <message>
         <source>this session</source>
@@ -4048,6 +4203,17 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>ScanFoldersModel</name>
+    <message>
+        <source>Watched Folder</source>
+        <translation>Pasta visualizada</translation>
+    </message>
+    <message>
+        <source>Download here</source>
+        <translation>Baixar aqui</translation>
+    </message>
+</context>
+<context>
     <name>SearchCategories</name>
     <message>
         <source>All categories</source>
@@ -4230,6 +4396,10 @@ Log de mudanças:</translation>
         <source>Unknown</source>
         <translation>Desconhecido</translation>
     </message>
+    <message>
+        <source>Search</source>
+        <translation>Busca</translation>
+    </message>
 </context>
 <context>
     <name>SearchTab</name>
@@ -4398,6 +4568,14 @@ Log de mudanças:</translation>
         <source>Offline. This usually means that qBittorrent failed to listen on the selected port for incoming connections.</source>
         <translation>Offline. Isto acontece quando o qBittorrent falha para escutar na porta selecionada para conexões de entrada.</translation>
     </message>
+    <message>
+        <source>Click to disable alternative speed limits</source>
+        <translation>Clique para desabilitar limite alternativo</translation>
+    </message>
+    <message>
+        <source>Click to enable alternative speed limits</source>
+        <translation>Clique para habilitar limite alternativo</translation>
+    </message>
 </context>
 <context>
     <name>TorrentFilesModel</name>
@@ -4415,7 +4593,7 @@ Log de mudanças:</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation type="unfinished">Prioridade</translation>
+        <translation>Prioridade</translation>
     </message>
 </context>
 <context>
@@ -4550,6 +4728,11 @@ Log de mudanças:</translation>
         <source>/s</source>
         <comment>/second (.i.e per second)</comment>
         <translation>/s</translation>
+    </message>
+    <message>
+        <source>KiB/s</source>
+        <comment>KiB/second (.i.e per second)</comment>
+        <translation>KiB/s</translation>
     </message>
 </context>
 <context>
@@ -4827,6 +5010,26 @@ Log de mudanças:</translation>
         <source>Please don&apos;t use any special characters in the label name.</source>
         <translation>Por favor não use caracteres especiais no nome da etiqueta.</translation>
     </message>
+    <message>
+        <source>Added On</source>
+        <comment>Torrent was added to transfer list on 01/01/2010 08:00</comment>
+        <translation>Adicionado em</translation>
+    </message>
+    <message>
+        <source>Completed On</source>
+        <comment>Torrent was completed on 01/01/2010 08:00</comment>
+        <translation>Completado em</translation>
+    </message>
+    <message>
+        <source>Down Limit</source>
+        <comment>i.e: Download limit</comment>
+        <translation>Limite de download</translation>
+    </message>
+    <message>
+        <source>Up Limit</source>
+        <comment>i.e: Upload limit</comment>
+        <translation>Limite de upload</translation>
+    </message>
 </context>
 <context>
     <name>Ui</name>
@@ -5004,15 +5207,15 @@ Log de mudanças:</translation>
     </message>
     <message>
         <source>Normal</source>
-        <translation type="obsolete">Normal</translation>
+        <translation>Normal</translation>
     </message>
     <message>
         <source>High</source>
-        <translation type="obsolete">Alto</translation>
+        <translation>Alto</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation type="obsolete">Máximo</translation>
+        <translation>Máximo</translation>
     </message>
     <message>
         <source>Collapse all</source>
@@ -6098,7 +6301,7 @@ Portanto os plugins foram desabilitados.</translation>
     </message>
     <message>
         <source>Choose scan directory</source>
-        <translation>Selecione diretório para varredura</translation>
+        <translation type="obsolete">Selecione diretório para varredura</translation>
     </message>
     <message>
         <source>Choose an ipfilter.dat file</source>
@@ -6124,6 +6327,34 @@ Portanto os plugins foram desabilitados.</translation>
     <message>
         <source>Filters</source>
         <translation>Filtros</translation>
+    </message>
+    <message>
+        <source>Choose export directory</source>
+        <translation>Escolha diretório de exportação</translation>
+    </message>
+    <message>
+        <source>Add directory to scan</source>
+        <translation>Adicione diretório para escanear</translation>
+    </message>
+    <message>
+        <source>Folder is already being watched.</source>
+        <translation>Pasta já está sendo monitorada.</translation>
+    </message>
+    <message>
+        <source>Folder does not exist.</source>
+        <translation>Essa pasta não existe.</translation>
+    </message>
+    <message>
+        <source>Folder is not readable.</source>
+        <translation>A pasta não tem suporte a leitura.</translation>
+    </message>
+    <message>
+        <source>Failure</source>
+        <translation>Falhou</translation>
+    </message>
+    <message>
+        <source>Failed to add Scan Folder &apos;%1&apos;: %2</source>
+        <translation>Falhou para adicionar pasta a ser escaneada &apos;%1&apos;: %2</translation>
     </message>
 </context>
 <context>
@@ -6809,7 +7040,7 @@ Portanto os plugins foram desabilitados.</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">Prioridade</translation>
+        <translation>Prioridade</translation>
     </message>
     <message>
         <source>Unknown</source>

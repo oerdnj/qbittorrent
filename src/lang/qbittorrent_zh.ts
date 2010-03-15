@@ -124,6 +124,62 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>AdvancedSettings</name>
+    <message>
+        <source>Property</source>
+        <translation>属性</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>值</translation>
+    </message>
+    <message>
+        <source>Ignore transfer limits on local network</source>
+        <translation>忽略本地网络的传输限制</translation>
+    </message>
+    <message>
+        <source>Include TCP/IP overhead in transfer limits</source>
+        <translation>在传输限制中包括TCP/IP总开销</translation>
+    </message>
+    <message>
+        <source>Disk write cache size</source>
+        <translation>磁盘写入缓存大小</translation>
+    </message>
+    <message>
+        <source> MiB</source>
+        <translation> MiB</translation>
+    </message>
+    <message>
+        <source>Outgoing ports (Min) [0: Disabled]</source>
+        <translation>出端口(最小) [0: 禁用]</translation>
+    </message>
+    <message>
+        <source>Outgoing ports (Max) [0: Disabled]</source>
+        <translation>出端口(最大) [0: 禁用]</translation>
+    </message>
+    <message>
+        <source>Recheck torrents on completion</source>
+        <translation>完成后再次核对torrent</translation>
+    </message>
+    <message>
+        <source>Transfer list refresh interval</source>
+        <translation>传输列表刷新间隔</translation>
+    </message>
+    <message>
+        <source> ms</source>
+        <comment> milliseconds</comment>
+        <translation>ms</translation>
+    </message>
+    <message>
+        <source>Resolve peer countries (GeoIP)</source>
+        <translation>显示用户国家(GeoIP)</translation>
+    </message>
+    <message>
+        <source>Resolve peer host names</source>
+        <translation>显示用户主机名</translation>
+    </message>
+</context>
+<context>
     <name>BandwidthAllocationDialog</name>
     <message>
         <source>Upload limit:</source>
@@ -307,6 +363,18 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Reason: %1</source>
         <translation>原因:</translation>
+    </message>
+    <message>
+        <source>Note: new trackers were added to the existing torrent.</source>
+        <translation>注意:新跟踪器被添加到现有的torrent.</translation>
+    </message>
+    <message>
+        <source>Note: new URL seeds were added to the existing torrent.</source>
+        <translation>注意:新URL种子被添加到现有的torrent.</translation>
+    </message>
+    <message>
+        <source>An I/O error occured, &apos;%1&apos; paused.</source>
+        <translation>出现输入/输出错误,&apos;%1&apos;暂停.</translation>
     </message>
 </context>
 <context>
@@ -2592,7 +2660,7 @@ maximum value you set.</source>
     <message>
         <source>An error occured (full disk?), &apos;%1&apos; paused.</source>
         <comment>e.g: An error occured (full disk?), &apos;xxx.avi&apos; paused.</comment>
-        <translation>出现错误(磁盘已满?),&apos;%1&apos;暂停.</translation>
+        <translation type="obsolete">出现错误(磁盘已满?),&apos;%1&apos;暂停.</translation>
     </message>
     <message>
         <source>Are you sure you want to delete the selected item(s) from download list and from hard drive?</source>
@@ -2681,6 +2749,14 @@ Are you sure you want to quit qBittorrent?</source>
         <comment>%1 is qBittorrent version</comment>
         <translation>qBittorrent %1 (下载: %2/s, 上传: %3/s)</translation>
     </message>
+    <message>
+        <source>Use normal speed limits</source>
+        <translation>使用正常速度限制</translation>
+    </message>
+    <message>
+        <source>Use alternative speed limits</source>
+        <translation>使用其他速度限制</translation>
+    </message>
 </context>
 <context>
     <name>HeadlessLoader</name>
@@ -2710,6 +2786,16 @@ Are you sure you want to quit qBittorrent?</source>
     <message>
         <source>Your IP address has been banned after too many failed authentication attempts.</source>
         <translation>由于过多的身份验证失败,您的IP地址被禁止.</translation>
+    </message>
+    <message>
+        <source>D: %1/s - T: %2</source>
+        <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
+        <translation>下载:%1/s -传输:%2</translation>
+    </message>
+    <message>
+        <source>U: %1/s - T: %2</source>
+        <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
+        <translation>上传:%1/s -传输:%2</translation>
     </message>
 </context>
 <context>
@@ -2816,7 +2902,7 @@ Are you sure you want to quit qBittorrent?</source>
     </message>
     <message>
         <source>Press any key to accept and continue...</source>
-        <translation>按任意键以接受并继续...</translation>
+        <translation type="obsolete">按任意键以接受并继续...</translation>
     </message>
     <message>
         <source>Legal notice</source>
@@ -2835,6 +2921,10 @@ Are you sure you want to quit qBittorrent?</source>
 
 No further notices will be issued.</source>
         <translation>qBittorrent是一个分享文件程序.当您运行一个torrent时,其数据可通过上传形式被他人获得.您对您分享的任何内容承担全部责任.</translation>
+    </message>
+    <message>
+        <source>Press %1 key to accept and continue...</source>
+        <translation>按%1键接受并继续...</translation>
     </message>
 </context>
 <context>
@@ -3099,6 +3189,10 @@ No further notices will be issued.</source>
         <source>Visit Website</source>
         <translation>浏览网站</translation>
     </message>
+    <message>
+        <source>Use alternative speed limits</source>
+        <translation>使用其他速度限制</translation>
+    </message>
 </context>
 <context>
     <name>PeerAdditionDlg</name>
@@ -3120,7 +3214,7 @@ No further notices will be issued.</source>
     <message>
         <source>/s</source>
         <comment>/second (i.e. per second)</comment>
-        <translation type="unfinished">/s</translation>
+        <translation>/s</translation>
     </message>
 </context>
 <context>
@@ -3272,23 +3366,23 @@ No further notices will be issued.</source>
     </message>
     <message>
         <source>System default</source>
-        <translation>系统默认</translation>
+        <translation type="obsolete">系统默认</translation>
     </message>
     <message>
         <source>Plastique style (KDE like)</source>
-        <translation>Plastique 外观 （如KDE）</translation>
+        <translation type="obsolete">Plastique 外观 （如KDE）</translation>
     </message>
     <message>
         <source>Cleanlooks style (Gnome like)</source>
-        <translation>Cleanlooks 外观 （如Gnome） </translation>
+        <translation type="obsolete">Cleanlooks 外观 （如Gnome） </translation>
     </message>
     <message>
         <source>Motif style (Unix like)</source>
-        <translation>Motif 外观 （如Uinx） </translation>
+        <translation type="obsolete">Motif 外观 （如Uinx） </translation>
     </message>
     <message>
         <source>CDE style (Common Desktop Environment like)</source>
-        <translation>CDE 外观（如Common Desktop Environment)</translation>
+        <translation type="obsolete">CDE 外观（如Common Desktop Environment)</translation>
     </message>
     <message>
         <source>Ask for confirmation on exit when download list is not empty</source>
@@ -3312,11 +3406,11 @@ No further notices will be issued.</source>
     </message>
     <message>
         <source>Refresh interval:</source>
-        <translation>重新载入间隔:</translation>
+        <translation type="obsolete">重新载入间隔:</translation>
     </message>
     <message>
         <source>ms</source>
-        <translation>ms</translation>
+        <translation type="obsolete">ms</translation>
     </message>
     <message>
         <source>Use alternating row colors</source>
@@ -3403,7 +3497,7 @@ QGroupBox {
     </message>
     <message>
         <source>Automatically load .torrent files from:</source>
-        <translation>自动下载此文件夹中的.torrent文件:</translation>
+        <translation type="obsolete">自动下载此文件夹中的.torrent文件:</translation>
     </message>
     <message>
         <source>Append .!qB extension to incomplete files</source>
@@ -3415,11 +3509,11 @@ QGroupBox {
     </message>
     <message>
         <source>Disk cache:</source>
-        <translation>磁盘高速缓存:</translation>
+        <translation type="obsolete">磁盘高速缓存:</translation>
     </message>
     <message>
         <source>MiB (advanced)</source>
-        <translation>MiB(高级)</translation>
+        <translation type="obsolete">MiB(高级)</translation>
     </message>
     <message>
         <source>Torrent queueing</source>
@@ -3492,7 +3586,7 @@ QGroupBox {
     </message>
     <message>
         <source>Global bandwidth limiting</source>
-        <translation>总宽带限制</translation>
+        <translation type="obsolete">总宽带限制</translation>
     </message>
     <message>
         <source>Upload:</source>
@@ -3508,15 +3602,15 @@ QGroupBox {
     </message>
     <message>
         <source>Peer connections</source>
-        <translation>用户连接</translation>
+        <translation type="obsolete">用户连接</translation>
     </message>
     <message>
         <source>Resolve peer countries</source>
-        <translation>显示用户国家</translation>
+        <translation type="obsolete">显示用户国家</translation>
     </message>
     <message>
         <source>Resolve peer host names</source>
-        <translation>显示用户主机名</translation>
+        <translation type="obsolete">显示用户主机名</translation>
     </message>
     <message>
         <source>Bittorrent features</source>
@@ -3695,6 +3789,63 @@ QGroupBox {
         <source>KTorrent</source>
         <translation>KTorrent</translation>
     </message>
+    <message>
+        <source>Speed</source>
+        <translation>速度</translation>
+    </message>
+    <message>
+        <source>Global speed limits</source>
+        <translation>总速度限制</translation>
+    </message>
+    <message>
+        <source>Alternative global speed limits</source>
+        <translation>供选择的总速度限制</translation>
+    </message>
+    <message>
+        <source>Scheduled times:</source>
+        <translation>预定时间:</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <extracomment>time1 to time2</extracomment>
+        <translation>到</translation>
+    </message>
+    <message>
+        <source>On days:</source>
+        <translation>在某天:</translation>
+    </message>
+    <message>
+        <source>Every day</source>
+        <translation>每天</translation>
+    </message>
+    <message>
+        <source>Week days</source>
+        <translation>工作日</translation>
+    </message>
+    <message>
+        <source>Week ends</source>
+        <translation>休息日</translation>
+    </message>
+    <message>
+        <source>Advanced</source>
+        <translation>高级</translation>
+    </message>
+    <message>
+        <source>Copy .torrent files to:</source>
+        <translation>复制.torrent文件到:</translation>
+    </message>
+    <message>
+        <source>Check Folders for .torrent Files:</source>
+        <translation>检查文件夹中的.torrent文件:</translation>
+    </message>
+    <message>
+        <source>Add folder ...</source>
+        <translation>添加文件夹...</translation>
+    </message>
+    <message>
+        <source>Remove folder</source>
+        <translation>移除文件夹</translation>
+    </message>
 </context>
 <context>
     <name>PropListDelegate</name>
@@ -3708,22 +3859,26 @@ QGroupBox {
     </message>
     <message>
         <source>Ignored</source>
-        <translation type="unfinished">忽略</translation>
+        <translation type="obsolete">忽略</translation>
     </message>
     <message>
         <source>Normal</source>
         <comment>Normal (priority)</comment>
-        <translation type="unfinished">正常</translation>
+        <translation>正常</translation>
     </message>
     <message>
         <source>High</source>
         <comment>High (priority)</comment>
-        <translation type="unfinished">高</translation>
+        <translation>高</translation>
     </message>
     <message>
         <source>Maximum</source>
         <comment>Maximum (priority)</comment>
-        <translation type="unfinished">最大</translation>
+        <translation>最大</translation>
+    </message>
+    <message>
+        <source>Not downloaded</source>
+        <translation>未下载</translation>
     </message>
 </context>
 <context>
@@ -3818,7 +3973,7 @@ QGroupBox {
     </message>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">优先</translation>
+        <translation>优先</translation>
     </message>
     <message>
         <source>None - Unreachable?</source>
@@ -3907,15 +4062,15 @@ QGroupBox {
     </message>
     <message>
         <source>Normal</source>
-        <translation type="obsolete">正常</translation>
+        <translation>正常</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation type="obsolete">最大</translation>
+        <translation>最大</translation>
     </message>
     <message>
         <source>High</source>
-        <translation type="obsolete">高</translation>
+        <translation>高</translation>
     </message>
     <message>
         <source>this session</source>
@@ -4267,6 +4422,17 @@ list?</source>
     </message>
 </context>
 <context>
+    <name>ScanFoldersModel</name>
+    <message>
+        <source>Watched Folder</source>
+        <translation>监控文件夹</translation>
+    </message>
+    <message>
+        <source>Download here</source>
+        <translation>下载到这里</translation>
+    </message>
+</context>
+<context>
     <name>SearchCategories</name>
     <message>
         <source>All categories</source>
@@ -4451,6 +4617,10 @@ reason: %2.</source>
         <source>Unknown</source>
         <translation>未知</translation>
     </message>
+    <message>
+        <source>Search</source>
+        <translation>搜索</translation>
+    </message>
 </context>
 <context>
     <name>SearchTab</name>
@@ -4540,6 +4710,14 @@ reason: %2.</source>
         <source>Offline. This usually means that qBittorrent failed to listen on the selected port for incoming connections.</source>
         <translation>脱机.通常意味着qBittorrent侦听对内连接的端口失败.</translation>
     </message>
+    <message>
+        <source>Click to disable alternative speed limits</source>
+        <translation>点击以禁用其他速度限制</translation>
+    </message>
+    <message>
+        <source>Click to enable alternative speed limits</source>
+        <translation>点击以启用其他速度限制</translation>
+    </message>
 </context>
 <context>
     <name>TorrentFilesModel</name>
@@ -4557,7 +4735,7 @@ reason: %2.</source>
     </message>
     <message>
         <source>Priority</source>
-        <translation type="unfinished">优先</translation>
+        <translation>优先</translation>
     </message>
 </context>
 <context>
@@ -4696,6 +4874,11 @@ reason: %2.</source>
         <source>/s</source>
         <comment>/second (.i.e per second)</comment>
         <translation>/s</translation>
+    </message>
+    <message>
+        <source>KiB/s</source>
+        <comment>KiB/second (.i.e per second)</comment>
+        <translation>KiB/s</translation>
     </message>
 </context>
 <context>
@@ -4973,6 +5156,26 @@ reason: %2.</source>
         <source>Please don&apos;t use any special characters in the label name.</source>
         <translation>请不要在标签名中使用特殊符号.</translation>
     </message>
+    <message>
+        <source>Added On</source>
+        <comment>Torrent was added to transfer list on 01/01/2010 08:00</comment>
+        <translation>添加于</translation>
+    </message>
+    <message>
+        <source>Completed On</source>
+        <comment>Torrent was completed on 01/01/2010 08:00</comment>
+        <translation>完成于</translation>
+    </message>
+    <message>
+        <source>Down Limit</source>
+        <comment>i.e: Download limit</comment>
+        <translation>下载限制</translation>
+    </message>
+    <message>
+        <source>Up Limit</source>
+        <comment>i.e: Upload limit</comment>
+        <translation>上传限制</translation>
+    </message>
 </context>
 <context>
     <name>Ui</name>
@@ -5180,15 +5383,15 @@ previewing)</source>
     </message>
     <message>
         <source>Normal</source>
-        <translation type="obsolete">正常</translation>
+        <translation>正常</translation>
     </message>
     <message>
         <source>High</source>
-        <translation type="obsolete">高</translation>
+        <translation>高</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation type="obsolete">最大</translation>
+        <translation>最大</translation>
     </message>
     <message>
         <source>Download in correct order (slower but good for previewing)</source>
@@ -6301,7 +6504,7 @@ However, those plugins were disabled.</source>
     </message>
     <message>
         <source>Choose scan directory</source>
-        <translation>选择监视目录</translation>
+        <translation type="obsolete">选择监视目录</translation>
     </message>
     <message>
         <source>Choose an ipfilter.dat file</source>
@@ -6327,6 +6530,34 @@ However, those plugins were disabled.</source>
     <message>
         <source>Filters</source>
         <translation>过滤器</translation>
+    </message>
+    <message>
+        <source>Choose export directory</source>
+        <translation>选择导出目录</translation>
+    </message>
+    <message>
+        <source>Add directory to scan</source>
+        <translation>添加监视目录</translation>
+    </message>
+    <message>
+        <source>Folder is already being watched.</source>
+        <translation>文件夹已被监视.</translation>
+    </message>
+    <message>
+        <source>Folder does not exist.</source>
+        <translation>文件夹不存在.</translation>
+    </message>
+    <message>
+        <source>Folder is not readable.</source>
+        <translation>文件夹不可读.</translation>
+    </message>
+    <message>
+        <source>Failure</source>
+        <translation>失败</translation>
+    </message>
+    <message>
+        <source>Failed to add Scan Folder &apos;%1&apos;: %2</source>
+        <translation>添加监视文件夹 &apos;%1失败:%2</translation>
     </message>
 </context>
 <context>
@@ -7099,7 +7330,7 @@ torrent.</source>
     </message>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">优先</translation>
+        <translation>优先</translation>
     </message>
     <message>
         <source>This file is either corrupted or this isn&apos;t a torrent.</source>

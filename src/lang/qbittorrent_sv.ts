@@ -102,6 +102,62 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>AdvancedSettings</name>
+    <message>
+        <source>Property</source>
+        <translation>Egenskap</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>Värde</translation>
+    </message>
+    <message>
+        <source>Ignore transfer limits on local network</source>
+        <translation>Ignorera överföringsgränser på lokalt nätverk</translation>
+    </message>
+    <message>
+        <source>Include TCP/IP overhead in transfer limits</source>
+        <translation>Inkludera TCP/IP-overhead i överföringsgränser</translation>
+    </message>
+    <message>
+        <source>Disk write cache size</source>
+        <translation>Storlek för diskskrivningscache</translation>
+    </message>
+    <message>
+        <source> MiB</source>
+        <translation> MiB</translation>
+    </message>
+    <message>
+        <source>Outgoing ports (Min) [0: Disabled]</source>
+        <translation>Utgående portar (Min) [0: Inaktiverat]</translation>
+    </message>
+    <message>
+        <source>Outgoing ports (Max) [0: Disabled]</source>
+        <translation>Utgående portar (Max) [0: Inaktiverat]</translation>
+    </message>
+    <message>
+        <source>Recheck torrents on completion</source>
+        <translation>Kontrollera torrentfiler igen vid färdigställande</translation>
+    </message>
+    <message>
+        <source>Transfer list refresh interval</source>
+        <translation>Uppdateringsintervall för överföringslista</translation>
+    </message>
+    <message>
+        <source> ms</source>
+        <comment> milliseconds</comment>
+        <translation> ms</translation>
+    </message>
+    <message>
+        <source>Resolve peer countries (GeoIP)</source>
+        <translation>Slå upp klienternas länder (GeoIP)</translation>
+    </message>
+    <message>
+        <source>Resolve peer host names</source>
+        <translation>Slå upp klienternas värdnamn</translation>
+    </message>
+</context>
+<context>
     <name>BandwidthAllocationDialog</name>
     <message>
         <source>Upload limit:</source>
@@ -288,7 +344,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Reason: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Anledning: %1</translation>
+    </message>
+    <message>
+        <source>Note: new trackers were added to the existing torrent.</source>
+        <translation>Observera: nya bevakare lades till i den befintliga torrentfilen.</translation>
+    </message>
+    <message>
+        <source>Note: new URL seeds were added to the existing torrent.</source>
+        <translation>Observera: nya URL-distributörer lades till i den befintliga torrentfilen.</translation>
+    </message>
+    <message>
+        <source>An I/O error occured, &apos;%1&apos; paused.</source>
+        <translation>Ett in-/ut-fel inträffade, &quot;%1&quot; har pausats.</translation>
     </message>
 </context>
 <context>
@@ -1317,7 +1385,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>An error occured (full disk?), &apos;%1&apos; paused.</source>
         <comment>e.g: An error occured (full disk?), &apos;xxx.avi&apos; paused.</comment>
-        <translation>Ett fel inträffade (full disk?), &quot;%1&quot; har pausats.</translation>
+        <translation type="obsolete">Ett fel inträffade (full disk?), &quot;%1&quot; har pausats.</translation>
     </message>
     <message>
         <source>Search</source>
@@ -1535,6 +1603,14 @@ Are you sure you want to quit qBittorrent?</source>
         <comment>%1 is qBittorrent version</comment>
         <translation>qBittorrent %1 (Ned: %2/s, Upp: %3/s)</translation>
     </message>
+    <message>
+        <source>Use normal speed limits</source>
+        <translation>Använd normala hastighetsgränser</translation>
+    </message>
+    <message>
+        <source>Use alternative speed limits</source>
+        <translation>Använd alternativa hastighetsgränser</translation>
+    </message>
 </context>
 <context>
     <name>HeadlessLoader</name>
@@ -1563,7 +1639,17 @@ Are you sure you want to quit qBittorrent?</source>
     <name>HttpConnection</name>
     <message>
         <source>Your IP address has been banned after too many failed authentication attempts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Din IP-adress har bannlysts efter för många felaktiga autentiseringsförsök.</translation>
+    </message>
+    <message>
+        <source>D: %1/s - T: %2</source>
+        <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
+        <translation>H: %1/s - Ö: %2</translation>
+    </message>
+    <message>
+        <source>U: %1/s - T: %2</source>
+        <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
+        <translation>S: %1/s - Ö: %2</translation>
     </message>
 </context>
 <context>
@@ -1678,7 +1764,7 @@ Du visste antagligen redan detta så vi kommer inte att berätta det igen.</tran
     </message>
     <message>
         <source>Press any key to accept and continue...</source>
-        <translation>Tryck på en tangent för att acceptera och fortsätta...</translation>
+        <translation type="obsolete">Tryck på en tangent för att acceptera och fortsätta...</translation>
     </message>
     <message>
         <source>Legal notice</source>
@@ -1698,7 +1784,11 @@ Du visste antagligen redan detta så vi kommer inte att berätta det igen.</tran
 No further notices will be issued.</source>
         <translation>qBittorrent är ett fildelarprogram. När du kör en torrent så kommer dess data att göras tillgängligt för andra. Och så klart, allt innehåll som du delar ut är fullständigt på ditt ansvar.
 
-Du visste antagligen redan detta så vi kommer inte att berätta det igen.</translation>
+Detta meddelande kommer inte att visas igen.</translation>
+    </message>
+    <message>
+        <source>Press %1 key to accept and continue...</source>
+        <translation>Tryck på %1-tangenten för att godkänna och fortsätta...</translation>
     </message>
 </context>
 <context>
@@ -1831,6 +1921,10 @@ Du visste antagligen redan detta så vi kommer inte att berätta det igen.</tran
         <source>Visit Website</source>
         <translation>Besök webbplatsen</translation>
     </message>
+    <message>
+        <source>Use alternative speed limits</source>
+        <translation>Använd alternativa hastighetsgränser</translation>
+    </message>
 </context>
 <context>
     <name>PeerAdditionDlg</name>
@@ -1852,7 +1946,7 @@ Du visste antagligen redan detta så vi kommer inte att berätta det igen.</tran
     <message>
         <source>/s</source>
         <comment>/second (i.e. per second)</comment>
-        <translation type="unfinished">/s</translation>
+        <translation>/s</translation>
     </message>
 </context>
 <context>
@@ -2004,23 +2098,23 @@ Du visste antagligen redan detta så vi kommer inte att berätta det igen.</tran
     </message>
     <message>
         <source>System default</source>
-        <translation>Systemets standard</translation>
+        <translation type="obsolete">Systemets standard</translation>
     </message>
     <message>
         <source>Plastique style (KDE like)</source>
-        <translation>Plastique-stil (KDE-liknande)</translation>
+        <translation type="obsolete">Plastique-stil (KDE-liknande)</translation>
     </message>
     <message>
         <source>Cleanlooks style (Gnome like)</source>
-        <translation>Cleanlooks-stile (Gnome-liknande)</translation>
+        <translation type="obsolete">Cleanlooks-stile (Gnome-liknande)</translation>
     </message>
     <message>
         <source>Motif style (Unix like)</source>
-        <translation>Motif-stil (Unix-liknande)</translation>
+        <translation type="obsolete">Motif-stil (Unix-liknande)</translation>
     </message>
     <message>
         <source>CDE style (Common Desktop Environment like)</source>
-        <translation>CDE-stil (Common Desktop Environment-liknande)</translation>
+        <translation type="obsolete">CDE-stil (Common Desktop Environment-liknande)</translation>
     </message>
     <message>
         <source>Ask for confirmation on exit when download list is not empty</source>
@@ -2044,11 +2138,11 @@ Du visste antagligen redan detta så vi kommer inte att berätta det igen.</tran
     </message>
     <message>
         <source>Refresh interval:</source>
-        <translation>Uppdateringsintervall:</translation>
+        <translation type="obsolete">Uppdateringsintervall:</translation>
     </message>
     <message>
         <source>ms</source>
-        <translation>ms</translation>
+        <translation type="obsolete">ms</translation>
     </message>
     <message>
         <source>Use alternating row colors</source>
@@ -2143,7 +2237,7 @@ QGroupBox {
     </message>
     <message>
         <source>Automatically load .torrent files from:</source>
-        <translation>Läs automatiskt in .torrent-filer från:</translation>
+        <translation type="obsolete">Läs automatiskt in .torrent-filer från:</translation>
     </message>
     <message>
         <source>Append .!qB extension to incomplete files</source>
@@ -2155,11 +2249,11 @@ QGroupBox {
     </message>
     <message>
         <source>Disk cache:</source>
-        <translation>Diskcache:</translation>
+        <translation type="obsolete">Diskcache:</translation>
     </message>
     <message>
         <source>MiB (advanced)</source>
-        <translation>MiB (avancerat)</translation>
+        <translation type="obsolete">MiB (avancerat)</translation>
     </message>
     <message>
         <source>Torrent queueing</source>
@@ -2232,7 +2326,7 @@ QGroupBox {
     </message>
     <message>
         <source>Global bandwidth limiting</source>
-        <translation>Allmän bandbreddsgräns</translation>
+        <translation type="obsolete">Allmän bandbreddsgräns</translation>
     </message>
     <message>
         <source>Upload:</source>
@@ -2248,15 +2342,15 @@ QGroupBox {
     </message>
     <message>
         <source>Peer connections</source>
-        <translation>Klientanslutningar</translation>
+        <translation type="obsolete">Klientanslutningar</translation>
     </message>
     <message>
         <source>Resolve peer countries</source>
-        <translation>Slå upp klienternas länder</translation>
+        <translation type="obsolete">Slå upp klienternas länder</translation>
     </message>
     <message>
         <source>Resolve peer host names</source>
-        <translation>Slå upp klienternas värdnamn</translation>
+        <translation type="obsolete">Slå upp klienternas värdnamn</translation>
     </message>
     <message>
         <source>Bittorrent features</source>
@@ -2435,27 +2529,88 @@ QGroupBox {
         <source>KTorrent</source>
         <translation>KTorrent</translation>
     </message>
+    <message>
+        <source>Speed</source>
+        <translation>Hastighet</translation>
+    </message>
+    <message>
+        <source>Global speed limits</source>
+        <translation>Allmänna hastighetsgränser</translation>
+    </message>
+    <message>
+        <source>Alternative global speed limits</source>
+        <translation>Alternativa allmänna hastighetsgränser</translation>
+    </message>
+    <message>
+        <source>Scheduled times:</source>
+        <translation>Schemalagda tider:</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <extracomment>time1 to time2</extracomment>
+        <translation>till</translation>
+    </message>
+    <message>
+        <source>On days:</source>
+        <translation>Olika dagar:</translation>
+    </message>
+    <message>
+        <source>Every day</source>
+        <translation>Varje dag</translation>
+    </message>
+    <message>
+        <source>Week days</source>
+        <translation>Veckodagar</translation>
+    </message>
+    <message>
+        <source>Week ends</source>
+        <translation>Helger</translation>
+    </message>
+    <message>
+        <source>Advanced</source>
+        <translation>Avancerat</translation>
+    </message>
+    <message>
+        <source>Copy .torrent files to:</source>
+        <translation>Kopiera .torrent-filer till:</translation>
+    </message>
+    <message>
+        <source>Check Folders for .torrent Files:</source>
+        <translation>Leta i mappar efter .torrent-filer:</translation>
+    </message>
+    <message>
+        <source>Add folder ...</source>
+        <translation>Lägg till mapp ...</translation>
+    </message>
+    <message>
+        <source>Remove folder</source>
+        <translation>Ta bort mapp</translation>
+    </message>
 </context>
 <context>
     <name>PropListDelegate</name>
     <message>
         <source>Ignored</source>
-        <translation type="unfinished">Ignoreras</translation>
+        <translation type="obsolete">Ignoreras</translation>
     </message>
     <message>
         <source>Normal</source>
         <comment>Normal (priority)</comment>
-        <translation type="unfinished">Normal</translation>
+        <translation>Normal</translation>
     </message>
     <message>
         <source>High</source>
         <comment>High (priority)</comment>
-        <translation type="unfinished">Hög</translation>
+        <translation>Hög</translation>
     </message>
     <message>
         <source>Maximum</source>
         <comment>Maximum (priority)</comment>
-        <translation type="unfinished">Maximal</translation>
+        <translation>Maximal</translation>
+    </message>
+    <message>
+        <source>Not downloaded</source>
+        <translation>Inte hämtad</translation>
     </message>
 </context>
 <context>
@@ -2550,7 +2705,7 @@ QGroupBox {
     </message>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">Prioritet</translation>
+        <translation>Prioritet</translation>
     </message>
     <message>
         <source>None - Unreachable?</source>
@@ -2639,15 +2794,15 @@ QGroupBox {
     </message>
     <message>
         <source>Normal</source>
-        <translation type="obsolete">Normal</translation>
+        <translation>Normal</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation type="obsolete">Maximal</translation>
+        <translation>Maximal</translation>
     </message>
     <message>
         <source>High</source>
-        <translation type="obsolete">Hög</translation>
+        <translation>Hög</translation>
     </message>
     <message>
         <source>this session</source>
@@ -2976,6 +3131,17 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>ScanFoldersModel</name>
+    <message>
+        <source>Watched Folder</source>
+        <translation>Bevakad mapp</translation>
+    </message>
+    <message>
+        <source>Download here</source>
+        <translation>Hämta hit</translation>
+    </message>
+</context>
+<context>
     <name>SearchCategories</name>
     <message>
         <source>All categories</source>
@@ -3081,6 +3247,10 @@ p, li { white-space: pre-wrap; }
         <source>Unknown</source>
         <translation>Okänt</translation>
     </message>
+    <message>
+        <source>Search</source>
+        <translation>Sök</translation>
+    </message>
 </context>
 <context>
     <name>SearchTab</name>
@@ -3170,6 +3340,14 @@ p, li { white-space: pre-wrap; }
         <source>Offline. This usually means that qBittorrent failed to listen on the selected port for incoming connections.</source>
         <translation>Frånkopplad. Detta betyder oftast att qBittorrent misslyckades med att lyssna på den valda porten för inkommande anslutningar.</translation>
     </message>
+    <message>
+        <source>Click to disable alternative speed limits</source>
+        <translation>Klicka för att inaktivera alternativa hastighetsgränser</translation>
+    </message>
+    <message>
+        <source>Click to enable alternative speed limits</source>
+        <translation>Klicka för att aktivera alternativa hastighetsgränser</translation>
+    </message>
 </context>
 <context>
     <name>TorrentFilesModel</name>
@@ -3187,7 +3365,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Priority</source>
-        <translation type="unfinished">Prioritet</translation>
+        <translation>Prioritet</translation>
     </message>
 </context>
 <context>
@@ -3326,6 +3504,11 @@ p, li { white-space: pre-wrap; }
         <source>/s</source>
         <comment>/second (.i.e per second)</comment>
         <translation>/s</translation>
+    </message>
+    <message>
+        <source>KiB/s</source>
+        <comment>KiB/second (.i.e per second)</comment>
+        <translation>KiB/s</translation>
     </message>
 </context>
 <context>
@@ -3603,6 +3786,26 @@ p, li { white-space: pre-wrap; }
         <source>Please don&apos;t use any special characters in the label name.</source>
         <translation>Använd inte några specialtecken i etikettnamnet.</translation>
     </message>
+    <message>
+        <source>Added On</source>
+        <comment>Torrent was added to transfer list on 01/01/2010 08:00</comment>
+        <translation>Lades till</translation>
+    </message>
+    <message>
+        <source>Completed On</source>
+        <comment>Torrent was completed on 01/01/2010 08:00</comment>
+        <translation>Färdigställdes</translation>
+    </message>
+    <message>
+        <source>Down Limit</source>
+        <comment>i.e: Download limit</comment>
+        <translation>Hämtningsgräns</translation>
+    </message>
+    <message>
+        <source>Up Limit</source>
+        <comment>i.e: Upload limit</comment>
+        <translation>Sändningsgräns</translation>
+    </message>
 </context>
 <context>
     <name>UsageDisplay</name>
@@ -3701,15 +3904,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Normal</source>
-        <translation type="obsolete">Normal</translation>
+        <translation>Normal</translation>
     </message>
     <message>
         <source>High</source>
-        <translation type="obsolete">Hög</translation>
+        <translation>Hög</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation type="obsolete">Maximal</translation>
+        <translation>Maximalt</translation>
     </message>
     <message>
         <source>Collapse all</source>
@@ -4574,7 +4777,7 @@ Dock har dessa insticksmoduler blivit inaktiverade.</translation>
     <name>options_imp</name>
     <message>
         <source>Choose scan directory</source>
-        <translation>Välj en avsökningskatalog</translation>
+        <translation type="obsolete">Välj en avsökningskatalog</translation>
     </message>
     <message>
         <source>Choose a save directory</source>
@@ -4587,6 +4790,34 @@ Dock har dessa insticksmoduler blivit inaktiverade.</translation>
     <message>
         <source>Filters</source>
         <translation>Filter</translation>
+    </message>
+    <message>
+        <source>Choose export directory</source>
+        <translation>Välj exportkatalog</translation>
+    </message>
+    <message>
+        <source>Add directory to scan</source>
+        <translation>Lägg till katalog att söka av</translation>
+    </message>
+    <message>
+        <source>Folder is already being watched.</source>
+        <translation>Mappen bevakas redan.</translation>
+    </message>
+    <message>
+        <source>Folder does not exist.</source>
+        <translation>Mappen finns inte.</translation>
+    </message>
+    <message>
+        <source>Folder is not readable.</source>
+        <translation>Mappen är inte läsbar.</translation>
+    </message>
+    <message>
+        <source>Failure</source>
+        <translation>Fel</translation>
+    </message>
+    <message>
+        <source>Failed to add Scan Folder &apos;%1&apos;: %2</source>
+        <translation>Misslyckades med att lägga till mapp att söka av &quot;%1&quot;: %2</translation>
     </message>
 </context>
 <context>
@@ -5091,7 +5322,7 @@ Dock har dessa insticksmoduler blivit inaktiverade.</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation type="obsolete">Prioritet</translation>
+        <translation>Prioritet</translation>
     </message>
     <message>
         <source>Unknown</source>

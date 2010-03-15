@@ -56,44 +56,27 @@ class QSplitter;
 class PropertiesWidget;
 class StatusBar;
 class consoleDlg;
+class about;
+class createtorrent;
+class downloadFromURL;
 
 class GUI : public QMainWindow, private Ui::MainWindow{
   Q_OBJECT
 
-private:
-  // Bittorrent
-  Bittorrent *BTSession;
-  QList<QPair<QTorrentHandle,QString> > unauthenticated_trackers; // Still needed?
-  // GUI related
-  QTimer *guiUpdater;
-  QTabWidget *tabs;
-  StatusBar *status_bar;
-  QPointer<options_imp> options;
-  QPointer<consoleDlg> console;
-  QPointer<QSystemTrayIcon> systrayIcon;
-  QPointer<QTimer> systrayCreator;
-  QMenu *myTrayIconMenu;
-  TransferListWidget *transferList;
-  TransferListFiltersWidget *transferListFilters;
-  PropertiesWidget *properties;
-  bool displaySpeedInTitle;
-  bool force_exit;
-  // Keyboard shortcuts
-  QShortcut *switchSearchShortcut;
-  QShortcut *switchSearchShortcut2;
-  QShortcut *switchTransferShortcut;
-  QShortcut *switchRSSShortcut;
-  // Widgets
-  QAction *prioSeparator;
-  QAction *prioSeparator2;
-  QSplitter *hSplitter;
-  QSplitter *vSplitter;
-  // Search
-  SearchEngine *searchEngine;
-  // RSS
-  QPointer<RSSImp> rssWidget;
-  // Misc
-  QLocalServer *localServer;
+public:
+  // Construct / Destruct
+  GUI(QWidget *parent=0, QStringList torrentCmdLine=QStringList());
+  ~GUI();
+  // Methods
+  int getCurrentTabIndex() const;
+  TransferListWidget* getTransferList() const { return transferList; }
+
+public slots:
+  void trackerAuthenticationRequired(QTorrentHandle& h);
+  void setTabText(int index, QString text) const;
+  void showNotificationBaloon(QString title, QString msg) const;
+  void downloadFromURLList(const QStringList& urls);
+  void updateAltSpeedsBtn(bool alternative);
 
 protected slots:
   // GUI related slots
@@ -130,7 +113,7 @@ protected slots:
   void loadPreferences(bool configure_session=true);
   void processParams(const QStringList& params);
   void addTorrent(QString path);
-  void addUnauthenticatedTracker(QPair<QTorrentHandle,QString> tracker);
+  void addUnauthenticatedTracker(const QPair<QTorrentHandle,QString> &tracker);
   void processDownloadedFiles(QString path, QString url);
   void finishedTorrent(QTorrentHandle& h) const;
   // Options slots
@@ -139,26 +122,49 @@ protected slots:
   // HTTP slots
   void on_actionDownload_from_URL_triggered();
 
-
-public slots:
-  void trackerAuthenticationRequired(QTorrentHandle& h);
-  void setTabText(int index, QString text) const;
-  void showNotificationBaloon(QString title, QString msg) const;
-  void downloadFromURLList(const QStringList& urls);
-
 protected:
   void closeEvent(QCloseEvent *);
   void showEvent(QShowEvent *);
   bool event(QEvent * event);
   void displayRSSTab(bool enable);
 
-public:
-  // Construct / Destruct
-  GUI(QWidget *parent=0, QStringList torrentCmdLine=QStringList());
-  ~GUI();
-  // Methods
-  int getCurrentTabIndex() const;
-  TransferListWidget* getTransferList() const { return transferList; }
+private:
+  // Bittorrent
+  Bittorrent *BTSession;
+  QList<QPair<QTorrentHandle,QString> > unauthenticated_trackers; // Still needed?
+  // GUI related
+  QTimer *guiUpdater;
+  QTabWidget *tabs;
+  StatusBar *status_bar;
+  QPointer<options_imp> options;
+  QPointer<consoleDlg> console;
+  QPointer<about> aboutDlg;
+  QPointer<createtorrent> createTorrentDlg;
+  QPointer<downloadFromURL> downloadFromURLDialog;
+  QPointer<QSystemTrayIcon> systrayIcon;
+  QPointer<QTimer> systrayCreator;
+  QMenu *myTrayIconMenu;
+  TransferListWidget *transferList;
+  TransferListFiltersWidget *transferListFilters;
+  PropertiesWidget *properties;
+  bool displaySpeedInTitle;
+  bool force_exit;
+  // Keyboard shortcuts
+  QShortcut *switchSearchShortcut;
+  QShortcut *switchSearchShortcut2;
+  QShortcut *switchTransferShortcut;
+  QShortcut *switchRSSShortcut;
+  // Widgets
+  QAction *prioSeparator;
+  QAction *prioSeparator2;
+  QSplitter *hSplitter;
+  QSplitter *vSplitter;
+  // Search
+  SearchEngine *searchEngine;
+  // RSS
+  QPointer<RSSImp> rssWidget;
+  // Misc
+  QLocalServer *localServer;
 };
 
 #endif

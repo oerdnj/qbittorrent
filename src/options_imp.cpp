@@ -34,20 +34,10 @@
 #include <QSystemTrayIcon>
 #include <QApplication>
 #include <QSettings>
-#include <QPlastiqueStyle>
-#include "qgnomelook.h"
-#include <QMotifStyle>
-#include <QCDEStyle>
 #include <QDialogButtonBox>
 #include <QCloseEvent>
 #include <QDesktopWidget>
-#ifdef Q_WS_WIN
-#include <QWindowsXPStyle>
-#endif
-
-#ifdef Q_WS_MAC
-#include <QMacStyle>
-#endif
+#include <QStyleFactory>
 
 #include <time.h>
 #include <stdlib.h>
@@ -55,13 +45,19 @@
 #include "options_imp.h"
 #include "preferences.h"
 #include "misc.h"
+#include "advancedsettings.h"
+#include "scannedfoldersmodel.h"
 
 // Constructor
 options_imp::options_imp(QWidget *parent):QDialog(parent){
   qDebug("-> Constructing Options");
   setAttribute(Qt::WA_DeleteOnClose);
+  setModal(true);
+
   QString savePath;
   setupUi(this);
+  hsplitter->setCollapsible(0, false);
+  hsplitter->setCollapsible(1, false);
   // Get apply button in button box
   QList<QAbstractButton *> buttons = buttonBox->buttons();
   foreach(QAbstractButton *button, buttons){
@@ -70,13 +66,14 @@ options_imp::options_imp(QWidget *parent):QDialog(parent){
       break;
     }
   }
+
+  scanFoldersView->horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
+  scanFoldersView->setModel(ScanFoldersModel::instance());
+  connect(ScanFoldersModel::instance(), SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(enableApplyButton()));
+  connect(scanFoldersView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(handleScanFolderViewSelectionChanged()));
+
   connect(buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(applySettings(QAbstractButton*)));
-#ifdef Q_WS_WIN
-  comboStyle->addItem("Windows XP Style (Windows Only)");
-#endif
-#ifdef Q_WS_MAC
-  comboStyle->addItem("MacOS Style (MacOS Only)");
-#endif
+  comboStyle->addItems(QStyleFactory::keys());
   // Languages supported
   comboI18n->addItem((QIcon(QString::fromUtf8(":/Icons/flags/united_kingdom.png"))), QString::fromUtf8("English"));
   locales << "en_GB";
@@ -136,6 +133,15 @@ options_imp::options_imp(QWidget *parent):QDialog(parent){
   comboI18n->addItem((QIcon(QString::fromUtf8(":/Icons/flags/south_korea.png"))), QString::fromUtf8("한글"));
   locales << "ko_KR";
 
+  // Load week days (scheduler)
+  for(uint i=1; i<=7; ++i) {
+#ifdef QT_4_5
+    schedule_days->addItem(QDate::longDayName(i, QDate::StandaloneFormat));
+#else
+    schedule_days->addItem(QDate::longDayName(i));
+#endif
+  }
+
   // Load options
   loadOptions();
   // Disable systray integration if it is not supported by the system
@@ -147,13 +153,11 @@ options_imp::options_imp(QWidget *parent):QDialog(parent){
   connect(checkNoSystray, SIGNAL(toggled(bool)), this, SLOT(setSystrayOptionsState(bool)));
   // Downloads tab
   connect(checkTempFolder, SIGNAL(toggled(bool)), this, SLOT(enableTempPathInput(bool)));
-  connect(checkScanDir, SIGNAL(toggled(bool)), this, SLOT(enableDirScan(bool)));
-  connect(actionTorrentDlOnDblClBox, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApplyButton()));
-  connect(actionTorrentFnOnDblClBox, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApplyButton()));
-  connect(checkTempFolder, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+  connect(checkExportDir, SIGNAL(toggled(bool)), this, SLOT(enableTorrentExport(bool)));
   // Connection tab
   connect(checkUploadLimit, SIGNAL(toggled(bool)), this, SLOT(enableUploadLimit(bool)));
   connect(checkDownloadLimit,  SIGNAL(toggled(bool)), this, SLOT(enableDownloadLimit(bool)));
+  connect(check_schedule, SIGNAL(toggled(bool)), this, SLOT(enableSchedulerFields(bool)));
   // Bittorrent tab
   connect(checkMaxConnecs,  SIGNAL(toggled(bool)), this, SLOT(enableMaxConnecsLimit(bool)));
   connect(checkMaxConnecsPerTorrent,  SIGNAL(toggled(bool)), this, SLOT(enableMaxConnecsLimitPerTorrent(bool)));
@@ -181,7 +185,6 @@ options_imp::options_imp(QWidget *parent):QDialog(parent){
   connect(comboStyle, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApplyButton()));
   connect(checkConfirmExit, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkSpeedInTitle, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
-  connect(spinRefreshInterval, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(checkAltRowColors, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkNoSystray, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkCloseToSystray, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
@@ -195,11 +198,15 @@ options_imp::options_imp(QWidget *parent):QDialog(parent){
   connect(checkAppendLabel, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkAppendqB, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkPreallocateAll, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
-  connect(spinCache, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(checkAdditionDialog, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkStartPaused, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
-  connect(checkScanDir, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
-  connect(textScanDir, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
+  connect(checkExportDir, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+  connect(textExportDir, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
+  connect(actionTorrentDlOnDblClBox, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApplyButton()));
+  connect(actionTorrentFnOnDblClBox, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApplyButton()));
+  connect(checkTempFolder, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+  connect(addScanFolderButton, SIGNAL(clicked()), this, SLOT(enableApplyButton()));
+  connect(removeScanFolderButton, SIGNAL(clicked()), this, SLOT(enableApplyButton()));
   // Connection tab
   connect(spinPort, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(checkUPnP, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
@@ -208,8 +215,10 @@ options_imp::options_imp(QWidget *parent):QDialog(parent){
   connect(checkDownloadLimit, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(spinUploadLimit, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(spinDownloadLimit, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
-  connect(checkResolveCountries, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
-  connect(checkResolveHosts, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+  connect(check_schedule, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+  connect(schedule_from, SIGNAL(timeChanged(QTime)), this, SLOT(enableApplyButton()));
+  connect(schedule_to, SIGNAL(timeChanged(QTime)), this, SLOT(enableApplyButton()));
+  connect(schedule_days, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApplyButton()));
   // Bittorrent tab
   connect(checkMaxConnecs, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkMaxConnecsPerTorrent, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
@@ -270,14 +279,24 @@ options_imp::options_imp(QWidget *parent):QDialog(parent){
 #ifndef LIBTORRENT_0_15
   checkAppendqB->setVisible(false);
 #endif
+  // Load Advanced settings
+  QVBoxLayout *adv_layout = new QVBoxLayout();
+  advancedSettings = new AdvancedSettings();
+  adv_layout->addWidget(advancedSettings);
+  scrollArea_advanced->setLayout(adv_layout);
+  connect(advancedSettings, SIGNAL(settingsChanged()), this, SLOT(enableApplyButton()));
   // Adapt size
-  loadWindowState();
   show();
+  loadWindowState();
 }
 
 // Main destructor
 options_imp::~options_imp(){
   qDebug("-> destructing Options");
+  foreach (const QString &path, addedScanDirs)
+    ScanFoldersModel::instance()->removePath(path);
+  delete scrollArea_advanced->layout();
+  delete advancedSettings;
 }
 
 void options_imp::changePage(QListWidgetItem *current, QListWidgetItem *previous) {
@@ -286,32 +305,8 @@ void options_imp::changePage(QListWidgetItem *current, QListWidgetItem *previous
   tabOption->setCurrentIndex(tabSelection->row(current));
 }
 
-void options_imp::useStyle(){
-  int style = getStyle();
-  switch(style) {
-  case 1:
-    QApplication::setStyle(new QPlastiqueStyle());
-    break;
-  case 2:
-    QApplication::setStyle(new QGnomeLookStyle());
-    break;
-  case 3:
-    QApplication::setStyle(new QMotifStyle());
-    break;
-  case 4:
-    QApplication::setStyle(new QCDEStyle());
-    break;
-#ifdef Q_WS_MAC
-  case 5:
-    QApplication::setStyle(new QMacStyle());
-    break;
-#endif
-#ifdef Q_WS_WIN
-  case 6:
-    QApplication::setStyle(new QWindowsXPStyle());
-    break;
-#endif
-  }
+void options_imp::useStyle() {
+  QApplication::setStyle(QStyleFactory::create(comboStyle->itemText(comboStyle->currentIndex())));
 }
 
 void options_imp::loadWindowState() {
@@ -320,12 +315,29 @@ void options_imp::loadWindowState() {
   QPoint p = settings.value(QString::fromUtf8("Preferences/State/pos"), QPoint()).toPoint();
   if(!p.isNull())
     move(p);
+  // Load slider size
+  const QStringList &sizes_str = settings.value("Preferences/State/hSplitterSizes", QStringList()).toStringList();
+  // Splitter size
+  QList<int> sizes;
+  if(sizes_str.size() == 2) {
+    sizes << sizes_str.first().toInt();
+    sizes << sizes_str.last().toInt();
+  } else {
+    sizes << 130;
+    sizes << hsplitter->width()-130;
+  }
+  hsplitter->setSizes(sizes);
 }
 
 void options_imp::saveWindowState() const {
   QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
   settings.setValue(QString::fromUtf8("Preferences/State/size"), size());
   settings.setValue(QString::fromUtf8("Preferences/State/pos"), pos());
+  // Splitter size
+  QStringList sizes_str;
+  sizes_str << QString::number(hsplitter->sizes().first());
+  sizes_str << QString::number(hsplitter->sizes().last());
+  settings.setValue(QString::fromUtf8("Preferences/State/hSplitterSizes"), sizes_str);
 }
 
 QSize options_imp::sizeFittingScreen() {
@@ -359,7 +371,6 @@ void options_imp::saveOptions(){
   settings.setValue(QString::fromUtf8("Style"), getStyle());
   settings.setValue(QString::fromUtf8("ExitConfirm"), confirmOnExit());
   settings.setValue(QString::fromUtf8("SpeedInTitleBar"), speedInTitleBar());
-  settings.setValue(QString::fromUtf8("RefreshInterval"), getRefreshInterval());
   settings.setValue(QString::fromUtf8("AlternatingRowColors"), checkAltRowColors->isChecked());
   settings.setValue(QString::fromUtf8("SystrayEnabled"), systrayIntegration());
   settings.setValue(QString::fromUtf8("CloseToTray"), closeToTray());
@@ -380,10 +391,11 @@ void options_imp::saveOptions(){
   settings.setValue(QString::fromUtf8("UseIncompleteExtension"), checkAppendqB->isChecked());
 #endif
   settings.setValue(QString::fromUtf8("PreAllocation"), preAllocateAllFiles());
-  settings.setValue(QString::fromUtf8("DiskCache"), spinCache->value());
   settings.setValue(QString::fromUtf8("AdditionDialog"), useAdditionDialog());
   settings.setValue(QString::fromUtf8("StartInPause"), addTorrentsInPause());
-  settings.setValue(QString::fromUtf8("ScanDir"), getScanDir());
+  ScanFoldersModel::instance()->makePersistent(settings);
+  addedScanDirs.clear();
+  Preferences::setExportDir(getExportDir());
   settings.setValue(QString::fromUtf8("DblClOnTorDl"), getActionOnDblClOnTorrentDl());
   settings.setValue(QString::fromUtf8("DblClOnTorFn"), getActionOnDblClOnTorrentFn());
   // End Downloads preferences
@@ -395,8 +407,12 @@ void options_imp::saveOptions(){
   settings.setValue(QString::fromUtf8("NAT-PMP"), isNATPMPEnabled());
   settings.setValue(QString::fromUtf8("GlobalDLLimit"), getGlobalBandwidthLimits().first);
   settings.setValue(QString::fromUtf8("GlobalUPLimit"), getGlobalBandwidthLimits().second);
-  settings.setValue("ResolvePeerCountries", checkResolveCountries->isChecked());
-  settings.setValue("ResolvePeerHostNames", checkResolveHosts->isChecked());
+  Preferences::setAltGlobalDownloadLimit(spinDownloadLimitAlt->value());
+  Preferences::setAltGlobalUploadLimit(spinUploadLimitAlt->value());
+  Preferences::setSchedulerEnabled(check_schedule->isChecked());
+  Preferences::setSchedulerStartTime(schedule_from->time());
+  Preferences::setSchedulerEndTime(schedule_to->time());
+  Preferences::setSchedulerDays((scheduler_days)schedule_days->currentIndex());
   settings.setValue(QString::fromUtf8("ProxyType"), getPeerProxyType());
   //if(isProxyEnabled()) {
   settings.beginGroup("Proxy");
@@ -498,6 +514,9 @@ void options_imp::saveOptions(){
   settings.endGroup();
   // End preferences
   settings.endGroup();
+
+  // Save advanced settings
+  advancedSettings->saveAdvancedSettings();
 }
 
 bool options_imp::isFilteringEnabled() const{
@@ -543,14 +562,14 @@ int options_imp::getHTTPProxyType() const {
   }
 }
 
-int options_imp::getStyle() const{
-  return comboStyle->currentIndex();
+QString options_imp::getStyle() const{
+  return comboStyle->itemText(comboStyle->currentIndex());
 }
 
-void options_imp::setStyle(int style){
-  if(style >= comboStyle->count() || style < 0)
-    style = 0;
-  comboStyle->setCurrentIndex(style);
+void options_imp::setStyle(QString style) {
+  int index = comboStyle->findText(style, Qt::MatchFixedString);
+  if(index > 0)
+    comboStyle->setCurrentIndex(index);
 }
 
 bool options_imp::isHTTPProxyAuthEnabled() const{
@@ -566,7 +585,6 @@ void options_imp::loadOptions(){
   setStyle(Preferences::getStyle());
   checkConfirmExit->setChecked(Preferences::confirmOnExit());
   checkSpeedInTitle->setChecked(Preferences::speedInTitleBar());
-  spinRefreshInterval->setValue(Preferences::getRefreshInterval());
   checkAltRowColors->setChecked(Preferences::useAlternatingRowColors());
   checkNoSystray->setChecked(!Preferences::systrayIntegration());
   checkDisplayToolbar->setChecked(Preferences::isToolbarDisplayed());
@@ -597,20 +615,21 @@ void options_imp::loadOptions(){
   checkAppendqB->setChecked(Preferences::useIncompleteFilesExtension());
 #endif
   checkPreallocateAll->setChecked(Preferences::preAllocateAllFiles());
-  spinCache->setValue(Preferences::diskCacheSize());
   checkAdditionDialog->setChecked(Preferences::useAdditionDialog());
   checkStartPaused->setChecked(Preferences::addTorrentsInPause());
-  strValue = Preferences::getScanDir();
+
+  strValue = Preferences::getExportDir();
   if(strValue.isEmpty()) {
     // Disable
-    checkScanDir->setChecked(false);
-    enableDirScan(checkScanDir->isChecked());
+    checkExportDir->setChecked(false);
+    enableTorrentExport(checkExportDir->isChecked());
   } else {
     // enable
-    checkScanDir->setChecked(true);
-    textScanDir->setText(strValue);
-    enableDirScan(checkScanDir->isChecked());
+    checkExportDir->setChecked(true);
+    textExportDir->setText(strValue);
+    enableTorrentExport(checkExportDir->isChecked());
   }
+
   intValue = Preferences::getActionOnDblClOnTorrentDl();
   if(intValue >= actionTorrentDlOnDblClBox->count())
     intValue = 0;
@@ -646,9 +665,14 @@ void options_imp::loadOptions(){
     checkUploadLimit->setChecked(false);
     spinUploadLimit->setEnabled(false);
   }
-  // Peer connections
-  checkResolveCountries->setChecked(Preferences::resolvePeerCountries());
-  checkResolveHosts->setChecked(Preferences::resolvePeerHostNames());
+  spinUploadLimitAlt->setValue(Preferences::getAltGlobalUploadLimit());
+  spinDownloadLimitAlt->setValue(Preferences::getAltGlobalDownloadLimit());
+  // Scheduler
+  check_schedule->setChecked(Preferences::isSchedulerEnabled());
+  enableSchedulerFields(check_schedule->isChecked());
+  schedule_from->setTime(Preferences::getSchedulerStartTime());
+  schedule_to->setTime(Preferences::getSchedulerEndTime());
+  schedule_days->setCurrentIndex((int)Preferences::getSchedulerDays());
 
   intValue = Preferences::getPeerProxyType();
   switch(intValue) {
@@ -912,16 +936,8 @@ bool options_imp::closeToTray() const{
   return checkCloseToSystray->isChecked();
 }
 
-unsigned int options_imp::getRefreshInterval() const {
-  return spinRefreshInterval->value();
-}
-
 bool options_imp::confirmOnExit() const{
   return checkConfirmExit->isChecked();
-}
-
-bool options_imp::isDirScanEnabled() const {
-  return checkScanDir->isChecked();
 }
 
 bool options_imp::isQueueingSystemEnabled() const {
@@ -1095,38 +1111,27 @@ bool options_imp::useAdditionDialog() const{
   return checkAdditionDialog->isChecked();
 }
 
+void options_imp::enableSchedulerFields(bool checked) {
+  schedule_from->setEnabled(checked);
+  schedule_to->setEnabled(checked);
+  schedule_days->setEnabled(checked);
+}
+
 void options_imp::enableMaxConnecsLimit(bool checked){
-  if(checked) {
-    spinMaxConnec->setEnabled(true);
-  }else{
-    spinMaxConnec->setEnabled(false);
-  }
+  spinMaxConnec->setEnabled(checked);
 }
 
 void options_imp::enableQueueingSystem(bool checked) {
-  if(checked) {
-    spinMaxActiveDownloads->setEnabled(true);
-    spinMaxActiveUploads->setEnabled(true);
-    label_max_active_dl->setEnabled(true);
-    label_max_active_up->setEnabled(true);
-    maxActiveTorrents_lbl->setEnabled(true);
-    spinMaxActiveTorrents->setEnabled(true);
-  }else{
-    spinMaxActiveDownloads->setEnabled(false);
-    spinMaxActiveUploads->setEnabled(false);
-    label_max_active_dl->setEnabled(false);
-    label_max_active_up->setEnabled(false);
-    maxActiveTorrents_lbl->setEnabled(false);
-    spinMaxActiveTorrents->setEnabled(false);
-  }
+  spinMaxActiveDownloads->setEnabled(checked);
+  spinMaxActiveUploads->setEnabled(checked);
+  label_max_active_dl->setEnabled(checked);
+  label_max_active_up->setEnabled(checked);
+  maxActiveTorrents_lbl->setEnabled(checked);
+  spinMaxActiveTorrents->setEnabled(checked);
 }
 
 void options_imp::enableMaxConnecsLimitPerTorrent(bool checked){
-  if(checked) {
-    spinMaxConnecPerTorrent->setEnabled(true);
-  }else{
-    spinMaxConnecPerTorrent->setEnabled(false);
-  }
+  spinMaxConnecPerTorrent->setEnabled(checked);
 }
 
 void options_imp::enableSystrayOptions() {
@@ -1158,55 +1163,30 @@ void options_imp::enableMaxUploadsLimitPerTorrent(bool checked){
 }
 
 void options_imp::enableFilter(bool checked){
-  if(checked){
-    lblFilterPath->setEnabled(true);
-    textFilterPath->setEnabled(true);
-    browseFilterButton->setEnabled(true);
-  }else{
-    lblFilterPath->setEnabled(false);
-    textFilterPath->setEnabled(false);
-    browseFilterButton->setEnabled(false);
-  }
+  lblFilterPath->setEnabled(checked);
+  textFilterPath->setEnabled(checked);
+  browseFilterButton->setEnabled(checked);
 }
 
 void options_imp::enableRSS(bool checked) {
-  if(checked){
-    groupRSSSettings->setEnabled(true);
-  }else{
-    groupRSSSettings->setEnabled(false);
-  }
+  groupRSSSettings->setEnabled(checked);
 }
 
 void options_imp::enableUploadLimit(bool checked){
-  if(checked){
-    spinUploadLimit->setEnabled(true);
-  }else{
-    spinUploadLimit->setEnabled(false);
-  }
+  spinUploadLimit->setEnabled(checked);
 }
 
 void options_imp::enableApplyButton(){
-  if(!applyButton->isEnabled()){
-    applyButton->setEnabled(true);
-  }
+  applyButton->setEnabled(true);
 }
 
 void options_imp::enableShareRatio(bool checked){
-  if(checked){
-    spinRatio->setEnabled(true);
-  }else{
-    spinRatio->setEnabled(false);
-  }
+  spinRatio->setEnabled(checked);
 }
 
 void options_imp::enableDHTPortSettings(bool checked) {
-  if(checked){
-    spinDHTPort->setEnabled(true);
-    dh_port_lbl->setEnabled(true);
-  }else{
-    spinDHTPort->setEnabled(false);
-    dh_port_lbl->setEnabled(false);
-  }
+  spinDHTPort->setEnabled(checked);
+  dh_port_lbl->setEnabled(checked);
 }
 
 void options_imp::enableDHTSettings(bool checked) {
@@ -1221,11 +1201,7 @@ void options_imp::enableDHTSettings(bool checked) {
 
 
 void options_imp::enableDeleteRatio(bool checked){
-  if(checked){
-    spinMaxRatio->setEnabled(true);
-  }else{
-    spinMaxRatio->setEnabled(false);
-  }
+  spinMaxRatio->setEnabled(checked);
 }
 
 void options_imp::enablePeerProxy(int index){
@@ -1253,60 +1229,34 @@ void options_imp::enablePeerProxy(int index){
 }
 
 void options_imp::enableHTTPProxy(int index){
-  if(index){
-    //enable
-    lblProxyIP_http->setEnabled(true);
-    textProxyIP_http->setEnabled(true);
-    lblProxyPort_http->setEnabled(true);
-    spinProxyPort_http->setEnabled(true);
-    checkProxyAuth_http->setEnabled(true);
-  }else{
-    //disable
-    lblProxyIP_http->setEnabled(false);
-    textProxyIP_http->setEnabled(false);
-    lblProxyPort_http->setEnabled(false);
-    spinProxyPort_http->setEnabled(false);
-    checkProxyAuth_http->setEnabled(false);
+  bool enable = (index > 0);
+  lblProxyIP_http->setEnabled(enable);
+  textProxyIP_http->setEnabled(enable);
+  lblProxyPort_http->setEnabled(enable);
+  spinProxyPort_http->setEnabled(enable);
+  checkProxyAuth_http->setEnabled(enable);
+
+  if(!enable)
     checkProxyAuth_http->setChecked(false);
-  }
 }
 
 void options_imp::enablePeerProxyAuth(bool checked){
-  if(checked){
-    lblProxyUsername->setEnabled(true);
-    lblProxyPassword->setEnabled(true);
-    textProxyUsername->setEnabled(true);
-    textProxyPassword->setEnabled(true);
-  }else{
-    lblProxyUsername->setEnabled(false);
-    lblProxyPassword->setEnabled(false);
-    textProxyUsername->setEnabled(false);
-    textProxyPassword->setEnabled(false);
-  }
+  lblProxyUsername->setEnabled(checked);
+  lblProxyPassword->setEnabled(checked);
+  textProxyUsername->setEnabled(checked);
+  textProxyPassword->setEnabled(checked);
 }
 
 void options_imp::enableHTTPProxyAuth(bool checked){
-  if(checked){
-    lblProxyUsername_http->setEnabled(true);
-    lblProxyPassword_http->setEnabled(true);
-    textProxyUsername_http->setEnabled(true);
-    textProxyPassword_http->setEnabled(true);
-  }else{
-    lblProxyUsername_http->setEnabled(false);
-    lblProxyPassword_http->setEnabled(false);
-    textProxyUsername_http->setEnabled(false);
-    textProxyPassword_http->setEnabled(false);
-  }
+  lblProxyUsername_http->setEnabled(checked);
+  lblProxyPassword_http->setEnabled(checked);
+  textProxyUsername_http->setEnabled(checked);
+  textProxyPassword_http->setEnabled(checked);
 }
 
-void options_imp::enableDirScan(bool checked){
-  if(checked){
-    textScanDir->setEnabled(true);
-    browseScanDirButton->setEnabled(true);
-  }else{
-    textScanDir->setEnabled(false);
-    browseScanDirButton->setEnabled(false);
-  }
+void options_imp::enableTorrentExport(bool checked) {
+  textExportDir->setEnabled(checked);
+  browseExportDirButton->setEnabled(checked);
 }
 
 bool options_imp::isSlashScreenDisabled() const {
@@ -1398,10 +1348,9 @@ void options_imp::setLocale(QString locale){
   }
 }
 
-// Return scan dir set in options
-QString options_imp::getScanDir() const {
-  if(checkScanDir->isChecked()){
-    return misc::expandPath(textScanDir->text());
+QString options_imp::getExportDir() const {
+  if(checkExportDir->isChecked()){
+    return misc::expandPath(textExportDir->text());
   }else{
     return QString::null;
   }
@@ -1421,18 +1370,56 @@ int options_imp::getActionOnDblClOnTorrentFn() const {
   return actionTorrentFnOnDblClBox->currentIndex();
 }
 
-// Display dialog to choose scan dir
-void options_imp::on_browseScanDirButton_clicked() {
-  QString scan_path = misc::expandPath(textScanDir->text());
-  QDir scanDir(scan_path);
+void options_imp::on_addScanFolderButton_clicked() {
+  const QString dir = QFileDialog::getExistingDirectory(this, tr("Add directory to scan"));
+  if (!dir.isEmpty()) {
+    const ScanFoldersModel::PathStatus status = ScanFoldersModel::instance()->addPath(dir);
+    QString error;
+    switch (status) {
+    case ScanFoldersModel::AlreadyInList:
+      error = tr("Folder is already being watched.").arg(dir);
+      break;
+    case ScanFoldersModel::DoesNotExist:
+      error = tr("Folder does not exist.");
+      break;
+    case ScanFoldersModel::CannotRead:
+      error = tr("Folder is not readable.");
+      break;
+    default:
+      addedScanDirs << dir;
+      enableApplyButton();
+    }
+
+    if (!error.isEmpty()) {
+      QMessageBox::warning(this, tr("Failure"), tr("Failed to add Scan Folder '%1': %2").arg(dir).arg(error));
+    }
+  }
+}
+
+void options_imp::on_removeScanFolderButton_clicked() {
+  const QModelIndexList &selected
+      = scanFoldersView->selectionModel()->selectedIndexes();
+  if (selected.isEmpty())
+    return;
+  Q_ASSERT(selected.count() == ScanFoldersModel::instance()->columnCount());
+  ScanFoldersModel::instance()->removePath(selected.first().row());
+}
+
+void options_imp::handleScanFolderViewSelectionChanged() {
+  removeScanFolderButton->setEnabled(!scanFoldersView->selectionModel()->selectedIndexes().isEmpty());
+}
+
+void options_imp::on_browseExportDirButton_clicked() {
+  QString export_path = misc::expandPath(textExportDir->text());
+  QDir exportDir(export_path);
   QString dir;
-  if(!scan_path.isEmpty() && scanDir.exists()) {
-    dir = QFileDialog::getExistingDirectory(this, tr("Choose scan directory"), scanDir.absolutePath());
+  if(!export_path.isEmpty() && exportDir.exists()) {
+    dir = QFileDialog::getExistingDirectory(this, tr("Choose export directory"), exportDir.absolutePath());
   } else {
-    dir = QFileDialog::getExistingDirectory(this, tr("Choose scan directory"), QDir::homePath());
+    dir = QFileDialog::getExistingDirectory(this, tr("Choose export directory"), QDir::homePath());
   }
   if(!dir.isNull()){
-    textScanDir->setText(dir);
+    textExportDir->setText(dir);
   }
 }
 
