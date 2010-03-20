@@ -115,6 +115,7 @@ public:
   qlonglong getETA(QString hash);
   bool useTemporaryFolder() const;
   QString getDefaultSavePath() const;
+  ScanFoldersModel* getScanFoldersModel() const;
 
 public slots:
   QTorrentHandle addTorrent(QString path, bool fromScanDir = false, QString from_url = QString(), bool resumed = false);
@@ -181,6 +182,7 @@ public slots:
   void downloadFromURLList(const QStringList& urls);
   void configureSession();
   void banIP(QString ip);
+  void recursiveTorrentDownload(const QTorrentHandle &h);
 
 protected:
   QString getSavePath(QString hash, bool fromScanDir = false, QString filePath = QString());
@@ -210,6 +212,7 @@ signals:
   void savePathChanged(QTorrentHandle &h);
   void newConsoleMessage(QString msg);
   void alternativeSpeedsModeChanged(bool alternative);
+  void recursiveTorrentDownloadPossible(QTorrentHandle &h);
 
 private:
   // Bittorrent
