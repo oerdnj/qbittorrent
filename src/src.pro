@@ -11,10 +11,10 @@ CONFIG += qt \
     thread
 
 # Update this VERSION for each release
-DEFINES += VERSION=\\\"v2.2.0\\\"
+DEFINES += VERSION=\\\"v2.2.1\\\"
 DEFINES += VERSION_MAJOR=2
 DEFINES += VERSION_MINOR=2
-DEFINES += VERSION_BUGFIX=0
+DEFINES += VERSION_BUGFIX=1
 
 # NORMAL,ALPHA,BETA,RELEASE_CANDIDATE,DEVEL
 DEFINES += VERSION_TYPE=NORMAL
@@ -227,6 +227,7 @@ else:HEADERS +=  GUI.h \
                  ico.h \
                  engineselectdlg.h \
                  pluginsource.h \
+                 qgnomelook.h \
                  searchEngine.h \
                  rss.h \
                  rss_imp.h \
