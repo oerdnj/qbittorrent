@@ -1,3 +1,12 @@
+qbittorrent (2.2.1-1) unstable; urgency=low
+
+  * New upstream version.
+  * debian/patches/r3710_robust_resume.patch: taken from upstream commit
+    r3710, save fast resume data every 3 minutes to improve resume
+    robustness.
+
+ -- Cristian Greco <cristian@regolo.cc>  Sun, 21 Mar 2010 01:36:12 +0100
+
 qbittorrent (2.2.0-1) unstable; urgency=low
 
   * New upstream version.
