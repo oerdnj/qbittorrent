@@ -1,3 +1,13 @@
+qbittorrent (2.2.2-1) unstable; urgency=low
+
+  * New upstream version.
+  * debian/patches:
+    - r3710_robust_resume.patch, deleted (fixed in this release).
+    - r3729_delete_after_pause.patch, new patch from svn r3729 (fix
+      possible crash when deleting a torrent just after pausing it).
+
+ -- Cristian Greco <cristian@regolo.cc>  Wed, 24 Mar 2010 16:41:03 +0100
+
 qbittorrent (2.2.1-1) unstable; urgency=low
 
   * New upstream version.
