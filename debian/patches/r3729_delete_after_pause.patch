@@ -1,0 +1,17 @@
+Author: Cristian Greco <cristian@regolo.cc>
+Description: fix possible crash when deleting a torrent just after pausing it
+(upstream svn r3729).
+
+--- a/src/bittorrent.cpp
++++ b/src/bittorrent.cpp
+@@ -2002,7 +2002,9 @@
+       }
+ #endif
+       else if (torrent_paused_alert* p = dynamic_cast<torrent_paused_alert*>(a.get())) {
+-        p->handle.save_resume_data();
++        if(p->handle.is_valid()) {
++          p->handle.save_resume_data();
++        }
+       }
+       else if (tracker_error_alert* p = dynamic_cast<tracker_error_alert*>(a.get())) {
+         // Level: fatal
