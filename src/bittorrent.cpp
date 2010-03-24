@@ -31,7 +31,6 @@
 #include <QDir>
 #include <QDateTime>
 #include <QString>
-#include <QTimer>
 #include <QSettings>
 #include <stdlib.h>
 
@@ -132,6 +131,8 @@ Bittorrent::Bittorrent()
   timerAlerts = new QTimer();
   connect(timerAlerts, SIGNAL(timeout()), this, SLOT(readAlerts()));
   timerAlerts->start(3000);
+  connect(&resumeDataTimer, SIGNAL(timeout()), this, SLOT(saveTempFastResumeData()));
+  resumeDataTimer.start(180000); // 3min
   // To download from urls
   downloader = new downloadThread(this);
   connect(downloader, SIGNAL(downloadFinished(QString, QString)), this, SLOT(processDownloadedFile(QString, QString)));
@@ -280,12 +281,14 @@ void Bittorrent::configureSession() {
   startTorrentsInPause(Preferences::addTorrentsInPause());
   // * Scan dirs
   const QStringList &scan_dirs = Preferences::getScanDirs();
-  foreach (const QString &dir, scan_dirs) {
-    m_scanFolders->addPath(dir);
+  QVariantList downloadInDirList = Preferences::getDownloadInScanDirs();
+  while(scan_dirs.size() > downloadInDirList.size()) {
+    downloadInDirList << QVariant(false);
   }
-  const QVariantList &downloadInDirList = Preferences::getDownloadInScanDirs();
-  for (int i = 0; i < downloadInDirList.count(); ++i) {
-    m_scanFolders->setDownloadAtPath(i, downloadInDirList.at(i).toBool());
+  int i = 0;
+  foreach (const QString &dir, scan_dirs) {
+    m_scanFolders->addPath(dir, downloadInDirList.at(i).toBool());
+    ++i;
   }
   // * Export Dir
   const bool newTorrentExport = Preferences::isTorrentExportEnabled();
@@ -1393,10 +1396,23 @@ float Bittorrent::getRealRatio(QString hash) const{
   return ratio;
 }
 
+void Bittorrent::saveTempFastResumeData() {
+  std::vector<torrent_handle> torrents =  s->get_torrents();
+  std::vector<torrent_handle>::iterator torrentIT;
+  for(torrentIT = torrents.begin(); torrentIT != torrents.end(); torrentIT++) {
+    QTorrentHandle h = QTorrentHandle(*torrentIT);
+    if(!h.is_valid() || !h.has_metadata() || h.is_seed() || h.is_paused()) continue;
+    if(h.state() == torrent_status::checking_files || h.state() == torrent_status::queued_for_checking) continue;
+    qDebug("Saving fastresume data for %s", qPrintable(h.name()));
+    h.save_resume_data();
+  }
+}
+
 // Only save fast resume data for unfinished and unpaused torrents (Optimization)
 // Called periodically and on exit
 void Bittorrent::saveFastResumeData() {
   // Stop listening for alerts
+  resumeDataTimer.stop();
   timerAlerts->stop();
   int num_resume_data = 0;
   // Pause session
@@ -1985,12 +2001,9 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
         }
       }
 #endif
-      /*else if (torrent_paused_alert* p = dynamic_cast<torrent_paused_alert*>(a.get())) {
-      QTorrentHandle h(p->handle);
-      if(h.is_valid()) {
-        emit torrentPaused(h);
+      else if (torrent_paused_alert* p = dynamic_cast<torrent_paused_alert*>(a.get())) {
+        p->handle.save_resume_data();
       }
-    }*/
       else if (tracker_error_alert* p = dynamic_cast<tracker_error_alert*>(a.get())) {
         // Level: fatal
         QTorrentHandle h(p->handle);

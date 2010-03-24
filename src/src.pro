@@ -11,10 +11,10 @@ CONFIG += qt \
     thread
 
 # Update this VERSION for each release
-DEFINES += VERSION=\\\"v2.2.1\\\"
+DEFINES += VERSION=\\\"v2.2.2\\\"
 DEFINES += VERSION_MAJOR=2
 DEFINES += VERSION_MINOR=2
-DEFINES += VERSION_BUGFIX=1
+DEFINES += VERSION_BUGFIX=2
 
 # NORMAL,ALPHA,BETA,RELEASE_CANDIDATE,DEVEL
 DEFINES += VERSION_TYPE=NORMAL
@@ -274,7 +274,8 @@ SOURCES += main.cpp \
     httprequestparser.cpp \
     httpresponsegenerator.cpp \
     eventmanager.cpp \
-    scannedfoldersmodel.cpp
+    scannedfoldersmodel.cpp \
+    misc.cpp
 
 !contains(DEFINES, DISABLE_GUI):SOURCES += GUI.cpp \
                    options_imp.cpp \
