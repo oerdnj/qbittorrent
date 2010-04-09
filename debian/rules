@@ -8,16 +8,16 @@ override_dh_auto_configure:
 	mkdir -p build-gui && cd build-gui && ../configure --prefix=/usr
 
 override_dh_auto_build:
-	mv -f build-nox/conf.pri . && cd build-nox && $(MAKE)
-	mv -f build-gui/conf.pri . && cd build-gui && $(MAKE)
+	mv -f build-nox/conf.pri . && dh_auto_build --builddirectory build-nox
+	mv -f build-gui/conf.pri . && dh_auto_build --builddirectory build-gui
 
 override_dh_auto_install:
-	cd build-nox && $(MAKE) INSTALL_ROOT=$(CURDIR)/debian/qbittorrent-nox install
-	cd build-gui && $(MAKE) INSTALL_ROOT=$(CURDIR)/debian/qbittorrent install
+	dh_auto_install --builddirectory build-nox --destdir debian/qbittorrent-nox
+	dh_auto_install --builddirectory build-gui --destdir debian/qbittorrent
 
 override_dh_install:
 	dh_install debian/qbittorrent.xpm usr/share/pixmaps
 
-override_dh_clean:
-	rm -rf build-nox build-gui
-	dh_clean conf.pri
+override_dh_auto_clean:
+	dh_auto_clean --builddirectory build-nox
+	dh_auto_clean --builddirectory build-gui

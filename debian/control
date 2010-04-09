@@ -2,7 +2,7 @@ Source: qbittorrent
 Section: net
 Priority: optional
 Maintainer: Cristian Greco <cristian@regolo.cc>
-Build-Depends: debhelper (>= 7.0.50),
+Build-Depends: debhelper (>= 7.4.12),
                libtorrent-rasterbar-dev (>= 0.14.9),
                libqt4-dev (>= 4.4.0)
 Standards-Version: 3.8.4
