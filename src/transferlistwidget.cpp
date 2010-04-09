@@ -174,6 +174,7 @@ void TransferListWidget::addTorrent(QTorrentHandle& h) {
     listModel->setData(listModel->index(row, TR_SEED_DATE), QVariant(TorrentPersistentData::getSeedDate(h.hash())));
     listModel->setData(listModel->index(row, TR_UPLIMIT), QVariant(h.upload_limit()));
     listModel->setData(listModel->index(row, TR_DLLIMIT), QVariant(h.download_limit()));
+    listModel->setData(listModel->index(row, TR_RATIO), QVariant(BTSession->getRealRatio(h.hash())));
     const QString &label = TorrentPersistentData::getLabel(h.hash());
     listModel->setData(listModel->index(row, TR_LABEL), QVariant(label));
     if(BTSession->isQueueingEnabled())
@@ -917,7 +918,7 @@ void TransferListWidget::askNewLabelForSelection() {
   bool invalid;
   do {
     invalid = false;
-    const QString &label = QInputDialog::getText(this, tr("New Label"), tr("Label:"), QLineEdit::Normal, label, &ok);
+    const QString &label = QInputDialog::getText(this, tr("New Label"), tr("Label:"), QLineEdit::Normal, "", &ok);
     if (ok && !label.isEmpty()) {
       if(misc::isValidFileSystemName(label)) {
         setSelectionLabel(label);

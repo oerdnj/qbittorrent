@@ -1,6 +1,5 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
-  <file>Icons/slow48.png</file>
   <file>Icons/rss32.png</file>
   <file>Icons/sphere2.png</file>
   <file>Icons/downarrow.png</file>

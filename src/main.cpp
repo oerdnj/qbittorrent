@@ -39,7 +39,6 @@
 #include <QStyle>
 #include <QSplashScreen>
 #include <QPushButton>
-#include "qgnomelook.h"
 #include "GUI.h"
 #include "ico.h"
 #else
@@ -51,12 +50,17 @@
 
 #include <QSettings>
 #include <QLocalSocket>
-#include <unistd.h>
 #include <sys/types.h>
-#ifndef Q_WS_WIN
+
+#if defined(Q_WS_X11) || defined(Q_WS_MAC)
 #include <signal.h>
 #include <execinfo.h>
 #include "stacktrace.h"
+#endif
+
+#ifdef Q_WS_WIN
+#include <windows.h>
+const int UNLEN = 256;
 #endif
 
 #include <stdlib.h>
@@ -123,7 +127,7 @@ public:
 
 #include "main.moc"
 
-#ifndef Q_WS_WIN
+#if defined(Q_WS_X11) || defined(Q_WS_MAC)
 void sigintHandler(int) {
   signal(SIGINT, 0);
   qDebug("Catching SIGINT, exiting cleanly");
@@ -158,18 +162,12 @@ void useStyle(QApplication *app, QString style){
   if(!style.isEmpty()) {
     QApplication::setStyle(QStyleFactory::create(style));
   }
-  if(app->style()->objectName() == "cleanlooks") {
-    // Force our own cleanlooks style
-    qDebug("Forcing our own cleanlooks style");
-    app->setStyle(new QGnomeLookStyle());
-  }
   Preferences::setStyle(app->style()->objectName());
 }
 #endif
 
 // Main
 int main(int argc, char *argv[]){
-  QFile file;
   QString locale;
   QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
 #ifndef DISABLE_GUI
@@ -178,7 +176,15 @@ int main(int argc, char *argv[]){
 
   //Check if there is another instance running
   QLocalSocket localSocket;
-  QString uid = QString::number(getuid());
+  QString uid;
+#ifdef Q_WS_WIN
+  char buffer[UNLEN+1] = {0};
+  DWORD buffer_len = UNLEN + 1;
+  if (!GetUserName(buffer, &buffer_len))
+    uid = QString(buffer)
+#else
+    uid = QString::number(getuid());
+#endif
   localSocket.connectToServer("qBittorrent-"+uid, QIODevice::WriteOnly);
   if (localSocket.waitForConnected(1000)){
     std::cout << "Another qBittorrent instance is already running...\n";
@@ -292,7 +298,7 @@ int main(int argc, char *argv[]){
 #ifndef DISABLE_GUI
   app->setQuitOnLastWindowClosed(false);
 #endif
-#ifndef Q_WS_WIN
+#if defined(Q_WS_X11) || defined(Q_WS_MAC)
   signal(SIGABRT, sigabrtHandler);
   signal(SIGTERM, sigtermHandler);
   signal(SIGINT, sigintHandler);
@@ -314,7 +320,7 @@ int main(int argc, char *argv[]){
 #endif
   int ret =  app->exec();
 
-#ifndef Q_WS_WIN
+#if defined(Q_WS_X11) || defined(Q_WS_MAC)
   // Application has exited, stop catching SIGINT and SIGTERM
   signal(SIGINT, 0);
   signal(SIGTERM, 0);
