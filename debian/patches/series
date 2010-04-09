@@ -1,2 +1,1 @@
-revert_binutils_gold.patch
-r3729_delete_after_pause.patch
+r3826_drop_nox_boost_deps.patch
