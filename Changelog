@@ -1,3 +1,33 @@
+* Wed Apr 07 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.2.5
+    - BUGFIX: Fix crash when adding a new torrent label
+    - BUGFIX: Fix HTTPS protocol support in torrent/rss downloader
+    - BUGFIX: Fix default width of file name column in torrent content
+    - BUGFIX: Fix torrent addition dialog buttons height
+    - BUGFIX: Fix deprecation warnings with libtorrent v0.15
+    - BUGFIX: Fix "Download from URL" title size in Web UI
+    - BUGFIX: Fix transparency of speed limits icons
+    - BUGFIX: Dropped dependency on Qt gif library
+    - BUGFIX: Improved libboost detection by configure file
+    - BUGFIX: Bring back compatibility with boost v1.34
+    - COSMETIC: Added icons to menu actions in Web UI
+
+* Tue Apr 06 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.2.4
+    - BUGFIX: Fix possible crash when adding a torrent
+    - BUGFIX: Fix failure to remember some torrents on startup
+    - BUGFIX: Fix torrent addition window layout (torrent content not expanding)
+    - BUGFIX: Fix about dialog in Web UI
+    - BUGFIX: Correctly clear trackers error messages once they work
+    - BUGFIX: Display correct share ratio for paused torrents
+    - COSMETIC: Improved alternative speed limits icons
+
+* Sun Apr 04 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.2.3
+    - BUGFIX: Fix possible crash when deleting a torrent just after pausing it
+    - BUGFIX: Enable Apply button when alternative rate limits are changed
+    - BUGFIX: Source compatibility with Windows (Thanks Ishan Arora)
+    - BUGFIX: Source compatibility with eCS (OS/2) (Thanks Silvan Scherrer)
+    - BUGFIX: Cleaner binutils gold linker support
+    - BUGFIX: Clean fix for progress display with cleanlooks style
+
 * Mon Mar 22 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.2.2
     - FEATURE: DHT port can be set from Web UI
     - BUGFIX: Fix possible crash with folder scanning

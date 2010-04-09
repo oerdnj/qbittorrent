@@ -11,10 +11,10 @@ CONFIG += qt \
     thread
 
 # Update this VERSION for each release
-DEFINES += VERSION=\\\"v2.2.2\\\"
+DEFINES += VERSION=\'\"v2.2.5\"\'
 DEFINES += VERSION_MAJOR=2
 DEFINES += VERSION_MINOR=2
-DEFINES += VERSION_BUGFIX=2
+DEFINES += VERSION_BUGFIX=5
 
 # NORMAL,ALPHA,BETA,RELEASE_CANDIDATE,DEVEL
 DEFINES += VERSION_TYPE=NORMAL
@@ -100,8 +100,10 @@ else:TARGET = qbittorrent
 # QMAKE_CXXFLAGS_RELEASE += -fwrapv
 # QMAKE_CXXFLAGS_DEBUG += -fwrapv
 unix:QMAKE_LFLAGS_SHAPP += -rdynamic
-CONFIG += link_pkgconfig
-PKGCONFIG += "libtorrent-rasterbar"
+unix {
+  CONFIG += link_pkgconfig
+  PKGCONFIG += "libtorrent-rasterbar"
+}
 
 QT += network
 !contains(DEFINES, DISABLE_GUI):QT += xml
@@ -121,10 +123,21 @@ win32:LIBS += -lssl32 \
     -ladvapi32 \
     -lwinmm
 
+os2:LIBS += -ltorrent-rasterbar \
+    -lcurl \
+    -lboost_thread \
+    -lboost_system \
+    -lboost_filesystem \
+    -lssl -lcrypto -lidn -lpthread
+
 !contains(DEFINES, DISABLE_GUI) {
   win32 {
     DEFINES += WITH_GEOIP_EMBEDDED
     message("On Windows, GeoIP database must be embedded.")
+  }
+  os2 {
+    DEFINES += WITH_GEOIP_EMBEDDED
+    message("On eCS(OS/2), GeoIP database must be embedded.")
   }
   macx {
     DEFINES += WITH_GEOIP_EMBEDDED
@@ -227,7 +240,6 @@ else:HEADERS +=  GUI.h \
                  ico.h \
                  engineselectdlg.h \
                  pluginsource.h \
-                 qgnomelook.h \
                  searchEngine.h \
                  rss.h \
                  rss_imp.h \

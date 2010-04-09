@@ -34,7 +34,6 @@
 #include <QSystemTrayIcon>
 #include <QApplication>
 #include <QSettings>
-#include "qgnomelook.h"
 #include <QDialogButtonBox>
 #include <QCloseEvent>
 #include <QDesktopWidget>
@@ -216,6 +215,8 @@ options_imp::options_imp(QWidget *parent):QDialog(parent){
   connect(checkDownloadLimit, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(spinUploadLimit, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(spinDownloadLimit, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
+  connect(spinUploadLimitAlt, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
+  connect(spinDownloadLimitAlt, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(check_schedule, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(schedule_from, SIGNAL(timeChanged(QTime)), this, SLOT(enableApplyButton()));
   connect(schedule_to, SIGNAL(timeChanged(QTime)), this, SLOT(enableApplyButton()));
@@ -308,11 +309,6 @@ void options_imp::changePage(QListWidgetItem *current, QListWidgetItem *previous
 
 void options_imp::useStyle() {
   QApplication::setStyle(QStyleFactory::create(comboStyle->itemText(comboStyle->currentIndex())));
-  if(QApplication::style()->objectName() == "cleanlooks") {
-    // Force our own cleanlooks style
-    qDebug("Forcing our own cleanlooks style");
-    QApplication::setStyle(new QGnomeLookStyle());
-  }
 }
 
 void options_imp::loadWindowState() {
