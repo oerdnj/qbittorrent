@@ -11,10 +11,10 @@ CONFIG += qt \
     thread
 
 # Update this VERSION for each release
-DEFINES += VERSION=\'\"v2.2.5\"\'
+DEFINES += VERSION=\'\"v2.2.6\"\'
 DEFINES += VERSION_MAJOR=2
 DEFINES += VERSION_MINOR=2
-DEFINES += VERSION_BUGFIX=5
+DEFINES += VERSION_BUGFIX=6
 
 # NORMAL,ALPHA,BETA,RELEASE_CANDIDATE,DEVEL
 DEFINES += VERSION_TYPE=NORMAL
@@ -194,7 +194,8 @@ TRANSLATIONS = $$LANG_PATH/qbittorrent_fr.ts \
     $$LANG_PATH/qbittorrent_hu.ts \
     $$LANG_PATH/qbittorrent_pt_BR.ts \
     $$LANG_PATH/qbittorrent_cs.ts \
-    $$LANG_PATH/qbittorrent_sr.ts
+    $$LANG_PATH/qbittorrent_sr.ts \
+    $$LANG_PATH/qbittorrent_ar.ts 
 
 # Source code
 HEADERS += misc.h \
