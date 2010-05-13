@@ -64,6 +64,8 @@
 
 QString misc::QDesktopServicesDataLocation() {
 #ifdef Q_WS_WIN
+  LPWSTR path=new WCHAR[256];
+  QString result;
 #if defined Q_WS_WINCE
   if (SHGetSpecialFolderPath(0, path, CSIDL_APPDATA, FALSE))
 #else
@@ -147,16 +149,16 @@ long long misc::freeDiskSpaceOnPath(QString path) {
   GetDiskFreeSpaceEx_t
       pGetDiskFreeSpaceEx = (GetDiskFreeSpaceEx_t)::GetProcAddress
                             (
-                                ::GetModuleHandle(_T("kernel32.dll")),
+                                ::GetModuleHandle(TEXT("kernel32.dll")),
                                 "GetDiskFreeSpaceExW"
                                 );
   if ( pGetDiskFreeSpaceEx )
   {
     ULARGE_INTEGER bytesFree, bytesTotal;
     unsigned long long *ret;
-    if (pGetDiskFreeSpaceEx((LPCTSTR)path.ucs2(), &bytesFree, &bytesTotal, NULL)) {
-      tmp = (unsigned long long*)&bytesFree
-            return ret;
+    if (pGetDiskFreeSpaceEx((LPCTSTR)path.utf16(), &bytesFree, &bytesTotal, NULL)) {
+      ret = (unsigned long long*)&bytesFree;
+      return *ret;
     } else {
       return -1;
     }
@@ -421,9 +423,20 @@ QString misc::magnetUriToHash(QString magnet_uri) {
 }
 
 QString misc::boostTimeToQString(const boost::optional<boost::posix_time::ptime> boostDate) {
-  if(!boostDate) return tr("Unknown");
-  struct std::tm tm = boost::posix_time::to_tm(*boostDate);
-  return QDateTime::fromTime_t(mktime(&tm)).toString(Qt::DefaultLocaleLongDate);
+  if(!boostDate || !boostDate.is_initialized() || boostDate->is_not_a_date_time()) return tr("Unknown");
+  struct std::tm tm;
+  try {
+    tm = boost::posix_time::to_tm(*boostDate);
+  } catch(std::exception e) {
+    return tr("Unknown");
+  }
+  time_t t = mktime(&tm);
+  if(t < 0)
+    return tr("Unknown");
+  QDateTime dt = QDateTime::fromTime_t(t);
+  if(dt.isNull() || !dt.isValid())
+    return tr("Unknown");
+  return dt.toString(Qt::DefaultLocaleLongDate);
 }
 
 // Replace ~ in path

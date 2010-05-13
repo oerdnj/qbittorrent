@@ -1897,12 +1897,15 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
           if(appendqBExtension)
             appendqBextensionToTorrent(h, false);
 #endif
+          qDebug("A torrent has finished downloading");
           // Move to download directory if necessary
           if(!defaultTempPath.isEmpty()) {
+            qDebug("A torrent has finished downloading and will be moved to the final download location");
             // Check if directory is different
             const QDir current_dir(h.save_path());
             const QDir save_dir(getSavePath(hash));
             if(current_dir != save_dir) {
+              qDebug("current dir is different that final destination, actually move the storage...");
               h.move_storage(save_dir.path());
             }
           }
@@ -1964,11 +1967,13 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
         if(h.is_valid()) {
           // Attempt to remove old folder if empty
           const QString& old_save_path = TorrentPersistentData::getSavePath(h.hash());
-          const QString new_save_path = QString(p->path.c_str());
+          const QString new_save_path = QString::fromLocal8Bit(p->path.c_str());
           qDebug("Torrent moved from %s to %s", qPrintable(old_save_path), qPrintable(new_save_path));
           qDebug("Attempting to remove %s", qPrintable(old_save_path));
-          QDir().rmpath(old_save_path);
-          TorrentPersistentData::saveSavePath(h.hash(), new_save_path);
+          if(old_save_path != defaultSavePath && old_save_path != defaultTempPath)
+            QDir().rmdir(old_save_path);
+          if(new_save_path != defaultTempPath)
+            TorrentPersistentData::saveSavePath(h.hash(), new_save_path);
           emit savePathChanged(h);
           //h.force_recheck();
         }
