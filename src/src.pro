@@ -11,19 +11,44 @@ CONFIG += qt \
     thread
 
 # Update this VERSION for each release
-DEFINES += VERSION=\'\"v2.2.7\"\'
+os2 {
+    DEFINES += VERSION=\'\"v2.2.9\'\"
+} else {
+    DEFINES += VERSION=\\\"v2.2.9\\\"
+}
 DEFINES += VERSION_MAJOR=2
 DEFINES += VERSION_MINOR=2
-DEFINES += VERSION_BUGFIX=7
+DEFINES += VERSION_BUGFIX=9
 
 win32 {
   # Adapt these paths on Windows
-  INCLUDEPATH += $$quote(D:/librarys/boost_1_42_0)
-  INCLUDEPATH += $$quote(D:/librarys/libtorrent-rasterbar-0.14.9/include)
+  INCLUDEPATH += $$quote(C:/qbittorrent/msvc/boost_1_42_0)
+  INCLUDEPATH += $$quote(C:/qbittorrent/msvc/libtorrent-rasterbar-0.14.10/include)
+  INCLUDEPATH += $$quote(C:/qbittorrent/msvc/libtorrent-rasterbar-0.14.10/zlib)
 
-  DEFINES += _WIN32_WINNT=0x0501
-  DEFINES += _WIN32_IE=0x0400
-  DEFINES += _WIN32_WINDOWS
+  LIBS += -LC:/OpenSSL/lib/VC
+
+  #DEFINES += _WIN32_WINNT=0x0601
+  #DEFINES += _WIN32_IE=0x0400
+  #DEFINES += _WIN32_WINDOWS
+
+  #QMAKE_CXXFLAGS_STL_ON = -EHs
+  #QMAKE_CXXFLAGS_EXCEPTIONS_ON = -EHs
+
+  DEFINES += BOOST_ALL_NO_LIB BOOST_ASIO_HASH_MAP_BUCKETS=1021 BOOST_EXCEPTION_DISABLE
+  DEFINES += BOOST_FILESYSTEM_STATIC_LINK=1 BOOST_MULTI_INDEX_DISABLE_SERIALIZATION
+  DEFINES += BOOST_SYSTEM_STATIC_LINK=1 BOOST_THREAD_USE_LIB BOOST_THREAD_USE_LIB=1
+  DEFINES += TORRENT_USE_OPENSSL UNICODE WIN32 WIN32_LEAN_AND_MEAN
+  DEFINES += _CRT_SECURE_NO_DEPRECATE _FILE_OFFSET_BITS=64 _SCL_SECURE_NO_DEPRECATE
+  DEFINES += _UNICODE _WIN32 _WIN32_WINNT=0x0500 __USE_W32_SOCKETS
+
+  contains(DEBUG_MODE, 1) {
+    DEFINES += TORRENT_DEBUG
+  }
+
+  contains(DEBUG_MODE, 0) {
+    DEFINES += NDEBUG
+  }
 }
 
 # NORMAL,ALPHA,BETA,RELEASE_CANDIDATE,DEVEL
@@ -40,6 +65,19 @@ contains(DEBUG_MODE, 0) {
     CONFIG += release
     DEFINES += QT_NO_DEBUG_OUTPUT
     message(Release build!)
+}
+
+# Mac specific configuration
+macx {
+  PREFIX = /usr/local
+  BINDIR = /usr/local/bin
+  DATADIR = /usr/local/share
+
+  INCLUDEPATH += /usr/local/include/libtorrent /usr/include/openssl /usr/include /opt/local/include/boost /opt/local/include
+  LIBS += -ltorrent-rasterbar -lcrypto -L/opt/local/lib -lboost_system-mt -lboost_filesystem-mt -lboost_thread-mt -framework Cocoa
+
+  ICON = Icons/qbittorrent_mac.icns
+  QMAKE_INFO_PLIST = Info.plist
 }
 
 # Install
@@ -124,39 +162,35 @@ DEFINES += QT_NO_CAST_TO_ASCII
 DEFINES += QT_USE_FAST_CONCATENATION QT_USE_FAST_OPERATOR_PLUS
 
 # Windows
-# usually built as static
-# win32:LIBS += -ltorrent -lboost_system
-# win32:LIBS += -lz ?
 win32 {
-  LIBS += -lssl \
-          -lws2_32 \
-          -lwsock32 \
-          -ladvapi32 \
-          -lwinmm
+  RC_FILE = qbittorrent.rc
+
+  #LIBS += "/nodefaultlib:"msvcrt.lib"
+  #LIBS += "/nodefaultlib:"msvcrtd.lib"
+  #contains(DEBUG_MODE, 1) {
+  #  LIBS += "/nodefaultlib:"libcmt.lib"
+  #}
 
   # Adapt these paths on Windows
-  LIBS += C:/boost_1_42_0/lib/libboost_filesystem-mgw44-mt.lib \
-          C:/boost_1_42_0/lib/libboost_program_options-mgw44-mt.lib \
-          C:/boost_1_42_0/lib/libboost_system-mgw44-mt.lib \
-          C:/boost_1_42_0/lib/libboost_thread-mgw44-mt.lib \
-          C:/Qt/2010.02.1/mingw/lib/*.a \
-          C:/Qt/2010.02.1/mingw/lib/libboost_thread.lib \
-          C:/Qt/2010.02.1/mingw/lib/libssl.a \
-          C:/Qt/2010.02.1/mingw/lib/libcrypto.a \
-          C:/Qt/2010.02.1/mingw/lib/libssl.dll.a \
-          C:/Qt/2010.02.1/mingw/lib/libcrypto.dll.a \
-          C:/Qt/2010.02.1/mingw/lib/libws2_32.a \
-          C:/Qt/2010.02.1/mingw/lib/libwsock32.a \
-          C:/Qt/2010.02.1/mingw/lib/libadvapi32.a \
-          C:/Qt/2010.02.1/mingw/lib/libwinmm.a \
-          C:/Qt/2010.02.1/mingw/lib/libgdi32.a \
-          -LC:/Qt/2010.02.1/mingw/lib/
+  contains(DEBUG_MODE, 1) {
+    LIBS += C:/qbittorrent/msvc/libs/libtorrentd.lib \
+            C:/qbittorrent/msvc/libs/libboost_system-vc90-mt-gd.lib \
+            C:/qbittorrent/msvc/libs/libboost_filesystem-vc90-mt-gd.lib \
+            C:/qbittorrent/msvc/libs/libboost_thread-vc90-mt-gd.lib
+  }
+  contains(DEBUG_MODE, 0) {
+    LIBS += C:/qbittorrent/msvc/libs/libtorrent.lib \
+            C:/qbittorrent/msvc/libs/libboost_system-vc90-mt.lib \
+            C:/qbittorrent/msvc/libs/libboost_filesystem-vc90-mt.lib \
+            C:/qbittorrent/msvc/libs/libboost_thread-vc90-mt.lib
+  }
 
-  LIBS += -ltorrent-rasterbar
+  LIBS += advapi32.lib shell32.lib
+  LIBS += libeay32MD.lib ssleay32MD.lib
+
 }
 
 os2:LIBS += -ltorrent-rasterbar \
-    -lcurl \
     -lboost_thread \
     -lboost_system \
     -lboost_filesystem \
@@ -177,6 +211,12 @@ os2:LIBS += -ltorrent-rasterbar \
   }
   unix:!macx:contains(DEFINES, WITH_GEOIP_EMBEDDED):message("You chose to embed GeoIP database in qBittorrent executable.")
 
+# Resource files
+RESOURCES = icons.qrc \
+    lang.qrc \
+    search.qrc \
+    webui.qrc
+
   # Add GeoIP resource file if the GeoIP database
   # should be embedded in qBittorrent executable
   contains(DEFINES, WITH_GEOIP_EMBEDDED) {
@@ -191,12 +231,6 @@ os2:LIBS += -ltorrent-rasterbar \
   }
 else:message("GeoIP database will not be embedded in qBittorrent executable.")
 }
-
-# Resource files
-RESOURCES = icons.qrc \
-    lang.qrc \
-    search.qrc \
-    webui.qrc
 
 # Translations
 TRANSLATIONS = $$LANG_PATH/qbittorrent_fr.ts \
@@ -249,8 +283,10 @@ HEADERS += misc.h \
     bandwidthscheduler.h \
     scannedfoldersmodel.h
 
-contains(DEFINES, DISABLE_GUI):HEADERS += headlessloader.h
-else:HEADERS +=  GUI.h \
+contains(DEFINES, DISABLE_GUI) {
+  HEADERS += headlessloader.h
+} else {
+     HEADERS +=  GUI.h \
                  feedList.h \
                  supportedengines.h \
                  transferlistwidget.h \
@@ -290,6 +326,10 @@ else:HEADERS +=  GUI.h \
                  trackerlogin.h \
                  pieceavailabilitybar.h \
                  advancedsettings.h
+  macx {
+      HEADERS += qmacapplication.h
+  }
+}
 
 !contains(DEFINES, DISABLE_GUI):FORMS += ui/mainwindow.ui \
 	    ui/options.ui \
@@ -311,6 +351,12 @@ else:HEADERS +=  GUI.h \
 	    ui/peer.ui \
 	    ui/confirmdeletiondlg.ui
 
+contains(DEFINES, DISABLE_GUI) {
+  include(qtsingleapp/qtsinglecoreapplication.pri)
+} else {
+  include(qtsingleapp/qtsingleapplication.pri)
+}
+
 SOURCES += main.cpp \ 
     bittorrent.cpp \
     qtorrenthandle.cpp \
@@ -323,7 +369,8 @@ SOURCES += main.cpp \
     scannedfoldersmodel.cpp \
     misc.cpp
 
-!contains(DEFINES, DISABLE_GUI):SOURCES += GUI.cpp \
+!contains(DEFINES, DISABLE_GUI) {
+        SOURCES += GUI.cpp \
                    options_imp.cpp \
                    createtorrent_imp.cpp \
                    searchengine.cpp \
@@ -331,9 +378,13 @@ SOURCES += main.cpp \
                    engineselectdlg.cpp \
                    searchtab.cpp \
                    ico.cpp \
-		   rss.cpp \
+                   rss.cpp \
                    transferlistwidget.cpp \
                    propertieswidget.cpp \
-                   peerlistwidget.cpp
-
+                   peerlistwidget.cpp \
+                   trackerlist.cpp
+  macx {
+        SOURCES += qmacapplication.cpp
+  }
+}
 DESTDIR = .

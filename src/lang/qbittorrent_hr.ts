@@ -325,7 +325,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>An I/O error occured, &apos;%1&apos; paused.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dogodila se I/O greška. &apos;%1&apos; zaustavljen.</translation>
     </message>
 </context>
 <context>
@@ -713,11 +713,21 @@ Jeste li sigurni da želite zatvoriti qBittorrent?</translation>
     </message>
     <message>
         <source>Recursive download confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation>Potvrda rekurzivnog preuzimanja</translation>
     </message>
     <message>
         <source>The torrent %1 contains torrent files, do you want to proceed with their download?</source>
-        <translation type="unfinished"></translation>
+        <translation>Torrent %1 sadrži torrent datoteke. Želite li nastaviti s preuzimanjem?</translation>
+    </message>
+    <message>
+        <source>Torrent file association</source>
+        <translation>Pridruživanje torrent datoteka</translation>
+    </message>
+    <message>
+        <source>qBittorrent is not the default application to open torrent files or Magnet links.
+Do you want to associate qBittorrent to torrent files and Magnet links?</source>
+        <translation>qBittorrent nije zadana aplikacija za otvaranje torrent datoteka ili Magnet linkova.
+Želite li pridružiti qBittorrent torrent datotekama i Magnet linkovima?</translation>
     </message>
 </context>
 <context>
@@ -1602,15 +1612,15 @@ QGroupBox {
     </message>
     <message>
         <source>Check Folders for .torrent Files:</source>
-        <translation type="unfinished"></translation>
+        <translation>Provjeri mape za .torrent datoteke:</translation>
     </message>
     <message>
         <source>Add folder ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj mapu ...</translation>
     </message>
     <message>
         <source>Remove folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukloni Mapu</translation>
     </message>
 </context>
 <context>
@@ -2019,11 +2029,11 @@ p, li { white-space: pre-wrap; }
     <name>ScanFoldersModel</name>
     <message>
         <source>Watched Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Pregledana mapa</translation>
     </message>
     <message>
         <source>Download here</source>
-        <translation type="unfinished"></translation>
+        <translation>Preuzmi ovdje</translation>
     </message>
 </context>
 <context>
@@ -2050,7 +2060,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Anime</source>
-        <translation>Crtići</translation>
+        <translation>Animirani</translation>
     </message>
     <message>
         <source>Software</source>
@@ -2135,6 +2145,26 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Unknown</source>
         <translation>Nije poznato</translation>
+    </message>
+    <message>
+        <source>Download error</source>
+        <translation>Greška prilikom preuzimanja</translation>
+    </message>
+    <message>
+        <source>Python setup could not be downloaded, reason: %1.
+Please install it manually.</source>
+        <translation>Python setup nije moguće preuzeti. Razlog: %1.
+Instalirajte ga ručno.</translation>
+    </message>
+    <message>
+        <source>Missing Python Interpreter</source>
+        <translation>Nedostaje Python Interpreter</translation>
+    </message>
+    <message>
+        <source>Python 2.x is required to use the search engine but it does not seem to be installed.
+Do you want to install it now?</source>
+        <translation>Python 2.x je nužan kako biste mogli koristiti tražilicu i čini se da nije instaliran.
+Želite li ga sada instalirati?</translation>
     </message>
 </context>
 <context>
@@ -3318,27 +3348,27 @@ Međutim, te tražilice su bile onemogućene.</translation>
     </message>
     <message>
         <source>Add directory to scan</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj direktorij za skeniranje</translation>
     </message>
     <message>
         <source>Folder is already being watched.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mapa je već pregledana.</translation>
     </message>
     <message>
         <source>Folder does not exist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mapa ne postoji.</translation>
     </message>
     <message>
         <source>Folder is not readable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mapu nije moguće učitati.</translation>
     </message>
     <message>
         <source>Failure</source>
-        <translation type="unfinished"></translation>
+        <translation>Neuspjeh</translation>
     </message>
     <message>
         <source>Failed to add Scan Folder &apos;%1&apos;: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Nije uspjelo dodavanje mape za skeniranje &apos;%1&apos;: %2</translation>
     </message>
 </context>
 <context>

@@ -43,7 +43,6 @@ class Bittorrent;
 class QTimer;
 class downloadFromURL;
 class SearchEngine;
-class QLocalServer;
 class QCloseEvent;
 class RSSImp;
 class QShortcut;
@@ -70,6 +69,7 @@ public:
   // Methods
   int getCurrentTabIndex() const;
   TransferListWidget* getTransferList() const { return transferList; }
+  QMenu* getTrayIconMenu();
 
 public slots:
   void trackerAuthenticationRequired(QTorrentHandle& h);
@@ -88,8 +88,6 @@ protected slots:
   void on_actionWebsite_triggered() const;
   void on_actionBugReport_triggered() const;
   void on_actionShow_console_triggered();
-  void readParamsOnSocket();
-  void acceptConnection();
   void balloonClicked();
   void writeSettings();
   void readSettings();
@@ -111,6 +109,7 @@ protected slots:
   void on_actionOpen_triggered();
   void updateGUI();
   void loadPreferences(bool configure_session=true);
+  void processParams(const QString& params);
   void processParams(const QStringList& params);
   void addTorrent(QString path);
   void addUnauthenticatedTracker(const QPair<QTorrentHandle,QString> &tracker);
@@ -144,7 +143,7 @@ private:
   QPointer<downloadFromURL> downloadFromURLDialog;
   QPointer<QSystemTrayIcon> systrayIcon;
   QPointer<QTimer> systrayCreator;
-  QMenu *myTrayIconMenu;
+  QPointer<QMenu> myTrayIconMenu;
   TransferListWidget *transferList;
   TransferListFiltersWidget *transferListFilters;
   PropertiesWidget *properties;
@@ -164,8 +163,6 @@ private:
   SearchEngine *searchEngine;
   // RSS
   QPointer<RSSImp> rssWidget;
-  // Misc
-  QLocalServer *localServer;
 };
 
 #endif

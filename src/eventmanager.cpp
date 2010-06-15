@@ -29,6 +29,7 @@
  */
 
 
+#include <libtorrent/version.hpp>
 #include "eventmanager.h"
 #include "bittorrent.h"
 #include "scannedfoldersmodel.h"
@@ -60,7 +61,7 @@ QList<QVariantMap> EventManager::getPropTrackersInfo(QString hash) const {
       tracker["url"] = tracker_url;
       TrackerInfos data = trackers_data.value(tracker_url, TrackerInfos(tracker_url));
       QString error_message = data.last_message.trimmed();
-#ifdef LIBTORRENT_0_15
+#if LIBTORRENT_VERSION_MINOR > 14
       if(it->verified) {
         tracker["status"] = tr("Working");
       } else {
@@ -104,7 +105,7 @@ QList<QVariantMap> EventManager::getPropFilesInfo(QString hash) const {
   int i=0;
   for(fi=t.begin_files(); fi != t.end_files(); fi++) {
     QVariantMap file;
-    QString path = QDir::cleanPath(misc::toQString(fi->path.string()));
+    QString path = QDir::cleanPath(misc::toQStringU(fi->path.string()));
     QString name = path.split('/').last();
     file["name"] = name;
     file["size"] = misc::friendlyUnit((double)fi->size);
@@ -131,7 +132,11 @@ void EventManager::setGlobalPreferences(QVariantMap m) const {
   if(m.contains("temp_path"))
     Preferences::setTempPath(m["temp_path"].toString());
   if(m.contains("scan_dirs") && m.contains("download_in_scan_dirs")) {
-    QVariantList download_at_path = m["download_in_scan_dirs"].toList();
+    QVariantList download_at_path_tmp = m["download_in_scan_dirs"].toList();
+    QList<bool> download_at_path;
+    foreach(QVariant var, download_at_path_tmp) {
+      download_at_path << var.toBool();
+    }
     QStringList old_folders = Preferences::getScanDirs();
     QStringList new_folders = m["scan_dirs"].toStringList();
     if(download_at_path.size() == new_folders.size()) {
@@ -147,7 +152,7 @@ void EventManager::setGlobalPreferences(QVariantMap m) const {
       foreach(const QString &new_folder, new_folders) {
         // Update new folders
         if(!old_folders.contains(new_folder)) {
-          BTSession->getScanFoldersModel()->addPath(new_folder, download_at_path.at(i).toBool());
+          BTSession->getScanFoldersModel()->addPath(new_folder, download_at_path.at(i));
         }
         ++i;
       }
@@ -165,7 +170,7 @@ void EventManager::setGlobalPreferences(QVariantMap m) const {
     Preferences::setMaxActiveTorrents(m["max_active_torrents"].toInt());
   if(m.contains("max_active_uploads"))
     Preferences::setMaxActiveUploads(m["max_active_uploads"].toInt());
-#ifdef LIBTORRENT_0_15
+#if LIBTORRENT_VERSION_MINOR > 14
   if(m.contains("incomplete_files_ext"))
     Preferences::useIncompleteFilesExtension(m["incomplete_files_ext"].toBool());
 #endif
@@ -256,7 +261,11 @@ QVariantMap EventManager::getGlobalPreferences() const {
   data["temp_path_enabled"] = Preferences::isTempPathEnabled();
   data["temp_path"] = Preferences::getTempPath();
   data["scan_dirs"] = Preferences::getScanDirs();
-  data["download_in_scan_dirs"] = Preferences::getDownloadInScanDirs();
+  QVariantList var_list;
+  foreach(bool b, Preferences::getDownloadInScanDirs()) {
+    var_list << b;
+  }
+  data["download_in_scan_dirs"] = var_list;
   data["export_dir_enabled"] = Preferences::isTorrentExportEnabled();
   data["export_dir"] = Preferences::getExportDir();
   data["preallocate_all"] = Preferences::preAllocateAllFiles();
@@ -264,7 +273,7 @@ QVariantMap EventManager::getGlobalPreferences() const {
   data["max_active_downloads"] = Preferences::getMaxActiveDownloads();
   data["max_active_torrents"] = Preferences::getMaxActiveTorrents();
   data["max_active_uploads"] = Preferences::getMaxActiveUploads();
-#ifdef LIBTORRENT_0_15
+#if LIBTORRENT_VERSION_MINOR > 14
   data["incomplete_files_ext"] = Preferences::useIncompleteFilesExtension();
 #endif
   // Connection

@@ -3,12 +3,18 @@ Author:
 
 Contributors:
 * Stefanos Antaris <santaris@csd.auth.gr>
+* Mohammad Dib <mdib@qbittorrent.org>
+* Mirco Chinelli <infinity89@fastwebmail.it>
 * Ishan Arora <ishan@qbittorrent.org>
 * Arnaud Demaizière <arnaud@qbittorrent.org>
 * Grigis Gaëtan <cipher16@gmail.com>
 * Christian Kandeler <zambesi@users.sourceforge.net>
 
 Code from other projects:
+* files src/qtsingleapp/*
+  copyright: Nokia Corporation
+  license: LGPL
+
 * files src/ico.cpp src/ico.h
   copyright: Malte Starostik <malte@kde.org>
   license: LGPL
@@ -66,7 +72,7 @@ Translations authors:
   - Catalan: Francisco Luque Contreras (frannoe@ya.com)
   - Chinese (Simplified): Guo Yue (yue.guo0418@gmail.com)
   - Chinese (Traditional): Yi-Shun Wang (dnextstep@gmail.com)
-  - Croatian: Olivier Delakroa (oliver.untwist@gmail.com)
+  - Croatian: Oliver Mucafir (oliver.untwist@gmail.com)
   - Czech: Jirka Vilim (web@tets.cz)
   - Danish: Mathias Nielsen (comoneo@gmail.com)
   - Dutch: Joost Schipper (heavyjoost@users.sourceforge.net)

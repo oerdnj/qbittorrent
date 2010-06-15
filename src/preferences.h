@@ -36,6 +36,20 @@
 #include <QPair>
 #include <QDir>
 #include <QTime>
+#include <QList>
+#include <libtorrent/version.hpp>
+
+#ifndef DISABLE_GUI
+#include <QApplication>
+#else
+#include <QCoreApplication>
+#endif
+
+#ifdef Q_WS_WIN
+#include <QDesktopServices>
+#endif
+
+#include "misc.h"
 
 #define QBT_REALM "Web UI Access"
 enum scheduler_days { EVERY_DAY, WEEK_DAYS, WEEK_ENDS, MON, TUE, WED, THU, FRI, SAT, SUN };
@@ -121,7 +135,12 @@ public:
   // Downloads
   static QString getSavePath() {
     QSettings settings("qBittorrent", "qBittorrent");
+#ifdef Q_WS_WIN
+    return settings.value(QString::fromUtf8("Preferences/Downloads/SavePath"),
+                          QDir(QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation)).absoluteFilePath("Downloads")).toString();
+#else
     return settings.value(QString::fromUtf8("Preferences/Downloads/SavePath"), QDir::home().absoluteFilePath("qBT_dir")).toString();
+#endif
   }
 
   static void setSavePath(QString save_path) {
@@ -150,7 +169,7 @@ public:
     settings.setValue(QString::fromUtf8("Preferences/Downloads/TempPath"), path);
   }
 
-#ifdef LIBTORRENT_0_15
+#if LIBTORRENT_VERSION_MINOR > 14
   static bool useIncompleteFilesExtension() {
     QSettings settings("qBittorrent", "qBittorrent");
     return settings.value(QString::fromUtf8("Preferences/Downloads/UseIncompleteExtension"), false).toBool();
@@ -179,7 +198,7 @@ public:
 
   static bool useAdditionDialog() {
     QSettings settings("qBittorrent", "qBittorrent");
-    return settings.value(QString::fromUtf8("Preferences/Downloads/AdditionDialog"), true).toBool();
+    return settings.value(QString::fromUtf8("Preferences/Downloads/AdditionDialog"), false).toBool();
   }
 
   static bool addTorrentsInPause() {
@@ -198,14 +217,14 @@ public:
     settings.setValue(QString::fromUtf8("Preferences/Downloads/ScanDirs"), dirs);
   }
 
-  static QVariantList getDownloadInScanDirs() {
+  static QList<bool> getDownloadInScanDirs() {
     QSettings settings("qBittorrent", "qBittorrent");
-    return settings.value(QString::fromUtf8("Preferences/Downloads/DownloadInScanDirs"), QVariantList()).toList();
+    return misc::boolListfromStringList(settings.value(QString::fromUtf8("Preferences/Downloads/DownloadInScanDirs")).toStringList());
   }
 
-  static void setDownloadInScanDirs(const QVariantList &list) {
+  static void setDownloadInScanDirs(const QList<bool> &list) {
     QSettings settings("qBittorrent", "qBittorrent");
-    settings.setValue(QString::fromUtf8("Preferences/Downloads/DownloadInScanDirs"), list);
+    settings.setValue(QString::fromUtf8("Preferences/Downloads/DownloadInScanDirs"), misc::toStringList(list));
   }
 
   static bool isTorrentExportEnabled() {
@@ -915,6 +934,92 @@ public:
     QSettings settings("qBittorrent", "qBittorrent");
     settings.setValue(QString::fromUtf8("Preferences/Connection/ResolvePeerHostNames"), resolve);
   }
+
+#ifdef Q_WS_WIN
+  static QString getPythonPath() {
+    QSettings reg_python("HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore", QSettings::NativeFormat);
+    QStringList versions = reg_python.childGroups();
+    qDebug("Python versions nb: %d", versions.size());
+    versions = versions.filter(QRegExp("2\\..*"));
+    versions.sort();
+    while(!versions.empty()) {
+      const QString version = versions.takeLast();
+      qDebug("Detected possible Python v%s location", qPrintable(version));
+      QString path = reg_python.value(version+"/InstallPath/Default", "").toString().replace("/", "\\");
+      if(!path.isEmpty() && QDir(path).exists("python.exe")) {
+        qDebug("Found python.exe at %s", qPrintable(path));
+        return path;
+      }
+    }
+    if(QFile::exists("C:/Python26/python.exe")) {
+      reg_python.setValue("2.6/InstallPath/Default", "C:\\Python26");
+      return "C:\\Python26";
+    }
+    if(QFile::exists("C:/Python25/python.exe")) {
+      reg_python.setValue("2.5/InstallPath/Default", "C:\\Python26");
+      return "C:\\Python25";
+    }
+    return QString::null;
+  }
+
+  static bool neverCheckFileAssoc() {
+    QSettings settings("qBittorrent", "qBittorrent");
+    return settings.value(QString::fromUtf8("Preferences/Win32/NeverCheckFileAssocation"), false).toBool();
+  }
+
+  static void setNeverCheckFileAssoc(bool check=true) {
+    QSettings settings("qBittorrent", "qBittorrent");
+    settings.setValue(QString::fromUtf8("Preferences/Win32/NeverCheckFileAssocation"), check);
+  }
+
+  static bool isFileAssocOk() {
+    QSettings settings("HKEY_CLASSES_ROOT", QSettings::NativeFormat);
+    if(settings.value(".torrent/Default").toString() != "qBittorrent") {
+      qDebug(".torrent != qBittorrent");
+      return false;
+    }
+    qDebug("Checking shell command");
+    QString shell_command = settings.value("qBittorrent/shell/open/command/Default", "").toString();
+    qDebug("Shell command is: %s", qPrintable(shell_command));
+    QRegExp exe_reg("\"([^\"]+)\".*");
+    if(exe_reg.indexIn(shell_command) < 0)
+      return false;
+    QString assoc_exe = exe_reg.cap(1);
+    qDebug("exe: %s", qPrintable(assoc_exe));
+    if(assoc_exe.compare(qApp->applicationFilePath().replace("/", "\\"), Qt::CaseInsensitive) != 0)
+      return false;
+    // Check magnet link assoc
+    shell_command = settings.value("Magnet/shell/open/command/Default", "").toString();
+    if(exe_reg.indexIn(shell_command) < 0)
+      return false;
+    assoc_exe = exe_reg.cap(1);
+    qDebug("exe: %s", qPrintable(assoc_exe));
+    if(assoc_exe.compare(qApp->applicationFilePath().replace("/", "\\"), Qt::CaseInsensitive) != 0)
+      return false;
+    return true;
+  }
+
+  static void setFileAssoc() {
+    QSettings settings("HKEY_CLASSES_ROOT", QSettings::NativeFormat);
+    // .Torrent association
+    settings.setValue(".torrent/Default", "qBittorrent");
+    settings.setValue(".torrent/Content Type", "application/x-bittorrent");
+    settings.setValue("qBittorrent/shell/Default", "open");
+    const QString command_str = "\""+qApp->applicationFilePath().replace("/", "\\")+"\" \"%1\"";
+    settings.setValue("qBittorrent/shell/open/command/Default", command_str);
+    settings.setValue("qBittorrent/Content Type/Default", "application/x-bittorrent");
+    const QString icon_str = "\""+qApp->applicationFilePath().replace("/", "\\")+"\",0";
+    settings.setValue("qBittorrent/DefaultIcon/Default", icon_str);
+    // Magnet association
+    settings.setValue("Magnet/Default", "Magnet URI");
+    settings.setValue("Magnet/Content Type", "application/x-magnet");
+    settings.setValue("Magnet/URL Protocol", "");
+    settings.setValue("Magnet/DefaultIcon/Default", icon_str);
+    settings.setValue("Magnet/shell/Default", "open");
+    settings.setValue("Magnet/shell/open/command/Default", command_str);
+  }
+
+#endif
 
 };
 

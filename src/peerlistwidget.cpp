@@ -244,10 +244,10 @@ void PeerListWidget::clear() {
 
 void PeerListWidget::loadSettings() {
   QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
-  QVariantList contentColsWidths = settings.value(QString::fromUtf8("TorrentProperties/Peers/peersColsWidth"), QVariantList()).toList();
+  QList<int> contentColsWidths = misc::intListfromStringList(settings.value(QString::fromUtf8("TorrentProperties/Peers/peersColsWidth")).toStringList());
   if(!contentColsWidths.empty()) {
     for(int i=0; i<contentColsWidths.size(); ++i) {
-      setColumnWidth(i, contentColsWidths.at(i).toInt());
+      setColumnWidth(i, contentColsWidths.at(i));
     }
   }
   // Load sorted column
@@ -266,9 +266,9 @@ void PeerListWidget::loadSettings() {
 
 void PeerListWidget::saveSettings() const {
   QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
-  QVariantList contentColsWidths;
+  QStringList contentColsWidths;
   for(int i=0; i<listModel->columnCount(); ++i) {
-    contentColsWidths.append(columnWidth(i));
+    contentColsWidths << QString::number(columnWidth(i));
   }
   settings.setValue(QString::fromUtf8("TorrentProperties/Peers/peersColsWidth"), contentColsWidths);
   // Save sorted column
@@ -333,7 +333,7 @@ QStandardItem* PeerListWidget::addPeer(QString ip, peer_info peer) {
       missingFlags.insert(ip);
     }
   }
-  listModel->setData(listModel->index(row, CLIENT), misc::toQString(peer.client));
+  listModel->setData(listModel->index(row, CLIENT), misc::toQStringU(peer.client));
   listModel->setData(listModel->index(row, PROGRESS), peer.progress);
   listModel->setData(listModel->index(row, DOWN_SPEED), peer.payload_down_speed);
   listModel->setData(listModel->index(row, UP_SPEED), peer.payload_up_speed);
@@ -352,7 +352,7 @@ void PeerListWidget::updatePeer(QString ip, peer_info peer) {
       missingFlags.remove(ip);
     }
   }
-  listModel->setData(listModel->index(row, CLIENT), misc::toQString(peer.client));
+  listModel->setData(listModel->index(row, CLIENT), misc::toQStringU(peer.client));
   listModel->setData(listModel->index(row, PROGRESS), peer.progress);
   listModel->setData(listModel->index(row, DOWN_SPEED), peer.payload_down_speed);
   listModel->setData(listModel->index(row, UP_SPEED), peer.payload_up_speed);
