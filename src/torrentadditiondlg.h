@@ -43,6 +43,7 @@
 #include <QDesktopWidget>
 #include <QInputDialog>
 
+#include <libtorrent/version.hpp>
 #include <libtorrent/session.hpp>
 #include <libtorrent/bencode.hpp>
 #include "bittorrent.h"
@@ -92,12 +93,16 @@ public:
     // Remember columns width
     readSettings();
     //torrentContentList->header()->setResizeMode(0, QHeaderView::Stretch);
-    savePathTxt->setText(Preferences::getSavePath());
+    QString display_path = Preferences::getSavePath();
+#ifdef Q_WS_WIN
+    display_path = display_path.replace("/", "\\");
+#endif
+    savePathTxt->setText(display_path);
     if(Preferences::addTorrentsInPause()) {
       addInPause->setChecked(true);
       //addInPause->setEnabled(false);
     }
-#ifndef LIBTORRENT_0_15
+#if LIBTORRENT_VERSION_MINOR < 15
     addInSeed->setVisible(false);
 #endif
   }
@@ -114,12 +119,12 @@ public:
     resize(settings.value(QString::fromUtf8("TorrentAdditionDlg/size"), size()).toSize());
     move(settings.value(QString::fromUtf8("TorrentAdditionDlg/pos"), misc::screenCenter(this)).toPoint());
     // Restore column width
-    const QVariantList &contentColsWidths = settings.value(QString::fromUtf8("TorrentAdditionDlg/filesColsWidth"), QVariantList()).toList();
+    const QList<int> &contentColsWidths = misc::intListfromStringList(settings.value(QString::fromUtf8("TorrentAdditionDlg/filesColsWidth")).toStringList());
     if(contentColsWidths.empty()) {
       torrentContentList->header()->resizeSection(0, 200);
     } else {
       for(int i=0; i<contentColsWidths.size(); ++i) {
-        torrentContentList->setColumnWidth(i, contentColsWidths.at(i).toInt());
+        torrentContentList->setColumnWidth(i, contentColsWidths.at(i));
       }
     }
   }
@@ -127,10 +132,10 @@ public:
   void saveSettings() {
     if(is_magnet) return;
     QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
-    QVariantList contentColsWidths;
+    QStringList contentColsWidths;
     // -1 because we hid PROGRESS column
     for(int i=0; i<PropListModel->columnCount()-1; ++i) {
-      contentColsWidths.append(torrentContentList->columnWidth(i));
+      contentColsWidths << QString::number(torrentContentList->columnWidth(i));
     }
     settings.setValue(QString::fromUtf8("TorrentAdditionDlg/filesColsWidth"), contentColsWidths);
     settings.setValue("TorrentAdditionDlg/size", size());
@@ -185,7 +190,7 @@ public:
     this->from_url = from_url;
     // Getting torrent file informations
     try {
-      t = new torrent_info(filePath.toLocal8Bit().data());
+      t = new torrent_info(filePath.toUtf8().data());
       if(!t->is_valid())
         throw std::exception();
     } catch(std::exception&) {
@@ -201,7 +206,7 @@ public:
     }
     nbFiles = t->num_files();
     // Setting file name
-    fileName = misc::toQString(t->name());
+    fileName = misc::toQStringU(t->name());
     hash = misc::toQString(t->info_hash());
     // Use left() to remove .old extension
     QString newFileName;
@@ -229,7 +234,7 @@ public:
     }
     // Loads files path in the torrent
     for(uint i=0; i<nbFiles; ++i) {
-      files_path << misc::toQString(t->file_at(i).path.string());
+      files_path << misc::toQStringU(t->file_at(i).path.string());
     }
     // Show the dialog
     show();
@@ -293,15 +298,19 @@ public slots:
       if(PropListModel->getType(index)==TFILE) {
         // File renaming
         const uint file_index = PropListModel->getFileIndex(index);
-        const QString &old_name = files_path.at(file_index);
-        QStringList path_items = old_name.split(QDir::separator());
+        QString old_name = files_path.at(file_index);
+        old_name = old_name.replace("\\", "/");
+        qDebug("Old name: %s", qPrintable(old_name));
+        QStringList path_items = old_name.split("/");
         path_items.removeLast();
         path_items << new_name_last;
-        const QString &new_name = path_items.join(QDir::separator());
+        QString new_name = path_items.join("/");
         if(old_name == new_name) {
           qDebug("Name did not change");
           return;
         }
+        new_name = QDir::cleanPath(new_name);
+        qDebug("New name: %s", qPrintable(new_name));
         // Check if that name is already used
         for(uint i=0; i<nbFiles; ++i) {
           if(i == file_index) continue;
@@ -317,6 +326,7 @@ public slots:
               return;
             }
           }
+          new_name = QDir::cleanPath(new_name);
           qDebug("Renaming %s to %s", qPrintable(old_name), qPrintable(new_name));
           // Rename file in files_path
           files_path.replace(file_index, new_name);
@@ -331,11 +341,11 @@ public slots:
             path_items.prepend(parent.data().toString());
             parent = PropListModel->parent(parent);
           }
-          const QString &old_path = path_items.join(QDir::separator());
+          const QString &old_path = path_items.join("/");
           path_items.removeLast();
           path_items << new_name_last;
-          QString new_path = path_items.join(QDir::separator());
-          if(!new_path.endsWith(QDir::separator())) new_path += QDir::separator();
+          QString new_path = path_items.join("/");
+          if(!new_path.endsWith("/")) new_path += "/";
           // Check for overwriting
           for(uint i=0; i<nbFiles; ++i) {
             const QString &current_name = files_path.at(i);
@@ -356,6 +366,7 @@ public slots:
               if(current_name.startsWith(old_path)) {
                 QString new_name = current_name;
                 new_name.replace(0, old_path.length(), new_path);
+                new_name = QDir::cleanPath(new_name);
                 qDebug("Rename %s to %s", qPrintable(current_name), qPrintable(new_name));
                 // Rename in files_path
                 files_path.replace(i, new_name);
@@ -400,7 +411,11 @@ public slots:
 
       void on_browseButton_clicked(){
         QString dir;
-        const QString &save_path = misc::expandPath(savePathTxt->text());
+        QString save_path = savePathTxt->text();
+#ifdef Q_WS_WIN
+        save_path = save_path.replace("\\", "/");
+#endif
+        save_path = misc::expandPath(save_path);
         const QDir &saveDir(save_path);
         if(!save_path.isEmpty() && saveDir.exists()){
           dir = QFileDialog::getExistingDirectory(this, tr("Choose save path"), saveDir.absolutePath());
@@ -408,6 +423,9 @@ public slots:
           dir = QFileDialog::getExistingDirectory(this, tr("Choose save path"), QDir::homePath());
         }
         if(!dir.isNull()){
+#ifdef Q_WS_WIN
+          dir = dir.replace("/", "\\");
+#endif
           savePathTxt->setText(dir);
         }
       }
@@ -431,7 +449,11 @@ public slots:
           QMessageBox::critical(0, tr("Empty save path"), tr("Please enter a save path"));
           return;
         }
-        QDir savePath(misc::expandPath(savePathTxt->text()));
+        QString save_path = savePathTxt->text();
+#ifdef Q_WS_WIN
+        save_path = save_path.replace("\\", "/");
+#endif
+        QDir savePath(misc::expandPath(save_path));
         // Check if savePath exists
         if(!savePath.exists()){
           if(!savePath.mkpath(savePath.path())){
@@ -457,23 +479,24 @@ public slots:
           bool path_changed = false;
           for(uint i=0; i<nbFiles; ++i) {
 #if defined(Q_WS_X11) || defined(Q_WS_MAC) || defined(Q_WS_QWS)
-            if(files_path.at(i).compare(misc::toQString(t->file_at(i).path.string()), Qt::CaseSensitive) != 0) {
+            if(files_path.at(i).compare(misc::toQStringU(t->file_at(i).path.string()), Qt::CaseSensitive) != 0) {
 #else
-              if(files_path.at(i).compare(misc::toQString(t->file_at(i).path.string()), Qt::CaseInsensitive) != 0) {
+              if(files_path.at(i).compare(misc::toQStringU(t->file_at(i).path.string()), Qt::CaseInsensitive) != 0) {
 #endif
                 path_changed = true;
                 break;
               }
             }
             if(path_changed) {
+              qDebug("Changing files paths");
               TorrentTempData::setFilesPath(hash, files_path);
             }
           }
-#ifdef LIBTORRENT_0_15
+#if LIBTORRENT_VERSION_MINOR > 14
           // Skip file checking and directly start seeding
           if(addInSeed->isChecked()) {
             // Check if local file(s) actually exist
-            if(is_magnet || savePath.exists(misc::toQString(t->name()))) {
+            if(is_magnet || savePath.exists(misc::toQStringU(t->name()))) {
               TorrentTempData::setSeedingMode(hash, true);
             } else {
               QMessageBox::warning(0, tr("Seeding mode error"), tr("You chose to skip file checking. However, local files do not seem to exist in the current destionation folder. Please disable this feature or update the save path."));

@@ -37,6 +37,7 @@
 #include <boost/filesystem/fstream.hpp>
 #include <boost/bind.hpp>
 
+#include <libtorrent/version.hpp>
 #include <libtorrent/entry.hpp>
 #include <libtorrent/bencode.hpp>
 #include <libtorrent/torrent_info.hpp>
@@ -80,14 +81,22 @@ createtorrent::~createtorrent() {
 
 void createtorrent::on_addFolder_button_clicked(){
   QString dir = QFileDialog::getExistingDirectory(this, tr("Select a folder to add to the torrent"), QDir::homePath(), QFileDialog::ShowDirsOnly);
-  if(!dir.isEmpty())
+  if(!dir.isEmpty()) {
+#ifdef Q_WS_WIN
+    dir = dir.replace("/", "\\");
+#endif
     textInputPath->setText(dir);
+  }
 }
 
 void createtorrent::on_addFile_button_clicked(){
   QString file = QFileDialog::getOpenFileName(this, tr("Select a file to add to the torrent"), QDir::homePath());
-  if(!file.isEmpty())
+  if(!file.isEmpty()) {
+#ifdef Q_WS_WIN
+    file = file.replace("/", "\\");
+#endif
     textInputPath->setText(file);
+  }
 }
 
 void createtorrent::on_removeTracker_button_clicked() {
@@ -193,14 +202,14 @@ void createtorrent::handleCreationSuccess(QString path, const char* branch_path)
     // Create save path temp data
     boost::intrusive_ptr<torrent_info> t;
     try {
-      t = new torrent_info(path.toLocal8Bit().data());
+      t = new torrent_info(path.toUtf8().data());
     } catch(std::exception&) {
       QMessageBox::critical(0, tr("Torrent creation"), tr("Created torrent file is invalid. It won't be added to download list."));
       return;
     }
     QString hash = misc::toQString(t->info_hash());
-    TorrentTempData::setSavePath(hash, QString(branch_path));
-#ifdef LIBTORRENT_0_15
+    TorrentTempData::setSavePath(hash, QString::fromLocal8Bit(branch_path));
+#if LIBTORRENT_VERSION_MINOR > 14
     // Enable seeding mode (do not recheck the files)
     TorrentTempData::setSeedingMode(hash, true);
 #endif
@@ -264,7 +273,7 @@ void torrentCreatorThread::run() {
     // Set qBittorrent as creator and add user comment to
     // torrent_info structure
     t.set_creator(creator_str);
-    t.set_comment((const char*)comment.toLocal8Bit());
+    t.set_comment((const char*)comment.toUtf8());
     // Is private ?
     t.set_priv(is_private);
     if(abort) return;

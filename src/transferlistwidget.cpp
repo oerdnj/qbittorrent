@@ -38,6 +38,7 @@
 #include "GUI.h"
 #include "preferences.h"
 #include "deletionconfirmationdlg.h"
+#include <libtorrent/version.hpp>
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
 #include <QDesktopServices>
@@ -167,7 +168,7 @@ void TransferListWidget::addTorrent(QTorrentHandle& h) {
     listModel->insertRow(row);
     listModel->setData(listModel->index(row, TR_NAME), QVariant(h.name()));
     listModel->setData(listModel->index(row, TR_SIZE), QVariant((qlonglong)h.actual_size()));
-    listModel->setData(listModel->index(row, TR_ETA), QVariant((qlonglong)-1));
+    listModel->setData(listModel->index(row, TR_ETA), QVariant((qlonglong)MAX_ETA));
     listModel->setData(listModel->index(row, TR_SEEDS), QVariant((double)0.0));
     listModel->setData(listModel->index(row, TR_PEERS), QVariant((double)0.0));
     listModel->setData(listModel->index(row, TR_ADD_DATE), QVariant(TorrentPersistentData::getAddedDate(h.hash())));
@@ -185,6 +186,7 @@ void TransferListWidget::addTorrent(QTorrentHandle& h) {
       if(h.is_seed()) {
         listModel->setData(listModel->index(row, TR_STATUS), STATE_PAUSED_UP);
         listModel->setData(listModel->index(row, TR_NAME), QVariant(QIcon(QString::fromUtf8(":/Icons/skin/pausedUP.png"))), Qt::DecorationRole);
+        listModel->setData(listModel->index(row, TR_ETA), QVariant((qlonglong)0));
       } else {
         listModel->setData(listModel->index(row, TR_STATUS), STATE_PAUSED_DL);
         listModel->setData(listModel->index(row, TR_NAME), QVariant(QIcon(QString::fromUtf8(":/Icons/skin/pausedDL.png"))), Qt::DecorationRole);
@@ -194,6 +196,7 @@ void TransferListWidget::addTorrent(QTorrentHandle& h) {
       if(h.is_seed()) {
         listModel->setData(listModel->index(row, TR_NAME), QVariant(QIcon(QString::fromUtf8(":/Icons/skin/stalledUP.png"))), Qt::DecorationRole);
         listModel->setData(listModel->index(row, TR_STATUS), STATE_STALLED_UP);
+        listModel->setData(listModel->index(row, TR_ETA), QVariant((qlonglong)0));
       } else {
         listModel->setData(listModel->index(row, TR_NAME), QVariant(QIcon(QString::fromUtf8(":/Icons/skin/stalledDL.png"))), Qt::DecorationRole);
         listModel->setData(listModel->index(row, TR_STATUS), STATE_STALLED_DL);
@@ -244,13 +247,13 @@ void TransferListWidget::pauseTorrent(int row, bool refresh_list) {
   const QTorrentHandle &h = BTSession->getTorrentHandle(getHashFromRow(row));
   listModel->setData(listModel->index(row, TR_DLSPEED), QVariant((double)0.0));
   listModel->setData(listModel->index(row, TR_UPSPEED), QVariant((double)0.0));
-  listModel->setData(listModel->index(row, TR_ETA), QVariant((qlonglong)-1));
   if(h.is_seed()) {
     listModel->setData(listModel->index(row, TR_STATUS), STATE_PAUSED_UP);
     listModel->setData(listModel->index(row, TR_NAME), QIcon(QString::fromUtf8(":/Icons/skin/pausedUP.png")), Qt::DecorationRole);
   } else {
     listModel->setData(listModel->index(row, TR_STATUS), STATE_PAUSED_DL);
     listModel->setData(listModel->index(row, TR_NAME), QIcon(QString::fromUtf8(":/Icons/skin/pausedDL.png")), Qt::DecorationRole);
+    listModel->setData(listModel->index(row, TR_ETA), QVariant((qlonglong)MAX_ETA));
   }
   listModel->setData(listModel->index(row, TR_SEEDS), QVariant(0.0));
   listModel->setData(listModel->index(row, TR_PEERS), QVariant(0.0));
@@ -349,7 +352,7 @@ int TransferListWidget::updateTorrent(int row) {
           }
           listModel->setData(listModel->index(row, TR_STATUS), s);
         }else {
-          listModel->setData(listModel->index(row, TR_ETA), QVariant((qlonglong)-1));
+          listModel->setData(listModel->index(row, TR_ETA), QVariant((qlonglong)MAX_ETA));
           if(h.is_seed()) {
             s = STATE_QUEUED_UP;            
             listModel->setData(listModel->index(row, TR_NAME), QVariant(QIcon(QString::fromUtf8(":/Icons/skin/queuedUP.png"))), Qt::DecorationRole);
@@ -394,7 +397,7 @@ int TransferListWidget::updateTorrent(int row) {
       }
       listModel->setData(listModel->index(row, TR_PROGRESS), QVariant((double)h.progress()));
       if(!isColumnHidden(TR_ETA))
-        listModel->setData(listModel->index(row, TR_ETA), QVariant((qlonglong)-1));
+        listModel->setData(listModel->index(row, TR_ETA), QVariant((qlonglong)MAX_ETA));
       setRowColor(row, QString::fromUtf8("grey"));
       break;
     case torrent_status::downloading:
@@ -408,7 +411,7 @@ int TransferListWidget::updateTorrent(int row) {
       }else{
         listModel->setData(listModel->index(row, TR_NAME), QVariant(QIcon(QString::fromUtf8(":/Icons/skin/stalledDL.png"))), Qt::DecorationRole);
         if(!isColumnHidden(TR_ETA))
-          listModel->setData(listModel->index(row, TR_ETA), QVariant((qlonglong)-1));
+          listModel->setData(listModel->index(row, TR_ETA), QVariant((qlonglong)MAX_ETA));
         s = STATE_STALLED_DL;
         setRowColor(row, QApplication::palette().color(QPalette::WindowText));
       }
@@ -454,7 +457,7 @@ void TransferListWidget::setFinished(QTorrentHandle &h) {
         listModel->setData(listModel->index(row, TR_STATUS), STATE_STALLED_UP);
         setRowColor(row, QApplication::palette().color(QPalette::WindowText));
       }
-      listModel->setData(listModel->index(row, TR_ETA), QVariant((qlonglong)-1));
+      listModel->setData(listModel->index(row, TR_ETA), QVariant((qlonglong)0));
       listModel->setData(listModel->index(row, TR_DLSPEED), QVariant((double)0.));
       listModel->setData(listModel->index(row, TR_PROGRESS), QVariant((double)1.));
       listModel->setData(listModel->index(row, TR_PRIORITY), QVariant((int)-1));
@@ -720,9 +723,14 @@ void TransferListWidget::openSelectedTorrentsFolder() const {
     const QTorrentHandle &h = BTSession->getTorrentHandle(hash);
     if(h.is_valid()) {
       const QString &savePath = h.root_path();
+      qDebug("Opening path at %s", qPrintable(savePath));
       if(!pathsList.contains(savePath)) {
         pathsList.append(savePath);
+#ifdef Q_WS_WIN
+        QDesktopServices::openUrl(QUrl(QString("file:///")+savePath));
+#else
         QDesktopServices::openUrl(QUrl(QString("file://")+savePath));
+#endif
       }
     }
   }
@@ -876,11 +884,15 @@ void TransferListWidget::displayDLHoSMenu(const QPoint&){
   act = hideshowColumn.exec(QCursor::pos());
   if(act) {
     int col = actions.indexOf(act);
+    Q_ASSERT(col >= 0);
+    qDebug("Toggling column %d visibility", col);
     setColumnHidden(col, !isColumnHidden(col));
+    if(!isColumnHidden(col) && columnWidth(col) <= 5)
+      setColumnWidth(col, 100);
   }
 }
 
-#ifdef LIBTORRENT_0_15
+#if LIBTORRENT_VERSION_MINOR > 14
 void TransferListWidget::toggleSelectedTorrentsSuperSeeding() const {
   const QStringList &hashes = getSelectedTorrentsHashes();
   foreach(const QString &hash, hashes) {
@@ -1001,7 +1013,7 @@ void TransferListWidget::displayListMenu(const QPoint&) {
   connect(&actionForce_recheck, SIGNAL(triggered()), this, SLOT(recheckSelectedTorrents()));
   QAction actionCopy_magnet_link(QIcon(QString::fromUtf8(":/Icons/magnet.png")), tr("Copy magnet link"), 0);
   connect(&actionCopy_magnet_link, SIGNAL(triggered()), this, SLOT(copySelectedMagnetURIs()));
-#ifdef LIBTORRENT_0_15
+#if LIBTORRENT_VERSION_MINOR > 14
   QAction actionSuper_seeding_mode(tr("Super seeding mode"), 0);
   connect(&actionSuper_seeding_mode, SIGNAL(triggered()), this, SLOT(toggleSelectedTorrentsSuperSeeding()));
 #endif
@@ -1016,7 +1028,7 @@ void TransferListWidget::displayListMenu(const QPoint&) {
   // Enable/disable pause/start action given the DL state
   QModelIndexList selectedIndexes = selectionModel()->selectedRows();
   bool has_pause = false, has_start = false, has_preview = false;
-#ifdef LIBTORRENT_0_15
+#if LIBTORRENT_VERSION_MINOR > 14
   bool all_same_super_seeding = true;
   bool super_seeding_mode = false;
 #endif
@@ -1050,7 +1062,7 @@ void TransferListWidget::displayListMenu(const QPoint&) {
         }
       }
     }
-#ifdef LIBTORRENT_0_15
+#if LIBTORRENT_VERSION_MINOR > 14
     else {
       if(!one_not_seed && all_same_super_seeding && h.has_metadata()) {
         if(first) {
@@ -1100,7 +1112,7 @@ void TransferListWidget::displayListMenu(const QPoint&) {
   if(one_not_seed)
     listMenu.addAction(&actionSet_download_limit);
   listMenu.addAction(&actionSet_upload_limit);
-#ifdef LIBTORRENT_0_15
+#if LIBTORRENT_VERSION_MINOR > 14
   if(!one_not_seed && all_same_super_seeding && one_has_metadata) {
     QIcon ico;
     if(super_seeding_mode) {
@@ -1187,6 +1199,7 @@ void TransferListWidget::saveColWidthList() {
   QStringList width_list;
   QStringList new_width_list;
   const short nbColumns = listModel->columnCount()-1; // HASH is hidden
+  if(nbColumns <= 0) return;
   const QString &line = settings.value("TransferListColsWidth", QString()).toString();
   if(!line.isEmpty()) {
     width_list = line.split(' ');
@@ -1205,9 +1218,9 @@ void TransferListWidget::saveColWidthList() {
     }
   }
   settings.setValue(QString::fromUtf8("TransferListColsWidth"), new_width_list.join(QString::fromUtf8(" ")));
-  QVariantList visualIndexes;
+  QStringList visualIndexes;
   for(int i=0; i<nbColumns; ++i) {
-    visualIndexes.append(header()->visualIndex(i));
+    visualIndexes << QString::number(header()->visualIndex(i));
   }
   settings.setValue(QString::fromUtf8("TransferListVisualIndexes"), visualIndexes);
   qDebug("Download list columns width saved");
@@ -1217,10 +1230,10 @@ void TransferListWidget::saveColWidthList() {
 bool TransferListWidget::loadColWidthList() {
   qDebug("Loading columns width for download list");
   QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
-  const QString &line = settings.value(QString::fromUtf8("TransferListColsWidth"), QString()).toString();
+  QString line = settings.value(QString::fromUtf8("TransferListColsWidth"), QString()).toString();
   if(line.isEmpty())
     return false;
-  const QStringList &width_list = line.split(QString::fromUtf8(" "));
+  const QStringList width_list = line.split(" ");
   if(width_list.size() != listModel->columnCount()-1) {
     qDebug("Corrupted values for transfer list columns sizes");
     return false;
@@ -1229,7 +1242,7 @@ bool TransferListWidget::loadColWidthList() {
   for(unsigned int i=0; i<listSize; ++i) {
     header()->resizeSection(i, width_list.at(i).toInt());
   }
-  const QVariantList& visualIndexes = settings.value(QString::fromUtf8("TransferListVisualIndexes"), QVariantList()).toList();
+  const QList<int> visualIndexes = misc::intListfromStringList(settings.value(QString::fromUtf8("TransferListVisualIndexes")).toStringList());
   if(visualIndexes.size() != listModel->columnCount()-1) {
     qDebug("Corrupted values for transfer list columns indexes");
     return false;
@@ -1238,7 +1251,7 @@ bool TransferListWidget::loadColWidthList() {
   do {
     change = false;
     for(int i=0;i<visualIndexes.size(); ++i) {
-      const int new_visual_index = visualIndexes.at(header()->logicalIndex(i)).toInt();
+      const int new_visual_index = visualIndexes.at(header()->logicalIndex(i));
       if(i != new_visual_index) {
         qDebug("Moving column from %d to %d", header()->logicalIndex(i), new_visual_index);
         header()->moveSection(i, new_visual_index);

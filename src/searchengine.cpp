@@ -42,11 +42,17 @@
 #include <QClipboard>
 #include <QMimeData>
 #include <QSortFilterProxyModel>
+#include <QFileDialog>
+
+#ifdef Q_WS_WIN
+#include <stdlib.h>
+#endif
 
 #include "searchengine.h"
 #include "bittorrent.h"
 #include "downloadthread.h"
 #include "misc.h"
+#include "preferences.h"
 #include "searchlistdelegate.h"
 #include "GUI.h"
 
@@ -72,14 +78,11 @@ SearchEngine::SearchEngine(GUI *parent, Bittorrent *BTSession) : QWidget(parent)
   // Boolean initialization
   search_stopped = false;
   // Creating Search Process
-  searchProcess = new QProcess(this);
-  QStringList env = QProcess::systemEnvironment();
 #ifdef Q_WS_WIN
-  // add qBittorrent executable folder to PATH environment variable
-  qDebug("qBittorrent executable path: %s", qPrintable(qApp->applicationDirPath()));
-  env.replaceInStrings(QRegExp("^PATH=(.*)", Qt::CaseInsensitive), "PATH=\\1;"+qApp->applicationDirPath());
+  has_python = addPythonPathToEnv();
 #endif
-  searchProcess->setEnvironment(env);
+  searchProcess = new QProcess(this);
+  searchProcess->setEnvironment(QProcess::systemEnvironment());
   connect(searchProcess, SIGNAL(started()), this, SLOT(searchStarted()));
   connect(searchProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(readSearchOutput()));
   connect(searchProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(searchFinished(int,QProcess::ExitStatus)));
@@ -105,6 +108,70 @@ void SearchEngine::fillCatCombobox() {
     comboCategory->addItem(full_cat_names[cat], QVariant(cat));
   }
 }
+
+#ifdef Q_WS_WIN
+bool SearchEngine::addPythonPathToEnv() {
+  QString python_path = Preferences::getPythonPath();
+  if(!python_path.isEmpty()) {
+    // Add it to PATH envvar
+    QString path_envar = QString::fromLocal8Bit(getenv("PATH"));
+    if(path_envar.isNull()) {
+      path_envar = "";
+    }
+    path_envar = python_path+";"+path_envar;
+    qDebug("New PATH envvar is: %s", qPrintable(path_envar));
+#ifdef MINGW
+    QString envar = "PATH="+path_envar;
+    putenv(envar.toLocal8Bit().data());
+#else
+    SetEnvironmentVariableA("PATH", path_envar.toLocal8Bit().constData());
+#endif
+    return true;
+  }
+  return false;
+}
+
+void SearchEngine::installPython() {
+  setCursor(QCursor(Qt::WaitCursor));
+  // Download python
+  downloadThread *pydownloader = new downloadThread(this);
+  connect(pydownloader, SIGNAL(downloadFinished(QString,QString)), this, SLOT(pythonDownloadSuccess(QString,QString)));
+  connect(pydownloader, SIGNAL(downloadFailure(QString,QString)), this, SLOT(pythonDownloadFailure(QString,QString)));
+  pydownloader->downloadUrl("http://python.org/ftp/python/2.6.5/python-2.6.5.msi");
+}
+
+void SearchEngine::pythonDownloadSuccess(QString url, QString file_path) {
+  setCursor(QCursor(Qt::ArrowCursor));
+  Q_UNUSED(url);
+  QFile::rename(file_path, file_path+".msi");
+  QProcess installer;
+  qDebug("Launching Python installer in passive mode...");
+
+  installer.start("msiexec.exe /passive /i "+file_path.replace("/", "\\")+".msi");
+  // Wait for setup to complete
+  installer.waitForFinished();
+
+  qDebug("Installer stdout: %s", installer.readAllStandardOutput().data());
+  qDebug("Installer stderr: %s", installer.readAllStandardError().data());
+  qDebug("Setup should be complete!");
+  // Reload search engine
+  has_python = addPythonPathToEnv();
+  if(has_python) {
+    supported_engines->update();
+    // Launch the search again
+    on_search_button_clicked();
+  }
+  // Delete temp file
+  QFile::remove(file_path+".msi");
+}
+
+void SearchEngine::pythonDownloadFailure(QString url, QString error) {
+  Q_UNUSED(url);
+  setCursor(QCursor(Qt::ArrowCursor));
+  QMessageBox::warning(this, tr("Download error"), tr("Python setup could not be downloaded, reason: %1.\nPlease install it manually.").arg(error));
+}
+
+#endif
 
 QString SearchEngine::selectedCategory() const {
   return comboCategory->itemData(comboCategory->currentIndex()).toString();
@@ -212,8 +279,23 @@ void SearchEngine::searchTextEdited(QString) {
 
 // Function called when we click on search button
 void SearchEngine::on_search_button_clicked(){
+#ifdef Q_WS_WIN
+  if(!has_python) {
+    if(QMessageBox::question(this, tr("Missing Python Interpreter"),
+                             tr("Python 2.x is required to use the search engine but it does not seem to be installed.\nDo you want to install it now?"),
+                             QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes) {
+      // Download and Install Python
+      installPython();
+    }
+    return;
+  }
+#endif
   if(searchProcess->state() != QProcess::NotRunning){
+#ifdef Q_WS_WIN
+    searchProcess->kill();
+#else
     searchProcess->terminate();
+#endif
     search_stopped = true;
     if(searchTimeout->isActive()) {
       searchTimeout->stop();
@@ -324,6 +406,7 @@ void SearchEngine::downloadTorrent(QString engine_url, QString torrent_url) {
     parent->downloadFromURLList(urls);
   } else {
     QProcess *downloadProcess = new QProcess(this);
+    downloadProcess->setEnvironment(QProcess::systemEnvironment());
     connect(downloadProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(downloadFinished(int,QProcess::ExitStatus)));
     downloaders << downloadProcess;
     QStringList params;
@@ -471,7 +554,11 @@ void SearchEngine::searchFinished(int exitcode,QProcess::ExitStatus){
     parent->showNotificationBaloon(tr("Search Engine"), tr("Search has finished"));
   }
   if(exitcode){
+#ifdef Q_WS_WIN
+    search_status->setText(tr("Search aborted"));
+#else
     search_status->setText(tr("An error occured during search..."));
+#endif
   }else{
     if(search_stopped){
       search_status->setText(tr("Search aborted"));

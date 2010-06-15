@@ -45,6 +45,11 @@
 
 #ifdef Q_WS_WIN
 #include <shlobj.h>
+#include <windows.h>
+const int UNLEN = 256;
+#else
+#include <unistd.h>
+#include <sys/types.h>
 #endif
 
 #ifdef Q_WS_MAC
@@ -74,6 +79,9 @@ QString misc::QDesktopServicesDataLocation() {
       result = QString::fromWCharArray(path);
   if (!QCoreApplication::applicationName().isEmpty())
     result = result + QLatin1String("\\") + qApp->applicationName();
+  if(!result.endsWith("\\"))
+    result += "\\";
+  return result;
 #else
 #ifdef Q_WS_MAC
   // http://developer.apple.com/documentation/Carbon/Reference/Folder_Manager/Reference/reference.html
@@ -85,7 +93,6 @@ QString misc::QDesktopServicesDataLocation() {
   QByteArray ba(2048, 0);
   if (FSRefMakePath(&ref, reinterpret_cast<UInt8 *>(ba.data()), ba.size()) == noErr)
     path = QString::fromUtf8(ba).normalized(QString::NormalizationForm_C);
-  QString path = getFullPath(ref);
   path += QLatin1Char('/') + qApp->applicationName();
   return path;
 #else
@@ -109,7 +116,10 @@ QString misc::QDesktopServicesCacheLocation() {
   OSErr err = FSFindFolder(kUserDomain, kCachedDataFolderType, false, &ref);
   if (err)
     return QString();
-  QString path = getFullPath(ref);
+  QString path;
+  QByteArray ba(2048, 0);
+  if (FSRefMakePath(&ref, reinterpret_cast<UInt8 *>(ba.data()), ba.size()) == noErr)
+        path = QString::fromUtf8(ba).normalized(QString::NormalizationForm_C);
   path += QLatin1Char('/') + qApp->applicationName();
   return path;
 #else
@@ -301,14 +311,12 @@ QString misc::BTBackupLocation() {
 }
 
 QString misc::cacheLocation() {
-  const QString &location = QDir::cleanPath(QDesktopServicesCacheLocation());
+  QString location = QDir::cleanPath(QDesktopServicesCacheLocation());
   QDir locationDir(location);
   if(!locationDir.exists())
     locationDir.mkpath(locationDir.absolutePath());
   return location;
 }
-
-long long misc::freeDiskSpaceOnPath(QString path);
 
 // return best userfriendly storage unit (B, KiB, MiB, GiB, TiB)
 // use Binary prefix standards from IEC 60027-2
@@ -459,8 +467,11 @@ QString misc::expandPath(QString path) {
 // Take a number of seconds and return an user-friendly
 // time duration like "1d 2h 10m".
 QString misc::userFriendlyDuration(qlonglong seconds) {
-  if(seconds < 0) {
+  if(seconds < 0 || seconds >= MAX_ETA) {
     return QString::fromUtf8("∞");
+  }
+  if(seconds == 0) {
+    return "0";
   }
   if(seconds < 60) {
     return tr("< 1m", "< 1 minute");
@@ -480,4 +491,47 @@ QString misc::userFriendlyDuration(qlonglong seconds) {
     return tr("%1d%2h%3m", "e.g: 2days 10hours 2minutes").arg(QString::number(days)).arg(QString::number(hours)).arg(QString::number(minutes));
   }
   return QString::fromUtf8("∞");
+}
+
+QString misc::getUserIDString() {
+  QString uid = "0";
+#ifdef Q_WS_WIN
+  char buffer[UNLEN+1] = {0};
+  DWORD buffer_len = UNLEN + 1;
+  if (!GetUserNameA(buffer, &buffer_len))
+    uid = QString(buffer);
+#else
+  uid = QString::number(getuid());
+#endif
+  return uid;
+}
+
+QStringList misc::toStringList(const QList<bool> &l) {
+  QStringList ret;
+  foreach(const bool &b, l) {
+    if(b)
+      ret << "1";
+    else
+      ret << "0";
+  }
+  return ret;
+}
+
+QList<int> misc::intListfromStringList(const QStringList &l) {
+  QList<int> ret;
+  foreach(const QString &s, l) {
+    ret << s.toInt();
+  }
+  return ret;
+}
+
+QList<bool> misc::boolListfromStringList(const QStringList &l) {
+  QList<bool> ret;
+    foreach(const QString &s, l) {
+      if(s == "1")
+        ret << true;
+      else
+        ret << false;
+    }
+    return ret;
 }

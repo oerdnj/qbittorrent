@@ -54,8 +54,8 @@ class about : public QDialog, private Ui::AboutDlg{
       te_thanks->append(QString::fromUtf8("<a name='top'></a>"));
       te_thanks->append(QString::fromUtf8("<ul><li>I would first like to thank sourceforge.net for hosting qBittorrent project and for their support.</li>"));
       te_thanks->append(QString::fromUtf8("<li>I am pleased that people from all over the world are contributing to qBittorrent: Ishan Arora (India), Arnaud Demaizière (France) and Stephanos Antaris (Greece). Their help is greatly appreciated</li>"));
-      te_thanks->append(QString::fromUtf8("<li>I also want to thank Jeffery Fernandez (jeffery@qbittorrent.org), project consultant, for his help and support since the beginning of this project.</li>"));
-      te_thanks->append(QString::fromUtf8("<li>I am grateful to Peter Koeleman (peter@qbittorrent.org) for working on qBittorrent port to Windows.</li>"));
+      te_thanks->append(QString::fromUtf8("<li>I also want to thank Στέφανος Αντάρης (santaris@csd.auth.gr) and Mirco Chinelli (infinity89@fastwebmail.it) for working on Mac OS X packaging.</li>"));
+      te_thanks->append(QString::fromUtf8("<li>I am grateful to Peter Koeleman (peter@qbittorrent.org) and Mohammad Dib (mdib@qbittorrent.org) for working on qBittorrent port to Windows.</li>"));
       te_thanks->append(QString::fromUtf8("<li>Thanks a lot to our graphist Mateusz Toboła (tobejodok@qbittorrent.org) for his great work.</li></ul><br><br>"));
       te_thanks->scrollToAnchor(QString::fromUtf8("top"));
       // Translation
@@ -68,7 +68,7 @@ class about : public QDialog, private Ui::AboutDlg{
           - <u>Catalan:</u> Francisco Luque Contreras (frannoe@ya.com)<br>\
           - <u>Chinese (Simplified):</u> Guo Yue (yue.guo0418@gmail.com)<br>\
           - <u>Chinese (Traditional):</u> Yi-Shun Wang (dnextstep@gmail.com)<br>\
-          - <u>Croatian:</u> Olivier Delakroa (oliver.untwist@gmail.com)<br>\
+          - <u>Croatian:</u> Oliver Mucafir (oliver.untwist@gmail.com)<br>\
           - <u>Czech:</u> Jirka Vilim (web@tets.cz)<br>\
           - <u>Danish:</u> Mathias Nielsen (comoneo@gmail.com)<br>\
           - <u>Dutch:</u> Joost Schipper (heavyjoost@users.sourceforge.net) and Peter Koeleman (peter@peerweb.nl)<br>\

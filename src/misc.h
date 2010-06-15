@@ -40,6 +40,8 @@
 #include <QPoint>
 
 #include <libtorrent/torrent_info.hpp>
+const qlonglong MAX_ETA = 8640000;
+
 using namespace libtorrent;
 
 /*  Miscellaneaous functions that can be useful */
@@ -55,6 +57,14 @@ public:
     return QString::fromLocal8Bit(str);
   }
 
+  static inline QString toQStringU(std::string str) {
+    return QString::fromUtf8(str.c_str());
+  }
+
+  static inline QString toQStringU(char* str) {
+    return QString::fromUtf8(str);
+  }
+
   static inline QString toQString(sha1_hash hash) {
     std::ostringstream o;
     o << hash;
@@ -62,7 +72,8 @@ public:
   }
 
   static inline sha1_hash QStringToSha1(const QString& s) {
-    std::istringstream i(s.toStdString());
+    std::string str(s.toLocal8Bit().data());
+    std::istringstream i(str);
     sha1_hash x;
     i>>x;
     return x;
@@ -104,6 +115,12 @@ public:
   // Take a number of seconds and return an user-friendly
   // time duration like "1d 2h 10m".
   static QString userFriendlyDuration(qlonglong seconds);
+  static QString getUserIDString();
+
+  // Convert functions
+  static QStringList toStringList(const QList<bool> &l);
+  static QList<int> intListfromStringList(const QStringList &l);
+  static QList<bool> boolListfromStringList(const QStringList &l);
 };
 
 //  Trick to get a portable sleep() function

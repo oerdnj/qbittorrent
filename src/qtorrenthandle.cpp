@@ -37,6 +37,7 @@
 #include "misc.h"
 #include "qtorrenthandle.h"
 #include "torrentpersistentdata.h"
+#include <libtorrent/version.hpp>
 #include <libtorrent/magnet_uri.hpp>
 #include <libtorrent/torrent_info.hpp>
 #include <libtorrent/bencode.hpp>
@@ -68,7 +69,7 @@ QString QTorrentHandle::name() const {
   Q_ASSERT(h.is_valid());
   QString name = TorrentPersistentData::getName(hash());
   if(name.isEmpty()) {
-    name = misc::toQString(h.name());
+    name = misc::toQStringU(h.name());
   }
   return name;
 }
@@ -218,7 +219,7 @@ QString QTorrentHandle::save_path() const {
   return misc::toQString(h.save_path().string());
 }
 
-#ifdef LIBTORRENT_0_15
+#if LIBTORRENT_VERSION_MINOR > 14
 bool QTorrentHandle::super_seeding() const {
   Q_ASSERT(h.is_valid());
   return h.super_seeding();
@@ -282,7 +283,7 @@ void QTorrentHandle::save_resume_data() const {
 QString QTorrentHandle::file_at(unsigned int index) const {
   Q_ASSERT(h.is_valid());
   Q_ASSERT(index < (unsigned int)h.get_torrent_info().num_files());
-  return misc::toQString(h.get_torrent_info().file_at(index).path.leaf());
+  return misc::toQStringU(h.get_torrent_info().file_at(index).path.leaf());
 }
 
 size_type QTorrentHandle::filesize_at(unsigned int index) const {
@@ -308,12 +309,12 @@ std::vector<int> QTorrentHandle::file_priorities() const {
 
 QString QTorrentHandle::creator() const {
   Q_ASSERT(h.is_valid());
-  return misc::toQString(h.get_torrent_info().creator());
+  return misc::toQStringU(h.get_torrent_info().creator());
 }
 
 QString QTorrentHandle::comment() const {
   Q_ASSERT(h.is_valid());
-  return misc::toQString(h.get_torrent_info().comment());
+  return misc::toQStringU(h.get_torrent_info().comment());
 }
 
 size_type QTorrentHandle::total_failed_bytes() const {
@@ -369,7 +370,7 @@ QStringList QTorrentHandle::files_path() const {
   QStringList res;
   torrent_info::file_iterator fi = h.get_torrent_info().begin_files();
   while(fi != h.get_torrent_info().end_files()) {
-    res << QDir::cleanPath(saveDir.absoluteFilePath(misc::toQString(fi->path.string())));
+    res << QDir::cleanPath(saveDir.absoluteFilePath(misc::toQStringU(fi->path.string())));
     fi++;
   }
   return res;
@@ -377,7 +378,9 @@ QStringList QTorrentHandle::files_path() const {
 
 int QTorrentHandle::queue_position() const {
   Q_ASSERT(h.is_valid());
-  return h.queue_position();
+  if(h.queue_position() < 0)
+    return -1;
+  return h.queue_position()+1;
 }
 
 int QTorrentHandle::num_uploads() const {
@@ -440,15 +443,15 @@ bool QTorrentHandle::priv() const {
 QString QTorrentHandle::root_path() const {
   Q_ASSERT(h.is_valid());
   if(num_files() == 0) return "";
-  QStringList path_list = misc::toQString(h.get_torrent_info().file_at(0).path.string()).split(QDir::separator());
+  QStringList path_list = misc::toQStringU(h.get_torrent_info().file_at(0).path.string()).split("/");
   if(path_list.size() > 1)
-    return save_path()+QDir::separator()+path_list.first();
+    return save_path()+"/"+path_list.first();
   return save_path();
 }
 
 bool QTorrentHandle::has_error() const {
   Q_ASSERT(h.is_valid());
-  return h.status().error.empty();
+  return h.is_paused() && !h.status().error.empty();
 }
 
 void QTorrentHandle::downloading_pieces(bitfield &bf) const {
@@ -578,7 +581,7 @@ void QTorrentHandle::file_priority(int index, int priority) const {
   TorrentPersistentData::saveSeedStatus(*this);
 }
 
-#ifdef LIBTORRENT_0_15
+#if LIBTORRENT_VERSION_MINOR > 14
 void QTorrentHandle::super_seeding(bool on) const {
   Q_ASSERT(h.is_valid());
   h.super_seeding(on);
@@ -631,7 +634,7 @@ void QTorrentHandle::set_peer_download_limit(libtorrent::asio::ip::tcp::endpoint
 
 void QTorrentHandle::add_tracker(announce_entry const& url) {
   Q_ASSERT(h.is_valid());
-#ifdef LIBTORRENT_0_15
+#if LIBTORRENT_VERSION_MINOR > 14
   h.add_tracker(url);
 #else
   std::vector<announce_entry> trackers = h.trackers();
@@ -686,7 +689,7 @@ void QTorrentHandle::prioritize_first_last_piece(bool b) {
 }
 
 void QTorrentHandle::rename_file(int index, QString name) {
-  h.rename_file(index, std::string(name.toLocal8Bit().constData()));
+  h.rename_file(index, std::string(name.toUtf8().constData()));
 }
 
 //

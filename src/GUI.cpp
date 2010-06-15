@@ -39,8 +39,6 @@
 #include <QDesktopServices>
 #include <QStatusBar>
 #include <QClipboard>
-#include <QLocalServer>
-#include <QLocalSocket>
 #include <QCloseEvent>
 #include <QShortcut>
 
@@ -65,10 +63,9 @@
 #include "transferlistfilterswidget.h"
 #include "propertieswidget.h"
 #include "statusbar.h"
-
-#ifdef Q_WS_WIN
-#include <windows.h>
-const int UNLEN = 256;
+#ifdef Q_WS_MAC
+#include "qmacapplication.h"
+void qt_mac_set_dock_menu(QMenu *menu);
 #endif
 
 using namespace libtorrent;
@@ -85,7 +82,13 @@ using namespace libtorrent;
 GUI::GUI(QWidget *parent, QStringList torrentCmdLine) : QMainWindow(parent), displaySpeedInTitle(false), force_exit(false) {
   setupUi(this);
 
-  setWindowTitle(tr("qBittorrent %1", "e.g: qBittorrent v0.x").arg(QString::fromUtf8(VERSION)));
+  setWindowTitle(tr("qBittorrent %1", "e.g: qBittorrent v0.x").arg(QString::fromUtf8(VERSION))
+#if defined(Q_WS_WIN)
+                 +" [Windows]"
+#elif defined(Q_WS_MAC)
+                 +" [Mac OS X]"
+#endif
+                 );
   // Setting icons
   this->setWindowIcon(QIcon(QString::fromUtf8(":/Icons/skin/qbittorrent32.png")));
   actionOpen->setIcon(QIcon(QString::fromUtf8(":/Icons/skin/open.png")));
@@ -123,6 +126,9 @@ GUI::GUI(QWidget *parent, QStringList torrentCmdLine) : QMainWindow(parent), dis
   connect(BTSession, SIGNAL(downloadFromUrlFailure(QString, QString)), this, SLOT(handleDownloadFromUrlFailure(QString, QString)));
   connect(BTSession, SIGNAL(alternativeSpeedsModeChanged(bool)), this, SLOT(updateAltSpeedsBtn(bool)));
   connect(BTSession, SIGNAL(recursiveTorrentDownloadPossible(QTorrentHandle&)), this, SLOT(askRecursiveTorrentDownloadConfirmation(QTorrentHandle&)));
+#ifdef Q_WS_MAC
+  connect(static_cast<QMacApplication*>(qApp), SIGNAL(newFileOpenMacEvent(QString)), this, SLOT(processParams(QString)));
+#endif
 
   qDebug("create tabWidget");
   tabs = new QTabWidget();
@@ -164,28 +170,7 @@ GUI::GUI(QWidget *parent, QStringList torrentCmdLine) : QMainWindow(parent), dis
   BTSession->startUpTorrents();
   // Add torrent given on command line
   processParams(torrentCmdLine);
-  // Use a tcp server to allow only one instance of qBittorrent
-  localServer = new QLocalServer();
-  QString uid = "";
-#ifdef Q_WS_WIN
-  char buffer[UNLEN+1] = {0};
-  DWORD buffer_len = UNLEN + 1;
-  if (!GetUserNameA(buffer, &buffer_len))
-    uid = QString(buffer);
-#else
-    uid = QString::number(getuid());
-#endif
-#ifdef Q_WS_X11
-  if(QFile::exists(QDir::tempPath()+QDir::separator()+QString("qBittorrent-")+uid)) {
-    // Socket was not closed cleanly
-    std::cerr << "Warning: Local domain socket was not closed cleanly, deleting file...\n";
-    QFile::remove(QDir::tempPath()+QDir::separator()+QString("qBittorrent-")+uid);
-  }
-#endif
-  if (!localServer->listen("qBittorrent-"+uid)) {
-    std::cerr  << "Couldn't create socket, single instance mode won't work...\n";
-  }
-  connect(localServer, SIGNAL(newConnection()), this, SLOT(acceptConnection()));
+
   // Start connection checking timer
   guiUpdater = new QTimer(this);
   connect(guiUpdater, SIGNAL(timeout()), this, SLOT(updateGUI()));
@@ -196,6 +181,10 @@ GUI::GUI(QWidget *parent, QStringList torrentCmdLine) : QMainWindow(parent), dis
   // Create status bar
   status_bar = new StatusBar(QMainWindow::statusBar(), BTSession);
   connect(actionUse_alternative_speed_limits, SIGNAL(triggered()), status_bar, SLOT(toggleAlternativeSpeeds()));
+
+#ifdef Q_WS_MAC
+  setUnifiedTitleAndToolBarOnMac(true);
+#endif
 
   show();
 
@@ -213,16 +202,34 @@ GUI::GUI(QWidget *parent, QStringList torrentCmdLine) : QMainWindow(parent), dis
   transferListFilters->getStatusFilters()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
   if(Preferences::startMinimized()) {
-    setWindowState(Qt::WindowMinimized);
+    showMinimized();
   }
 
   qDebug("GUI Built");
+#ifdef Q_WS_WIN
+  if(!Preferences::neverCheckFileAssoc() && !Preferences::isFileAssocOk()) {
+    if(QMessageBox::question(0, tr("Torrent file association"),
+                             tr("qBittorrent is not the default application to open torrent files or Magnet links.\nDo you want to associate qBittorrent to torrent files and Magnet links?"),
+                             QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes) {
+      Preferences::setFileAssoc();
+    } else {
+      Preferences::setNeverCheckFileAssoc();
+    }
+  }
+#endif
+#ifdef Q_WS_MAC
+  qt_mac_set_dock_menu(getTrayIconMenu());
+#endif
 }
 
 // Destructor
 GUI::~GUI() {
   qDebug("GUI destruction");
   hide();
+#ifdef Q_WS_MAC
+  // Workaround to avoid bug http://bugreports.qt.nokia.com/browse/QTBUG-7305
+  setUnifiedTitleAndToolBarOnMac(false);
+#endif
   // Async deletion of Bittorrent session as early as possible
   // in order to speed up exit
   session_proxy sp = BTSession->asyncDeletion();
@@ -255,10 +262,10 @@ GUI::~GUI() {
   }
   if(systrayIcon) {
     delete systrayIcon;
+  }
+  if(myTrayIconMenu) {
     delete myTrayIconMenu;
   }
-  localServer->close();
-  delete localServer;
   delete tabs;
   // Keyboard shortcuts
   delete switchSearchShortcut;
@@ -318,6 +325,7 @@ void GUI::tab_changed(int new_tab) {
 void GUI::writeSettings() {
   QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
   settings.beginGroup(QString::fromUtf8("MainWindow"));
+  settings.setValue("IsMaximized", isMaximized());
   settings.setValue(QString::fromUtf8("size"), size());
   settings.setValue(QString::fromUtf8("pos"), pos());
   // Splitter size
@@ -383,6 +391,8 @@ void GUI::readSettings() {
   settings.beginGroup(QString::fromUtf8("MainWindow"));
   resize(settings.value(QString::fromUtf8("size"), size()).toSize());
   move(settings.value(QString::fromUtf8("pos"), misc::screenCenter(this)).toPoint());
+  if(settings.value("IsMaximized", false).toBool())
+    showMaximized();
   const QStringList &sizes_str = settings.value("vSplitterSizes", QStringList()).toStringList();
   // Splitter size
   QList<int> sizes;
@@ -406,24 +416,6 @@ void GUI::balloonClicked() {
     }
     raise();
     activateWindow();
-  }
-}
-
-void GUI::acceptConnection() {
-  QLocalSocket *clientConnection = localServer->nextPendingConnection();
-  connect(clientConnection, SIGNAL(disconnected()), this, SLOT(readParamsOnSocket()));
-  qDebug("accepted connection from another instance");
-}
-
-void GUI::readParamsOnSocket() {
-  QLocalSocket *clientConnection = static_cast<QLocalSocket*>(sender());
-  if(clientConnection) {
-    const QByteArray &params = clientConnection->readAll();
-    if(!params.isEmpty()) {
-      processParams(QString::fromLocal8Bit(params.constData()).split("\n"));
-      qDebug("Received parameters from another instance");
-    }
-    clientConnection->deleteLater();
   }
 }
 
@@ -582,12 +574,18 @@ void GUI::on_actionCreate_torrent_triggered() {
 
 bool GUI::event(QEvent * e) {
   if(e->type() == QEvent::WindowStateChange) {
+    qDebug("Window change event");
     //Now check to see if the window is minimised
     if(isMinimized()) {
       qDebug("minimisation");
       QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
       if(systrayIcon && settings.value(QString::fromUtf8("Preferences/General/MinimizeToTray"), false).toBool()) {
-        hide();
+        if(!qApp->activeWindow() || !qApp->activeWindow()->isModal()) {
+          qDebug("Minimize to Tray enabled, hiding!");
+          e->accept();
+          QTimer::singleShot(0, this, SLOT(hide()));
+          return true; 
+        }
       }
     }
   }
@@ -679,12 +677,15 @@ void GUI::on_actionOpen_triggered() {
 // This function parse the parameters and call
 // the right addTorrent function, considering
 // the parameter type.
+void GUI::processParams(const QString& params_str) {
+    processParams(params_str.split(" ", QString::SkipEmptyParts));
+}
+
 void GUI::processParams(const QStringList& params) {
   QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
   const bool useTorrentAdditionDialog = settings.value(QString::fromUtf8("Preferences/Downloads/AdditionDialog"), true).toBool();
   foreach(QString param, params) {
     param = param.trimmed();
-    if(param.startsWith("--")) continue;
     if(param.startsWith(QString::fromUtf8("http://"), Qt::CaseInsensitive) || param.startsWith(QString::fromUtf8("ftp://"), Qt::CaseInsensitive) || param.startsWith(QString::fromUtf8("https://"), Qt::CaseInsensitive)) {
       BTSession->downloadFromUrl(param);
     }else{
@@ -729,6 +730,7 @@ void GUI::optionsSaved() {
 // Load program preferences
 void GUI::loadPreferences(bool configure_session) {
   BTSession->addConsoleMessage(tr("Options were saved successfully."));
+#ifndef Q_WS_MAC
   const bool newSystrayIntegration = Preferences::systrayIntegration();
   if(newSystrayIntegration != (systrayIcon!=0)) {
     if(newSystrayIntegration) {
@@ -752,6 +754,7 @@ void GUI::loadPreferences(bool configure_session) {
       delete myTrayIconMenu;
     }
   }
+#endif
   // General
   const bool new_displaySpeedInTitle = Preferences::speedInTitleBar();
   if(!new_displaySpeedInTitle && new_displaySpeedInTitle != displaySpeedInTitle) {
@@ -827,8 +830,9 @@ void GUI::trackerAuthenticationRequired(QTorrentHandle& h) {
 // Check connection status and display right icon
 void GUI::updateGUI() {
   // update global informations
+#ifndef Q_WS_MAC
   if(systrayIcon) {
-#if defined(Q_WS_X11) || defined(Q_WS_MAC)
+#if defined(Q_WS_X11)
     QString html = "<div style='background-color: #678db2; color: #fff;height: 18px; font-weight: bold; margin-bottom: 5px;'>";
     html += tr("qBittorrent");
     html += "</div>";
@@ -846,6 +850,7 @@ void GUI::updateGUI() {
 #endif
     systrayIcon->setToolTip(html); // tray icon
   }
+#endif
   if(displaySpeedInTitle) {
     setWindowTitle(tr("qBittorrent %1 (Down: %2/s, Up: %3/s)", "%1 is qBittorrent version").arg(QString::fromUtf8(VERSION)).arg(misc::friendlyUnit(BTSession->getSessionStatus().payload_download_rate)).arg(misc::friendlyUnit(BTSession->getSessionStatus().payload_upload_rate)));
   }
@@ -866,8 +871,10 @@ void GUI::showNotificationBaloon(QString title, QString msg) const {
       }
     }
 #endif
+#ifndef Q_WS_MAC
     if(systrayIcon)
       systrayIcon->showMessage(title, msg, QSystemTrayIcon::Information, TIME_TRAY_BALLOON);
+#endif
   }
 }
 
@@ -901,6 +908,7 @@ void GUI::downloadFromURLList(const QStringList& url_list) {
  *****************************************************/
 
 void GUI::createSystrayDelayed() {
+#ifndef Q_WS_MAC
   static int timeout = 20;
   if(QSystemTrayIcon::isSystemTrayAvailable()) {
     // Ok, systray integration is now supported
@@ -921,6 +929,7 @@ void GUI::createSystrayDelayed() {
       Preferences::setSystrayIntegration(false);
     }
   }
+#endif
 }
 
 void GUI::updateAltSpeedsBtn(bool alternative) {
@@ -933,14 +942,9 @@ void GUI::updateAltSpeedsBtn(bool alternative) {
   }
 }
 
-void GUI::createTrayIcon() {
-  // Tray icon
-#ifdef Q_WS_WIN
-  systrayIcon = new QSystemTrayIcon(QIcon(QString::fromUtf8(":/Icons/skin/qbittorrent16.png")), this);
-#endif
-#ifndef Q_WS_WIN
-  systrayIcon = new QSystemTrayIcon(QIcon(QString::fromUtf8(":/Icons/skin/qbittorrent22.png")), this);
-#endif
+QMenu* GUI::getTrayIconMenu() {
+  if(myTrayIconMenu)
+    return myTrayIconMenu;
   // Tray icon Menu
   myTrayIconMenu = new QMenu(this);
   myTrayIconMenu->addAction(actionOpen);
@@ -955,7 +959,18 @@ void GUI::createTrayIcon() {
   myTrayIconMenu->addAction(actionPause_All);
   myTrayIconMenu->addSeparator();
   myTrayIconMenu->addAction(actionExit);
-  systrayIcon->setContextMenu(myTrayIconMenu);
+  return myTrayIconMenu;
+}
+
+void GUI::createTrayIcon() {
+  // Tray icon
+#ifdef Q_WS_WIN
+  systrayIcon = new QSystemTrayIcon(QIcon(QString::fromUtf8(":/Icons/skin/qbittorrent16.png")), this);
+#else
+  systrayIcon = new QSystemTrayIcon(QIcon(QString::fromUtf8(":/Icons/skin/qbittorrent22.png")), this);
+#endif
+
+  systrayIcon->setContextMenu(getTrayIconMenu());
   connect(systrayIcon, SIGNAL(messageClicked()), this, SLOT(balloonClicked()));
   // End of Icon Menu
   connect(systrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(toggleVisibility(QSystemTrayIcon::ActivationReason)));

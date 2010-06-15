@@ -70,6 +70,9 @@ private:
   QList<QPointer<SearchTab> > all_tab; // To store all tabs
   const SearchCategories full_cat_names;
   GUI *parent;
+#ifdef Q_WS_WIN
+  bool has_python;
+#endif
 
 public:
   SearchEngine(GUI *parent, Bittorrent *BTSession);
@@ -126,6 +129,12 @@ protected slots:
   void createCompleter();
   void fillCatCombobox();
   void searchTextEdited(QString);
+#ifdef Q_WS_WIN
+  bool addPythonPathToEnv();
+  void installPython();
+  void pythonDownloadSuccess(QString url, QString file_path);
+  void pythonDownloadFailure(QString url, QString error);
+#endif
 };
 
 #endif
