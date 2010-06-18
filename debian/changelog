@@ -1,3 +1,10 @@
+qbittorrent (2.2.9-2) unstable; urgency=low
+
+  * 01_fix_nox_webui.patch: new patch, fix non-working WebUI in
+    qbittorrent-nox.
+
+ -- Cristian Greco <cristian@regolo.cc>  Fri, 18 Jun 2010 17:26:45 +0200
+
 qbittorrent (2.2.9-1) unstable; urgency=low
 
   * New upstream version.
