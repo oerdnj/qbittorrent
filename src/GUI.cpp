@@ -82,13 +82,7 @@ using namespace libtorrent;
 GUI::GUI(QWidget *parent, QStringList torrentCmdLine) : QMainWindow(parent), displaySpeedInTitle(false), force_exit(false) {
   setupUi(this);
 
-  setWindowTitle(tr("qBittorrent %1", "e.g: qBittorrent v0.x").arg(QString::fromUtf8(VERSION))
-#if defined(Q_WS_WIN)
-                 +" [Windows]"
-#elif defined(Q_WS_MAC)
-                 +" [Mac OS X]"
-#endif
-                 );
+  setWindowTitle(tr("qBittorrent %1", "e.g: qBittorrent v0.x").arg(QString::fromUtf8(VERSION)));
   // Setting icons
   this->setWindowIcon(QIcon(QString::fromUtf8(":/Icons/skin/qbittorrent32.png")));
   actionOpen->setIcon(QIcon(QString::fromUtf8(":/Icons/skin/open.png")));
@@ -541,8 +535,7 @@ void GUI::closeEvent(QCloseEvent *e) {
       if(QMessageBox::question(this,
                                tr("Are you sure you want to quit?")+QString::fromUtf8(" -- ")+tr("qBittorrent"),
                                tr("Some files are currently transferring.\nAre you sure you want to quit qBittorrent?"),
-                               tr("&Yes"), tr("&No"),
-                               QString(), 0, 1)) {
+                               QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes) == QMessageBox::No) {
         e->ignore();
         force_exit = false;
         return;
@@ -933,13 +926,7 @@ void GUI::createSystrayDelayed() {
 }
 
 void GUI::updateAltSpeedsBtn(bool alternative) {
-  if(alternative) {
-    actionUse_alternative_speed_limits->setIcon(QIcon(":/Icons/slow.png"));
-    actionUse_alternative_speed_limits->setText(tr("Use normal speed limits"));
-  } else {
-    actionUse_alternative_speed_limits->setIcon(QIcon(":/Icons/slow_off.png"));
-    actionUse_alternative_speed_limits->setText(tr("Use alternative speed limits"));
-  }
+    actionUse_alternative_speed_limits->setChecked(alternative);
 }
 
 QMenu* GUI::getTrayIconMenu() {
@@ -951,6 +938,7 @@ QMenu* GUI::getTrayIconMenu() {
   myTrayIconMenu->addAction(actionDownload_from_URL);
   myTrayIconMenu->addSeparator();
   updateAltSpeedsBtn(Preferences::isAltBandwidthEnabled());
+  actionUse_alternative_speed_limits->setChecked(Preferences::isAltBandwidthEnabled());
   myTrayIconMenu->addAction(actionUse_alternative_speed_limits);
   myTrayIconMenu->addAction(actionSet_global_download_limit);
   myTrayIconMenu->addAction(actionSet_global_upload_limit);

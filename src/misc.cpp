@@ -134,9 +134,15 @@ QString misc::QDesktopServicesCacheLocation() {
 
 long long misc::freeDiskSpaceOnPath(QString path) {
   if(path.isEmpty()) return -1;
+  path = path.replace("\\", "/");
   QDir dir_path(path);
   if(!dir_path.exists()) {
-    if(!dir_path.cdUp()) return -1;
+    QStringList parts = path.split("/");
+    while (parts.size() > 1 && !QDir(parts.join("/")).exists()) {
+      parts.removeLast();
+    }
+    dir_path = QDir(parts.join("/"));
+    if(!dir_path.exists()) return -1;
   }
   Q_ASSERT(dir_path.exists());
 #ifndef Q_WS_WIN
@@ -483,12 +489,12 @@ QString misc::userFriendlyDuration(qlonglong seconds) {
   int hours = minutes / 60;
   minutes = minutes - hours*60;
   if(hours < 24) {
-    return tr("%1h%2m", "e.g: 3hours 5minutes").arg(QString::number(hours)).arg(QString::number(minutes));
+    return tr("%1h %2m", "e.g: 3hours 5minutes").arg(QString::number(hours)).arg(QString::number(minutes));
   }
   int days = hours / 24;
   hours = hours - days * 24;
   if(days < 100) {
-    return tr("%1d%2h%3m", "e.g: 2days 10hours 2minutes").arg(QString::number(days)).arg(QString::number(hours)).arg(QString::number(minutes));
+    return tr("%1d %2h", "e.g: 2days 10hours").arg(QString::number(days)).arg(QString::number(hours));
   }
   return QString::fromUtf8("∞");
 }

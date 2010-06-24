@@ -30,6 +30,7 @@
 
 #include <QEvent>
 #include <QFileOpenEvent>
+#include <QUrl>
 #include "qmacapplication.h"
 
 QMacApplication::QMacApplication(QString appid, int &argc, char** argv) :
@@ -45,7 +46,7 @@ bool QMacApplication::event(QEvent * ev) {
       QString path = static_cast<QFileOpenEvent *>(ev)->file();
       if(path.isEmpty()) {
         // Get the url instead
-        path = static_cast<QFileOpenEvent *>(ev)->url();
+        path = static_cast<QFileOpenEvent *>(ev)->url().toString();
       }
       qDebug("Received a mac file open event: %s", qPrintable(path));
       emit newFileOpenMacEvent(path);
