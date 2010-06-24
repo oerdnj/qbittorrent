@@ -1,3 +1,13 @@
+qbittorrent (2.2.10-1) unstable; urgency=low
+
+  * New upstream version.
+  * debian/patches:
+    - 01_fix_nox_webui.patch, drop patch: included upstream.
+    - 01_fix_parameter_parsing.patch, new patch: fix parsing of arguments
+      including spaces (stolen from upstream r4178).
+
+ -- Cristian Greco <cristian@regolo.cc>  Thu, 24 Jun 2010 21:23:26 +0200
+
 qbittorrent (2.2.9-2) unstable; urgency=low
 
   * 01_fix_nox_webui.patch: new patch, fix non-working WebUI in
