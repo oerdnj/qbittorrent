@@ -1,0 +1,30 @@
+Author: Christophe Dumez <chris@qbittorrent.org>
+Description: Fix parsing of arguments including spaces
+Origin: upstream, http://qbittorrent.svn.sourceforge.net/viewvc/qbittorrent?view=revision&revision=4178
+
+--- a/src/GUI.cpp
++++ b/src/GUI.cpp
+@@ -671,7 +671,7 @@
+ // the right addTorrent function, considering
+ // the parameter type.
+ void GUI::processParams(const QString& params_str) {
+-    processParams(params_str.split(" ", QString::SkipEmptyParts));
++  processParams(params_str.split("|", QString::SkipEmptyParts));
+ }
+ 
+ void GUI::processParams(const QStringList& params) {
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -192,10 +192,11 @@
+       if(p.startsWith("--")) continue;
+       message += argv[a];
+       if (a < argc-1)
+-        message += " ";
++        message += "|";
+     }
+     if(!message.isEmpty()) {
+       qDebug("Passing program parameters to running instance...");
++      qDebug("Message: %s", qPrintable(message));
+       app->sendMessage(message);
+     }
+     return 0;
