@@ -1,3 +1,15 @@
+* Wed Jun 23 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.2.10
+    - BUGFIX: Fix Web UI in qBittorrent nox version
+    - BUGFIX: Improved ETA display (more user friendly)
+    - BUGFIX: Fix possible compilation errors with libtorrent v0.15
+    - BUGFIX: Fix minor issues in torrent creation tool
+    - BUGFIX: Use checkable actions to avoid issues on systems hiding menu icons (e.g. recent Gnome)
+    - BUGFIX: Use busy cursor for search plugin updates
+    - BUGFIX: Free disk space calculation now works if destination folder does not exist
+    - BUGFIX: Fix "append .!qB extension to incomplete files" feature
+    - BUGFIX: Several OS/2 fixes by Silvan Scherrer
+    - COSMETIC: Display "Alternative speed limits" button as pressed when enabled
+
 * Sun Jun 13 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.2.9
     - FEATURE: Official support for Win32 platform
     - FEATURE: Better integration with Mac OS
