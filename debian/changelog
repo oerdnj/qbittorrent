@@ -1,3 +1,15 @@
+qbittorrent (2.2.10-2) unstable; urgency=low
+
+  * 02_fix_crash_alternative_limits.patch, new patch: fix possible crash
+    when using alternative speed limits (upstream r4186).
+  * debian/copyright: stop referring to BSD license file, fix copyright-
+    refers-to-deprecated-bsd-license-file for policy 3.9.0.
+  * debian/control: bump Standards-Version to 3.9.0.
+  * debian/rules: pass --parallel to dh to enable parallel build
+    support.
+
+ -- Cristian Greco <cristian@regolo.cc>  Thu, 01 Jul 2010 18:33:52 +0200
+
 qbittorrent (2.2.10-1) unstable; urgency=low
 
   * New upstream version.
