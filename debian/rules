@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 
 %:
-	dh $@
+	dh $@ --parallel
 
 override_dh_auto_configure:
 	mkdir -p build-nox && cd build-nox && ../configure --prefix=/usr --disable-gui
