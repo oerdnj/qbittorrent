@@ -12,6 +12,8 @@ override_dh_auto_build:
 	mv -f build-gui/conf.pri . && dh_auto_build --builddirectory build-gui
 
 override_dh_auto_install:
+	sed -i '/STRIP/d' build-nox/src/Makefile
+	sed -i '/STRIP/d' build-gui/src/Makefile
 	dh_auto_install --builddirectory build-nox --destdir debian/qbittorrent-nox
 	dh_auto_install --builddirectory build-gui --destdir debian/qbittorrent
 
@@ -21,3 +23,6 @@ override_dh_install:
 override_dh_auto_clean:
 	dh_auto_clean --builddirectory build-nox
 	dh_auto_clean --builddirectory build-gui
+
+override_dh_strip:
+	dh_strip -a --dbg-package=qbittorrent-dbg
