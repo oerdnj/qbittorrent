@@ -12,13 +12,13 @@ CONFIG += qt \
 
 # Update this VERSION for each release
 os2 {
-    DEFINES += VERSION=\'\"v2.2.10\"\'
+    DEFINES += VERSION=\'\"v2.2.11\"\'
 } else {
-    DEFINES += VERSION=\\\"v2.2.10\\\"
+    DEFINES += VERSION=\\\"v2.2.11\\\"
 }
 DEFINES += VERSION_MAJOR=2
 DEFINES += VERSION_MINOR=2
-DEFINES += VERSION_BUGFIX=10
+DEFINES += VERSION_BUGFIX=11
 
 win32 {
   # Adapt these paths on Windows
@@ -360,10 +360,16 @@ contains(DEFINES, DISABLE_GUI) {
 	    ui/confirmdeletiondlg.ui
 }
 
-contains(DEFINES, DISABLE_GUI) {
-  include(qtsingleapp/qtsinglecoreapplication.pri)
+contains(DEFINES, USE_SYSTEM_QTSINGLEAPPLICATION) {
+  message("Using the system's qtsingleapplication library")
+  CONFIG += qtsingleapplication
 } else {
-  include(qtsingleapp/qtsingleapplication.pri)
+  message("Using the shipped qtsingleapplication library")
+  contains(DEFINES, DISABLE_GUI) {
+    include(qtsingleapp/qtsinglecoreapplication.pri)
+  } else {
+    include(qtsingleapp/qtsingleapplication.pri)
+  }
 }
 
 SOURCES += main.cpp \ 

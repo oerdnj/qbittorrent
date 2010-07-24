@@ -270,10 +270,7 @@ GUI::~GUI() {
   delete BTSession;
   // Deleting remaining top level widgets
   qDebug("Deleting remaining top level widgets");
-  foreach (QWidget *win, QApplication::topLevelWidgets()) {
-    if(win && win != this)
-      delete win;
-  }
+
   // May freeze for a few seconds after the next line
   // because the Bittorrent session proxy will
   // actually be deleted now and destruction
@@ -671,7 +668,7 @@ void GUI::on_actionOpen_triggered() {
 // the right addTorrent function, considering
 // the parameter type.
 void GUI::processParams(const QString& params_str) {
-    processParams(params_str.split(" ", QString::SkipEmptyParts));
+  processParams(params_str.split("|", QString::SkipEmptyParts));
 }
 
 void GUI::processParams(const QStringList& params) {
