@@ -637,8 +637,20 @@ void Bittorrent::useAlternativeSpeedsLimit(bool alternative) {
     s->set_download_rate_limit(Preferences::getAltGlobalDownloadLimit()*1024);
     s->set_upload_rate_limit(Preferences::getAltGlobalUploadLimit()*1024);
   } else {
-    s->set_download_rate_limit(Preferences::getGlobalDownloadLimit()*1024);
-    s->set_upload_rate_limit(Preferences::getGlobalUploadLimit()*1024);
+    int down_limit = Preferences::getGlobalDownloadLimit();
+    if(down_limit <= 0) {
+      down_limit = -1;
+    } else {
+      down_limit *= 1024;
+    }
+    s->set_download_rate_limit(down_limit);
+    int up_limit = Preferences::getGlobalUploadLimit();
+    if(up_limit <= 0) {
+      up_limit = -1;
+    } else {
+      up_limit *= 1024;
+    }
+    s->set_upload_rate_limit(up_limit);
   }
   emit alternativeSpeedsModeChanged(alternative);
 }
@@ -1052,7 +1064,7 @@ QTorrentHandle Bittorrent::addTorrent(QString path, bool fromScanDir, QString fr
   //Getting fast resume data if existing
   std::vector<char> buf;
   if(resumed) {
-    const QString fastresume_path = torrentBackup.path()+QDir::separator()+hash+QString(".fastresume");
+    const QString fastresume_path = torrentBackup.absoluteFilePath(hash+QString(".fastresume"));
     qDebug("Trying to load fastresume data: %s", qPrintable(fastresume_path));
     if (load_file(fastresume_path.toLocal8Bit().constData(), buf) == 0) {
       fastResume = true;
@@ -1866,13 +1878,8 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
     default:
       qDebug("Disabling HTTP communications proxy");
 #ifdef Q_WS_WIN
-#ifdef MINGW
       putenv("http_proxy=");
       putenv("sock_proxy=");
-#else
-      SetEnvironmentVariableA("http_proxy", "");
-      SetEnvironmentVariableA("sock_proxy", "");
-#endif
 #else
       unsetenv("http_proxy");
       unsetenv("sock_proxy");
@@ -1886,12 +1893,8 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
       type_str = "sock_proxy";
     else
       type_str = "http_proxy";
-#ifdef MINGW
     QString tmp = type_str+"="+proxy_str;
     putenv(tmp.toLocal8Bit().constData());
-#else
-    SetEnvironmentVariableA(type_str.toLocal8Bit().constData(), proxy_str.toLocal8Bit().constData());
-#endif
 #else
     qDebug("HTTP communications proxy string: %s", qPrintable(proxy_str));
     if(proxySettings.type == proxy_settings::socks5 || proxySettings.type == proxy_settings::socks5_pw)

@@ -310,7 +310,10 @@ public:
 
   static int getAltGlobalDownloadLimit() {
     QSettings settings("qBittorrent", "qBittorrent");
-    return settings.value(QString::fromUtf8("Preferences/Connection/GlobalDLLimitAlt"), 10).toInt();
+    int ret = settings.value(QString::fromUtf8("Preferences/Connection/GlobalDLLimitAlt"), 10).toInt();
+    if(ret <= 0)
+      ret = 10;
+    return ret;
   }
 
   static void setAltGlobalDownloadLimit(int limit) {
@@ -321,7 +324,10 @@ public:
 
   static int getAltGlobalUploadLimit() {
     QSettings settings("qBittorrent", "qBittorrent");
-    return settings.value(QString::fromUtf8("Preferences/Connection/GlobalUPLimitAlt"), 10).toInt();
+    int ret = settings.value(QString::fromUtf8("Preferences/Connection/GlobalUPLimitAlt"), 10).toInt();
+    if(ret <= 0)
+      ret = 10;
+    return ret;
   }
 
   static void setAltGlobalUploadLimit(int limit) {
@@ -939,24 +945,30 @@ public:
   static QString getPythonPath() {
     QSettings reg_python("HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore", QSettings::NativeFormat);
     QStringList versions = reg_python.childGroups();
+    if(versions.isEmpty()) {
+        reg_python = QSettings("HKEY_LOCAL_MACHINE/SOFTWARE/Python/PythonCore", QSettings::NativeFormat);
+        versions = reg_python.childGroups();
+    }
     qDebug("Python versions nb: %d", versions.size());
     versions = versions.filter(QRegExp("2\\..*"));
     versions.sort();
     while(!versions.empty()) {
       const QString version = versions.takeLast();
       qDebug("Detected possible Python v%s location", qPrintable(version));
-      QString path = reg_python.value(version+"/InstallPath/Default", "").toString().replace("/", "\\");
+      QString path = reg_python.value(version+"\\InstallPath\\Default", "").toString().replace("/", "\\");
+      if(path.isEmpty())
+          path = reg_python.value(version+"/InstallPath/Default", "").toString().replace("/", "\\");
       if(!path.isEmpty() && QDir(path).exists("python.exe")) {
         qDebug("Found python.exe at %s", qPrintable(path));
         return path;
       }
     }
     if(QFile::exists("C:/Python26/python.exe")) {
-      reg_python.setValue("2.6/InstallPath/Default", "C:\\Python26");
+      reg_python.setValue("2.6\\InstallPath\\Default", "C:\\Python26");
       return "C:\\Python26";
     }
     if(QFile::exists("C:/Python25/python.exe")) {
-      reg_python.setValue("2.5/InstallPath/Default", "C:\\Python26");
+      reg_python.setValue("2.5\\InstallPath\\Default", "C:\\Python26");
       return "C:\\Python25";
     }
     return QString::null;
@@ -974,12 +986,14 @@ public:
 
   static bool isFileAssocOk() {
     QSettings settings("HKEY_CLASSES_ROOT", QSettings::NativeFormat);
-    if(settings.value(".torrent\\Default").toString() != "qBittorrent") {
+    if(settings.value(".torrent\\Default").toString() != "qBittorrent" && settings.value(".torrent/Default").toString() != "qBittorrent") {
       qDebug(".torrent != qBittorrent");
       return false;
     }
     qDebug("Checking shell command");
     QString shell_command = settings.value("qBittorrent\\shell\\open\\command\\Default", "").toString();
+    if(shell_command.isEmpty())
+        shell_command = settings.value("qBittorrent/shell/open/command/Default", "").toString();
     qDebug("Shell command is: %s", qPrintable(shell_command));
     QRegExp exe_reg("\"([^\"]+)\".*");
     if(exe_reg.indexIn(shell_command) < 0)
@@ -990,6 +1004,8 @@ public:
       return false;
     // Check magnet link assoc
     shell_command = settings.value("Magnet\\shell\\open\\command\\Default", "").toString();
+    if(shell_command.isEmpty())
+        shell_command = settings.value("Magnet/shell/open/command/Default", "").toString();
     if(exe_reg.indexIn(shell_command) < 0)
       return false;
     assoc_exe = exe_reg.cap(1);
