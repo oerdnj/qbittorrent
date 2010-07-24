@@ -1,3 +1,12 @@
+qbittorrent (2.2.11-1) unstable; urgency=low
+
+  * New upstream version.
+    - debian/patches: all patches included upstream
+      (01_fix_parameter_parsing, 02_fix_crash_alternative_limits).
+  * debian/{control,rules}: new qbittorrent-dbg package.
+
+ -- Cristian Greco <cristian@regolo.cc>  Sat, 24 Jul 2010 22:09:25 +0200
+
 qbittorrent (2.2.10-2) unstable; urgency=low
 
   * 02_fix_crash_alternative_limits.patch, new patch: fix possible crash
