@@ -42,7 +42,7 @@ class QTimer;
 class TransferListDelegate;
 class GUI;
 
-enum TorrentFilter {FILTER_ALL, FILTER_DOWNLOADING, FILTER_COMPLETED, FILTER_ACTIVE, FILTER_INACTIVE};
+enum TorrentFilter {FILTER_ALL, FILTER_DOWNLOADING, FILTER_COMPLETED, FILTER_PAUSED, FILTER_ACTIVE, FILTER_INACTIVE};
 
 class TransferListWidget: public QTreeView {
   Q_OBJECT
@@ -54,19 +54,25 @@ public:
   QStandardItemModel* getSourceModel() const;
 
 public slots:
-  void refreshList();
+  void refreshList(bool force=false);
   void addTorrent(QTorrentHandle& h);
   void pauseTorrent(QTorrentHandle &h);
   void setFinished(QTorrentHandle &h);
   void setSelectionLabel(QString label);
   void setRefreshInterval(int t);
+  void setSelectedTorrentsLocation();
   void startSelectedTorrents();
   void startAllTorrents();
+  void startVisibleTorrents();
   void pauseSelectedTorrents();
   void pauseAllTorrents();
+  void pauseVisibleTorrents();
   void deleteSelectedTorrents();
+  void deleteVisibleTorrents();
   void increasePrioSelectedTorrents();
   void decreasePrioSelectedTorrents();
+  void topPrioSelectedTorrents();
+  void bottomPrioSelectedTorrents();
   void buySelectedTorrents() const;
   void copySelectedMagnetURIs() const;
   void openSelectedTorrentsFolder() const;
@@ -76,6 +82,7 @@ public slots:
   void previewSelectedTorrents();
   void hidePriorityColumn(bool hide);
   void displayDLHoSMenu(const QPoint&);
+  void applyNameFilter(QString name);
   void applyStatusFilter(int f);
   void applyLabelFilter(QString label);
   void previewFile(QString filePath);
@@ -116,7 +123,7 @@ protected slots:
 
 signals:
   void currentTorrentChanged(QTorrentHandle &h);
-  void torrentStatusUpdate(unsigned int nb_downloading, unsigned int nb_seeding, unsigned int nb_active, unsigned int nb_inactive);
+  void torrentStatusUpdate(uint nb_downloading, uint nb_seeding, uint nb_active, uint nb_inactive, uint nb_paused);
   void torrentAdded(QModelIndex index);
   void torrentAboutToBeRemoved(QModelIndex index);
   void torrentChangedLabel(QString old_label, QString new_label);
@@ -124,7 +131,8 @@ signals:
 private:
   TransferListDelegate *listDelegate;
   QStandardItemModel *listModel;
-  QSortFilterProxyModel *proxyModel;
+  QSortFilterProxyModel *nameFilterModel;
+  QSortFilterProxyModel *statusFilterModel;
   QSortFilterProxyModel *labelFilterModel;
   Bittorrent* BTSession;
   QTimer *refreshTimer;

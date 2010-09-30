@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.0" language="hr_HR" sourcelanguage="en">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -10,20 +10,6 @@
     <message>
         <source>About</source>
         <translation>O</translation>
-    </message>
-    <message utf8="true">
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;A Bittorrent client programmed in C++, based on Qt4 toolkit &lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;and libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2009 Christophe Dumez&lt;br /&gt;&lt;br /&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Home Page:&lt;/span&gt; &lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;A Bittorrent klijent programiran u C++-u, baziran na Qt4 toolkit-u &lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;and libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2009 Christophe Dumez&lt;br /&gt;&lt;br /&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Home Page:&lt;/span&gt; &lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Author</source>
@@ -40,10 +26,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>E-mail:</source>
         <translation>E-pošta:</translation>
-    </message>
-    <message>
-        <source>Home page:</source>
-        <translation>Stranica:</translation>
     </message>
     <message>
         <source>Christophe Dumez</source>
@@ -70,28 +52,18 @@ p, li { white-space: pre-wrap; }
         <translation>chris@qbittorrent.org</translation>
     </message>
     <message>
-        <source>http://www.dchris.eu</source>
-        <translation>http://www.dchris.eu</translation>
-    </message>
-    <message>
-        <source>Birthday:</source>
-        <translation>Rođendan:</translation>
-    </message>
-    <message>
-        <source>Occupation:</source>
-        <translation>Zanimanje:</translation>
-    </message>
-    <message>
-        <source>03/05/1985</source>
-        <translation>03. svibnja 1985</translation>
-    </message>
-    <message>
-        <source>Student in computer science</source>
-        <translation>Sudent računalnih znanosti</translation>
-    </message>
-    <message>
         <source>Thanks to</source>
         <translation>Zahvale</translation>
+    </message>
+    <message utf8="true">
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;A Bittorrent client programmed in C++, based on Qt4 toolkit &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;and libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2010 Christophe Dumez&lt;br /&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Home Page:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Forum:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;IRC:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; #qbittorrent on Freenode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -114,11 +86,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Outgoing ports (Min) [0: Disabled]</source>
-        <translation>Izlazni portovi (Min.) [0: Onemogućeno]</translation>
+        <translation>Izlazni portovi (Min.) [0: Onemogućeni]</translation>
     </message>
     <message>
         <source>Outgoing ports (Max) [0: Disabled]</source>
-        <translation>Izlazni portovi (Maks.) [0: Omogućeno]</translation>
+        <translation>Izlazni portovi (Maks.) [0: Omogućeni]</translation>
     </message>
     <message>
         <source>Recheck torrents on completion</source>
@@ -149,6 +121,27 @@ p, li { white-space: pre-wrap; }
         <source>Include TCP/IP overhead in transfer limits</source>
         <translation>Uključi TCP/IP dodatak u limitima prijenosa</translation>
     </message>
+    <message>
+        <source>Maximum number of half-open connections [0: Disabled]</source>
+        <translation>Najveći broj poluotvorenih veza [0: Disabled]</translation>
+    </message>
+    <message>
+        <source>Strict super seeding</source>
+        <translation>Strogo superseedanje</translation>
+    </message>
+    <message>
+        <source>Network Interface (requires restart)</source>
+        <translation>Mrežno sučelje (zahtjeva ponovno pokretanje)</translation>
+    </message>
+    <message>
+        <source>Any interface</source>
+        <comment>i.e. Any network interface</comment>
+        <translation>Bilo koje sučelje</translation>
+    </message>
+    <message>
+        <source>Display program notification baloons</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Bittorrent</name>
@@ -159,7 +152,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>qBittorrent is bound to port: TCP/%1</source>
         <comment>e.g: qBittorrent is bound to port: 6881</comment>
-        <translation>qBittorrent je spojen na port: TCP/%1</translation>
+        <translation>qBittorrent je povezann s portom: TCP/%1</translation>
     </message>
     <message>
         <source>UPnP support [ON]</source>
@@ -179,7 +172,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>HTTP user agent is %1</source>
-        <translation>HTTP korisnikov agent je %1</translation>
+        <translation>Agent HTTP korisnika je %1</translation>
     </message>
     <message>
         <source>Using a disk cache size of %1 MiB</source>
@@ -231,7 +224,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Web User Interface Error - Unable to bind Web UI to port %1</source>
-        <translation>Greška web korisničkog sučelja - Nije moguće spojiti web korisničko sučelje s portom %1</translation>
+        <translation>Greška web korisničkog sučelja - Nije moguće povezati web korisničko sučelje s portom %1</translation>
     </message>
     <message>
         <source>&apos;%1&apos; was removed from transfer list and hard disk.</source>
@@ -277,7 +270,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Note: new URL seeds were added to the existing torrent.</source>
-        <translation>Opaska: novi URL seedovi su dodani postojećem torrentu.</translation>
+        <translation>Opaska: novi URL seedovi dodani su postojećem torrentu.</translation>
     </message>
     <message>
         <source>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;was blocked due to your IP filter&lt;/i&gt;</source>
@@ -325,15 +318,52 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>An I/O error occured, &apos;%1&apos; paused.</source>
-        <translation>Dogodila se I/O greška. &apos;%1&apos; zaustavljen.</translation>
+        <translation>Dogodila se I/O greška. &apos;%1&apos; pauziran.</translation>
+    </message>
+    <message>
+        <source>Removing torrent %1...</source>
+        <translation>Uklanjanje torrenta %1 ...</translation>
+    </message>
+    <message>
+        <source>Pausing torrent %1...</source>
+        <translation>Pauziranje torrenta %1 ...</translation>
+    </message>
+    <message>
+        <source>Error: The torrent %1 does not contain any file.</source>
+        <translation>Greška: Torrent %1 ne sadrži nikakve datoteke.</translation>
+    </message>
+    <message>
+        <source>File sizes mismatch for torrent %1, pausing it.</source>
+        <translation>Veličine datoteka se ne slažu za torrent %1, tako da će biti zaustavljen.</translation>
+    </message>
+    <message>
+        <source>Torrent name: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Torrent size: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save path: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The torrent was downloaded in %1.</source>
+        <comment>The torrent was downloaded in 1 hour and 20 seconds</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thank you for using qBittorrent.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>[qBittorrent] %1 has finished downloading</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ConsoleDlg</name>
-    <message>
-        <source>qBittorrent console</source>
-        <translation>qBittorrent konzola</translation>
-    </message>
     <message>
         <source>General</source>
         <translation>Općenito</translation>
@@ -342,12 +372,37 @@ p, li { white-space: pre-wrap; }
         <source>Blocked IPs</source>
         <translation>Blokirani IP-ovi</translation>
     </message>
+    <message>
+        <source>qBittorrent log viewer</source>
+        <translation>qBittorrentov preglednik dnevnika</translation>
+    </message>
+</context>
+<context>
+    <name>CookiesDlg</name>
+    <message>
+        <source>Cookies management</source>
+        <translation>Upravljanje kolačićima</translation>
+    </message>
+    <message>
+        <source>Key</source>
+        <translation>Kluč</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>Vrijednost</translation>
+    </message>
+    <message>
+        <source>Common keys for cookies are : &apos;%1&apos;, &apos;%2&apos;.
+You should get this information from your Web browser preferences.</source>
+        <translation>Javni ključevi za kolačiće su: &apos;%1&apos;, &apos;%2&apos;.
+Ovu informaciju trebate pribaviti iz postavki vašeg web preglednika.</translation>
+    </message>
 </context>
 <context>
     <name>EventManager</name>
     <message>
         <source>Working</source>
-        <translation>U radu</translation>
+        <translation>Radi</translation>
     </message>
     <message>
         <source>Updating...</source>
@@ -390,7 +445,7 @@ p, li { white-space: pre-wrap; }
     <name>FeedDownloader</name>
     <message>
         <source>RSS Feed downloader</source>
-        <translation>Downloader RSS kanala</translation>
+        <translation>Preuzimatelj RSS kanala</translation>
     </message>
     <message>
         <source>RSS feed:</source>
@@ -398,7 +453,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Feed name</source>
-        <translation>Naziv kanala</translation>
+        <translation>Ime kanala</translation>
     </message>
     <message>
         <source>Automatically download torrents from this feed</source>
@@ -477,23 +532,23 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Please choose a name for this filter</source>
-        <translation>Izaberite naziv za taj filter</translation>
+        <translation>Izaberite ime za taj filter</translation>
     </message>
     <message>
         <source>Filter name:</source>
-        <translation>Naziv filtera:</translation>
+        <translation>Ime filtera:</translation>
     </message>
     <message>
         <source>Invalid filter name</source>
-        <translation>Neispravni naziv filtera</translation>
+        <translation>Neispravno ime filtera</translation>
     </message>
     <message>
         <source>The filter name cannot be left empty.</source>
-        <translation>Naziv filtera mora biti zadan.</translation>
+        <translation>Ime filtera mora biti zadano.</translation>
     </message>
     <message>
         <source>This filter name is already in use.</source>
-        <translation>Taj se naziv filtera već koristi.</translation>
+        <translation>To se ime filtera već koristi.</translation>
     </message>
     <message>
         <source>Choose save path</source>
@@ -505,7 +560,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Please specify a test torrent name.</source>
-        <translation>Odredite naziv testnog torrenta.</translation>
+        <translation>Odredite ime testnog torrenta.</translation>
     </message>
     <message>
         <source>matches</source>
@@ -574,14 +629,6 @@ p, li { white-space: pre-wrap; }
         <translation>Otvori torrent datoteke</translation>
     </message>
     <message>
-        <source>&amp;Yes</source>
-        <translation>&amp;Da</translation>
-    </message>
-    <message>
-        <source>&amp;No</source>
-        <translation>&amp;Ne</translation>
-    </message>
-    <message>
         <source>Torrent Files</source>
         <translation>Torrent datoteke</translation>
     </message>
@@ -595,23 +642,14 @@ p, li { white-space: pre-wrap; }
         <translation>qBittorrent</translation>
     </message>
     <message>
-        <source>qBittorrent %1</source>
-        <comment>e.g: qBittorrent vx.x</comment>
-        <translation>qBittorrent %1</translation>
-    </message>
-    <message>
         <source>DL speed: %1 KiB/s</source>
         <comment>e.g: Download speed: 10 KiB/s</comment>
-        <translation>Brzina preuzimanja: %1 KiB/s</translation>
+        <translation>P brzina: %1 KiB/s</translation>
     </message>
     <message>
         <source>UP speed: %1 KiB/s</source>
         <comment>e.g: Upload speed: 10 KiB/s</comment>
-        <translation>Brzina slanja: %1 KiB/s</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to quit?</source>
-        <translation>Jeste li sigurni da želite završiti?</translation>
+        <translation>S brzina: %1 KiB/s</translation>
     </message>
     <message>
         <source>%1 has finished downloading.</source>
@@ -622,11 +660,6 @@ p, li { white-space: pre-wrap; }
         <source>I/O Error</source>
         <comment>i.e: Input/Output Error</comment>
         <translation>I/O greška</translation>
-    </message>
-    <message>
-        <source>An error occured (full disk?), &apos;%1&apos; paused.</source>
-        <comment>e.g: An error occured (full disk?), &apos;xxx.avi&apos; paused.</comment>
-        <translation type="obsolete">Dogodila se greška (pun disk?), &apos;%1&apos; zaustavljeno.</translation>
     </message>
     <message>
         <source>Search</source>
@@ -659,7 +692,7 @@ Razlog: %2</translation>
     </message>
     <message>
         <source>Transfers</source>
-        <translation>Prijenosi</translation>
+        <translation>Transferi</translation>
     </message>
     <message>
         <source>Download completion</source>
@@ -697,19 +730,11 @@ Jeste li sigurni da želite zatvoriti qBittorrent?</translation>
     <message>
         <source>qBittorrent %1 (Down: %2/s, Up: %3/s)</source>
         <comment>%1 is qBittorrent version</comment>
-        <translation>qBittorrent %1 (Preuzimanje: %2/s, Slanje: %3/s)</translation>
-    </message>
-    <message>
-        <source>Use normal speed limits</source>
-        <translation>Koristi uobičajene limite brzine</translation>
-    </message>
-    <message>
-        <source>Use alternative speed limits</source>
-        <translation>Koristi alternativnen limite brzine</translation>
+        <translation>qBittorrent %1 (P: %2/s, S: %3/s)</translation>
     </message>
     <message>
         <source>Options were saved successfully.</source>
-        <translation>Mogućnosti su uspješno spremljene.</translation>
+        <translation>Opcije su uspješno spremljene.</translation>
     </message>
     <message>
         <source>Recursive download confirmation</source>
@@ -729,6 +754,302 @@ Do you want to associate qBittorrent to torrent files and Magnet links?</source>
         <translation>qBittorrent nije zadana aplikacija za otvaranje torrent datoteka ili Magnet linkova.
 Želite li pridružiti qBittorrent torrent datotekama i Magnet linkovima?</translation>
     </message>
+    <message>
+        <source>Transfers (%1)</source>
+        <translation>Transferi (%1)</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Da</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Ne</translation>
+    </message>
+    <message>
+        <source>Never</source>
+        <translation>Nikad</translation>
+    </message>
+    <message>
+        <source>Always</source>
+        <translation>Uvijek</translation>
+    </message>
+    <message>
+        <source>Exiting qBittorrent</source>
+        <translation>Izlaz iz qBittorrenta</translation>
+    </message>
+    <message>
+        <source>Set the password...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The UI lock password has been successfully updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>UI lock password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please type the UI lock password:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The password is invalid</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>GeoIP</name>
+    <message>
+        <source>Australia</source>
+        <translation>Australija</translation>
+    </message>
+    <message>
+        <source>Argentina</source>
+        <translation>Argentina</translation>
+    </message>
+    <message>
+        <source>Austria</source>
+        <translation>Austrija</translation>
+    </message>
+    <message>
+        <source>United Arab Emirates</source>
+        <translation>Ujedinjeni Arapski Emirati</translation>
+    </message>
+    <message>
+        <source>Brazil</source>
+        <translation>Brazil</translation>
+    </message>
+    <message>
+        <source>Bulgaria</source>
+        <translation>Bugarska</translation>
+    </message>
+    <message>
+        <source>Belarus</source>
+        <translation>Bjelorusija</translation>
+    </message>
+    <message>
+        <source>Belgium</source>
+        <translation>Belgija</translation>
+    </message>
+    <message>
+        <source>Bosnia</source>
+        <translation>Bosna i Hercegovina</translation>
+    </message>
+    <message>
+        <source>Canada</source>
+        <translation>Kanada</translation>
+    </message>
+    <message>
+        <source>Czech Republic</source>
+        <translation>Češka</translation>
+    </message>
+    <message>
+        <source>China</source>
+        <translation>Kina</translation>
+    </message>
+    <message>
+        <source>Costa Rica</source>
+        <translation>Kostarika</translation>
+    </message>
+    <message>
+        <source>Switzerland</source>
+        <translation>Švicarska</translation>
+    </message>
+    <message>
+        <source>Germany</source>
+        <translation>Njemačka</translation>
+    </message>
+    <message>
+        <source>Denmark</source>
+        <translation>Danska
+</translation>
+    </message>
+    <message>
+        <source>Algeria</source>
+        <translation>Alžir</translation>
+    </message>
+    <message>
+        <source>Spain</source>
+        <translation>Španjolska</translation>
+    </message>
+    <message>
+        <source>Egypt</source>
+        <translation>Egipat</translation>
+    </message>
+    <message>
+        <source>Finland</source>
+        <translation>Finska</translation>
+    </message>
+    <message>
+        <source>France</source>
+        <translation>Francuska</translation>
+    </message>
+    <message>
+        <source>United Kingdom</source>
+        <translation>Ujedinjeno Kraljevstvo</translation>
+    </message>
+    <message>
+        <source>Greece</source>
+        <translation>Grčka</translation>
+    </message>
+    <message>
+        <source>Georgia</source>
+        <translation>Gruzija</translation>
+    </message>
+    <message>
+        <source>Hungary</source>
+        <translation>Mađarska</translation>
+    </message>
+    <message>
+        <source>Croatia</source>
+        <translation>Hrvatska</translation>
+    </message>
+    <message>
+        <source>Italy</source>
+        <translation>Italija</translation>
+    </message>
+    <message>
+        <source>India</source>
+        <translation>Indija</translation>
+    </message>
+    <message>
+        <source>Israel</source>
+        <translation>Izrael</translation>
+    </message>
+    <message>
+        <source>Ireland</source>
+        <translation>Irska</translation>
+    </message>
+    <message>
+        <source>Iceland</source>
+        <translation>Island</translation>
+    </message>
+    <message>
+        <source>Indonesia</source>
+        <translation>Indonezija</translation>
+    </message>
+    <message>
+        <source>Japan</source>
+        <translation>Japan</translation>
+    </message>
+    <message>
+        <source>South Korea</source>
+        <translation>Južna Koreja</translation>
+    </message>
+    <message>
+        <source>Luxembourg</source>
+        <translation>Luksemburg</translation>
+    </message>
+    <message>
+        <source>Malaysia</source>
+        <translation>Malezija</translation>
+    </message>
+    <message>
+        <source>Mexico</source>
+        <translation>Meksiko</translation>
+    </message>
+    <message>
+        <source>Serbia</source>
+        <translation>Srbija</translation>
+    </message>
+    <message>
+        <source>Morocco</source>
+        <translation>Maroko</translation>
+    </message>
+    <message>
+        <source>Netherlands</source>
+        <translation>Nizozemska</translation>
+    </message>
+    <message>
+        <source>Norway</source>
+        <translation>Norveška</translation>
+    </message>
+    <message>
+        <source>New Zealand</source>
+        <translation>Novi Zeland</translation>
+    </message>
+    <message>
+        <source>Portugal</source>
+        <translation>Portugal</translation>
+    </message>
+    <message>
+        <source>Poland</source>
+        <translation>Poljska</translation>
+    </message>
+    <message>
+        <source>Pakistan</source>
+        <translation>Pakistan</translation>
+    </message>
+    <message>
+        <source>Philippines</source>
+        <translation>Filipini</translation>
+    </message>
+    <message>
+        <source>Russia</source>
+        <translation>Rusija</translation>
+    </message>
+    <message>
+        <source>Romania</source>
+        <translation>Rumunjska</translation>
+    </message>
+    <message>
+        <source>France (Reunion Island)</source>
+        <translation>Francuska (otok Reunion)</translation>
+    </message>
+    <message>
+        <source>Sweden</source>
+        <translation>Švedska</translation>
+    </message>
+    <message>
+        <source>Slovakia</source>
+        <translation>Slovačka</translation>
+    </message>
+    <message>
+        <source>Singapore</source>
+        <translation>Singapur</translation>
+    </message>
+    <message>
+        <source>Slovenia</source>
+        <translation>Slovenija</translation>
+    </message>
+    <message>
+        <source>Taiwan</source>
+        <translation>Tajvan</translation>
+    </message>
+    <message>
+        <source>Turkey</source>
+        <translation>Turska</translation>
+    </message>
+    <message>
+        <source>Thailand</source>
+        <translation>Tajland</translation>
+    </message>
+    <message>
+        <source>USA</source>
+        <translation>SAD</translation>
+    </message>
+    <message>
+        <source>Ukraine</source>
+        <translation>Ukrajina</translation>
+    </message>
+    <message>
+        <source>South Africa</source>
+        <translation>Južna Afrika</translation>
+    </message>
+    <message>
+        <source>Saudi Arabia</source>
+        <translation>Saudijska Arabija</translation>
+    </message>
 </context>
 <context>
     <name>HeadlessLoader</name>
@@ -738,7 +1059,7 @@ Do you want to associate qBittorrent to torrent files and Magnet links?</source>
     </message>
     <message>
         <source>To control qBittorrent, access the Web UI at http://localhost:%1</source>
-        <translation>Za kontrolu qBittorrenta, pristupite web sučelju na http://localhost:%1</translation>
+        <translation>kako bi kontrolirali qBittorrent, pristupite web sučelju na http://localhost:%1</translation>
     </message>
     <message>
         <source>The Web UI administrator user name is: %1</source>
@@ -757,17 +1078,17 @@ Do you want to associate qBittorrent to torrent files and Magnet links?</source>
     <name>HttpConnection</name>
     <message>
         <source>Your IP address has been banned after too many failed authentication attempts.</source>
-        <translation>Vaša IP adresa je zapisana nakon previše neuspjelih pokušaja ovjere.</translation>
+        <translation>Vaša IP adresa je zabilježena nakon previše neuspjelih pokušaja ovjere.</translation>
     </message>
     <message>
         <source>D: %1/s - T: %2</source>
         <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
-        <translation>Brzina preuzimanja: %1/s - Preneseno: %2</translation>
+        <translation>P: %1/s - T: %2</translation>
     </message>
     <message>
         <source>U: %1/s - T: %2</source>
         <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
-        <translation>Brzina slanja: %1/s - Preneseno: %2</translation>
+        <translation>S: %1/s - T: %2</translation>
     </message>
 </context>
 <context>
@@ -786,7 +1107,7 @@ Do you want to associate qBittorrent to torrent files and Magnet links?</source>
     </message>
     <message>
         <source>Delete from HD</source>
-        <translation>Izbriši sa tvrdog diska</translation>
+        <translation>Izbriši sa čvrstog diska</translation>
     </message>
     <message>
         <source>Download Torrents from their URL or Magnet link</source>
@@ -814,7 +1135,7 @@ Do you want to associate qBittorrent to torrent files and Magnet links?</source>
     </message>
     <message>
         <source>Are you sure you want to delete the selected torrents from the transfer list and hard disk?</source>
-        <translation>Jeste li sigurni da želite izbrisati odabrane torrente s popisa transfera i tvrdog diska?</translation>
+        <translation>Jeste li sigurni da želite izbrisati odabrane torrente s popisa transfera i čvrstog diska?</translation>
     </message>
     <message>
         <source>Download rate limit must be greater than 0 or disabled.</source>
@@ -826,7 +1147,7 @@ Do you want to associate qBittorrent to torrent files and Magnet links?</source>
     </message>
     <message>
         <source>Maximum number of connections limit must be greater than 0 or disabled.</source>
-        <translation>Limit najvećeg broja veza mora biti veći od 0 ili onemogućen.</translation>
+        <translation>Limit najvećeg broja spajanja mora biti veći od 0 ili onemogućen.</translation>
     </message>
     <message>
         <source>Maximum number of connections per torrent limit must be greater than 0 or disabled.</source>
@@ -870,17 +1191,15 @@ Do you want to associate qBittorrent to torrent files and Magnet links?</source>
     <name>LegalNotice</name>
     <message>
         <source>Legal Notice</source>
-        <translation>Zakonska napomena</translation>
+        <translation>Napomena</translation>
     </message>
     <message>
         <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.
 
 No further notices will be issued.</source>
-        <translation>qBittorrent je program za djeljenje datoteka. Kada pokrenete torrent, njegovi podaci bit će rapoloživi drugima. To znači da će i oni moći preuzimati datoteke i s vašeg računala. Za bilo koji sadržaj koji djelite isključivo ste vi odgovorni.
+        <translation>qBittorrent je program za djeljenje datoteka. Kada pokrenete torrent, njegovi podaci bit će rapoloživi drugima. To znači da će oni moći preuzimati datoteke i s vašeg računala. Za bilo koji sadržaj koji djelite isključivo ste vi odgovorni.
 
-
-Neće biti daljnjih napomena.
-</translation>
+Neće biti daljnjih napomena.</translation>
     </message>
     <message>
         <source>Press %1 key to accept and continue...</source>
@@ -888,7 +1207,7 @@ Neće biti daljnjih napomena.
     </message>
     <message>
         <source>Legal notice</source>
-        <translation>Zakonska napomena</translation>
+        <translation>Napomena</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -897,6 +1216,13 @@ Neće biti daljnjih napomena.
     <message>
         <source>I Agree</source>
         <translation>Slažem se</translation>
+    </message>
+</context>
+<context>
+    <name>LineEdit</name>
+    <message>
+        <source>Clear the text</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -914,96 +1240,12 @@ Neće biti daljnjih napomena.
         <translation>&amp;Pomoć</translation>
     </message>
     <message>
-        <source>Exit</source>
-        <translation>Izlaz</translation>
-    </message>
-    <message>
-        <source>Preferences</source>
-        <translation>Postavke</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation>O</translation>
-    </message>
-    <message>
-        <source>Start</source>
-        <translation>Kreni</translation>
-    </message>
-    <message>
-        <source>Pause</source>
-        <translation>Stani</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Izbriši</translation>
-    </message>
-    <message>
-        <source>Pause All</source>
-        <translation>Zaustavi sve</translation>
-    </message>
-    <message>
-        <source>Start All</source>
-        <translation>Počni sve</translation>
-    </message>
-    <message>
-        <source>Visit Website</source>
-        <translation>Posjeti web mjesto</translation>
-    </message>
-    <message>
-        <source>Download from URL</source>
-        <translation>Preuzmi s URL-a</translation>
-    </message>
-    <message>
-        <source>Create torrent</source>
-        <translation>Kreiraj torrent</translation>
-    </message>
-    <message>
         <source>Preview file</source>
-        <translation>Pregled datoteke</translation>
+        <translation>Pregledaj datoteku</translation>
     </message>
     <message>
         <source>Clear log</source>
         <translation>Izbriši zapis</translation>
-    </message>
-    <message>
-        <source>Log Window</source>
-        <translation>Prozor zapisa</translation>
-    </message>
-    <message>
-        <source>Use alternative speed limits</source>
-        <translation>Koristi alternativne limite brzine</translation>
-    </message>
-    <message>
-        <source>Report a bug</source>
-        <translation>Prijavi grešku</translation>
-    </message>
-    <message>
-        <source>Set upload limit</source>
-        <translation>Podesi limit slanja</translation>
-    </message>
-    <message>
-        <source>Set download limit</source>
-        <translation>Podesi limit preuzimanja</translation>
-    </message>
-    <message>
-        <source>Documentation</source>
-        <translation>Dokumentacija</translation>
-    </message>
-    <message>
-        <source>Set global download limit</source>
-        <translation>Podesi globalni limit preuzimanja</translation>
-    </message>
-    <message>
-        <source>Set global upload limit</source>
-        <translation>Podesi globalni limit slanja</translation>
-    </message>
-    <message>
-        <source>Options</source>
-        <translation>Mogućnosti</translation>
-    </message>
-    <message>
-        <source>Open torrent</source>
-        <translation>Otvori torrent</translation>
     </message>
     <message>
         <source>Decrease priority</source>
@@ -1014,8 +1256,132 @@ Neće biti daljnjih napomena.
         <translation>Povećaj prioritet</translation>
     </message>
     <message>
-        <source>Console</source>
-        <translation>Konzola</translation>
+        <source>&amp;Tools</source>
+        <translation>Ala&amp;ti</translation>
+    </message>
+    <message>
+        <source>&amp;View</source>
+        <translation>Po&amp;gled</translation>
+    </message>
+    <message>
+        <source>&amp;Add File...</source>
+        <translation>Dod&amp;aj datoteku ...</translation>
+    </message>
+    <message>
+        <source>E&amp;xit</source>
+        <translation>I&amp;zlaz</translation>
+    </message>
+    <message>
+        <source>&amp;Options...</source>
+        <translation>&amp;Opcije ...</translation>
+    </message>
+    <message>
+        <source>Add &amp;URL...</source>
+        <translation>Dodaj &amp;URL ...</translation>
+    </message>
+    <message>
+        <source>Torrent &amp;creator</source>
+        <translation>&amp;Kreator torrenta</translation>
+    </message>
+    <message>
+        <source>Set upload limit...</source>
+        <translation>Podesi limit slanja ...</translation>
+    </message>
+    <message>
+        <source>Set download limit...</source>
+        <translation>Podesi limit preuzimanja ...</translation>
+    </message>
+    <message>
+        <source>Set global download limit...</source>
+        <translation>Podesi globalni limit preuzimanja ...</translation>
+    </message>
+    <message>
+        <source>Set global upload limit...</source>
+        <translation>Podesi globalni limit slanja ...</translation>
+    </message>
+    <message>
+        <source>&amp;Log viewer...</source>
+        <translation>Preg&amp;lednik dnevnika</translation>
+    </message>
+    <message>
+        <source>Top &amp;tool bar</source>
+        <translation>Gornja ala&amp;tna traka</translation>
+    </message>
+    <message>
+        <source>Display top tool bar</source>
+        <translation>Prikaži gornju alatnu traku</translation>
+    </message>
+    <message>
+        <source>&amp;Speed in title bar</source>
+        <translation>Brzina u na&amp;slovnoj traci</translation>
+    </message>
+    <message>
+        <source>Show transfer speed in title bar</source>
+        <translation>Pokaži brzinu transfera u naslovnoj traci</translation>
+    </message>
+    <message>
+        <source>Alternative speed limits</source>
+        <translation>Alternativni limiti brzine</translation>
+    </message>
+    <message>
+        <source>&amp;About</source>
+        <translation>&amp;O</translation>
+    </message>
+    <message>
+        <source>&amp;Pause</source>
+        <translation>&amp;Pauziraj</translation>
+    </message>
+    <message>
+        <source>&amp;Delete</source>
+        <translation>Iz&amp;briši</translation>
+    </message>
+    <message>
+        <source>P&amp;ause All</source>
+        <translation>P&amp;auziraj sve</translation>
+    </message>
+    <message>
+        <source>Visit &amp;Website</source>
+        <translation>Posjeti &amp;web stranicu</translation>
+    </message>
+    <message>
+        <source>Report a &amp;bug</source>
+        <translation>Prijavi g&amp;rešku</translation>
+    </message>
+    <message>
+        <source>&amp;Documentation</source>
+        <translation>&amp;Dokumentacija</translation>
+    </message>
+    <message>
+        <source>&amp;RSS reader</source>
+        <translation>&amp;RSS čitač</translation>
+    </message>
+    <message>
+        <source>Search &amp;engine</source>
+        <translation>&amp;Tražilica</translation>
+    </message>
+    <message>
+        <source>Log viewer</source>
+        <translation>Preglednik dnevnika</translation>
+    </message>
+    <message>
+        <source>Lock qBittorrent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ctrl+L</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shutdown computer when downloads complete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Resume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>R&amp;esume All</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1074,18 +1440,6 @@ Neće biti daljnjih napomena.
         <translation>Poslano</translation>
     </message>
     <message>
-        <source>Add a new peer</source>
-        <translation>Dodaj novi peer</translation>
-    </message>
-    <message>
-        <source>Limit upload rate</source>
-        <translation>Limitiraj brzinu slanja</translation>
-    </message>
-    <message>
-        <source>Limit download rate</source>
-        <translation>Limitiraj brzinu slanja</translation>
-    </message>
-    <message>
         <source>Ban peer permanently</source>
         <translation>Trajno isključi peer</translation>
     </message>
@@ -1129,16 +1483,28 @@ Neće biti daljnjih napomena.
         <source>Download rate limiting</source>
         <translation>Limitiranje brzine preuzimanja</translation>
     </message>
+    <message>
+        <source>Add a new peer...</source>
+        <translation>Dodaj novi peer ...</translation>
+    </message>
+    <message>
+        <source>Limit download rate...</source>
+        <translation>Limitiraj brzinu preuzimanja ...</translation>
+    </message>
+    <message>
+        <source>Limit upload rate...</source>
+        <translation>Limitiraj brzinu slanja ...</translation>
+    </message>
+    <message>
+        <source>Copy IP</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Preferences</name>
     <message>
-        <source>Preferences</source>
-        <translation>Postavke</translation>
-    </message>
-    <message>
         <source>UI</source>
-        <translation>Korisničko sučelje</translation>
+        <translation>Korisničko sučelje </translation>
     </message>
     <message>
         <source>Downloads</source>
@@ -1161,24 +1527,12 @@ Neće biti daljnjih napomena.
         <translation>Proxy</translation>
     </message>
     <message>
-        <source>IP Filter</source>
-        <translation>IP Filter</translation>
-    </message>
-    <message>
         <source>Web UI</source>
         <translation>Web sučelje</translation>
     </message>
     <message>
-        <source>RSS</source>
-        <translation>RSS</translation>
-    </message>
-    <message>
         <source>Advanced</source>
         <translation>Napredno</translation>
-    </message>
-    <message>
-        <source>User interface</source>
-        <translation>Korisničko sučelje</translation>
     </message>
     <message>
         <source>Language:</source>
@@ -1190,27 +1544,11 @@ Neće biti daljnjih napomena.
     </message>
     <message>
         <source>Visual style:</source>
-        <translation>Vizualni stil:</translation>
-    </message>
-    <message>
-        <source>Ask for confirmation on exit when download list is not empty</source>
-        <translation>Traži potvrdu na izlasku kada popis preuzimanja nije prazan</translation>
-    </message>
-    <message>
-        <source>Display top toolbar</source>
-        <translation>Prikaži alatnu traku na vrhu</translation>
-    </message>
-    <message>
-        <source>Disable splash screen</source>
-        <translation>Onemogući najavni prozor</translation>
-    </message>
-    <message>
-        <source>Display current speed in title bar</source>
-        <translation>Prikaži trenutnu brzinu u naslovnoj traci</translation>
+        <translation>Stil:</translation>
     </message>
     <message>
         <source>Transfer list</source>
-        <translation>Popis transfera</translation>
+        <translation>Lista transfera</translation>
     </message>
     <message>
         <source>Use alternating row colors</source>
@@ -1218,114 +1556,16 @@ Neće biti daljnjih napomena.
         <translation>Koristi obojene naizmjenične redove</translation>
     </message>
     <message>
-        <source>Action on double click:</source>
-        <comment>Action executed when doucle-clicking on an item in transfer (download/upload) list</comment>
-        <translation>Radnja na dvostruki klik:</translation>
-    </message>
-    <message>
-        <source>Downloading:</source>
-        <translation>Preuzimanje:</translation>
-    </message>
-    <message>
-        <source>Start/Stop</source>
-        <translation>Kreni/Stani</translation>
-    </message>
-    <message>
-        <source>Open folder</source>
-        <translation>Otvori mapu</translation>
-    </message>
-    <message>
-        <source>Completed:</source>
-        <translation>Završeno:</translation>
-    </message>
-    <message>
-        <source>System tray icon</source>
-        <translation>Ikona na sistemskoj traci</translation>
-    </message>
-    <message>
-        <source>Disable system tray icon</source>
-        <translation>Onemogući ikonu na  sistemskoj traci</translation>
-    </message>
-    <message>
-        <source>Close to tray</source>
-        <comment>i.e: The systray tray icon will still be visible when closing the main window.</comment>
-        <translation>Ikona će biti vidljiva na sistemskoj traci kada se zatvori glavni prozor</translation>
-    </message>
-    <message>
-        <source>Minimize to tray</source>
-        <translation>Ikona će biti vidljiva na sistemskoj traci kada se spusti glavni prozor</translation>
-    </message>
-    <message>
-        <source>Start minimized</source>
-        <translation>Počni spušteno</translation>
-    </message>
-    <message>
-        <source>Show notification balloons in tray</source>
-        <translation>Pokazuj obavijestne balončiće na sistemskoj traci</translation>
-    </message>
-    <message>
         <source>File system</source>
         <translation>Datotečni sustav</translation>
-    </message>
-    <message>
-        <source>QGroupBox::title {
-font-weight: normal;
-margin-left: -3px;
-}
-QGroupBox {
-  border-width: 0;
-}</source>
-        <translation>QGroupBox::title {
-font-weight: normal;
-margin-left: -3px;
-}
-QGroupBox {
-(sp)(sp)border-width: 0;
-}</translation>
-    </message>
-    <message>
-        <source>Destination Folder:</source>
-        <translation>Odredišna mapa:</translation>
-    </message>
-    <message>
-        <source>Append the torrent&apos;s label</source>
-        <translation>Pridodaj torrentovu oznaku</translation>
-    </message>
-    <message>
-        <source>Use a different folder for incomplete downloads:</source>
-        <translation>Koristi drugu mapu za nezavršena preuzimanja:</translation>
-    </message>
-    <message>
-        <source>QLineEdit {
-  margin-left: 23px;
-}</source>
-        <translation>QLineEdit {
-  margin-left: 23px;
-}</translation>
-    </message>
-    <message>
-        <source>Automatically load .torrent files from:</source>
-        <translation type="obsolete">Automatski učitaj .torrent datoteke iz:</translation>
     </message>
     <message>
         <source>Copy .torrent files to:</source>
         <translation>Kopiraj .torrent datoteke u:</translation>
     </message>
     <message>
-        <source>Append .!qB extension to incomplete files</source>
-        <translation>Pridodaj .!qB proširenje nedovršenim datotekama</translation>
-    </message>
-    <message>
-        <source>Pre-allocate all files</source>
-        <translation>Pre-dodijeli svim datotekama</translation>
-    </message>
-    <message>
         <source>Torrent queueing</source>
         <translation>Red čekanja torrenta</translation>
-    </message>
-    <message>
-        <source>Enable queueing system</source>
-        <translation>Omogući sustav reda čekanja</translation>
     </message>
     <message>
         <source>Maximum active downloads:</source>
@@ -1345,12 +1585,7 @@ QGroupBox {
     </message>
     <message>
         <source>Display torrent content and some options</source>
-        <translation>Prikaži sadržaj torrenta i neke mogućnosti</translation>
-    </message>
-    <message>
-        <source>Do not start download automatically</source>
-        <comment>The torrent will be added to download list in pause state</comment>
-        <translation>Ne počinji preuzimanje automatski</translation>
+        <translation>Prikaži sadržaj torrenta i neke opcije</translation>
     </message>
     <message>
         <source>Listening port</source>
@@ -1409,17 +1644,9 @@ QGroupBox {
         <translation>Alternativni globalni limiti brzine</translation>
     </message>
     <message>
-        <source>Scheduled times:</source>
-        <translation>Planirano razdoblje:</translation>
-    </message>
-    <message>
         <source>to</source>
         <extracomment>time1 to time2</extracomment>
         <translation>do</translation>
-    </message>
-    <message>
-        <source>On days:</source>
-        <translation>Koje dane:</translation>
     </message>
     <message>
         <source>Every day</source>
@@ -1458,10 +1685,6 @@ QGroupBox {
         <translation>Omogući lokalno otkrivanje peerova</translation>
     </message>
     <message>
-        <source>Encryption:</source>
-        <translation>Šifriranje:</translation>
-    </message>
-    <message>
         <source>Enabled</source>
         <translation>Omogućeno</translation>
     </message>
@@ -1472,26 +1695,6 @@ QGroupBox {
     <message>
         <source>Disabled</source>
         <translation>Onemogućeno</translation>
-    </message>
-    <message>
-        <source>KTorrent</source>
-        <translation>KTorrent</translation>
-    </message>
-    <message>
-        <source>Reset to latest software version</source>
-        <translation>Vrati na posljednju verziju softvera</translation>
-    </message>
-    <message>
-        <source>Share ratio settings</source>
-        <translation>Postavke omjera djeljenja</translation>
-    </message>
-    <message>
-        <source>Desired ratio:</source>
-        <translation>Željeni omjer:</translation>
-    </message>
-    <message>
-        <source>Remove finished torrents when their ratio reaches:</source>
-        <translation>Ukloni završene torrente kada njihov omjer dosegne:</translation>
     </message>
     <message>
         <source>HTTP Communications (trackers, Web seeds, search engine)</source>
@@ -1512,35 +1715,6 @@ QGroupBox {
     <message>
         <source>Type:</source>
         <translation>Vrsta:</translation>
-    </message>
-    <message>
-        <source>Client whitelisting workaround</source>
-        <translation>Klijent dopušta zaobilaženje</translation>
-    </message>
-    <message>
-        <source>Identify as:</source>
-        <translation>Identificiraj kao:</translation>
-    </message>
-    <message>
-        <source>qBittorrent</source>
-        <translation>qBittorrent</translation>
-    </message>
-    <message>
-        <source>Vuze</source>
-        <translation>Vuze</translation>
-    </message>
-    <message utf8="true">
-        <source>µTorrent</source>
-        <translation>µTorrent</translation>
-    </message>
-    <message>
-        <source>Version:</source>
-        <translation>Verzija:</translation>
-    </message>
-    <message>
-        <source>Build:</source>
-        <extracomment>Software Build nulmber:</extracomment>
-        <translation>Izgrađena:</translation>
     </message>
     <message>
         <source>(None)</source>
@@ -1571,56 +1745,179 @@ QGroupBox {
         <translation>SOCKS5</translation>
     </message>
     <message>
-        <source>Filter Settings</source>
-        <translation>Postavke filtera</translation>
-    </message>
-    <message>
-        <source>Activate IP Filtering</source>
-        <translation>Aktiviraj IP filtriranje</translation>
-    </message>
-    <message>
         <source>Filter path (.dat, .p2p, .p2b):</source>
         <translation>Putanja filtera (.dat, .p2p, .p2b):</translation>
-    </message>
-    <message>
-        <source>Enable Web User Interface</source>
-        <translation>Omogući web sučelje</translation>
     </message>
     <message>
         <source>HTTP Server</source>
         <translation>HTTP poslužitelj</translation>
     </message>
     <message>
-        <source>Enable RSS support</source>
-        <translation>Omogući podršku za RSS </translation>
+        <source>Remove folder</source>
+        <translation>Ukloni mapu</translation>
     </message>
     <message>
-        <source>RSS settings</source>
-        <translation>RSS postavke</translation>
+        <source>No action</source>
+        <translation>Nema radnji</translation>
     </message>
     <message>
-        <source>RSS feeds refresh interval:</source>
-        <translation>Interval osvježavanja RSS kanala:</translation>
+        <source>Options</source>
+        <translation>Opcije</translation>
     </message>
     <message>
-        <source>minutes</source>
-        <translation>minute</translation>
+        <source>Visual Appearance</source>
+        <translation>Izgled</translation>
     </message>
     <message>
-        <source>Maximum number of articles per feed:</source>
-        <translation>Najveći broj članaka po kanalu:</translation>
+        <source>Action on double-click</source>
+        <translation>Radnja na dvostruki klik</translation>
     </message>
     <message>
-        <source>Check Folders for .torrent Files:</source>
-        <translation>Provjeri mape za .torrent datoteke:</translation>
+        <source>Downloading torrents:</source>
+        <translation>Preuzimanje torrenta:</translation>
     </message>
     <message>
-        <source>Add folder ...</source>
+        <source>Start / Stop</source>
+        <translation>Započni/Zaustavi</translation>
+    </message>
+    <message>
+        <source>Open destination folder</source>
+        <translation>Otvori odredišnu mapu</translation>
+    </message>
+    <message>
+        <source>Completed torrents:</source>
+        <translation>Završeni torrenti:</translation>
+    </message>
+    <message>
+        <source>Desktop</source>
+        <translation>Radna površina</translation>
+    </message>
+    <message>
+        <source>Show splash screen on start up</source>
+        <translation>Prikaži najavni ekran kod pokretanja</translation>
+    </message>
+    <message>
+        <source>Start qBittorrent minimized</source>
+        <translation>Pokreni qBittorrent minimiziran</translation>
+    </message>
+    <message>
+        <source>Show qBittorrent icon in notification area</source>
+        <translation>Prikaži ikonu qBittorrenta u prostoru obavijesti</translation>
+    </message>
+    <message>
+        <source>Minimize qBittorrent to notification area</source>
+        <translation>Minimiziraj qBittorrent u prostor obavijesti</translation>
+    </message>
+    <message>
+        <source>Close qBittorrent to notification area</source>
+        <comment>i.e: The systray tray icon will still be visible when closing the main window.</comment>
+        <translation>Zatvori qBittorrent u prostor obavijesti</translation>
+    </message>
+    <message>
+        <source>Do not start the download automatically</source>
+        <comment>The torrent will be added to download list in pause state</comment>
+        <translation>Ne započinji preuzimanje automatski</translation>
+    </message>
+    <message>
+        <source>Save files to location:</source>
+        <translation>Spremi datoteke ovdje:</translation>
+    </message>
+    <message>
+        <source>Append the label of the torrent to the save path</source>
+        <translation>Pridodaj oznaku torrenta u putanju spremanja</translation>
+    </message>
+    <message>
+        <source>Pre-allocate disk space for all files</source>
+        <translation>Pridodijeli prostor na disku svim datotekama</translation>
+    </message>
+    <message>
+        <source>Keep incomplete torrents in:</source>
+        <translation>Drži nedovršene torrente u:</translation>
+    </message>
+    <message>
+        <source>Append .!qB extension to incomplete files&apos; names</source>
+        <translation>Pridodaj .!qB proširenje imenima nedovršenih datoteka</translation>
+    </message>
+    <message>
+        <source>Automatically add torrents from:</source>
+        <translation>Automatski dodaj torrente iz:</translation>
+    </message>
+    <message>
+        <source>Add folder...</source>
         <translation>Dodaj mapu ...</translation>
     </message>
     <message>
-        <source>Remove folder</source>
-        <translation>Ukloni Mapu</translation>
+        <source>IP Filtering</source>
+        <translation>IP filtriranje</translation>
+    </message>
+    <message>
+        <source>Schedule the use of alternative speed limits</source>
+        <translation>Planiraj korištenje alternativnih limita brzine</translation>
+    </message>
+    <message>
+        <source>from</source>
+        <extracomment>from (time1 to time2)</extracomment>
+        <translation>iz</translation>
+    </message>
+    <message>
+        <source>When:</source>
+        <translation>Kada:</translation>
+    </message>
+    <message>
+        <source>Look for peers on your local network</source>
+        <translation>Potraži peerove u vašoj lokalnoj mreži</translation>
+    </message>
+    <message>
+        <source>Protocol encryption:</source>
+        <translation>Protokol kriptiranja:</translation>
+    </message>
+    <message>
+        <source>Enable Web User Interface (Remote control)</source>
+        <translation>Omogući web korisničko sučelje (Udaljeno upravljanje)</translation>
+    </message>
+    <message>
+        <source>Share ratio limiting</source>
+        <translation>Limitiranje omjera djeljenja</translation>
+    </message>
+    <message>
+        <source>Seed torrents until their ratio reaches</source>
+        <translation>Seedaj torrente dok njihov omjer ne dosegne</translation>
+    </message>
+    <message>
+        <source>then</source>
+        <translation>tada</translation>
+    </message>
+    <message>
+        <source>Pause them</source>
+        <translation>Pauziraji ih</translation>
+    </message>
+    <message>
+        <source>Remove them</source>
+        <translation>Ukloni ih</translation>
+    </message>
+    <message utf8="true">
+        <source>Exchange peers with compatible Bittorrent clients (µTorrent, Vuze, ...)</source>
+        <translation>Razmjeni peerove s kompatibilnim Bittorrent klijentima (µTorrent, Vuze, ...)</translation>
+    </message>
+    <message>
+        <source>Email notification upon download completion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Destination email:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SMTP server:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Run an external program on torrent completion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use %f to pass the torrent path in parameters</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1708,14 +2005,6 @@ QGroupBox {
         <translation>Komentar:</translation>
     </message>
     <message>
-        <source>Collapse all</source>
-        <translation>Sklopi sve</translation>
-    </message>
-    <message>
-        <source>Expand all</source>
-        <translation>Proširi sve</translation>
-    </message>
-    <message>
         <source>General</source>
         <translation>Općenito</translation>
     </message>
@@ -1729,7 +2018,7 @@ QGroupBox {
     </message>
     <message>
         <source>URL seeds</source>
-        <translation>URL-ovi seedova</translation>
+        <translation>URL seedovi</translation>
     </message>
     <message>
         <source>Files</source>
@@ -1813,11 +2102,11 @@ QGroupBox {
     <message>
         <source>New url seed</source>
         <comment>New HTTP source</comment>
-        <translation>Novi URL seeda</translation>
+        <translation>Novi URL seed</translation>
     </message>
     <message>
         <source>New url seed:</source>
-        <translation>Novi URL seeda:</translation>
+        <translation>Novi URL seed:</translation>
     </message>
     <message>
         <source>qBittorrent</source>
@@ -1825,7 +2114,7 @@ QGroupBox {
     </message>
     <message>
         <source>This url seed is already in the list.</source>
-        <translation>Taj URL seeda je već na popisu.</translation>
+        <translation>Taj URL seed je već na listi.</translation>
     </message>
     <message>
         <source>Choose save path</source>
@@ -1838,6 +2127,22 @@ QGroupBox {
     <message>
         <source>Could not create the save path</source>
         <translation>Nije moguće izraditi putanju za spremanje</translation>
+    </message>
+    <message>
+        <source>Reannounce in:</source>
+        <translation>Ponovno objavi u:</translation>
+    </message>
+    <message>
+        <source>Select All</source>
+        <translation>Odaberi sve</translation>
+    </message>
+    <message>
+        <source>Select None</source>
+        <translation>Ne odaberi ništa</translation>
+    </message>
+    <message>
+        <source>Do not download</source>
+        <translation>Ne preuzimaj</translation>
     </message>
 </context>
 <context>
@@ -1872,7 +2177,7 @@ p, li { white-space: pre-wrap; }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Torrenti:&lt;/span&gt; &lt;span style=&quot; font-style:italic;&quot;&gt;(dvostruki klik za preuzeti )&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Torrenti:&lt;/span&gt; &lt;span style=&quot; font-style:italic;&quot;&gt;(dvostruki klik za preuzimanje )&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Article title</source>
@@ -1911,16 +2216,32 @@ p, li { white-space: pre-wrap; }
         <translation>Kopiraj URL kanala</translation>
     </message>
     <message>
-        <source>RSS feed downloader</source>
-        <translation>Preuzimač RSS kanala</translation>
-    </message>
-    <message>
-        <source>New folder</source>
-        <translation>Nova mapa</translation>
-    </message>
-    <message>
         <source>Refresh RSS streams</source>
         <translation>Osvježi RSS strujanja</translation>
+    </message>
+    <message>
+        <source>Rename...</source>
+        <translation>Preimenuj ...</translation>
+    </message>
+    <message>
+        <source>New subscription...</source>
+        <translation>Nova predbilježba ...</translation>
+    </message>
+    <message>
+        <source>RSS feed downloader...</source>
+        <translation>Preuzimatelj RSS kanala ...</translation>
+    </message>
+    <message>
+        <source>New folder...</source>
+        <translation>Nova mapa ...</translation>
+    </message>
+    <message>
+        <source>Manage cookies...</source>
+        <translation>Upravljaj kolačićima ...</translation>
+    </message>
+    <message>
+        <source>Settings...</source>
+        <translation>Postavke ...</translation>
     </message>
 </context>
 <context>
@@ -1972,15 +2293,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>This rss feed is already in the list.</source>
-        <translation>Taj RSS kanal je već na popisu.</translation>
+        <translation>Taj RSS kanal je već na listi.</translation>
     </message>
     <message>
         <source>Are you sure you want to delete these elements from the list?</source>
-        <translation>Jeste li sigurni da želite izbrisati te elemente s popisa?</translation>
+        <translation>Jeste li sigurni da želite izbrisati te elemente s liste?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this element from the list?</source>
-        <translation>Jeste li sigurni da želite izbrisati taj element s popisa?</translation>
+        <translation>Jeste li sigurni da želite izbrisati taj element s liste?</translation>
     </message>
     <message>
         <source>Please choose a new name for this RSS feed</source>
@@ -2019,10 +2340,29 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>RssSettings</name>
+    <message>
+        <source>RSS Reader Settings</source>
+        <translation>Postavke RSS čitača</translation>
+    </message>
+    <message>
+        <source>RSS feeds refresh interval:</source>
+        <translation>Interval osvježavanja RSS kanala:</translation>
+    </message>
+    <message>
+        <source>minutes</source>
+        <translation>minute</translation>
+    </message>
+    <message>
+        <source>Maximum number of articles per feed:</source>
+        <translation>Najveći broj članaka po kanalu:</translation>
+    </message>
+</context>
+<context>
     <name>RssStream</name>
     <message>
         <source>Automatically downloading %1 torrent from %2 RSS feed...</source>
-        <translation>Automatsko skidanje %1 torrenta sa %2 RSS kanala ...</translation>
+        <translation>Automatsko preuzimanje %1 torrenta sa %2 RSS kanala ...</translation>
     </message>
 </context>
 <context>
@@ -2166,6 +2506,14 @@ Do you want to install it now?</source>
         <translation>Python 2.x je nužan kako biste mogli koristiti tražilicu i čini se da nije instaliran.
 Želite li ga sada instalirati?</translation>
     </message>
+    <message>
+        <source>Confirmation</source>
+        <translation>Potvrda</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to clear the history?</source>
+        <translation>Jeste li sigurni da želite izbrisati povijest?</translation>
+    </message>
 </context>
 <context>
     <name>SearchTab</name>
@@ -2214,12 +2562,12 @@ Do you want to install it now?</source>
     <message>
         <source>D: %1 B/s - T: %2</source>
         <comment>Download speed: x B/s - Transferred: x MiB</comment>
-        <translation>D: %1 B/s - T: %2</translation>
+        <translation>P: %1 B/s - T: %2</translation>
     </message>
     <message>
         <source>U: %1 B/s - T: %2</source>
         <comment>Upload speed: x B/s - Transferred: x MiB</comment>
-        <translation>U: %1 B/s - T: %2</translation>
+        <translation>S: %1 B/s - T: %2</translation>
     </message>
     <message>
         <source>DHT: %1 nodes</source>
@@ -2235,17 +2583,17 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Online</source>
-        <translation>Uključeno</translation>
+        <translation>Povezano</translation>
     </message>
     <message>
         <source>D: %1/s - T: %2</source>
         <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
-        <translation>D: %1/s - T: %2</translation>
+        <translation>P: %1/s - T: %2</translation>
     </message>
     <message>
         <source>U: %1/s - T: %2</source>
         <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
-        <translation>U: %1/s - T: %2</translation>
+        <translation>S: %1/s - T: %2</translation>
     </message>
     <message>
         <source>Click to disable alternative speed limits</source>
@@ -2262,6 +2610,10 @@ Do you want to install it now?</source>
     <message>
         <source>Global Upload Speed Limit</source>
         <translation>Globalni limit brzine slanja</translation>
+    </message>
+    <message>
+        <source>qBittorrent needs to be restarted</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2338,8 +2690,16 @@ Do you want to install it now?</source>
         <translation>Još nije spojen</translation>
     </message>
     <message>
-        <source>Add a new tracker</source>
-        <translation>Dodaj novi tracker</translation>
+        <source>Add a new tracker...</source>
+        <translation>Dodaj novi tracker ...</translation>
+    </message>
+    <message>
+        <source>Remove tracker</source>
+        <translation>Ukloni tracker</translation>
+    </message>
+    <message>
+        <source>Force reannounce</source>
+        <translation>Prisili ponovnu objavljivanje</translation>
     </message>
 </context>
 <context>
@@ -2354,7 +2714,7 @@ Do you want to install it now?</source>
     </message>
     <message utf8="true">
         <source>µTorrent compatible list URL:</source>
-        <translation>Popis URL-ova kompatibilan s µTorrentom:</translation>
+        <translation>Lista URL-ova kompatibilna s µTorrentom:</translation>
     </message>
     <message>
         <source>I/O Error</source>
@@ -2378,7 +2738,7 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>The trackers list could not be downloaded, reason: %1</source>
-        <translation>Popis trackera nije moguće preuzeti. Razlog: %1</translation>
+        <translation>Listu trackera nije moguće preuzeti. Razlog: %1</translation>
     </message>
 </context>
 <context>
@@ -2389,7 +2749,7 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Paused</source>
-        <translation>Zaustavljeno</translation>
+        <translation>Pauzirano</translation>
     </message>
     <message>
         <source>Queued</source>
@@ -2457,10 +2817,6 @@ Do you want to install it now?</source>
         <translation>Ukloni oznaku</translation>
     </message>
     <message>
-        <source>Add label</source>
-        <translation>Dodaj oznaku</translation>
-    </message>
-    <message>
         <source>New Label</source>
         <translation>Nova oznaka</translation>
     </message>
@@ -2475,6 +2831,26 @@ Do you want to install it now?</source>
     <message>
         <source>Please don&apos;t use any special characters in the label name.</source>
         <translation>Nemojte koristiti niti jedan poseban znak u imenu oznake.</translation>
+    </message>
+    <message>
+        <source>Paused</source>
+        <translation>Pauzirano</translation>
+    </message>
+    <message>
+        <source>Add label...</source>
+        <translation>Dodaj oznaku ...</translation>
+    </message>
+    <message>
+        <source>Resume torrents</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause torrents</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete torrents</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2499,22 +2875,6 @@ Do you want to install it now?</source>
         <translation>Vidljivost stupca</translation>
     </message>
     <message>
-        <source>Start</source>
-        <translation>Kreni</translation>
-    </message>
-    <message>
-        <source>Pause</source>
-        <translation>Stani</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Izbriši</translation>
-    </message>
-    <message>
-        <source>Preview file</source>
-        <translation>Pregledaj datoteku</translation>
-    </message>
-    <message>
         <source>Name</source>
         <comment>i.e: torrent name</comment>
         <translation>Ime</translation>
@@ -2537,12 +2897,12 @@ Do you want to install it now?</source>
     <message>
         <source>Seeds</source>
         <comment>i.e. full sources (often untranslated)</comment>
-        <translation>Seedovi (cjeloviti izvori)</translation>
+        <translation>Seedovi</translation>
     </message>
     <message>
         <source>Peers</source>
         <comment>i.e. partial sources (often untranslated)</comment>
-        <translation>Peerovi (nepotpuni izvori)</translation>
+        <translation>Peerovi</translation>
     </message>
     <message>
         <source>Ratio</source>
@@ -2606,28 +2966,8 @@ Do you want to install it now?</source>
         <translation>Novo ime:</translation>
     </message>
     <message>
-        <source>Limit upload rate</source>
-        <translation>Limitiraj brzinu slanja</translation>
-    </message>
-    <message>
-        <source>Limit download rate</source>
-        <translation>Limitiraj brzinu preuzimanja</translation>
-    </message>
-    <message>
         <source>Open destination folder</source>
         <translation>Otvori odredišnu mapu</translation>
-    </message>
-    <message>
-        <source>Buy it</source>
-        <translation>Kupi</translation>
-    </message>
-    <message>
-        <source>Increase priority</source>
-        <translation>Povećaj prioritet</translation>
-    </message>
-    <message>
-        <source>Decrease priority</source>
-        <translation>Smanji prioritet</translation>
     </message>
     <message>
         <source>Force recheck</source>
@@ -2662,6 +3002,73 @@ Do you want to install it now?</source>
         <source>Reset</source>
         <comment>Reset label</comment>
         <translation>Poništi</translation>
+    </message>
+    <message>
+        <source>Choose save path</source>
+        <translation>Izaberi putanju spremanja</translation>
+    </message>
+    <message>
+        <source>Save path creation error</source>
+        <translation>Greška prilikom stvaranja putanje spremanja</translation>
+    </message>
+    <message>
+        <source>Could not create the save path</source>
+        <translation>Nije moguće stvoriti putanju spremanja</translation>
+    </message>
+    <message>
+        <source>Set location...</source>
+        <translation>Podesi mjesto ...</translation>
+    </message>
+    <message>
+        <source>Preview file...</source>
+        <translation>Pregledaj datoteke</translation>
+    </message>
+    <message>
+        <source>Limit upload rate...</source>
+        <translation>Limitiraj brzinu slanja ...</translation>
+    </message>
+    <message>
+        <source>Limit download rate...</source>
+        <translation>Limitiraj brzinu preuzimanja ...</translation>
+    </message>
+    <message>
+        <source>Move up</source>
+        <comment>i.e. move up in the queue</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move down</source>
+        <comment>i.e. Move down in the queue</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move to top</source>
+        <comment>i.e. Move to top of the queue</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move to bottom</source>
+        <comment>i.e. Move to bottom of the queue</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation type="unfinished">Prioritet</translation>
+    </message>
+    <message>
+        <source>Resume</source>
+        <comment>Resume/start the torrent</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <comment>Pause the torrent</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <comment>Delete the torrent</comment>
+        <translation type="unfinished">Izbriši</translation>
     </message>
 </context>
 <context>
@@ -2788,12 +3195,16 @@ Do you want to install it now?</source>
         <translation>Najviši</translation>
     </message>
     <message>
-        <source>Collapse all</source>
-        <translation>Sklopi sve</translation>
+        <source>Select All</source>
+        <translation>Odaberi sve</translation>
     </message>
     <message>
-        <source>Expand all</source>
-        <translation>Proširi sve</translation>
+        <source>Select None</source>
+        <translation>Ne odaberi ništa</translation>
+    </message>
+    <message>
+        <source>Do not download</source>
+        <translation>Ne preuzimaj</translation>
     </message>
 </context>
 <context>
@@ -2835,11 +3246,15 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Are you sure you want to delete the selected torrents from the transfer list?</source>
-        <translation>Jeste li sigurni da želite izbrisati odabrane torrente s popisa transfera?</translation>
+        <translation>Jeste li sigurni da želite izbrisati odabrane torrente s liste transfera?</translation>
     </message>
     <message>
-        <source>Delete the files on the hard disk as well</source>
-        <translation>Brisati datoteke i na tvrdom disku</translation>
+        <source>Remember choice</source>
+        <translation>Zapamti izbor</translation>
+    </message>
+    <message>
+        <source>Also delete the files on the hard disk</source>
+        <translation>Također izbriši datoteke i na čvrstom disku</translation>
     </message>
 </context>
 <context>
@@ -2926,7 +3341,7 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Create and save...</source>
-        <translation>Izradi i spremi ...</translation>
+        <translation>Kreiraj i spremi ...</translation>
     </message>
     <message>
         <source>Progress:</source>
@@ -3040,11 +3455,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>The remote server closed the connection prematurely, before the entire reply was received and processed</source>
-        <translation>Udaljeni poslužitelj je prerano prekinuo vezu, prije nego je primljen i obrađen cijeli odgovor</translation>
+        <translation>Udaljeni poslužitelj je prerano prekinuo spajanje, prije nego je primljen i obrađen cijeli odgovor</translation>
     </message>
     <message>
         <source>The connection to the remote server timed out</source>
-        <translation>Veza s udaljenim poslužiteljem je istekla</translation>
+        <translation>Spajanje s udaljenim poslužiteljem je istekla</translation>
     </message>
     <message>
         <source>SSL/TLS handshake failed</source>
@@ -3052,11 +3467,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>The remote server refused the connection</source>
-        <translation>Udaljeni poslužitelj odbija uspostaviti vezu</translation>
+        <translation>Udaljeni poslužitelj odbija spajanje</translation>
     </message>
     <message>
         <source>The connection to the proxy server was refused</source>
-        <translation>Uspostava veze prema proxy poslužitelju je odbijena</translation>
+        <translation>Spajanje s proxy poslužiteljem je odbijena</translation>
     </message>
     <message>
         <source>The proxy server closed the connection prematurely</source>
@@ -3068,7 +3483,7 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>The connection to the proxy timed out or the proxy did not reply in time to the request sent</source>
-        <translation>Veza prema proxyju je istekla ili proxy nije na vrijeme odgovorio na poslani zahtjev</translation>
+        <translation>Spajanje prema proxyju je isteklo ili proxy nije na vrijeme odgovorio na poslani zahtjev</translation>
     </message>
     <message>
         <source>The proxy requires authentication in order to honour the request but did not accept any credentials offered</source>
@@ -3314,32 +3729,22 @@ Međutim, te tražilice su bile onemogućene.</translation>
         <translation>%1m</translation>
     </message>
     <message>
-        <source>%1h%2m</source>
-        <comment>e.g: 3hours 5minutes</comment>
-        <translation type="obsolete">%1s%2m</translation>
-    </message>
-    <message>
-        <source>%1d%2h%3m</source>
-        <comment>e.g: 2days 10hours 2minutes</comment>
-        <translation type="obsolete">%1d%2s%3m</translation>
-    </message>
-    <message>
         <source>%1h %2m</source>
         <comment>e.g: 3hours 5minutes</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1s %2m</translation>
     </message>
     <message>
         <source>%1d %2h</source>
         <comment>e.g: 2days 10hours</comment>
+        <translation>%1d %2s</translation>
+    </message>
+    <message>
+        <source>qBittorrent will shutdown the computer now because all downloads are complete.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>options_imp</name>
-    <message>
-        <source>Choose scan directory</source>
-        <translation type="obsolete">Izaberite direktorij za skeniranje</translation>
-    </message>
     <message>
         <source>Choose export directory</source>
         <translation>Izaberite direktorij za izvoz</translation>
@@ -3370,7 +3775,7 @@ Međutim, te tražilice su bile onemogućene.</translation>
     </message>
     <message>
         <source>Folder is not readable.</source>
-        <translation>Mapu nije moguće učitati.</translation>
+        <translation>Mapu nije čitljiva.</translation>
     </message>
     <message>
         <source>Failure</source>
@@ -3416,7 +3821,7 @@ Međutim, te tražilice su bile onemogućene.</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation>Pregled</translation>
+        <translation>Pregledaj</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -3501,7 +3906,7 @@ Međutim, te tražilice su bile onemogućene.</translation>
     </message>
     <message>
         <source>The file could not be renamed</source>
-        <translation>Datoteka ne može biti preimenovana</translation>
+        <translation>Datoteka nije moguće preimenovati</translation>
     </message>
     <message>
         <source>This file name contains forbidden characters, please choose a different one.</source>
@@ -3513,7 +3918,7 @@ Međutim, te tražilice su bile onemogućene.</translation>
     </message>
     <message>
         <source>The folder could not be renamed</source>
-        <translation>Mapa ne može biti preimenovana</translation>
+        <translation>Mapa nije moguće preimenovati</translation>
     </message>
     <message>
         <source>(%1 left after torrent download)</source>

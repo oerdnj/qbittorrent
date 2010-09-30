@@ -39,10 +39,11 @@
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
 #include <QSet>
-#include <QSettings>
 #include <QHeaderView>
 #include <QMenu>
+#include <QClipboard>
 #include <vector>
+#include "qinisettings.h"
 
 PeerListWidget::PeerListWidget(PropertiesWidget *parent): properties(parent), display_flags(false) {
   // Visual settings
@@ -106,7 +107,7 @@ void PeerListWidget::updatePeerCountryResolutionState() {
   if(Preferences::resolvePeerCountries() != display_flags) {
     display_flags = !display_flags;
     if(display_flags) {
-      const QTorrentHandle &h = properties->getCurrentTorrent();
+      const QTorrentHandle h = properties->getCurrentTorrent();
       if(!h.is_valid()) return;
       loadPeers(h);
     }
@@ -122,22 +123,26 @@ void PeerListWidget::showPeerListMenu(QPoint) {
   QStringList selectedPeerIPs;
   foreach(const QModelIndex &index, selectedIndexes) {
     int row = proxyModel->mapToSource(index).row();
-    QString IP = listModel->data(listModel->index(row, IP_HIDDEN)).toString();
-    selectedPeerIPs << IP;
+    QString myip = listModel->data(listModel->index(row, IP_HIDDEN)).toString();
+    selectedPeerIPs << myip;
   }
   // Add Peer Action
   QAction *addPeerAct = 0;
   if(!h.is_queued() && !h.is_checking()) {
-    addPeerAct = menu.addAction(QIcon(":/Icons/oxygen/user-group-new.png"), tr("Add a new peer"));
+    addPeerAct = menu.addAction(QIcon(":/Icons/oxygen/user-group-new.png"), tr("Add a new peer..."));
     empty_menu = false;
   }
   // Per Peer Speed limiting actions
   QAction *upLimitAct = 0;
   QAction *dlLimitAct = 0;
   QAction *banAct = 0;
+  QAction *copyIPAct = 0;
   if(!selectedPeerIPs.isEmpty()) {
-    dlLimitAct = menu.addAction(QIcon(":/Icons/skin/download.png"), tr("Limit download rate"));
-    upLimitAct = menu.addAction(QIcon(":/Icons/skin/seeding.png"), tr("Limit upload rate"));
+    copyIPAct = menu.addAction(QIcon(":/Icons/oxygen/edit-copy.png"), tr("Copy IP"));
+    menu.addSeparator();
+    dlLimitAct = menu.addAction(QIcon(":/Icons/skin/download.png"), tr("Limit download rate..."));
+    upLimitAct = menu.addAction(QIcon(":/Icons/skin/seeding.png"), tr("Limit upload rate..."));
+    menu.addSeparator();
     banAct = menu.addAction(QIcon(":/Icons/oxygen/user-group-delete.png"), tr("Ban peer permanently"));
     empty_menu = false;
   }
@@ -169,6 +174,13 @@ void PeerListWidget::showPeerListMenu(QPoint) {
   if(act == banAct) {
     banSelectedPeers(selectedPeerIPs);
     return;
+  }
+  if(act == copyIPAct) {
+#if defined(Q_WS_WIN) || defined(Q_OS_OS2)
+    QApplication::clipboard()->setText(selectedPeerIPs.join("\r\n"));
+#else
+    QApplication::clipboard()->setText(selectedPeerIPs.join("\n"));
+#endif
   }
 }
 
@@ -243,7 +255,7 @@ void PeerListWidget::clear() {
 }
 
 void PeerListWidget::loadSettings() {
-  QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
+  QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
   QList<int> contentColsWidths = misc::intListfromStringList(settings.value(QString::fromUtf8("TorrentProperties/Peers/peersColsWidth")).toStringList());
   if(!contentColsWidths.empty()) {
     for(int i=0; i<contentColsWidths.size(); ++i) {
@@ -265,7 +277,7 @@ void PeerListWidget::loadSettings() {
 }
 
 void PeerListWidget::saveSettings() const {
-  QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
+  QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
   QStringList contentColsWidths;
   for(int i=0; i<listModel->columnCount(); ++i) {
     contentColsWidths << QString::number(columnWidth(i));
@@ -326,9 +338,12 @@ QStandardItem* PeerListWidget::addPeer(QString ip, peer_info peer) {
   if(resolver)
     resolver->resolve(peer.ip);
   if(display_flags) {
-    QIcon ico = GeoIP::CountryISOCodeToIcon(peer.country);
+    QString country_name;
+    const QIcon ico = GeoIP::CountryISOCodeToIcon(peer.country, country_name);
     if(!ico.isNull()) {
       listModel->setData(listModel->index(row, IP), ico, Qt::DecorationRole);
+      Q_ASSERT(!country_name.isEmpty());
+      listModel->setData(listModel->index(row, IP), country_name, Qt::ToolTipRole);
     } else {
       missingFlags.insert(ip);
     }
@@ -346,9 +361,12 @@ void PeerListWidget::updatePeer(QString ip, peer_info peer) {
   QStandardItem *item = peerItems.value(ip);
   int row = item->row();
   if(display_flags) {
-    QIcon ico = GeoIP::CountryISOCodeToIcon(peer.country);
+    QString country_name;
+    const QIcon ico = GeoIP::CountryISOCodeToIcon(peer.country, country_name);
     if(!ico.isNull()) {
       listModel->setData(listModel->index(row, IP), ico, Qt::DecorationRole);
+      Q_ASSERT(!country_name.isEmpty());
+      listModel->setData(listModel->index(row, IP), country_name, Qt::ToolTipRole);
       missingFlags.remove(ip);
     }
   }

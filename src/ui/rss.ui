@@ -89,6 +89,13 @@
        </property>
       </spacer>
      </item>
+     <item>
+      <widget class="QPushButton" name="settingsButton">
+       <property name="text">
+        <string>Settings...</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
@@ -148,12 +155,6 @@ p, li { white-space: pre-wrap; }
           <attribute name="headerStretchLastSection">
            <bool>true</bool>
           </attribute>
-          <attribute name="headerVisible">
-           <bool>false</bool>
-          </attribute>
-          <attribute name="headerStretchLastSection">
-           <bool>true</bool>
-          </attribute>
           <column>
            <property name="text">
             <string notr="true">Bullet</string>
@@ -196,7 +197,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/Icons/oxygen/edit_clear.png</normaloff>:/Icons/oxygen/edit_clear.png</iconset>
    </property>
    <property name="text">
-    <string>Rename</string>
+    <string>Rename...</string>
    </property>
    <property name="toolTip">
     <string>Rename</string>
@@ -220,7 +221,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/Icons/oxygen/subscribe16.png</normaloff>:/Icons/oxygen/subscribe16.png</iconset>
    </property>
    <property name="text">
-    <string>New subscription</string>
+    <string>New subscription...</string>
    </property>
   </action>
   <action name="actionUpdate_all_feeds">
@@ -280,7 +281,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/Icons/oxygen/download.png</normaloff>:/Icons/oxygen/download.png</iconset>
    </property>
    <property name="text">
-    <string>RSS feed downloader</string>
+    <string>RSS feed downloader...</string>
    </property>
   </action>
   <action name="actionNew_folder">
@@ -289,7 +290,16 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/Icons/oxygen/folder-new.png</normaloff>:/Icons/oxygen/folder-new.png</iconset>
    </property>
    <property name="text">
-    <string>New folder</string>
+    <string>New folder...</string>
+   </property>
+  </action>
+  <action name="actionManage_cookies">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/Icons/oxygen/cookies.png</normaloff>:/Icons/oxygen/cookies.png</iconset>
+   </property>
+   <property name="text">
+    <string>Manage cookies...</string>
    </property>
   </action>
  </widget>

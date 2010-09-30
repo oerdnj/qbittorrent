@@ -28,35 +28,34 @@
  * Contact : chris@qbittorrent.org
  */
 
-#include "downloadthread.h"
 #include <QTemporaryFile>
-#include <QSettings>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkProxy>
+#include <QNetworkCookie>
+#include <QNetworkCookieJar>
+
+#include "downloadthread.h"
+#include "preferences.h"
+#include "qinisettings.h"
 
 enum ProxyType {HTTP=1, SOCKS5=2, HTTP_PW=3, SOCKS5_PW=4, SOCKS4=5};
 
 /** Download Thread **/
 
 downloadThread::downloadThread(QObject* parent) : QObject(parent) {
-  networkManager = new QNetworkAccessManager(this);
-  connect(networkManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(processDlFinished(QNetworkReply*)));
+  connect(&networkManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(processDlFinished(QNetworkReply*)));
 #ifndef QT_NO_OPENSSL
-  connect(networkManager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), this, SLOT(ignoreSslErrors(QNetworkReply*,QList<QSslError>)));
+  connect(&networkManager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), this, SLOT(ignoreSslErrors(QNetworkReply*,QList<QSslError>)));
 #endif
-}
-
-downloadThread::~downloadThread(){
-  qDebug("Deleting network manager");
-  delete networkManager;
-  qDebug("Deleted network manager");
 }
 
 void downloadThread::processDlFinished(QNetworkReply* reply) {
   QString url = reply->url().toEncoded().data();
+  qDebug("Download finished: %s", qPrintable(url));
   if(reply->error() != QNetworkReply::NoError) {
     // Failure
+    qDebug("Download failure (%s), reason: %s", qPrintable(url), qPrintable(errorCodeToString(reply->error())));
     emit downloadFailure(url, errorCodeToString(reply->error()));
   } else {
     QVariant redirection = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
@@ -101,7 +100,28 @@ void downloadThread::processDlFinished(QNetworkReply* reply) {
   reply->deleteLater();
 }
 
+void downloadThread::loadCookies(const QString &host_name, QString url) {
+  const QList<QByteArray> raw_cookies = Preferences::getHostNameCookies(host_name);
+  QNetworkCookieJar *cookie_jar = networkManager.cookieJar();
+  QList<QNetworkCookie> cookies;
+  qDebug("Loading cookies for host name: %s", qPrintable(host_name));
+  foreach(const QByteArray& raw_cookie, raw_cookies) {
+    QList<QByteArray> cookie_parts = raw_cookie.split('=');
+    if(cookie_parts.size() == 2) {
+      qDebug("Loading cookie: %s", raw_cookie.constData());
+      cookies << QNetworkCookie(cookie_parts.first(), cookie_parts.last());
+    }
+  }
+  cookie_jar->setCookiesFromUrl(cookies, url);
+  networkManager.setCookieJar(cookie_jar);
+}
+
 void downloadThread::downloadTorrentUrl(QString url){
+  // Load cookies
+  QString host_name = QUrl::fromEncoded(url.toLocal8Bit()).host();
+  if(!host_name.isEmpty())
+    loadCookies(host_name, url);
+  // Process request
   QNetworkReply *reply = downloadUrl(url);
   connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(checkDownloadSize(qint64,qint64)));
 }
@@ -109,14 +129,24 @@ void downloadThread::downloadTorrentUrl(QString url){
 QNetworkReply* downloadThread::downloadUrl(QString url){
   // Update proxy settings
   applyProxySettings();
+  // Load cookies
+  QString host_name = QUrl::fromEncoded(url.toLocal8Bit()).host();
+  if(!host_name.isEmpty())
+    loadCookies(host_name, url);
   // Process download request
-  QNetworkRequest request;
-  request.setUrl(QUrl::fromEncoded(url.toLocal8Bit()));
+  qDebug("url is %s", qPrintable(url));
+  const QUrl qurl = QUrl::fromEncoded(url.toLocal8Bit());
+  QNetworkRequest request(qurl);
   // Spoof Firefox 3.5 user agent to avoid
   // Web server banning
   request.setRawHeader("User-Agent", "Mozilla/5.0 (X11; U; Linux i686 (x86_64); en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5");
-  qDebug("Downloading %s...", qPrintable(request.url().toString()));
-  return networkManager->get(request);
+  qDebug("Downloading %s...", request.url().toEncoded().data());
+  qDebug("%d cookies for this URL", networkManager.cookieJar()->cookiesForUrl(url).size());
+  for(int i=0; i<networkManager.cookieJar()->cookiesForUrl(url).size(); ++i) {
+    qDebug("%s=%s", networkManager.cookieJar()->cookiesForUrl(url).at(i).name().data(), networkManager.cookieJar()->cookiesForUrl(url).at(i).value().data());
+    qDebug("Domain: %s, Path: %s", qPrintable(networkManager.cookieJar()->cookiesForUrl(url).at(i).domain()), qPrintable(networkManager.cookieJar()->cookiesForUrl(url).at(i).path()));
+  }
+  return networkManager.get(request);
 }
 
 void downloadThread::checkDownloadSize(qint64 bytesReceived, qint64 bytesTotal) {
@@ -140,7 +170,7 @@ void downloadThread::checkDownloadSize(qint64 bytesReceived, qint64 bytesTotal) 
 
 void downloadThread::applyProxySettings() {
   QNetworkProxy proxy;
-  QSettings settings("qBittorrent", "qBittorrent");
+  QIniSettings settings("qBittorrent", "qBittorrent");
   int intValue = settings.value(QString::fromUtf8("Preferences/Connection/HTTPProxyType"), 0).toInt();
   if(intValue > 0) {
     // Proxy enabled
@@ -168,7 +198,7 @@ void downloadThread::applyProxySettings() {
   } else {
     proxy.setType(QNetworkProxy::NoProxy);
   }
-  networkManager->setProxy(proxy);
+  networkManager.setProxy(proxy);
 }
 
 QString downloadThread::errorCodeToString(QNetworkReply::NetworkError status) {

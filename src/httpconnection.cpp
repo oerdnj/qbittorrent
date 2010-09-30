@@ -109,7 +109,7 @@ QString HttpConnection::translateDocument(QString data) {
   bool found = false;
   do {
     found = false;
-    QRegExp regex(QString::fromUtf8("_\\(([\\w\\s?!:\\/\\(\\),µ\\-\\.]+)\\)"));
+    QRegExp regex(QString::fromUtf8("_\\(([\\w\\s?!:\\/\\(\\),%µ&\\-\\.]+)\\)"));
     i = regex.indexIn(data, i);
     if(i >= 0) {
       //qDebug("Found translatable string: %s", regex.cap(1).toUtf8().data());
@@ -120,6 +120,8 @@ QString HttpConnection::translateDocument(QString data) {
         translation = qApp->translate(contexts[context_index].c_str(), word.toLocal8Bit().constData(), 0, QCoreApplication::UnicodeUTF8, 1);
         ++context_index;
       }while(translation == word && context_index < 13);
+      // Remove keyboard shortcuts
+      translation = translation.replace("&", "");
       //qDebug("Translation is %s", translation.toUtf8().data());
       data = data.replace(i, regex.matchedLength(), translation);
       i += translation.length();
@@ -131,7 +133,7 @@ QString HttpConnection::translateDocument(QString data) {
 
 void HttpConnection::respond() {
   //qDebug("Respond called");
-  const QString &peer_ip = socket->peerAddress().toString();
+  const QString peer_ip = socket->peerAddress().toString();
   const int nb_fail = parent->NbFailedAttemptsForIp(peer_ip);
   if(nb_fail >= MAX_AUTH_FAILED_ATTEMPTS) {
     generator.setStatusLine(403, "Forbidden");
@@ -148,7 +150,7 @@ void HttpConnection::respond() {
     write();
     return;
   }
-  qDebug("Auth: %s", qPrintable(auth.split(" ").first()));
+  //qDebug("Auth: %s", qPrintable(auth.split(" ").first()));
   if (QString::compare(auth.split(" ").first(), "Digest", Qt::CaseInsensitive) != 0 || !parent->isAuthorized(auth.toLocal8Bit(), parser.method())) {
     // Update failed attempt counter
     parent->increaseNbFailedAttemptsForIp(peer_ip);
@@ -159,7 +161,7 @@ void HttpConnection::respond() {
     write();
     return;
   }
-  // Client sucessfuly authenticated, reset number of failed attempts
+  // Client successfully authenticated, reset number of failed attempts
   parent->resetNbFailedAttemptsForIp(peer_ip);
   QString url  = parser.url();
   // Favicon
@@ -331,6 +333,10 @@ void HttpConnection::respondCommand(QString command)
     foreach(QString url, list){
       url = url.trimmed();
       if(!url.isEmpty()){
+        if(url.startsWith("bc://bt/", Qt::CaseInsensitive)) {
+          qDebug("Converting bc link to magnet link");
+          url = misc::bcLinkToMagnet(url);
+        }
         if(url.startsWith("magnet:", Qt::CaseInsensitive)) {
           emit MagnetReadyToBeDownloaded(url);
         } else {
@@ -492,6 +498,16 @@ void HttpConnection::respondCommand(QString command)
   if(command == "decreasePrio") {
     QTorrentHandle h = BTSession->getTorrentHandle(parser.post("hash"));
     if(h.is_valid()) h.queue_position_down();
+    return;
+  }
+  if(command == "topPrio") {
+    QTorrentHandle h = BTSession->getTorrentHandle(parser.post("hash"));
+    if(h.is_valid()) h.queue_position_top();
+    return;
+  }
+  if(command == "bottomPrio") {
+    QTorrentHandle h = BTSession->getTorrentHandle(parser.post("hash"));
+    if(h.is_valid()) h.queue_position_bottom();
     return;
   }
   if(command == "recheck"){

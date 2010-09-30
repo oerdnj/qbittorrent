@@ -37,8 +37,6 @@
 #include "ui_mainwindow.h"
 #include "qtorrenthandle.h"
 
-enum TabIndex{TAB_TRANSFER, TAB_SEARCH, TAB_RSS};
-
 class Bittorrent;
 class QTimer;
 class downloadFromURL;
@@ -58,6 +56,9 @@ class consoleDlg;
 class about;
 class createtorrent;
 class downloadFromURL;
+class HidableTabWidget;
+class LineEdit;
+class QFileSystemWatcher;
 
 class GUI : public QMainWindow, private Ui::MainWindow{
   Q_OBJECT
@@ -67,9 +68,10 @@ public:
   GUI(QWidget *parent=0, QStringList torrentCmdLine=QStringList());
   ~GUI();
   // Methods
-  int getCurrentTabIndex() const;
+  QWidget* getCurrentTabWidget() const;
   TransferListWidget* getTransferList() const { return transferList; }
   QMenu* getTrayIconMenu();
+  PropertiesWidget *getProperties() const { return properties; }
 
 public slots:
   void trackerAuthenticationRequired(QTorrentHandle& h);
@@ -77,6 +79,7 @@ public slots:
   void showNotificationBaloon(QString title, QString msg) const;
   void downloadFromURLList(const QStringList& urls);
   void updateAltSpeedsBtn(bool alternative);
+  void updateNbTorrents(unsigned int nb_downloading, unsigned int nb_seeding, unsigned int nb_active, unsigned int nb_inactive, unsigned int nb_paused);
 
 protected slots:
   // GUI related slots
@@ -97,6 +100,10 @@ protected slots:
   void handleDownloadFromUrlFailure(QString, QString) const;
   void createSystrayDelayed();
   void tab_changed(int);
+  void on_actionLock_qBittorrent_triggered();
+  void defineUILockPassword();
+  bool unlockUI();
+  void notifyOfUpdate(QString);
   // Keyboard shortcuts
   void createKeyboardShortcuts();
   void displayTransferTab() const;
@@ -127,14 +134,16 @@ protected:
   void showEvent(QShowEvent *);
   bool event(QEvent * event);
   void displayRSSTab(bool enable);
+  void displaySearchTab(bool enable);
 
 private:
+  QFileSystemWatcher *executable_watcher;
   // Bittorrent
   Bittorrent *BTSession;
   QList<QPair<QTorrentHandle,QString> > unauthenticated_trackers; // Still needed?
   // GUI related
   QTimer *guiUpdater;
-  QTabWidget *tabs;
+  HidableTabWidget *tabs;
   StatusBar *status_bar;
   QPointer<options_imp> options;
   QPointer<consoleDlg> console;
@@ -149,6 +158,8 @@ private:
   PropertiesWidget *properties;
   bool displaySpeedInTitle;
   bool force_exit;
+  bool ui_locked;
+  LineEdit *search_filter;
   // Keyboard shortcuts
   QShortcut *switchSearchShortcut;
   QShortcut *switchSearchShortcut2;
@@ -159,10 +170,18 @@ private:
   QAction *prioSeparator2;
   QSplitter *hSplitter;
   QSplitter *vSplitter;
+  QMenu *lockMenu;
   // Search
-  SearchEngine *searchEngine;
+  QPointer<SearchEngine> searchEngine;
   // RSS
   QPointer<RSSImp> rssWidget;
+
+private slots:
+    void on_actionSearch_engine_triggered();
+    void on_actionRSS_Reader_triggered();
+    void on_actionSpeed_in_title_bar_triggered();
+    void on_actionTop_tool_bar_triggered();
+    void on_actionShutdown_when_downloads_complete_triggered();
 };
 
 #endif

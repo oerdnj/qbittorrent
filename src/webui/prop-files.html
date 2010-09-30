@@ -1,8 +1,8 @@
             <span id="torrentFiles">
-            <table class="torrentTable" cellpadding="0" cellspacing="0">
+            <table class="torrentTable" cellpadding="0" cellspacing="0" style="width: 100%">
                     <thead>
                             <tr>
-                                    <th>_(Downloaded)</th>
+                                    <th><a id="all_files_cb" style="margin-right: 2px;" class="tristate" onclick="javascript:switchCBState()"></a>&nbsp;&nbsp;_(Downloaded)</th>
                                     <th>_(Name)</th>
                                     <th>_(Size)</th>
                                     <th style="width: 90px;">_(Progress)</th>
@@ -15,11 +15,87 @@
 
 <script type="text/javascript">
     var waitingTorrentFiles=false;
+    var is_seed = true;
     var current_hash = "";
+
+var setCBState = function(state) {
+  if(state == "partial") {
+    if(!$("all_files_cb").hasClass("partial")) {
+      $("all_files_cb").removeClass("checked");
+      $("all_files_cb").addClass("partial");
+    }
+    return;
+  }
+  if(state == "checked") {
+    if(!$("all_files_cb").hasClass("checked")) {
+      $("all_files_cb").removeClass("partial");
+      $("all_files_cb").addClass("checked");
+    }
+    return;
+  }
+  $("all_files_cb").removeClass("partial");
+  $("all_files_cb").removeClass("checked");
+}
+
+var switchCBState = function() {
+  // Uncheck
+  if($("all_files_cb").hasClass("partial")) {
+    $("all_files_cb").removeClass("partial");
+    // Uncheck all checkboxes
+    $$('input.DownloadedCB').each(function(item, index) {
+      item.erase("checked");
+      setFilePriority(index, 0);
+    });
+    return;
+  }
+  if($("all_files_cb").hasClass("checked")) {
+    $("all_files_cb").removeClass("checked");
+    // Uncheck all checkboxes
+    $$('input.DownloadedCB').each(function(item, index) {
+      item.erase("checked");
+      setFilePriority(index, 0);
+    });
+    return;
+  }
+  // Check
+  $("all_files_cb").addClass("checked");
+  // Check all checkboxes
+  $$('input.DownloadedCB').each(function(item, index) {
+    item.set("checked", "checked");
+    setFilePriority(index, 1);
+  });
+}
+
+var allCBChecked = function() {
+  var CBs = $$('input.DownloadedCB');
+  for(var i=0; i<CBs.length; i+=1) {
+    var item = CBs[i];
+    if(!$defined(item.get('checked')) || !item.get('checked'))
+      return false;
+  }
+  return true;
+}
+
+var allCBUnchecked = function() {
+  var CBs = $$('input.DownloadedCB');
+  for(var i=0; i<CBs.length; i+=1) {
+    var item = CBs[i];
+    if($defined(item.get('checked')) && item.get('checked'))
+      return false;
+  }
+  return true;
+}
     
 var setFilePriority = function(id, priority) {
   if(current_hash == "") return;
   new Request({url: '/command/setFilePrio', method: 'post', data: {'hash': current_hash, 'id': id, 'priority': priority}}).send();
+  // Display or add combobox
+  if(priority > 0) {
+    $('comboPrio'+id).set("value", 1);
+    $('comboPrio'+id).removeClass("invisible");
+  } else {
+    $('comboPrio'+id).addClass("invisible");
+  }
 }
 
 var createDownloadedCB = function(id, downloaded) {
@@ -28,17 +104,20 @@ var createDownloadedCB = function(id, downloaded) {
     if(downloaded)
       CB.set('checked', 'checked');
     CB.set('id', 'cbPrio'+id);
+    CB.set('class', 'DownloadedCB');
     CB.addEvent('change', function(e){
       var checked = 0;
       if($defined($('cbPrio'+id).get('checked')) && $('cbPrio'+id).get('checked'))
         checked = 1;
       setFilePriority(id, checked);
-      // Display or add combobox
-      if(checked) {
-        $('comboPrio'+id).set("value", 1);
-        $('comboPrio'+id).removeClass("invisible");
+      if(allCBChecked()) {
+        setCBState("checked");
       } else {
-        $('comboPrio'+id).addClass("invisible");
+        if(allCBUnchecked()) {
+          setCBState("unchecked");
+        } else {
+          setCBState("partial");
+        }
       }
     });
     return CB;
@@ -69,7 +148,7 @@ var createPriorityCombo = function(id, selected_prio) {
     if(selected_prio == 7)
       opt.setAttribute('selected', '');
     opt.injectInside(select);
-    if(selected_prio < 1) {
+    if(is_seed || selected_prio < 1) {
       select.addClass("invisible");
     } else {
       select.removeClass("invisible");
@@ -116,7 +195,7 @@ var createPriorityCombo = function(id, selected_prio) {
                   tds[i].getChildren('input')[0].removeProperty('checked')
               } else {
                 if(i == 4) {
-                  if(row[i] > 0) {
+                  if(!is_seed && row[i] > 0) {
                     tds[i].getChildren('select').set('value', row[i]);
                     $('comboPrio'+id).removeClass("invisible");
                   } else {
@@ -148,7 +227,8 @@ var createPriorityCombo = function(id, selected_prio) {
 		                td.adopt(new ProgressBar(row[i].toFloat(), {'id': 'pbf_'+id, 'width':80}));
 		              } else {
                     if(i == 0) {
-                      td.adopt(createDownloadedCB(id,row[i]));
+                      var tree_img  = new Element('img', {src: 'images/L.gif', style: 'margin-bottom: -2px'});
+                      td.adopt(tree_img, createDownloadedCB(id,row[i]));
                     } else {
                       if(i == 4) {
                         td.adopt(createPriorityCombo(id,row[i]));
@@ -196,6 +276,9 @@ var createPriorityCombo = function(id, selected_prio) {
                           // Update Trackers data
                           var i=0;
                           files.each(function(file){
+                            if(i == 0) {
+                              is_seed = file.is_seed;
+                            }
                             var row = new Array();
                             row.length = 4;
                             row[0] = file.priority;
@@ -206,6 +289,16 @@ var createPriorityCombo = function(id, selected_prio) {
                             fTable.insertRow(i, row);
                             i++;
                           }.bind(this));
+                          // Set global CB state
+                          if(allCBChecked()) {
+                            setCBState("checked");
+                          } else {
+                            if(allCBUnchecked()) {
+                              setCBState("unchecked");
+                            } else {
+                              setCBState("partial");
+                            }
+                          }
                         } else {
                           fTable.removeAllRows();
                         }

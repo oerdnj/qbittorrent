@@ -31,7 +31,6 @@
 #include <QTreeWidgetItem>
 #include <QStringList>
 #include <QMenu>
-#include <QSettings>
 #include <QHash>
 #include <QAction>
 #include <QColor>
@@ -42,6 +41,7 @@
 #include "trackersadditiondlg.h"
 #include "misc.h"
 #include "bittorrent.h"
+#include "qinisettings.h"
 
 TrackerList::TrackerList(PropertiesWidget *properties): QTreeWidget(), properties(properties) {
   // Graphical settings
@@ -210,7 +210,10 @@ void TrackerList::loadStickyItems(const QTorrentHandle &h) {
     dht_item->setText(COL_MSG, tr("This torrent is private"));
   }
   // Load PeX Information
-  pex_item->setText(COL_STATUS, tr("Working"));
+  if(properties->getBTSession()->isPexEnabled())
+    pex_item->setText(COL_STATUS, tr("Working"));
+  else
+    pex_item->setText(COL_STATUS, tr("Disabled"));
   pex_item->setText(COL_PEERS, QString::number(nb_pex));
   // Load LSD Information
   if(properties->getBTSession()->isLSDEnabled())
@@ -228,10 +231,8 @@ void TrackerList::loadTrackers() {
   // Load actual trackers information
   QHash<QString, TrackerInfos> trackers_data = properties->getBTSession()->getTrackersInfo(h.hash());
   QStringList old_trackers_urls = tracker_items.keys();
-  std::vector<announce_entry> trackers = h.trackers();
-  std::vector<announce_entry>::iterator it;
-  for(it = trackers.begin(); it != trackers.end(); it++) {
-    QStringList item_list;
+  const std::vector<announce_entry> trackers = h.trackers();
+  for(std::vector<announce_entry>::const_iterator it = trackers.begin(); it != trackers.end(); it++) {
     QString tracker_url = misc::toQString(it->url);
     QTreeWidgetItem *item = tracker_items.value(tracker_url, 0);
     if(!item) {
@@ -342,14 +343,16 @@ void TrackerList::deleteSelectedTrackers(){
 void TrackerList::showTrackerListMenu(QPoint) {
   QTorrentHandle h = properties->getCurrentTorrent();
   if(!h.is_valid() || !h.has_metadata()) return;
-  QList<QTreeWidgetItem*> selected_items = getSelectedTrackerItems();
+  //QList<QTreeWidgetItem*> selected_items = getSelectedTrackerItems();
   QMenu menu;
   // Add actions
-  QAction *addAct = menu.addAction(QIcon(":/Icons/oxygen/list-add.png"), tr("Add a new tracker"));
+  QAction *addAct = menu.addAction(QIcon(":/Icons/oxygen/list-add.png"), tr("Add a new tracker..."));
   QAction *delAct = 0;
   if(!getSelectedTrackerItems().isEmpty()) {
-    delAct = menu.addAction(QIcon(":/Icons/oxygen/list-remove.png"), "Remove tracker");
+    delAct = menu.addAction(QIcon(":/Icons/oxygen/list-remove.png"), tr("Remove tracker"));
   }
+  menu.addSeparator();
+  QAction *reannounceAct = menu.addAction(QIcon(":/Icons/oxygen/run-build.png"), tr("Force reannounce"));
   QAction *act = menu.exec(QCursor::pos());
   if(act == 0) return;
   if(act == addAct) {
@@ -360,10 +363,14 @@ void TrackerList::showTrackerListMenu(QPoint) {
     deleteSelectedTrackers();
     return;
   }
+  if(act == reannounceAct) {
+    properties->getCurrentTorrent().force_reannounce();
+    return;
+  }
 }
 
 void TrackerList::loadSettings() {
-  QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
+  QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
   QList<int> contentColsWidths = misc::intListfromStringList(settings.value(QString::fromUtf8("TorrentProperties/Trackers/trackersColsWidth")).toStringList());
   if(!contentColsWidths.empty()) {
     for(int i=0; i<contentColsWidths.size(); ++i) {
@@ -375,7 +382,7 @@ void TrackerList::loadSettings() {
 }
 
 void TrackerList::saveSettings() const {
-  QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
+  QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
   QStringList contentColsWidths;
   for(int i=0; i<columnCount(); ++i) {
     contentColsWidths << QString::number(columnWidth(i));

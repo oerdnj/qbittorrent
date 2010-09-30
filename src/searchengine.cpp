@@ -31,7 +31,6 @@
 #include <QStandardItemModel>
 #include <QHeaderView>
 #include <QCompleter>
-#include <QSettings>
 #include <QMessageBox>
 #include <QTemporaryFile>
 #include <QSystemTrayIcon>
@@ -54,6 +53,7 @@
 #include "misc.h"
 #include "preferences.h"
 #include "searchlistdelegate.h"
+#include "qinisettings.h"
 #include "GUI.h"
 
 #define SEARCHHISTORY_MAXSIZE 50
@@ -158,7 +158,7 @@ void SearchEngine::pythonDownloadSuccess(QString url, QString file_path) {
     on_search_button_clicked();
   }
   // Delete temp file
-  QFile::remove(file_path+".msi");
+  misc::safeRemove(file_path+".msi");
 }
 
 void SearchEngine::pythonDownloadFailure(QString url, QString error) {
@@ -221,7 +221,11 @@ void SearchEngine::displayPatternContextMenu(QPoint) {
   QAction *act = myMenu.exec(QCursor::pos());
   if(act != 0) {
     if(act == &clearHistoryAct) {
-      searchHistory.setStringList(QStringList());
+      // Ask for confirmation
+      if(QMessageBox::question(this, tr("Confirmation"), tr("Are you sure you want to clear the history?"), QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes) {
+        // Clear history
+        searchHistory.setStringList(QStringList());
+      }
     }
     else if (act == &pasteAct) {
       search_pattern->paste();
@@ -256,21 +260,25 @@ void SearchEngine::on_enginesButton_clicked() {
   connect(dlg, SIGNAL(enginesChanged()), this, SLOT(fillCatCombobox()));
 }
 
-// get the last searchs from a QSettings to a QStringList
+// get the last searchs from a QIniSettings to a QStringList
 void SearchEngine::startSearchHistory(){
-  QSettings settings("qBittorrent", "qBittorrent");
+  QIniSettings settings("qBittorrent", "qBittorrent");
   searchHistory.setStringList(settings.value("Search/searchHistory",QStringList()).toStringList());
 }
 
-// Save the history list into the QSettings for the next session
+// Save the history list into the QIniSettings for the next session
 void SearchEngine::saveSearchHistory() {
-  QSettings settings("qBittorrent", "qBittorrent");
+  QIniSettings settings("qBittorrent", "qBittorrent");
   settings.setValue("Search/searchHistory",searchHistory.stringList());
 }
 
 void SearchEngine::searchTextEdited(QString) {
   // Enable search button
   search_button->setText(tr("Search"));
+}
+
+void SearchEngine::giveFocusToSearchInput() {
+  search_pattern->setFocus();
 }
 
 // Function called when we click on search button
@@ -333,7 +341,6 @@ void SearchEngine::on_search_button_clicked(){
 
   // Getting checked search engines
   QStringList params;
-  QStringList engineNames;
   search_stopped = false;
   params << misc::searchEngineLocation()+QDir::separator()+"nova2.py";
   params << supported_engines->enginesEnabled().join(",");
@@ -369,7 +376,7 @@ void SearchEngine::propagateSectionResized(int index, int , int newsize) {
 void SearchEngine::saveResultsColumnsWidth() {
   if(all_tab.size() > 0) {
     QTreeView* treeview = all_tab.first()->getCurrentTreeView();
-    QSettings settings("qBittorrent", "qBittorrent");
+    QIniSettings settings("qBittorrent", "qBittorrent");
     QStringList width_list;
     QStringList new_width_list;
     short nbColumns = all_tab.first()->getCurrentSearchListModel()->columnCount();
@@ -396,6 +403,10 @@ void SearchEngine::saveResultsColumnsWidth() {
 }
 
 void SearchEngine::downloadTorrent(QString engine_url, QString torrent_url) {
+  if(torrent_url.startsWith("bc://bt/", Qt::CaseInsensitive)) {
+    qDebug("Converting bc link to magnet link");
+    torrent_url = misc::bcLinkToMagnet(torrent_url);
+  }
   if(torrent_url.startsWith("magnet:")) {
     QStringList urls;
     urls << torrent_url;
@@ -461,67 +472,64 @@ void SearchEngine::updateNova() {
   qDebug("Updating nova");
   // create search_engine directory if necessary
   QDir search_dir(misc::searchEngineLocation());
-  QFile package_file(search_dir.path()+QDir::separator()+"__init__.py");
+  QFile package_file(search_dir.absoluteFilePath("__init__.py"));
   package_file.open(QIODevice::WriteOnly | QIODevice::Text);
   package_file.close();
   if(!search_dir.exists("engines")){
     search_dir.mkdir("engines");
   }
-  QFile package_file2(search_dir.path()+QDir::separator()+"engines"+QDir::separator()+"__init__.py");
+  QFile package_file2(search_dir.absolutePath().replace("\\", "/")+"/engines/__init__.py");
   package_file2.open(QIODevice::WriteOnly | QIODevice::Text);
   package_file2.close();
   // Copy search plugin files (if necessary)
-  QString filePath = misc::searchEngineLocation()+QDir::separator()+"nova2.py";
+  QString filePath = search_dir.absoluteFilePath("nova2.py");
   if(getPluginVersion(":/search_engine/nova2.py") > getPluginVersion(filePath)) {
     if(QFile::exists(filePath))
-      QFile::remove(filePath);
+      misc::safeRemove(filePath);
     QFile::copy(":/search_engine/nova2.py", filePath);
   }
-  // Set permissions
-  QFile::Permissions perm=QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner | QFile::ReadUser | QFile::WriteUser | QFile::ExeUser | QFile::ReadGroup | QFile::ReadGroup;
-  QFile(misc::searchEngineLocation()+QDir::separator()+"nova2.py").setPermissions(perm);
 
-  filePath = misc::searchEngineLocation()+QDir::separator()+"nova2dl.py";
+  filePath = search_dir.absoluteFilePath("nova2dl.py");
   if(getPluginVersion(":/search_engine/nova2dl.py") > getPluginVersion(filePath)) {
     if(QFile::exists(filePath)){
-      QFile::remove(filePath);
+      misc::safeRemove(filePath);
     }
     QFile::copy(":/search_engine/nova2dl.py", filePath);
   }
-  QFile(misc::searchEngineLocation()+QDir::separator()+"nova2dl.py").setPermissions(perm);
-  filePath = misc::searchEngineLocation()+QDir::separator()+"novaprinter.py";
+
+  filePath = search_dir.absoluteFilePath("novaprinter.py");
   if(getPluginVersion(":/search_engine/novaprinter.py") > getPluginVersion(filePath)) {
     if(QFile::exists(filePath)){
-      QFile::remove(filePath);
+      misc::safeRemove(filePath);
     }
     QFile::copy(":/search_engine/novaprinter.py", filePath);
   }
-  QFile(misc::searchEngineLocation()+QDir::separator()+"novaprinter.py").setPermissions(perm);
-  filePath = misc::searchEngineLocation()+QDir::separator()+"helpers.py";
+
+  filePath = search_dir.absoluteFilePath("helpers.py");
   if(getPluginVersion(":/search_engine/helpers.py") > getPluginVersion(filePath)) {
     if(QFile::exists(filePath)){
-      QFile::remove(filePath);
+      misc::safeRemove(filePath);
     }
     QFile::copy(":/search_engine/helpers.py", filePath);
   }
-  QFile(misc::searchEngineLocation()+QDir::separator()+"socks.py").setPermissions(perm);
-  filePath = misc::searchEngineLocation()+QDir::separator()+"socks.py";
+
+  filePath = search_dir.absoluteFilePath("socks.py");
   if(!QFile::exists(filePath)) {
     QFile::copy(":/search_engine/socks.py", filePath);
   }
-  QString destDir = misc::searchEngineLocation()+QDir::separator()+"engines"+QDir::separator();
+  QDir destDir(QDir(misc::searchEngineLocation()).absoluteFilePath("engines"));
   QDir shipped_subDir(":/search_engine/engines/");
   QStringList files = shipped_subDir.entryList();
   foreach(const QString &file, files){
-    QString shipped_file = shipped_subDir.path()+"/"+file;
+    QString shipped_file = shipped_subDir.absoluteFilePath(file);
     // Copy python classes
     if(file.endsWith(".py")) {
-      const QString dest_file = destDir+file;
+      const QString dest_file = destDir.absoluteFilePath(file);
       if(getPluginVersion(shipped_file) > getPluginVersion(dest_file) ) {
-        qDebug("shippped %s is more recent then local plugin, updating", qPrintable(file));
+        qDebug("shipped %s is more recent then local plugin, updating...", qPrintable(file));
         if(QFile::exists(dest_file)) {
           qDebug("Removing old %s", qPrintable(dest_file));
-          QFile::remove(dest_file);
+          misc::safeRemove(dest_file);
         }
         qDebug("%s copied to %s", qPrintable(shipped_file), qPrintable(dest_file));
         QFile::copy(shipped_file, dest_file);
@@ -529,8 +537,8 @@ void SearchEngine::updateNova() {
     } else {
       // Copy icons
       if(file.endsWith(".png")) {
-        if(!QFile::exists(destDir+file)) {
-          QFile::copy(shipped_file, destDir+file);
+        if(!QFile::exists(destDir.absoluteFilePath(file))) {
+          QFile::copy(shipped_file, destDir.absoluteFilePath(file));
         }
       }
     }
@@ -544,9 +552,9 @@ void SearchEngine::searchFinished(int exitcode,QProcess::ExitStatus){
   if(searchTimeout->isActive()) {
     searchTimeout->stop();
   }
-  QSettings settings("qBittorrent", "qBittorrent");
+  QIniSettings settings("qBittorrent", "qBittorrent");
   bool useNotificationBalloons = settings.value("Preferences/General/NotificationBaloons", true).toBool();
-  if(useNotificationBalloons && parent->getCurrentTabIndex() != TAB_SEARCH) {
+  if(useNotificationBalloons && parent->getCurrentTabWidget() != this) {
     parent->showNotificationBaloon(tr("Search Engine"), tr("Search has finished"));
   }
   if(exitcode){

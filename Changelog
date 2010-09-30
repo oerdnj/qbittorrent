@@ -1,110 +1,67 @@
-* Wed Jul 21 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.2.11
-    - BUGFIX: Fix parsing of program arguments with spaces
-    - BUGFIX: Fix possible crash when using alternative speed limits (#598272)
-    - BUGFIX: Fix possible crash on exit when using
-    - BUGFIX: Require GTK+ headers on compilation when libnotify is used
-    - BUGFIX: Added configure flag to avoid using the shipped qtsingleapplication
+* Tue Sep 28 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.3
+    - BUGFIX: Fix encoding issue in command line parameters processing
+    - BUGFIX: Fix possible crash when changing the save path in addition dialog
+    - BUGFIX: Fix wrong mapping to source model
 
-* Wed Jun 23 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.2.10
-    - BUGFIX: Fix Web UI in qBittorrent nox version
-    - BUGFIX: Improved ETA display (more user friendly)
-    - BUGFIX: Fix possible compilation errors with libtorrent v0.15
-    - BUGFIX: Fix minor issues in torrent creation tool
-    - BUGFIX: Use checkable actions to avoid issues on systems hiding menu icons (e.g. recent Gnome)
-    - BUGFIX: Use busy cursor for search plugin updates
-    - BUGFIX: Free disk space calculation now works if destination folder does not exist
-    - BUGFIX: Fix "append .!qB extension to incomplete files" feature
-    - BUGFIX: Several OS/2 fixes by Silvan Scherrer
-    - COSMETIC: Display "Alternative speed limits" button as pressed when enabled
+* Sun Sep 26 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.2
+    - BUGFIX: Fix display of torrent content in addition dialog
+    - BUGFIX: Really fix manual editing of save path in torrent addition dialog
 
-* Sun Jun 13 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.2.9
-    - FEATURE: Official support for Win32 platform
-    - FEATURE: Better integration with Mac OS
-    - BUGFIX: Fix torrent availability computation (closes #587337)
-    - BUGFIX: Disable torrent addition dialog as a default
-    - BUGFIX: Fix Web UI authentication with Opera Browser
-    - BUGFIX: Fix Javascript error in Web UI when using IE
-    - BUGFIX: Fix a lot of encoding problems on non UTF-8 systems
-    - BUGFIX: Fix race condition allowing to run multiple instances (closes #286968)
-    - BUGFIX: Fix window hiding problem when having a modal window (closes #589070)
+* Sun Sep 26 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.1
+    - I18N: Updated Arabic translation
+    - I18N: Fixes to German translation
+    - BUGFIX: Save path can now be edited in torrent addition dialog
+    - BUGFIX: Fix save path encoding on non-utf8 systems
+    - BUGFIX: Fix saving to drive root on Windows
+    - BUGFIX: OGV can now be previewed
+    - BUGFIX: Maximum download limit is now 10MB/s
+    - BUGFIX: Fix 'download in scan dir' persistence
+    - BUGFIX: Add .torrent extension only when missing (torrent creator)
+    - BUGFIX: Fix possible issue with temporary download path persistence
+    - BUGFIX: Added support for | (OR) operator in RSS feed downloader
+    - BUGFIX: Fix Web UI for spanish users
+    - BUGFIX: Fix locale switching from Web UI
+    - BUGFIX: Use AND operator for torrentdownloads.net searches
+    - BUGFIX: Limit torrent addition dialog width to fit the screen
+    - COSMETIC: Fix progress bars style on Windows
 
-* Mon May 24 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.2.8
-    - BUGFIX: ETA for finished torrent is now 0 instead of Infinite (closes #583704)
-    - BUGFIX: Fix sorting of ETA column when having infinite values (closes #583347)
-    - BUGFIX: Torrent queue position now starts at 1 (closes #581130)
-    - BUGFIX: Fix unicode issue in start seeding after torrent creation code
-    - BUGFIX: Fix torrent error state clearance on resuming
-    - BUGFIX: Fix possible checkbox update in Web UI
-    - COSMETIC: Fix torrent properties layout
+* Tue Aug 24 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.0
+    - FEATURE: Added actions to "Move to top/bottom" of priority queue
+    - FEATURE: Auto-Shutdown on downloads completion
+    - FEATURE: Email notification on download completion
+    - FEATURE: Added button to password-lock the UI
+    - FEATURE: Added label-level Pause/Resume/Delete actions
+    - FEATURE: Torrents can now be filtered by name
+    - FEATURE: Run external program on torrent completion
+    - FEATURE: Detect executable updates in order to advise the user to restart
 
-* Wed May 12 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.2.7
-    - BUGFIX: Fix unicode problem in torrent moving code
-    - BUGFIX: Fix possible initialization problem in Web UI
-    - BUGFIX: Fix torrent moving after completion feature
-    - BUGFIX: Improved empty folder removing code
-    - BUGFIX: Use guid or news url as RSS items identifier (instead of title)
-    - BUGFIX: Fix possible crash in RSS item selection code
-    - BUGFIX: Added support for url encoded ampersands in RSS
-    - COSMETIC: Sort torrent labels in popup menu
-    - I18N: Added Croatian translation
-
-* Sun Apr 18 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.2.6
-    - BUGFIX: Announce to all trackers at once
-    - BUGFIX: Added support for single-thread boost
-    - BUGFIX: Remove old folder when moving a torrent
-    - BUGFIX: Improved reliability of torrent moving
-    - BUGFIX: Stop rechecking torrents when they are moved
-    - BUGFIX: Status filters height stays correct when the visual style changes
-    - I18N: Added Arabic translation
-
-* Wed Apr 07 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.2.5
-    - BUGFIX: Fix crash when adding a new torrent label
-    - BUGFIX: Fix HTTPS protocol support in torrent/rss downloader
-    - BUGFIX: Fix default width of file name column in torrent content
-    - BUGFIX: Fix torrent addition dialog buttons height
-    - BUGFIX: Fix deprecation warnings with libtorrent v0.15
-    - BUGFIX: Fix "Download from URL" title size in Web UI
-    - BUGFIX: Fix transparency of speed limits icons
-    - BUGFIX: Dropped dependency on Qt gif library
-    - BUGFIX: Improved libboost detection by configure file
-    - BUGFIX: Bring back compatibility with boost v1.34
-    - COSMETIC: Added icons to menu actions in Web UI
-
-* Tue Apr 06 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.2.4
-    - BUGFIX: Fix possible crash when adding a torrent
-    - BUGFIX: Fix failure to remember some torrents on startup
-    - BUGFIX: Fix torrent addition window layout (torrent content not expanding)
-    - BUGFIX: Fix about dialog in Web UI
-    - BUGFIX: Correctly clear trackers error messages once they work
-    - BUGFIX: Display correct share ratio for paused torrents
-    - COSMETIC: Improved alternative speed limits icons
-
-* Sun Apr 04 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.2.3
-    - BUGFIX: Fix possible crash when deleting a torrent just after pausing it
-    - BUGFIX: Enable Apply button when alternative rate limits are changed
-    - BUGFIX: Source compatibility with Windows (Thanks Ishan Arora)
-    - BUGFIX: Source compatibility with eCS (OS/2) (Thanks Silvan Scherrer)
-    - BUGFIX: Cleaner binutils gold linker support
-    - BUGFIX: Clean fix for progress display with cleanlooks style
-
-* Mon Mar 22 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.2.2
-    - FEATURE: DHT port can be set from Web UI
-    - BUGFIX: Fix possible crash with folder scanning
-    - BUGFIX: Fix Mac compilation
-    - BUGFIX: Save fast resume data every 3 minutes (for robustness)
-    - I18N: Updated Polish translation (thanks Szymon Świerkosz)
-
-* Sat Mar 20 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.2.1
-    - FEATURE: Display pieces that are being downloaded
-    - FEATURE: Added back folder watching in Web UI
-    - FEATURE: Added back file prioritizing in Web UI
-    - BUGFIX: Fix compilation with Qt 4.4
-    - BUGFIX: Fix Web UI compatibility with Safari
-    - BUGFIX: Fix progress display with cleanlook style
-    - BUGFIX: Fix file filtering in complex torrents
-    - BUGFIX: Ask for user confirmation for recursive torrent download
-    - BUGFIX: Fix "add file" dialog in torrent creation tool
-    - BUGFIX: Fix "Ctrl+A" in Web UI
+* Tue Jul 27 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.3.0
+    - FEATURE: Simplified torrent root folder renaming/truncating (< v2.3.0 is no longer forward compatible)
+    - FEATURE: Remember previous save paths in torrent addition dialog
+    - FEATURE: Max number of half-open connections can now be edited
+    - FEATURE: Added support for strict super seeding
+    - FEATURE: The user can force listening on a particular network interface
+    - FEATURE: Added cookie support for RSS feeds
+    - FEATURE: User can force tracker reannounce
+    - FEATURE: Added "No action" setting for double-click action
+    - FEATURE: Several torrents can be moved at once
+    - FEATURE: Added error state for torrents (error is displayed in a tooltip)
+    - FEATURE: Added filter for paused/error torrents
+    - FEATURE: Add Check/Uncheck all feature in Web UI
+    - FEATURE: Search engine can now be disabled
+    - FEATURE: Torrents can be automatically paused once they reach a given ratio
+    - FEATURE: Several files can now be disabled at once
+    - FEATURE: Added "Select All/None" buttons to files list
+    - FEATURE: Added support for BitComet links (bc://bt/...)
+    - BUGFIX: Hide seeding torrents files priorities in Web UI
+    - BUGFIX: The user can disable permanently recursive torrent download
+    - BUGFIX: Peer Exchange status is now correctly reported
+    - BUGFIX: Use an INI file instead of the registry on Windows (More reliable)
+    - BUGFIX: Removed client spoofing feature to avoid tracker blacklisting
+    - COSMETIC: Display peers country name in tooltip
+    - COSMETIC: Display number of torrents in transfers tab label
+    - COSMETIC: Simplified program preferences
+    - COSMETIC: Fix naming of actions opening new dialogs (use Name...)
 
 * Sun Mar 14 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.2.0
     - FEATURE: User can set alternative speed limits for fast toggling

@@ -73,7 +73,7 @@ private:
 public:
   PropertiesWidget(QWidget *parent, GUI* main_window, TransferListWidget *transferList, Bittorrent* BTSession);
   ~PropertiesWidget();
-  const QTorrentHandle& getCurrentTorrent() const;
+  QTorrentHandle getCurrentTorrent() const;
   Bittorrent* getBTSession() const;
   TrackerList* getTrackerList() const { return trackerList; }
   PeerListWidget* getPeerList() const { return peersList; }
@@ -85,6 +85,7 @@ protected:
 
 protected slots:
   void loadTorrentInfos(QTorrentHandle &h);
+  void updateTorrentInfos(QTorrentHandle &h);
   void loadUrlSeeds();
   void on_main_infos_button_clicked();
   void on_trackers_button_clicked();
@@ -98,8 +99,9 @@ protected slots:
   void filteredFilesChanged();
   void showPiecesDownloaded(bool show);
   void showPiecesAvailability(bool show);
-  void updateSavePath(QTorrentHandle& h);
   void renameSelectedFile();
+  void selectAllFiles();
+  void selectNoneFiles();
 
 public slots:
   void loadDynamicData();
@@ -110,6 +112,7 @@ public slots:
   void saveSettings();
   void reloadPreferences();
   void openDoubleClickedFile(QModelIndex);
+  void updateSavePath(QTorrentHandle& h);
 
 };
 

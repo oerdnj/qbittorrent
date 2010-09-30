@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>qBittorrent console</string>
+   <string>qBittorrent log viewer</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../icons.qrc">
@@ -57,7 +57,6 @@
  </widget>
  <resources>
   <include location="../icons.qrc"/>
-  <include location="icons.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -37,11 +37,11 @@
 #include <QDomNode>
 #include <QDomElement>
 #include <QProcess>
-#include <QSettings>
 #include <QDir>
 #include <QApplication>
 
 #include "misc.h"
+#include "qinisettings.h"
 
 class SearchCategories: public QObject, public QHash<QString, QString> {
   Q_OBJECT
@@ -74,7 +74,7 @@ public:
     full_name = engine_elem.elementsByTagName("name").at(0).toElement().text();
     url = engine_elem.elementsByTagName("url").at(0).toElement().text();
     supported_categories = engine_elem.elementsByTagName("categories").at(0).toElement().text().split(" ");
-    QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
+    QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
     QStringList disabled_engines = settings.value(QString::fromUtf8("SearchEngines/disabledEngines"), QStringList()).toStringList();
     enabled = !disabled_engines.contains(name);
   }
@@ -87,7 +87,7 @@ public:
   void setEnabled(bool _enabled) {
     enabled = _enabled;
     // Save to Hard disk
-    QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
+    QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
     QStringList disabled_engines = settings.value(QString::fromUtf8("SearchEngines/disabledEngines"), QStringList()).toStringList();
     if(enabled) {
       disabled_engines.removeAll(name);
@@ -115,7 +115,7 @@ public:
 
   QStringList enginesEnabled() const {
     QStringList engines;
-    foreach(SupportedEngine *engine, values()) {
+    foreach(const SupportedEngine *engine, values()) {
       if(engine->isEnabled())
         engines << engine->getName();
     }
@@ -124,9 +124,9 @@ public:
 
   QStringList supportedCategories() const {
     QStringList supported_cat;
-    foreach(SupportedEngine *engine, values()) {
+    foreach(const SupportedEngine *engine, values()) {
       if(engine->isEnabled()) {
-        QStringList s = engine->getSupportedCategories();
+        const QStringList &s = engine->getSupportedCategories();
         foreach(QString cat, s) {
           cat = cat.trimmed();
           if(!cat.isEmpty() && !supported_cat.contains(cat))

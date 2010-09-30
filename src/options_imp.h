@@ -37,7 +37,7 @@
 enum ProxyType {HTTP=1, SOCKS5=2, HTTP_PW=3, SOCKS5_PW=4, SOCKS4=5};
 
 // actions on double-click on torrents
-enum DoubleClickAction {TOGGLE_PAUSE, OPEN_DEST};
+enum DoubleClickAction {TOGGLE_PAUSE, OPEN_DEST, NO_ACTION};
 
 using namespace libtorrent;
 
@@ -67,15 +67,11 @@ protected:
   // General options
   QString getLocale() const;
   QString getStyle() const;
-  bool confirmOnExit() const;
-  bool speedInTitleBar() const;
   bool systrayIntegration() const;
   bool minimizeToTray() const;
   bool closeToTray() const;
   bool startMinimized() const;
   bool isSlashScreenDisabled() const;
-  bool OSDEnabled() const;
-  bool isToolbarDisplayed() const;
   // Downloads
   QString getSavePath() const;
   bool isTempPathEnabled() const;
@@ -99,10 +95,8 @@ protected:
   bool isDHTPortSameAsBT() const;
   int getDHTPort() const;
   bool isLSDEnabled() const;
-  bool isRSSEnabled() const;
   int getEncryptionSetting() const;
-  float getDesiredRatio() const;
-  float getDeleteRatio() const;
+  float getMaxRatio() const;
   // Proxy options
   QString getHTTPProxyIp() const;
   unsigned short getHTTPProxyPort() const;
@@ -134,8 +128,6 @@ protected:
 protected slots:
   void enableUploadLimit(bool checked);
   void enableDownloadLimit(bool checked);
-  void enableTempPathInput(bool checked);
-  void enableTorrentExport(bool checked);
   void enablePeerProxy(int comboIndex);
   void enablePeerProxyAuth(bool checked);
   void enableHTTPProxy(int comboIndex);
@@ -143,15 +135,7 @@ protected slots:
   void enableMaxConnecsLimit(bool checked);
   void enableMaxConnecsLimitPerTorrent(bool checked);
   void enableMaxUploadsLimitPerTorrent(bool checked);
-  void enableSchedulerFields(bool checked);
-  void enableShareRatio(bool checked);
-  void enableDeleteRatio(bool checked);
-  void enableFilter(bool checked);
-  void enableRSS(bool checked);
-  void enableDHTSettings(bool checked);
-  void enableDHTPortSettings(bool checked);
-  void enableQueueingSystem(bool checked);
-  void enableSpoofingSettings(int index);
+  void enableMaxRatio(bool checked);
   void setStyle(QString style);
   void on_buttonBox_accepted();
   void closeEvent(QCloseEvent *e);
@@ -165,7 +149,6 @@ protected slots:
   void enableSystrayOptions();
   void disableSystrayOptions();
   void setSystrayOptionsState(bool checked);
-  void enableWebUi(bool checkBoxValue);
   void changePage(QListWidgetItem*, QListWidgetItem*);
   void loadWindowState();
   void saveWindowState() const;
@@ -177,7 +160,6 @@ protected slots:
 public slots:
   void setLocale(QString locale);
   void useStyle();
-  void on_resetPeerVersion_button_clicked();
 
 signals:
   void status_changed() const;

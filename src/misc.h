@@ -33,13 +33,17 @@
 
 #include <sstream>
 #include <QString>
+#include <QStringList>
 #include <QThread>
 #include <ctime>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 #include <boost/date_time/posix_time/conversion.hpp>
 #include <QPoint>
+#include <QFile>
 
 #include <libtorrent/torrent_info.hpp>
+#include <libtorrent/torrent_handle.hpp>
+
 const qlonglong MAX_ETA = 8640000;
 
 using namespace libtorrent;
@@ -71,6 +75,14 @@ public:
     return QString(o.str().c_str());
   }
 
+  static inline QString removeLastPathPart(QString path) {
+    if(path.isEmpty()) return path;
+    path = path.replace("\\", "/");
+    QStringList tmp = path.split("/");
+    tmp.removeLast();
+    return tmp.join("/");
+  }
+
   static inline sha1_hash QStringToSha1(const QString& s) {
     std::string str(s.toLocal8Bit().data());
     std::istringstream i(str);
@@ -78,6 +90,22 @@ public:
     i>>x;
     return x;
   }
+
+  static void shutdownComputer();
+
+  static bool safeRemove(QString file_path) {
+    QFile MyFile(file_path);
+    if(!MyFile.exists()) return true;
+    // Make sure the permissions are ok
+    MyFile.setPermissions(MyFile.permissions()|QFile::ReadOwner|QFile::WriteOwner|QFile::ReadUser|QFile::WriteUser);
+    // Actually remove the file
+    return MyFile.remove();
+  }
+
+  static QString truncateRootFolder(boost::intrusive_ptr<torrent_info> t);
+  static QString truncateRootFolder(torrent_handle h);
+
+  static QString updateLabelInSavePath(const QString& defaultSavePath, QString save_path, const QString old_label, const QString new_label);
 
   static bool sameFiles(QString path1, QString path2);
   static void copyDir(QString src_path, QString dst_path);
@@ -109,6 +137,7 @@ public:
   static bool removeEmptyTree(QString path);
   static QString magnetUriToName(QString magnet_uri);
   static QString magnetUriToHash(QString magnet_uri);
+  static QString bcLinkToMagnet(QString bc_link);
   static QString boostTimeToQString(const boost::optional<boost::posix_time::ptime> boostDate);
   // Replace ~ in path
   static QString expandPath(QString path);

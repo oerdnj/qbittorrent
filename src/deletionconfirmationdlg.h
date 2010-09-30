@@ -33,6 +33,7 @@
 
 #include <QDialog>
 #include "ui_confirmdeletiondlg.h"
+#include "preferences.h"
 #include "misc.h"
 
 class DeletionConfirmationDlg : public QDialog, private Ui::confirmDeletionDlg {
@@ -42,6 +43,9 @@ class DeletionConfirmationDlg : public QDialog, private Ui::confirmDeletionDlg {
   DeletionConfirmationDlg(QWidget *parent=0): QDialog(parent) {
     setupUi(this);
     move(misc::screenCenter(this));
+    checkPermDelete->setChecked(Preferences::deleteTorrentFilesAsDefault());
+    connect(checkPermDelete, SIGNAL(clicked()), this, SLOT(updateRememberButtonState()));
+    buttonBox->setFocus();
   }
 
   bool shouldDeleteLocalFiles() const {
@@ -57,6 +61,15 @@ class DeletionConfirmationDlg : public QDialog, private Ui::confirmDeletionDlg {
     return false;
   }
 
+private slots:
+  void updateRememberButtonState() {
+    rememberBtn->setEnabled(checkPermDelete->isChecked() != Preferences::deleteTorrentFilesAsDefault());
+  }
+
+  void on_rememberBtn_clicked() {
+    Preferences::setDeleteTorrentFilesAsDefault(checkPermDelete->isChecked());
+    rememberBtn->setEnabled(false);
+  }
 };
 
 #endif // DELETIONCONFIRMATIONDLG_H
