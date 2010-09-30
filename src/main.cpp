@@ -52,8 +52,7 @@
 #include "headlessloader.h"
 #endif
 
-#include <QSettings>
-
+#include "qinisettings.h"
 #if defined(Q_WS_X11) || defined(Q_WS_MAC)
 #include <signal.h>
 #include <execinfo.h>
@@ -85,7 +84,7 @@ class LegalNotice: public QObject {
 
 public:
   static bool userAgreesWithNotice() {
-    QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
+    QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
     if(settings.value(QString::fromUtf8("LegalNotice/Accepted"), false).toBool()) // Already accepted once
       return true;
 #ifdef DISABLE_GUI
@@ -136,7 +135,7 @@ void sigsegvHandler(int) {
   std::cerr << "\n\n*************************************************************\n";
   std::cerr << "Catching SIGSEGV, please report a bug at http://bug.qbittorrent.org\nand provide the following backtrace:\n";
   print_stacktrace();
-  std::raise(SIGSEGV);
+  raise(SIGSEGV);
 }
 void sigabrtHandler(int) {
   signal(SIGABRT, 0);
@@ -144,7 +143,7 @@ void sigabrtHandler(int) {
   std::cerr << "\n\n*************************************************************\n";
   std::cerr << "Catching SIGABRT, please report a bug at http://bug.qbittorrent.org\nand provide the following backtrace:\n";
   print_stacktrace();
-  std::raise(SIGABRT);
+  raise(SIGABRT);
 }
 #endif
 
@@ -179,7 +178,7 @@ int main(int argc, char *argv[]){
     for (int a = 1; a < argc; ++a) {
       QString p = QString::fromLocal8Bit(argv[a]);
       if(p.startsWith("--")) continue;
-      message += argv[a];
+      message += p;
       if (a < argc-1)
         message += "|";
     }
@@ -192,7 +191,7 @@ int main(int argc, char *argv[]){
   }
 
   QString locale;
-  QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
+  QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
 #ifndef DISABLE_GUI
   bool no_splash = false;
 #endif
@@ -309,7 +308,7 @@ int main(int argc, char *argv[]){
 #endif
 
   int ret = app.exec();
-
+  qDebug("Application has exited");
   return ret;
 }
 

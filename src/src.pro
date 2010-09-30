@@ -12,19 +12,22 @@ CONFIG += qt \
 
 # Update this VERSION for each release
 os2 {
-    DEFINES += VERSION=\'\"v2.2.11\"\'
+    DEFINES += VERSION=\'\"v2.4.3\"\'
 } else {
-    DEFINES += VERSION=\\\"v2.2.11\\\"
+    DEFINES += VERSION=\\\"v2.4.3\\\"
 }
 DEFINES += VERSION_MAJOR=2
-DEFINES += VERSION_MINOR=2
-DEFINES += VERSION_BUGFIX=11
+DEFINES += VERSION_MINOR=4
+DEFINES += VERSION_BUGFIX=3
+
+# NORMAL,ALPHA,BETA,RELEASE_CANDIDATE,DEVEL
+DEFINES += VERSION_TYPE=NORMAL
 
 win32 {
   # Adapt these paths on Windows
-  INCLUDEPATH += $$quote(C:/qbittorrent/msvc/boost_1_42_0)
-  INCLUDEPATH += $$quote(C:/qbittorrent/msvc/libtorrent-rasterbar-0.14.10/include)
-  INCLUDEPATH += $$quote(C:/qbittorrent/msvc/libtorrent-rasterbar-0.14.10/zlib)
+  INCLUDEPATH += $$quote(C:/qbittorrent/boost_1_42_0)
+  INCLUDEPATH += $$quote(C:/qbittorrent/libtorrent-rasterbar-0.14.10/include)
+  INCLUDEPATH += $$quote(C:/qbittorrent/libtorrent-rasterbar-0.14.10/zlib)
 
   LIBS += -LC:/OpenSSL/lib/VC
 
@@ -51,9 +54,6 @@ win32 {
   }
 }
 
-# NORMAL,ALPHA,BETA,RELEASE_CANDIDATE,DEVEL
-DEFINES += VERSION_TYPE=NORMAL
-
 # !mac:QMAKE_LFLAGS += -Wl,--as-needed
 contains(DEBUG_MODE, 1) { 
     CONFIG += debug
@@ -74,8 +74,12 @@ macx {
   DATADIR = /usr/local/share
 
   INCLUDEPATH += /usr/local/include/libtorrent /usr/include/openssl /usr/include /opt/local/include/boost /opt/local/include
-  LIBS += -ltorrent-rasterbar -lcrypto -L/opt/local/lib -lboost_system-mt -lboost_filesystem-mt -lboost_thread-mt -framework Cocoa
+  LIBS += -ltorrent-rasterbar -lcrypto -L/opt/local/lib -lboost_system-mt -lboost_filesystem-mt -lboost_thread-mt -framework Cocoa -framework Carbon
 
+  document_icon.path = Contents/Resources
+  document_icon.files = Icons/qBitTorrentDocument.icns
+
+  QMAKE_BUNDLE_DATA += document_icon
   ICON = Icons/qbittorrent_mac.icns
   QMAKE_INFO_PLIST = Info.plist
 }
@@ -146,9 +150,8 @@ contains(DEFINES, DISABLE_GUI) {
   TARGET = qbittorrent
 }
 
-# QMAKE_CXXFLAGS_RELEASE += -fwrapv
-# QMAKE_CXXFLAGS_DEBUG += -fwrapv
-unix:QMAKE_LFLAGS_SHAPP += -rdynamic
+unix:QMAKE_LFLAGS_APP += -rdynamic
+
 unix {
   CONFIG += link_pkgconfig
   PKGCONFIG += "libtorrent-rasterbar"
@@ -156,6 +159,9 @@ unix {
 
 QT += network
 !contains(DEFINES, DISABLE_GUI):QT += xml
+unix:!macx {
+  QT += dbus
+}
 
 DEFINES += QT_NO_CAST_TO_ASCII
 
@@ -174,16 +180,16 @@ win32 {
 
   # Adapt these paths on Windows
   contains(DEBUG_MODE, 1) {
-    LIBS += C:/qbittorrent/msvc/libs/libtorrentd.lib \
-            C:/qbittorrent/msvc/libs/libboost_system-vc90-mt-gd.lib \
-            C:/qbittorrent/msvc/libs/libboost_filesystem-vc90-mt-gd.lib \
-            C:/qbittorrent/msvc/libs/libboost_thread-vc90-mt-gd.lib
+    LIBS += C:/qbittorrent/libs/libtorrentd.lib \
+            C:/qbittorrent/libs/libboost_system-vc90-mt-gd.lib \
+            C:/qbittorrent/libs/libboost_filesystem-vc90-mt-gd.lib \
+            C:/qbittorrent/libs/libboost_thread-vc90-mt-gd.lib
   }
   contains(DEBUG_MODE, 0) {
-    LIBS += C:/qbittorrent/msvc/libs/libtorrent.lib \
-            C:/qbittorrent/msvc/libs/libboost_system-vc90-mt.lib \
-            C:/qbittorrent/msvc/libs/libboost_filesystem-vc90-mt.lib \
-            C:/qbittorrent/msvc/libs/libboost_thread-vc90-mt.lib
+    LIBS += C:/qbittorrent/libs/libtorrent.lib \
+            C:/qbittorrent/libs/libboost_system-vc90-mt.lib \
+            C:/qbittorrent/libs/libboost_filesystem-vc90-mt.lib \
+            C:/qbittorrent/libs/libboost_thread-vc90-mt.lib
   }
 
   LIBS += advapi32.lib shell32.lib
@@ -215,14 +221,13 @@ os2 {
     message("On Mac OS X, GeoIP database must be embedded.")
   }
   unix:!macx:contains(DEFINES, WITH_GEOIP_EMBEDDED):message("You chose to embed GeoIP database in qBittorrent executable.")
-
 }
 
 # Resource files
 RESOURCES = icons.qrc \
-    lang.qrc \
-    search.qrc \
-    webui.qrc
+            lang.qrc \
+            search.qrc \
+            webui.qrc
 
 # Add GeoIP resource file if the GeoIP database
 # should be embedded in qBittorrent executable
@@ -241,128 +246,116 @@ contains(DEFINES, WITH_GEOIP_EMBEDDED) {
 
 # Translations
 TRANSLATIONS = $$LANG_PATH/qbittorrent_fr.ts \
-    $$LANG_PATH/qbittorrent_zh.ts \
-    $$LANG_PATH/qbittorrent_zh_TW.ts \
-    $$LANG_PATH/qbittorrent_en.ts \
-    $$LANG_PATH/qbittorrent_ca.ts \
-    $$LANG_PATH/qbittorrent_es.ts \
-    $$LANG_PATH/qbittorrent_pl.ts \
-    $$LANG_PATH/qbittorrent_ko.ts \
-    $$LANG_PATH/qbittorrent_de.ts \
-    $$LANG_PATH/qbittorrent_nl.ts \
-    $$LANG_PATH/qbittorrent_tr.ts \
-    $$LANG_PATH/qbittorrent_sv.ts \
-    $$LANG_PATH/qbittorrent_el.ts \
-    $$LANG_PATH/qbittorrent_ru.ts \
-    $$LANG_PATH/qbittorrent_uk.ts \
-    $$LANG_PATH/qbittorrent_bg.ts \
-    $$LANG_PATH/qbittorrent_it.ts \
-    $$LANG_PATH/qbittorrent_sk.ts \
-    $$LANG_PATH/qbittorrent_ro.ts \
-    $$LANG_PATH/qbittorrent_pt.ts \
-    $$LANG_PATH/qbittorrent_nb.ts \
-    $$LANG_PATH/qbittorrent_fi.ts \
-    $$LANG_PATH/qbittorrent_da.ts \
-    $$LANG_PATH/qbittorrent_ja.ts \
-    $$LANG_PATH/qbittorrent_hu.ts \
-    $$LANG_PATH/qbittorrent_pt_BR.ts \
-    $$LANG_PATH/qbittorrent_cs.ts \
-    $$LANG_PATH/qbittorrent_sr.ts \
-    $$LANG_PATH/qbittorrent_ar.ts \
-    $$LANG_PATH/qbittorrent_hr.ts
+               $$LANG_PATH/qbittorrent_zh.ts \
+               $$LANG_PATH/qbittorrent_zh_TW.ts \
+               $$LANG_PATH/qbittorrent_en.ts \
+               $$LANG_PATH/qbittorrent_ca.ts \
+               $$LANG_PATH/qbittorrent_es.ts \
+               $$LANG_PATH/qbittorrent_pl.ts \
+               $$LANG_PATH/qbittorrent_ko.ts \
+               $$LANG_PATH/qbittorrent_de.ts \
+               $$LANG_PATH/qbittorrent_nl.ts \
+               $$LANG_PATH/qbittorrent_tr.ts \
+               $$LANG_PATH/qbittorrent_sv.ts \
+               $$LANG_PATH/qbittorrent_el.ts \
+               $$LANG_PATH/qbittorrent_ru.ts \
+               $$LANG_PATH/qbittorrent_uk.ts \
+               $$LANG_PATH/qbittorrent_bg.ts \
+               $$LANG_PATH/qbittorrent_it.ts \
+               $$LANG_PATH/qbittorrent_sk.ts \
+               $$LANG_PATH/qbittorrent_ro.ts \
+               $$LANG_PATH/qbittorrent_pt.ts \
+               $$LANG_PATH/qbittorrent_nb.ts \
+               $$LANG_PATH/qbittorrent_fi.ts \
+               $$LANG_PATH/qbittorrent_da.ts \
+               $$LANG_PATH/qbittorrent_ja.ts \
+               $$LANG_PATH/qbittorrent_hu.ts \
+               $$LANG_PATH/qbittorrent_pt_BR.ts \
+               $$LANG_PATH/qbittorrent_cs.ts \
+               $$LANG_PATH/qbittorrent_sr.ts \
+               $$LANG_PATH/qbittorrent_ar.ts \
+               $$LANG_PATH/qbittorrent_hr.ts
 
 # Source code
 HEADERS += misc.h \
-    downloadthread.h \
-    bittorrent.h \
-    qtorrenthandle.h \
-    httpserver.h \
-    httpconnection.h \
-    httprequestparser.h \
-    httpresponsegenerator.h \
-    json.h \
-    eventmanager.h \
-    filterparserthread.h \
-    stacktrace.h \
-    torrentpersistentdata.h \
-    filesystemwatcher.h \
-    preferences.h \
-    bandwidthscheduler.h \
-    scannedfoldersmodel.h
+           downloadthread.h \
+           bittorrent.h \
+           qtorrenthandle.h \
+           httpserver.h \
+           httpconnection.h \
+           httprequestparser.h \
+           httpresponsegenerator.h \
+           json.h \
+           eventmanager.h \
+           filterparserthread.h \
+           stacktrace.h \
+           torrentpersistentdata.h \
+           filesystemwatcher.h \
+           preferences.h \
+           bandwidthscheduler.h \
+           scannedfoldersmodel.h \
+           qinisettings.h \
+           smtp.h
 
 contains(DEFINES, DISABLE_GUI) {
-     HEADERS +=  headlessloader.h
+  HEADERS += headlessloader.h
 } else {
-     HEADERS +=  GUI.h \
-                 feedList.h \
-                 supportedengines.h \
-                 transferlistwidget.h \
-                 transferlistdelegate.h \
-                 transferlistfilterswidget.h \
-                 propertieswidget.h \
-                 torrentfilesmodel.h \
-                 geoip.h \
-                 peeraddition.h \
-                 deletionconfirmationdlg.h \
-                 statusbar.h \
-                 trackerlist.h \
-                 downloadedpiecesbar.h \
-                 peerlistwidget.h \
-                 peerlistdelegate.h \
-                 reverseresolution.h \
-                 feeddownloader.h \
-                 trackersadditiondlg.h \
-                 searchtab.h \
-                 console_imp.h \
-                 ico.h \
-                 engineselectdlg.h \
-                 pluginsource.h \
-                 searchEngine.h \
-                 rss.h \
-                 rss_imp.h \
-                 speedlimitdlg.h \
-                 options_imp.h \
-                 about_imp.h \
-                 createtorrent_imp.h \
-                 searchlistdelegate.h \
-                 proplistdelegate.h \
-                 previewselect.h \
-                 previewlistdelegate.h \
-                 downloadfromurldlg.h \
-                 torrentadditiondlg.h \
-                 trackerlogin.h \
-                 pieceavailabilitybar.h \
-                 advancedsettings.h
-  macx {
-      HEADERS += qmacapplication.h
-  }
-}
+  HEADERS +=  GUI.h \
+              feedList.h \
+              supportedengines.h \
+              transferlistwidget.h \
+              transferlistdelegate.h \
+              transferlistfilterswidget.h \
+              propertieswidget.h \
+              torrentfilesmodel.h \
+              geoip.h \
+              peeraddition.h \
+              deletionconfirmationdlg.h \
+              statusbar.h \
+              trackerlist.h \
+              downloadedpiecesbar.h \
+              peerlistwidget.h \
+              peerlistdelegate.h \
+              reverseresolution.h \
+              feeddownloader.h \
+              trackersadditiondlg.h \
+              searchtab.h \
+              console_imp.h \
+              ico.h \
+              engineselectdlg.h \
+              pluginsource.h \
+              searchEngine.h \
+              rss.h \
+              rss_imp.h \
+              speedlimitdlg.h \
+              options_imp.h \
+              about_imp.h \
+              createtorrent_imp.h \
+              searchlistdelegate.h \
+              proplistdelegate.h \
+              previewselect.h \
+              previewlistdelegate.h \
+              downloadfromurldlg.h \
+              torrentadditiondlg.h \
+              trackerlogin.h \
+              pieceavailabilitybar.h \
+              advancedsettings.h \
+              cookiesdlg.h \
+              rsssettings.h \
+              hidabletabwidget.h
 
-!contains(DEFINES, DISABLE_GUI) {
-   FORMS += ui/mainwindow.ui \
-	    ui/options.ui \
-	    ui/about.ui \
-	    ui/createtorrent.ui \
-	    ui/preview.ui \
-	    ui/login.ui \
-	    ui/downloadfromurldlg.ui \
-	    ui/torrentadditiondlg.ui \
-	    ui/search.ui \
-	    ui/rss.ui \
-	    ui/bandwidth_limit.ui \
-	    ui/engineselect.ui \
-	    ui/pluginsource.ui \
-	    ui/trackersadditiondlg.ui \
-	    ui/console.ui \
-	    ui/feeddownloader.ui \
-	    ui/propertieswidget.ui \
-	    ui/peer.ui \
-	    ui/confirmdeletiondlg.ui
+  macx {
+    HEADERS += qmacapplication.h
+  }
 }
 
 contains(DEFINES, USE_SYSTEM_QTSINGLEAPPLICATION) {
   message("Using the system's qtsingleapplication library")
-  CONFIG += qtsingleapplication
+  contains(DEFINES, DISABLE_GUI) {
+    CONFIG += qtsinglecoreapplication
+  } else {
+    CONFIG += qtsingleapplication
+  }
 } else {
   message("Using the shipped qtsingleapplication library")
   contains(DEFINES, DISABLE_GUI) {
@@ -372,34 +365,68 @@ contains(DEFINES, USE_SYSTEM_QTSINGLEAPPLICATION) {
   }
 }
 
-SOURCES += main.cpp \ 
-    bittorrent.cpp \
-    qtorrenthandle.cpp \
-    downloadthread.cpp \
-    httpserver.cpp \
-    httpconnection.cpp \
-    httprequestparser.cpp \
-    httpresponsegenerator.cpp \
-    eventmanager.cpp \
-    scannedfoldersmodel.cpp \
-    misc.cpp
+!contains(DEFINES, DISABLE_GUI) {
+  include(lineedit/lineedit.pri)
+}
 
 !contains(DEFINES, DISABLE_GUI) {
-        SOURCES += GUI.cpp \
-                   options_imp.cpp \
-                   createtorrent_imp.cpp \
-                   searchengine.cpp \
-                   rss_imp.cpp \
-                   engineselectdlg.cpp \
-                   searchtab.cpp \
-                   ico.cpp \
-                   rss.cpp \
-                   transferlistwidget.cpp \
-                   propertieswidget.cpp \
-                   peerlistwidget.cpp \
-                   trackerlist.cpp
+  FORMS += ui/mainwindow.ui \
+           ui/options.ui \
+           ui/about.ui \
+           ui/createtorrent.ui \
+           ui/preview.ui \
+           ui/login.ui \
+           ui/downloadfromurldlg.ui \
+           ui/torrentadditiondlg.ui \
+           ui/search.ui \
+           ui/rss.ui \
+           ui/bandwidth_limit.ui \
+           ui/engineselect.ui \
+           ui/pluginsource.ui \
+           ui/trackersadditiondlg.ui \
+           ui/console.ui \
+           ui/feeddownloader.ui \
+           ui/propertieswidget.ui \
+           ui/peer.ui \
+           ui/confirmdeletiondlg.ui \
+           ui/cookiesdlg.ui \
+           ui/rsssettings.ui
+}
+
+SOURCES += main.cpp \ 
+           bittorrent.cpp \
+           qtorrenthandle.cpp \
+           downloadthread.cpp \
+           httpserver.cpp \
+           httpconnection.cpp \
+           httprequestparser.cpp \
+           httpresponsegenerator.cpp \
+           eventmanager.cpp \
+           scannedfoldersmodel.cpp \
+           misc.cpp \
+           smtp.cpp
+
+!contains(DEFINES, DISABLE_GUI) {
+  SOURCES += GUI.cpp \
+             options_imp.cpp \
+             createtorrent_imp.cpp \
+             searchengine.cpp \
+             rss_imp.cpp \
+             engineselectdlg.cpp \
+             searchtab.cpp \
+             ico.cpp \
+             rss.cpp \
+             transferlistwidget.cpp \
+             propertieswidget.cpp \
+             peerlistwidget.cpp \
+             cookiesdlg.cpp \
+             trackerlist.cpp \
+             torrentadditiondlg.cpp \
+             rsssettings.cpp
+
   macx {
-        SOURCES += qmacapplication.cpp
+    SOURCES += qmacapplication.cpp
   }
 }
+
 DESTDIR = .

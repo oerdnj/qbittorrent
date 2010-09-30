@@ -47,7 +47,7 @@ namespace json {
     case QVariant::LongLong:
     case QVariant::UInt:
     case QVariant::ULongLong:
-    case QMetaType::Float:
+    //case QMetaType::Float:
       return v.value<QString>();
     case QVariant::StringList:
     case QVariant::List: {
@@ -109,6 +109,7 @@ namespace json {
   }
 
   QVariantMap fromJson(QString json) {
+    qDebug("JSON is %s", qPrintable(json));
     QVariantMap m;
     if(json.startsWith("{") && json.endsWith("}")) {
       json.chop(1);
@@ -131,6 +132,7 @@ namespace json {
           tmp += c;
         }
       }
+      if(!tmp.isEmpty()) couples << tmp;
       foreach(QString couple, couples) {
         QStringList parts = couple.split(":");
         if(parts.size() != 2) continue;
@@ -144,7 +146,7 @@ namespace json {
         if(value_str.startsWith("[") && value_str.endsWith("]")) {
           value_str.chop(1);
           value_str.replace(0, 1, "");
-          QStringList list_elems = value_str.split(",");
+          QStringList list_elems = value_str.split(",", QString::SkipEmptyParts);
           QVariantList varlist;
           foreach(QString list_val, list_elems) {
             if(list_val.startsWith("\"") && list_val.endsWith("\"")) {

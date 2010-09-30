@@ -41,6 +41,10 @@
 #include <QDateTime>
 #include "misc.h"
 
+#ifdef Q_WS_WIN
+  #include <QPlastiqueStyle>
+#endif
+
 // Defines for download list list columns
 enum TorrentState {STATE_DOWNLOADING, STATE_STALLED_DL, STATE_STALLED_UP, STATE_SEEDING, STATE_PAUSED_DL, STATE_PAUSED_UP, STATE_QUEUED_DL, STATE_QUEUED_UP, STATE_CHECKING_UP, STATE_CHECKING_DL, STATE_INVALID};
 enum Column {TR_NAME, TR_PRIORITY, TR_SIZE, TR_PROGRESS, TR_STATUS, TR_SEEDS, TR_PEERS, TR_DLSPEED, TR_UPSPEED, TR_ETA, TR_RATIO, TR_LABEL, TR_ADD_DATE, TR_SEED_DATE, TR_DLLIMIT, TR_UPLIMIT, TR_HASH};
@@ -73,7 +77,7 @@ public:
         qulonglong tot_val = index.data().toULongLong();
         QString display = QString::number((qulonglong)tot_val/1000000);
         if(tot_val%2 == 0) {
-          // Scrape was sucessful, we have total values
+          // Scrape was successful, we have total values
           display += " ("+QString::number((qulonglong)(tot_val%1000000)/10)+")";
         }
         QItemDelegate::drawBackground(painter, opt, index);
@@ -167,7 +171,13 @@ public:
         newopt.minimum = 0;
         newopt.state |= QStyle::State_Enabled;
         newopt.textVisible = true;
+#ifndef Q_WS_WIN
         QApplication::style()->drawControl(QStyle::CE_ProgressBar, &newopt, painter);
+#else
+        // XXX: To avoid having the progress text on the right of the bar
+        QPlastiqueStyle st;
+        st.drawControl(QStyle::CE_ProgressBar, &newopt, painter, 0);
+#endif
         break;
       }
     default:

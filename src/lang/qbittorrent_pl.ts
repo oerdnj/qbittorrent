@@ -1,41 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="pl">
-<context>
-    <name>@default</name>
-    <message>
-        <source>b</source>
-        <comment> bytes</comment>
-        <translation type="obsolete">b</translation>
-    </message>
-    <message>
-        <source>KB</source>
-        <translation type="obsolete">KB</translation>
-    </message>
-    <message>
-        <source>MB</source>
-        <translation type="obsolete">MB</translation>
-    </message>
-    <message>
-        <source>GB</source>
-        <translation type="obsolete">GB</translation>
-    </message>
-    <message>
-        <source>KB</source>
-        <comment>kilobytes</comment>
-        <translation type="obsolete">KB</translation>
-    </message>
-    <message>
-        <source>MB</source>
-        <comment>megabytes</comment>
-        <translation type="obsolete">MB</translation>
-    </message>
-    <message>
-        <source>GB</source>
-        <comment>gigabytes</comment>
-        <translation type="obsolete">GB</translation>
-    </message>
-</context>
+<TS version="2.0" language="pl" sourcelanguage="en">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -45,20 +10,6 @@
     <message>
         <source>About</source>
         <translation>O programie</translation>
-    </message>
-    <message utf8="true">
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;A Bittorrent client programmed in C++, based on Qt4 toolkit &lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;and libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2009 Christophe Dumez&lt;br /&gt;&lt;br /&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Home Page:&lt;/span&gt; &lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Klient sieci bittorrent napisany w języku C++, wykorzystuje biblioteki Qt4&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;i libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2009 Christophe Dumez&lt;br /&gt;&lt;br /&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Strona domowa:&lt;/span&gt; &lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Author</source>
@@ -77,28 +28,12 @@ p, li { white-space: pre-wrap; }
         <translation>E-mail:</translation>
     </message>
     <message>
-        <source>Home page:</source>
-        <translation>Strona domowa:</translation>
-    </message>
-    <message>
         <source>Christophe Dumez</source>
         <translation>Christophe Dumez</translation>
     </message>
     <message>
         <source>France</source>
         <translation>Francja</translation>
-    </message>
-    <message>
-        <source>chris@dchris.eu</source>
-        <translation type="obsolete">chris@dchris.eu</translation>
-    </message>
-    <message>
-        <source>http://dchris.eu</source>
-        <translation type="obsolete">http://dchris.eu</translation>
-    </message>
-    <message>
-        <source>Thanks To</source>
-        <translation type="obsolete">Podziękowania dla</translation>
     </message>
     <message>
         <source>Translation</source>
@@ -112,46 +47,23 @@ p, li { white-space: pre-wrap; }
         <source>&lt;h3&gt;&lt;b&gt;qBittorrent&lt;/b&gt;&lt;/h3&gt;</source>
         <translation>&lt;h3&gt;&lt;b&gt;qBittorrent&lt;/b&gt;&lt;/h3&gt;</translation>
     </message>
-    <message utf8="true">
-        <source>A bittorrent client using Qt4 and libtorrent, programmed in C++.&lt;br&gt;
-&lt;br&gt;
-Copyright © 2006 by Christophe Dumez&lt;br&gt;
-&lt;br&gt; &lt;u&gt;Home Page:&lt;/u&gt; &lt;i&gt;http://qbittorrent.sourceforge.net&lt;/i&gt;&lt;br&gt;</source>
-        <translation type="obsolete">Klient sieci bittorrent, wykorzystuje biblioteki Qt4 i libtorrent, implementacja w C++.&lt;br&gt;(new line)&lt;br&gt;(new line)
-Wszystkie prawa zastrżeżone © 2006 Christophe Dumez&lt;br&gt;(new line)
-&lt;br&gt; &lt;u&gt;Strona domowa:&lt;/u&gt; &lt;i&gt;http://qbittorrent.sourceforge.net&lt;/i&gt;&lt;br&gt;</translation>
-    </message>
-    <message>
-        <source>qBittorrent Author</source>
-        <translation type="obsolete">Autor qBittorrent</translation>
-    </message>
     <message>
         <source>chris@qbittorrent.org</source>
         <translation>chris@qbittorrent.org</translation>
     </message>
     <message>
-        <source>http://www.dchris.eu</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Birthday:</source>
-        <translation>Urodzony:</translation>
-    </message>
-    <message>
-        <source>Occupation:</source>
-        <translation>Zawód:</translation>
-    </message>
-    <message>
-        <source>03/05/1985</source>
-        <translation>03/05/1985</translation>
-    </message>
-    <message>
-        <source>Student in computer science</source>
-        <translation>Student informatyki</translation>
-    </message>
-    <message>
         <source>Thanks to</source>
         <translation>Podziękowania dla</translation>
+    </message>
+    <message utf8="true">
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;A Bittorrent client programmed in C++, based on Qt4 toolkit &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;and libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2010 Christophe Dumez&lt;br /&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Home Page:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Forum:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;IRC:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; #qbittorrent on Freenode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -175,7 +87,7 @@ Wszystkie prawa zastrżeżone © 2006 Christophe Dumez&lt;br&gt;(new line)
     <message>
         <source>Disk write cache size</source>
         <translatorcomment>?</translatorcomment>
-        <translation type="unfinished">Rozmiar pamięci podręcznej na zapisy</translation>
+        <translation>Rozmiar pamięci podręcznej na dysku</translation>
     </message>
     <message>
         <source> MiB</source>
@@ -183,11 +95,11 @@ Wszystkie prawa zastrżeżone © 2006 Christophe Dumez&lt;br&gt;(new line)
     </message>
     <message>
         <source>Outgoing ports (Min) [0: Disabled]</source>
-        <translation type="unfinished">Port wychodzący (Min) [0: wyłączony]</translation>
+        <translation>Port wychodzący (Min) [0: wyłączony]</translation>
     </message>
     <message>
         <source>Outgoing ports (Max) [0: Disabled]</source>
-        <translation type="unfinished">Port wychodzący (Max) [0: wyłączony]</translation>
+        <translation>Port wychodzący (Max) [0: wyłączony]</translation>
     </message>
     <message>
         <source>Recheck torrents on completion</source>
@@ -210,25 +122,26 @@ Wszystkie prawa zastrżeżone © 2006 Christophe Dumez&lt;br&gt;(new line)
         <source>Resolve peer host names</source>
         <translation>Odczytuj nazwy hostów partnerów</translation>
     </message>
-</context>
-<context>
-    <name>BandwidthAllocationDialog</name>
     <message>
-        <source>Upload limit:</source>
-        <translation type="obsolete">Limit wysyłania:</translation>
+        <source>Maximum number of half-open connections [0: Disabled]</source>
+        <translation type="unfinished">Limit pół-otwartych połączeń  [0: Bez limitu]</translation>
     </message>
     <message>
-        <source>Download limit:</source>
-        <translation type="obsolete">Limit pobierania:</translation>
+        <source>Strict super seeding</source>
+        <translation type="unfinished">Wyłącznie &apos;super seed&apos;</translation>
     </message>
     <message>
-        <source>Unlimited</source>
-        <comment>Unlimited (bandwidth)</comment>
-        <translation type="obsolete">Bez limitu (przepustowość łącza)</translation>
+        <source>Network Interface (requires restart)</source>
+        <translation>Interfejs sieciowy (wymaga ponownego uruchomienia)</translation>
     </message>
     <message>
-        <source>KiB/s</source>
-        <translation type="obsolete">KiB/s</translation>
+        <source>Any interface</source>
+        <comment>i.e. Any network interface</comment>
+        <translation>Dowolny interfejs</translation>
+    </message>
+    <message>
+        <source>Display program notification baloons</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -352,10 +265,6 @@ Wszystkie prawa zastrżeżone © 2006 Christophe Dumez&lt;br&gt;(new line)
         <translation>Nie można odczytać pliku torrent: &apos;%1&apos;.</translation>
     </message>
     <message>
-        <source>Couldn&apos;t listen on any of the given ports.</source>
-        <translation type="obsolete">Nie można nasłuchiwać na żadnym z podanych portów.</translation>
-    </message>
-    <message>
         <source>UPnP/NAT-PMP: Port mapping failure, message: %1</source>
         <translation>UPnP/NAT-PMP: Błąd mapowania portu, wiadomość %1</translation>
     </message>
@@ -375,10 +284,6 @@ Wszystkie prawa zastrżeżone © 2006 Christophe Dumez&lt;br&gt;(new line)
         <source>Downloading &apos;%1&apos;, please wait...</source>
         <comment>e.g: Downloading &apos;xxx.torrent&apos;, please wait...</comment>
         <translation>Pobieranie &apos;%1&apos;, proszę czekać...</translation>
-    </message>
-    <message>
-        <source>Couldn&apos;t listen on port %1, using %2 instead.</source>
-        <translation type="obsolete">Nie można nasłuchiwać na porcie %1, zostanie użyty port %2.</translation>
     </message>
     <message>
         <source>Using a disk cache size of %1 MiB</source>
@@ -416,13 +321,50 @@ Wszystkie prawa zastrżeżone © 2006 Christophe Dumez&lt;br&gt;(new line)
         <source>An I/O error occured, &apos;%1&apos; paused.</source>
         <translation>Wystąpił błąd We/Wy, &apos;%1&apos; wstrzymany.</translation>
     </message>
+    <message>
+        <source>Removing torrent %1...</source>
+        <translation>Usuwanie torrenta %1...</translation>
+    </message>
+    <message>
+        <source>Pausing torrent %1...</source>
+        <translation>Wstrzymywanie torrenta %1...</translation>
+    </message>
+    <message>
+        <source>Error: The torrent %1 does not contain any file.</source>
+        <translation>Błąd: Torrent %1 nie zawiera żadnego pliku.</translation>
+    </message>
+    <message>
+        <source>File sizes mismatch for torrent %1, pausing it.</source>
+        <translation type="unfinished">Błędny razmiar pliku z torrenta %1, wstrzymuję pobieranie.</translation>
+    </message>
+    <message>
+        <source>Torrent name: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Torrent size: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save path: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The torrent was downloaded in %1.</source>
+        <comment>The torrent was downloaded in 1 hour and 20 seconds</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thank you for using qBittorrent.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>[qBittorrent] %1 has finished downloading</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConsoleDlg</name>
-    <message>
-        <source>qBittorrent console</source>
-        <translation>Konsola qBittorrent</translation>
-    </message>
     <message>
         <source>General</source>
         <translation>Główne</translation>
@@ -431,978 +373,30 @@ Wszystkie prawa zastrżeżone © 2006 Christophe Dumez&lt;br&gt;(new line)
         <source>Blocked IPs</source>
         <translation>Zablokowane IP</translation>
     </message>
-</context>
-<context>
-    <name>DLListDelegate</name>
     <message>
-        <source>KiB/s</source>
-        <translation type="obsolete">KiB/s</translation>
+        <source>qBittorrent log viewer</source>
+        <translation>Przeglądarka dziennika qBittorrent</translation>
     </message>
 </context>
 <context>
-    <name>Dialog</name>
+    <name>CookiesDlg</name>
     <message>
-        <source>Options -- qBittorrent</source>
-        <translation type="obsolete">Opcje -- qBittorrent</translation>
+        <source>Cookies management</source>
+        <translation>Zarządzanie ciasteczkami</translation>
     </message>
     <message>
-        <source>Options</source>
-        <translation type="obsolete">Opcje</translation>
+        <source>Key</source>
+        <translation>Klucz</translation>
     </message>
     <message>
-        <source>Main</source>
-        <translation type="obsolete">Główne</translation>
+        <source>Value</source>
+        <translation>Wartość</translation>
     </message>
     <message>
-        <source>Save Path:</source>
-        <translation type="obsolete">Katalog docelowy:</translation>
-    </message>
-    <message>
-        <source>Download Limit:</source>
-        <translation type="obsolete">Limit pobierania:</translation>
-    </message>
-    <message>
-        <source>Upload Limit:</source>
-        <translation type="obsolete">Limit wysyłania:</translation>
-    </message>
-    <message>
-        <source>Max Connects:</source>
-        <translation type="obsolete">Maksymalnie połączeń:</translation>
-    </message>
-    <message>
-        <source>Port range:</source>
-        <translation type="obsolete">Zakres portu:</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="obsolete">...</translation>
-    </message>
-    <message>
-        <source>Kb/s</source>
-        <translation type="obsolete">Kb/s</translation>
-    </message>
-    <message>
-        <source>Disable</source>
-        <translation type="obsolete">Wyłączony</translation>
-    </message>
-    <message>
-        <source>connections</source>
-        <translation type="obsolete">połączeń</translation>
-    </message>
-    <message>
-        <source>to</source>
-        <translation type="obsolete">do</translation>
-    </message>
-    <message>
-        <source>Proxy</source>
-        <translation type="obsolete">Proxy</translation>
-    </message>
-    <message>
-        <source>Proxy Settings</source>
-        <translation type="obsolete">Ustawienia Proxy</translation>
-    </message>
-    <message>
-        <source>Server IP:</source>
-        <translation type="obsolete">IP serwera:</translation>
-    </message>
-    <message>
-        <source>0.0.0.0</source>
-        <translation type="obsolete">0.0.0.0</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="obsolete">Port:</translation>
-    </message>
-    <message>
-        <source>Proxy server requires authentication</source>
-        <translation type="obsolete">Serwer proxy wymaga autentykacji</translation>
-    </message>
-    <message>
-        <source>Authentication</source>
-        <translation type="obsolete">Autentykacja</translation>
-    </message>
-    <message>
-        <source>User Name:</source>
-        <translation type="obsolete">Użytkownik:</translation>
-    </message>
-    <message>
-        <source>Password:</source>
-        <translation type="obsolete">Hasło:</translation>
-    </message>
-    <message>
-        <source>Enable connection through a proxy server</source>
-        <translation type="obsolete">Włącz połączenie przez serwer proxy</translation>
-    </message>
-    <message>
-        <source>Language</source>
-        <translation type="obsolete">Język</translation>
-    </message>
-    <message>
-        <source>Please choose your preferred language in the following list:</source>
-        <translation type="obsolete">Proszę wybrać preferowany język z listy:</translation>
-    </message>
-    <message>
-        <source>Language settings will take effect after restart.</source>
-        <translation type="obsolete">Język zostanie zmieniony przy ponownym uruchomieniu aplikacji.</translation>
-    </message>
-    <message>
-        <source>English</source>
-        <translation type="obsolete">Angielski</translation>
-    </message>
-    <message>
-        <source>French</source>
-        <translation type="obsolete">Francuski</translation>
-    </message>
-    <message>
-        <source>Simplified Chinese</source>
-        <translation type="obsolete">Uproszczony Chiński</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="obsolete">OK</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="obsolete">Anuluj</translation>
-    </message>
-    <message>
-        <source>Scanned Dir:</source>
-        <translation type="obsolete">Przeszukany katalog:</translation>
-    </message>
-    <message>
-        <source>Enable directory scan (auto add torrent files inside)</source>
-        <translation type="obsolete">Włącz aktualizację katalogu (automatyczne dodawanie plików torrent)</translation>
-    </message>
-    <message>
-        <source>Korean</source>
-        <translation type="obsolete">Korean</translation>
-    </message>
-    <message>
-        <source>Spanish</source>
-        <translation type="obsolete">Hiszpański</translation>
-    </message>
-    <message>
-        <source>German</source>
-        <translation type="obsolete">Niemiecki</translation>
-    </message>
-    <message>
-        <source>Connection Settings</source>
-        <translation type="obsolete">Ustawienia połączenia</translation>
-    </message>
-    <message>
-        <source>Share ratio:</source>
-        <translation type="obsolete">Współczynnik udostępniania:</translation>
-    </message>
-    <message>
-        <source>1 KB DL = </source>
-        <translation type="obsolete">1 KB DL = </translation>
-    </message>
-    <message>
-        <source>KB UP max.</source>
-        <translation type="obsolete">KB UP max.</translation>
-    </message>
-    <message>
-        <source>Activate IP Filtering</source>
-        <translation type="obsolete">Włącz filtrowanie IP</translation>
-    </message>
-    <message>
-        <source>Filter Settings</source>
-        <translation type="obsolete">Ustawienia filtra</translation>
-    </message>
-    <message>
-        <source>ipfilter.dat URL or PATH:</source>
-        <translation type="obsolete">ipfilter.dat URL lub ścieżka:</translation>
-    </message>
-    <message>
-        <source>Start IP</source>
-        <translation type="obsolete">Początkowe IP</translation>
-    </message>
-    <message>
-        <source>End IP</source>
-        <translation type="obsolete">Końcowe IP</translation>
-    </message>
-    <message>
-        <source>Origin</source>
-        <translation type="obsolete">Pochodzenie</translation>
-    </message>
-    <message>
-        <source>Comment</source>
-        <translation type="obsolete">Komentarz</translation>
-    </message>
-    <message>
-        <source>Apply</source>
-        <translation type="obsolete">Zastosuj</translation>
-    </message>
-    <message>
-        <source>IP Filter</source>
-        <translation type="obsolete">Filtr IP</translation>
-    </message>
-    <message>
-        <source> Add Range</source>
-        <translation type="obsolete"> Dodaj zakres</translation>
-    </message>
-    <message>
-        <source> Remove Range</source>
-        <translation type="obsolete"> Usuń zakres</translation>
-    </message>
-    <message>
-        <source>Catalan</source>
-        <translation type="obsolete">Catalan</translation>
-    </message>
-    <message>
-        <source>ipfilter.dat Path:</source>
-        <translation type="obsolete">ipfilter.dat ścieżka:</translation>
-    </message>
-    <message>
-        <source>Clear finished downloads on exit</source>
-        <translation type="obsolete">Usuń z listy zakończone torrenty przy wychodzeniu</translation>
-    </message>
-    <message>
-        <source>Ask for confirmation on exit</source>
-        <translation type="obsolete">Potwierdzenie wyjścia z programu</translation>
-    </message>
-    <message>
-        <source>Go to systray when minimizing window</source>
-        <translation type="obsolete">Minimalizuj okno do tray-a</translation>
-    </message>
-    <message>
-        <source>Misc</source>
-        <translation type="obsolete">Różne</translation>
-    </message>
-    <message>
-        <source>Localization</source>
-        <translation type="obsolete">Lokalizacja</translation>
-    </message>
-    <message>
-        <source>Language:</source>
-        <translation type="obsolete">Język:</translation>
-    </message>
-    <message>
-        <source>Behaviour</source>
-        <translation type="obsolete">Zachowanie</translation>
-    </message>
-    <message>
-        <source>OSD</source>
-        <translation type="obsolete">OSD</translation>
-    </message>
-    <message>
-        <source>Always display OSD</source>
-        <translation type="obsolete">Zawsze wyświetlaj OSD</translation>
-    </message>
-    <message>
-        <source>Display OSD only if window is minimized or iconified</source>
-        <translation type="obsolete">Wyświetlaj OSD tylko jeżeli okno jest zminimalizowane</translation>
-    </message>
-    <message>
-        <source>Never display OSD</source>
-        <translation type="obsolete">Nigdy nie wyświetlaj OSD</translation>
-    </message>
-    <message>
-        <source>KiB/s</source>
-        <translation type="obsolete">KiB/s</translation>
-    </message>
-    <message>
-        <source>1 KiB DL = </source>
-        <translation type="obsolete">1 KiB DL =  </translation>
-    </message>
-    <message>
-        <source>KiB UP max.</source>
-        <translation type="obsolete">KiB UP max.</translation>
-    </message>
-    <message>
-        <source>DHT (Trackerless):</source>
-        <translation type="obsolete">DHT (Trackerless):</translation>
-    </message>
-    <message>
-        <source>Disable DHT (Trackerless) support</source>
-        <translation type="obsolete">Wyłącz obsługę DHT (trackerless)</translation>
-    </message>
-    <message>
-        <source>Automatically clear finished downloads</source>
-        <translation type="obsolete">Automatycznie usuń zakończone</translation>
-    </message>
-    <message>
-        <source>Preview program</source>
-        <translation type="obsolete">Otwórz za pomocą</translation>
-    </message>
-    <message>
-        <source>Audio/Video player:</source>
-        <translation type="obsolete">Odtwarzacz multimedialny:</translation>
-    </message>
-    <message>
-        <source>DHT configuration</source>
-        <translation type="obsolete">Konfiguracja DHT</translation>
-    </message>
-    <message>
-        <source>DHT port:</source>
-        <translation type="obsolete">Port DHT:</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Note:&lt;/b&gt; Changes will be applied after qBittorrent is restarted.</source>
-        <translation type="obsolete">&lt;b&gt;Uwaga:&lt;/b&gt; Zmiany zostaną zastosowane przy następnym uruchomieniu aplikacji.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Translators note:&lt;/b&gt; If qBittorrent is not available in your language, &lt;br/&gt;and if you would like to translate it in your mother tongue, &lt;br/&gt;please contact me (chris@qbittorrent.org).</source>
-        <translation type="obsolete">&lt;b&gt;Informacja dla tłumaczy:&lt;/b&gt; Jeżeli qBittorent nie jest dostępny w Twoim języku, &lt;br/&gt; a jesteś zainteresowany tłumaczeniem, &lt;br/&gt; skontaktuj się ze mną (chris@qbittorrent.org).</translation>
-    </message>
-    <message>
-        <source>Display a torrent addition dialog everytime I add a torrent</source>
-        <translation type="obsolete">Wyświetl dodatkowe informacje podczas dodawania nowego pliku torrent</translation>
-    </message>
-    <message>
-        <source>Default save path</source>
-        <translation type="obsolete">Domyślny katalog zapisu</translation>
-    </message>
-    <message>
-        <source>Systray Messages</source>
-        <translation type="obsolete">Wiadomości w pasku zadań</translation>
-    </message>
-    <message>
-        <source>Always display systray messages</source>
-        <translation type="obsolete">Zawsze wyświetlaj wiadomości w pasku zadań</translation>
-    </message>
-    <message>
-        <source>Display systray messages only when window is hidden</source>
-        <translation type="obsolete">Wyświetlaj wiadomości w pasku zadań gdy okno aplikacji jest zminimalizowane</translation>
-    </message>
-    <message>
-        <source>Never display systray messages</source>
-        <translation type="obsolete">Nigdy nie wyświetlaj wiadomości w pasku zadań</translation>
-    </message>
-    <message>
-        <source>Disable DHT (Trackerless)</source>
-        <translation type="obsolete">Wyłącz DHT (Trackerless)</translation>
-    </message>
-    <message>
-        <source>Disable Peer eXchange (PeX)</source>
-        <translation type="obsolete">Wyłącz Peer eXchange (PeX)</translation>
-    </message>
-    <message>
-        <source>Go to systray when closing main window</source>
-        <translation type="obsolete">Minimalizuj do paska systemowego przy zamykaniu okna aplikacji</translation>
-    </message>
-    <message>
-        <source>Connection</source>
-        <translation type="obsolete">Połączenie</translation>
-    </message>
-    <message>
-        <source>Peer eXchange (PeX)</source>
-        <translation type="obsolete">Wymiana Peerów (PeX)</translation>
-    </message>
-    <message>
-        <source>DHT (trackerless)</source>
-        <translation type="obsolete">DHT (beztrackerowy)</translation>
-    </message>
-    <message>
-        <source>Torrent addition</source>
-        <translation type="obsolete">Dołączony torrent</translation>
-    </message>
-    <message>
-        <source>Main window</source>
-        <translation type="obsolete">Główne okno</translation>
-    </message>
-    <message>
-        <source>Systray messages</source>
-        <translation type="obsolete">Wiadomości w tacce systemowej</translation>
-    </message>
-    <message>
-        <source>Directory scan</source>
-        <translation type="obsolete">Skan katalogu</translation>
-    </message>
-    <message>
-        <source>Style (Look &apos;n Feel)</source>
-        <translation type="obsolete">Styl (Look &apos;n Feel)</translation>
-    </message>
-    <message>
-        <source>Plastique style (KDE like)</source>
-        <translation type="obsolete">Styl Plastique (jak KDE)</translation>
-    </message>
-    <message>
-        <source>Cleanlooks style (GNOME like)</source>
-        <translation type="obsolete">Styl Cleanlooks (jak GNOME)</translation>
-    </message>
-    <message>
-        <source>Motif style (default Qt style on Unix systems)</source>
-        <translation type="obsolete">Styl Motif (domyślny Qt w systemach Unix)</translation>
-    </message>
-    <message>
-        <source>CDE style (Common Desktop Environment like)</source>
-        <translation type="obsolete">Styl CDE (jak Common Desktop Environment)</translation>
-    </message>
-    <message>
-        <source>MacOS style (MacOSX only)</source>
-        <translation type="obsolete">Styl MacOS (tylko MacOSX)</translation>
-    </message>
-    <message>
-        <source>Exit confirmation when the download list is not empty</source>
-        <translation type="obsolete">Potwierdź wyjście gdy lista pobierania nie jest pusta</translation>
-    </message>
-    <message>
-        <source>Disable systray integration</source>
-        <translation type="obsolete">Wyłącz integrację z tacką systemową</translation>
-    </message>
-    <message>
-        <source>WindowsXP style (Windows XP only)</source>
-        <translation type="obsolete">Styl WindowsXP (tylko Windows XP)</translation>
-    </message>
-    <message>
-        <source>Server IP or url:</source>
-        <translation type="obsolete">IP serwera lub url:</translation>
-    </message>
-    <message>
-        <source>Proxy type:</source>
-        <translation type="obsolete">Typ Proxy:</translation>
-    </message>
-    <message>
-        <source>HTTP</source>
-        <translation type="obsolete">HTTP</translation>
-    </message>
-    <message>
-        <source>SOCKS5</source>
-        <translation type="obsolete">SOCKS5</translation>
-    </message>
-    <message>
-        <source>Affected connections</source>
-        <translation type="obsolete">Wymuszone połączenia</translation>
-    </message>
-    <message>
-        <source>Use proxy for connections to trackers</source>
-        <translation type="obsolete">Użyj proxy do połączenia z trackerami</translation>
-    </message>
-    <message>
-        <source>Use proxy for connections to regular peers</source>
-        <translation type="obsolete">Użyj proxy do połączenia z partnerami</translation>
-    </message>
-    <message>
-        <source>Use proxy for connections to web seeds</source>
-        <translation type="obsolete">Użyj proxy do połączenia z seedami www</translation>
-    </message>
-    <message>
-        <source>Use proxy for DHT messages</source>
-        <translation type="obsolete">Użyj proxy do wiadomości DHT</translation>
-    </message>
-    <message>
-        <source>Encryption</source>
-        <translation type="obsolete">Szyfrowanie</translation>
-    </message>
-    <message>
-        <source>Encryption state:</source>
-        <translation type="obsolete">Stan szyfrowania:</translation>
-    </message>
-    <message>
-        <source>Enabled</source>
-        <translation type="obsolete">Włączone</translation>
-    </message>
-    <message>
-        <source>Forced</source>
-        <translation type="obsolete">Wymuszone</translation>
-    </message>
-    <message>
-        <source>Disabled</source>
-        <translation type="obsolete">Wyłączone</translation>
-    </message>
-    <message>
-        <source>Preferences</source>
-        <translation type="obsolete">Ustawienia</translation>
-    </message>
-    <message>
-        <source>General</source>
-        <translation type="obsolete">Główne</translation>
-    </message>
-    <message>
-        <source>User interface settings</source>
-        <translation type="obsolete">Ustawienia interfejsu użytkownika</translation>
-    </message>
-    <message>
-        <source>Visual style:</source>
-        <translation type="obsolete">Styl wizualny:</translation>
-    </message>
-    <message>
-        <source>Cleanlooks style (Gnome like)</source>
-        <translation type="obsolete">Styl Cleanlooks (jak Gnome)</translation>
-    </message>
-    <message>
-        <source>Motif style (Unix like)</source>
-        <translation type="obsolete">Styl Motif (jak Unix)</translation>
-    </message>
-    <message>
-        <source>Ask for confirmation on exit when download list is not empty</source>
-        <translation type="obsolete">Pytaj o potwierdzenie wyjścia jeśli lista pobierania nie jest pusta</translation>
-    </message>
-    <message>
-        <source>Display current speed in title bar</source>
-        <translation type="obsolete">Pokaż aktualną prędkość na pasku tytułu</translation>
-    </message>
-    <message>
-        <source>System tray icon</source>
-        <translation type="obsolete">Ikona w tacce systemowej</translation>
-    </message>
-    <message>
-        <source>Disable system tray icon</source>
-        <translation type="obsolete">Wyłącz ikonę w tacce systemowej</translation>
-    </message>
-    <message>
-        <source>Close to tray</source>
-        <comment>i.e: The systray tray icon will still be visible when closing the main window.</comment>
-        <translation type="obsolete">Zamknij do tacki systemowej</translation>
-    </message>
-    <message>
-        <source>Minimize to tray</source>
-        <translation type="obsolete">Minimalizuj do tacki systemowej</translation>
-    </message>
-    <message>
-        <source>Show notification balloons in tray</source>
-        <translation type="obsolete">Pokaż balony powiadomień w tacce systemowej</translation>
-    </message>
-    <message>
-        <source>Media player:</source>
-        <translation type="obsolete">Odtwarzacz mediów:</translation>
-    </message>
-    <message>
-        <source>Downloads</source>
-        <translation type="obsolete">Pobieranie</translation>
-    </message>
-    <message>
-        <source>Put downloads in this folder:</source>
-        <translation type="obsolete">Umieść pobierania w tym katalogu:</translation>
-    </message>
-    <message>
-        <source>Pre-allocate all files</source>
-        <translation type="obsolete">Rezerwuj miejsce na dysku</translation>
-    </message>
-    <message>
-        <source>When adding a torrent</source>
-        <translation type="obsolete">Gdy dodajesz torrent</translation>
-    </message>
-    <message>
-        <source>Display torrent content and some options</source>
-        <translation type="obsolete">Pokaż zawartość torrenta i kilka opcji</translation>
-    </message>
-    <message>
-        <source>Do not start download automatically</source>
-        <comment>The torrent will be added to download list in pause state</comment>
-        <translation type="obsolete">Nie uruchamiaj automatycznie pobierań</translation>
-    </message>
-    <message>
-        <source>Folder watching</source>
-        <comment>qBittorrent will watch a directory and automatically download torrents present in it</comment>
-        <translation type="obsolete">Obserwowanie katalogu</translation>
-    </message>
-    <message>
-        <source>UI</source>
-        <translation type="obsolete">Wygląd</translation>
-    </message>
-    <message>
-        <source>Start/Stop</source>
-        <translation type="obsolete">Uruchom/Zatrzymaj</translation>
-    </message>
-    <message>
-        <source>Open folder</source>
-        <translation type="obsolete">Otwórz katalog</translation>
-    </message>
-    <message>
-        <source>Download folder:</source>
-        <translation type="obsolete">Katalog pobierania:</translation>
-    </message>
-    <message>
-        <source>Temp folder:</source>
-        <translation type="obsolete">Katalog tymczasowy:</translation>
-    </message>
-    <message>
-        <source>Automatically download torrents present in this folder:</source>
-        <translation type="obsolete">Automatycznie pobierz torrenty umieszczone w tym katalogu:</translation>
-    </message>
-    <message>
-        <source>Listening port</source>
-        <translation type="obsolete">Port nasłuchu</translation>
-    </message>
-    <message>
-        <source>to</source>
-        <comment>i.e: 1200 to 1300</comment>
-        <translation type="obsolete">do</translation>
-    </message>
-    <message>
-        <source>Enable UPnP port mapping</source>
-        <translation type="obsolete">Włącz mapowanie portu UPnP</translation>
-    </message>
-    <message>
-        <source>Enable NAT-PMP port mapping</source>
-        <translation type="obsolete">Włącz mapowanie portu NAT-PMP</translation>
-    </message>
-    <message>
-        <source>Global bandwidth limiting</source>
-        <translation type="obsolete">Globalne ograniczenie przepustowości łącza</translation>
-    </message>
-    <message>
-        <source>Upload:</source>
-        <translation type="obsolete">Wysyłanie:</translation>
-    </message>
-    <message>
-        <source>Download:</source>
-        <translation type="obsolete">Pobieranie:</translation>
-    </message>
-    <message>
-        <source>Bittorrent features</source>
-        <translation type="obsolete">Ustawienia bittorrent</translation>
-    </message>
-    <message utf8="true">
-        <source>Spoof µtorrent to avoid ban (requires restart)</source>
-        <translation type="obsolete">Naśladowanie µtorrent w celu omijania blokad (wymaga restartu)</translation>
-    </message>
-    <message>
-        <source>Type:</source>
-        <translation type="obsolete">Typ:</translation>
-    </message>
-    <message>
-        <source>(None)</source>
-        <translation type="obsolete">(Żaden)</translation>
-    </message>
-    <message>
-        <source>Proxy:</source>
-        <translation type="obsolete">Proxy:</translation>
-    </message>
-    <message>
-        <source>Username:</source>
-        <translation type="obsolete">Nazwa użytkownika:</translation>
-    </message>
-    <message>
-        <source>Bittorrent</source>
-        <translation type="obsolete">Bittorrent</translation>
-    </message>
-    <message>
-        <source>Connections limit</source>
-        <translation type="obsolete">Limit połączeń</translation>
-    </message>
-    <message>
-        <source>Global maximum number of connections:</source>
-        <translation type="obsolete">Maksymalna ilość połączeń:</translation>
-    </message>
-    <message>
-        <source>Maximum number of connections per torrent:</source>
-        <translation type="obsolete">Maksymalna ilość połączeń na torrent:</translation>
-    </message>
-    <message>
-        <source>Maximum number of upload slots per torrent:</source>
-        <translation type="obsolete">Maksymalna ilość slotów wysyłania na torrent:</translation>
-    </message>
-    <message>
-        <source>Additional Bittorrent features</source>
-        <translation type="obsolete">Dodatkowe cechy Bittorrenta</translation>
-    </message>
-    <message>
-        <source>Enable DHT network (decentralized)</source>
-        <translation type="obsolete">Włącz sieć DHT (rozproszona)</translation>
-    </message>
-    <message>
-        <source>Enable Peer eXchange (PeX)</source>
-        <translation type="obsolete">Włącz Peer eXchange (PeX)</translation>
-    </message>
-    <message>
-        <source>Enable Local Peer Discovery</source>
-        <translation type="obsolete">Włącz Local Peer Discovery</translation>
-    </message>
-    <message>
-        <source>Encryption:</source>
-        <translation type="obsolete">Szyfrowanie:</translation>
-    </message>
-    <message>
-        <source>Share ratio settings</source>
-        <translation type="obsolete">Ustawienia współczynnika udziału</translation>
-    </message>
-    <message>
-        <source>Desired ratio:</source>
-        <translation type="obsolete">Żądany współczynnik:</translation>
-    </message>
-    <message>
-        <source>Filter file path:</source>
-        <translation type="obsolete">Plik filtra IP:</translation>
-    </message>
-    <message>
-        <source>transfer lists refresh interval:</source>
-        <translation type="obsolete">okres odświeżania listy transferu:</translation>
-    </message>
-    <message>
-        <source>ms</source>
-        <translation type="obsolete">ms</translation>
-    </message>
-    <message>
-        <source>RSS</source>
-        <translation type="obsolete">RSS</translation>
-    </message>
-    <message>
-        <source>RSS feeds refresh interval:</source>
-        <translation type="obsolete">Częstotliwość odświeżania nagłówków RSS:</translation>
-    </message>
-    <message>
-        <source>minutes</source>
-        <translation type="obsolete">minut</translation>
-    </message>
-    <message>
-        <source>Maximum number of articles per feed:</source>
-        <translation type="obsolete">Maksymalna ilość wiadomości w nagłówku:</translation>
-    </message>
-    <message>
-        <source>File system</source>
-        <translation type="obsolete">Katalogi</translation>
-    </message>
-    <message>
-        <source>Remove finished torrents when their ratio reaches:</source>
-        <translation type="obsolete">Usuń zakończone torrenty gdy współczynnik osiągnie:</translation>
-    </message>
-    <message>
-        <source>System default</source>
-        <translation type="obsolete">Domyślne systemu</translation>
-    </message>
-    <message>
-        <source>Start minimized</source>
-        <translation type="obsolete">Uruchom zminimalizowany</translation>
-    </message>
-    <message>
-        <source>Action on double click in transfer lists</source>
-        <comment>qBittorrent will watch a directory and automatically download torrents present in it</comment>
-        <translation type="obsolete">Podwójne kliknięcie na liście transferu</translation>
-    </message>
-    <message>
-        <source>In download list:</source>
-        <translation type="obsolete">Na liście pobierania:</translation>
-    </message>
-    <message>
-        <source>Pause/Start torrent</source>
-        <translation type="obsolete">Pauza/Uruchom torrent</translation>
-    </message>
-    <message>
-        <source>Open destination folder</source>
-        <translation type="obsolete">Otwórz katalog pobierań</translation>
-    </message>
-    <message>
-        <source>Display torrent properties</source>
-        <translation type="obsolete">Wyświetl właściwości torrenta</translation>
-    </message>
-    <message>
-        <source>In seeding list:</source>
-        <translation type="obsolete">Na liście udostępniania:</translation>
-    </message>
-    <message>
-        <source>Folder scan interval:</source>
-        <translation type="obsolete">Częstotliwość skanowania katalogu:</translation>
-    </message>
-    <message>
-        <source>seconds</source>
-        <translation type="obsolete">sekund</translation>
-    </message>
-    <message>
-        <source>Spoof Azureus to avoid ban (requires restart)</source>
-        <translation type="obsolete">Podrabianie Azureusa pozwala ominąć blokadę (wymagany restart)</translation>
-    </message>
-    <message>
-        <source>Web UI</source>
-        <translation type="obsolete">Interfejs www</translation>
-    </message>
-    <message>
-        <source>Port used for incoming connections:</source>
-        <translation type="obsolete">Port dla połączeń przychodzących:</translation>
-    </message>
-    <message>
-        <source>Random</source>
-        <translation type="obsolete">Losowy</translation>
-    </message>
-    <message>
-        <source>Enable Web User Interface</source>
-        <translation type="obsolete">Włącz interfejs www</translation>
-    </message>
-    <message>
-        <source>HTTP Server</source>
-        <translation type="obsolete">Interfejs www</translation>
-    </message>
-    <message>
-        <source>Enable RSS support</source>
-        <translation type="obsolete">Włącz obsługę RSS</translation>
-    </message>
-    <message>
-        <source>RSS settings</source>
-        <translation type="obsolete">Ustawienia RSS</translation>
-    </message>
-    <message>
-        <source>Enable queueing system</source>
-        <translation type="obsolete">Włącz kolejkowanie</translation>
-    </message>
-    <message>
-        <source>Maximum active downloads:</source>
-        <translation type="obsolete">Maksymalna ilość aktywnych pobierań:</translation>
-    </message>
-    <message>
-        <source>Torrent queueing</source>
-        <translation type="obsolete">Kolejkowanie torrentów</translation>
-    </message>
-    <message>
-        <source>Maximum active torrents:</source>
-        <translation type="obsolete">Maksymalna ilość aktywnych torrentów:</translation>
-    </message>
-    <message>
-        <source>Display top toolbar</source>
-        <translation type="obsolete">Pokaż górny pasek narzędzi</translation>
-    </message>
-    <message>
-        <source>Search engine proxy settings</source>
-        <translation type="obsolete">Ustawienia proxy dla mechanizmu wyszukiwania</translation>
-    </message>
-    <message>
-        <source>Bittorrent proxy settings</source>
-        <translation type="obsolete">Ustawienia proxy dla bittorrent</translation>
-    </message>
-    <message>
-        <source>Maximum active uploads:</source>
-        <translation type="obsolete">Maksymalna ilość aktywnych wysyłań:</translation>
-    </message>
-    <message>
-        <source>Disable splash screen</source>
-        <translation type="obsolete">Wyłącz ekran startowy</translation>
-    </message>
-    <message>
-        <source>Transfer list refresh interval:</source>
-        <translation type="obsolete">Częstotliwość odświeżania listy transferów:</translation>
-    </message>
-    <message>
-        <source>Action on double click</source>
-        <comment>Action executed when doucle-clicking on an item in transfer (download/upload) list</comment>
-        <translation type="obsolete">Podwójne kliknięcie na liście</translation>
-    </message>
-    <message>
-        <source>Downloading:</source>
-        <translation type="obsolete">Pobieranych:</translation>
-    </message>
-    <message>
-        <source>Completed:</source>
-        <translation type="obsolete">Ukończonych:</translation>
-    </message>
-    <message>
-        <source>Peer connections</source>
-        <translation type="obsolete">Połączenia partnerów</translation>
-    </message>
-    <message>
-        <source>Resolve peer countries</source>
-        <translation type="obsolete">Odczytuje kraje partnerów</translation>
-    </message>
-    <message>
-        <source>Resolve peer host names</source>
-        <translation type="obsolete">Odczytuje nazwy hostów partnerów</translation>
-    </message>
-    <message>
-        <source>Use a different port for DHT and Bittorrent</source>
-        <translation type="obsolete">Używa innego portu dla DHT i bittorrent</translation>
-    </message>
-</context>
-<context>
-    <name>DownloadingTorrents</name>
-    <message>
-        <source>Name</source>
-        <comment>i.e: file name</comment>
-        <translation type="obsolete">Nazwa</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <comment>i.e: file size</comment>
-        <translation type="obsolete">Rozmiar</translation>
-    </message>
-    <message>
-        <source>Progress</source>
-        <comment>i.e: % downloaded</comment>
-        <translation type="obsolete">Postęp</translation>
-    </message>
-    <message>
-        <source>DL Speed</source>
-        <comment>i.e: Download speed</comment>
-        <translation type="obsolete">Prędkość DL</translation>
-    </message>
-    <message>
-        <source>UP Speed</source>
-        <comment>i.e: Upload speed</comment>
-        <translation type="obsolete">Prędkość UP</translation>
-    </message>
-    <message>
-        <source>Seeds/Leechs</source>
-        <comment>i.e: full/partial sources</comment>
-        <translation type="obsolete">Seeds/Leechs</translation>
-    </message>
-    <message>
-        <source>Ratio</source>
-        <translation type="obsolete">Ratio</translation>
-    </message>
-    <message>
-        <source>ETA</source>
-        <comment>i.e: Estimated Time of Arrival / Time left</comment>
-        <translation type="obsolete">ETA</translation>
-    </message>
-    <message>
-        <source>qBittorrent %1 started.</source>
-        <comment>e.g: qBittorrent v0.x started.</comment>
-        <translation type="obsolete">qBittorrent %1 uruchomiony.</translation>
-    </message>
-    <message>
-        <source>Be careful, sharing copyrighted material without permission is against the law.</source>
-        <translation type="obsolete">Bądź ostrożny, wymiana plików chronionych prawami autorskimi jest niezgodna z prawem.</translation>
-    </message>
-    <message>
-        <source>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;was blocked&lt;/i&gt;</source>
-        <comment>x.y.z.w was blocked</comment>
-        <translation type="obsolete">&lt;kolor czcionki=&apos;red&apos;&gt;%1&lt;/czcionka&gt; &lt;i&gt;był zablokowany&lt;/i&gt;</translation>
-    </message>
-    <message>
-        <source>Fast resume data was rejected for torrent %1, checking again...</source>
-        <translation type="obsolete">Szybkie wznowienie danych zostało odrzucone przez torrent %1, sprawdzam ponownie...</translation>
-    </message>
-    <message>
-        <source>Url seed lookup failed for url: %1, message: %2</source>
-        <translation type="obsolete">Błąd wyszukiwania url seeda dla url:%1, wiadomość: %2</translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; added to download list.</source>
-        <comment>&apos;/home/y/xxx.torrent&apos; was added to download list.</comment>
-        <translation type="obsolete">&apos;%1&apos; dodany do listy pobierania.</translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; resumed. (fast resume)</source>
-        <comment>&apos;/home/y/xxx.torrent&apos; was resumed. (fast resume)</comment>
-        <translation type="obsolete">&apos;%1&apos; wznowiony. (szybkie wznawianie)</translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; is already in download list.</source>
-        <comment>e.g: &apos;xxx.avi&apos; is already in download list.</comment>
-        <translation type="obsolete">&apos;%1&apos; jest już na liście pobierania.</translation>
-    </message>
-    <message>
-        <source>Unable to decode torrent file: &apos;%1&apos;</source>
-        <comment>e.g: Unable to decode torrent file: &apos;/home/y/xxx.torrent&apos;</comment>
-        <translation type="obsolete">Problem z odczytem pliku torrent: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>This file is either corrupted or this isn&apos;t a torrent.</source>
-        <translation type="obsolete">Plik jest uszkodzony lub nie jest plikiem torrent.</translation>
-    </message>
-    <message>
-        <source>Couldn&apos;t listen on any of the given ports.</source>
-        <translation type="obsolete">Nie można nasłuchiwać na żadnym z podanych portów.</translation>
-    </message>
-    <message>
-        <source>Downloading &apos;%1&apos;, please wait...</source>
-        <comment>e.g: Downloading &apos;xxx.torrent&apos;, please wait...</comment>
-        <translation type="obsolete">Pobieranie &apos;%1&apos;, proszę czekać...</translation>
-    </message>
-    <message>
-        <source>Hide or Show Column</source>
-        <translation type="obsolete">Pokaż lub ukryj kolumny</translation>
-    </message>
-    <message>
-        <source>UPnP/NAT-PMP: Port mapping failure, message: %1</source>
-        <translation type="obsolete">UPnP/NAT-PMP: Błąd mapowania portu, wiadomość %1</translation>
-    </message>
-    <message>
-        <source>UPnP/NAT-PMP: Port mapping successful, message: %1</source>
-        <translation type="obsolete">UPnP/NAT-PMP: Udane mapowanie portu, wiadomość %1</translation>
-    </message>
-    <message>
-        <source>Priority</source>
-        <translation type="obsolete">Priorytet</translation>
+        <source>Common keys for cookies are : &apos;%1&apos;, &apos;%2&apos;.
+You should get this information from your Web browser preferences.</source>
+        <translation>Zwykle klucze dla ciasteczek mają format: &apos;%1&apos;, &apos;%2&apos;.
+Informacje te powinny zostać pobrane z ustawień przeglądarki internetowej.</translation>
     </message>
 </context>
 <context>
@@ -1446,25 +440,6 @@ Wszystkie prawa zastrżeżone © 2006 Christophe Dumez&lt;br&gt;(new line)
         <source>%1 max</source>
         <comment>e.g. 10 max</comment>
         <translation>max %1</translation>
-    </message>
-    <message>
-        <source>Ignored</source>
-        <translation type="obsolete">Ignorowany</translation>
-    </message>
-    <message>
-        <source>Normal</source>
-        <comment>Normal (priority)</comment>
-        <translation type="obsolete">Normalny</translation>
-    </message>
-    <message>
-        <source>High</source>
-        <comment>High (priority)</comment>
-        <translation type="obsolete">Wysoki</translation>
-    </message>
-    <message>
-        <source>Maximum</source>
-        <comment>Maximum (priority)</comment>
-        <translation type="obsolete">Maksymalny</translation>
     </message>
 </context>
 <context>
@@ -1621,14 +596,6 @@ Wszystkie prawa zastrżeżone © 2006 Christophe Dumez&lt;br&gt;(new line)
         <translation>Należy wybrać plik docelowy</translation>
     </message>
     <message>
-        <source>Overwriting confirmation</source>
-        <translation type="obsolete">Potwierdzenie nadpisania</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to overwrite existing file?</source>
-        <translation type="obsolete">Czy chcesz nadpisać istniejący plik?</translation>
-    </message>
-    <message>
         <source>Export successful</source>
         <translation>Pomyślne eksportowanie</translation>
     </message>
@@ -1657,127 +624,7 @@ Wszystkie prawa zastrżeżone © 2006 Christophe Dumez&lt;br&gt;(new line)
     </message>
 </context>
 <context>
-    <name>FilterParserThread</name>
-    <message>
-        <source>I/O Error</source>
-        <comment>Input/Output Error</comment>
-        <translation type="obsolete">Błąd We/Wy</translation>
-    </message>
-    <message>
-        <source>Couldn&apos;t open %1 in read mode.</source>
-        <translation type="obsolete">Nie można otworzyć %1 w trybie odczytu.</translation>
-    </message>
-    <message>
-        <source>%1 is not a valid PeerGuardian P2B file.</source>
-        <translation type="obsolete">%1 nie jest poprawnym plikiem PeerGuardian.</translation>
-    </message>
-</context>
-<context>
-    <name>FinishedListDelegate</name>
-    <message>
-        <source>KiB/s</source>
-        <translation type="obsolete">KiB/s</translation>
-    </message>
-</context>
-<context>
-    <name>FinishedTorrents</name>
-    <message>
-        <source>Finished</source>
-        <translation type="obsolete">Zakończono</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <comment>i.e: file name</comment>
-        <translation type="obsolete">Nazwa</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <comment>i.e: file size</comment>
-        <translation type="obsolete">Rozmiar</translation>
-    </message>
-    <message>
-        <source>Progress</source>
-        <comment>i.e: % downloaded</comment>
-        <translation type="obsolete">Postęp</translation>
-    </message>
-    <message>
-        <source>DL Speed</source>
-        <comment>i.e: Download speed</comment>
-        <translation type="obsolete">Prędkość DL</translation>
-    </message>
-    <message>
-        <source>UP Speed</source>
-        <comment>i.e: Upload speed</comment>
-        <translation type="obsolete">Prędkość UP</translation>
-    </message>
-    <message>
-        <source>Seeds/Leechs</source>
-        <comment>i.e: full/partial sources</comment>
-        <translation type="obsolete">Seeds/Leechs</translation>
-    </message>
-    <message>
-        <source>Status</source>
-        <translation type="obsolete">Status</translation>
-    </message>
-    <message>
-        <source>ETA</source>
-        <comment>i.e: Estimated Time of Arrival / Time left</comment>
-        <translation type="obsolete">ETA</translation>
-    </message>
-    <message>
-        <source>Finished</source>
-        <comment>i.e: Torrent has finished downloading</comment>
-        <translation type="obsolete">Zakończono</translation>
-    </message>
-    <message>
-        <source>None</source>
-        <comment>i.e: No error message</comment>
-        <translation type="obsolete">Brak</translation>
-    </message>
-    <message>
-        <source>Ratio</source>
-        <translation type="obsolete">Ratio</translation>
-    </message>
-    <message>
-        <source>Leechers</source>
-        <comment>i.e: full/partial sources</comment>
-        <translation type="obsolete">Leechers</translation>
-    </message>
-    <message>
-        <source>Hide or Show Column</source>
-        <translation type="obsolete">Ukryj lub pokaż kolumny</translation>
-    </message>
-    <message>
-        <source>Incomplete torrent in seeding list</source>
-        <translation type="obsolete">Niekompletny torrent na liście udostępniania</translation>
-    </message>
-    <message>
-        <source>It appears that the state of &apos;%1&apos; torrent changed from &apos;seeding&apos; to &apos;downloading&apos;. Would you like to move it back to download list? (otherwise the torrent will simply be deleted)</source>
-        <translation type="obsolete">Wydaje się, że stan &apos;%1&apos; torrenta zmienił się z udostępniającego na pobierający. Czy chcesz przesunąć go na listę pobierania? (w innym przypadku torrent zostanie usunięty)</translation>
-    </message>
-    <message>
-        <source>Priority</source>
-        <translation type="obsolete">Priorytet</translation>
-    </message>
-</context>
-<context>
     <name>GUI</name>
-    <message>
-        <source> started.</source>
-        <translation type="obsolete">uruchomiony.</translation>
-    </message>
-    <message>
-        <source>DL Speed: </source>
-        <translation type="obsolete">Prędkość DL: </translation>
-    </message>
-    <message>
-        <source>kb/s</source>
-        <translation type="obsolete">kb/s</translation>
-    </message>
-    <message>
-        <source>UP Speed: </source>
-        <translation type="obsolete">Prędkość UP:</translation>
-    </message>
     <message>
         <source>Open Torrent Files</source>
         <translation>Otwórz pliki Torrent</translation>
@@ -1787,473 +634,17 @@ Wszystkie prawa zastrżeżone © 2006 Christophe Dumez&lt;br&gt;(new line)
         <translation>Pliki Torrent</translation>
     </message>
     <message>
-        <source>Couldn&apos;t create the directory:</source>
-        <translation type="obsolete">Nie można zalożyć katalogu:</translation>
-    </message>
-    <message>
-        <source>already in download list.</source>
-        <comment>&lt;file&gt; already in download list.</comment>
-        <translation type="obsolete">jest już na liście pobierania.</translation>
-    </message>
-    <message>
-        <source> kb/s</source>
-        <translation type="obsolete">kb/s</translation>
-    </message>
-    <message>
-        <source>Unknown</source>
-        <translation type="obsolete">Nieznany</translation>
-    </message>
-    <message>
-        <source>added to download list.</source>
-        <translation type="obsolete">dodany do listy pobierania.</translation>
-    </message>
-    <message>
-        <source>resumed. (fast resume)</source>
-        <translation type="obsolete">wznowiony. (szybkie wznawianie)</translation>
-    </message>
-    <message>
-        <source>Unable to decode torrent file:</source>
-        <translation type="obsolete">Problem z odkodowaniem pliku torrent:</translation>
-    </message>
-    <message>
-        <source>This file is either corrupted or this isn&apos;t a torrent.</source>
-        <translation type="obsolete">Plik jest uszkodzony lub nie jest plikiem torrent.</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete all files in download list?</source>
-        <translation type="obsolete">Czy chcesz usunać wszystkie pliki z listy pobierania?</translation>
-    </message>
-    <message>
-        <source>&amp;Yes</source>
-        <translation>&amp;Tak</translation>
-    </message>
-    <message>
-        <source>&amp;No</source>
-        <translation>&amp;Nie</translation>
-    </message>
-    <message>
-        <source>Download list cleared.</source>
-        <translation type="obsolete">List pobierania wyczyszczona.</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete the selected item(s) in download list?</source>
-        <translation type="obsolete">Czy chcesz usunąć wybrane elementy z listy pobierania?</translation>
-    </message>
-    <message>
-        <source>removed.</source>
-        <comment>&lt;file&gt; removed.</comment>
-        <translation type="obsolete">usunięty.</translation>
-    </message>
-    <message>
-        <source>Listening on port: </source>
-        <translation type="obsolete">Nasłuchuje na porcie:</translation>
-    </message>
-    <message>
-        <source>paused</source>
-        <translation type="obsolete">wstrzymany</translation>
-    </message>
-    <message>
-        <source>All Downloads Paused.</source>
-        <translation type="obsolete">Wszystkie Pobierania Wsztrzymane.</translation>
-    </message>
-    <message>
-        <source>started</source>
-        <translation type="obsolete">uruchomiony</translation>
-    </message>
-    <message>
-        <source>All Downloads Resumed.</source>
-        <translation type="obsolete">Wszystkie Pobierania Wzniowione.</translation>
-    </message>
-    <message>
-        <source>paused.</source>
-        <comment>&lt;file&gt; paused.</comment>
-        <translation type="obsolete">wstrzymany.</translation>
-    </message>
-    <message>
-        <source>resumed.</source>
-        <comment>&lt;file&gt; resumed.</comment>
-        <translation type="obsolete">wznowiony.</translation>
-    </message>
-    <message>
-        <source>Finished</source>
-        <translation type="obsolete">Ukończone</translation>
-    </message>
-    <message>
-        <source>Checking...</source>
-        <translation type="obsolete">Sprawdzanie....</translation>
-    </message>
-    <message>
-        <source>Connecting...</source>
-        <translation type="obsolete">Łączenie...</translation>
-    </message>
-    <message>
-        <source>Downloading...</source>
-        <translation type="obsolete">Ściąganie...</translation>
-    </message>
-    <message>
-        <source>m</source>
-        <comment>minutes</comment>
-        <translation type="obsolete">m</translation>
-    </message>
-    <message>
-        <source>h </source>
-        <comment>hours</comment>
-        <translation type="obsolete">h</translation>
-    </message>
-    <message>
-        <source>d </source>
-        <comment>days</comment>
-        <translation type="obsolete">d</translation>
-    </message>
-    <message>
-        <source>qBittorrent </source>
-        <translation type="obsolete">qBittorrent</translation>
-    </message>
-    <message>
         <source>qBittorrent</source>
         <translation>qBittorrent</translation>
-    </message>
-    <message>
-        <source>Are you sure? -- qBittorrent</source>
-        <translation type="obsolete">Jesteś pewny? -- qBittorrent</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;qBittorrent&lt;/b&gt;&lt;br&gt;DL Speed: </source>
-        <translation type="obsolete">&lt;b&gt;qBittorrent&lt;/b&gt;&lt;br&gt;Prędkość DL: </translation>
-    </message>
-    <message>
-        <source> :: By Christophe Dumez :: Copyright (c) 2006</source>
-        <translation type="obsolete"> :: Christophe Dumez :: Wszelkie Prawa Zastrżeżone (c) 2006</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Connection Status:&lt;/b&gt;&lt;br&gt;Online</source>
-        <translation type="obsolete">&lt;b&gt;Status Połączenia:&lt;/b&gt;&lt;br&gt;Połączony</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Connection Status:&lt;/b&gt;&lt;br&gt;Firewalled?&lt;br&gt;&lt;i&gt;No incoming connections...&lt;/i&gt;</source>
-        <translation type="obsolete">&lt;b&gt;Status Połączenia:&lt;/b&gt;&lt;br&gt;Zablokowane?&lt;br&gt;&lt;i&gt;Brak połączeń przychodzących...&lt;/i&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Connection Status:&lt;/b&gt;&lt;br&gt;Offline&lt;br&gt;&lt;i&gt;No peers found...&lt;/i&gt;</source>
-        <translation type="obsolete">&lt;b&gt;Status Połączenia:&lt;/b&gt;&lt;br&gt;Rozłączony&lt;br&gt;&lt;i&gt;Nie znaleziono peer-ów...&lt;/i&gt;</translation>
-    </message>
-    <message>
-        <source>/s</source>
-        <comment>&lt;unit&gt;/seconds</comment>
-        <translation type="obsolete">/s</translation>
-    </message>
-    <message>
-        <source> has finished downloading.</source>
-        <translation type="obsolete"> zakończył sciąganie.</translation>
-    </message>
-    <message>
-        <source>Couldn&apos;t listen on any of the given ports.</source>
-        <translation type="obsolete">Nie można nasłuchiwać na żadnym z podanych portów.</translation>
-    </message>
-    <message>
-        <source>None</source>
-        <translation type="obsolete">Brak</translation>
-    </message>
-    <message>
-        <source>Empty search pattern</source>
-        <translation type="obsolete">Pusty wzorzec wyszukiwania</translation>
-    </message>
-    <message>
-        <source>Please type a search pattern first</source>
-        <translation type="obsolete">Proszę podać wzorzec wyszukiwania</translation>
-    </message>
-    <message>
-        <source>No seach engine selected</source>
-        <translation type="obsolete">Nie wybrano wyszukiwarki</translation>
-    </message>
-    <message>
-        <source>You must select at least one search engine.</source>
-        <translation type="obsolete">Musisz wybrać przynajmniej jedną wyszukiwarkę.</translation>
-    </message>
-    <message>
-        <source>Searching...</source>
-        <translation type="obsolete">Wyszukiwanie...</translation>
-    </message>
-    <message>
-        <source>Could not create search plugin.</source>
-        <translation type="obsolete">Nie można utworzyć wtyczki wyszukiwarki.</translation>
-    </message>
-    <message>
-        <source>Stopped</source>
-        <translation type="obsolete">Zatrzymany</translation>
-    </message>
-    <message>
-        <source>I/O Error</source>
-        <translation type="obsolete">Błąd We/Wy</translation>
-    </message>
-    <message>
-        <source>Couldn&apos;t create temporary file on hard drive.</source>
-        <translation type="obsolete">Nie można utworzyć pliku tymczasowego na dysku.</translation>
-    </message>
-    <message>
-        <source>Torrent file URL</source>
-        <translation type="obsolete">Adres pliku torrent</translation>
-    </message>
-    <message>
-        <source>Downloading using HTTP: </source>
-        <translation type="obsolete">Pobieranie (HTTP): </translation>
-    </message>
-    <message>
-        <source>Torrent file URL:</source>
-        <translation type="obsolete">Adres pliku torrent:</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to quit? -- qBittorrent</source>
-        <translation type="obsolete">Czy chcesz wyjść z programu? -- qBittorent</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to quit qbittorrent?</source>
-        <translation type="obsolete">Czy chcesz wyjść z programu?</translation>
-    </message>
-    <message>
-        <source>Timed out</source>
-        <translation type="obsolete">Limit czasu odpowiedzi</translation>
-    </message>
-    <message>
-        <source>Error during search...</source>
-        <translation type="obsolete">Błąd podczas wyszukiwania...</translation>
-    </message>
-    <message>
-        <source>Failed to download: </source>
-        <translation type="obsolete">Błąd pobierania:</translation>
-    </message>
-    <message>
-        <source>A http download failed, reason: </source>
-        <translation type="obsolete">Błąd pobierania, powód: </translation>
-    </message>
-    <message>
-        <source>KiB/s</source>
-        <translation type="obsolete">KiB/s</translation>
-    </message>
-    <message>
-        <source> KiB/s</source>
-        <translation type="obsolete">(sp)KiB/s</translation>
-    </message>
-    <message>
-        <source>A http download failed, reason:</source>
-        <translation type="obsolete">Błąd pobierania HTTP, powód:</translation>
-    </message>
-    <message>
-        <source>Stalled</source>
-        <translation type="obsolete">Zablokowany</translation>
-    </message>
-    <message>
-        <source>Search is finished</source>
-        <translation type="obsolete">Wyszukiwanie zakończone</translation>
-    </message>
-    <message>
-        <source>An error occured during search...</source>
-        <translation type="obsolete">Wystąpił błąd podczas wyszukiwania...</translation>
-    </message>
-    <message>
-        <source>Search aborted</source>
-        <translation type="obsolete">Wyszukiwanie przerwane</translation>
-    </message>
-    <message>
-        <source>Search returned no results</source>
-        <translation type="obsolete">Nic nie znaleziono</translation>
-    </message>
-    <message>
-        <source>Search is Finished</source>
-        <translation type="obsolete">Wyszukiwanie jest zakończone</translation>
-    </message>
-    <message>
-        <source>Search plugin update -- qBittorrent</source>
-        <translation type="obsolete">Aktualizacja wtyczki wyszukującej -- qBittorrent</translation>
-    </message>
-    <message>
-        <source>Search plugin can be updated, do you want to update it?
-
-Changelog:
-</source>
-        <translation type="obsolete">Dostępna jest nowa wersja wtyczki wyszukiwania, czy chcesz zaktualizować? Zmiany:</translation>
-    </message>
-    <message>
-        <source>Sorry, update server is temporarily unavailable.</source>
-        <translation type="obsolete">Przepraszamy, serwer aktualizacji jest tymczasowo niedostepny.</translation>
-    </message>
-    <message>
-        <source>Your search plugin is already up to date.</source>
-        <translation type="obsolete">Posiadasz najnowszą wersję wtyczki wyszukiwania.</translation>
-    </message>
-    <message>
-        <source>Results</source>
-        <translation type="obsolete">Wyniki</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="obsolete">Nazwa</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <translation type="obsolete">Rozmiar</translation>
-    </message>
-    <message>
-        <source>Progress</source>
-        <translation type="obsolete">Postęp</translation>
-    </message>
-    <message>
-        <source>DL Speed</source>
-        <translation type="obsolete">Prędkość DL</translation>
-    </message>
-    <message>
-        <source>UP Speed</source>
-        <translation type="obsolete">Prędkość UP</translation>
-    </message>
-    <message>
-        <source>Status</source>
-        <translation type="obsolete">Status</translation>
-    </message>
-    <message>
-        <source>ETA</source>
-        <translation type="obsolete">ETA</translation>
-    </message>
-    <message>
-        <source>Seeders</source>
-        <translation type="obsolete">Seeders</translation>
-    </message>
-    <message>
-        <source>Leechers</source>
-        <translation type="obsolete">Leechers</translation>
-    </message>
-    <message>
-        <source>Search engine</source>
-        <translation type="obsolete">Wyszukiwarka</translation>
-    </message>
-    <message>
-        <source>Stalled</source>
-        <comment>state of a torrent whose DL Speed is 0</comment>
-        <translation type="obsolete">Zablokowany</translation>
-    </message>
-    <message>
-        <source>Paused</source>
-        <translation type="obsolete">Zatrzymany</translation>
-    </message>
-    <message>
-        <source>Preview process already running</source>
-        <translation type="obsolete">Podgląd jest już uruchomiony</translation>
-    </message>
-    <message>
-        <source>There is already another preview process running.
-Please close the other one first.</source>
-        <translation type="obsolete">Podgląd jest już uruchomiony.
-Zamknij najpierw okno podglądu.</translation>
-    </message>
-    <message>
-        <source>Couldn&apos;t download</source>
-        <comment>Couldn&apos;t download &lt;file&gt;</comment>
-        <translation type="obsolete">Nie można pobrać</translation>
-    </message>
-    <message>
-        <source>reason:</source>
-        <comment>Reason why the download failed</comment>
-        <translation type="obsolete">powód:</translation>
-    </message>
-    <message>
-        <source>Downloading</source>
-        <comment>Example: Downloading www.example.com/test.torrent</comment>
-        <translation type="obsolete">Pobieranie</translation>
-    </message>
-    <message>
-        <source>Please wait...</source>
-        <translation type="obsolete">Proszę czekać...</translation>
     </message>
     <message>
         <source>Transfers</source>
         <translation>Transfery</translation>
     </message>
     <message>
-        <source>Are you sure you want to quit qBittorrent?</source>
-        <translation type="obsolete">Czy na pewno chcesz zakończyć aplikację qBittorrent?</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete the selected item(s) in download list and in hard drive?</source>
-        <translation type="obsolete">Czy na pewno chcesz usunąć wybrany element z listy i z dysku?</translation>
-    </message>
-    <message>
-        <source>Download finished</source>
-        <translation type="obsolete">Pobieranie zakończone</translation>
-    </message>
-    <message>
-        <source> has finished downloading.</source>
-        <comment>&lt;filename&gt; has finished downloading.</comment>
-        <translation type="obsolete"> zakończył sciąganie.</translation>
-    </message>
-    <message>
-        <source>Search Engine</source>
-        <translation type="obsolete">Wyszukiwarka</translation>
-    </message>
-    <message>
         <source>qBittorrent %1</source>
         <comment>e.g: qBittorrent v0.x</comment>
-        <translation>qBittorent %1</translation>
-    </message>
-    <message>
-        <source>Connection status:</source>
-        <translation type="obsolete">Status połączenia:</translation>
-    </message>
-    <message>
-        <source>Offline</source>
-        <translation type="obsolete">Niepołączony</translation>
-    </message>
-    <message>
-        <source>No peers found...</source>
-        <translation type="obsolete">Nie znaleziono peerów...</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <comment>i.e: file name</comment>
-        <translation type="obsolete">Nazwa</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <comment>i.e: file size</comment>
-        <translation type="obsolete">Rozmiar</translation>
-    </message>
-    <message>
-        <source>Progress</source>
-        <comment>i.e: % downloaded</comment>
-        <translation type="obsolete">Postęp</translation>
-    </message>
-    <message>
-        <source>DL Speed</source>
-        <comment>i.e: Download speed</comment>
-        <translation type="obsolete">Prędkość DL</translation>
-    </message>
-    <message>
-        <source>UP Speed</source>
-        <comment>i.e: Upload speed</comment>
-        <translation type="obsolete">Prędkość UP</translation>
-    </message>
-    <message>
-        <source>Seeds/Leechs</source>
-        <comment>i.e: full/partial sources</comment>
-        <translation type="obsolete">Seeds/Leechs</translation>
-    </message>
-    <message>
-        <source>ETA</source>
-        <comment>i.e: Estimated Time of Arrival / Time left</comment>
-        <translation type="obsolete">ETA</translation>
-    </message>
-    <message>
-        <source>Seeders</source>
-        <comment>i.e: Number of full sources</comment>
-        <translation type="obsolete">Seeders</translation>
-    </message>
-    <message>
-        <source>Leechers</source>
-        <comment>i.e: Number of partial sources</comment>
-        <translation type="obsolete">Leechers</translation>
-    </message>
-    <message>
-        <source>qBittorrent %1 started.</source>
-        <comment>e.g: qBittorrent v0.x started.</comment>
-        <translation type="obsolete">qBittorrent %1 uruchomiony.</translation>
+        <translation>qBittorrent %1</translation>
     </message>
     <message>
         <source>DL speed: %1 KiB/s</source>
@@ -2266,83 +657,6 @@ Zamknij najpierw okno podglądu.</translation>
         <translation>Prędkość UP: %1 KiB/</translation>
     </message>
     <message>
-        <source>Finished</source>
-        <comment>i.e: Torrent has finished downloading</comment>
-        <translation type="obsolete">Zakończono</translation>
-    </message>
-    <message>
-        <source>Checking...</source>
-        <comment>i.e: Checking already downloaded parts...</comment>
-        <translation type="obsolete">Sprawdzanie....</translation>
-    </message>
-    <message>
-        <source>Stalled</source>
-        <comment>i.e: State of a torrent whose download speed is 0kb/s</comment>
-        <translation type="obsolete">Zablokowany</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to quit?</source>
-        <translation>Czy na pewno zakończyć aplikację?</translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; was removed.</source>
-        <comment>&apos;xxx.avi&apos; was removed.</comment>
-        <translation type="obsolete">&apos;%1&apos; został usunięty.</translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; added to download list.</source>
-        <comment>&apos;/home/y/xxx.torrent&apos; was added to download list.</comment>
-        <translation type="obsolete">&apos;%1&apos; dodany do listy pobierania.</translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; resumed. (fast resume)</source>
-        <comment>&apos;/home/y/xxx.torrent&apos; was resumed. (fast resume)</comment>
-        <translation type="obsolete">&apos;%1&apos; wznowiony. (szybkie wznawianie)</translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; is already in download list.</source>
-        <comment>e.g: &apos;xxx.avi&apos; is already in download list.</comment>
-        <translation type="obsolete">&apos;%1&apos; jest już na liście pobierania.</translation>
-    </message>
-    <message>
-        <source>Unable to decode torrent file: &apos;%1&apos;</source>
-        <comment>e.g: Unable to decode torrent file: &apos;/home/y/xxx.torrent&apos;</comment>
-        <translation type="obsolete">Problem z odczytem pliku torrent: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>None</source>
-        <comment>i.e: No error message</comment>
-        <translation type="obsolete">Brak</translation>
-    </message>
-    <message>
-        <source>Listening on port: %1</source>
-        <comment>e.g: Listening on port: 1666</comment>
-        <translation type="obsolete">Nasłuchuje na porcie: %1</translation>
-    </message>
-    <message>
-        <source>All downloads were paused.</source>
-        <translation type="obsolete">Wszystkie zadania pobierania wstrzymane.</translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; paused.</source>
-        <comment>xxx.avi paused.</comment>
-        <translation type="obsolete">&apos;%1&apos; wstrzymany.</translation>
-    </message>
-    <message>
-        <source>Connecting...</source>
-        <comment>i.e: Connecting to the tracker...</comment>
-        <translation type="obsolete">Łączenie...</translation>
-    </message>
-    <message>
-        <source>All downloads were resumed.</source>
-        <translation type="obsolete">Wszystkie zadania pobierania wzniowione.</translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; resumed.</source>
-        <comment>e.g: xxx.avi resumed.</comment>
-        <translation type="obsolete">&apos;%1&apos; wznowiony.</translation>
-    </message>
-    <message>
         <source>%1 has finished downloading.</source>
         <comment>e.g: xxx.avi has finished downloading.</comment>
         <translation>%1 został pobrany.</translation>
@@ -2351,60 +665,6 @@ Zamknij najpierw okno podglądu.</translation>
         <source>I/O Error</source>
         <comment>i.e: Input/Output Error</comment>
         <translation>Błąd We/Wy</translation>
-    </message>
-    <message>
-        <source>An error occured when trying to read or write %1. The disk is probably full, download has been paused</source>
-        <comment>e.g: An error occured when trying to read or write xxx.avi. The disk is probably full, download has been paused</comment>
-        <translation type="obsolete">Wystąpił błąd podczas próby odczytu lub zapisu %1. Prawdopodobnie brak miejsca na dysku, zadania pobierania zostały wstrzymane</translation>
-    </message>
-    <message>
-        <source>An error occured (full fisk?), &apos;%1&apos; paused.</source>
-        <comment>e.g: An error occured (full fisk?), &apos;xxx.avi&apos; paused.</comment>
-        <translation type="obsolete">Wystąpił błąd (brak miejsca?), &apos;%1&apos; wstrzymany.</translation>
-    </message>
-    <message>
-        <source>Connection Status:</source>
-        <translation type="obsolete">Status połączenia:</translation>
-    </message>
-    <message>
-        <source>Online</source>
-        <translation type="obsolete">Połączony</translation>
-    </message>
-    <message>
-        <source>Firewalled?</source>
-        <comment>i.e: Behind a firewall/router?</comment>
-        <translation type="obsolete">Zablokowany?</translation>
-    </message>
-    <message>
-        <source>No incoming connections...</source>
-        <translation type="obsolete">Brak połączeń przychodzących...</translation>
-    </message>
-    <message>
-        <source>No search engine selected</source>
-        <translation type="obsolete">Nie wybrano wyszukiwarki</translation>
-    </message>
-    <message>
-        <source>Search plugin update</source>
-        <translation type="obsolete">Aktualizacja wtyczki wyszukiwania</translation>
-    </message>
-    <message>
-        <source>Search has finished</source>
-        <translation type="obsolete">Wyszukiwanie zakończone</translation>
-    </message>
-    <message>
-        <source>Results</source>
-        <comment>i.e: Search results</comment>
-        <translation type="obsolete">Wyniki</translation>
-    </message>
-    <message>
-        <source>Downloading &apos;%1&apos;, please wait...</source>
-        <comment>e.g: Downloading &apos;xxx.torrent&apos;, please wait...</comment>
-        <translation type="obsolete">Pobieranie &apos;%1&apos;, proszę czekać...</translation>
-    </message>
-    <message>
-        <source>An error occured (full disk?), &apos;%1&apos; paused.</source>
-        <comment>e.g: An error occured (full disk?), &apos;xxx.avi&apos; paused.</comment>
-        <translation type="obsolete">Wystąpił błąd (brak miejsca?), &apos;%1&apos; wstrzymany.</translation>
     </message>
     <message>
         <source>Search</source>
@@ -2423,92 +683,9 @@ Zamknij najpierw okno podglądu.</translation>
 Powód: %2</translation>
     </message>
     <message>
-        <source>qBittorrent is bind to port: %1</source>
-        <comment>e.g: qBittorrent is bind to port: 1666</comment>
-        <translation type="obsolete">qBittorrent jest podłączony do portu: %1</translation>
-    </message>
-    <message>
-        <source>DHT support [ON], port: %1</source>
-        <translation type="obsolete">Wsparcie DHT [WŁ], port: %1</translation>
-    </message>
-    <message>
-        <source>DHT support [OFF]</source>
-        <translation type="obsolete">Wsparcie DHT [WYŁ]</translation>
-    </message>
-    <message>
-        <source>PeX support [ON]</source>
-        <translation type="obsolete">Wsparcie PeX [WŁ]</translation>
-    </message>
-    <message>
-        <source>PeX support [OFF]</source>
-        <translation type="obsolete">Wsparcie pEx [WYŁ]</translation>
-    </message>
-    <message>
-        <source>The download list is not empty.
-Are you sure you want to quit qBittorrent?</source>
-        <translation type="obsolete">Lista pobierania nie jest pusta.
-Czy napewno zamknąć qBittorrent?</translation>
-    </message>
-    <message>
-        <source>Downloads</source>
-        <translation type="obsolete">Pobieranie</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete the selected item(s) in finished list and in hard drive?</source>
-        <translation type="obsolete">Czy napewno usunąć wybrane pozycje z listy zakończonych z twardego dysku?</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete the selected item(s) in finished list?</source>
-        <translation type="obsolete">Czy napewno usunąć wybrane pozycje z listy zakończonych?</translation>
-    </message>
-    <message>
-        <source>UPnP support [ON]</source>
-        <translation type="obsolete">Wsparcie UPnP [WŁ]</translation>
-    </message>
-    <message>
-        <source>Be careful, sharing copyrighted material without permission is against the law.</source>
-        <translation type="obsolete">Bądź ostrożny, wymiana plików chronionych prawami autorskimi jest niezgodna z prawem.</translation>
-    </message>
-    <message>
-        <source>Encryption support [ON]</source>
-        <translation type="obsolete">Wsparcie szyfrowania [WŁ]</translation>
-    </message>
-    <message>
-        <source>Encryption support [FORCED]</source>
-        <translation type="obsolete">Wsparcie szyfrowania [WYMUSZONE]</translation>
-    </message>
-    <message>
-        <source>Encryption support [OFF]</source>
-        <translation type="obsolete">Wsparcie szyfrowania [WYŁ]</translation>
-    </message>
-    <message>
-        <source>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;was blocked&lt;/i&gt;</source>
-        <comment>x.y.z.w was blocked</comment>
-        <translation type="obsolete">&lt;kolor czcionki=&apos;red&apos;&gt;%1&lt;/czcionka&gt; &lt;i&gt;był zablokowany&lt;/i&gt;</translation>
-    </message>
-    <message>
-        <source>Ratio</source>
-        <translation type="obsolete">Ratio</translation>
-    </message>
-    <message>
         <source>Alt+1</source>
         <comment>shortcut to switch to first tab</comment>
         <translation>Alt+1</translation>
-    </message>
-    <message>
-        <source>Alt+2</source>
-        <comment>shortcut to switch to second tab</comment>
-        <translation type="obsolete">Alt+2</translation>
-    </message>
-    <message>
-        <source>Alt+3, Ctrl+F</source>
-        <comment>shortcut to switch to third tab (search)</comment>
-        <translation type="obsolete">Alt+3, Ctrl+F</translation>
-    </message>
-    <message>
-        <source>Alt+4</source>
-        <comment>shortcut to switch to fourth tab</comment>
-        <translation type="obsolete">Alt+4</translation>
     </message>
     <message>
         <source>Url download error</source>
@@ -2519,89 +696,9 @@ Czy napewno zamknąć qBittorrent?</translation>
         <translation>Nie można pobrać pliku z url: %1, powód: %2.</translation>
     </message>
     <message>
-        <source>Fast resume data was rejected for torrent %1, checking again...</source>
-        <translation type="obsolete">Szybkie wznowienie danych zostało odrzucone przez torrent %1, sprawdzam ponownie...</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete the selected item(s) from download list and from hard drive?</source>
-        <translation type="obsolete">Czy chcesz usunąć wybrane elementy z listy pobierania i z twardego dysku?</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete the selected item(s) from finished list and from hard drive?</source>
-        <translation type="obsolete">Czy chcesz usunąć wybrane elementy z listy ukończonych i z twardego dysku?</translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; was removed permanently.</source>
-        <comment>&apos;xxx.avi&apos; was removed permanently.</comment>
-        <translation type="obsolete">&apos;%1&apos; został całkowicie usunięty.</translation>
-    </message>
-    <message>
-        <source>Url seed lookup failed for url: %1, message: %2</source>
-        <translation type="obsolete">Błąd wyszukiwania url seeda dla url:%1, wiadomość: %2</translation>
-    </message>
-    <message>
-        <source>Alt+3</source>
-        <comment>shortcut to switch to third tab</comment>
-        <translation type="obsolete">Alt+3</translation>
-    </message>
-    <message>
         <source>Ctrl+F</source>
         <comment>shortcut to switch to search tab</comment>
         <translation>Ctrl+F</translation>
-    </message>
-    <message>
-        <source>UPnP support [OFF]</source>
-        <translation type="obsolete">Obsługa UPnP [WYŁ]</translation>
-    </message>
-    <message>
-        <source>NAT-PMP support [ON]</source>
-        <translation type="obsolete">Obsługa NAT-PMP [WŁ]</translation>
-    </message>
-    <message>
-        <source>NAT-PMP support [OFF]</source>
-        <translation type="obsolete">Obsługa NAT-PMP [WYŁ]</translation>
-    </message>
-    <message>
-        <source>Local Peer Discovery [ON]</source>
-        <translation type="obsolete">Local Peer Discovery [WŁ]</translation>
-    </message>
-    <message>
-        <source>Local Peer Discovery support [OFF]</source>
-        <translation type="obsolete">Obsługa Local Peer Discovery [WYŁ]</translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; was removed because its ratio reached the maximum value you set.</source>
-        <comment>%1 is a file name</comment>
-        <translation type="obsolete">&apos;%1&apos; został usunięty ponieważ ratio osiągnęło ustawioną wartość.</translation>
-    </message>
-    <message>
-        <source>qBittorrent %1 (DL: %2KiB/s, UP: %3KiB/s)</source>
-        <comment>%1 is qBittorrent version</comment>
-        <translation type="obsolete">qBittorrent %1 (DL: %2KiB/s, UP: %3KiB/s)</translation>
-    </message>
-    <message>
-        <source>DL: %1 KiB/s</source>
-        <translation type="obsolete">DL: %1 KiB/s</translation>
-    </message>
-    <message>
-        <source>UP: %1 KiB/s</source>
-        <translation type="obsolete">UP: %1 KiB/s</translation>
-    </message>
-    <message>
-        <source>Ratio: %1</source>
-        <translation type="obsolete">Ratio: %1</translation>
-    </message>
-    <message>
-        <source>DHT: %1 nodes</source>
-        <translation type="obsolete">DHT: %1 węzły</translation>
-    </message>
-    <message>
-        <source>No direct connections. This may indicate network configuration problems.</source>
-        <translation type="obsolete">Brak bezposrednich połączeń. Może to oznaczać problem z konfiguracją sieci.</translation>
-    </message>
-    <message>
-        <source>Uploads</source>
-        <translation type="obsolete">Wysyłane</translation>
     </message>
     <message>
         <source>Options were saved successfully.</source>
@@ -2636,22 +733,9 @@ Czy napewno zamknąć qBittorrent?</translation>
         <translation>Ogólny limit pobierania</translation>
     </message>
     <message>
-        <source>qBittorrent %1</source>
-        <comment>e.g: qBittorrent vx.x</comment>
-        <translation>qBittorent %1</translation>
-    </message>
-    <message>
         <source>qBittorrent %1 (Down: %2/s, Up: %3/s)</source>
         <comment>%1 is qBittorrent version</comment>
         <translation>qBittorrent %1 (Pobieranie: %2/s, Wysyłanie: %3/s)</translation>
-    </message>
-    <message>
-        <source>Use normal speed limits</source>
-        <translation>Użyj normalnych limitów prędkości</translation>
-    </message>
-    <message>
-        <source>Use alternative speed limits</source>
-        <translation>Użyj alternatywnych limitów prędkości</translation>
     </message>
     <message>
         <source>Recursive download confirmation</source>
@@ -2663,13 +747,309 @@ Czy napewno zamknąć qBittorrent?</translation>
         <translation>Torrent %1 zawiera pliki torrent, rozpocząć ich pobieranie?</translation>
     </message>
     <message>
+        <source>Transfers (%1)</source>
+        <translation>Transfery (%1)</translation>
+    </message>
+    <message>
         <source>Torrent file association</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Powiązanie z plikami torrent</translation>
     </message>
     <message>
         <source>qBittorrent is not the default application to open torrent files or Magnet links.
 Do you want to associate qBittorrent to torrent files and Magnet links?</source>
+        <translation type="unfinished">qBittorrent nie jest domyślnym programem do obsługi plików torrent i linków Magnet.
+Czy powiązać qBittorrent z plikami torrent i linkami Magnet?</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Tak</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Nie</translation>
+    </message>
+    <message>
+        <source>Never</source>
+        <translation>Nigdy</translation>
+    </message>
+    <message>
+        <source>Always</source>
+        <translation>Zawsze</translation>
+    </message>
+    <message>
+        <source>Exiting qBittorrent</source>
+        <translation>Zamykanie qBittorrent</translation>
+    </message>
+    <message>
+        <source>Set the password...</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The UI lock password has been successfully updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>UI lock password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please type the UI lock password:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The password is invalid</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>GeoIP</name>
+    <message>
+        <source>Australia</source>
+        <translation>Australia</translation>
+    </message>
+    <message>
+        <source>Argentina</source>
+        <translation>Argentyna</translation>
+    </message>
+    <message>
+        <source>Austria</source>
+        <translation>Austria</translation>
+    </message>
+    <message>
+        <source>United Arab Emirates</source>
+        <translation>Zjednoczone Emiraty Arabskie</translation>
+    </message>
+    <message>
+        <source>Brazil</source>
+        <translation>Brazylia</translation>
+    </message>
+    <message>
+        <source>Bulgaria</source>
+        <translation>Bułgaria</translation>
+    </message>
+    <message>
+        <source>Belarus</source>
+        <translation>Białoruś</translation>
+    </message>
+    <message>
+        <source>Belgium</source>
+        <translation>Belgia</translation>
+    </message>
+    <message>
+        <source>Bosnia</source>
+        <translation>Bośnia</translation>
+    </message>
+    <message>
+        <source>Canada</source>
+        <translation>Kanada</translation>
+    </message>
+    <message>
+        <source>Czech Republic</source>
+        <translation>Czechy</translation>
+    </message>
+    <message>
+        <source>China</source>
+        <translation>Chiny</translation>
+    </message>
+    <message>
+        <source>Costa Rica</source>
+        <translation>Kostaryka</translation>
+    </message>
+    <message>
+        <source>Switzerland</source>
+        <translation>Szwajcaria</translation>
+    </message>
+    <message>
+        <source>Germany</source>
+        <translation>Niemcy</translation>
+    </message>
+    <message>
+        <source>Denmark</source>
+        <translation>Dania</translation>
+    </message>
+    <message>
+        <source>Algeria</source>
+        <translation>Algeria</translation>
+    </message>
+    <message>
+        <source>Spain</source>
+        <translation>Hiszpania</translation>
+    </message>
+    <message>
+        <source>Egypt</source>
+        <translation>Egipt</translation>
+    </message>
+    <message>
+        <source>Finland</source>
+        <translation>Finlandia</translation>
+    </message>
+    <message>
+        <source>France</source>
+        <translation>Francja</translation>
+    </message>
+    <message>
+        <source>United Kingdom</source>
+        <translation>Wielka Brytania</translation>
+    </message>
+    <message>
+        <source>Greece</source>
+        <translation>Grecja</translation>
+    </message>
+    <message>
+        <source>Georgia</source>
+        <translation>Gruzja</translation>
+    </message>
+    <message>
+        <source>Hungary</source>
+        <translation>Węgry</translation>
+    </message>
+    <message>
+        <source>Croatia</source>
+        <translation>Chorwacja</translation>
+    </message>
+    <message>
+        <source>Italy</source>
+        <translation>Włochy</translation>
+    </message>
+    <message>
+        <source>India</source>
+        <translation>Indie</translation>
+    </message>
+    <message>
+        <source>Israel</source>
+        <translation>Izrael</translation>
+    </message>
+    <message>
+        <source>Ireland</source>
+        <translation>Irlandia</translation>
+    </message>
+    <message>
+        <source>Iceland</source>
+        <translation>Islandia</translation>
+    </message>
+    <message>
+        <source>Indonesia</source>
+        <translation>Indonezja</translation>
+    </message>
+    <message>
+        <source>Japan</source>
+        <translation>Japonia</translation>
+    </message>
+    <message>
+        <source>South Korea</source>
+        <translation>Korea Południowa</translation>
+    </message>
+    <message>
+        <source>Luxembourg</source>
+        <translation>Luksemburg</translation>
+    </message>
+    <message>
+        <source>Malaysia</source>
+        <translation>Malezja</translation>
+    </message>
+    <message>
+        <source>Mexico</source>
+        <translation>Meksyk</translation>
+    </message>
+    <message>
+        <source>Serbia</source>
+        <translation>Serbia</translation>
+    </message>
+    <message>
+        <source>Morocco</source>
+        <translation>Maroko</translation>
+    </message>
+    <message>
+        <source>Netherlands</source>
+        <translation>Holandia</translation>
+    </message>
+    <message>
+        <source>Norway</source>
+        <translation>Norwegia</translation>
+    </message>
+    <message>
+        <source>New Zealand</source>
+        <translation>Nowa Zelandia</translation>
+    </message>
+    <message>
+        <source>Portugal</source>
+        <translation>Portugalia</translation>
+    </message>
+    <message>
+        <source>Poland</source>
+        <translation>Polska</translation>
+    </message>
+    <message>
+        <source>Pakistan</source>
+        <translation>Pakistan</translation>
+    </message>
+    <message>
+        <source>Philippines</source>
+        <translation>Filipiny</translation>
+    </message>
+    <message>
+        <source>Russia</source>
+        <translation>Rosja</translation>
+    </message>
+    <message>
+        <source>Romania</source>
+        <translation>Rumunia</translation>
+    </message>
+    <message>
+        <source>France (Reunion Island)</source>
+        <translation>Francja</translation>
+    </message>
+    <message>
+        <source>Sweden</source>
+        <translation>Szwecja</translation>
+    </message>
+    <message>
+        <source>Slovakia</source>
+        <translation>Słowacja</translation>
+    </message>
+    <message>
+        <source>Singapore</source>
+        <translation>Singapur</translation>
+    </message>
+    <message>
+        <source>Slovenia</source>
+        <translation>Słowenia</translation>
+    </message>
+    <message>
+        <source>Taiwan</source>
+        <translation>Tajwan</translation>
+    </message>
+    <message>
+        <source>Turkey</source>
+        <translation>Turcja</translation>
+    </message>
+    <message>
+        <source>Thailand</source>
+        <translation>Tajlandia</translation>
+    </message>
+    <message>
+        <source>USA</source>
+        <translation>Stany Zjednoczone</translation>
+    </message>
+    <message>
+        <source>Ukraine</source>
+        <translation>Ukraina</translation>
+    </message>
+    <message>
+        <source>South Africa</source>
+        <translation>Republika Południowej Afryki</translation>
+    </message>
+    <message>
+        <source>Saudi Arabia</source>
+        <translation>Arabia Saudyjska</translation>
     </message>
 </context>
 <context>
@@ -2815,21 +1195,6 @@ Do you want to associate qBittorrent to torrent files and Magnet links?</source>
         <translation>Nota prawna</translation>
     </message>
     <message>
-        <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by mean of upload. And of course, any content you share if your sole responsatibility.
-
-You probably knew this, so we won&apos;t tell you again.</source>
-        <translatorcomment>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.
-
-No further notices will be issued.</translatorcomment>
-        <translation type="obsolete">qBittorrent jest programem do wymiany plików. Uruchomienie torrenta powoduje, że jego zawartość jest dostępna dla innych. Użytkownik ponosi pełną odpowiedzialność za udostępniane treści.
-
-W przyszłości powiadomienie nie będzie wyświetlane.</translation>
-    </message>
-    <message>
-        <source>Press any key to accept and continue...</source>
-        <translation type="obsolete">Nacisnij dowolny klawisz aby akceptować i kontynuować...</translation>
-    </message>
-    <message>
         <source>Legal notice</source>
         <translation>Nota prawna</translation>
     </message>
@@ -2855,206 +1220,25 @@ W przyszłości powiadomienie nie będzie wyświetlane.</translation>
     </message>
 </context>
 <context>
+    <name>LineEdit</name>
+    <message>
+        <source>Clear the text</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
-    <message>
-        <source>qBittorrent :: By Christophe Dumez</source>
-        <translation type="obsolete">qBittorrent :: Christophe Dumez</translation>
-    </message>
-    <message>
-        <source>Log:</source>
-        <translation type="obsolete">Log:</translation>
-    </message>
-    <message>
-        <source>Total DL Speed:</source>
-        <translation type="obsolete">Całkowita prędkość DL:</translation>
-    </message>
-    <message>
-        <source>Kb/s</source>
-        <translation type="obsolete">Kb/s</translation>
-    </message>
-    <message>
-        <source>Total UP Speed:</source>
-        <translation type="obsolete">Całkowita prędkość UP:</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="obsolete">Nazwa</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <translation type="obsolete">Rozmiar</translation>
-    </message>
-    <message>
-        <source>% DL</source>
-        <translation type="obsolete">% DL</translation>
-    </message>
-    <message>
-        <source>DL Speed</source>
-        <translation type="obsolete">Prędkość DL</translation>
-    </message>
-    <message>
-        <source>UP Speed</source>
-        <translation type="obsolete">Prędkość UP</translation>
-    </message>
-    <message>
-        <source>Status</source>
-        <translation type="obsolete">Status</translation>
-    </message>
-    <message>
-        <source>ETA</source>
-        <translation type="obsolete">ETA</translation>
-    </message>
-    <message>
-        <source>&amp;Options</source>
-        <translation type="obsolete">&amp;Opcje</translation>
-    </message>
     <message>
         <source>&amp;Edit</source>
         <translation>&amp;Edycja</translation>
     </message>
     <message>
         <source>&amp;File</source>
-        <translation>&amp;Plik</translation>
+        <translation>P&amp;lik</translation>
     </message>
     <message>
         <source>&amp;Help</source>
         <translation>&amp;Pomoc</translation>
-    </message>
-    <message>
-        <source>Open</source>
-        <translation type="obsolete">Otwórz</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation>Zakończ</translation>
-    </message>
-    <message>
-        <source>Preferences</source>
-        <translation>Ustawienia</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation>O programie</translation>
-    </message>
-    <message>
-        <source>Start</source>
-        <translation>Uruchom</translation>
-    </message>
-    <message>
-        <source>Pause</source>
-        <translation>Wstrzymaj</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Usuń</translation>
-    </message>
-    <message>
-        <source>Pause All</source>
-        <translation>Wstrzymaj wszystko</translation>
-    </message>
-    <message>
-        <source>Start All</source>
-        <translation>Uruchom wszystko</translation>
-    </message>
-    <message>
-        <source>Documentation</source>
-        <translation>Dokumentacja</translation>
-    </message>
-    <message>
-        <source>Connexion Status</source>
-        <translation type="obsolete">Status połączenia</translation>
-    </message>
-    <message>
-        <source>Delete All</source>
-        <translation type="obsolete">Skasuj wszystko</translation>
-    </message>
-    <message>
-        <source>Torrent Properties</source>
-        <translation type="obsolete">Właściwości Torrenta</translation>
-    </message>
-    <message>
-        <source>Connection Status</source>
-        <translation type="obsolete">Status połączenia</translation>
-    </message>
-    <message>
-        <source>Downloads</source>
-        <translation type="obsolete">Ściąganie...Pobieranie</translation>
-    </message>
-    <message>
-        <source>Search</source>
-        <translation type="obsolete">Szukaj</translation>
-    </message>
-    <message>
-        <source>Search Pattern:</source>
-        <translation type="obsolete">Wzorzec wyszukiwania:</translation>
-    </message>
-    <message>
-        <source>Status:</source>
-        <translation type="obsolete">Status:</translation>
-    </message>
-    <message>
-        <source>Stopped</source>
-        <translation type="obsolete">Zatrzymany</translation>
-    </message>
-    <message>
-        <source>Search Engines</source>
-        <translation type="obsolete">Wyszukiwarki</translation>
-    </message>
-    <message>
-        <source>Results:</source>
-        <translation type="obsolete">Rezultat:</translation>
-    </message>
-    <message>
-        <source>Stop</source>
-        <translation type="obsolete">Stop</translation>
-    </message>
-    <message>
-        <source>Seeds</source>
-        <translation type="obsolete">Seeds</translation>
-    </message>
-    <message>
-        <source>Leechers</source>
-        <translation type="obsolete">Leechers</translation>
-    </message>
-    <message>
-        <source>Search Engine</source>
-        <translation type="obsolete">Wyszukiwarka</translation>
-    </message>
-    <message>
-        <source>Download from URL</source>
-        <translation>Pobierz z adresu URL</translation>
-    </message>
-    <message>
-        <source>Download</source>
-        <translation type="obsolete">Pobierz</translation>
-    </message>
-    <message>
-        <source>Clear</source>
-        <translation type="obsolete">Wyczyść</translation>
-    </message>
-    <message>
-        <source>KiB/s</source>
-        <translation type="obsolete">KiB/s</translation>
-    </message>
-    <message>
-        <source>Create torrent</source>
-        <translation>Utwórz torrenta</translation>
-    </message>
-    <message>
-        <source>Ratio: </source>
-        <translation type="obsolete">Ratio:</translation>
-    </message>
-    <message>
-        <source>Update search plugin</source>
-        <translation type="obsolete">Aktualizacja wtyczki wyszukiwania</translation>
-    </message>
-    <message>
-        <source>Session ratio: </source>
-        <translation type="obsolete">Ratio sesji: </translation>
-    </message>
-    <message>
-        <source>Transfers</source>
-        <translation type="obsolete">Prędkość</translation>
     </message>
     <message>
         <source>Preview file</source>
@@ -3065,46 +1249,6 @@ W przyszłości powiadomienie nie będzie wyświetlane.</translation>
         <translation>Wyczyść dziennik</translation>
     </message>
     <message>
-        <source>Delete Permanently</source>
-        <translation type="obsolete">Usuń całkowicie</translation>
-    </message>
-    <message>
-        <source>Visit website</source>
-        <translation type="obsolete">Odwiedź stronę</translation>
-    </message>
-    <message>
-        <source>Report a bug</source>
-        <translation>Zgłoś błąd</translation>
-    </message>
-    <message>
-        <source>Set upload limit</source>
-        <translation>Ustaw limit wysyłania</translation>
-    </message>
-    <message>
-        <source>Set download limit</source>
-        <translation>Ustaw limit pobierania</translation>
-    </message>
-    <message>
-        <source>Log</source>
-        <translation type="obsolete">Log</translation>
-    </message>
-    <message>
-        <source>IP filter</source>
-        <translation type="obsolete">Filtr IP</translation>
-    </message>
-    <message>
-        <source>Set global download limit</source>
-        <translation>Ustaw ogólny limit pobierania</translation>
-    </message>
-    <message>
-        <source>Set global upload limit</source>
-        <translation>Ustaw ogólny limit wysyłania</translation>
-    </message>
-    <message>
-        <source>Options</source>
-        <translation>Opcje</translation>
-    </message>
-    <message>
         <source>Decrease priority</source>
         <translation>Zmniejsz priorytet</translation>
     </message>
@@ -3113,24 +1257,132 @@ W przyszłości powiadomienie nie będzie wyświetlane.</translation>
         <translation>Zwiększ priorytet</translation>
     </message>
     <message>
-        <source>Console</source>
-        <translation>Konsola</translation>
+        <source>&amp;Tools</source>
+        <translation>&amp;Narzędzia</translation>
     </message>
     <message>
-        <source>Log Window</source>
-        <translation>Okno dziennika</translation>
+        <source>&amp;View</source>
+        <translation>&amp;Widok</translation>
     </message>
     <message>
-        <source>Open torrent</source>
-        <translation>Otwórz torrenta</translation>
+        <source>&amp;Add File...</source>
+        <translation>&amp;Otwórz plik...</translation>
     </message>
     <message>
-        <source>Visit Website</source>
-        <translation>Odwiedź stronę</translation>
+        <source>E&amp;xit</source>
+        <translation>&amp;Zakończ</translation>
     </message>
     <message>
-        <source>Use alternative speed limits</source>
-        <translation type="unfinished">Użyj alternatywnych limitów prędkości</translation>
+        <source>&amp;Options...</source>
+        <translation>&amp;Opcje...</translation>
+    </message>
+    <message>
+        <source>Add &amp;URL...</source>
+        <translation>Dodaj &amp;URL...</translation>
+    </message>
+    <message>
+        <source>Torrent &amp;creator</source>
+        <translation>Tworzenie torre&amp;nta</translation>
+    </message>
+    <message>
+        <source>Set upload limit...</source>
+        <translation>Ustaw limit wysyłania...</translation>
+    </message>
+    <message>
+        <source>Set download limit...</source>
+        <translation>Ustaw limit pobierania...</translation>
+    </message>
+    <message>
+        <source>Set global download limit...</source>
+        <translation>Ustaw ogólny limit pobierania...</translation>
+    </message>
+    <message>
+        <source>Set global upload limit...</source>
+        <translation>Ustaw ogólny limit wysyłania...</translation>
+    </message>
+    <message>
+        <source>&amp;Log viewer...</source>
+        <translation>Przeg&amp;lądanie dziennika...</translation>
+    </message>
+    <message>
+        <source>Top &amp;tool bar</source>
+        <translation>&amp;Górny pasek narzędziowy</translation>
+    </message>
+    <message>
+        <source>Display top tool bar</source>
+        <translation>Pokaż górny pasek narzędziowy</translation>
+    </message>
+    <message>
+        <source>&amp;Speed in title bar</source>
+        <translation>&amp;Prędkość na pasku tytułu</translation>
+    </message>
+    <message>
+        <source>Show transfer speed in title bar</source>
+        <translation>Pokaż prędkość na pasku tytułu</translation>
+    </message>
+    <message>
+        <source>Alternative speed limits</source>
+        <translation type="unfinished">Alternatywne limity prędkości</translation>
+    </message>
+    <message>
+        <source>&amp;About</source>
+        <translation>&amp;O programie</translation>
+    </message>
+    <message>
+        <source>&amp;Pause</source>
+        <translation>&amp;Wstrzymaj</translation>
+    </message>
+    <message>
+        <source>&amp;Delete</source>
+        <translation>U&amp;suń</translation>
+    </message>
+    <message>
+        <source>P&amp;ause All</source>
+        <translation>Ws&amp;trzymaj wszystkie</translation>
+    </message>
+    <message>
+        <source>Visit &amp;Website</source>
+        <translation>Od&amp;wiedź stronę</translation>
+    </message>
+    <message>
+        <source>Report a &amp;bug</source>
+        <translation>Zgłoś &amp;błąd</translation>
+    </message>
+    <message>
+        <source>&amp;Documentation</source>
+        <translation>&amp;Dokumentacja</translation>
+    </message>
+    <message>
+        <source>&amp;RSS reader</source>
+        <translation>Czytnik &amp;RSS</translation>
+    </message>
+    <message>
+        <source>Search &amp;engine</source>
+        <translation>Wy&amp;szukiwarka</translation>
+    </message>
+    <message>
+        <source>Log viewer</source>
+        <translation>Przeglądarka dziennika</translation>
+    </message>
+    <message>
+        <source>Lock qBittorrent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ctrl+L</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shutdown computer when downloads complete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Resume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>R&amp;esume All</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3146,10 +1398,6 @@ W przyszłości powiadomienie nie będzie wyświetlane.</translation>
 </context>
 <context>
     <name>PeerListDelegate</name>
-    <message>
-        <source>KiB/s</source>
-        <translation type="obsolete">KiB/s</translation>
-    </message>
     <message>
         <source>/s</source>
         <comment>/second (i.e. per second)</comment>
@@ -3191,18 +1439,6 @@ W przyszłości powiadomienie nie będzie wyświetlane.</translation>
         <source>Uploaded</source>
         <comment>i.e: total data uploaded</comment>
         <translation>Wysłano</translation>
-    </message>
-    <message>
-        <source>Add a new peer</source>
-        <translation>Dodaj partnera</translation>
-    </message>
-    <message>
-        <source>Limit upload rate</source>
-        <translation>Ogranicz prędkości wysyłania</translation>
-    </message>
-    <message>
-        <source>Limit download rate</source>
-        <translation>Ogranicz prędkości pobierania</translation>
     </message>
     <message>
         <source>Ban peer permanently</source>
@@ -3248,13 +1484,25 @@ W przyszłości powiadomienie nie będzie wyświetlane.</translation>
         <source>Download rate limiting</source>
         <translation>Ograniczanie prędkości pobierania</translation>
     </message>
+    <message>
+        <source>Add a new peer...</source>
+        <translation>Dodaj partnera...</translation>
+    </message>
+    <message>
+        <source>Limit download rate...</source>
+        <translation>Ogranicz prędkości pobierania...</translation>
+    </message>
+    <message>
+        <source>Limit upload rate...</source>
+        <translation>Ogranicz prędkości wysyłania...</translation>
+    </message>
+    <message>
+        <source>Copy IP</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Preferences</name>
-    <message>
-        <source>Preferences</source>
-        <translation>Ustawienia</translation>
-    </message>
     <message>
         <source>UI</source>
         <translation>Wygląd</translation>
@@ -3276,20 +1524,8 @@ W przyszłości powiadomienie nie będzie wyświetlane.</translation>
         <translation>Proxy</translation>
     </message>
     <message>
-        <source>IP Filter</source>
-        <translation>Filtr IP</translation>
-    </message>
-    <message>
         <source>Web UI</source>
         <translation>Interfejs www</translation>
-    </message>
-    <message>
-        <source>RSS</source>
-        <translation>RSS</translation>
-    </message>
-    <message>
-        <source>User interface</source>
-        <translation>Interfejs użytkownika</translation>
     </message>
     <message>
         <source>Language:</source>
@@ -3304,52 +1540,8 @@ W przyszłości powiadomienie nie będzie wyświetlane.</translation>
         <translation>Styl wizualny:</translation>
     </message>
     <message>
-        <source>System default</source>
-        <translation type="obsolete">Domyślny systemu</translation>
-    </message>
-    <message>
-        <source>Plastique style (KDE like)</source>
-        <translation type="obsolete">Styl Plastique (jak KDE3)</translation>
-    </message>
-    <message>
-        <source>Cleanlooks style (Gnome like)</source>
-        <translation type="obsolete">Styl Cleanlooks (jak GNOME)</translation>
-    </message>
-    <message>
-        <source>Motif style (Unix like)</source>
-        <translation type="obsolete">Styl Motif (jak Unix)</translation>
-    </message>
-    <message>
-        <source>CDE style (Common Desktop Environment like)</source>
-        <translation type="obsolete">Styl CDE (jak Common Desktop Environment)</translation>
-    </message>
-    <message>
-        <source>Ask for confirmation on exit when download list is not empty</source>
-        <translation>Pytaj o potwierdzenie wyjścia jeśli lista pobierania nie jest pusta</translation>
-    </message>
-    <message>
-        <source>Display top toolbar</source>
-        <translation>Pokaż górny pasek narzędzi</translation>
-    </message>
-    <message>
-        <source>Disable splash screen</source>
-        <translation>Wyłącz ekran startowy</translation>
-    </message>
-    <message>
-        <source>Display current speed in title bar</source>
-        <translation>Pokaż aktualną prędkość na pasku tytułu</translation>
-    </message>
-    <message>
         <source>Transfer list</source>
         <translation>Lista transferów</translation>
-    </message>
-    <message>
-        <source>Refresh interval:</source>
-        <translation type="obsolete">Częstotliwość odświeżania:</translation>
-    </message>
-    <message>
-        <source>ms</source>
-        <translation type="obsolete">ms</translation>
     </message>
     <message>
         <source>Use alternating row colors</source>
@@ -3357,110 +1549,12 @@ W przyszłości powiadomienie nie będzie wyświetlane.</translation>
         <translation>Alternatywne kolorowanie wierszy</translation>
     </message>
     <message>
-        <source>Action on double click:</source>
-        <comment>Action executed when doucle-clicking on an item in transfer (download/upload) list</comment>
-        <translation>Podwójne kliknięcie na liście:</translation>
-    </message>
-    <message>
-        <source>Downloading:</source>
-        <translation>Pobieranych:</translation>
-    </message>
-    <message>
-        <source>Start/Stop</source>
-        <translation>Uruchom/Zatrzymaj</translation>
-    </message>
-    <message>
-        <source>Open folder</source>
-        <translation>Otwórz katalog</translation>
-    </message>
-    <message>
-        <source>Completed:</source>
-        <translation>Ukończonych:</translation>
-    </message>
-    <message>
-        <source>System tray icon</source>
-        <translation>Ikona w tacce systemowej</translation>
-    </message>
-    <message>
-        <source>Disable system tray icon</source>
-        <translation>Wyłącz ikonę w tacce systemowej</translation>
-    </message>
-    <message>
-        <source>Close to tray</source>
-        <comment>i.e: The systray tray icon will still be visible when closing the main window.</comment>
-        <translation>Zamknij do tacki systemowej</translation>
-    </message>
-    <message>
-        <source>Minimize to tray</source>
-        <translation>Minimalizuj do tacki systemowej</translation>
-    </message>
-    <message>
-        <source>Start minimized</source>
-        <translation>Uruchom zminimalizowany</translation>
-    </message>
-    <message>
-        <source>Show notification balloons in tray</source>
-        <translation>Pokaż balony powiadomień w tacce systemowej</translation>
-    </message>
-    <message>
         <source>File system</source>
         <translation>Katalogi</translation>
     </message>
     <message>
-        <source>QGroupBox::title {
-font-weight: normal;
-margin-left: -3px;
-}
-QGroupBox {
-  border-width: 0;
-}</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Destination Folder:</source>
-        <translation>Katalog docelowy:</translation>
-    </message>
-    <message>
-        <source>Append the torrent&apos;s label</source>
-        <translation>Dodaje etykietę torrenta do nazwy katalogu</translation>
-    </message>
-    <message>
-        <source>Use a different folder for incomplete downloads:</source>
-        <translation>Katalog dla niekompletnych pobierań:</translation>
-    </message>
-    <message>
-        <source>QLineEdit {
-  margin-left: 23px;
-}</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Automatically load .torrent files from:</source>
-        <translation type="obsolete">Automatyczne pobieranie plików .torrent z katalogu:</translation>
-    </message>
-    <message>
-        <source>Append .!qB extension to incomplete files</source>
-        <translation>Dodaje rozszerzenie .!qB dla niekompletnych plików</translation>
-    </message>
-    <message>
-        <source>Pre-allocate all files</source>
-        <translation>Rezerwuje miejsce na dysku</translation>
-    </message>
-    <message>
-        <source>Disk cache:</source>
-        <translation type="obsolete">Pamięć podręczna na dysku:</translation>
-    </message>
-    <message>
-        <source>MiB (advanced)</source>
-        <translation type="obsolete">MiB (zaawansowane)</translation>
-    </message>
-    <message>
         <source>Torrent queueing</source>
         <translation>Kolejkowanie torrentów</translation>
-    </message>
-    <message>
-        <source>Enable queueing system</source>
-        <translation>Włącz kolejkowanie</translation>
     </message>
     <message>
         <source>Maximum active downloads:</source>
@@ -3481,11 +1575,6 @@ QGroupBox {
     <message>
         <source>Display torrent content and some options</source>
         <translation>Pokaż zawartość torrenta i kilka opcji</translation>
-    </message>
-    <message>
-        <source>Do not start download automatically</source>
-        <comment>The torrent will be added to download list in pause state</comment>
-        <translation>Nie uruchamiaj automatycznie pobierań</translation>
     </message>
     <message>
         <source>Listening port</source>
@@ -3524,10 +1613,6 @@ QGroupBox {
         <translation>Maksymalna ilość slotów wysyłania na torrent:</translation>
     </message>
     <message>
-        <source>Global bandwidth limiting</source>
-        <translation type="obsolete">Ogólne ograniczenie przepustowości łącza</translation>
-    </message>
-    <message>
         <source>Upload:</source>
         <translation>Wysyłanie:</translation>
     </message>
@@ -3538,18 +1623,6 @@ QGroupBox {
     <message>
         <source>KiB/s</source>
         <translation>KiB/s</translation>
-    </message>
-    <message>
-        <source>Peer connections</source>
-        <translation type="obsolete">Połączenia z partnerami</translation>
-    </message>
-    <message>
-        <source>Resolve peer countries</source>
-        <translation type="obsolete">Odczytuje kraje partnerów</translation>
-    </message>
-    <message>
-        <source>Resolve peer host names</source>
-        <translation type="obsolete">Odczytuje nazwy hostów partnerów</translation>
     </message>
     <message>
         <source>Bittorrent features</source>
@@ -3576,10 +1649,6 @@ QGroupBox {
         <translation>Włącz Local Peer Discovery</translation>
     </message>
     <message>
-        <source>Encryption:</source>
-        <translation>Szyfrowanie:</translation>
-    </message>
-    <message>
         <source>Enabled</source>
         <translation>Włączone</translation>
     </message>
@@ -3590,18 +1659,6 @@ QGroupBox {
     <message>
         <source>Disabled</source>
         <translation>Wyłączone</translation>
-    </message>
-    <message>
-        <source>Share ratio settings</source>
-        <translation>Ustawienia współczynnika udziału</translation>
-    </message>
-    <message>
-        <source>Desired ratio:</source>
-        <translation type="unfinished">Żądany współczynnik:</translation>
-    </message>
-    <message>
-        <source>Remove finished torrents when their ratio reaches:</source>
-        <translation>Usuń zakończone torrenty gdy współczynnik osiągnie:</translation>
     </message>
     <message>
         <source>Type:</source>
@@ -3636,40 +1693,8 @@ QGroupBox {
         <translation>SOCKS5</translation>
     </message>
     <message>
-        <source>Filter Settings</source>
-        <translation>Ustawienia filtra</translation>
-    </message>
-    <message>
-        <source>Activate IP Filtering</source>
-        <translation>Włącz filtrowanie IP</translation>
-    </message>
-    <message>
-        <source>Enable Web User Interface</source>
-        <translation>Włącz interfejs www</translation>
-    </message>
-    <message>
         <source>HTTP Server</source>
         <translation>Serwer www</translation>
-    </message>
-    <message>
-        <source>Enable RSS support</source>
-        <translation>Włącz obsługę RSS</translation>
-    </message>
-    <message>
-        <source>RSS settings</source>
-        <translation>Ustawienia RSS</translation>
-    </message>
-    <message>
-        <source>RSS feeds refresh interval:</source>
-        <translation>Częstotliwość odświeżania kanałów RSS:</translation>
-    </message>
-    <message>
-        <source>minutes</source>
-        <translation>minut</translation>
-    </message>
-    <message>
-        <source>Maximum number of articles per feed:</source>
-        <translation>Maksymalna ilość wiadomości na kanał RSS:</translation>
     </message>
     <message>
         <source>Filter path (.dat, .p2p, .p2b):</source>
@@ -3692,43 +1717,6 @@ QGroupBox {
         <translation>SOCKS4</translation>
     </message>
     <message>
-        <source>Client whitelisting workaround</source>
-        <translation>Naśladowanie innych klientów w celu ominięcia blokad</translation>
-    </message>
-    <message>
-        <source>Identify as:</source>
-        <translation>Identyfikuj się jako:</translation>
-    </message>
-    <message>
-        <source>qBittorrent</source>
-        <translation>qBittorrent</translation>
-    </message>
-    <message>
-        <source>Vuze</source>
-        <translation>Vuze</translation>
-    </message>
-    <message utf8="true">
-        <source>µTorrent</source>
-        <translation>µTorrent</translation>
-    </message>
-    <message>
-        <source>Version:</source>
-        <translation>Wersja:</translation>
-    </message>
-    <message>
-        <source>Build:</source>
-        <extracomment>Software Build nulmber:</extracomment>
-        <translation>Wydanie:</translation>
-    </message>
-    <message>
-        <source>Reset to latest software version</source>
-        <translation>Przywraca ostatnią wersję programu</translation>
-    </message>
-    <message>
-        <source>KTorrent</source>
-        <translation>KTorrent</translation>
-    </message>
-    <message>
         <source>Speed</source>
         <translation>Prędkość</translation>
     </message>
@@ -3741,29 +1729,21 @@ QGroupBox {
         <translation>Alternatywne ogólne limity prędkości</translation>
     </message>
     <message>
-        <source>Scheduled times:</source>
-        <translation>Harmonogram:</translation>
-    </message>
-    <message>
         <source>to</source>
         <extracomment>time1 to time2</extracomment>
         <translation>do</translation>
     </message>
     <message>
-        <source>On days:</source>
-        <translation type="unfinished">W dniach:</translation>
-    </message>
-    <message>
         <source>Every day</source>
-        <translation type="unfinished">codziennie</translation>
+        <translation>codziennie</translation>
     </message>
     <message>
         <source>Week days</source>
-        <translation type="unfinished">dni robocze</translation>
+        <translation>dni robocze</translation>
     </message>
     <message>
         <source>Week ends</source>
-        <translation type="unfinished">weekendy</translation>
+        <translation>weekendy</translation>
     </message>
     <message>
         <source>Advanced</source>
@@ -3774,32 +1754,175 @@ QGroupBox {
         <translation>Kopiuj pliki .torrent do:</translation>
     </message>
     <message>
-        <source>Check Folders for .torrent Files:</source>
-        <translation>Sprawdź katalogi w poszukowaniu plików .torrent:</translation>
-    </message>
-    <message>
-        <source>Add folder ...</source>
-        <translation>Dodaj katalog ...</translation>
-    </message>
-    <message>
         <source>Remove folder</source>
         <translation>Usuń katalog</translation>
+    </message>
+    <message>
+        <source>No action</source>
+        <translation type="unfinished">Nic nie rób</translation>
+    </message>
+    <message>
+        <source>Options</source>
+        <translation>Opcje</translation>
+    </message>
+    <message>
+        <source>Visual Appearance</source>
+        <translation>Wygląd</translation>
+    </message>
+    <message>
+        <source>Action on double-click</source>
+        <translation type="unfinished">Podwójne kliknięcie</translation>
+    </message>
+    <message>
+        <source>Downloading torrents:</source>
+        <translation type="unfinished">na liście pobierania:</translation>
+    </message>
+    <message>
+        <source>Start / Stop</source>
+        <translation type="unfinished">Uruchom/Zatrzymaj</translation>
+    </message>
+    <message>
+        <source>Open destination folder</source>
+        <translation type="unfinished">Otwórz katalog pobierań</translation>
+    </message>
+    <message>
+        <source>Completed torrents:</source>
+        <translation type="unfinished">na liście ukończonych:</translation>
+    </message>
+    <message>
+        <source>Desktop</source>
+        <translation type="unfinished">Pulpit</translation>
+    </message>
+    <message>
+        <source>Show splash screen on start up</source>
+        <translation>Pokazuj ekran startowy</translation>
+    </message>
+    <message>
+        <source>Start qBittorrent minimized</source>
+        <translation>Uruchom qBittorrent zminimalizowany</translation>
+    </message>
+    <message>
+        <source>Show qBittorrent icon in notification area</source>
+        <translation>Pokaż ikonę qBittorrent w obszarze powiadomień</translation>
+    </message>
+    <message>
+        <source>Minimize qBittorrent to notification area</source>
+        <translation>Minimalizuj qBittorrent do obszaru powiadomień</translation>
+    </message>
+    <message>
+        <source>Close qBittorrent to notification area</source>
+        <comment>i.e: The systray tray icon will still be visible when closing the main window.</comment>
+        <translation>Zamykaj qBittorrent do obszaru powiadomień</translation>
+    </message>
+    <message>
+        <source>Do not start the download automatically</source>
+        <comment>The torrent will be added to download list in pause state</comment>
+        <translation>Nie uruchamiaj automatycznie pobierań</translation>
+    </message>
+    <message>
+        <source>Save files to location:</source>
+        <translation type="unfinished">Katalog docelowy zapisywanych plików:</translation>
+    </message>
+    <message>
+        <source>Append the label of the torrent to the save path</source>
+        <translation>Dodaj etykietę torrenta do nazwy katalogu</translation>
+    </message>
+    <message>
+        <source>Pre-allocate disk space for all files</source>
+        <translation>Rezerwuj miejsce na dysku dla wszystkich plików</translation>
+    </message>
+    <message>
+        <source>Keep incomplete torrents in:</source>
+        <translation type="unfinished">Przechowuj niekompletne torrenty w:</translation>
+    </message>
+    <message>
+        <source>Append .!qB extension to incomplete files&apos; names</source>
+        <translation>Dodaj rozszerzenie .!qB do niekompletnych plików</translation>
+    </message>
+    <message>
+        <source>Automatically add torrents from:</source>
+        <translation>Automatyczne pobieranie plików torrent z katalogu:</translation>
+    </message>
+    <message>
+        <source>Add folder...</source>
+        <translation>Dodaj katalog...</translation>
+    </message>
+    <message>
+        <source>IP Filtering</source>
+        <translation>Filtrowanie IP</translation>
+    </message>
+    <message>
+        <source>Schedule the use of alternative speed limits</source>
+        <translation>Harmonogram użycia alternatywnych limitów prędkości</translation>
+    </message>
+    <message>
+        <source>from</source>
+        <extracomment>from (time1 to time2)</extracomment>
+        <translation>od</translation>
+    </message>
+    <message>
+        <source>When:</source>
+        <translation type="unfinished">kiedy:</translation>
+    </message>
+    <message>
+        <source>Look for peers on your local network</source>
+        <translation type="unfinished">Wyszukuj partnerów w sieci lokalnej</translation>
+    </message>
+    <message>
+        <source>Protocol encryption:</source>
+        <translation>Szyfrowanie protokołu:</translation>
+    </message>
+    <message>
+        <source>Enable Web User Interface (Remote control)</source>
+        <translation>Włącz interfejs www (Zdalne zarządzanie)</translation>
+    </message>
+    <message>
+        <source>Share ratio limiting</source>
+        <translation>Ograniczenie współczynnika udziału</translation>
+    </message>
+    <message>
+        <source>Seed torrents until their ratio reaches</source>
+        <translation>Wysyłaj do czasu aż współczynnik udziału osiągnie</translation>
+    </message>
+    <message>
+        <source>then</source>
+        <translation>następnie</translation>
+    </message>
+    <message>
+        <source>Pause them</source>
+        <translation>Wstrzymaj</translation>
+    </message>
+    <message>
+        <source>Remove them</source>
+        <translation>Usuń</translation>
+    </message>
+    <message utf8="true">
+        <source>Exchange peers with compatible Bittorrent clients (µTorrent, Vuze, ...)</source>
+        <translation type="unfinished">Wymiana partnerów pomiędzy kompatybilnymi klientami sieci Bittorrent (µTorrent, Vuze, ...)</translation>
+    </message>
+    <message>
+        <source>Email notification upon download completion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Destination email:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SMTP server:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Run an external program on torrent completion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use %f to pass the torrent path in parameters</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PropListDelegate</name>
-    <message>
-        <source>False</source>
-        <translation type="obsolete">Nie</translation>
-    </message>
-    <message>
-        <source>True</source>
-        <translation type="obsolete">Tak</translation>
-    </message>
-    <message>
-        <source>Ignored</source>
-        <translation type="obsolete">Ignorowany</translation>
-    </message>
     <message>
         <source>Normal</source>
         <comment>Normal (priority)</comment>
@@ -3827,10 +1950,6 @@ QGroupBox {
         <translation>Katalog docelowy:</translation>
     </message>
     <message>
-        <source>Creator:</source>
-        <translation type="obsolete">Kreator:</translation>
-    </message>
-    <message>
         <source>Torrent hash:</source>
         <translation>Hash torrenta:</translation>
     </message>
@@ -3839,44 +1958,8 @@ QGroupBox {
         <translation>Komentarz:</translation>
     </message>
     <message>
-        <source>Current session</source>
-        <translation type="obsolete">Bieżąca sesja</translation>
-    </message>
-    <message>
-        <source>Total uploaded:</source>
-        <translation type="obsolete">Ogółem wysłanych:</translation>
-    </message>
-    <message>
-        <source>Total downloaded:</source>
-        <translation type="obsolete">Ogółem pobranych:</translation>
-    </message>
-    <message>
         <source>Share ratio:</source>
         <translation>Współczynnik udziału:</translation>
-    </message>
-    <message>
-        <source>Total failed:</source>
-        <translation type="obsolete">Ogółem błędnych:</translation>
-    </message>
-    <message>
-        <source>Downloaded pieces</source>
-        <translation type="obsolete">Pobrane części</translation>
-    </message>
-    <message>
-        <source>Download in correct order (slower but good for previewing)</source>
-        <translation type="obsolete">Pobierz w ustalonej kolejności (wolniejsze ale lepsze przy korzystaniu z opcji podglądu)</translation>
-    </message>
-    <message>
-        <source>Current tracker:</source>
-        <translation type="obsolete">Aktualny tracker:</translation>
-    </message>
-    <message>
-        <source>Collapse all</source>
-        <translation>Zwiń wszystko</translation>
-    </message>
-    <message>
-        <source>Expand all</source>
-        <translation>Rozwiń wszystko</translation>
     </message>
     <message>
         <source>General</source>
@@ -3895,28 +1978,8 @@ QGroupBox {
         <translation>Pliki</translation>
     </message>
     <message>
-        <source>File name</source>
-        <translation type="obsolete">Nazwa pliku</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <translation type="obsolete">Rozmiar</translation>
-    </message>
-    <message>
-        <source>Progress</source>
-        <translation type="obsolete">Postęp</translation>
-    </message>
-    <message>
         <source>Priority</source>
         <translation>Priorytet</translation>
-    </message>
-    <message>
-        <source>Unknown</source>
-        <translation type="obsolete">Nieznany</translation>
-    </message>
-    <message>
-        <source>None - Unreachable?</source>
-        <translation type="obsolete">Brak - Nieosiągalny?</translation>
     </message>
     <message>
         <source>New url seed</source>
@@ -3934,10 +1997,6 @@ QGroupBox {
     <message>
         <source>This url seed is already in the list.</source>
         <translation>Ten URL seeda już jest na liście.</translation>
-    </message>
-    <message>
-        <source>Trackers list can&apos;t be empty.</source>
-        <translation type="obsolete">Lista trackerów nie może być pusta.</translation>
     </message>
     <message>
         <source>Choose save path</source>
@@ -3994,10 +2053,6 @@ QGroupBox {
     <message>
         <source>Peers</source>
         <translation>Partnerzy</translation>
-    </message>
-    <message>
-        <source>Ignored</source>
-        <translation type="obsolete">Ignorowany</translation>
     </message>
     <message>
         <source>Normal</source>
@@ -4074,12 +2129,21 @@ QGroupBox {
         <source>This folder does not exist yet.</source>
         <translation>Katalog jeszcze nie istnieje.</translation>
     </message>
-</context>
-<context>
-    <name>QTextEdit</name>
     <message>
-        <source>Clear</source>
-        <translation type="obsolete">Wyczyść</translation>
+        <source>Reannounce in:</source>
+        <translation>Sprawdzanie trackera za:</translation>
+    </message>
+    <message>
+        <source>Select All</source>
+        <translation>Zaznacz wszystko</translation>
+    </message>
+    <message>
+        <source>Select None</source>
+        <translation>Odznacz wszystko</translation>
+    </message>
+    <message>
+        <source>Do not download</source>
+        <translation>Nie pobieraj</translation>
     </message>
 </context>
 <context>
@@ -4109,10 +2173,6 @@ QGroupBox {
         <translation>Odśwież</translation>
     </message>
     <message>
-        <source>New folder</source>
-        <translation>Nowy katalog</translation>
-    </message>
-    <message>
         <source>RSS feeds</source>
         <translation>Kanały RSS</translation>
     </message>
@@ -4122,7 +2182,7 @@ QGroupBox {
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Torrents:&lt;/span&gt; &lt;span style=&quot; font-style:italic;&quot;&gt;(double-click to download)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -4145,10 +2205,6 @@ p, li { white-space: pre-wrap; }
         <translation>Zmień nazwę</translation>
     </message>
     <message>
-        <source>Refresh</source>
-        <translation type="obsolete">Odśwież</translation>
-    </message>
-    <message>
         <source>Download torrent</source>
         <translation>Pobierz torrent</translation>
     </message>
@@ -4161,48 +2217,32 @@ p, li { white-space: pre-wrap; }
         <translation>Kopiuj adres kanału RSS</translation>
     </message>
     <message>
-        <source>RSS feed downloader</source>
-        <translation>Pobieranie z kanałów RSS</translation>
-    </message>
-    <message>
-        <source>Create</source>
-        <translation type="obsolete">Utwórz</translation>
-    </message>
-    <message>
-        <source>Delete selected streams</source>
-        <translation type="obsolete">Usuń wybrane strumienie</translation>
-    </message>
-    <message>
         <source>Refresh RSS streams</source>
-        <translation type="unfinished">Odśwież strumienie RSS</translation>
+        <translation>Odśwież kanały RSS</translation>
     </message>
     <message>
-        <source>Add a new RSS stream</source>
-        <translation type="obsolete">Dodaj nowy strumień RSS</translation>
+        <source>Rename...</source>
+        <translation>Zmień nazwę...</translation>
     </message>
     <message>
-        <source>&lt;b&gt;News:&lt;/b&gt; &lt;i&gt;(double-click to open the link in your web browser)&lt;/i&gt;</source>
-        <translation type="obsolete">&lt;b&gt;News:&lt;/b&gt; &lt;i&gt;(kliknij dwa razy aby otworzyć link w przeglądarce)&lt;/i&gt;</translation>
+        <source>New subscription...</source>
+        <translation>Nowy kanał RSS...</translation>
     </message>
     <message>
-        <source>Add RSS stream</source>
-        <translation type="obsolete">Dodaj strumień RSS</translation>
+        <source>RSS feed downloader...</source>
+        <translation>Pobieranie z kanałów RSS...</translation>
     </message>
     <message>
-        <source>Refresh all streams</source>
-        <translation type="obsolete">Odśwież wszystkie strumienie</translation>
+        <source>New folder...</source>
+        <translation>Nowy katalog...</translation>
     </message>
     <message>
-        <source>RSS streams:</source>
-        <translation type="obsolete">Strumienie RSS:</translation>
+        <source>Manage cookies...</source>
+        <translation>Zarządzanie ciasteczkami...</translation>
     </message>
     <message>
-        <source>2</source>
-        <translation type="obsolete">2</translation>
-    </message>
-    <message>
-        <source>Mark all as read</source>
-        <translation type="obsolete">Zaznacz wszystko do odczytu</translation>
+        <source>Settings...</source>
+        <translation>Ustawienia...</translation>
     </message>
 </context>
 <context>
@@ -4213,23 +2253,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Stream URL:</source>
-        <translation type="unfinished">URL dla nowego kanału RSS:</translation>
-    </message>
-    <message>
-        <source>Please choose a new name for this stream</source>
-        <translation type="obsolete">Wybierz nową nazwę dla tego strumienia</translation>
-    </message>
-    <message>
-        <source>New stream name:</source>
-        <translation type="obsolete">Nowa nazwa strumienia:</translation>
+        <translation>Adres URL dla nowego kanału RSS:</translation>
     </message>
     <message>
         <source>Are you sure? -- qBittorrent</source>
         <translation>Jesteś pewny? -- qBittorrent</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this stream from the list ?</source>
-        <translation type="obsolete">Jesteś pewien że chcesz usunąć ten strumień z listy?</translation>
     </message>
     <message>
         <source>&amp;Yes</source>
@@ -4238,30 +2266,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>&amp;No</source>
         <translation>&amp;Nie</translation>
-    </message>
-    <message>
-        <source>no refresh</source>
-        <translation type="obsolete">nie odświeżaj</translation>
-    </message>
-    <message>
-        <source>no description available</source>
-        <translation type="obsolete">żaden opis niedostępny</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this stream from the list?</source>
-        <translation type="obsolete">Jesteś pewien że chcesz usunąć ten strumień z listy?</translation>
-    </message>
-    <message>
-        <source>Description:</source>
-        <translation type="obsolete">Opis:</translation>
-    </message>
-    <message>
-        <source>url:</source>
-        <translation type="obsolete">url:</translation>
-    </message>
-    <message>
-        <source>Last refresh:</source>
-        <translation type="obsolete">Ostatnie odświeżanie:</translation>
     </message>
     <message>
         <source>Please choose a folder name</source>
@@ -4337,19 +2341,29 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>RssStream</name>
+    <name>RssSettings</name>
     <message>
-        <source>%1 ago</source>
-        <comment>10min ago</comment>
-        <translation type="obsolete">%1 temu</translation>
+        <source>RSS Reader Settings</source>
+        <translation>Ustawienia czytnika RSS</translation>
     </message>
+    <message>
+        <source>RSS feeds refresh interval:</source>
+        <translation>Częstotliwość odświeżania kanałów RSS:</translation>
+    </message>
+    <message>
+        <source>minutes</source>
+        <translation type="unfinished">minut</translation>
+    </message>
+    <message>
+        <source>Maximum number of articles per feed:</source>
+        <translation>Maksymalna ilość wiadomości na kanał RSS:</translation>
+    </message>
+</context>
+<context>
+    <name>RssStream</name>
     <message>
         <source>Automatically downloading %1 torrent from %2 RSS feed...</source>
         <translation>Automatyczne pobieranie torrenta %1z kanału RSS %2 ...</translation>
-    </message>
-    <message>
-        <source>Never</source>
-        <translation type="obsolete">Nigdy</translation>
     </message>
 </context>
 <context>
@@ -4405,30 +2419,6 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>SearchEngine</name>
     <message>
-        <source>Name</source>
-        <comment>i.e: file name</comment>
-        <translation type="obsolete">Nazwa</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <comment>i.e: file size</comment>
-        <translation type="obsolete">Rozmiar</translation>
-    </message>
-    <message>
-        <source>Seeders</source>
-        <comment>i.e: Number of full sources</comment>
-        <translation type="obsolete">Seeders</translation>
-    </message>
-    <message>
-        <source>Leechers</source>
-        <comment>i.e: Number of partial sources</comment>
-        <translation type="obsolete">Leechers</translation>
-    </message>
-    <message>
-        <source>Search engine</source>
-        <translation type="obsolete">Wyszukiwarka</translation>
-    </message>
-    <message>
         <source>Empty search pattern</source>
         <translation>Pusty wzorzec wyszukiwania</translation>
     </message>
@@ -4437,59 +2427,12 @@ p, li { white-space: pre-wrap; }
         <translation>Proszę podać wzorzec wyszukiwania</translation>
     </message>
     <message>
-        <source>No search engine selected</source>
-        <translation type="obsolete">Nie wybrano wyszukiwarki</translation>
-    </message>
-    <message>
-        <source>You must select at least one search engine.</source>
-        <translation type="obsolete">Musisz wybrać przynajmniej jedną wyszukiwarkę.</translation>
-    </message>
-    <message>
         <source>Results</source>
         <translation>Wyniki</translation>
     </message>
     <message>
         <source>Searching...</source>
         <translation>Wyszukiwanie...</translation>
-    </message>
-    <message>
-        <source>Search plugin update -- qBittorrent</source>
-        <translation type="obsolete">Aktualizacja wtyczki wyszukującej -- qBittorrent</translation>
-    </message>
-    <message>
-        <source>Search plugin can be updated, do you want to update it?
-
-Changelog:
-</source>
-        <translation type="obsolete">Dostępna jest nowa wersja wtyczki wyszukiwania, czy chcesz ją zaktualizować?
-
-Zmiany:
-
-</translation>
-    </message>
-    <message>
-        <source>&amp;Yes</source>
-        <translation type="obsolete">&amp;Tak</translation>
-    </message>
-    <message>
-        <source>&amp;No</source>
-        <translation type="obsolete">&amp;Nie</translation>
-    </message>
-    <message>
-        <source>Search plugin update</source>
-        <translation type="obsolete">Aktualizacja wtyczki wyszukiwania</translation>
-    </message>
-    <message>
-        <source>qBittorrent</source>
-        <translation type="obsolete">qBittorrent</translation>
-    </message>
-    <message>
-        <source>Sorry, update server is temporarily unavailable.</source>
-        <translation type="obsolete">Przepraszamy, serwer aktualizacji jest tymczasowo niedostępny.</translation>
-    </message>
-    <message>
-        <source>Your search plugin is already up to date.</source>
-        <translation type="obsolete">Posiadasz najnowszą wersję wtyczki wyszukiwania.</translation>
     </message>
     <message>
         <source>Cut</source>
@@ -4537,14 +2480,6 @@ Zmiany:
         <translation>Wyniki</translation>
     </message>
     <message>
-        <source>Search plugin download error</source>
-        <translation type="obsolete">Błąd pobierania wtyczki wyszukiwarki</translation>
-    </message>
-    <message>
-        <source>Couldn&apos;t download search plugin update at url: %1, reason: %2.</source>
-        <translation type="obsolete">Nie można pobrać aktualizacji wtyczki wyszukiwarki z url: %1, powód: %2.</translation>
-    </message>
-    <message>
         <source>Unknown</source>
         <translation>Nieznany</translation>
     </message>
@@ -4559,16 +2494,26 @@ Zmiany:
     <message>
         <source>Python setup could not be downloaded, reason: %1.
 Please install it manually.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nie można pobrać instalatora Python z powodu %1 .
+Należy zainstalować go ręcznie.</translation>
     </message>
     <message>
         <source>Missing Python Interpreter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nie znaleziono interpretera Python</translation>
     </message>
     <message>
         <source>Python 2.x is required to use the search engine but it does not seem to be installed.
 Do you want to install it now?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Python w wersji 2.x jest wymagany do poprawnego działania wyszukiwarki. Wygląda na to,
+że nie jest zainstalowany. Zainstalować teraz?</translation>
+    </message>
+    <message>
+        <source>Confirmation</source>
+        <translation type="unfinished">Potwierdzenie</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to clear the history?</source>
+        <translation type="unfinished">Czy na pewno wyczyścić historię?</translation>
     </message>
 </context>
 <context>
@@ -4667,6 +2612,10 @@ Do you want to install it now?</source>
         <source>Click to enable alternative speed limits</source>
         <translation>Kliknij, aby włączyć alternatywne limity prędkości</translation>
     </message>
+    <message>
+        <source>qBittorrent needs to be restarted</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TorrentFilesModel</name>
@@ -4734,16 +2683,24 @@ Do you want to install it now?</source>
         <translation>Niesprawdzony</translation>
     </message>
     <message>
-        <source>Add a new tracker</source>
-        <translation>Dodaj tracker</translation>
-    </message>
-    <message>
         <source>[PeX]</source>
         <translation>[PeX]</translation>
     </message>
     <message>
         <source>[LSD]</source>
         <translation>[LSD]</translation>
+    </message>
+    <message>
+        <source>Add a new tracker...</source>
+        <translation>Dodaj tracker...</translation>
+    </message>
+    <message>
+        <source>Remove tracker</source>
+        <translation>Usuń tracker</translation>
+    </message>
+    <message>
+        <source>Force reannounce</source>
+        <translation>Sprawdź tracker</translation>
     </message>
 </context>
 <context>
@@ -4787,10 +2744,6 @@ Do you want to install it now?</source>
 </context>
 <context>
     <name>TransferListDelegate</name>
-    <message>
-        <source>KiB/s</source>
-        <translation type="obsolete">KiB/s</translation>
-    </message>
     <message>
         <source>Downloading</source>
         <translation>Pobieranie</translation>
@@ -4865,10 +2818,6 @@ Do you want to install it now?</source>
         <translation>Usuń etykietę</translation>
     </message>
     <message>
-        <source>Add label</source>
-        <translation>Dodaj etykietę</translation>
-    </message>
-    <message>
         <source>New Label</source>
         <translation>Nowa etykieta</translation>
     </message>
@@ -4884,102 +2833,45 @@ Do you want to install it now?</source>
         <source>Please don&apos;t use any special characters in the label name.</source>
         <translation>Nie należy używać żadnych znaków specjalnych w nazwach etykiet.</translation>
     </message>
+    <message>
+        <source>Paused</source>
+        <translation>Wstrzymane</translation>
+    </message>
+    <message>
+        <source>Add label...</source>
+        <translation>Dodaj etykietę...</translation>
+    </message>
+    <message>
+        <source>Resume torrents</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause torrents</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete torrents</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TransferListWidget</name>
-    <message>
-        <source>Name</source>
-        <comment>i.e: file name</comment>
-        <translation type="obsolete">Nazwa</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <comment>i.e: file size</comment>
-        <translation type="obsolete">Rozmiar</translation>
-    </message>
-    <message>
-        <source>Progress</source>
-        <comment>i.e: % downloaded</comment>
-        <translation type="obsolete">Postęp</translation>
-    </message>
-    <message>
-        <source>DL Speed</source>
-        <comment>i.e: Download speed</comment>
-        <translation type="obsolete">Prędkość DL</translation>
-    </message>
-    <message>
-        <source>UP Speed</source>
-        <comment>i.e: Upload speed</comment>
-        <translation type="obsolete">Prędkość UP</translation>
-    </message>
-    <message>
-        <source>Ratio</source>
-        <translation type="obsolete">Ratio</translation>
-    </message>
     <message>
         <source>ETA</source>
         <comment>i.e: Estimated Time of Arrival / Time left</comment>
         <translation>ETA</translation>
     </message>
     <message>
-        <source>&amp;Yes</source>
-        <translation type="obsolete">&amp;Tak</translation>
-    </message>
-    <message>
-        <source>&amp;No</source>
-        <translation type="obsolete">&amp;Nie</translation>
-    </message>
-    <message>
         <source>Column visibility</source>
         <translation>Widoczność kolumn</translation>
-    </message>
-    <message>
-        <source>Start</source>
-        <translation>Uruchom</translation>
-    </message>
-    <message>
-        <source>Pause</source>
-        <translation>Wstrzymaj</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Usuń</translation>
-    </message>
-    <message>
-        <source>Preview file</source>
-        <translation>Podgląd pliku</translation>
-    </message>
-    <message>
-        <source>Set upload limit</source>
-        <translation type="obsolete">Ustaw limit wysyłania</translation>
-    </message>
-    <message>
-        <source>Set download limit</source>
-        <translation type="obsolete">Ustaw limit pobierania</translation>
-    </message>
-    <message>
-        <source>Delete Permanently</source>
-        <translation type="obsolete">Usuń całkowicie</translation>
     </message>
     <message>
         <source>Open destination folder</source>
         <translation>Otwórz katalog pobierań</translation>
     </message>
     <message>
-        <source>Buy it</source>
-        <translation>Kup to</translation>
-    </message>
-    <message>
-        <source>Increase priority</source>
-        <translation>Zwiększ priorytet</translation>
-    </message>
-    <message>
-        <source>Decrease priority</source>
-        <translation>Zmniejsz priorytet</translation>
-    </message>
-    <message>
         <source>Force recheck</source>
-        <translation>Wymuś ponowne sprawdzenie</translation>
+        <translation type="unfinished">Sprawdź pobrane dane</translation>
     </message>
     <message>
         <source>Copy magnet link</source>
@@ -5037,14 +2929,6 @@ Do you want to install it now?</source>
     <message>
         <source>Torrent Upload Speed Limiting</source>
         <translation>Ograniczanie prędkości wysyłania torrenta</translation>
-    </message>
-    <message>
-        <source>Limit upload rate</source>
-        <translation>Ogranicz prędkość wysyłania</translation>
-    </message>
-    <message>
-        <source>Limit download rate</source>
-        <translation>Ogranicz prędkość pobierania</translation>
     </message>
     <message>
         <source>Super seeding mode</source>
@@ -5120,72 +3004,72 @@ Do you want to install it now?</source>
         <comment>i.e: Upload limit</comment>
         <translation>Limit UP</translation>
     </message>
-</context>
-<context>
-    <name>Ui</name>
     <message>
-        <source>I would like to thank the following people who volonteered to translate qBittorrent:</source>
-        <translation type="obsolete">Chciałbym podziękować następującym osobom, który wspomogli lokalizację qBittorrent-a:</translation>
+        <source>Choose save path</source>
+        <translation>Wybierz katalog docelowy</translation>
     </message>
     <message>
-        <source>Please contact me if you would like to translate qBittorrent to your own language.</source>
-        <translation type="obsolete">Proszę o kontakt, jeżeli chcesz dokonać lokalizacji aplikacji.</translation>
+        <source>Save path creation error</source>
+        <translation>Błąd tworzenia katalogu docelowego</translation>
     </message>
     <message>
-        <source>I would like to thank sourceforge.net for hosting qBittorrent project.</source>
-        <translation type="obsolete">Chciałbym podziękować serwisowi sourceforge.net za hosting dla projektu qBittorrent.</translation>
+        <source>Could not create the save path</source>
+        <translation>Nie można utworzyć katalogu docelowego</translation>
     </message>
     <message>
-        <source>qBittorrent </source>
-        <translation type="obsolete">qBittorrent </translation>
+        <source>Set location...</source>
+        <translation type="unfinished">Ustaw lokalizację...</translation>
     </message>
     <message>
-        <source>I would like to thank the following people who volunteered to translate qBittorrent:</source>
-        <translation type="obsolete">Chciałbym podziękować następującym osobom, który wspomogli lokalizację qBittorrent-a:</translation>
+        <source>Preview file...</source>
+        <translation>Podgląd pliku...</translation>
     </message>
     <message>
-        <source>&lt;ul&gt;&lt;li&gt;I would like to thank sourceforge.net for hosting qBittorrent project.&lt;/li&gt;</source>
-        <translation type="obsolete">&lt;ul&gt;&lt;li&gt;Podziękowania dla serwisu sourceforge.net za utrzymanie projektu qBittorrent.&lt;/li&gt;</translation>
+        <source>Limit upload rate...</source>
+        <translation>Ogranicz prędkości wysyłania...</translation>
     </message>
     <message>
-        <source>&lt;li&gt;I also like to thank Jeffery Fernandez (developer@jefferyfernandez.id.au), our RPM packager, for his great work.&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation type="obsolete">&lt;li&gt;Dziękuje także Jeffery Fernandez (developer@jefferyfernandez.id.au) za jego wielką pomoć w przygotowaniu pakietów RPM.&lt;/li&gt;&lt;/ul&gt;</translation>
+        <source>Limit download rate...</source>
+        <translation>Ogranicz prędkości pobierania...</translation>
     </message>
     <message>
-        <source>Preview impossible</source>
-        <translation type="obsolete">Nie ma możliwość podglądu</translation>
+        <source>Move up</source>
+        <comment>i.e. move up in the queue</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Sorry, we can&apos;t preview this file</source>
-        <translation type="obsolete">Przepraszamy, podgląd pliku jest niedostępny</translation>
+        <source>Move down</source>
+        <comment>i.e. Move down in the queue</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Name</source>
-        <translation type="obsolete">Nazwa</translation>
+        <source>Move to top</source>
+        <comment>i.e. Move to top of the queue</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Size</source>
-        <translation type="obsolete">Rozmiar</translation>
+        <source>Move to bottom</source>
+        <comment>i.e. Move to bottom of the queue</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Progress</source>
-        <translation type="obsolete">Postęp</translation>
+        <source>Priority</source>
+        <translation type="unfinished">Priorytet</translation>
     </message>
     <message>
-        <source>No URL entered</source>
-        <translation type="obsolete">Nie wprowadzono adresu URL</translation>
+        <source>Resume</source>
+        <comment>Resume/start the torrent</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Please type at least one URL.</source>
-        <translation type="obsolete">Proszę podać przynajmniej jeden adres URL.</translation>
+        <source>Pause</source>
+        <comment>Pause the torrent</comment>
+        <translation type="unfinished">Wstrzymaj</translation>
     </message>
     <message>
-        <source>qBittorrent</source>
-        <translation type="obsolete">qBittorrent</translation>
-    </message>
-    <message>
-        <source>Please contact me if you would like to translate qBittorrent into your own language.</source>
-        <translation type="obsolete">Proszę o kontakt, jeżeli chcesz pomóc w tłumaczeniu qBittorrent.</translation>
+        <source>Delete</source>
+        <comment>Delete the torrent</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5280,22 +3164,6 @@ Do you want to install it now?</source>
         <translation>Pobierz w kolejności sekwencyjnej (wolniejsze ale lepsze przy korzystaniu z opcji podglądu)</translation>
     </message>
     <message>
-        <source>File name</source>
-        <translation type="obsolete">Nazwa pliku</translation>
-    </message>
-    <message>
-        <source>File size</source>
-        <translation type="obsolete">Wielkość pliku</translation>
-    </message>
-    <message>
-        <source>Selected</source>
-        <translation type="obsolete">Zaznaczony</translation>
-    </message>
-    <message>
-        <source>Download in correct order (slower but good for previewing)</source>
-        <translation type="obsolete">Pobierz w ustalonej kolejności (wolniejsze ale lepsze przy korzystaniu z opcji podglądu)</translation>
-    </message>
-    <message>
         <source>Add to download list in paused state</source>
         <translation>Dodaj tylko do listy pobierania (bez rozpoczynania pobierania)</translation>
     </message>
@@ -5306,22 +3174,6 @@ Do you want to install it now?</source>
     <message>
         <source>Cancel</source>
         <translation>Anuluj</translation>
-    </message>
-    <message>
-        <source>select</source>
-        <translation type="obsolete">Zaznacz</translation>
-    </message>
-    <message>
-        <source>Unselect</source>
-        <translation type="obsolete">Odznacz</translation>
-    </message>
-    <message>
-        <source>Select</source>
-        <translation type="obsolete">Wybierz</translation>
-    </message>
-    <message>
-        <source>Ignored</source>
-        <translation type="obsolete">Ignorowany</translation>
     </message>
     <message>
         <source>Normal</source>
@@ -5336,20 +3188,24 @@ Do you want to install it now?</source>
         <translation>Maksymalny</translation>
     </message>
     <message>
-        <source>Collapse all</source>
-        <translation>Zwiń wszystko</translation>
-    </message>
-    <message>
-        <source>Expand all</source>
-        <translation>Rozwiń wszystko</translation>
-    </message>
-    <message>
         <source>Skip file checking and start seeding immediately</source>
         <translation>Pomiń sprawdzanie danych i natychmiast rozpocznij rozsiewanie</translation>
     </message>
     <message>
         <source>Label:</source>
         <translation>Etykieta:</translation>
+    </message>
+    <message>
+        <source>Select All</source>
+        <translation>Zaznacz wszystko</translation>
+    </message>
+    <message>
+        <source>Select None</source>
+        <translation>Odznacz wszystko</translation>
+    </message>
+    <message>
+        <source>Do not download</source>
+        <translation>Nie pobieraj</translation>
     </message>
 </context>
 <context>
@@ -5384,147 +3240,6 @@ Do you want to install it now?</source>
     </message>
 </context>
 <context>
-    <name>bandwidth_dlg</name>
-    <message>
-        <source>Bandwidth allocation</source>
-        <translation type="obsolete">Przepustowość łącza</translation>
-    </message>
-    <message>
-        <source>KiB/s</source>
-        <translation type="obsolete">KiB/s</translation>
-    </message>
-</context>
-<context>
-    <name>bittorrent</name>
-    <message>
-        <source>%1 reached the maximum ratio you set.</source>
-        <translation type="obsolete">%1 osiagnął ustawione przez ciebie ratio.</translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; was removed permanently.</source>
-        <comment>&apos;xxx.avi&apos; was removed permanently.</comment>
-        <translation type="obsolete">&apos;%1&apos; został całkowicie usunięty.</translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; was removed.</source>
-        <comment>&apos;xxx.avi&apos; was removed.</comment>
-        <translation type="obsolete">&apos;%1&apos; został usunięty.</translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; paused.</source>
-        <comment>e.g: xxx.avi paused.</comment>
-        <translation type="obsolete">&apos;%1&apos; wstrzymany.</translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; resumed.</source>
-        <comment>e.g: xxx.avi resumed.</comment>
-        <translation type="obsolete">&apos;%1&apos; wznowiony.</translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; is already in download list.</source>
-        <comment>e.g: &apos;xxx.avi&apos; is already in download list.</comment>
-        <translation type="obsolete">&apos;%1&apos; jest już na liście pobierania.</translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; resumed. (fast resume)</source>
-        <comment>&apos;/home/y/xxx.torrent&apos; was resumed. (fast resume)</comment>
-        <translation type="obsolete">&apos;%1&apos; wznowiony. (szybkie wznawianie)</translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; added to download list.</source>
-        <comment>&apos;/home/y/xxx.torrent&apos; was added to download list.</comment>
-        <translation type="obsolete">&apos;%1&apos; dodany do listy pobierania.</translation>
-    </message>
-    <message>
-        <source>Unable to decode torrent file: &apos;%1&apos;</source>
-        <comment>e.g: Unable to decode torrent file: &apos;/home/y/xxx.torrent&apos;</comment>
-        <translation type="obsolete">Problem z odczytem pliku torrent: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>This file is either corrupted or this isn&apos;t a torrent.</source>
-        <translation type="obsolete">Plik jest uszkodzony lub nie jest plikiem torrent.</translation>
-    </message>
-    <message>
-        <source>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;was blocked due to your IP filter&lt;/i&gt;</source>
-        <comment>x.y.z.w was blocked</comment>
-        <translation type="obsolete">&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;był zablokowany dzięki filtrowi IP&lt;/i&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;was banned due to corrupt pieces&lt;/i&gt;</source>
-        <comment>x.y.z.w was banned</comment>
-        <translation type="obsolete">&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;był zablokowany dzięki uszkodzonym częściom&lt;/i&gt;</translation>
-    </message>
-    <message>
-        <source>Couldn&apos;t listen on any of the given ports.</source>
-        <translation type="obsolete">Nie można nasłuchiwać na żadnym z podanych portów.</translation>
-    </message>
-    <message>
-        <source>UPnP/NAT-PMP: Port mapping failure, message: %1</source>
-        <translation type="obsolete">UPnP/NAT-PMP: Błąd mapowania portu, wiadomość %1</translation>
-    </message>
-    <message>
-        <source>UPnP/NAT-PMP: Port mapping successful, message: %1</source>
-        <translation type="obsolete">UPnP/NAT-PMP: Udane mapowanie portu, wiadomość %1</translation>
-    </message>
-    <message>
-        <source>Fast resume data was rejected for torrent %1, checking again...</source>
-        <translation type="obsolete">Szybkie wznowienie danych zostało odrzucone przez torrent %1, sprawdzam ponownie...</translation>
-    </message>
-    <message>
-        <source>Url seed lookup failed for url: %1, message: %2</source>
-        <translation type="obsolete">Błąd wyszukiwania url seeda dla url:%1, wiadomość: %2</translation>
-    </message>
-    <message>
-        <source>Downloading &apos;%1&apos;, please wait...</source>
-        <comment>e.g: Downloading &apos;xxx.torrent&apos;, please wait...</comment>
-        <translation type="obsolete">Pobieranie &apos;%1&apos;, proszę czekać...</translation>
-    </message>
-    <message>
-        <source>UPnP support [ON]</source>
-        <translation type="obsolete">Wsparcie UPnP [WŁ]</translation>
-    </message>
-    <message>
-        <source>UPnP support [OFF]</source>
-        <translation type="obsolete">Obsługa UPnP [WYŁ]</translation>
-    </message>
-    <message>
-        <source>NAT-PMP support [ON]</source>
-        <translation type="obsolete">Obsługa NAT-PMP [WŁ]</translation>
-    </message>
-    <message>
-        <source>NAT-PMP support [OFF]</source>
-        <translation type="obsolete">Obsługa NAT-PMP [WYŁ]</translation>
-    </message>
-    <message>
-        <source>DHT support [OFF]</source>
-        <translation type="obsolete">Wsparcie DHT [WYŁ]</translation>
-    </message>
-    <message>
-        <source>PeX support [ON]</source>
-        <translation type="obsolete">Wsparcie PeX [WŁ]</translation>
-    </message>
-    <message>
-        <source>Local Peer Discovery [ON]</source>
-        <translation type="obsolete">Local Peer Discovery [WŁ]</translation>
-    </message>
-    <message>
-        <source>Local Peer Discovery support [OFF]</source>
-        <translation type="obsolete">Obsługa Local Peer Discovery [WYŁ]</translation>
-    </message>
-    <message>
-        <source>Encryption support [ON]</source>
-        <translation type="obsolete">Wsparcie szyfrowania [WŁ]</translation>
-    </message>
-    <message>
-        <source>Encryption support [FORCED]</source>
-        <translation type="obsolete">Wsparcie szyfrowania [WYMUSZONE]</translation>
-    </message>
-    <message>
-        <source>Encryption support [OFF]</source>
-        <translation type="obsolete">Wsparcie szyfrowania [WYŁ]</translation>
-    </message>
-</context>
-<context>
     <name>confirmDeletionDlg</name>
     <message>
         <source>Deletion confirmation - qBittorrent</source>
@@ -5535,75 +3250,27 @@ Do you want to install it now?</source>
         <translation>Czy chcesz usunąć wybrane pliki torrent z listy transferów?</translation>
     </message>
     <message>
-        <source>Delete the files on the hard disk as well</source>
+        <source>Remember choice</source>
+        <translation>Zapamiętaj wybór</translation>
+    </message>
+    <message>
+        <source>Also delete the files on the hard disk</source>
         <translation>Usuń także dane z twardego dysku</translation>
     </message>
 </context>
 <context>
     <name>createTorrentDialog</name>
     <message>
-        <source>Create Torrent file</source>
-        <translation type="obsolete">Utwórz plik Torrent</translation>
-    </message>
-    <message>
-        <source>Destination torrent file:</source>
-        <translation type="obsolete">Docelowy plik torrent:</translation>
-    </message>
-    <message>
-        <source>Input file or directory:</source>
-        <translation type="obsolete">Katalog lub plik źródłowy:</translation>
-    </message>
-    <message>
-        <source>Comment:</source>
-        <translation type="obsolete">Komentarz:</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="obsolete">...</translation>
-    </message>
-    <message>
-        <source>Create</source>
-        <translation type="obsolete">Utwórz</translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation>Anuluj</translation>
-    </message>
-    <message>
-        <source>Announce url (Tracker):</source>
-        <translation type="obsolete">Adres publikacji (Tracker):</translation>
-    </message>
-    <message>
-        <source>Directory</source>
-        <translation type="obsolete">Katalog</translation>
     </message>
     <message>
         <source>Torrent Creation Tool</source>
         <translation>Kreator plików torrent</translation>
     </message>
     <message>
-        <source>&lt;center&gt;Destination torrent file:&lt;/center&gt;</source>
-        <translation type="obsolete">&lt;center&gt;Docelowy plik torrent:&lt;/center&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;center&gt;Input file or directory:&lt;/center&gt;</source>
-        <translation type="obsolete">&lt;center&gt;Plik lub katalog źródłowy:&lt;/center&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;center&gt;Announce url:&lt;br&gt;(One per line)&lt;/center&gt;</source>
-        <translation type="obsolete">&lt;center&gt;Adres publikacji:&lt;br&gt;(Jeden w linii)&lt;/center&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;center&gt;Comment:&lt;/center&gt;</source>
-        <translation type="obsolete">&lt;center&gt;Komentarz:&lt;/center&gt;</translation>
-    </message>
-    <message>
         <source>Torrent file creation</source>
         <translation>Tworzenie pliku torrent</translation>
-    </message>
-    <message>
-        <source>Input files or directories:</source>
-        <translation type="obsolete">Wejściowe pliki lub katalogi:</translation>
     </message>
     <message>
         <source>Announce urls (trackers):</source>
@@ -5614,24 +3281,12 @@ Do you want to install it now?</source>
         <translation>Komentarz (opcja):</translation>
     </message>
     <message>
-        <source>Private (won&apos;t be distributed on trackerless network / DHT if enabled)</source>
-        <translation type="obsolete">Prywatny (nie będzie rozprowadzany w sieci beztrackerowej / jeżeli DHT włączone)</translation>
-    </message>
-    <message>
         <source>Web seeds urls (optional):</source>
         <translation>Adres seedów www (opcja):</translation>
     </message>
     <message>
         <source>File or folder to add to the torrent:</source>
         <translation>Plik lub katalog który ma zostać dodany do torrenta:</translation>
-    </message>
-    <message>
-        <source>Add a file</source>
-        <translation type="obsolete">Dodaj plik</translation>
-    </message>
-    <message>
-        <source>Add a folder</source>
-        <translation type="obsolete">Dodaj katalog</translation>
     </message>
     <message>
         <source>Add file</source>
@@ -5705,32 +3360,12 @@ Do you want to install it now?</source>
         <translation>Pliki Torrent</translation>
     </message>
     <message>
-        <source>Select input directory or file</source>
-        <translation type="obsolete">Wybierz katalog lub plik źródłowy</translation>
-    </message>
-    <message>
-        <source>No destination path set</source>
-        <translation type="obsolete">Katalog docelowy nie ustawiony</translation>
-    </message>
-    <message>
-        <source>Please type a destination path first</source>
-        <translation type="obsolete">Proszę podać katalog docelowy</translation>
-    </message>
-    <message>
         <source>No input path set</source>
         <translation>Katalog źródłowy nie zdefiniowany</translation>
     </message>
     <message>
         <source>Please type an input path first</source>
         <translation>Proszę podać katalog żródłowy</translation>
-    </message>
-    <message>
-        <source>Input path does not exist</source>
-        <translation type="obsolete">Katalog źródłowy nie istnieje</translation>
-    </message>
-    <message>
-        <source>Please type a correct input path first</source>
-        <translation type="obsolete">Proszę podać poprawną ścieżkę źródłową</translation>
     </message>
     <message>
         <source>Torrent creation</source>
@@ -5741,16 +3376,8 @@ Do you want to install it now?</source>
         <translation>Utworzono plik torrent:</translation>
     </message>
     <message>
-        <source>Please type a valid input path first</source>
-        <translation type="obsolete">Prosze podać prawidłowy katalog źródłowy</translation>
-    </message>
-    <message>
         <source>Select a folder to add to the torrent</source>
         <translation>Wybierz katalog który chcesz dodać do torrenta</translation>
-    </message>
-    <message>
-        <source>Select files to add to the torrent</source>
-        <translation type="obsolete">Wybież plik który dodasz do torrenta</translation>
     </message>
     <message>
         <source>Please type an announce URL</source>
@@ -5776,14 +3403,6 @@ Do you want to install it now?</source>
     <message>
         <source>Select a file to add to the torrent</source>
         <translation>Wybierz plik który chcesz dodać do torrenta</translation>
-    </message>
-    <message>
-        <source>No tracker path set</source>
-        <translation type="obsolete">Nie ustawiono ścieżki trackera</translation>
-    </message>
-    <message>
-        <source>Please set at least one tracker</source>
-        <translation type="obsolete">Ustaw przynajmniej jeden tracker</translation>
     </message>
     <message>
         <source>Created torrent file is invalid. It won&apos;t be added to download list.</source>
@@ -5845,23 +3464,23 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>SSL/TLS handshake failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Niepomyślna próba negocjacji połączenie SSL/TLS</translation>
     </message>
     <message>
         <source>The remote server refused the connection</source>
-        <translation type="unfinished">Zdalny serwer odrzucił połączenie</translation>
+        <translation>Zdalny serwer odrzucił połączenie</translation>
     </message>
     <message>
         <source>The connection to the proxy server was refused</source>
-        <translation type="unfinished">Połączenie z serwerem proxy zostało odrzucone</translation>
+        <translation>Połączenie z serwerem proxy zostało odrzucone</translation>
     </message>
     <message>
         <source>The proxy server closed the connection prematurely</source>
-        <translation type="unfinished">Serwer proxy przedwcześnie zakończył połączenie</translation>
+        <translation>Serwer proxy przedwcześnie zakończył połączenie</translation>
     </message>
     <message>
         <source>The proxy host name was not found</source>
-        <translation type="unfinished">Nie znaleziono nazwy hosta serwera proxy</translation>
+        <translation>Nie znaleziono nazwy hosta serwera proxy</translation>
     </message>
     <message>
         <source>The connection to the proxy timed out or the proxy did not reply in time to the request sent</source>
@@ -5917,125 +3536,6 @@ Do you want to install it now?</source>
     </message>
 </context>
 <context>
-    <name>downloading</name>
-    <message>
-        <source>Search</source>
-        <translation type="obsolete">Szukaj</translation>
-    </message>
-    <message>
-        <source>Total DL Speed:</source>
-        <translation type="obsolete">Całkowita prędkość DL:</translation>
-    </message>
-    <message>
-        <source>KiB/s</source>
-        <translation type="obsolete">KiB/s</translation>
-    </message>
-    <message>
-        <source>Session ratio: </source>
-        <translation type="obsolete">Ratio sesji: </translation>
-    </message>
-    <message>
-        <source>Total UP Speed:</source>
-        <translation type="obsolete">Całkowita prędkość UP:</translation>
-    </message>
-    <message>
-        <source>Log</source>
-        <translation type="obsolete">Log</translation>
-    </message>
-    <message>
-        <source>IP filter</source>
-        <translation type="obsolete">Filtr IP</translation>
-    </message>
-    <message>
-        <source>Start</source>
-        <translation type="obsolete">Start</translation>
-    </message>
-    <message>
-        <source>Pause</source>
-        <translation type="obsolete">Wstrzymaj</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="obsolete">Skasuj</translation>
-    </message>
-    <message>
-        <source>Clear</source>
-        <translation type="obsolete">Wyczyść</translation>
-    </message>
-    <message>
-        <source>Preview file</source>
-        <translation type="obsolete">Podgląd pliku</translation>
-    </message>
-    <message>
-        <source>Set upload limit</source>
-        <translation type="obsolete">Ustaw limit wysyłania</translation>
-    </message>
-    <message>
-        <source>Set download limit</source>
-        <translation type="obsolete">Ustaw limit pobierania</translation>
-    </message>
-    <message>
-        <source>Delete Permanently</source>
-        <translation type="obsolete">Usuń całkowicie</translation>
-    </message>
-    <message>
-        <source>Torrent Properties</source>
-        <translation type="obsolete">Właściwości Torrenta</translation>
-    </message>
-    <message>
-        <source>Open destination folder</source>
-        <translation type="obsolete">Otwórz katalog pobierań</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="obsolete">Nazwa</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <translation type="obsolete">Rozmiar</translation>
-    </message>
-    <message>
-        <source>Progress</source>
-        <translation type="obsolete">Postęp</translation>
-    </message>
-    <message>
-        <source>DLSpeed</source>
-        <translation type="obsolete">Prędkość pobierania</translation>
-    </message>
-    <message>
-        <source>UpSpeed</source>
-        <translation type="obsolete">Prędkość wysyłania</translation>
-    </message>
-    <message>
-        <source>Seeds/Leechs</source>
-        <translation type="obsolete">Seeds/Leechs</translation>
-    </message>
-    <message>
-        <source>Ratio</source>
-        <translation type="obsolete">Ratio</translation>
-    </message>
-    <message>
-        <source>ETA</source>
-        <translation type="obsolete">ETA</translation>
-    </message>
-    <message>
-        <source>Buy it</source>
-        <translation type="obsolete">Kup to</translation>
-    </message>
-    <message>
-        <source>Priority</source>
-        <translation type="obsolete">Priorytet</translation>
-    </message>
-    <message>
-        <source>Increase priority</source>
-        <translation type="obsolete">Zwiększ priorytet</translation>
-    </message>
-    <message>
-        <source>Decrease priority</source>
-        <translation type="obsolete">Zmniejsz priorytet</translation>
-    </message>
-</context>
-<context>
     <name>engineSelect</name>
     <message>
         <source>Search plugins</source>
@@ -6056,10 +3556,6 @@ Do you want to install it now?</source>
     <message>
         <source>Enabled</source>
         <translation>Włączone</translation>
-    </message>
-    <message>
-        <source>You can get new search engine plugins here: &lt;a href=&quot;http:plugins.qbittorrent.org&quot;&gt;http://plugins.qbittorrent.org&lt;/a&gt;</source>
-        <translation type="obsolete">Tutaj możesz pobrać nowe wtyczki wyszukiwania: &lt;a href=&quot;http:plugins.qbittorrent.org&quot;&gt;http://plugins.qbittorrent.org&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Install a new one</source>
@@ -6093,14 +3589,6 @@ Do you want to install it now?</source>
 <context>
     <name>engineSelectDlg</name>
     <message>
-        <source>True</source>
-        <translation type="obsolete">Tak</translation>
-    </message>
-    <message>
-        <source>False</source>
-        <translation type="obsolete">Nie</translation>
-    </message>
-    <message>
         <source>Uninstall warning</source>
         <translation>Ostrzeżenie deinstalacji</translation>
     </message>
@@ -6115,10 +3603,6 @@ Jednak tamte wtyczki były wyłączone.</translation>
     <message>
         <source>Uninstall success</source>
         <translation>Deinstalacja zakończona</translation>
-    </message>
-    <message>
-        <source>All selected plugins were uninstalled successfuly</source>
-        <translation type="obsolete">Wszystkie wybrane wtyczki zostały usunięte</translation>
     </message>
     <message>
         <source>Select search plugins</source>
@@ -6150,32 +3634,12 @@ Jednak tamte wtyczki były wyłączone.</translation>
         <translation>Najnowsza wersja wtyczki wyszukiwania %1 jest już zainstalowana.</translation>
     </message>
     <message>
-        <source>%1 search engine plugin was successfuly updated.</source>
-        <comment>%1 is the name of the search engine</comment>
-        <translation type="obsolete">Wtyczka silnika wyszukiwania %1 zaktualizowana poprawnie.</translation>
-    </message>
-    <message>
-        <source>%1 search engine plugin was successfuly installed.</source>
-        <comment>%1 is the name of the search engine</comment>
-        <translation type="obsolete">Wtyczka silnika wyszukiwania %1 zainstalowana poprawnie.</translation>
-    </message>
-    <message>
         <source>Search plugin update</source>
         <translation>Aktualizacja wtyczki wyszukiwania</translation>
     </message>
     <message>
         <source>Sorry, update server is temporarily unavailable.</source>
         <translation>Sorry, czasowo niedostępny serwer aktualizacji.</translation>
-    </message>
-    <message>
-        <source>%1 search plugin was successfuly updated.</source>
-        <comment>%1 is the name of the search engine</comment>
-        <translation type="obsolete">Aktualizacja wtyczki wyszukiwania %1 zakończona powodzeniem.</translation>
-    </message>
-    <message>
-        <source>Sorry, %1 search plugin update failed.</source>
-        <comment>%1 is the name of the search engine</comment>
-        <translation type="obsolete">Sorry, błąd aktualizacji wtyczki wyszukiwania %1.</translation>
     </message>
     <message>
         <source>All your plugins are already up to date.</source>
@@ -6204,10 +3668,6 @@ Jednak tamte wtyczki były wyłączone.</translation>
         <source>%1 search engine plugin was successfully installed.</source>
         <comment>%1 is the name of the search engine</comment>
         <translation>Pomyślnie zainstalowano wtyczkę wyszukiwania %1.</translation>
-    </message>
-    <message>
-        <source>Search engine plugin archive could not be read.</source>
-        <translation type="obsolete">Nie można odczytać archiwum wtyczki silnika wyszukiwarki.</translation>
     </message>
     <message>
         <source>Sorry, %1 search plugin install failed.</source>
@@ -6251,33 +3711,8 @@ Jednak tamte wtyczki były wyłączone.</translation>
         <translation>TiB</translation>
     </message>
     <message>
-        <source>m</source>
-        <comment>minutes</comment>
-        <translation type="obsolete">m</translation>
-    </message>
-    <message>
-        <source>h </source>
-        <comment>hours</comment>
-        <translation type="obsolete">h</translation>
-    </message>
-    <message>
-        <source>d </source>
-        <comment>days</comment>
-        <translation type="obsolete">d</translation>
-    </message>
-    <message>
         <source>Unknown</source>
         <translation>Nieznany</translation>
-    </message>
-    <message>
-        <source>h</source>
-        <comment>hours</comment>
-        <translation type="obsolete">h</translation>
-    </message>
-    <message>
-        <source>d</source>
-        <comment>days</comment>
-        <translation type="obsolete">d</translation>
     </message>
     <message>
         <source>Unknown</source>
@@ -6295,149 +3730,29 @@ Jednak tamte wtyczki były wyłączone.</translation>
         <translation>%1m</translation>
     </message>
     <message>
-        <source>%1h%2m</source>
-        <comment>e.g: 3hours 5minutes</comment>
-        <translation type="obsolete">%1h%2m</translation>
-    </message>
-    <message>
-        <source>%1d%2h%3m</source>
-        <comment>e.g: 2days 10hours 2minutes</comment>
-        <translation type="obsolete">%1d%2h%3m</translation>
-    </message>
-    <message>
         <source>%1h %2m</source>
         <comment>e.g: 3hours 5minutes</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1h %2m</translation>
     </message>
     <message>
         <source>%1d %2h</source>
         <comment>e.g: 2days 10hours</comment>
+        <translation>%1d %2h</translation>
+    </message>
+    <message>
+        <source>qBittorrent will shutdown the computer now because all downloads are complete.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>options_imp</name>
     <message>
-        <source>Options saved successfully!</source>
-        <translation type="obsolete">Opcje zapisane!</translation>
-    </message>
-    <message>
-        <source>Choose Scan Directory</source>
-        <translation type="obsolete">Wybierz katalog przeszukiwania</translation>
-    </message>
-    <message>
-        <source>Choose save Directory</source>
-        <translation type="obsolete">Wybierz katalog zapisu</translation>
-    </message>
-    <message>
-        <source>Choose ipfilter.dat file</source>
-        <translation type="obsolete">Wybierz plik ipfilter.dat</translation>
-    </message>
-    <message>
-        <source>I/O Error</source>
-        <translation type="obsolete">Błąd We/Wy</translation>
-    </message>
-    <message>
-        <source>Couldn&apos;t open:</source>
-        <translation type="obsolete">Nie można otworzyć:</translation>
-    </message>
-    <message>
-        <source>in read mode.</source>
-        <translation type="obsolete">w trybie odczytu.</translation>
-    </message>
-    <message>
-        <source>Invalid Line</source>
-        <translation type="obsolete">Błędny wiersz</translation>
-    </message>
-    <message>
-        <source>Line</source>
-        <translation type="obsolete">Wiersz</translation>
-    </message>
-    <message>
-        <source>is malformed.</source>
-        <translation type="obsolete">is malformed.</translation>
-    </message>
-    <message>
-        <source>Range Start IP</source>
-        <translation type="obsolete">Zakres początkowy IP</translation>
-    </message>
-    <message>
-        <source>Start IP:</source>
-        <translation type="obsolete">Początkowe IP:</translation>
-    </message>
-    <message>
-        <source>Incorrect IP</source>
-        <translation type="obsolete">Niepoprawne IP</translation>
-    </message>
-    <message>
-        <source>This IP is incorrect.</source>
-        <translation type="obsolete">To jest nieprawidłowe IP.</translation>
-    </message>
-    <message>
-        <source>Range End IP</source>
-        <translation type="obsolete">Końcowy zakres IP</translation>
-    </message>
-    <message>
-        <source>End IP:</source>
-        <translation type="obsolete">Końcowe IP:</translation>
-    </message>
-    <message>
-        <source>IP Range Comment</source>
-        <translation type="obsolete">Komentarz zakresu IP</translation>
-    </message>
-    <message>
-        <source>Comment:</source>
-        <translation type="obsolete">Komentarz:</translation>
-    </message>
-    <message>
-        <source>to</source>
-        <comment>&lt;min port&gt; to &lt;max port&gt;</comment>
-        <translation type="obsolete">do</translation>
-    </message>
-    <message>
-        <source>Choose your favourite preview program</source>
-        <translation type="obsolete">Wybierz program którym zawsze chcesz otwierać dany typ plików</translation>
-    </message>
-    <message>
-        <source>Invalid IP</source>
-        <translation type="obsolete">Niepoprawny adres IP</translation>
-    </message>
-    <message>
-        <source>This IP is invalid.</source>
-        <translation type="obsolete">Ten adres IP jest niepoprawny.</translation>
-    </message>
-    <message>
-        <source>Options were saved successfully.</source>
-        <translation type="obsolete">Ustawienia zapisane.</translation>
-    </message>
-    <message>
-        <source>Choose scan directory</source>
-        <translation type="obsolete">Wybierz katalog przeszukiwania</translation>
-    </message>
-    <message>
-        <source>Choose an ipfilter.dat file</source>
-        <translation type="obsolete">Wybierz plik ipfilter.dat</translation>
-    </message>
-    <message>
         <source>Choose a save directory</source>
         <translation>Wybierz katalog docelowy</translation>
     </message>
     <message>
-        <source>I/O Error</source>
-        <comment>Input/Output Error</comment>
-        <translation type="obsolete">Błąd We/Wy</translation>
-    </message>
-    <message>
-        <source>Couldn&apos;t open %1 in read mode.</source>
-        <translation type="obsolete">Nie można otworzyć %1 w trybie odczytu.</translation>
-    </message>
-    <message>
         <source>Choose an ip filter file</source>
         <translation>Wybierz plik filtra IP</translation>
-    </message>
-    <message>
-        <source>Filters (*.dat *.p2p *.p2b)</source>
-        <translation type="obsolete">Filtry (*.dat *.p2p *.p2b)</translation>
     </message>
     <message>
         <source>Filters</source>
@@ -6445,7 +3760,7 @@ Jednak tamte wtyczki były wyłączone.</translation>
     </message>
     <message>
         <source>Choose export directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz katalog eksportu</translation>
     </message>
     <message>
         <source>Add directory to scan</source>
@@ -6469,7 +3784,7 @@ Jednak tamte wtyczki były wyłączone.</translation>
     </message>
     <message>
         <source>Failed to add Scan Folder &apos;%1&apos;: %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Błąd podczas dodawania katalogu do obserwowanych &apos;%1&apos;: %2</translation>
     </message>
 </context>
 <context>
@@ -6538,367 +3853,10 @@ Jednak tamte wtyczki były wyłączone.</translation>
     </message>
 </context>
 <context>
-    <name>properties</name>
-    <message>
-        <source>Torrent Properties</source>
-        <translation type="obsolete">Właściwości Torrenta</translation>
-    </message>
-    <message>
-        <source>Main Infos</source>
-        <translation type="obsolete">Główne informacje</translation>
-    </message>
-    <message>
-        <source>File Name</source>
-        <translation type="obsolete">Nazwa pliku</translation>
-    </message>
-    <message>
-        <source>Current Session</source>
-        <translation type="obsolete">Aktualna sesja</translation>
-    </message>
-    <message>
-        <source>Total Uploaded:</source>
-        <translation type="obsolete">Wysłano ogółem:</translation>
-    </message>
-    <message>
-        <source>Total Downloaded:</source>
-        <translation type="obsolete">Sciągnieto ogółem:</translation>
-    </message>
-    <message>
-        <source>Download state:</source>
-        <translation type="obsolete">Status sciągania:</translation>
-    </message>
-    <message>
-        <source>Current Tracker:</source>
-        <translation type="obsolete">Aktualny Tracker:</translation>
-    </message>
-    <message>
-        <source>Number of Peers:</source>
-        <translation type="obsolete">Liczba peer-ów:</translation>
-    </message>
-    <message>
-        <source>Torrent Content</source>
-        <translation type="obsolete">Zawartość Torrent-a</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="obsolete">OK</translation>
-    </message>
-    <message>
-        <source>Total Failed:</source>
-        <translation type="obsolete">Błędnych ogółem:</translation>
-    </message>
-    <message>
-        <source>Finished</source>
-        <translation type="obsolete">Zakończono</translation>
-    </message>
-    <message>
-        <source>Queued for checking</source>
-        <translation type="obsolete">Oczekuje na sprawdzenie</translation>
-    </message>
-    <message>
-        <source>Checking files</source>
-        <translation type="obsolete">Sprawdzanie plików</translation>
-    </message>
-    <message>
-        <source>Connecting to tracker</source>
-        <translation type="obsolete">Łączenie do tracker-a</translation>
-    </message>
-    <message>
-        <source>Downloading Metadata</source>
-        <translation type="obsolete">Pobieranie meta-danych</translation>
-    </message>
-    <message>
-        <source>Downloading</source>
-        <translation type="obsolete">Pobieranie</translation>
-    </message>
-    <message>
-        <source>Seeding</source>
-        <translation type="obsolete">Seedowanie</translation>
-    </message>
-    <message>
-        <source>Allocating</source>
-        <translation type="obsolete">Uzyskiwanie</translation>
-    </message>
-    <message>
-        <source>Unknown</source>
-        <translation type="obsolete">Nieznany</translation>
-    </message>
-    <message>
-        <source>Complete: </source>
-        <translation type="obsolete">Ukończone: </translation>
-    </message>
-    <message>
-        <source>Partial: </source>
-        <translation type="obsolete">Częściowo:</translation>
-    </message>
-    <message>
-        <source>Files contained in current torrent:</source>
-        <translation type="obsolete">Pliki w torrencie:</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <translation type="obsolete">Rozmiar</translation>
-    </message>
-    <message>
-        <source>Selected</source>
-        <translation type="obsolete">Zaznaczony</translation>
-    </message>
-    <message>
-        <source> Unselect</source>
-        <translation type="obsolete">Odznacz</translation>
-    </message>
-    <message>
-        <source> Select</source>
-        <translation type="obsolete">Zaznacz</translation>
-    </message>
-    <message>
-        <source>You can select here precisely which files you want to download in current torrent.</source>
-        <translation type="obsolete">Możesz określić, które pliki chcesz pobrać z danego torrent-a.</translation>
-    </message>
-    <message>
-        <source>False</source>
-        <translation type="obsolete">Nie</translation>
-    </message>
-    <message>
-        <source>True</source>
-        <translation type="obsolete">Tak</translation>
-    </message>
-    <message>
-        <source>Tracker</source>
-        <translation type="obsolete">Tracker</translation>
-    </message>
-    <message>
-        <source>Trackers:</source>
-        <translation type="obsolete">Trackery:</translation>
-    </message>
-    <message>
-        <source>None - Unreachable?</source>
-        <translation type="obsolete">Brak - Nieosiągalny?</translation>
-    </message>
-    <message>
-        <source>Errors:</source>
-        <translation type="obsolete">Błędy:</translation>
-    </message>
-    <message>
-        <source>Progress</source>
-        <translation type="obsolete">Postęp</translation>
-    </message>
-    <message>
-        <source>Main infos</source>
-        <translation type="obsolete">Główne informacje</translation>
-    </message>
-    <message>
-        <source>Number of peers:</source>
-        <translation type="obsolete">Liczna peer-ów:</translation>
-    </message>
-    <message>
-        <source>Current tracker:</source>
-        <translation type="obsolete">Aktualny tracker:</translation>
-    </message>
-    <message>
-        <source>Total uploaded:</source>
-        <translation type="obsolete">Ogółem wysłanych:</translation>
-    </message>
-    <message>
-        <source>Total downloaded:</source>
-        <translation type="obsolete">Ogółem pobranych:</translation>
-    </message>
-    <message>
-        <source>Total failed:</source>
-        <translation type="obsolete">Ogółem błędnych:</translation>
-    </message>
-    <message>
-        <source>Torrent content</source>
-        <translation type="obsolete">Zawartość torrenta</translation>
-    </message>
-    <message>
-        <source>Options</source>
-        <translation type="obsolete">Opcje</translation>
-    </message>
-    <message>
-        <source>Download in correct order (slower but good for previewing)</source>
-        <translation type="obsolete">Pobierz w ustalonej kolejności (wolniejsze ale lepsze przy korzystaniu z opcji podglądu)</translation>
-    </message>
-    <message>
-        <source>Share Ratio:</source>
-        <translation type="obsolete">Ratio:</translation>
-    </message>
-    <message>
-        <source>Seeders:</source>
-        <translation type="obsolete">Seeders:</translation>
-    </message>
-    <message>
-        <source>Leechers:</source>
-        <translation type="obsolete">Leechers:</translation>
-    </message>
-    <message>
-        <source>Save path:</source>
-        <translation type="obsolete">Katalog zapisu:</translation>
-    </message>
-    <message>
-        <source>Torrent infos</source>
-        <translation type="obsolete">Informacja o torrencie</translation>
-    </message>
-    <message>
-        <source>Creator:</source>
-        <translation type="obsolete">Kreator:</translation>
-    </message>
-    <message>
-        <source>Torrent hash:</source>
-        <translation type="obsolete">Torrent hash:</translation>
-    </message>
-    <message>
-        <source>Comment:</source>
-        <translation type="obsolete">Komentarz:</translation>
-    </message>
-    <message>
-        <source>Current session</source>
-        <translation type="obsolete">Bieżąca sesja</translation>
-    </message>
-    <message>
-        <source>Share ratio:</source>
-        <translation type="obsolete">Współczynnik udostępniania:</translation>
-    </message>
-    <message>
-        <source>Trackers</source>
-        <translation type="obsolete">Trackery</translation>
-    </message>
-    <message>
-        <source>New tracker</source>
-        <translation type="obsolete">Nowy tracker</translation>
-    </message>
-    <message>
-        <source>New tracker url:</source>
-        <translation type="obsolete">URL nowego trackera:</translation>
-    </message>
-    <message>
-        <source>Priorities:</source>
-        <translation type="obsolete">Pierwszeństwa:</translation>
-    </message>
-    <message>
-        <source>Normal: normal priority. Download order is dependent on availability</source>
-        <translation type="obsolete">Normalny: normalny priorytet. Kolejność pobierania zależy od dostępności</translation>
-    </message>
-    <message>
-        <source>High: higher than normal priority. Pieces are preferred over pieces with the same availability, but not over pieces with lower availability</source>
-        <translation type="obsolete">Wysoki: wysoki priorytet. Części są ważniejsze od tych z taką samą dostępnością, lecz nie od części z niższą dostępnością</translation>
-    </message>
-    <message>
-        <source>Maximum: maximum priority, availability is disregarded, the piece is preferred over any other piece with lower priority</source>
-        <translation type="obsolete">Maksymalny: maksymalny priorytet. Dostępność jest zlekceważona, części są ważniejsze od tych z niższym priorytetem</translation>
-    </message>
-    <message>
-        <source>File name</source>
-        <translation type="obsolete">Nazwa pliku</translation>
-    </message>
-    <message>
-        <source>Priority</source>
-        <translation type="obsolete">Priorytet</translation>
-    </message>
-    <message>
-        <source>qBittorrent</source>
-        <translation type="obsolete">qBittorrent</translation>
-    </message>
-    <message>
-        <source>Trackers list can&apos;t be empty.</source>
-        <translation type="obsolete">Lista trackerów nie może być pusta.</translation>
-    </message>
-    <message>
-        <source>Ignored: file is not downloaded at all</source>
-        <translation type="obsolete">Ignorowany: plik nie jest pobierany</translation>
-    </message>
-    <message>
-        <source>Ignored</source>
-        <translation type="obsolete">Ignorowany</translation>
-    </message>
-    <message>
-        <source>Normal</source>
-        <translation type="obsolete">Normalny</translation>
-    </message>
-    <message>
-        <source>Maximum</source>
-        <translation type="obsolete">Maksymalny</translation>
-    </message>
-    <message>
-        <source>High</source>
-        <translation type="obsolete">Wysoki</translation>
-    </message>
-    <message>
-        <source>Url seeds</source>
-        <translation type="obsolete">Url seeda</translation>
-    </message>
-    <message>
-        <source>New url seed:</source>
-        <translation type="obsolete">Nowy url seeda:</translation>
-    </message>
-    <message>
-        <source>This url seed is already in the list.</source>
-        <translation type="obsolete">Ten url seeda już jest na liście.</translation>
-    </message>
-    <message>
-        <source>Hard-coded url seeds cannot be deleted.</source>
-        <translation type="obsolete">Nie można usunąć ustalony url seeda.</translation>
-    </message>
-    <message>
-        <source>None</source>
-        <comment>i.e: No error message</comment>
-        <translation type="obsolete">Brak</translation>
-    </message>
-    <message>
-        <source>New url seed</source>
-        <comment>New HTTP source</comment>
-        <translation type="obsolete">Nowy url seeda</translation>
-    </message>
-    <message>
-        <source>The following url seeds are available for this torrent:</source>
-        <translation type="obsolete">Dla tego torrenta dostępne są następujące url seeda:</translation>
-    </message>
-    <message>
-        <source>Priorities error</source>
-        <translation type="obsolete">Błąd priorytetu</translation>
-    </message>
-    <message>
-        <source>Error, you can&apos;t filter all the files in a torrent.</source>
-        <translation type="obsolete">Błąd, nie można filtrować wszystkich plików torrencie.</translation>
-    </message>
-    <message>
-        <source>Downloaded pieces</source>
-        <translation type="obsolete">Pobrane części</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="obsolete">...</translation>
-    </message>
-    <message>
-        <source>Choose save path</source>
-        <translation type="obsolete">Wybierz katalog docelowy</translation>
-    </message>
-    <message>
-        <source>Save path creation error</source>
-        <translation type="obsolete">Błąd tworzenia katalogu docelowego</translation>
-    </message>
-    <message>
-        <source>Could not create the save path</source>
-        <translation type="obsolete">Nie można założyć katalogu docelowego</translation>
-    </message>
-</context>
-<context>
     <name>search_engine</name>
     <message>
         <source>Search</source>
         <translation>Szukaj</translation>
-    </message>
-    <message>
-        <source>Search Engines</source>
-        <translation type="obsolete">Wyszukiwarki</translation>
-    </message>
-    <message>
-        <source>Search Pattern:</source>
-        <translation type="obsolete">Wzorzec wyszukiwania:</translation>
-    </message>
-    <message>
-        <source>Stop</source>
-        <translation type="obsolete">Stop</translation>
     </message>
     <message>
         <source>Status:</source>
@@ -6909,193 +3867,23 @@ Jednak tamte wtyczki były wyłączone.</translation>
         <translation>Zatrzymany</translation>
     </message>
     <message>
-        <source>Results:</source>
-        <translation type="obsolete">Rezultat:</translation>
-    </message>
-    <message>
         <source>Download</source>
         <translation>Pobierz</translation>
-    </message>
-    <message>
-        <source>Clear</source>
-        <translation type="obsolete">Wyczyść</translation>
-    </message>
-    <message>
-        <source>Update search plugin</source>
-        <translation type="obsolete">Aktualizacja wtyczki wyszukiwania</translation>
     </message>
     <message>
         <source>Search engines...</source>
         <translation>Wtyczki wyszukiwania...</translation>
     </message>
-    <message>
-        <source>Close tab</source>
-        <translation type="obsolete">Zamknij kartę</translation>
-    </message>
-</context>
-<context>
-    <name>seeding</name>
-    <message>
-        <source>Search</source>
-        <translation type="obsolete">Szukaj</translation>
-    </message>
-    <message>
-        <source>The following torrents are finished and shared:</source>
-        <translation type="obsolete">Pobrane i udostępniane torrenty:</translation>
-    </message>
-    <message>
-        <source>&lt;u&gt;Note:&lt;/u&gt; It is important that you keep sharing your torrents after they are finished for the well being of the network.</source>
-        <translation type="obsolete">&lt;u&gt;Notka:&lt;/u&gt; Ważne abyś zostawił pobrany torrent do współdzielenia w sieci dla jej dobrego działania.</translation>
-    </message>
-    <message>
-        <source>Start</source>
-        <translation type="obsolete">Start</translation>
-    </message>
-    <message>
-        <source>Pause</source>
-        <translation type="obsolete">Wstrzymaj</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="obsolete">Skasuj</translation>
-    </message>
-    <message>
-        <source>Delete Permanently</source>
-        <translation type="obsolete">Usuń całkowicie</translation>
-    </message>
-    <message>
-        <source>Torrent Properties</source>
-        <translation type="obsolete">Właściwości Torrenta</translation>
-    </message>
-    <message>
-        <source>Preview file</source>
-        <translation type="obsolete">Podgląd pliku</translation>
-    </message>
-    <message>
-        <source>Set upload limit</source>
-        <translation type="obsolete">Ustaw limit wysyłania</translation>
-    </message>
-    <message>
-        <source>Open destination folder</source>
-        <translation type="obsolete">Otwórz katalog pobierań</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="obsolete">Nazwa</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <translation type="obsolete">Rozmiar</translation>
-    </message>
-    <message>
-        <source>Upload Speed</source>
-        <translation type="obsolete">Prędkość wysyłania</translation>
-    </message>
-    <message>
-        <source>Leechers</source>
-        <translation type="obsolete">Leechers</translation>
-    </message>
-    <message>
-        <source>Ratio</source>
-        <translation type="obsolete">Ratio</translation>
-    </message>
-    <message>
-        <source>Buy it</source>
-        <translation type="obsolete">Kup to</translation>
-    </message>
-    <message>
-        <source>Priority</source>
-        <translation type="obsolete">Priorytet</translation>
-    </message>
-    <message>
-        <source>Increase priority</source>
-        <translation type="obsolete">Zwiększ priorytet</translation>
-    </message>
-    <message>
-        <source>Decrease priority</source>
-        <translation type="obsolete">Zmniejsz priorytet</translation>
-    </message>
-</context>
-<context>
-    <name>subDownloadThread</name>
-    <message>
-        <source>Host is unreachable</source>
-        <translation type="obsolete">Host jest niedostępny</translation>
-    </message>
-    <message>
-        <source>File was not found (404)</source>
-        <translation type="obsolete">Nie znaleziono pliku (404)</translation>
-    </message>
-    <message>
-        <source>Connection was denied</source>
-        <translation type="obsolete">Połączenie odrzucone</translation>
-    </message>
-    <message>
-        <source>Url is invalid</source>
-        <translation type="obsolete">Błędny URL</translation>
-    </message>
-    <message>
-        <source>I/O Error</source>
-        <translation type="obsolete">Błąd We/Wy</translation>
-    </message>
-    <message>
-        <source>Connection forbidden (403)</source>
-        <translation type="obsolete">Niedozwolone połączenie (403)</translation>
-    </message>
-    <message>
-        <source>Connection was not authorized (401)</source>
-        <translation type="obsolete">Nieautoryzowane połączenie (401)</translation>
-    </message>
-    <message>
-        <source>Content has moved (301)</source>
-        <translation type="obsolete">Zawatrość została przeniesiona (301)</translation>
-    </message>
-    <message>
-        <source>Connection failure</source>
-        <translation type="obsolete">Brak połączenia</translation>
-    </message>
-    <message>
-        <source>Connection was timed out</source>
-        <translation type="obsolete">Upłynął czas połączenia</translation>
-    </message>
-    <message>
-        <source>Incorrect network interface</source>
-        <translation type="obsolete">Niepoprawny interfejs sieci</translation>
-    </message>
-    <message>
-        <source>Unknown error</source>
-        <translation type="obsolete">Nieznany błąd</translation>
-    </message>
-    <message>
-        <source>Could not resolve proxy</source>
-        <translation type="obsolete">Nie można określić proxy</translation>
-    </message>
 </context>
 <context>
     <name>torrentAdditionDialog</name>
-    <message>
-        <source>True</source>
-        <translation type="obsolete">Tak</translation>
-    </message>
     <message>
         <source>Unable to decode torrent file:</source>
         <translation>Problem z odkodowaniem pliku torrent:</translation>
     </message>
     <message>
-        <source>This file is either corrupted or this isn&apos;t a torrent.</source>
-        <translation type="obsolete">Plik jest uszkodzony lub nie jest plikiem torrent.</translation>
-    </message>
-    <message>
         <source>Choose save path</source>
         <translation>Wybierz katalog docelowy</translation>
-    </message>
-    <message>
-        <source>False</source>
-        <translation type="obsolete">Nie</translation>
-    </message>
-    <message>
-        <source>Unknown</source>
-        <translation type="obsolete">Nieznany</translation>
     </message>
     <message>
         <source>(%1 left after torrent download)</source>
@@ -7130,18 +3918,6 @@ Jednak tamte wtyczki były wyłączone.</translation>
     <message>
         <source>You must select at least one file in the torrent</source>
         <translation>Musisz wybrać przynajmniej jeden plik z pliku torrent</translation>
-    </message>
-    <message>
-        <source>File name</source>
-        <translation type="obsolete">Nazwa pliku</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <translation type="obsolete">Rozmiar</translation>
-    </message>
-    <message>
-        <source>Progress</source>
-        <translation type="obsolete">Postęp</translation>
     </message>
     <message>
         <source>Priority</source>
@@ -7181,7 +3957,7 @@ Jednak tamte wtyczki były wyłączone.</translation>
     </message>
     <message>
         <source>Unable to decode magnet link:</source>
-        <translation type="unfinished">Nie można odczytać adresu magnet:</translation>
+        <translation>Nie można odczytać adresu magnet:</translation>
     </message>
     <message>
         <source>Magnet Link</source>

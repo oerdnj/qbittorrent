@@ -35,7 +35,6 @@
 #include <QListWidgetItem>
 #include <QFrame>
 #include <QIcon>
-#include <QSettings>
 #include <QVBoxLayout>
 #include <QMenu>
 #include <QInputDialog>
@@ -45,6 +44,7 @@
 
 #include "transferlistdelegate.h"
 #include "transferlistwidget.h"
+#include "qinisettings.h"
 
 class LabelFiltersList: public QListWidget {
   Q_OBJECT
@@ -147,20 +147,20 @@ protected:
 class StatusFiltersWidget : public QListWidget {
 public:
   StatusFiltersWidget(QWidget *parent) : QListWidget(parent) { 
-    setFixedHeight(100);
+    setFixedHeight(120);
   }
 protected:
-void changeEvent(QEvent *e) {
-  QListWidget::changeEvent(e);
-  switch (e->type()) {
-  case QEvent::StyleChange:
-    setSpacing(0);
-    setFixedHeight(100);
-    break;
-  default:
-    break;
+  void changeEvent(QEvent *e) {
+    QListWidget::changeEvent(e);
+    switch (e->type()) {
+    case QEvent::StyleChange:
+      setSpacing(0);
+      setFixedHeight(120);
+      break;
+    default:
+      break;
+    }
   }
-}
   
 };
 
@@ -200,6 +200,9 @@ public:
     QListWidgetItem *completed = new QListWidgetItem(statusFilters);
     completed->setData(Qt::DisplayRole, QVariant(tr("Completed") + " (0)"));
     completed->setData(Qt::DecorationRole, QIcon(":/Icons/skin/uploading.png"));
+    QListWidgetItem *paused = new QListWidgetItem(statusFilters);
+    paused->setData(Qt::DisplayRole, QVariant(tr("Paused") + " (0)"));
+    paused->setData(Qt::DecorationRole, QIcon(":/Icons/skin/paused.png"));
     QListWidgetItem *active = new QListWidgetItem(statusFilters);
     active->setData(Qt::DisplayRole, QVariant(tr("Active") + " (0)"));
     active->setData(Qt::DecorationRole, QIcon(":/Icons/skin/filteractive.png"));
@@ -209,7 +212,7 @@ public:
 
     // SIGNAL/SLOT
     connect(statusFilters, SIGNAL(currentRowChanged(int)), transferList, SLOT(applyStatusFilter(int)));
-    connect(transferList, SIGNAL(torrentStatusUpdate(uint,uint,uint,uint)), this, SLOT(updateTorrentNumbers(uint, uint, uint, uint)));
+    connect(transferList, SIGNAL(torrentStatusUpdate(uint,uint,uint,uint,uint)), this, SLOT(updateTorrentNumbers(uint, uint, uint, uint, uint)));
     connect(labelFilters, SIGNAL(currentRowChanged(int)), this, SLOT(applyLabelFilter(int)));
     connect(labelFilters, SIGNAL(torrentDropped(int)), this, SLOT(torrentDropped(int)));
     connect(transferList, SIGNAL(torrentAdded(QModelIndex)), this, SLOT(torrentAdded(QModelIndex)));
@@ -247,7 +250,7 @@ public:
   }
 
   void saveSettings() const {
-    QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
+    QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
     settings.beginGroup(QString::fromUtf8("TransferListFilters"));
     settings.setValue("selectedFilterIndex", QVariant(statusFilters->currentRow()));
     //settings.setValue("selectedLabelIndex", QVariant(labelFilters->currentRow()));
@@ -255,13 +258,13 @@ public:
   }
 
   void saveCustomLabels() const {
-    QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
+    QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
     settings.beginGroup(QString::fromUtf8("TransferListFilters"));
     settings.setValue("customLabels", QVariant(customLabels.keys()));
   }
 
   void loadSettings() {
-    QSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
+    QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
     settings.beginGroup(QString::fromUtf8("TransferListFilters"));
     statusFilters->setCurrentRow(settings.value("selectedFilterIndex", 0).toInt());
     QStringList label_list = settings.value("customLabels", QStringList()).toStringList();
@@ -276,10 +279,11 @@ public:
   }
 
 protected slots:
-  void updateTorrentNumbers(uint nb_downloading, uint nb_seeding, uint nb_active, uint nb_inactive) {
+  void updateTorrentNumbers(uint nb_downloading, uint nb_seeding, uint nb_active, uint nb_inactive, uint nb_paused) {
     statusFilters->item(FILTER_ALL)->setData(Qt::DisplayRole, QVariant(tr("All")+" ("+QString::number(nb_active+nb_inactive)+")"));
     statusFilters->item(FILTER_DOWNLOADING)->setData(Qt::DisplayRole, QVariant(tr("Downloading")+" ("+QString::number(nb_downloading)+")"));
     statusFilters->item(FILTER_COMPLETED)->setData(Qt::DisplayRole, QVariant(tr("Completed")+" ("+QString::number(nb_seeding)+")"));
+    statusFilters->item(FILTER_PAUSED)->setData(Qt::DisplayRole, QVariant(tr("Paused")+" ("+QString::number(nb_paused)+")"));
     statusFilters->item(FILTER_ACTIVE)->setData(Qt::DisplayRole, QVariant(tr("Active")+" ("+QString::number(nb_active)+")"));
     statusFilters->item(FILTER_INACTIVE)->setData(Qt::DisplayRole, QVariant(tr("Inactive")+" ("+QString::number(nb_inactive)+")"));
   }
@@ -309,12 +313,28 @@ protected slots:
     QAction *removeAct = 0;
     if(!labelFilters->selectedItems().empty() && labelFilters->row(labelFilters->selectedItems().first()) > 1)
       removeAct = labelMenu.addAction(QIcon(":/Icons/oxygen/list-remove.png"), tr("Remove label"));
-    QAction *addAct = labelMenu.addAction(QIcon(":/Icons/oxygen/list-add.png"), tr("Add label"));
+    QAction *addAct = labelMenu.addAction(QIcon(":/Icons/oxygen/list-add.png"), tr("Add label..."));
+    labelMenu.addSeparator();
+    QAction *startAct = labelMenu.addAction(QIcon(":/Icons/skin/play22.png"), tr("Resume torrents"));
+    QAction *pauseAct = labelMenu.addAction(QIcon(":/Icons/skin/pause22.png"), tr("Pause torrents"));
+    QAction *deleteTorrentsAct = labelMenu.addAction(QIcon(":/Icons/skin/delete22.png"), tr("Delete torrents"));
     QAction *act = 0;
     act = labelMenu.exec(QCursor::pos());
     if(act) {
       if(act == removeAct) {
         removeSelectedLabel();
+        return;
+      }
+      if(act == deleteTorrentsAct) {
+        transferList->deleteVisibleTorrents();
+        return;
+      }
+      if(act == startAct) {
+        transferList->startVisibleTorrents();
+        return;
+      }
+      if(act == pauseAct) {
+        transferList->pauseVisibleTorrents();
         return;
       }
       if(act == addAct) {

@@ -201,9 +201,14 @@ signals:
 
 private:
   void addTorrentsFromDir(const QDir &dir, QStringList &torrents) {
-    const QStringList &files = dir.entryList(filters, QDir::Files, QDir::Unsorted);
-    foreach(const QString &file, files)
-      torrents << dir.canonicalPath() + '/' + file;
+    const QStringList files = dir.entryList(filters, QDir::Files, QDir::Unsorted);
+    foreach(const QString &file, files) {
+#if defined(Q_WS_WIN) || defined(Q_OS_OS2)
+      torrents << dir.absoluteFilePath(file).replace("/", "\\");
+#else
+      torrents << dir.absoluteFilePath(file);
+#endif
+    }
   }
 
 };

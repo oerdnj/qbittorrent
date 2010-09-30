@@ -108,6 +108,7 @@ public:
   session* getSession() const;
   QHash<QString, TrackerInfos> getTrackersInfo(QString hash) const;
   bool hasActiveTorrents() const;
+  bool hasDownloadingTorrents() const;
   bool isQueueingEnabled() const;
   int getMaximumActiveDownloads() const;
   int getMaximumActiveTorrents() const;
@@ -118,6 +119,7 @@ public:
   bool useTemporaryFolder() const;
   QString getDefaultSavePath() const;
   ScanFoldersModel* getScanFoldersModel() const;
+  bool isPexEnabled() const;
 #if LIBTORRENT_VERSION_MINOR < 15
   void saveDHTEntry();
 #endif
@@ -153,8 +155,7 @@ public slots:
   void setMaxUploadsPerTorrent(int max);
   void setDownloadRateLimit(long rate);
   void setUploadRateLimit(long rate);
-  void setGlobalRatio(float ratio);
-  void setDeleteRatio(float ratio);
+  void setMaxRatio(float ratio);
   void setDHTPort(int dht_port);
   void setPeerProxySettings(const proxy_settings &proxySettings);
   void setHTTPProxySettings(const proxy_settings &proxySettings);
@@ -162,10 +163,10 @@ public slots:
   void startTorrentsInPause(bool b);
   void setDefaultTempPath(QString temppath);
   void setAppendLabelToSavePath(bool append);
-  void appendLabelToTorrentSavePath(QTorrentHandle h);
-  void changeLabelInTorrentSavePath(QTorrentHandle h, QString old_label, QString new_label);
+  void appendLabelToTorrentSavePath(QTorrentHandle &h);
+  void changeLabelInTorrentSavePath(QTorrentHandle &h, QString old_label, QString new_label);
 #if LIBTORRENT_VERSION_MINOR > 14
-  void appendqBextensionToTorrent(QTorrentHandle h, bool append);
+  void appendqBextensionToTorrent(QTorrentHandle &h, bool append);
   void setAppendqBExtension(bool append);
 #endif
   void applyEncryptionSettings(pe_settings se);
@@ -189,16 +190,19 @@ public slots:
   void recursiveTorrentDownload(const QTorrentHandle &h);
 
 protected:
-  QString getSavePath(QString hash, bool fromScanDir = false, QString filePath = QString());
+  QString getSavePath(QString hash, bool fromScanDir = false, QString filePath = QString::null, QString root_folder=QString::null);
   bool initWebUi(QString username, QString password, int port);
 
 protected slots:
   void addTorrentsFromScanFolder(QStringList&);
   void readAlerts();
-  void deleteBigRatios();
+  void processBigRatios();
   void takeETASamples();
   void exportTorrentFiles(QString path);
   void saveTempFastResumeData();
+  void sendNotificationEmail(QTorrentHandle h);
+  void autoRunExternalProgram(QTorrentHandle h, bool async=true);
+  void cleanUpAutoRunProcess(int);
 
 signals:
   void addedTorrent(QTorrentHandle& h);
@@ -226,6 +230,7 @@ private:
   QPointer<BandwidthScheduler> bd_scheduler;
   QMap<QUrl, QString> savepath_fromurl;
   QHash<QString, QHash<QString, TrackerInfos> > trackersInfos;
+  QHash<QString, QString> savePathsToRemove;
   QStringList torrentsToPausedAfterChecking;
   QTimer resumeDataTimer;
   // Ratio
@@ -241,6 +246,7 @@ private:
   bool preAllocateAll;
   bool addInPause;
   float ratio_limit;
+  int high_ratio_action;
   bool UPnPEnabled;
   bool NATPMPEnabled;
   bool LSDEnabled;

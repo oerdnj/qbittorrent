@@ -54,6 +54,7 @@ const int UNLEN = 256;
 
 #ifdef Q_WS_MAC
 #include <CoreServices/CoreServices.h>
+#include <Carbon/Carbon.h>
 #endif
 
 #ifndef Q_WS_WIN
@@ -65,6 +66,11 @@ const int UNLEN = 256;
 #endif
 #else
 #include <winbase.h>
+#endif
+
+#ifdef Q_WS_X11
+#include <QDBusInterface>
+#include <QDBusMessage>
 #endif
 
 QString misc::QDesktopServicesDataLocation() {
@@ -119,7 +125,7 @@ QString misc::QDesktopServicesCacheLocation() {
   QString path;
   QByteArray ba(2048, 0);
   if (FSRefMakePath(&ref, reinterpret_cast<UInt8 *>(ba.data()), ba.size()) == noErr)
-        path = QString::fromUtf8(ba).normalized(QString::NormalizationForm_C);
+    path = QString::fromUtf8(ba).normalized(QString::NormalizationForm_C);
   path += QLatin1Char('/') + qApp->applicationName();
   return path;
 #else
@@ -148,7 +154,7 @@ long long misc::freeDiskSpaceOnPath(QString path) {
 #ifndef Q_WS_WIN
   unsigned long long available;
   struct statfs stats;
-  const QString &statfs_path = dir_path.path()+"/.";
+  const QString statfs_path = dir_path.path()+"/.";
   const int ret = statfs (qPrintable(statfs_path), &stats) ;
   if(ret == 0) {
     available = ((unsigned long long)stats.f_bavail) *
@@ -184,6 +190,128 @@ long long misc::freeDiskSpaceOnPath(QString path) {
 #endif
 }
 
+void misc::shutdownComputer() {
+#ifdef Q_WS_X11
+  // Use dbus to power off the system
+  // dbus-send --print-reply --system --dest=org.freedesktop.Hal /org/freedesktop/Hal/devices/computer org.freedesktop.Hal.Device.SystemPowerManagement.Shutdown
+  QDBusInterface computer("org.freedesktop.Hal", "/org/freedesktop/Hal/devices/computer", "org.freedesktop.Hal.Device.SystemPowerManagement", QDBusConnection::systemBus());
+  computer.call("Shutdown");
+#endif
+#ifdef Q_WS_MAC
+  AEEventID EventToSend = kAEShutDown;
+  AEAddressDesc targetDesc;
+  static const ProcessSerialNumber kPSNOfSystemProcess = { 0, kSystemProcess };
+  AppleEvent eventReply = {typeNull, NULL};
+  AppleEvent appleEventToSend = {typeNull, NULL};
+
+  OSStatus error = noErr;
+
+  error = AECreateDesc(typeProcessSerialNumber, &kPSNOfSystemProcess,
+                       sizeof(kPSNOfSystemProcess), &targetDesc);
+
+  if (error != noErr)
+  {
+    return;
+  }
+
+  error = AECreateAppleEvent(kCoreEventClass, EventToSend, &targetDesc,
+                             kAutoGenerateReturnID, kAnyTransactionID, &appleEventToSend);
+
+  AEDisposeDesc(&targetDesc);
+  if (error != noErr)
+  {
+      return;
+  }
+
+  error = AESend(&appleEventToSend, &eventReply, kAENoReply,
+                 kAENormalPriority, kAEDefaultTimeout, NULL, NULL);
+
+  AEDisposeDesc(&appleEventToSend);
+  if (error != noErr)
+  {
+    return;
+  }
+
+  AEDisposeDesc(&eventReply);
+#endif
+#ifdef Q_WS_WIN
+  HANDLE hToken;              // handle to process token
+  TOKEN_PRIVILEGES tkp;       // pointer to token structure
+  if(!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken))
+    return;
+  // Get the LUID for shutdown privilege.
+  LookupPrivilegeValue(NULL, SE_SHUTDOWN_NAME,
+                       &tkp.Privileges[0].Luid);
+
+  tkp.PrivilegeCount = 1;  // one privilege to set
+  tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+
+  // Get shutdown privilege for this process.
+
+  AdjustTokenPrivileges(hToken, FALSE, &tkp, 0,
+                        (PTOKEN_PRIVILEGES) NULL, 0);
+
+  // Cannot test the return value of AdjustTokenPrivileges.
+
+  if (GetLastError() != ERROR_SUCCESS)
+    return;
+  bool ret = InitiateSystemShutdownA(0, tr("qBittorrent will shutdown the computer now because all downloads are complete.").toLocal8Bit().data(), 10, true, false);
+  qDebug("ret: %d", (int)ret);
+
+  // Disable shutdown privilege.
+  tkp.Privileges[0].Attributes = 0;
+  AdjustTokenPrivileges(hToken, FALSE, &tkp, 0,
+                        (PTOKEN_PRIVILEGES) NULL, 0);
+#endif
+}
+
+QString misc::truncateRootFolder(boost::intrusive_ptr<torrent_info> t) {
+  if(t->num_files() == 1) {
+    // Single file torrent
+    // Remove possible subfolders
+    QString path = QString::fromUtf8(t->file_at(0).path.string().c_str());
+    QStringList path_parts = path.split("/", QString::SkipEmptyParts);
+    t->rename_file(0, path_parts.last().toUtf8().data());
+    return QString::null;
+  }
+  QString root_folder;
+  int i = 0;
+  for(torrent_info::file_iterator it = t->begin_files(); it < t->end_files(); it++) {
+    QString path = QString::fromUtf8(it->path.string().c_str());
+    QStringList path_parts = path.split("/", QString::SkipEmptyParts);
+    if(path_parts.size() > 1) {
+      root_folder = path_parts.takeFirst();
+      t->rename_file(i, path_parts.join("/").toUtf8().data());
+    }
+    ++i;
+  }
+  return root_folder;
+}
+
+QString misc::truncateRootFolder(libtorrent::torrent_handle h) {
+  torrent_info t = h.get_torrent_info();
+  if(t.num_files() == 1) {
+    // Single file torrent
+    // Remove possible subfolders
+    QString path = QString::fromUtf8(t.file_at(0).path.string().c_str());
+    QStringList path_parts = path.split("/", QString::SkipEmptyParts);
+    t.rename_file(0, path_parts.last().toUtf8().data());
+    return QString::null;
+  }
+  QString root_folder;
+  int i = 0;
+  for(torrent_info::file_iterator it = t.begin_files(); it < t.end_files(); it++) {
+    QString path = QString::fromUtf8(it->path.string().c_str());
+    QStringList path_parts = path.split("/", QString::SkipEmptyParts);
+    if(path_parts.size() > 1) {
+      root_folder = path_parts.takeFirst();
+      h.rename_file(i, path_parts.join("/").toUtf8().data());
+    }
+    ++i;
+  }
+  return root_folder;
+}
+
 bool misc::sameFiles(QString path1, QString path2) {
   QFile f1(path1);
   if(!f1.exists()) return false;
@@ -214,48 +342,77 @@ void misc::copyDir(QString src_path, QString dst_path) {
     if(!destDir.mkpath(destDir.absolutePath())) return;
   }
   // List source directory
-  const QFileInfoList &content = sourceDir.entryInfoList();
+  const QFileInfoList content = sourceDir.entryInfoList();
   foreach(const QFileInfo& child, content) {
     if(child.fileName()[0] == '.') continue;
     if(child.isDir()) {
       copyDir(child.absoluteFilePath(), dst_path+QDir::separator()+QDir(child.absoluteFilePath()).dirName());
       continue;
     }
-    const QString &src_child_path = child.absoluteFilePath();
-    const QString &dest_child_path = destDir.absoluteFilePath(child.fileName());
+    const QString src_child_path = child.absoluteFilePath();
+    const QString dest_child_path = destDir.absoluteFilePath(child.fileName());
     // Copy the file from src to dest
     QFile::copy(src_child_path, dest_child_path);
     // Remove source file
-    QFile::remove(src_child_path);
+    safeRemove(src_child_path);
   }
   // Remove source folder
-  const QString &dir_name = sourceDir.dirName();
+  const QString dir_name = sourceDir.dirName();
   if(sourceDir.cdUp()) {
     sourceDir.rmdir(dir_name);
   }
 }
 
+QString misc::updateLabelInSavePath(const QString& defaultSavePath, QString save_path, const QString old_label, const QString new_label) {
+  if(old_label == new_label) return save_path;
+  qDebug("UpdateLabelInSavePath(%s, %s, %s)", qPrintable(save_path), qPrintable(old_label), qPrintable(new_label));
+  if(!save_path.startsWith(defaultSavePath)) return save_path;
+  QString new_save_path = save_path.replace(defaultSavePath, "");
+  QStringList path_parts = new_save_path.split(QDir::separator(), QString::SkipEmptyParts);
+  if(path_parts.empty()) {
+    if(!new_label.isEmpty())
+      path_parts << new_label;
+  } else {
+    if(old_label.isEmpty() || path_parts.first() != old_label) {
+      if(path_parts.first() != new_label)
+        path_parts.prepend(new_label);
+    } else {
+      if(new_label.isEmpty()) {
+        path_parts.removeAt(0);
+      } else {
+        if(path_parts.first() != new_label)
+          path_parts.replace(0, new_label);
+      }
+    }
+  }
+  new_save_path = defaultSavePath;
+  if(!new_save_path.endsWith(QDir::separator())) new_save_path += QDir::separator();
+  new_save_path += path_parts.join(QDir::separator());
+  qDebug("New save path is %s", qPrintable(new_save_path));
+  return new_save_path;
+}
+
 void misc::moveToXDGFolders() {
-  const QString &old_qBtPath = QDir::homePath()+QDir::separator()+QString::fromUtf8(".qbittorrent") + QDir::separator();
-  if(QDir(old_qBtPath).exists()) {
+  QDir old_qBtPath(QDir::homePath().replace("\\","/")+"/"+".qbittorrent");
+  if(old_qBtPath.exists()) {
     // Copy BT_backup folder
-    const QString &old_BTBackupPath = old_qBtPath + "BT_backup";
+    const QString old_BTBackupPath = old_qBtPath.absoluteFilePath("BT_backup");
     if(QDir(old_BTBackupPath).exists()) {
       copyDir(old_BTBackupPath, BTBackupLocation());
     }
     // Copy search engine folder
-    const QString &old_searchPath = old_qBtPath + "search_engine";
+    const QString old_searchPath = old_qBtPath.absoluteFilePath("search_engine");
     if(QDir(old_searchPath).exists()) {
       copyDir(old_searchPath, searchEngineLocation());
     }
     // Copy *_state files
-    if(QFile::exists(old_qBtPath+"dht_state")) {
-      QFile::copy(old_qBtPath+"dht_state", cacheLocation()+QDir::separator()+"dht_state");
-      QFile::remove(old_qBtPath+"dht_state");
+    if(QFile::exists(old_qBtPath.absoluteFilePath("dht_state"))) {
+      QFile::copy(old_qBtPath.absoluteFilePath("dht_state"), QDir(cacheLocation()).absoluteFilePath("dht_state"));
+      safeRemove(old_qBtPath.absoluteFilePath("dht_state"));
     }
-    if(QFile::exists(old_qBtPath+"ses_state")) {
-      QFile::copy(old_qBtPath+"ses_state", cacheLocation()+QDir::separator()+"ses_state");
-      QFile::remove(old_qBtPath+"ses_state");
+    if(QFile::exists(old_qBtPath.absoluteFilePath("ses_state"))) {
+      QFile::copy(old_qBtPath.absoluteFilePath("ses_state"), QDir(cacheLocation()).absoluteFilePath("ses_state"));
+      safeRemove(old_qBtPath.absoluteFilePath("ses_state"));
     }
     // Remove .qbittorrent folder if empty
     QDir::home().rmdir(".qbittorrent");
@@ -299,8 +456,8 @@ QPoint misc::screenCenter(QWidget *win) {
 #endif
 
 QString misc::searchEngineLocation() {
-  const QString &location = QDir::cleanPath(QDesktopServicesDataLocation()
-                                            + QDir::separator() + "search_engine");
+  const QString location = QDir::cleanPath(QDesktopServicesDataLocation()
+                                           + QDir::separator() + "search_engine");
   QDir locationDir(location);
   if(!locationDir.exists())
     locationDir.mkpath(locationDir.absolutePath());
@@ -308,8 +465,8 @@ QString misc::searchEngineLocation() {
 }
 
 QString misc::BTBackupLocation() {
-  const QString &location = QDir::cleanPath(QDesktopServicesDataLocation()
-                                            + QDir::separator() + "BT_backup");
+  const QString location = QDir::cleanPath(QDesktopServicesDataLocation()
+                                           + QDir::separator() + "BT_backup");
   QDir locationDir(location);
   if(!locationDir.exists())
     locationDir.mkpath(locationDir.absolutePath());
@@ -335,6 +492,8 @@ QString misc::friendlyUnit(double val) {
   char i = 0;
   while(val >= 1024. && i++<6)
     val /= 1024.;
+  if(i == 0)
+    return QString::number((long)val) + " " + units[0];
   return QString::number(val, 'f', 1) + " " + units[(int)i];
 }
 
@@ -343,6 +502,7 @@ bool misc::isPreviewable(QString extension){
   if(extension == "AVI") return true;
   if(extension == "MP3") return true;
   if(extension == "OGG") return true;
+  if(extension == "OGV") return true;
   if(extension == "OGM") return true;
   if(extension == "WMV") return true;
   if(extension == "WMA") return true;
@@ -390,11 +550,25 @@ bool misc::removeEmptyTree(QString path) {
     if(child == "." || child == "..") continue;
     return removeEmptyTree(dir.absoluteFilePath(child));
   }
-  const QString &dir_name = dir.dirName();
+  const QString dir_name = dir.dirName();
   if(dir.cdUp()) {
     return dir.rmdir(dir_name);
   }
   return false;
+}
+
+QString misc::bcLinkToMagnet(QString bc_link) {
+  QByteArray raw_bc = bc_link.toUtf8();
+  raw_bc = raw_bc.mid(8); // skip bc://bt/
+  raw_bc = QByteArray::fromBase64(raw_bc); // Decode base64
+  // Format is now AA/url_encoded_filename/size_bytes/info_hash/ZZ
+  QStringList parts = QString(raw_bc).split("/");
+  if(parts.size() != 5) return QString::null;
+  QString filename = parts.at(1);
+  QString hash = parts.at(3);
+  QString magnet = "magnet:?xt=urn:btih:" + hash;
+  magnet += "&dn=" + filename;
+  return magnet;
 }
 
 QString misc::magnetUriToName(QString magnet_uri) {
@@ -402,7 +576,7 @@ QString misc::magnetUriToName(QString magnet_uri) {
   QRegExp regHex("dn=([^&]+)");
   const int pos = regHex.indexIn(magnet_uri);
   if(pos > -1) {
-    const QString &found = regHex.cap(1);
+    const QString found = regHex.cap(1);
     // URL decode
     name = QUrl::fromPercentEncoding(found.toLocal8Bit()).replace("+", " ");
   }
@@ -415,7 +589,7 @@ QString misc::magnetUriToHash(QString magnet_uri) {
   // Hex
   int pos = regHex.indexIn(magnet_uri);
   if(pos > -1) {
-    const QString &found = regHex.cap(1);
+    const QString found = regHex.cap(1);
     if(found.length() == 40) {
       const sha1_hash sha1(QString(QByteArray::fromHex(regHex.cap(1).toLocal8Bit())).toStdString());
       qDebug("magnetUriToHash (Hex): hash: %s", qPrintable(misc::toQString(sha1)));
@@ -426,7 +600,7 @@ QString misc::magnetUriToHash(QString magnet_uri) {
   QRegExp regBase32("urn:btih:([A-Za-z2-7=]+)");
   pos = regBase32.indexIn(magnet_uri);
   if(pos > -1) {
-    const QString &found = regBase32.cap(1);
+    const QString found = regBase32.cap(1);
     if(found.length() > 20 && (found.length()*5)%40 == 0) {
       const sha1_hash sha1(base32decode(regBase32.cap(1).toStdString()));
       hash = misc::toQString(sha1);
@@ -533,11 +707,11 @@ QList<int> misc::intListfromStringList(const QStringList &l) {
 
 QList<bool> misc::boolListfromStringList(const QStringList &l) {
   QList<bool> ret;
-    foreach(const QString &s, l) {
-      if(s == "1")
-        ret << true;
-      else
-        ret << false;
-    }
-    return ret;
+  foreach(const QString &s, l) {
+    if(s == "1")
+      ret << true;
+    else
+      ret << false;
+  }
+  return ret;
 }

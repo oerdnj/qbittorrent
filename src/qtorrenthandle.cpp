@@ -35,6 +35,7 @@
 #include <QByteArray>
 #include <math.h>
 #include "misc.h"
+#include "preferences.h"
 #include "qtorrenthandle.h"
 #include "torrentpersistentdata.h"
 #include <libtorrent/version.hpp>
@@ -50,12 +51,12 @@ QTorrentHandle::QTorrentHandle(torrent_handle h): h(h) {}
 // Getters
 //
 
-torrent_handle QTorrentHandle::get_torrent_handle() const {
+const torrent_handle& QTorrentHandle::get_torrent_handle() const {
   Q_ASSERT(h.is_valid());
   return h;
 }
 
-torrent_info QTorrentHandle::get_torrent_info() const {
+const torrent_info& QTorrentHandle::get_torrent_info() const {
   Q_ASSERT(h.is_valid());
   return h.get_torrent_info();
 }
@@ -78,6 +79,16 @@ QString QTorrentHandle::creation_date() const {
   Q_ASSERT(h.is_valid());
   boost::optional<boost::posix_time::ptime> boostDate = h.get_torrent_info().creation_date();
   return misc::boostTimeToQString(boostDate);
+}
+
+QString QTorrentHandle::next_announce() const {
+  Q_ASSERT(h.is_valid());
+  return misc::userFriendlyDuration(h.status().next_announce.total_seconds());
+}
+
+qlonglong QTorrentHandle::next_announce_s() const {
+  Q_ASSERT(h.is_valid());
+  return h.status().next_announce.total_seconds();
 }
 
 float QTorrentHandle::progress() const {
@@ -216,7 +227,7 @@ int QTorrentHandle::num_incomplete() const {
 
 QString QTorrentHandle::save_path() const {
   Q_ASSERT(h.is_valid());
-  return misc::toQString(h.save_path().string());
+  return misc::toQStringU(h.save_path().string()).replace("\\", "/");
 }
 
 #if LIBTORRENT_VERSION_MINOR > 14
@@ -292,7 +303,7 @@ size_type QTorrentHandle::filesize_at(unsigned int index) const {
   return h.get_torrent_info().file_at(index).size;
 }
 
-std::vector<announce_entry> QTorrentHandle::trackers() const {
+const std::vector<announce_entry> QTorrentHandle::trackers() const {
   Q_ASSERT(h.is_valid());
   return h.trackers();
 }
@@ -376,6 +387,14 @@ QStringList QTorrentHandle::files_path() const {
   return res;
 }
 
+bool QTorrentHandle::has_missing_files() const {
+  const QStringList paths = files_path();
+  foreach(const QString &path, paths) {
+    if(!QFile::exists(path)) return true;
+  }
+  return false;
+}
+
 int QTorrentHandle::queue_position() const {
   Q_ASSERT(h.is_valid());
   if(h.queue_position() < 0)
@@ -440,18 +459,30 @@ bool QTorrentHandle::priv() const {
   return h.get_torrent_info().priv();
 }
 
-QString QTorrentHandle::root_path() const {
+QString QTorrentHandle::firstFileSavePath() const {
   Q_ASSERT(h.is_valid());
-  if(num_files() == 0) return "";
-  QStringList path_list = misc::toQStringU(h.get_torrent_info().file_at(0).path.string()).split("/");
-  if(path_list.size() > 1)
-    return save_path()+"/"+path_list.first();
-  return save_path();
+  Q_ASSERT(has_metadata());
+  QString fsave_path = TorrentPersistentData::getSavePath(hash());
+  if(fsave_path.isEmpty())
+    fsave_path = save_path();
+  fsave_path = fsave_path.replace("\\", "/");
+  if(!fsave_path.endsWith("/"))
+    fsave_path += "/";
+  fsave_path += misc::toQStringU(h.get_torrent_info().file_at(0).path.string());
+  // Remove .!qB extension
+  if(fsave_path.endsWith(".!qB", Qt::CaseInsensitive))
+    fsave_path.chop(4);
+  return fsave_path;
 }
 
 bool QTorrentHandle::has_error() const {
   Q_ASSERT(h.is_valid());
   return h.is_paused() && !h.status().error.empty();
+}
+
+QString QTorrentHandle::error() const {
+  Q_ASSERT(h.is_valid());
+  return misc::toQString(h.status().error);
 }
 
 void QTorrentHandle::downloading_pieces(bitfield &bf) const {
@@ -488,8 +519,24 @@ void QTorrentHandle::pause() {
 void QTorrentHandle::resume() {
   Q_ASSERT(h.is_valid());
   if(has_error()) h.clear_error();
+  const QString torrent_hash = hash();
+  bool has_persistant_error = TorrentPersistentData::hasError(torrent_hash);
+  TorrentPersistentData::setErrorState(torrent_hash, false);
+  bool temp_path_enabled = Preferences::isTempPathEnabled();
+  if(has_persistant_error && temp_path_enabled) {
+    // Torrent was supposed to be seeding, checking again in final destination
+    qDebug("Resuming a torrent with error...");
+    const QString final_save_path = TorrentPersistentData::getSavePath(torrent_hash);
+    qDebug("Torrent final path is: %s", qPrintable(final_save_path));
+    if(!final_save_path.isEmpty())
+      move_storage(final_save_path);
+  }
   h.auto_managed(true);
   h.resume();
+  if(has_persistant_error && temp_path_enabled) {
+    // Force recheck
+    h.force_recheck();
+  }
 }
 
 void QTorrentHandle::remove_url_seed(QString seed) {
@@ -512,7 +559,7 @@ void QTorrentHandle::set_max_connections(int val) {
   h.set_max_connections(val);
 }
 
-void QTorrentHandle::prioritize_files(std::vector<int> v) {
+void QTorrentHandle::prioritize_files(const std::vector<int> &v) {
   // Does not do anything for seeding torrents
   Q_ASSERT(h.is_valid());
   if(v.size() != (unsigned int)h.get_torrent_info().num_files())
@@ -527,7 +574,7 @@ void QTorrentHandle::set_ratio(float ratio) const {
   h.set_ratio(ratio);
 }
 
-void QTorrentHandle::replace_trackers(std::vector<announce_entry> const& v) const {
+void QTorrentHandle::replace_trackers(const std::vector<announce_entry> & v) const {
   Q_ASSERT(h.is_valid());
   h.replace_trackers(v);
 }
@@ -546,7 +593,16 @@ void QTorrentHandle::queue_position_up() const {
   Q_ASSERT(h.is_valid());
   if(h.queue_position() > 0)
     h.queue_position_up();
+}
 
+void QTorrentHandle::queue_position_top() const {
+  Q_ASSERT(h.is_valid());
+  h.queue_position_top();
+}
+
+void QTorrentHandle::queue_position_bottom() const {
+  Q_ASSERT(h.is_valid());
+    h.queue_position_bottom();
 }
 
 void QTorrentHandle::force_reannounce() {
@@ -571,6 +627,8 @@ void QTorrentHandle::force_recheck() const {
 
 void QTorrentHandle::move_storage(QString new_path) const {
   Q_ASSERT(h.is_valid());
+  if(QDir(save_path()) == QDir(new_path)) return;
+  TorrentPersistentData::setPreviousSavePath(hash(), save_path());
   h.move_storage(new_path.toLocal8Bit().constData());
 }
 
@@ -632,7 +690,7 @@ void QTorrentHandle::set_peer_download_limit(libtorrent::asio::ip::tcp::endpoint
   h.set_peer_download_limit(ip, limit);
 }
 
-void QTorrentHandle::add_tracker(announce_entry const& url) {
+void QTorrentHandle::add_tracker(const announce_entry& url) {
   Q_ASSERT(h.is_valid());
 #if LIBTORRENT_VERSION_MINOR > 14
   h.add_tracker(url);

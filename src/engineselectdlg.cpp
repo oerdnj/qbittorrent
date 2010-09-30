@@ -36,7 +36,6 @@
 #include "pluginsource.h"
 #include <QProcess>
 #include <QHeaderView>
-#include <QSettings>
 #include <QMenu>
 #include <QMessageBox>
 #include <QFileDialog>
@@ -82,7 +81,11 @@ void engineSelectDlg::dropEvent(QDropEvent *event) {
   QString file;
   foreach(file, files) {
     qDebug("dropped %s", qPrintable(file));
+#ifdef Q_WS_WIN
+    file = file.replace("file:///", "");
+#else
     file = file.replace("file://", "");
+#endif
     if(file.startsWith("http://", Qt::CaseInsensitive) || file.startsWith("https://", Qt::CaseInsensitive) || file.startsWith("ftp://", Qt::CaseInsensitive)) {
       setCursor(QCursor(Qt::WaitCursor));
       downloader->downloadUrl(file);
@@ -266,7 +269,7 @@ void engineSelectDlg::installPlugin(QString path, QString plugin_name) {
   if(QFile::exists(dest_path)) {
     // Backup in case install fails
     QFile::copy(dest_path, dest_path+".bak");
-    QFile::remove(dest_path);
+    misc::safeRemove(dest_path);
     update = true;
   }
   // Copy the plugin
@@ -277,22 +280,22 @@ void engineSelectDlg::installPlugin(QString path, QString plugin_name) {
   if(!supported_engines->contains(plugin_name)) {
     if(update) {
       // Remove broken file
-      QFile::remove(dest_path);
+      misc::safeRemove(dest_path);
       // restore backup
       QFile::copy(dest_path+".bak", dest_path);
-      QFile::remove(dest_path+".bak");
+      misc::safeRemove(dest_path+".bak");
       QMessageBox::warning(this, tr("Search plugin install")+" -- "+tr("qBittorrent"), tr("%1 search engine plugin could not be updated, keeping old version.", "%1 is the name of the search engine").arg(plugin_name));
       return;
     } else {
       // Remove broken file
-      QFile::remove(dest_path);
+      misc::safeRemove(dest_path);
       QMessageBox::warning(this, tr("Search plugin install")+" -- "+tr("qBittorrent"), tr("%1 search engine plugin could not be installed.", "%1 is the name of the search engine").arg(plugin_name));
       return;
     }
   }
   // Install was successful, remove backup
   if(update) {
-    QFile::remove(dest_path+".bak");
+    misc::safeRemove(dest_path+".bak");
   }
   if(update) {
     QMessageBox::information(this, tr("Search plugin install")+" -- "+tr("qBittorrent"), tr("%1 search engine plugin was successfully updated.", "%1 is the name of the search engine").arg(plugin_name));
@@ -410,7 +413,7 @@ bool engineSelectDlg::parseVersionsFile(QString versions_file) {
   // Close file
   versions.close();
   // Clean up tmp file
-  QFile::remove(versions_file);
+  misc::safeRemove(versions_file);
   if(file_correct && !updated) {
     QMessageBox::information(this, tr("Search plugin update")+" -- "+tr("qBittorrent"), tr("All your plugins are already up to date."));
   }
@@ -440,21 +443,21 @@ void engineSelectDlg::processDownloadedFile(QString url, QString filePath) {
       }
     }
     // Delete tmp file
-    QFile::remove(filePath);
+    misc::safeRemove(filePath);
     return;
   }
   if(url.endsWith("versions.txt")) {
     if(!parseVersionsFile(filePath)) {
       QMessageBox::warning(this, tr("Search plugin update")+" -- "+tr("qBittorrent"), tr("Sorry, update server is temporarily unavailable."));
     }
-    QFile::remove(filePath);
+    misc::safeRemove(filePath);
     return;
   }
   if(url.endsWith(".py", Qt::CaseInsensitive)) {
     QString plugin_name = url.split('/').last();
     plugin_name.replace(".py", "");
     installPlugin(filePath, plugin_name);
-    QFile::remove(filePath);
+    misc::safeRemove(filePath);
     return;
   }
 }

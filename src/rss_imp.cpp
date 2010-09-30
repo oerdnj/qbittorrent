@@ -41,6 +41,9 @@
 #include "feeddownloader.h"
 #include "feedList.h"
 #include "bittorrent.h"
+#include "cookiesdlg.h"
+#include "preferences.h"
+#include "rsssettings.h"
 
 enum NewsCols { NEWS_ICON, NEWS_TITLE_COL, NEWS_URL_COL, NEWS_ID };
 
@@ -61,8 +64,11 @@ void RSSImp::displayRSSListMenu(const QPoint& pos){
         myRSSListMenu.addAction(actionRename);
         myRSSListMenu.addAction(actionDelete);
         myRSSListMenu.addSeparator();
-        if(listStreams->getItemType(selectedItems.first()) == RssFile::FOLDER)
+        if(listStreams->getItemType(selectedItems.first()) == RssFile::FOLDER) {
           myRSSListMenu.addAction(actionNew_folder);
+        } else {
+          myRSSListMenu.addAction(actionManage_cookies);
+        }
       }
     }
     myRSSListMenu.addAction(actionNew_subscription);
@@ -101,6 +107,20 @@ void RSSImp::displayItemsListMenu(const QPoint&){
     myItemListMenu.addAction(actionOpen_news_URL);
   }
   myItemListMenu.exec(QCursor::pos());
+}
+
+void RSSImp::on_actionManage_cookies_triggered() {
+  Q_ASSERT(!listStreams->selectedItems().empty());
+  // Get feed hostname
+  QString feed_url = listStreams->getItemID(listStreams->selectedItems().first());
+  QString feed_hostname = QUrl::fromEncoded(feed_url.toLocal8Bit()).host();
+  qDebug("RSS Feed hostname is: %s", qPrintable(feed_hostname));
+  Q_ASSERT(!feed_hostname.isEmpty());
+  bool ok = false;
+  QList<QByteArray> raw_cookies = CookiesDlg::askForCookies(this, Preferences::getHostNameCookies(feed_hostname), &ok);
+  if(ok) {
+    Preferences::setHostNameCookies(feed_hostname, raw_cookies);
+  }
 }
 
 void RSSImp::askNewFolder() {
@@ -230,7 +250,7 @@ void RSSImp::deleteSelectedItems() {
 }
 
 void RSSImp::loadFoldersOpenState() {
-  QSettings settings("qBittorrent", "qBittorrent");
+  QIniSettings settings("qBittorrent", "qBittorrent");
   settings.beginGroup("Rss");
   QStringList open_folders = settings.value("open_folders", QStringList()).toStringList();
   settings.endGroup();
@@ -268,7 +288,7 @@ void RSSImp::saveFoldersOpenState() {
     qDebug("saving open folder: %s", qPrintable(path));
     open_folders << path;
   }
-  QSettings settings("qBittorrent", "qBittorrent");
+  QIniSettings settings("qBittorrent", "qBittorrent");
   settings.beginGroup("Rss");
   settings.setValue("open_folders", open_folders);
   settings.endGroup();
@@ -493,14 +513,14 @@ void RSSImp::refreshTextBrowser() {
 
 void RSSImp::saveSlidersPosition() {
   // Remember sliders positions
-  QSettings settings("qBittorrent", "qBittorrent");
+  QIniSettings settings("qBittorrent", "qBittorrent");
   settings.setValue("rss/splitter_h", splitter_h->saveState());
   settings.setValue("rss/splitter_v", splitter_v->saveState());
   qDebug("Splitters position saved");
 }
 
 void RSSImp::restoreSlidersPosition() {
-  QSettings settings("qBittorrent", "qBittorrent");
+  QIniSettings settings("qBittorrent", "qBittorrent");
   QByteArray pos_h = settings.value("rss/splitter_h", QByteArray()).toByteArray();
   if(!pos_h.isNull()) {
     splitter_h->restoreState(pos_h);
@@ -621,3 +641,9 @@ RSSImp::~RSSImp(){
   qDebug("RSSImp deleted");
 }
 
+
+void RSSImp::on_settingsButton_clicked() {
+  RssSettings rssSettingsDlg(this);
+  if(rssSettingsDlg.exec())
+    updateRefreshInterval(Preferences::getRefreshInterval());
+}

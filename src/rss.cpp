@@ -69,7 +69,7 @@ RssFile::FileType RssFolder::getType() const {
 
 void RssFolder::refreshAll(){
   qDebug("Refreshing all rss feeds");
-  const QList<RssFile*> &items = this->values();
+  const QList<RssFile*> items = this->values();
   for(int i=0; i<items.size(); ++i) {
     //foreach(RssFile *item, *this){
     RssFile *item = items.at(i);
@@ -310,7 +310,7 @@ void RssManager::updateRefreshInterval(unsigned int val){
 }
 
 void RssManager::loadStreamList(){
-  QSettings settings("qBittorrent", "qBittorrent");
+  QIniSettings settings("qBittorrent", "qBittorrent");
   QStringList streamsUrl = settings.value("Rss/streamList").toStringList();
   QStringList aliases =  settings.value("Rss/streamAlias").toStringList();
   if(streamsUrl.size() != aliases.size()){
@@ -361,7 +361,7 @@ void RssManager::moveFile(RssFile* file, RssFolder* dest_folder) {
 void RssManager::saveStreamList(){
   QStringList streamsUrl;
   QStringList aliases;
-  const QList<RssStream*> &streams = getAllFeeds();
+  const QList<RssStream*> streams = getAllFeeds();
   foreach(const RssStream *stream, streams) {
     QString stream_path = stream->getPath().join("\\");
     if(stream_path.isNull()) {
@@ -371,7 +371,7 @@ void RssManager::saveStreamList(){
     streamsUrl << stream_path;
     aliases << stream->getName();
   }
-  QSettings settings("qBittorrent", "qBittorrent");
+  QIniSettings settings("qBittorrent", "qBittorrent");
   settings.beginGroup("Rss");
   // FIXME: Empty folder are not saved
   settings.setValue("streamList", streamsUrl);
@@ -383,7 +383,7 @@ void RssManager::saveStreamList(){
 
 RssStream::RssStream(RssFolder* parent, RssManager *rssmanager, Bittorrent *BTSession, QString _url): parent(parent), rssmanager(rssmanager), BTSession(BTSession), alias(""), iconPath(":/Icons/rss16.png"), refreshed(false), downloadFailure(false), currently_loading(false) {
   qDebug("RSSStream constructed");
-  QSettings qBTRSS("qBittorrent", "qBittorrent-rss");
+  QIniSettings qBTRSS("qBittorrent", "qBittorrent-rss");
   url = QUrl(_url).toString();
   QHash<QString, QVariant> all_old_items = qBTRSS.value("old_items", QHash<QString, QVariant>()).toHash();
   QVariantList old_items = all_old_items.value(url, QVariantList()).toList();
@@ -402,7 +402,7 @@ RssStream::RssStream(RssFolder* parent, RssManager *rssmanager, Bittorrent *BTSe
 RssStream::~RssStream(){
   qDebug("Deleting a RSS stream: %s", getName().toLocal8Bit().data());
   if(refreshed) {
-    QSettings qBTRSS("qBittorrent", "qBittorrent-rss");
+    QIniSettings qBTRSS("qBittorrent", "qBittorrent-rss");
     QVariantList old_items;
     foreach(RssItem *item, this->values()) {
       old_items << item->toHash();
@@ -416,9 +416,9 @@ RssStream::~RssStream(){
   removeAllItems();
   qDebug("All items were removed");
   if(QFile::exists(filePath))
-    QFile::remove(filePath);
+    misc::safeRemove(filePath);
   if(QFile::exists(iconPath) && !iconPath.startsWith(":/"))
-    QFile::remove(iconPath);
+    misc::safeRemove(iconPath);
 }
 
 RssFile::FileType RssStream::getType() const {
@@ -436,7 +436,7 @@ void RssStream::removeAllItems() {
 }
 
 void RssStream::removeAllSettings() {
-  QSettings qBTRSS("qBittorrent", "qBittorrent-rss");
+  QIniSettings qBTRSS("qBittorrent", "qBittorrent-rss");
   QHash<QString, QVariant> feeds_w_downloader = qBTRSS.value("downloader_on", QHash<QString, QVariant>()).toHash();
   if(feeds_w_downloader.contains(url)) {
     feeds_w_downloader.remove(url);

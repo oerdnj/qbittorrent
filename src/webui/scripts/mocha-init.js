@@ -41,7 +41,7 @@ initializeWindows = function(){
 		new Event(e).stop();
 		new MochaUI.Window({
 			id: 'preferencesPage',
-			title: "_(Preferences)",
+			title: "_(Options)",
 			loadMethod: 'xhr',
 			toolbar: true,
 			contentURL: 'preferences_content.html',
@@ -204,7 +204,7 @@ initializeWindows = function(){
 		}
 	};
 
-	['pause','resume','decreasePrio','increasePrio','recheck'].each(function(item) {
+	['pause','resume','decreasePrio','increasePrio', 'topPrio', 'bottomPrio', 'recheck'].each(function(item) {
 		addClickEvent(item, function(e){
 			new Event(e).stop();
 			var h = myTable.selectedIds();
@@ -221,7 +221,14 @@ initializeWindows = function(){
 		});
 	});
 	
-	
+	setPriorityFN = function(cmd) {
+		var h = myTable.selectedIds();
+		if(h.length){
+			h.each(function(hash, index){
+				  new Request({url: '/command/'+cmd, method: 'post', data: {hash: hash}}).send();
+				});
+		}
+	}
 	
 	addClickEvent('bug', function(e){
 		new Event(e).stop();

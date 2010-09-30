@@ -42,7 +42,7 @@ class downloadThread : public QObject {
   Q_OBJECT
 
 private:
-  QNetworkAccessManager *networkManager;
+  QNetworkAccessManager networkManager;
   QHash<QString, QString> redirect_mapping;
 
 signals:
@@ -51,7 +51,6 @@ signals:
 
 public:
   downloadThread(QObject* parent);
-  ~downloadThread();
   QNetworkReply* downloadUrl(QString url);
   void downloadTorrentUrl(QString url);
   //void setProxy(QString IP, int port, QString username, QString password);
@@ -59,6 +58,7 @@ public:
 protected:
   QString errorCodeToString(QNetworkReply::NetworkError status);
   void applyProxySettings();
+  void loadCookies(const QString &host_name, QString url);
 
 protected slots:
   void processDlFinished(QNetworkReply* reply);

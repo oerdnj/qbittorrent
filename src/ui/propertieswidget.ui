@@ -53,8 +53,8 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-60</y>
-            <width>520</width>
+            <y>0</y>
+            <width>522</width>
             <height>351</height>
            </rect>
           </property>
@@ -215,7 +215,7 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="5">
+              <item row="0" column="6">
                <widget class="QLabel" name="shareRatio">
                 <property name="text">
                  <string notr="true">1.0</string>
@@ -266,7 +266,7 @@
                 </property>
                </widget>
               </item>
-              <item row="1" column="5">
+              <item row="1" column="6">
                <widget class="QLabel" name="lbl_connections">
                 <property name="text">
                  <string notr="true">0</string>
@@ -310,12 +310,21 @@
               <item row="2" column="4">
                <widget class="QLabel" name="label_10">
                 <property name="text">
-                 <string notr="true"/>
+                 <string>Reannounce in:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                 </property>
                </widget>
               </item>
-              <item row="2" column="5">
-               <widget class="QLabel" name="label_11">
+              <item row="2" column="6">
+               <widget class="QLabel" name="reannounce_lbl">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string notr="true"/>
                 </property>
@@ -749,16 +758,16 @@ p, li { white-space: pre-wrap; }
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="collapseAllButton">
+          <widget class="QPushButton" name="selectAllButton">
            <property name="text">
-            <string>Collapse all</string>
+            <string>Select All</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="expandAllButton">
+          <widget class="QPushButton" name="selectNoneButton">
            <property name="text">
-            <string>Expand all</string>
+            <string>Select None</string>
            </property>
           </widget>
          </item>
@@ -922,6 +931,14 @@ p, li { white-space: pre-wrap; }
   <action name="actionMaximum">
    <property name="text">
     <string>Maximum</string>
+   </property>
+  </action>
+  <action name="actionNot_downloaded">
+   <property name="text">
+    <string>Do not download</string>
+   </property>
+   <property name="toolTip">
+    <string>Do not download</string>
    </property>
   </action>
  </widget>

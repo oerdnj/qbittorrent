@@ -34,9 +34,10 @@
 
 #include <QDir>
 #include <QFileInfo>
-#include <QSettings>
 #include <QString>
 #include <QTemporaryFile>
+#include "qinisettings.h"
+#include "misc.h"
 
 namespace {
   const int PathColumn = 0;
@@ -80,8 +81,15 @@ QVariant ScanFoldersModel::data(const QModelIndex &index, int role) const {
     return QVariant();
 
   const PathData* pathData = m_pathList.at(index.row());
-  if (index.column() == PathColumn && role == Qt::DisplayRole)
-    return pathData->path;
+  if (index.column() == PathColumn && role == Qt::DisplayRole) {
+#if defined(Q_WS_WIN) || defined(Q_OS_OS2)
+    QString ret = pathData->path;
+    ret = ret.replace("/", "\\");
+    return ret;
+#else
+  return pathData->path;
+#endif
+  }
   if (index.column() == DownloadAtTorrentColumn && role == Qt::CheckStateRole)
     return pathData->downloadAtPath ? Qt::Checked : Qt::Unchecked;
   return QVariant();
@@ -159,7 +167,7 @@ ScanFoldersModel::PathStatus ScanFoldersModel::setDownloadAtPath(int row, bool d
         return CannotWrite;
     }
     oldValue = downloadAtPath;
-    const QModelIndex &changedIndex = index(row, DownloadAtTorrentColumn);
+    const QModelIndex changedIndex = index(row, DownloadAtTorrentColumn);
     emit dataChanged(changedIndex, changedIndex);
   }
   return Ok;
@@ -181,15 +189,15 @@ int ScanFoldersModel::findPathData(const QString &path) const {
   return -1;
 }
 
-void ScanFoldersModel::makePersistent(QSettings &settings) {
+void ScanFoldersModel::makePersistent(QIniSettings &settings) {
   QStringList paths;
-  QList<QVariant> downloadInFolderInfo;
+  QList<bool> downloadInFolderInfo;
   foreach (const PathData* pathData, m_pathList) {
     paths << pathData->path;
     downloadInFolderInfo << pathData->downloadAtPath;
   }
   settings.setValue(QString::fromUtf8("ScanDirs"), paths);
-  settings.setValue(QString::fromUtf8("DownloadInScanDirs"), downloadInFolderInfo);
+  settings.setValue(QString::fromUtf8("DownloadInScanDirs"), misc::toStringList(downloadInFolderInfo));
 }
 
 ScanFoldersModel *ScanFoldersModel::m_instance = 0;

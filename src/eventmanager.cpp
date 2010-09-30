@@ -38,6 +38,7 @@
 //#include "proplistdelegate.h"
 #include "torrentpersistentdata.h"
 #include <QDebug>
+#include <QTranslator>
 
 EventManager::EventManager(QObject *parent, Bittorrent *BTSession)
   : QObject(parent), BTSession(BTSession)
@@ -114,6 +115,8 @@ QList<QVariantMap> EventManager::getPropFilesInfo(QString hash) const {
     else
       file["progress"] = 1.; // Empty file...
     file["priority"] = priorities[i];
+    if(i == 0)
+      file["is_seed"] = h.is_seed();
     files << file;
     ++i;
   }
@@ -122,8 +125,20 @@ QList<QVariantMap> EventManager::getPropFilesInfo(QString hash) const {
 
 void EventManager::setGlobalPreferences(QVariantMap m) const {
   // UI
-  if(m.contains("locale"))
-    Preferences::setLocale(m["locale"].toString());
+  if(m.contains("locale")) {
+    QString locale = m["locale"].toString();
+    if(Preferences::getLocale() != locale) {
+      QTranslator *translator = new QTranslator;
+      if(translator->load(QString::fromUtf8(":/lang/qbittorrent_") + locale)){
+        qDebug("%s locale recognized, using translation.", qPrintable(locale));
+      }else{
+        qDebug("%s locale unrecognized, using default (en_GB).", qPrintable(locale));
+      }
+      qApp->installTranslator(translator);
+    }
+
+    Preferences::setLocale(locale);
+  }
   // Downloads
   if(m.contains("save_path"))
     Preferences::setSavePath(m["save_path"].toString());
@@ -150,6 +165,7 @@ void EventManager::setGlobalPreferences(QVariantMap m) const {
       }
       int i = 0;
       foreach(const QString &new_folder, new_folders) {
+        qDebug("New watched folder: %s", qPrintable(new_folder));
         // Update new folders
         if(!old_folders.contains(new_folder)) {
           BTSession->getScanFoldersModel()->addPath(new_folder, download_at_path.at(i));
@@ -160,6 +176,16 @@ void EventManager::setGlobalPreferences(QVariantMap m) const {
   }
   if(m.contains("export_dir"))
     Preferences::setExportDir(m["export_dir"].toString());
+  if(m.contains("mail_notification_enabled"))
+    Preferences::setMailNotificationEnabled(m["mail_notification_enabled"].toBool());
+  if(m.contains("mail_notification_email"))
+    Preferences::setMailNotificationEmail(m["mail_notification_email"].toString());
+  if(m.contains("mail_notification_smtp"))
+    Preferences::setMailNotificationSMTP(m["mail_notification_smtp"].toString());
+  if(m.contains("autorun_enabled"))
+    Preferences::setAutoRunEnabled(m["autorun_enabled"].toBool());
+  if(m.contains("autorun_program"))
+    Preferences::setAutoRunProgram(m["autorun_program"].toString());
   if(m.contains("preallocate_all"))
     Preferences::preAllocateAllFiles(m["preallocate_all"].toBool());
   if(m.contains("queueing_enabled"))
@@ -205,12 +231,6 @@ void EventManager::setGlobalPreferences(QVariantMap m) const {
     Preferences::setLSDEnabled(m["lsd"].toBool());
   if(m.contains("encryption"))
     Preferences::setEncryptionSetting(m["encryption"].toInt());
-  if(m.contains("peer_id"))
-    Preferences::setPeerID(m["peer_id"].toString());
-  if(m.contains("peer_version"))
-    Preferences::setClientVersion(m["peer_version"].toString());
-  if(m.contains("peer_build"))
-    Preferences::setClientBuild(m["peer_build"].toString());
   // Proxy
   if(m.contains("proxy_type"))
     Preferences::setPeerProxyType(m["proxy_type"].toInt());
@@ -268,6 +288,11 @@ QVariantMap EventManager::getGlobalPreferences() const {
   data["download_in_scan_dirs"] = var_list;
   data["export_dir_enabled"] = Preferences::isTorrentExportEnabled();
   data["export_dir"] = Preferences::getExportDir();
+  data["mail_notification_enabled"] = Preferences::isMailNotificationEnabled();
+  data["mail_notification_email"] = Preferences::getMailNotificationEmail();
+  data["mail_notification_smtp"] = Preferences::getMailNotificationSMTP();
+  data["autorun_enabled"] = Preferences::isAutoRunEnabled();
+  data["autorun_program"] = Preferences::getAutoRunProgram();
   data["preallocate_all"] = Preferences::preAllocateAllFiles();
   data["queueing_enabled"] = Preferences::isQueueingSystemEnabled();
   data["max_active_downloads"] = Preferences::getMaxActiveDownloads();
@@ -292,9 +317,6 @@ QVariantMap EventManager::getGlobalPreferences() const {
   data["pex"] = Preferences::isPeXEnabled();
   data["lsd"] = Preferences::isLSDEnabled();
   data["encryption"] = Preferences::getEncryptionSetting();
-  data["peer_id"] = Preferences::getPeerID();
-  data["peer_version"] = Preferences::getClientVersion();
-  data["peer_build"] = Preferences::getClientBuild();
   // Proxy
   data["proxy_type"] = Preferences::getPeerProxyType();
   data["proxy_ip"] = Preferences::getPeerProxyIp();
@@ -373,10 +395,14 @@ void EventManager::modifiedTorrent(QTorrentHandle h)
   QVariantMap event;
   event["eta"] = QVariant(QString::fromUtf8("∞"));
   if(h.is_paused()) {
-    if(h.is_seed())
-      event["state"] = QVariant("pausedUP");
-    else
-      event["state"] = QVariant("pausedDL");
+    if(h.has_error()) {
+      event["state"] = QVariant("error");
+    } else {
+      if(h.is_seed())
+        event["state"] = QVariant("pausedUP");
+      else
+        event["state"] = QVariant("pausedDL");
+    }
   } else {
     if(BTSession->isQueueingEnabled() && h.is_queued()) {
       if(h.is_seed())
