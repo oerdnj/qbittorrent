@@ -77,6 +77,22 @@ License: other
     contact Nokia at qt-info@nokia.com.
 
 
+Files: src/lineedit/*
+Copyright: Copyright (c) 2007 Trolltech ASA <info@trolltech.com>
+License: other
+
+    Use, modification and distribution is allowed without limitation,
+    warranty, liability or support of any kind.
+
+
+Files: src/smtp.[ch]
+Copyright: Copyright (C) 1992-2005 Trolltech AS.  All rights reserved.
+License: other
+
+    This file is part of an example program for Qt.  This example
+    program may be used, distributed and modified without limitation.
+
+
 Files: debian/*
 Copyright: Copyright © 2008 Cristian Greco
 License: GPL-2+
