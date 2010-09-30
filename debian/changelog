@@ -1,3 +1,13 @@
+qbittorrent (2.4.3-1) unstable; urgency=low
+
+  * New upstream version.
+    - debian/copyright: add entries about some new files.
+  * debian/control: bump up Standards-Version to 3.9.1 (no changes).
+  * debian/NEWS: provide information about an incompatible change to user
+    config files introduced in 2.3.0.
+
+ -- Cristian Greco <cristian@regolo.cc>  Thu, 30 Sep 2010 16:13:40 +0200
+
 qbittorrent (2.2.11-1) unstable; urgency=low
 
   * New upstream version.
