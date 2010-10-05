@@ -1,3 +1,9 @@
+qbittorrent (2.4.4-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Cristian Greco <cristian@regolo.cc>  Tue, 05 Oct 2010 10:01:14 +0200
+
 qbittorrent (2.4.3-1) unstable; urgency=low
 
   * New upstream version.
