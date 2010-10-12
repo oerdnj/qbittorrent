@@ -12,24 +12,21 @@ CONFIG += qt \
 
 # Update this VERSION for each release
 os2 {
-    DEFINES += VERSION=\'\"v2.4.4\"\'
+    DEFINES += VERSION=\'\"v2.4.5\"\'
 } else {
-    DEFINES += VERSION=\\\"v2.4.4\\\"
+    DEFINES += VERSION=\\\"v2.4.5\\\"
 }
 DEFINES += VERSION_MAJOR=2
 DEFINES += VERSION_MINOR=4
-DEFINES += VERSION_BUGFIX=4
+DEFINES += VERSION_BUGFIX=5
 
 # NORMAL,ALPHA,BETA,RELEASE_CANDIDATE,DEVEL
 DEFINES += VERSION_TYPE=NORMAL
 
 win32 {
-  # Adapt these paths on Windows
-  INCLUDEPATH += $$quote(C:/qbittorrent/boost_1_42_0)
-  INCLUDEPATH += $$quote(C:/qbittorrent/libtorrent-rasterbar-0.14.10/include)
-  INCLUDEPATH += $$quote(C:/qbittorrent/libtorrent-rasterbar-0.14.10/zlib)
-
-  LIBS += -LC:/OpenSSL/lib/VC
+  exists(../winconf.pri) {
+      include(../winconf.pri)
+  }
 
   #DEFINES += _WIN32_WINNT=0x0601
   #DEFINES += _WIN32_IE=0x0400
@@ -178,18 +175,17 @@ win32 {
   #  LIBS += "/nodefaultlib:"libcmt.lib"
   #}
 
-  # Adapt these paths on Windows
   contains(DEBUG_MODE, 1) {
-    LIBS += C:/qbittorrent/libs/libtorrentd.lib \
-            C:/qbittorrent/libs/libboost_system-vc90-mt-gd.lib \
-            C:/qbittorrent/libs/libboost_filesystem-vc90-mt-gd.lib \
-            C:/qbittorrent/libs/libboost_thread-vc90-mt-gd.lib
+    LIBS += libtorrentd.lib \
+            libboost_system-vc90-mt-gd.lib \
+            libboost_filesystem-vc90-mt-gd.lib \
+            libboost_thread-vc90-mt-gd.lib
   }
   contains(DEBUG_MODE, 0) {
-    LIBS += C:/qbittorrent/libs/libtorrent.lib \
-            C:/qbittorrent/libs/libboost_system-vc90-mt.lib \
-            C:/qbittorrent/libs/libboost_filesystem-vc90-mt.lib \
-            C:/qbittorrent/libs/libboost_thread-vc90-mt.lib
+    LIBS += libtorrent.lib \
+            libboost_system-vc90-mt.lib \
+            libboost_filesystem-vc90-mt.lib \
+            libboost_thread-vc90-mt.lib
   }
 
   LIBS += advapi32.lib shell32.lib
@@ -227,7 +223,8 @@ os2 {
 RESOURCES = icons.qrc \
             lang.qrc \
             search.qrc \
-            webui.qrc
+            webui.qrc \
+            about.qrc
 
 # Add GeoIP resource file if the GeoIP database
 # should be embedded in qBittorrent executable
@@ -423,7 +420,8 @@ SOURCES += main.cpp \
              cookiesdlg.cpp \
              trackerlist.cpp \
              torrentadditiondlg.cpp \
-             rsssettings.cpp
+             rsssettings.cpp \
+             sessionapplication.cpp
 
   macx {
     SOURCES += qmacapplication.cpp
