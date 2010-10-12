@@ -864,7 +864,7 @@ QTorrentHandle Bittorrent::addMagnetUri(QString magnet_uri, bool resumed) {
   }
   QString torrent_name = misc::magnetUriToName(magnet_uri);
   const QString savePath(getSavePath(hash, false, QString::null, torrent_name));
-  if(!defaultTempPath.isEmpty() && resumed && !TorrentPersistentData::isSeed(hash)) {
+  if(!defaultTempPath.isEmpty() && !TorrentPersistentData::isSeed(hash)) {
     qDebug("addMagnetURI: Temp folder is enabled.");
     qDebug("addTorrent::Temp folder is enabled.");
     QString torrent_tmp_path = defaultTempPath.replace("\\", "/");
@@ -1096,6 +1096,7 @@ QTorrentHandle Bittorrent::addTorrent(QString path, bool fromScanDir, QString fr
   }
   // Actually add the torrent
   QString root_folder = misc::truncateRootFolder(t);
+  qDebug("Truncated root folder: %s", qPrintable(root_folder));
   add_torrent_params p;
   //Getting fast resume data if existing
   std::vector<char> buf;
@@ -1115,7 +1116,7 @@ QTorrentHandle Bittorrent::addTorrent(QString path, bool fromScanDir, QString fr
   } else {
     savePath = getSavePath(hash, fromScanDir, path, root_folder);
   }
-  if(!defaultTempPath.isEmpty() && resumed && !TorrentPersistentData::isSeed(hash)) {
+  if(!defaultTempPath.isEmpty() && !TorrentPersistentData::isSeed(hash)) {
     qDebug("addTorrent::Temp folder is enabled.");
     QString torrent_tmp_path = defaultTempPath.replace("\\", "/");
     if(!root_folder.isEmpty()) {
@@ -2016,7 +2017,6 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
       if (torrent_finished_alert* p = dynamic_cast<torrent_finished_alert*>(a.get())) {
         QTorrentHandle h(p->handle);
         if(h.is_valid()) {
-          emit finishedTorrent(h);
           const QString hash = h.hash();
 #if LIBTORRENT_VERSION_MINOR > 14
           // Remove .!qB extension if necessary
@@ -2048,27 +2048,23 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
                 }
               }
             }
-          }
-          // Move to download directory if necessary
-          if(!defaultTempPath.isEmpty()) {
-            // Check if directory is different
-            const QDir current_dir(h.save_path());
-            const QDir save_dir(getSavePath(hash));
-            if(current_dir != save_dir) {
-              h.move_storage(save_dir.absolutePath());
+            // Move to download directory if necessary
+            if(!defaultTempPath.isEmpty()) {
+              // Check if directory is different
+              const QDir current_dir(h.save_path());
+              const QDir save_dir(getSavePath(hash));
+              if(current_dir != save_dir) {
+                h.move_storage(save_dir.absolutePath());
+              }
             }
-          }
-          // Recheck if the user asked to
-          if(Preferences::recheckTorrentsOnCompletion() && !was_already_seeded) {
             // Remember finished state
             TorrentPersistentData::saveSeedStatus(h);
-            h.force_recheck();
-          } else {
-            // Remember finished state
-            TorrentPersistentData::saveSeedStatus(h);
-          }
-          qDebug("Received finished alert for %s", qPrintable(h.name()));
-          if(!was_already_seeded) {
+            // Recheck if the user asked to
+            if(Preferences::recheckTorrentsOnCompletion()) {
+              h.force_recheck();
+            }
+            emit finishedTorrent(h);
+            qDebug("Received finished alert for %s", qPrintable(h.name()));
             bool will_shutdown = Preferences::shutdownWhenDownloadsComplete() && !hasDownloadingTorrents();
             // AutoRun program
             if(Preferences::isAutoRunEnabled())
