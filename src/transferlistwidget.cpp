@@ -56,7 +56,7 @@
 #include "qinisettings.h"
 
 TransferListWidget::TransferListWidget(QWidget *parent, GUI *main_window, Bittorrent *_BTSession):
-    QTreeView(parent), BTSession(_BTSession), main_window(main_window) {
+  QTreeView(parent), BTSession(_BTSession), main_window(main_window) {
   QIniSettings settings("qBittorrent", "qBittorrent");
   // Create and apply delegate
   listDelegate = new TransferListDelegate(this);
@@ -367,8 +367,11 @@ int TransferListWidget::updateTorrent(int row) {
     if(!isColumnHidden(TR_DLLIMIT))
       listModel->setData(listModel->index(row, TR_DLLIMIT), QVariant((qlonglong)h.download_limit()));
     // Queueing code
-    if(!h.is_seed() && BTSession->isQueueingEnabled()) {
-      listModel->setData(listModel->index(row, TR_PRIORITY), QVariant((int)h.queue_position()));
+    if(BTSession->isQueueingEnabled()) {
+      if(h.is_seed())
+        listModel->setData(listModel->index(row, TR_PRIORITY), -1);
+      else
+        listModel->setData(listModel->index(row, TR_PRIORITY), QVariant((int)h.queue_position()));
       if(h.is_queued()) {
         if(h.state() == torrent_status::checking_files || h.state() == torrent_status::queued_for_checking) {
           listModel->setData(listModel->index(row, TR_PROGRESS), QVariant((double)h.progress()));
@@ -379,7 +382,7 @@ int TransferListWidget::updateTorrent(int row) {
           }
           listModel->setData(listModel->index(row, TR_NAME), QVariant(QIcon(QString::fromUtf8(":/Icons/skin/checking.png"))), Qt::DecorationRole);
           listModel->setData(listModel->index(row, TR_STATUS), s);
-        }else {
+        } else {
           listModel->setData(listModel->index(row, TR_ETA), QVariant((qlonglong)MAX_ETA));
           if(h.is_seed()) {
             s = STATE_QUEUED_UP;
@@ -531,13 +534,13 @@ void TransferListWidget::refreshList(bool force) {
     case STATE_CHECKING_DL:
     case STATE_PAUSED_DL:
     case STATE_QUEUED_DL: {
-        if(s == STATE_PAUSED_DL) {
-          ++nb_paused;
-        }
-        ++nb_inactive;
-        ++nb_downloading;
-        break;
+      if(s == STATE_PAUSED_DL) {
+        ++nb_paused;
       }
+      ++nb_inactive;
+      ++nb_downloading;
+      break;
+    }
     case STATE_SEEDING:
       ++nb_active;
       ++nb_seeding;
@@ -546,13 +549,13 @@ void TransferListWidget::refreshList(bool force) {
     case STATE_CHECKING_UP:
     case STATE_PAUSED_UP:
     case STATE_QUEUED_UP: {
-        if(s == STATE_PAUSED_UP) {
-          ++nb_paused;
-        }
-        ++nb_seeding;
-        ++nb_inactive;
-        break;
+      if(s == STATE_PAUSED_UP) {
+        ++nb_paused;
       }
+      ++nb_seeding;
+      ++nb_inactive;
+      break;
+    }
     case STATE_INVALID:
       bad_hashes << getHashFromRow(i);
       break;
@@ -650,25 +653,26 @@ void TransferListWidget::setSelectedTorrentsLocation() {
   if(hashes.isEmpty()) return;
   QString dir;
   const QDir saveDir(TorrentPersistentData::getSavePath(hashes.first()));
-  qDebug("Torrent save path is %s", qPrintable(saveDir.absolutePath()));
-  if(saveDir.exists()){
-    dir = QFileDialog::getExistingDirectory(this, tr("Choose save path"), saveDir.path());
-  }else{
-    dir = QFileDialog::getExistingDirectory(this, tr("Choose save path"), QDir::homePath());
-  }
-  if(!dir.isNull()){
+  qDebug("Old save path is %s", qPrintable(saveDir.absolutePath()));
+  QFileDialog dlg(this, tr("Choose save path"), saveDir.absolutePath());
+  dlg.setConfirmOverwrite(false);
+  dlg.setFileMode(QFileDialog::Directory);
+  dlg.setOption(QFileDialog::ShowDirsOnly, true);
+  dlg.setFilter(QDir::AllDirs);
+  dlg.setAcceptMode(QFileDialog::AcceptSave);
+  dlg.setNameFilterDetailsVisible(false);
+  if(dlg.exec())
+    dir = dlg.selectedFiles().first();
+  if(!dir.isNull()) {
+    qDebug("New path is %s", qPrintable(dir));
     // Check if savePath exists
     QDir savePath(misc::expandPath(dir));
-    if(!savePath.exists()){
-      if(!savePath.mkpath(savePath.absolutePath())){
-        QMessageBox::critical(0, tr("Save path creation error"), tr("Could not create the save path"));
-        return;
-      }
-    }
+    qDebug("New path after clean up is %s", qPrintable(savePath.absolutePath()));
     foreach(const QString & hash, hashes) {
       // Actually move storage
       QTorrentHandle h = BTSession->getTorrentHandle(hash);
       if(!BTSession->useTemporaryFolder() || h.is_seed()) {
+        if(!savePath.exists()) savePath.mkpath(savePath.absolutePath());
         h.move_storage(savePath.absolutePath());
       } else {
         TorrentPersistentData::saveSavePath(h.hash(), savePath.absolutePath());
@@ -861,6 +865,7 @@ void TransferListWidget::copySelectedMagnetURIs() const {
 }
 
 void TransferListWidget::hidePriorityColumn(bool hide) {
+  qDebug("hidePriorityColumn(%d)", hide);
   setColumnHidden(TR_PRIORITY, hide);
 }
 
