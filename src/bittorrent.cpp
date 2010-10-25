@@ -400,7 +400,7 @@ void Bittorrent::configureSession() {
   std::cout << "HTTP user agent is " << sessionSettings.user_agent << std::endl;
   addConsoleMessage(tr("HTTP user agent is %1").arg(misc::toQString(sessionSettings.user_agent)));
 
-  sessionSettings.upnp_ignore_nonrouters = true;
+  sessionSettings.upnp_ignore_nonrouters = false;
   sessionSettings.use_dht_as_fallback = false;
   // To prevent ISPs from blocking seeding
   sessionSettings.lazy_bitfields = true;
@@ -2081,6 +2081,8 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
             // Auto-Shutdown
             if(will_shutdown) {
               qDebug("Preparing for auto-shutdown because all downloads are complete!");
+              // Disabling it for next time
+              Preferences::setShutdownWhenDownloadsComplete(false);
 #if LIBTORRENT_VERSION_MINOR < 15
               saveDHTEntry();
 #endif
@@ -2175,7 +2177,7 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
         if(h.is_valid()) {
           // Attempt to remove old folder if empty
           const QString& old_save_path = TorrentPersistentData::getPreviousPath(h.hash());
-          const QString new_save_path = QString::fromLocal8Bit(p->path.c_str());
+          const QString new_save_path = misc::toQStringU(p->path);
           qDebug("Torrent moved from %s to %s", qPrintable(old_save_path), qPrintable(new_save_path));
           QDir old_save_dir(old_save_path);
           if(old_save_dir != QDir(defaultSavePath) && old_save_dir != QDir(defaultTempPath)) {
