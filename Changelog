@@ -1,3 +1,15 @@
+* Sun Oct 24 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.8
+    - BUGFIX: Fix possible crash on manual peer ban
+    - BUGFIX: Improved hostname resolution code
+    - BUGFIX: Several search plugins fixed
+    - BUGFIX: Auto-disable the shutdown feature
+    - BUGFIX: Remember the current property tab on startup
+    - BUGFIX: Fix status list widget height issue on style change
+    - BUGFIX: Fix rounding issue in torrent progress display
+    - BUGFIX: Fix issue when altering files priorities of a seeding torrent
+    - BUGFIX: Better fix for save path editing issues in torrent addition dialog
+    - BUGFIX: Peers can now be sorted by country
+
 * Tue Oct 19 2010  - Christophe Dumez <chris@qbittorrent.org> - v2.4.7
     - BUGFIX: Display the priority column when the queueing system gets enabled
     - BUGFIX: Fix encoding problem in file renaming
