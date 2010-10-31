@@ -382,6 +382,22 @@ p, li { white-space: pre-wrap; }
         <source>[qBittorrent] %1 has finished downloading</source>
         <translation>[qBittorrent] %1 је завршио преузимање</translation>
     </message>
+    <message>
+        <source>The network interface defined is invalid: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trying any other network interface available instead.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Listening on IP address %1 on network interface %2...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to listen on network interface %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConsoleDlg</name>
@@ -1427,6 +1443,14 @@ No further notices will be issued.</source>
         <source>R&amp;esume All</source>
         <translation>Н&amp;астави Све</translation>
     </message>
+    <message>
+        <source>Donate money</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you like qBittorrent, please donate!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PeerAdditionDlg</name>
@@ -2183,11 +2207,11 @@ No further notices will be issued.</source>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation>Грешка у путањи за чување</translation>
+        <translation type="obsolete">Грешка у путањи за чување</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation>Не могу да креирам путању за чување фајла</translation>
+        <translation type="obsolete">Не могу да креирам путању за чување фајла</translation>
     </message>
     <message>
         <source>Reannounce in:</source>
@@ -3093,11 +3117,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation>Грешка при креирању путање чувања</translation>
+        <translation type="obsolete">Грешка при креирању путање чувања</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation>Не могу да креирам путању за чување фајла</translation>
+        <translation type="obsolete">Не могу да креирам путању за чување фајла</translation>
     </message>
     <message>
         <source>Set location...</source>

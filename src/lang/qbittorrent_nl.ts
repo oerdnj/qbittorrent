@@ -361,6 +361,22 @@ p, li { white-space: pre-wrap; }
         <source>[qBittorrent] %1 has finished downloading</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The network interface defined is invalid: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trying any other network interface available instead.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Listening on IP address %1 on network interface %2...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to listen on network interface %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConsoleDlg</name>
@@ -1376,6 +1392,14 @@ No further notices will be issued.</source>
         <source>R&amp;esume All</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Donate money</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you like qBittorrent, please donate!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PeerAdditionDlg</name>
@@ -1996,11 +2020,11 @@ No further notices will be issued.</source>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation type="unfinished">Opslag pad aanmaak fout</translation>
+        <translation type="obsolete">Opslag pad aanmaak fout</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation type="unfinished">Kon het opslag pad niet aanmaken</translation>
+        <translation type="obsolete">Kon het opslag pad niet aanmaken</translation>
     </message>
     <message>
         <source>Downloaded:</source>
@@ -3000,11 +3024,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation type="unfinished">Opslag pad aanmaak fout</translation>
+        <translation type="obsolete">Opslag pad aanmaak fout</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation type="unfinished">Kon het opslag pad niet aanmaken</translation>
+        <translation type="obsolete">Kon het opslag pad niet aanmaken</translation>
     </message>
     <message>
         <source>Set location...</source>

@@ -1,3 +1,17 @@
+* Sun Oct 31 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.9
+    - BUGFIX: Fix crash when pressing enter in save path field in torrent addition dialog
+    - BUGFIX: Fix crash when deleting a torrent with no metadata (closes #667528)
+    - BUGFIX: Fix possible crash on clicking a RSS article (closes #575624)
+    - BUGFIX: Correctly update total number of torrents when a torrent is automatically removed (closes #668726)
+    - BUGFIX: Correctly display the hash of torrents with no metadata
+    - BUGFIX: Elide status bar text if it is too wide
+    - BUGFIX: Make sure the splash screen is displayed for 2 seconds
+    - BUGFIX: Make listening on a particular interface more reliable
+    - BUGFIX: Fix torrent size update in torrent addition dialog
+    - BUGFIX: Fix possible crash on qBittorrent shutdown
+    - BUGFIX: Fix and improve file priorities editing (closes #669084)
+    - I18N: Updated Arabic, Italian and Croatian translations
+
 * Sun Oct 24 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.8
     - BUGFIX: Fix possible crash on manual peer ban
     - BUGFIX: Improved hostname resolution code

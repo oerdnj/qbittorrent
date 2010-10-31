@@ -367,6 +367,22 @@ p, li { white-space: pre-wrap; }
         <source>[qBittorrent] %1 has finished downloading</source>
         <translation>[qBittorrent] 已下載完成 %1</translation>
     </message>
+    <message>
+        <source>The network interface defined is invalid: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trying any other network interface available instead.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Listening on IP address %1 on network interface %2...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to listen on network interface %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConsoleDlg</name>
@@ -1389,6 +1405,14 @@ No further notices will be issued.</source>
         <source>R&amp;esume All</source>
         <translation>全部繼續 (&amp;E)</translation>
     </message>
+    <message>
+        <source>Donate money</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you like qBittorrent, please donate!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PeerAdditionDlg</name>
@@ -2009,11 +2033,11 @@ No further notices will be issued.</source>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation>建立儲存路徑錯誤</translation>
+        <translation type="obsolete">建立儲存路徑錯誤</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation>無法建立儲存路徑</translation>
+        <translation type="obsolete">無法建立儲存路徑</translation>
     </message>
     <message>
         <source>Downloaded:</source>
@@ -3015,11 +3039,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation>儲存路徑建立錯誤</translation>
+        <translation type="obsolete">儲存路徑建立錯誤</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation>無法建立儲存路徑</translation>
+        <translation type="obsolete">無法建立儲存路徑</translation>
     </message>
     <message>
         <source>Set location...</source>

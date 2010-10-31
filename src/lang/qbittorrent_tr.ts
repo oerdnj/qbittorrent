@@ -363,6 +363,22 @@ p, li { white-space: pre-wrap; }
         <source>[qBittorrent] %1 has finished downloading</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The network interface defined is invalid: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trying any other network interface available instead.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Listening on IP address %1 on network interface %2...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to listen on network interface %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConsoleDlg</name>
@@ -1388,6 +1404,14 @@ Başka bir bildiri yayınlanmayacaktır.</translation>
         <source>R&amp;esume All</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Donate money</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you like qBittorrent, please donate!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PeerAdditionDlg</name>
@@ -2016,11 +2040,11 @@ Başka bir bildiri yayınlanmayacaktır.</translation>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation>Kayıt yolu oluşturulmada hata</translation>
+        <translation type="obsolete">Kayıt yolu oluşturulmada hata</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation>Kayıt yolu oluşturulamadı</translation>
+        <translation type="obsolete">Kayıt yolu oluşturulamadı</translation>
     </message>
     <message>
         <source>Downloaded:</source>
@@ -3027,11 +3051,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation>Kayıt yolu oluşturulmada hata</translation>
+        <translation type="obsolete">Kayıt yolu oluşturulmada hata</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation>Kayıt yolu oluşturulamadı</translation>
+        <translation type="obsolete">Kayıt yolu oluşturulamadı</translation>
     </message>
     <message>
         <source>Set location...</source>

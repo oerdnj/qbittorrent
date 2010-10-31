@@ -367,6 +367,22 @@ p, li { white-space: pre-wrap; }
         <source>[qBittorrent] %1 has finished downloading</source>
         <translation>[qBittorrent] %1下载完毕.</translation>
     </message>
+    <message>
+        <source>The network interface defined is invalid: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trying any other network interface available instead.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Listening on IP address %1 on network interface %2...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to listen on network interface %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConsoleDlg</name>
@@ -1386,6 +1402,14 @@ No further notices will be issued.</source>
         <source>R&amp;esume All</source>
         <translation>重新开始所有</translation>
     </message>
+    <message>
+        <source>Donate money</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you like qBittorrent, please donate!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PeerAdditionDlg</name>
@@ -2006,11 +2030,11 @@ No further notices will be issued.</source>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation>创建保存路径时出现错误</translation>
+        <translation type="obsolete">创建保存路径时出现错误</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation>无法创建保存路径</translation>
+        <translation type="obsolete">无法创建保存路径</translation>
     </message>
     <message>
         <source>Downloaded:</source>
@@ -3008,11 +3032,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation>创建保存路径时出现错误</translation>
+        <translation type="obsolete">创建保存路径时出现错误</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation>无法创建保存路径</translation>
+        <translation type="obsolete">无法创建保存路径</translation>
     </message>
     <message>
         <source>Set location...</source>

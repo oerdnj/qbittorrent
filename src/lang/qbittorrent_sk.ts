@@ -367,6 +367,22 @@ p, li { white-space: pre-wrap; }
         <source>[qBittorrent] %1 has finished downloading</source>
         <translation>[qBittorrent] sťahovanie %1 bolo dokončené</translation>
     </message>
+    <message>
+        <source>The network interface defined is invalid: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trying any other network interface available instead.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Listening on IP address %1 on network interface %2...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to listen on network interface %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConsoleDlg</name>
@@ -1388,6 +1404,14 @@ Už vás nebudeme ďalej upozorňovať.</translation>
         <source>R&amp;esume All</source>
         <translation>Pokračovať vš&amp;etky</translation>
     </message>
+    <message>
+        <source>Donate money</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you like qBittorrent, please donate!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PeerAdditionDlg</name>
@@ -2004,11 +2028,11 @@ Už vás nebudeme ďalej upozorňovať.</translation>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation>Chyba pri vytváraní cieľového adresára</translation>
+        <translation type="obsolete">Chyba pri vytváraní cieľového adresára</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation>Nepodarilo sa vytvoriť cieľový adresár</translation>
+        <translation type="obsolete">Nepodarilo sa vytvoriť cieľový adresár</translation>
     </message>
     <message>
         <source>Downloaded:</source>
@@ -3015,11 +3039,11 @@ Chcete ho nainštalovať teraz?</translation>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation>Chyba pri vytváraní cieľového adresára</translation>
+        <translation type="obsolete">Chyba pri vytváraní cieľového adresára</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation>Nepodarilo sa vytvoriť cieľový adresár</translation>
+        <translation type="obsolete">Nepodarilo sa vytvoriť cieľový adresár</translation>
     </message>
     <message>
         <source>Set location...</source>

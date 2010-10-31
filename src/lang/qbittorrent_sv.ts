@@ -361,6 +361,22 @@ p, li { white-space: pre-wrap; }
         <source>[qBittorrent] %1 has finished downloading</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The network interface defined is invalid: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trying any other network interface available instead.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Listening on IP address %1 on network interface %2...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to listen on network interface %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConsoleDlg</name>
@@ -1382,6 +1398,14 @@ Detta meddelande kommer inte att visas igen.</translation>
         <source>R&amp;esume All</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Donate money</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you like qBittorrent, please donate!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PeerAdditionDlg</name>
@@ -2002,11 +2026,11 @@ Detta meddelande kommer inte att visas igen.</translation>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation>Fel vid skapandet av sökväg</translation>
+        <translation type="obsolete">Fel vid skapandet av sökväg</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation>Kunde inte skapa sökväg att spara i</translation>
+        <translation type="obsolete">Kunde inte skapa sökväg att spara i</translation>
     </message>
     <message>
         <source>Downloaded:</source>
@@ -3008,11 +3032,11 @@ Vill du installera den nu?</translation>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation>Fel vid skapandet av sökväg</translation>
+        <translation type="obsolete">Fel vid skapandet av sökväg</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation>Kunde inte skapa sökväg att spara i</translation>
+        <translation type="obsolete">Kunde inte skapa sökväg att spara i</translation>
     </message>
     <message>
         <source>Set location...</source>
