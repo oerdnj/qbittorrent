@@ -37,6 +37,7 @@ torrentAdditionDialog::torrentAdditionDialog(GUI *parent, Bittorrent* _BTSession
   BTSession = _BTSession;
   // Set Properties list model
   PropListModel = new TorrentFilesModel();
+  connect(PropListModel, SIGNAL(filteredFilesChanged()), SLOT(updateDiskSpaceLabels()));
   torrentContentList->setModel(PropListModel);
   torrentContentList->hideColumn(PROGRESS);
   PropDelegate = new PropListDelegate();
@@ -48,6 +49,10 @@ torrentAdditionDialog::torrentAdditionDialog(GUI *parent, Bittorrent* _BTSession
   connect(comboLabel, SIGNAL(editTextChanged(QString)), this, SLOT(resetComboLabelIndex(QString)));
   connect(comboLabel, SIGNAL(editTextChanged(QString)), this, SLOT(updateLabelInSavePath(QString)));
   connect(comboLabel, SIGNAL(currentIndexChanged(QString)), this, SLOT(updateLabelInSavePath(QString)));
+
+  // Important: as a default, it inserts at the bottom which is not desirable
+  savePathTxt->setInsertPolicy(QComboBox::InsertAtCurrent);
+
   // Remember columns width
   readSettings();
   //torrentContentList->header()->setResizeMode(0, QHeaderView::Stretch);
@@ -276,6 +281,9 @@ void torrentAdditionDialog::showLoad(QString filePath, QString from_url) {
     save_path += single_file_relpath;
   }
   savePathTxt->setEditText(save_path);
+
+  // Update size labels
+  updateDiskSpaceLabels();
 
   // Show the dialog
   show();

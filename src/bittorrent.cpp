@@ -748,15 +748,23 @@ void Bittorrent::deleteTorrent(QString hash, bool delete_local_files) {
     qDebug("/!\\ Error: Invalid handle");
     return;
   }
-  const QString fileName(h.name());
+  QString fileName;
+  if(h.has_metadata())
+    fileName = h.name();
+  else
+    fileName = h.hash();
   // Remove it from session
   if(delete_local_files) {
-    QDir save_dir(h.save_path());
-    if(save_dir != QDir(defaultSavePath) && (defaultTempPath.isEmpty() || save_dir != QDir(defaultTempPath)))
-      savePathsToRemove[hash] = save_dir.absolutePath();
+    if(h.has_metadata()) {
+      QDir save_dir(h.save_path());
+      if(save_dir != QDir(defaultSavePath) && (defaultTempPath.isEmpty() || save_dir != QDir(defaultTempPath)))
+        savePathsToRemove[hash] = save_dir.absolutePath();
+    }
     s->remove_torrent(h.get_torrent_handle(), session::delete_files);
   } else {
-    QStringList uneeded_files = h.uneeded_files_path();
+    QStringList uneeded_files;
+    if(h.has_metadata())
+      uneeded_files = h.uneeded_files_path();
     s->remove_torrent(h.get_torrent_handle());
     // Remove unneeded files
     foreach(const QString &uneeded_file, uneeded_files) {
@@ -779,7 +787,9 @@ void Bittorrent::deleteTorrent(QString hash, bool delete_local_files) {
     addConsoleMessage(tr("'%1' was removed from transfer list and hard disk.", "'xxx.avi' was removed...").arg(fileName));
   else
     addConsoleMessage(tr("'%1' was removed from transfer list.", "'xxx.avi' was removed...").arg(fileName));
+  qDebug("Torrent deleted.");
   emit deletedTorrent(hash);
+  qDebug("Deleted signal emitted.");
 }
 
 void Bittorrent::pauseAllTorrents() {
@@ -1561,13 +1571,15 @@ void Bittorrent::saveFastResumeData() {
   for(torrentIT = torrents.begin(); torrentIT != torrents.end(); torrentIT++) {
     QTorrentHandle h = QTorrentHandle(*torrentIT);
     if(!h.is_valid() || !h.has_metadata()) continue;
-    if(isQueueingEnabled())
-      TorrentPersistentData::savePriority(h);
-    // Actually with should save fast resume data for paused files too
-    //if(h.is_paused()) continue;
-    if(h.state() == torrent_status::checking_files || h.state() == torrent_status::queued_for_checking) continue;
-    h.save_resume_data();
-    ++num_resume_data;
+    try {
+      if(isQueueingEnabled())
+        TorrentPersistentData::savePriority(h);
+      // Actually with should save fast resume data for paused files too
+      //if(h.is_paused()) continue;
+      if(h.state() == torrent_status::checking_files || h.state() == torrent_status::queued_for_checking) continue;
+      h.save_resume_data();
+      ++num_resume_data;
+    } catch(invalid_handle&) {}
   }
   while (num_resume_data > 0) {
     alert const* a = s->wait_for_alert(seconds(30));
@@ -1583,8 +1595,9 @@ void Bittorrent::saveFastResumeData() {
       s->pop_alert();
       try {
         // Remove torrent from session
-        s->remove_torrent(rda->handle);
-      }catch(libtorrent::libtorrent_exception){}
+        if(rda->handle.is_valid())
+          s->remove_torrent(rda->handle);
+      }catch(libtorrent::libtorrent_exception&){}
       continue;
     }
     save_resume_data_alert const* rd = dynamic_cast<save_resume_data_alert const*>(a);
@@ -1598,16 +1611,18 @@ void Bittorrent::saveFastResumeData() {
     QDir torrentBackup(misc::BTBackupLocation());
     const QTorrentHandle h(rd->handle);
     if(!h.is_valid()) continue;
-    // Remove old fastresume file if it exists
-    const QString file = torrentBackup.absoluteFilePath(h.hash()+".fastresume");
-    if(QFile::exists(file))
-      misc::safeRemove(file);
-    boost::filesystem::ofstream out(boost::filesystem::path(file.toLocal8Bit().constData()), std::ios_base::binary);
-    out.unsetf(std::ios_base::skipws);
-    bencode(std::ostream_iterator<char>(out), *rd->resume_data);
-    // Remove torrent from session
-    s->remove_torrent(rd->handle);
-    s->pop_alert();
+    try {
+      // Remove old fastresume file if it exists
+      const QString file = torrentBackup.absoluteFilePath(h.hash()+".fastresume");
+      if(QFile::exists(file))
+        misc::safeRemove(file);
+      boost::filesystem::ofstream out(boost::filesystem::path(file.toLocal8Bit().constData()), std::ios_base::binary);
+      out.unsetf(std::ios_base::skipws);
+      bencode(std::ostream_iterator<char>(out), *rd->resume_data);
+      // Remove torrent from session
+      s->remove_torrent(rd->handle);
+      s->pop_alert();
+    }catch(libtorrent::libtorrent_exception&){}
   }
 }
 
@@ -1814,15 +1829,27 @@ void Bittorrent::addConsoleMessage(QString msg, QString) {
     }
     QNetworkInterface network_iface = QNetworkInterface::interfaceFromName(iface_name);
     if(!network_iface.isValid()) {
+      qDebug("Invalid network interface: %s", qPrintable(iface_name));
+      addConsoleMessage(tr("The network interface defined is invalid: %1").arg(iface_name), "red");
+      addConsoleMessage(tr("Trying any other network interface available instead."));
       s->listen_on(ports);
       return;
     }
-    QString ip = "127.0.0.1";
-    if(!network_iface.addressEntries().isEmpty()) {
-      ip = network_iface.addressEntries().first().ip().toString();
+    QString ip;
+    qDebug("This network interface has %d IP addresses", network_iface.addressEntries().size());
+    foreach(const QNetworkAddressEntry &entry, network_iface.addressEntries()) {
+      qDebug("Trying to listen on IP %s (%s)", qPrintable(entry.ip().toString()), qPrintable(iface_name));
+      if(s->listen_on(ports, qPrintable(entry.ip().toString()))) {
+        ip = entry.ip().toString();
+        break;
+      }
     }
-    qDebug("Listening on interface %s with ip %s", qPrintable(iface_name), qPrintable(ip));
-    s->listen_on(ports, ip.toLocal8Bit().constData());
+    if(s->is_listening()) {
+      addConsoleMessage(tr("Listening on IP address %1 on network interface %2...").arg(ip).arg(iface_name));
+    } else {
+      qDebug("Failed to listen on any of the IP addresses");
+      addConsoleMessage(tr("Failed to listen on network interface %1").arg(iface_name), "red");
+    }
   }
 
   // Set download rate limit

@@ -361,6 +361,22 @@ p, li { white-space: pre-wrap; }
         <source>[qBittorrent] %1 has finished downloading</source>
         <translation>[qBittorrent] %1 terminou o download</translation>
     </message>
+    <message>
+        <source>The network interface defined is invalid: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trying any other network interface available instead.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Listening on IP address %1 on network interface %2...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to listen on network interface %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConsoleDlg</name>
@@ -1382,6 +1398,14 @@ Nenhum outro aviso será dado.</translation>
         <source>R&amp;esume All</source>
         <translation>R&amp;esume Todos</translation>
     </message>
+    <message>
+        <source>Donate money</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you like qBittorrent, please donate!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PeerAdditionDlg</name>
@@ -2002,11 +2026,11 @@ Nenhum outro aviso será dado.</translation>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation>Erro ao criar caminho de salvamento</translation>
+        <translation type="obsolete">Erro ao criar caminho de salvamento</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation>Não foi possível criar caminho de salvamento</translation>
+        <translation type="obsolete">Não foi possível criar caminho de salvamento</translation>
     </message>
     <message>
         <source>Downloaded:</source>
@@ -3008,11 +3032,11 @@ Gostaria de instalar agora?</translation>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation>Erro ao criar caminho de salvamento</translation>
+        <translation type="obsolete">Erro ao criar caminho de salvamento</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation>Não foi possível criar caminho de salvamento</translation>
+        <translation type="obsolete">Não foi possível criar caminho de salvamento</translation>
     </message>
     <message>
         <source>Set location...</source>
