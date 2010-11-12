@@ -1,3 +1,13 @@
+* Wed Nov 10 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.10
+    - BUGFIX: Fix possible crash when selecting a RSS item (really closes #575624)
+    - BUGFIX: Improved IPv6 support (IP filter and Peer list)
+    - BUGFIX: Make IP filter more tolerant towards strangely formatted IPs
+    - BUGFIX: More reliable folder scanning
+    - BUGFIX: Do not create the torrent root folder at final destination if
+    torrent is in the temp dir (closes #673271)
+    - BUGFIX: Fix compilation with libnotify v0.7.0 (closes #671769)
+    - BUGFIX: Use a pointing cursor over status bar buttons
+
 * Sun Oct 31 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.9
     - BUGFIX: Fix crash when pressing enter in save path field in torrent addition dialog
     - BUGFIX: Fix crash when deleting a torrent with no metadata (closes #667528)

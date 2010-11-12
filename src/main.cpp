@@ -37,6 +37,9 @@
 #include <QStyleFactory>
 #include <QStyle>
 #include <QSplashScreen>
+#include <QPainter>
+#include <QPen>
+#include <QFont>
 #include <QPushButton>
 #include <QTimer>
 #include "sessionapplication.h"
@@ -131,6 +134,7 @@ void sigsegvHandler(int) {
   signal(SIGSEGV, 0);
   std::cerr << "\n\n*************************************************************\n";
   std::cerr << "Catching SIGSEGV, please report a bug at http://bug.qbittorrent.org\nand provide the following backtrace:\n";
+  std::cerr << "qBittorrent version: " << VERSION << std::endl;
   print_stacktrace();
   raise(SIGSEGV);
 }
@@ -139,6 +143,7 @@ void sigabrtHandler(int) {
   signal(SIGSEGV, 0);
   std::cerr << "\n\n*************************************************************\n";
   std::cerr << "Catching SIGABRT, please report a bug at http://bug.qbittorrent.org\nand provide the following backtrace:\n";
+  std::cerr << "qBittorrent version: " << VERSION << std::endl;
   print_stacktrace();
   raise(SIGABRT);
 }
@@ -251,7 +256,13 @@ int main(int argc, char *argv[]){
   }
   QSplashScreen *splash = 0;
   if(!no_splash) {
-    splash = new QSplashScreen(QPixmap(QString::fromUtf8(":/Icons/skin/splash.png")), Qt::WindowStaysOnTopHint);
+    QPixmap splash_img(":/Icons/skin/splash.png");
+    QPainter painter(&splash_img);
+    QString version = VERSION;
+    painter.setPen(QPen(Qt::white));
+    painter.setFont(QFont("Arial", 22, QFont::Black));
+    painter.drawText(224 - painter.fontMetrics().width(version), 270, version);
+    splash = new QSplashScreen(splash_img, Qt::WindowStaysOnTopHint);
     splash->show();
     app.processEvents();
     QTimer::singleShot(2000, splash, SLOT(deleteLater()));
