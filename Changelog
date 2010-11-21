@@ -1,3 +1,12 @@
+* Sun Nov 21 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.11
+    - BUGFIX: Do not report a progress of 100% in the Web UI unless the
+    torrent is really complete (closes #674349)
+    - BUGFIX: Fix possible incorrect behavior with queueing
+    - BUGFIX: Fix RSS refresh interval saving
+    - BUGFIX: Fix possible crash when setting RSS proxy (closes #676288)
+    - BUGFIX: Fix HTTP redirect issue that would cause the torrent addition to
+    show up for automated RSS downloads (Closes #677565)
+
 * Wed Nov 10 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.10
     - BUGFIX: Fix possible crash when selecting a RSS item (really closes #575624)
     - BUGFIX: Improved IPv6 support (IP filter and Peer list)
