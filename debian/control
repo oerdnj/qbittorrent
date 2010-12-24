@@ -3,7 +3,7 @@ Section: net
 Priority: optional
 Maintainer: Cristian Greco <cristian@regolo.cc>
 Build-Depends: debhelper (>= 7.4.12),
-               libtorrent-rasterbar-dev (>= 0.14.9),
+               libtorrent-rasterbar-dev (>= 0.15.4),
                libboost-dev,
                libboost-system-dev,
                libboost-filesystem-dev,
