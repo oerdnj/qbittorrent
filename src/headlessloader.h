@@ -34,34 +34,34 @@
 #include <QObject>
 #include <QCoreApplication>
 #include "preferences.h"
-#include "bittorrent.h"
+#include "qbtsession.h"
 
 class HeadlessLoader: public QObject {
   Q_OBJECT
 
 public:
-  HeadlessLoader(QStringList torrentCmdLine) {
+  HeadlessLoader(const QStringList &torrentCmdLine) {
+    Preferences pref;
     // Enable Web UI
-    Preferences::setWebUiEnabled(true);
+    pref.setWebUiEnabled(true);
     // Instanciate Bittorrent Object
-    BTSession = new Bittorrent();
-    connect(BTSession, SIGNAL(newConsoleMessage(QString)), this, SLOT(displayConsoleMessage(QString)));
+    connect(QBtSession::instance(), SIGNAL(newConsoleMessage(QString)), this, SLOT(displayConsoleMessage(QString)));
     // Resume unfinished torrents
-    BTSession->startUpTorrents();
+    QBtSession::instance()->startUpTorrents();
     // Process command line parameters
     processParams(torrentCmdLine);
     // Display some information to the user
     std::cout << std::endl << "******** " << qPrintable(tr("Information")) << " ********" << std::endl;
-    std::cout << qPrintable(tr("To control qBittorrent, access the Web UI at http://localhost:%1").arg(QString::number(Preferences::getWebUiPort()))) << std::endl;
-    std::cout << qPrintable(tr("The Web UI administrator user name is: %1").arg(Preferences::getWebUiUsername())) << std::endl;
-    if(Preferences::getWebUiPassword() == "f6fdffe48c908deb0f4c3bd36c032e72") {
+    std::cout << qPrintable(tr("To control qBittorrent, access the Web UI at http://localhost:%1").arg(QString::number(pref.getWebUiPort()))) << std::endl;
+    std::cout << qPrintable(tr("The Web UI administrator user name is: %1").arg(pref.getWebUiUsername())) << std::endl;
+    if(pref.getWebUiPassword() == "f6fdffe48c908deb0f4c3bd36c032e72") {
       std::cout << qPrintable(tr("The Web UI administrator password is still the default one: %1").arg("adminadmin")) << std::endl;
       std::cout << qPrintable(tr("This is a security risk, please consider changing your password from program preferences.")) << std::endl;
     }
   }
 
   ~HeadlessLoader() {
-    delete BTSession;
+    QBtSession::drop();
   }
 
 public slots:
@@ -71,7 +71,7 @@ public slots:
     qApp->quit();
   }
 
-  void displayConsoleMessage(QString msg) {
+  void displayConsoleMessage(const QString &msg) {
     std::cout << qPrintable(msg) << std::endl;
   }
 
@@ -87,23 +87,20 @@ public slots:
     foreach(QString param, params) {
       param = param.trimmed();
       if(param.startsWith(QString::fromUtf8("http://"), Qt::CaseInsensitive) || param.startsWith(QString::fromUtf8("ftp://"), Qt::CaseInsensitive) || param.startsWith(QString::fromUtf8("https://"), Qt::CaseInsensitive)) {
-        BTSession->downloadFromUrl(param);
+        QBtSession::instance()->downloadFromUrl(param);
       }else{
         if(param.startsWith("bc://bt/", Qt::CaseInsensitive)) {
           qDebug("Converting bc link to magnet link");
           param = misc::bcLinkToMagnet(param);
         }
         if(param.startsWith("magnet:", Qt::CaseInsensitive)) {
-          BTSession->addMagnetUri(param);
+          QBtSession::instance()->addMagnetUri(param);
         } else {
-          BTSession->addTorrent(param);
+          QBtSession::instance()->addTorrent(param);
         }
       }
     }
   }
-
-private:
-  Bittorrent *BTSession;
 
 };
 

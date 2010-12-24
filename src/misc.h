@@ -47,33 +47,38 @@
 
 const qlonglong MAX_ETA = 8640000;
 
-using namespace libtorrent;
-
 /*  Miscellaneaous functions that can be useful */
 class misc : public QObject{
   Q_OBJECT
 
+private:
+  misc(); // Forbidden
+
 public:
-  static inline QString toQString(std::string str) {
+  static inline QString toQString(const std::string &str) {
     return QString::fromLocal8Bit(str.c_str());
   }
 
-  static inline QString toQString(char* str) {
+  static inline QString toQString(const char* str) {
     return QString::fromLocal8Bit(str);
   }
 
-  static inline QString toQStringU(std::string str) {
+  static inline QString toQStringU(const std::string &str) {
     return QString::fromUtf8(str.c_str());
   }
 
-  static inline QString toQStringU(char* str) {
+  static inline QString toQStringU(const char* str) {
     return QString::fromUtf8(str);
   }
 
-  static inline QString toQString(sha1_hash hash) {
+  static inline QString toQString(const libtorrent::sha1_hash &hash) {
     std::ostringstream o;
     o << hash;
     return QString(o.str().c_str());
+  }
+
+  static inline libtorrent::sha1_hash toSha1Hash(const QString &hash) {
+    return libtorrent::sha1_hash(qPrintable(hash));
   }
 
   static void chmod644(const QDir& folder);
@@ -86,12 +91,20 @@ public:
     return tmp.join("/");
   }
 
-  static inline sha1_hash QStringToSha1(const QString& s) {
+  static inline libtorrent::sha1_hash QStringToSha1(const QString& s) {
     std::string str(s.toLocal8Bit().data());
     std::istringstream i(str);
-    sha1_hash x;
+    libtorrent::sha1_hash x;
     i>>x;
     return x;
+  }
+
+  static inline QString file_extension(const QString &filename) {
+    QString extension;
+    if(filename.contains(".")) {
+      extension = filename.mid(filename.lastIndexOf(".")+1);
+    }
+    return extension;
   }
 
   static void shutdownComputer();
@@ -105,16 +118,15 @@ public:
     return MyFile.remove();
   }
 
-  static QString truncateRootFolder(boost::intrusive_ptr<torrent_info> t);
-  static QString truncateRootFolder(torrent_handle h);
+  static quint64 computePathSize(QString path);
 
-  static QString updateLabelInSavePath(const QString& defaultSavePath, QString save_path, const QString old_label, const QString new_label);
+  static QString truncateRootFolder(boost::intrusive_ptr<libtorrent::torrent_info> t);
+  static QString truncateRootFolder(libtorrent::torrent_handle h);
 
-  static bool sameFiles(QString path1, QString path2);
+  static QString updateLabelInSavePath(const QString& defaultSavePath, const QString &save_path, const QString &old_label, const QString &new_label);
+
+  static bool sameFiles(const QString &path1, const QString &path2);
   static void copyDir(QString src_path, QString dst_path);
-  // Introduced in v2.1.0 for backward compatibility
-  // Remove after some releases
-  static void moveToXDGFolders();
   static QString toValidFileSystemName(QString filename);
   static bool isValidFileSystemName(QString filename);
 
@@ -141,7 +153,8 @@ public:
   static QString magnetUriToName(QString magnet_uri);
   static QString magnetUriToHash(QString magnet_uri);
   static QString bcLinkToMagnet(QString bc_link);
-  static QString boostTimeToQString(const boost::optional<boost::posix_time::ptime> boostDate);
+  static QString boostTimeToQString(const boost::optional<boost::posix_time::ptime> &boostDate);
+  static QString time_tToQString(const boost::optional<time_t> &t);
   // Replace ~ in path
   static QString expandPath(QString path);
   // Take a number of seconds and return an user-friendly
@@ -155,6 +168,9 @@ public:
   static QList<bool> boolListfromStringList(const QStringList &l);
 
   static bool isValidTorrentFile(const QString &path);
+
+private:
+  static const QString units[5];
 };
 
 //  Trick to get a portable sleep() function

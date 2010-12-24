@@ -1,99 +1,46 @@
-* Sun Nov 21 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.11
-    - BUGFIX: Do not report a progress of 100% in the Web UI unless the
-    torrent is really complete (closes #674349)
-    - BUGFIX: Fix possible incorrect behavior with queueing
-    - BUGFIX: Fix RSS refresh interval saving
-    - BUGFIX: Fix possible crash when setting RSS proxy (closes #676288)
-    - BUGFIX: Fix HTTP redirect issue that would cause the torrent addition to
-    show up for automated RSS downloads (Closes #677565)
+* Sun Dec 19 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.5.2
+    - BUGFIX: Fix alternative speed icon staying pressed when disabled
+    - BUGFIX: Fix slot warning on startup
+    - BUGFIX: Fix alignment issues in program preferences
+    - BUGFIX: Make sure we don't move completed torrent to the temp directory
+    for checking (closes #602938)
+    - BUGFIX: Fix some 'File Not found' warning in the Web UI
+    - BUGFIX: Fix dangerous usage of vector iterator
+    - BUGFIX: No longer expand the first folder in the torrent content list
+    - BUGFIX: Fixes possible crash in the RSS Downloader dialog (closes #691426)
 
-* Wed Nov 10 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.10
-    - BUGFIX: Fix possible crash when selecting a RSS item (really closes #575624)
-    - BUGFIX: Improved IPv6 support (IP filter and Peer list)
-    - BUGFIX: Make IP filter more tolerant towards strangely formatted IPs
-    - BUGFIX: More reliable folder scanning
-    - BUGFIX: Do not create the torrent root folder at final destination if
-    torrent is in the temp dir (closes #673271)
-    - BUGFIX: Fix compilation with libnotify v0.7.0 (closes #671769)
-    - BUGFIX: Use a pointing cursor over status bar buttons
+* Sun Dec 5 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.5.1
+    - BUGFIX: Fix possible crash when right-clicking on a torrent
 
-* Sun Oct 31 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.9
-    - BUGFIX: Fix crash when pressing enter in save path field in torrent addition dialog
-    - BUGFIX: Fix crash when deleting a torrent with no metadata (closes #667528)
-    - BUGFIX: Fix possible crash on clicking a RSS article (closes #575624)
-    - BUGFIX: Correctly update total number of torrents when a torrent is automatically removed (closes #668726)
-    - BUGFIX: Correctly display the hash of torrents with no metadata
-    - BUGFIX: Elide status bar text if it is too wide
-    - BUGFIX: Make sure the splash screen is displayed for 2 seconds
-    - BUGFIX: Make listening on a particular interface more reliable
-    - BUGFIX: Fix torrent size update in torrent addition dialog
-    - BUGFIX: Fix possible crash on qBittorrent shutdown
-    - BUGFIX: Fix and improve file priorities editing (closes #669084)
-    - I18N: Updated Arabic, Italian and Croatian translations
-
-* Sun Oct 24 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.8
-    - BUGFIX: Fix possible crash on manual peer ban
-    - BUGFIX: Improved hostname resolution code
-    - BUGFIX: Several search plugins fixed
-    - BUGFIX: Auto-disable the shutdown feature
-    - BUGFIX: Remember the current property tab on startup
-    - BUGFIX: Fix status list widget height issue on style change
-    - BUGFIX: Fix rounding issue in torrent progress display
-    - BUGFIX: Fix issue when altering files priorities of a seeding torrent
-    - BUGFIX: Better fix for save path editing issues in torrent addition dialog
-    - BUGFIX: Peers can now be sorted by country
-
-* Tue Oct 19 2010  - Christophe Dumez <chris@qbittorrent.org> - v2.4.7
-    - BUGFIX: Display the priority column when the queueing system gets enabled
-    - BUGFIX: Fix encoding problem in file renaming
-    - BUGFIX: Delete uneeded files on torrent "soft" deletion
-    - BUGFIX: Fix issues when marking a file as 'not downloaded' causes the torrent to complete
-    - BUGFIX: Improved "Set Location" and "Change save path" dialogs
-    - BUGFIX: Fix display of queued seeding torrents
-
-* Sun Oct 17 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.6
-    - BUGFIX: Fix "torrent seeding after creation" feature
-    - BUGFIX: The properties panel data would sometimes not match the selected torrent
-    - BUGFIX: Fix detection of files at final destination when temp dir is used
-    - BUGFIX: Fix moving of a torrent to an unexisting directory
-
-* Tue Oct 12 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.5
-    - BUGFIX: Remember torrent completion date correctly
-    - BUGFIX: Fix feature to keep incomplete torrents in a separate folder
-    - BUGFIX: Fix display of URL seeds in the UI
-    - BUGFIX: Improved peer hostname resolution with caching
-    - BUGFIX: Piece availability/downloaded widgets performance improvement
-
-* Fri Oct 1 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.4
-    - BUGFIX: Clean program exit on system shutdown/logout
-    - BUGFIX: Fix possible search engine plugin update
-
-* Tue Sep 28 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.3
-    - BUGFIX: Fix encoding issue in command line parameters processing
-    - BUGFIX: Fix possible crash when changing the save path in addition dialog
-    - BUGFIX: Fix wrong mapping to source model
-
-* Sun Sep 26 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.2
-    - BUGFIX: Fix display of torrent content in addition dialog
-    - BUGFIX: Really fix manual editing of save path in torrent addition dialog
-
-* Sun Sep 26 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.1
-    - I18N: Updated Arabic translation
-    - I18N: Fixes to German translation
-    - BUGFIX: Save path can now be edited in torrent addition dialog
-    - BUGFIX: Fix save path encoding on non-utf8 systems
-    - BUGFIX: Fix saving to drive root on Windows
-    - BUGFIX: OGV can now be previewed
-    - BUGFIX: Maximum download limit is now 10MB/s
-    - BUGFIX: Fix 'download in scan dir' persistence
-    - BUGFIX: Add .torrent extension only when missing (torrent creator)
-    - BUGFIX: Fix possible issue with temporary download path persistence
-    - BUGFIX: Added support for | (OR) operator in RSS feed downloader
-    - BUGFIX: Fix Web UI for spanish users
-    - BUGFIX: Fix locale switching from Web UI
-    - BUGFIX: Use AND operator for torrentdownloads.net searches
-    - BUGFIX: Limit torrent addition dialog width to fit the screen
-    - COSMETIC: Fix progress bars style on Windows
+* Sun Dec 5 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.5.0
+    - FEATURE: qBittorrent can now act as a tracker
+    - FEATURE: New and improved RSS feed automated downloader
+    - FEATURE: Added feature to shutdown qbittorrent on torrents completion
+    - FEATURE: Added a torrent import assistant to seed or keep downloading outside torrents
+    - FEATURE: qBittorrent can update itself from Sourceforge (Windows/Mac OS X only)
+    - FEATURE: Added a transfer list column to display the current tracker
+    - FEATURE: Remember the last trackers used in the torrent creation tool
+    - FEATURE: The optimal piece size is now automatically computed in the torrent creation tool
+    - FEATURE: Bring up the connection settings when clicking on the connection status icon
+    - FEATURE: Major code refactoring and optimization
+    - FEATURE: Added "Amount downloaded/left" columns to transfer list
+    - FEATURE: Simplified proxy settings
+    - FEATURE: Optimized and improved the peer country resolution code
+    - FEATURE: Download first/last pieces first when sequential download is
+    enabled (Thanks Ahmad)
+    - FEATURE: Download first/last pieces first now applies to all media files
+    in the torrent (Thanks Ahmad)
+    - BUGFIX: Fix SOCKS5 proxy authentication in search engine(closes #680072)
+    - BUGFIX: Fix two advanced settings (ignore limits on LAN and protocol
+    overhead inclusion in rate limiter)
+    - BUGFIX: Fix strict super seeding (was not working)
+    - BUGFIX: Improve magnet save path handling (closes #683395)
+    - BUGFIX: Disable overwrite confirmation in torrent addition dialog (closes # 685269)
+    - COSMETIC: Replaced message box by on-screen notification for download errors
+    - COSMETIC: Improved the torrent creation tool appearance
+    - COSMETIC: Use country flags by Mark James (Thanks to Dmytro Pukha)
+    - COSMETIC: Use bigger alternative speed icon
+    - OTHERS: Dropped support for Qt <= 4.4
 
 * Tue Aug 24 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.4.0
     - FEATURE: Added actions to "Move to top/bottom" of priority queue
