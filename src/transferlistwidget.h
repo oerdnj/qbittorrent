@@ -37,10 +37,10 @@
 
 class QStandardItemModel;
 class QSortFilterProxyModel;
-class Bittorrent;
-class QTimer;
+class QBtSession;
 class TransferListDelegate;
-class GUI;
+class MainWindow;
+class TorrentModel;
 
 enum TorrentFilter {FILTER_ALL, FILTER_DOWNLOADING, FILTER_COMPLETED, FILTER_PAUSED, FILTER_ACTIVE, FILTER_INACTIVE};
 
@@ -48,24 +48,17 @@ class TransferListWidget: public QTreeView {
   Q_OBJECT
 
 public:
-  TransferListWidget(QWidget *parent, GUI *main_window, Bittorrent* BTSession);
+  TransferListWidget(QWidget *parent, MainWindow *main_window, QBtSession* BTSession);
   ~TransferListWidget();
-  int getNbTorrents() const;
-  QStandardItemModel* getSourceModel() const;
+  TorrentModel* getSourceModel() const;
 
 public slots:
-  void refreshList(bool force=false);
-  void addTorrent(QTorrentHandle& h);
-  void pauseTorrent(QTorrentHandle &h);
-  void setFinished(QTorrentHandle &h);
   void setSelectionLabel(QString label);
   void setRefreshInterval(int t);
   void setSelectedTorrentsLocation();
   void startSelectedTorrents();
-  void startAllTorrents();
   void startVisibleTorrents();
   void pauseSelectedTorrents();
-  void pauseAllTorrents();
   void pauseVisibleTorrents();
   void deleteSelectedTorrents();
   void deleteVisibleTorrents();
@@ -73,7 +66,6 @@ public slots:
   void decreasePrioSelectedTorrents();
   void topPrioSelectedTorrents();
   void bottomPrioSelectedTorrents();
-  void buySelectedTorrents() const;
   void copySelectedMagnetURIs() const;
   void openSelectedTorrentsFolder() const;
   void recheckSelectedTorrents();
@@ -95,49 +87,32 @@ protected:
   QModelIndex mapToSource(const QModelIndex &index) const;
   QModelIndex mapFromSource(const QModelIndex &index) const;
   QStringList getCustomLabels() const;
-  void saveColWidthList();
-  bool loadColWidthList();
-  void saveLastSortedColumn();
-  void loadLastSortedColumn();
+  void saveSettings();
+  void loadSettings();
   QStringList getSelectedTorrentsHashes() const;
 
 protected slots:
-  int updateTorrent(int row);
-  void deleteTorrent(QString hash);
-  void deleteTorrent(int row, bool refresh_list=true);
-  void pauseTorrent(int row, bool refresh_list=true);
-  void resumeTorrent(int row, bool refresh_list=true);
   void torrentDoubleClicked(const QModelIndex& index);
-  bool loadHiddenColumns();
-  void saveHiddenColumns() const;
   void displayListMenu(const QPoint&);
-  void updateMetadata(QTorrentHandle &h);
   void currentChanged(const QModelIndex& current, const QModelIndex&);
-  void resumeTorrent(QTorrentHandle &h);
 #if LIBTORRENT_VERSION_MINOR > 14
   void toggleSelectedTorrentsSuperSeeding() const;
 #endif
   void toggleSelectedTorrentsSequentialDownload() const;
   void toggleSelectedFirstLastPiecePrio() const;
   void askNewLabelForSelection();
-  void setRowColor(int row, QColor color);
 
 signals:
-  void currentTorrentChanged(QTorrentHandle &h);
-  void torrentStatusUpdate(uint nb_downloading, uint nb_seeding, uint nb_active, uint nb_inactive, uint nb_paused);
-  void torrentAdded(QModelIndex index);
-  void torrentAboutToBeRemoved(QModelIndex index);
-  void torrentChangedLabel(QString old_label, QString new_label);
+  void currentTorrentChanged(const QTorrentHandle &h);
 
 private:
   TransferListDelegate *listDelegate;
-  QStandardItemModel *listModel;
+  TorrentModel *listModel;
   QSortFilterProxyModel *nameFilterModel;
   QSortFilterProxyModel *statusFilterModel;
   QSortFilterProxyModel *labelFilterModel;
-  Bittorrent* BTSession;
-  QTimer *refreshTimer;
-  GUI *main_window;
+  QBtSession* BTSession;
+  MainWindow *main_window;
 };
 
 #endif // TRANSFERLISTWIDGET_H

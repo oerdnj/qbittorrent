@@ -47,8 +47,6 @@
 #define SIZE 1
 #define PROGRESS 2
 
-using namespace libtorrent;
-
 class previewSelect: public QDialog, private Ui::preview {
   Q_OBJECT
 
@@ -105,11 +103,11 @@ public:
     previewList->setItemDelegate(listDelegate);
     previewList->header()->resizeSection(0, 200);
     // Fill list in
-    std::vector<size_type> fp;
+    std::vector<libtorrent::size_type> fp;
     h.file_progress(fp);
     unsigned int nbFiles = h.num_files();
     for(unsigned int i=0; i<nbFiles; ++i){
-      QString fileName = h.file_at(i);
+      QString fileName = h.filename_at(i);
       QString extension = fileName.split(QString::fromUtf8(".")).last().toUpper();
       if(misc::isPreviewable(extension)) {
         int row = previewListModel->rowCount();

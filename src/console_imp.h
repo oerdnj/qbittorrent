@@ -31,25 +31,19 @@
 #ifndef CONSOLE_H
 #define CONSOLE_H
 
-#include "bittorrent.h"
+#include "qbtsession.h"
 #include "ui_console.h"
-
-using namespace libtorrent;
 
 class consoleDlg : public QDialog, private Ui_ConsoleDlg{
   Q_OBJECT
   
-  private:
-    Bittorrent *BTSession;
-  
   public:
-    consoleDlg(QWidget *parent, Bittorrent* _BTSession) : QDialog(parent) {
+    consoleDlg(QWidget *parent) : QDialog(parent) {
       setupUi(this);
       setAttribute(Qt::WA_DeleteOnClose);
       setModal(true);
-      BTSession = _BTSession;
-      textConsole->setHtml(BTSession->getConsoleMessages().join("<br>"));
-      textBannedPeers->setHtml(BTSession->getPeerBanMessages().join("<br>"));
+      textConsole->setHtml(QBtSession::instance()->getConsoleMessages().join("<br>"));
+      textBannedPeers->setHtml(QBtSession::instance()->getPeerBanMessages().join("<br>"));
       show();
     }
     

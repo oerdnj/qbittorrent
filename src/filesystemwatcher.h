@@ -3,9 +3,9 @@
 
 #include <QFileSystemWatcher>
 #include <QDir>
+#include <QTimer>
 #include <QPointer>
 #include <QStringList>
-#include <QTimer>
 #include <QHash>
 
 #ifndef Q_WS_WIN

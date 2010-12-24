@@ -73,6 +73,10 @@ const int UNLEN = 256;
 #include <QDBusMessage>
 #endif
 
+using namespace libtorrent;
+
+const QString misc::units[5] = {tr("B", "bytes"), tr("KiB", "kibibytes (1024 bytes)"), tr("MiB", "mebibytes (1024 kibibytes)"), tr("GiB", "gibibytes (1024 mibibytes)"), tr("TiB", "tebibytes (1024 gibibytes)")};
+
 QString misc::QDesktopServicesDataLocation() {
 #ifdef Q_WS_WIN
   LPWSTR path=new WCHAR[256];
@@ -80,9 +84,9 @@ QString misc::QDesktopServicesDataLocation() {
 #if defined Q_WS_WINCE
   if (SHGetSpecialFolderPath(0, path, CSIDL_APPDATA, FALSE))
 #else
-    if (SHGetSpecialFolderPath(0, path, CSIDL_LOCAL_APPDATA, FALSE))
+  if (SHGetSpecialFolderPath(0, path, CSIDL_LOCAL_APPDATA, FALSE))
 #endif
-      result = QString::fromWCharArray(path);
+    result = QString::fromWCharArray(path);
   if (!QCoreApplication::applicationName().isEmpty())
     result = result + QLatin1String("\\") + qApp->applicationName();
   if(!result.endsWith("\\"))
@@ -106,7 +110,7 @@ QString misc::QDesktopServicesDataLocation() {
   if (xdgDataHome.isEmpty())
     xdgDataHome = QDir::homePath() + QLatin1String("/.local/share");
   xdgDataHome += QLatin1String("/data/")
-                 + qApp->applicationName();
+      + qApp->applicationName();
   return xdgDataHome;
 #endif
 #endif
@@ -158,7 +162,7 @@ long long misc::freeDiskSpaceOnPath(QString path) {
   const int ret = statfs (qPrintable(statfs_path), &stats) ;
   if(ret == 0) {
     available = ((unsigned long long)stats.f_bavail) *
-                ((unsigned long long)stats.f_bsize) ;
+        ((unsigned long long)stats.f_bsize) ;
     return available;
   } else {
     return -1;
@@ -170,10 +174,10 @@ long long misc::freeDiskSpaceOnPath(QString path) {
                                               PULARGE_INTEGER);
   GetDiskFreeSpaceEx_t
       pGetDiskFreeSpaceEx = (GetDiskFreeSpaceEx_t)::GetProcAddress
-                            (
-                                ::GetModuleHandle(TEXT("kernel32.dll")),
-                                "GetDiskFreeSpaceExW"
-                                );
+      (
+        ::GetModuleHandle(TEXT("kernel32.dll")),
+        "GetDiskFreeSpaceExW"
+        );
   if ( pGetDiskFreeSpaceEx )
   {
     ULARGE_INTEGER bytesFree, bytesTotal;
@@ -220,7 +224,7 @@ void misc::shutdownComputer() {
   AEDisposeDesc(&targetDesc);
   if (error != noErr)
   {
-      return;
+    return;
   }
 
   error = AESend(&appleEventToSend, &eventReply, kAENoReply,
@@ -266,10 +270,17 @@ void misc::shutdownComputer() {
 }
 
 QString misc::truncateRootFolder(boost::intrusive_ptr<torrent_info> t) {
+#if LIBTORRENT_VERSION_MINOR >= 16
+  file_storage fs = t->files();
+#endif
   if(t->num_files() == 1) {
     // Single file torrent
     // Remove possible subfolders
+#if LIBTORRENT_VERSION_MINOR >= 16
+    QString path = toQStringU(fs.file_path(t->file_at(0)));
+#else
     QString path = QString::fromUtf8(t->file_at(0).path.string().c_str());
+#endif
     QStringList path_parts = path.split("/", QString::SkipEmptyParts);
     t->rename_file(0, path_parts.last().toUtf8().data());
     return QString::null;
@@ -277,7 +288,11 @@ QString misc::truncateRootFolder(boost::intrusive_ptr<torrent_info> t) {
   QString root_folder;
   int i = 0;
   for(torrent_info::file_iterator it = t->begin_files(); it < t->end_files(); it++) {
+#if LIBTORRENT_VERSION_MINOR >= 16
+    QString path = toQStringU(fs.file_path(*it));
+#else
     QString path = QString::fromUtf8(it->path.string().c_str());
+#endif
     QStringList path_parts = path.split("/", QString::SkipEmptyParts);
     if(path_parts.size() > 1) {
       root_folder = path_parts.takeFirst();
@@ -290,10 +305,17 @@ QString misc::truncateRootFolder(boost::intrusive_ptr<torrent_info> t) {
 
 QString misc::truncateRootFolder(libtorrent::torrent_handle h) {
   torrent_info t = h.get_torrent_info();
+#if LIBTORRENT_VERSION_MINOR >= 16
+  file_storage fs = t.files();
+#endif
   if(t.num_files() == 1) {
     // Single file torrent
     // Remove possible subfolders
+#if LIBTORRENT_VERSION_MINOR >= 16
+    QString path = misc::toQStringU(fs.file_path(t.file_at(0)));
+#else
     QString path = QString::fromUtf8(t.file_at(0).path.string().c_str());
+#endif
     QStringList path_parts = path.split("/", QString::SkipEmptyParts);
     t.rename_file(0, path_parts.last().toUtf8().data());
     return QString::null;
@@ -301,7 +323,11 @@ QString misc::truncateRootFolder(libtorrent::torrent_handle h) {
   QString root_folder;
   int i = 0;
   for(torrent_info::file_iterator it = t.begin_files(); it < t.end_files(); it++) {
+#if LIBTORRENT_VERSION_MINOR >= 16
+    QString path = toQStringU(fs.file_path(*it));
+#else
     QString path = QString::fromUtf8(it->path.string().c_str());
+#endif
     QStringList path_parts = path.split("/", QString::SkipEmptyParts);
     if(path_parts.size() > 1) {
       root_folder = path_parts.takeFirst();
@@ -312,25 +338,24 @@ QString misc::truncateRootFolder(libtorrent::torrent_handle h) {
   return root_folder;
 }
 
-bool misc::sameFiles(QString path1, QString path2) {
-  QFile f1(path1);
-  if(!f1.exists()) return false;
-  QFile f2(path2);
-  if(!f2.exists()) return false;
-  QByteArray content1, content2;
-  if(f1.open(QIODevice::ReadOnly)) {
-    content1 = f1.readAll();
+bool misc::sameFiles(const QString &path1, const QString &path2) {
+  QFile f1(path1), f2(path2);
+  if(!f1.exists() || !f2.exists()) return false;
+  if(f1.size() != f2.size()) return false;
+  if(!f1.open(QIODevice::ReadOnly)) return false;
+  if(!f2.open(QIODevice::ReadOnly)) {
     f1.close();
-  } else {
     return false;
   }
-  if(f2.open(QIODevice::ReadOnly)) {
-    content1 = f2.readAll();
-    f2.close();
-  } else {
-    return false;
+  bool same = true;
+  while(!f1.atEnd() && !f2.atEnd()) {
+    if(f1.read(5) != f2.read(5)) {
+      same = false;
+      break;
+    }
   }
-  return content1 == content2;
+  f1.close(); f2.close();
+  return same;
 }
 
 void misc::copyDir(QString src_path, QString dst_path) {
@@ -377,11 +402,12 @@ void misc::chmod644(const QDir& folder) {
   }
 }
 
-QString misc::updateLabelInSavePath(const QString& defaultSavePath, QString save_path, const QString old_label, const QString new_label) {
+QString misc::updateLabelInSavePath(const QString& defaultSavePath, const QString &save_path, const QString &old_label, const QString &new_label) {
   if(old_label == new_label) return save_path;
   qDebug("UpdateLabelInSavePath(%s, %s, %s)", qPrintable(save_path), qPrintable(old_label), qPrintable(new_label));
   if(!save_path.startsWith(defaultSavePath)) return save_path;
-  QString new_save_path = save_path.replace(defaultSavePath, "");
+  QString new_save_path = save_path;
+  new_save_path.replace(defaultSavePath, "");
   QStringList path_parts = new_save_path.split(QDir::separator(), QString::SkipEmptyParts);
   if(path_parts.empty()) {
     if(!new_label.isEmpty())
@@ -404,33 +430,6 @@ QString misc::updateLabelInSavePath(const QString& defaultSavePath, QString save
   new_save_path += path_parts.join(QDir::separator());
   qDebug("New save path is %s", qPrintable(new_save_path));
   return new_save_path;
-}
-
-void misc::moveToXDGFolders() {
-  QDir old_qBtPath(QDir::homePath().replace("\\","/")+"/"+".qbittorrent");
-  if(old_qBtPath.exists()) {
-    // Copy BT_backup folder
-    const QString old_BTBackupPath = old_qBtPath.absoluteFilePath("BT_backup");
-    if(QDir(old_BTBackupPath).exists()) {
-      copyDir(old_BTBackupPath, BTBackupLocation());
-    }
-    // Copy search engine folder
-    const QString old_searchPath = old_qBtPath.absoluteFilePath("search_engine");
-    if(QDir(old_searchPath).exists()) {
-      copyDir(old_searchPath, searchEngineLocation());
-    }
-    // Copy *_state files
-    if(QFile::exists(old_qBtPath.absoluteFilePath("dht_state"))) {
-      QFile::copy(old_qBtPath.absoluteFilePath("dht_state"), QDir(cacheLocation()).absoluteFilePath("dht_state"));
-      safeRemove(old_qBtPath.absoluteFilePath("dht_state"));
-    }
-    if(QFile::exists(old_qBtPath.absoluteFilePath("ses_state"))) {
-      QFile::copy(old_qBtPath.absoluteFilePath("ses_state"), QDir(cacheLocation()).absoluteFilePath("ses_state"));
-      safeRemove(old_qBtPath.absoluteFilePath("ses_state"));
-    }
-    // Remove .qbittorrent folder if empty
-    QDir::home().rmdir(".qbittorrent");
-  }
 }
 
 QString misc::toValidFileSystemName(QString filename) {
@@ -471,7 +470,7 @@ QPoint misc::screenCenter(QWidget *win) {
 
 QString misc::searchEngineLocation() {
   const QString location = QDir::cleanPath(QDesktopServicesDataLocation()
-                                           + QDir::separator() + "search_engine");
+                                           + QDir::separator() + "nova");
   QDir locationDir(location);
   if(!locationDir.exists())
     locationDir.mkpath(locationDir.absolutePath());
@@ -502,16 +501,16 @@ QString misc::cacheLocation() {
 QString misc::friendlyUnit(double val) {
   if(val < 0)
     return tr("Unknown", "Unknown (size)");
-  const QString units[5] = {tr("B", "bytes"), tr("KiB", "kibibytes (1024 bytes)"), tr("MiB", "mebibytes (1024 kibibytes)"), tr("GiB", "gibibytes (1024 mibibytes)"), tr("TiB", "tebibytes (1024 gibibytes)")};
-  char i = 0;
+  int i = 0;
   while(val >= 1024. && i++<6)
     val /= 1024.;
   if(i == 0)
     return QString::number((long)val) + " " + units[0];
-  return QString::number(val, 'f', 1) + " " + units[(int)i];
+  return QString::number(val, 'f', 1) + " " + units[i];
 }
 
 bool misc::isPreviewable(QString extension){
+  if(extension.isEmpty()) return false;
   extension = extension.toUpper();
   if(extension == "AVI") return true;
   if(extension == "MP3") return true;
@@ -624,7 +623,7 @@ QString misc::magnetUriToHash(QString magnet_uri) {
   return hash;
 }
 
-QString misc::boostTimeToQString(const boost::optional<boost::posix_time::ptime> boostDate) {
+QString misc::boostTimeToQString(const boost::optional<boost::posix_time::ptime> &boostDate) {
   if(!boostDate || !boostDate.is_initialized() || boostDate->is_not_a_date_time()) return tr("Unknown");
   struct std::tm tm;
   try {
@@ -632,10 +631,18 @@ QString misc::boostTimeToQString(const boost::optional<boost::posix_time::ptime>
   } catch(std::exception e) {
     return tr("Unknown");
   }
-  time_t t = mktime(&tm);
+  const time_t t = mktime(&tm);
   if(t < 0)
     return tr("Unknown");
-  QDateTime dt = QDateTime::fromTime_t(t);
+  const QDateTime dt = QDateTime::fromTime_t(t);
+  if(dt.isNull() || !dt.isValid())
+    return tr("Unknown");
+  return dt.toString(Qt::DefaultLocaleLongDate);
+}
+
+QString misc::time_tToQString(const boost::optional<time_t> &t) {
+  if(!t.is_initialized() || *t < 0) return tr("Unknown");
+  QDateTime dt = QDateTime::fromTime_t(*t);
   if(dt.isNull() || !dt.isValid())
     return tr("Unknown");
   return dt.toString(Qt::DefaultLocaleLongDate);
@@ -703,10 +710,7 @@ QString misc::getUserIDString() {
 QStringList misc::toStringList(const QList<bool> &l) {
   QStringList ret;
   foreach(const bool &b, l) {
-    if(b)
-      ret << "1";
-    else
-      ret << "0";
+    ret << (b ? "1" : "0");
   }
   return ret;
 }
@@ -722,12 +726,27 @@ QList<int> misc::intListfromStringList(const QStringList &l) {
 QList<bool> misc::boolListfromStringList(const QStringList &l) {
   QList<bool> ret;
   foreach(const QString &s, l) {
-    if(s == "1")
-      ret << true;
-    else
-      ret << false;
+    ret << (s=="1");
   }
   return ret;
+}
+
+quint64 misc::computePathSize(QString path)
+{
+  // Check if it is a file
+  QFileInfo fi(path);
+  if(!fi.exists()) return 0;
+  if(fi.isFile()) return fi.size();
+  // Compute folder size
+  quint64 size = 0;
+  foreach(const QFileInfo &subfi, QDir(path).entryInfoList(QDir::Dirs|QDir::Files)) {
+    if(subfi.fileName().startsWith(".")) continue;
+    if(subfi.isDir())
+      size += misc::computePathSize(subfi.absoluteFilePath());
+    else
+      size += subfi.size();
+  }
+  return size;
 }
 
 bool misc::isValidTorrentFile(const QString &torrent_path) {

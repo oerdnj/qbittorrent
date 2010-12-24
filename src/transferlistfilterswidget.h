@@ -45,7 +45,9 @@
 
 #include "transferlistdelegate.h"
 #include "transferlistwidget.h"
+#include "preferences.h"
 #include "qinisettings.h"
+#include "torrentmodel.h"
 
 class LabelFiltersList: public QListWidget {
   Q_OBJECT
@@ -235,12 +237,12 @@ public:
 
     // SIGNAL/SLOT
     connect(statusFilters, SIGNAL(currentRowChanged(int)), transferList, SLOT(applyStatusFilter(int)));
-    connect(transferList, SIGNAL(torrentStatusUpdate(uint,uint,uint,uint,uint)), this, SLOT(updateTorrentNumbers(uint, uint, uint, uint, uint)));
+    connect(transferList->getSourceModel(), SIGNAL(dataChanged(QModelIndex,QModelIndex)), SLOT(updateTorrentNumbers()));
+    connect(transferList->getSourceModel(), SIGNAL(torrentAdded(TorrentModelItem*)), SLOT(handleNewTorrent(TorrentModelItem*)));
     connect(labelFilters, SIGNAL(currentRowChanged(int)), this, SLOT(applyLabelFilter(int)));
     connect(labelFilters, SIGNAL(torrentDropped(int)), this, SLOT(torrentDropped(int)));
-    connect(transferList, SIGNAL(torrentAdded(QModelIndex)), this, SLOT(torrentAdded(QModelIndex)));
-    connect(transferList, SIGNAL(torrentAboutToBeRemoved(QModelIndex)), this, SLOT(torrentAboutToBeDeleted(QModelIndex)));
-    connect(transferList, SIGNAL(torrentChangedLabel(QString,QString)), this, SLOT(torrentChangedLabel(QString, QString)));
+    connect(transferList->getSourceModel(), SIGNAL(torrentAboutToBeRemoved(TorrentModelItem*)), SLOT(torrentAboutToBeDeleted(TorrentModelItem*)));
+    connect(transferList->getSourceModel(), SIGNAL(torrentChangedLabel(TorrentModelItem*,QString,QString)), SLOT(torrentChangedLabel(TorrentModelItem*, QString, QString)));
 
     // Add Label filters
     QListWidgetItem *allLabels = new QListWidgetItem(labelFilters);
@@ -280,17 +282,10 @@ public:
     settings.setValue("customLabels", QVariant(customLabels.keys()));
   }
 
-  void saveCustomLabels() const {
-    QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
-    settings.beginGroup(QString::fromUtf8("TransferListFilters"));
-    settings.setValue("customLabels", QVariant(customLabels.keys()));
-  }
-
   void loadSettings() {
     QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
-    settings.beginGroup(QString::fromUtf8("TransferListFilters"));
-    statusFilters->setCurrentRow(settings.value("selectedFilterIndex", 0).toInt());
-    QStringList label_list = settings.value("customLabels", QStringList()).toStringList();
+    statusFilters->setCurrentRow(settings.value("TransferListFilters/selectedFilterIndex", 0).toInt());
+    const QStringList label_list = Preferences().getTorrentLabels();
     foreach(const QString &label, label_list) {
       customLabels.insert(label, 0);
       qDebug("Creating label QListWidgetItem: %s", qPrintable(label));
@@ -302,13 +297,14 @@ public:
   }
 
 protected slots:
-  void updateTorrentNumbers(uint nb_downloading, uint nb_seeding, uint nb_active, uint nb_inactive, uint nb_paused) {
-    statusFilters->item(FILTER_ALL)->setData(Qt::DisplayRole, QVariant(tr("All")+" ("+QString::number(nb_active+nb_inactive)+")"));
-    statusFilters->item(FILTER_DOWNLOADING)->setData(Qt::DisplayRole, QVariant(tr("Downloading")+" ("+QString::number(nb_downloading)+")"));
-    statusFilters->item(FILTER_COMPLETED)->setData(Qt::DisplayRole, QVariant(tr("Completed")+" ("+QString::number(nb_seeding)+")"));
-    statusFilters->item(FILTER_PAUSED)->setData(Qt::DisplayRole, QVariant(tr("Paused")+" ("+QString::number(nb_paused)+")"));
-    statusFilters->item(FILTER_ACTIVE)->setData(Qt::DisplayRole, QVariant(tr("Active")+" ("+QString::number(nb_active)+")"));
-    statusFilters->item(FILTER_INACTIVE)->setData(Qt::DisplayRole, QVariant(tr("Inactive")+" ("+QString::number(nb_inactive)+")"));
+  void updateTorrentNumbers() {
+    const TorrentStatusReport report = transferList->getSourceModel()->getTorrentStatusReport();
+    statusFilters->item(FILTER_ALL)->setData(Qt::DisplayRole, QVariant(tr("All")+" ("+QString::number(report.nb_active+report.nb_inactive)+")"));
+    statusFilters->item(FILTER_DOWNLOADING)->setData(Qt::DisplayRole, QVariant(tr("Downloading")+" ("+QString::number(report.nb_downloading)+")"));
+    statusFilters->item(FILTER_COMPLETED)->setData(Qt::DisplayRole, QVariant(tr("Completed")+" ("+QString::number(report.nb_seeding)+")"));
+    statusFilters->item(FILTER_PAUSED)->setData(Qt::DisplayRole, QVariant(tr("Paused")+" ("+QString::number(report.nb_paused)+")"));
+    statusFilters->item(FILTER_ACTIVE)->setData(Qt::DisplayRole, QVariant(tr("Active")+" ("+QString::number(report.nb_active)+")"));
+    statusFilters->item(FILTER_INACTIVE)->setData(Qt::DisplayRole, QVariant(tr("Inactive")+" ("+QString::number(report.nb_inactive)+")"));
   }
 
   void torrentDropped(int row) {
@@ -328,7 +324,7 @@ protected slots:
     newLabel->setData(Qt::DecorationRole, QIcon(":/Icons/oxygen/folder.png"));
     labelFilters->addItem(newLabel);
     customLabels.insert(label, 0);
-    saveCustomLabels();
+    Preferences().addTorrentLabel(label);
   }
 
   void showLabelMenu(QPoint) {
@@ -395,7 +391,7 @@ protected slots:
     // Un display filter
     delete labelFilters->takeItem(row);
     // Save custom labels to remember it was deleted
-    saveCustomLabels();
+    Preferences().removeTorrentLabel(label);
   }
 
   void applyLabelFilter(int row) {
@@ -411,7 +407,8 @@ protected slots:
     }
   }
 
-  void torrentChangedLabel(QString old_label, QString new_label) {
+  void torrentChangedLabel(TorrentModelItem *torrentItem, QString old_label, QString new_label) {
+    Q_UNUSED(torrentItem);
     qDebug("Torrent label changed from %s to %s", qPrintable(old_label), qPrintable(new_label));
     if(!old_label.isEmpty()) {
       if(customLabels.contains(old_label)) {
@@ -438,10 +435,8 @@ protected slots:
     updateStickyLabelCounters();
   }
 
-  void torrentAdded(QModelIndex index) {
-    Q_ASSERT(index.isValid());
-    if(!index.isValid()) return;
-    const QString &label = transferList->getSourceModel()->index(index.row(), TR_LABEL).data(Qt::DisplayRole).toString().trimmed();
+  void handleNewTorrent(TorrentModelItem* torrentItem) {
+    QString label = torrentItem->data(TorrentModelItem::TR_LABEL).toString();
     qDebug("New torrent was added with label: %s", qPrintable(label));
     if(!label.isEmpty()) {
       if(!customLabels.contains(label)) {
@@ -465,10 +460,9 @@ protected slots:
     updateStickyLabelCounters();
   }
 
-  void torrentAboutToBeDeleted(QModelIndex index) {
-    Q_ASSERT(index.isValid());
-    if(!index.isValid()) return;
-    QString label = transferList->getSourceModel()->index(index.row(), TR_LABEL).data(Qt::DisplayRole).toString().trimmed();
+  void torrentAboutToBeDeleted(TorrentModelItem* torrentItem) {
+    Q_ASSERT(torrentItem);
+    QString label = torrentItem->data(TorrentModelItem::TR_LABEL).toString();
     if(!label.isEmpty()) {
       // Update label counter
       const int new_count = customLabels.value(label, 0) - 1;

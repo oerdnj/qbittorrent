@@ -37,16 +37,17 @@
 
 #include "downloadthread.h"
 #include "preferences.h"
+#ifndef DISABLE_GUI
+  #include "rsssettings.h"
+#endif
 #include "qinisettings.h"
-
-enum ProxyType {HTTP=1, SOCKS5=2, HTTP_PW=3, SOCKS5_PW=4, SOCKS4=5};
 
 /** Download Thread **/
 
 downloadThread::downloadThread(QObject* parent) : QObject(parent) {
-  connect(&networkManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(processDlFinished(QNetworkReply*)));
+  connect(&m_networkManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(processDlFinished(QNetworkReply*)));
 #ifndef QT_NO_OPENSSL
-  connect(&networkManager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), this, SLOT(ignoreSslErrors(QNetworkReply*,QList<QSslError>)));
+  connect(&m_networkManager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), this, SLOT(ignoreSslErrors(QNetworkReply*,QList<QSslError>)));
 #endif
 }
 
@@ -62,13 +63,13 @@ void downloadThread::processDlFinished(QNetworkReply* reply) {
     if(redirection.isValid()) {
       // We should redirect
       qDebug("Redirecting from %s to %s", qPrintable(url), qPrintable(redirection.toUrl().toString()));
-      redirect_mapping.insert(redirection.toUrl().toString(), url);
+      m_redirectMapping.insert(redirection.toUrl().toString(), url);
       downloadUrl(redirection.toUrl().toString());
       return;
     }
     // Checking if it was redirecting, restoring initial URL
-    if(redirect_mapping.contains(url)) {
-      url = redirect_mapping.take(url);
+    if(m_redirectMapping.contains(url)) {
+      url = m_redirectMapping.take(url);
     }
     // Success
     QString filePath;
@@ -100,9 +101,10 @@ void downloadThread::processDlFinished(QNetworkReply* reply) {
   reply->deleteLater();
 }
 
+#ifndef DISABLE_GUI
 void downloadThread::loadCookies(const QString &host_name, QString url) {
-  const QList<QByteArray> raw_cookies = Preferences::getHostNameCookies(host_name);
-  QNetworkCookieJar *cookie_jar = networkManager.cookieJar();
+  const QList<QByteArray> raw_cookies = RssSettings().getHostNameCookies(host_name);
+  QNetworkCookieJar *cookie_jar = m_networkManager.cookieJar();
   QList<QNetworkCookie> cookies;
   qDebug("Loading cookies for host name: %s", qPrintable(host_name));
   foreach(const QByteArray& raw_cookie, raw_cookies) {
@@ -113,14 +115,17 @@ void downloadThread::loadCookies(const QString &host_name, QString url) {
     }
   }
   cookie_jar->setCookiesFromUrl(cookies, url);
-  networkManager.setCookieJar(cookie_jar);
+  m_networkManager.setCookieJar(cookie_jar);
 }
+#endif
 
-void downloadThread::downloadTorrentUrl(QString url){
+void downloadThread::downloadTorrentUrl(QString url) {
+#ifndef DISABLE_GUI
   // Load cookies
   QString host_name = QUrl::fromEncoded(url.toLocal8Bit()).host();
   if(!host_name.isEmpty())
     loadCookies(host_name, url);
+#endif
   // Process request
   QNetworkReply *reply = downloadUrl(url);
   connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(checkDownloadSize(qint64,qint64)));
@@ -129,10 +134,12 @@ void downloadThread::downloadTorrentUrl(QString url){
 QNetworkReply* downloadThread::downloadUrl(QString url){
   // Update proxy settings
   applyProxySettings();
+#ifndef DISABLE_GUI
   // Load cookies
   QString host_name = QUrl::fromEncoded(url.toLocal8Bit()).host();
   if(!host_name.isEmpty())
     loadCookies(host_name, url);
+#endif
   // Process download request
   qDebug("url is %s", qPrintable(url));
   const QUrl qurl = QUrl::fromEncoded(url.toLocal8Bit());
@@ -141,12 +148,12 @@ QNetworkReply* downloadThread::downloadUrl(QString url){
   // Web server banning
   request.setRawHeader("User-Agent", "Mozilla/5.0 (X11; U; Linux i686 (x86_64); en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5");
   qDebug("Downloading %s...", request.url().toEncoded().data());
-  qDebug("%d cookies for this URL", networkManager.cookieJar()->cookiesForUrl(url).size());
-  for(int i=0; i<networkManager.cookieJar()->cookiesForUrl(url).size(); ++i) {
-    qDebug("%s=%s", networkManager.cookieJar()->cookiesForUrl(url).at(i).name().data(), networkManager.cookieJar()->cookiesForUrl(url).at(i).value().data());
-    qDebug("Domain: %s, Path: %s", qPrintable(networkManager.cookieJar()->cookiesForUrl(url).at(i).domain()), qPrintable(networkManager.cookieJar()->cookiesForUrl(url).at(i).path()));
+  qDebug("%d cookies for this URL", m_networkManager.cookieJar()->cookiesForUrl(url).size());
+  for(int i=0; i<m_networkManager.cookieJar()->cookiesForUrl(url).size(); ++i) {
+    qDebug("%s=%s", m_networkManager.cookieJar()->cookiesForUrl(url).at(i).name().data(), m_networkManager.cookieJar()->cookiesForUrl(url).at(i).value().data());
+    qDebug("Domain: %s, Path: %s", qPrintable(m_networkManager.cookieJar()->cookiesForUrl(url).at(i).domain()), qPrintable(m_networkManager.cookieJar()->cookiesForUrl(url).at(i).path()));
   }
-  return networkManager.get(request);
+  return m_networkManager.get(request);
 }
 
 void downloadThread::checkDownloadSize(qint64 bytesReceived, qint64 bytesTotal) {
@@ -170,35 +177,30 @@ void downloadThread::checkDownloadSize(qint64 bytesReceived, qint64 bytesTotal) 
 
 void downloadThread::applyProxySettings() {
   QNetworkProxy proxy;
-  QIniSettings settings("qBittorrent", "qBittorrent");
-  int intValue = settings.value(QString::fromUtf8("Preferences/Connection/HTTPProxyType"), 0).toInt();
-  if(intValue > 0) {
+  const Preferences pref;
+  if(pref.isProxyEnabled()) {
     // Proxy enabled
-    QString IP = settings.value(QString::fromUtf8("Preferences/Connection/HTTPProxy/IP"), "0.0.0.0").toString();
-    proxy.setHostName(IP);
-    QString port = settings.value(QString::fromUtf8("Preferences/Connection/HTTPProxy/Port"), 8080).toString();
-    qDebug("Using proxy: %s", qPrintable(IP));
-    proxy.setPort(port.toUShort());
+    proxy.setHostName(pref.getProxyIp());
+    proxy.setPort(pref.getProxyPort());
     // Default proxy type is HTTP, we must change if it is SOCKS5
-    if(intValue == SOCKS5 || intValue == SOCKS5_PW) {
-      qDebug("Proxy is SOCKS5, not HTTP");
+    const int proxy_type = pref.getProxyType();
+    if(proxy_type == Proxy::SOCKS5 || proxy_type == Proxy::SOCKS5_PW) {
+      qDebug() << Q_FUNC_INFO << "using SOCKS proxy";
       proxy.setType(QNetworkProxy::Socks5Proxy);
     } else {
+      qDebug() << Q_FUNC_INFO << "using HTTP proxy";
       proxy.setType(QNetworkProxy::HttpProxy);
     }
     // Authentication?
-    if(intValue > 2) {
+    if(pref.isProxyAuthEnabled()) {
       qDebug("Proxy requires authentication, authenticating");
-      QString username = settings.value(QString::fromUtf8("Preferences/Connection/HTTPProxy/Username"), QString()).toString();
-      proxy.setUser(username);
-      QString password = settings.value(QString::fromUtf8("Preferences/Connection/HTTPProxy/Password"), QString()).toString();
-      proxy.setPassword(password);
+      proxy.setUser(pref.getProxyUsername());
+      proxy.setPassword(pref.getProxyPassword());
     }
-
   } else {
     proxy.setType(QNetworkProxy::NoProxy);
   }
-  networkManager.setProxy(proxy);
+  m_networkManager.setProxy(proxy);
 }
 
 QString downloadThread::errorCodeToString(QNetworkReply::NetworkError status) {
