@@ -117,7 +117,7 @@ Copyright:
   - Croatian: Olivier Delakroa (oliver.untwist@gmail.com)
   - Czech: Jirka Vilim (web@tets.cz)
   - Danish: Mathias Nielsen (comoneo@gmail.com)
-  - Dutch: Joost Schipper (heavyjoost@users.sourceforge.net)
+  - Dutch: Pieter Heyvaert (pieter_heyvaert@hotmail.com)
   - English: Christophe Dumez (chris@qbittorrent.org)
   - Finnish: Niklas Laxström (nikerabbit@users.sourceforge.net)
     and Pekka Niemi (pekka.niemi@iki.fi)
@@ -205,59 +205,34 @@ License: other
 
 
 Files: src/Icons/flags/*.png
-Copyright: Open Clip Art Library
-License: Creative Commons Public Domain Dedication
+Copyright: Mark James <http://www.famfamfam.com>
+License: other
 
-    The person or persons who have associated work with this document (the
-    "Dedicator" or "Certifier") hereby either (a) certifies that, to the best
-    of his knowledge, the work of authorship identified is in the public domain
-    of the country from which the work is published, or (b) hereby dedicates
-    whatever copyright the dedicators holds in the work of authorship
-    identified below (the "Work") to the public domain. A certifier, moreover,
-    dedicates any copyright interest he may have in the associated work, and
-    for these purposes, is described as a "dedicator" below.
-
-    A certifier has taken reasonable steps to verify the copyright status of
-    this work. Certifier recognizes that his good faith efforts may not shield
-    him from liability if in fact the work certified is not in the public
-    domain.
-
-    Dedicator makes this dedication for the benefit of the public at large and
-    to the detriment of the Dedicator's heirs and successors. Dedicator intends
-    this dedication to be an overt act of relinquishment in perpetuity of all
-    present and future rights under copyright law, whether vested or
-    contingent, in the Work. Dedicator understands that such relinquishment of
-    all rights includes the relinquishment of all rights to enforce (by lawsuit
-    or otherwise) those copyrights in the Work.
-
-    Dedicator recognizes that, once placed in the public domain, the Work may
-    be freely reproduced, distributed, transmitted, used, modified, built upon,
-    or otherwise exploited by anyone for any purpose, commercial or
-    non-commercial, and in any way, including by methods that have not yet been
-    invented or conceived.
+    Available for free use for any purpose with no requirement for attribution.
 
 
 File: src/update_qrc_files.py,
-      src/search_engine/engines/isohunt.py
-      src/search_engine/engines/btjunkie.py
-      src/search_engine/engines/vertor.py
-      src/search_engine/helpers.py
-      src/search_engine/nova2dl.py
-      src/search_engine/novaprinter.py
+      src/searchengine/nova/engines/isohunt.py
+      src/searchengine/nova/engines/btjunkie.py
+      src/searchengine/nova/engines/vertor.py
+      src/searchengine/nova/engines/torrentdownloads.py
+      src/searchengine/nova/helpers.py
+      src/searchengine/nova/nova2dl.py
+      src/searchengine/nova/novaprinter.py
 Copyright: Christophe Dumez <chris@qbittorrent.org>
 License: BSD-3
 
-Files: src/search_engine/nova2.py
-       src/search_engine/engines/mininova.py
-       src/search_engine/engines/piratebay.py
+Files: src/searchengine/nova/nova2.py
+       src/searchengine/nova/engines/mininova.py
+       src/searchengine/nova/engines/piratebay.py
 Copyright: Fabien Devaux <fab@gnux.info>
 License: BSD-3
 
-Files: src/search_engine/engines/torrentreactor.py
+Files: src/searchengine/nova/engines/torrentreactor.py
 Copyright: Gekko Dam Beer (gekko04@users.sourceforge.net)
 License: BSD-3
 
-Files: src/search_engine/socks.py
+Files: src/searchengine/socks.py
 Copyright: Copyright 2006 Dan-Haim
 License: BSD-3
 
