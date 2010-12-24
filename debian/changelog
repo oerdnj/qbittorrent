@@ -1,3 +1,14 @@
+qbittorrent (2.5.2-1) experimental; urgency=low
+
+  * New upstream version.
+    - Upload to experimental.
+    - debian/copyright: updated to reflect upstream changes.
+  * debian/control:
+    - bump up build-dep on libqt4-dev to (>= 4.5.0).
+    - bump up build-dep on libtorrent-rasterbar-dev to (>= 0.15.4).
+
+ -- Cristian Greco <cristian@regolo.cc>  Fri, 24 Dec 2010 20:16:29 +0100
+
 qbittorrent (2.4.11-1) unstable; urgency=low
 
   * New upstream version.
