@@ -313,7 +313,7 @@ void SearchEngine::on_search_button_clicked(){
   // Reload environment variables (proxy)
   searchProcess->setEnvironment(QProcess::systemEnvironment());
 
-  QString pattern = search_pattern->text().trimmed();
+  const QString pattern = search_pattern->text().trimmed();
   // No search pattern entered
   if(pattern.isEmpty()){
     QMessageBox::critical(0, tr("Empty search pattern"), tr("Please type a search pattern first"));
@@ -323,7 +323,9 @@ void SearchEngine::on_search_button_clicked(){
   currentSearchTab=new SearchTab(this);
   connect(currentSearchTab->header(), SIGNAL(sectionResized(int, int, int)), this, SLOT(propagateSectionResized(int,int,int)));
   all_tab.append(currentSearchTab);
-  tabWidget->addTab(currentSearchTab, pattern);
+  QString tabName = pattern;
+  tabName.replace(QRegExp("&{1}"), "&&");
+  tabWidget->addTab(currentSearchTab, tabName);
   tabWidget->setCurrentWidget(currentSearchTab);
 #if QT_VERSION < 0x040500
   closeTab_button->setEnabled(true);
@@ -594,7 +596,7 @@ void SearchEngine::searchFinished(int exitcode,QProcess::ExitStatus){
 // SLOT to append one line to search results list
 // Line is in the following form :
 // file url | file name | file size | nb seeds | nb leechers | Search engine url
-void SearchEngine::appendSearchResult(QString line){
+void SearchEngine::appendSearchResult(const QString &line){
   if(!currentSearchTab) {
     if(searchProcess->state() != QProcess::NotRunning){
       searchProcess->terminate();
@@ -606,7 +608,7 @@ void SearchEngine::appendSearchResult(QString line){
     return;
   }
   QStringList parts = line.split("|");
-  if(parts.size() != 6){
+  if(parts.size() < 6){
     return;
   }
   Q_ASSERT(currentSearchTab);
