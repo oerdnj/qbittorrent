@@ -109,6 +109,7 @@ License: GPL-2
 Files: src/lang/*.ts
 Copyright:
   - Arabic: SDERAWI (abz8868@msn.com) and sn51234 (nesseyan@gmail.com)
+  - Armenian: Hrant Ohanyan (hrantohanyan@mail.am)
   - Brazilian: Nick Marinho (nickmarinho@gmail.com)
   - Bulgarian: Tsvetan & Boiko Bankov (emerge_life@users.sourceforge.net)
   - Catalan: Francisco Luque Contreras (frannoe@ya.com)
@@ -122,6 +123,7 @@ Copyright:
   - Finnish: Niklas Laxström (nikerabbit@users.sourceforge.net)
     and Pekka Niemi (pekka.niemi@iki.fi)
   - French: Christophe Dumez (chris@qbittorrent.org)
+  - Galician: Marcos Lans (marcoslansgarza@gmail.com)
   - German: Niels Hoffmann (zentralmaschine@users.sourceforge.net)
   - Greek: Tsvetan Bankov (emerge_life@users.sourceforge.net)
     and Stephanos Antaris (santaris@csd.auth.gr)
