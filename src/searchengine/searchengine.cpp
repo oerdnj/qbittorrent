@@ -42,6 +42,7 @@
 #include <QMimeData>
 #include <QSortFilterProxyModel>
 #include <QFileDialog>
+#include <QDesktopServices>
 
 #ifdef Q_WS_WIN
 #include <stdlib.h>
@@ -55,22 +56,28 @@
 #include "searchlistdelegate.h"
 #include "qinisettings.h"
 #include "mainwindow.h"
+#include "iconprovider.h"
 
 #define SEARCHHISTORY_MAXSIZE 50
 
 /*SEARCH ENGINE START*/
 SearchEngine::SearchEngine(MainWindow *parent) : QWidget(parent), mp_mainWindow(parent) {
   setupUi(this);
+  // Icons
+  search_button->setIcon(IconProvider::instance()->getIcon("edit-find"));
+  download_button->setIcon(IconProvider::instance()->getIcon("download"));
+  goToDescBtn->setIcon(IconProvider::instance()->getIcon("application-x-mswinurl"));
+  enginesButton->setIcon(IconProvider::instance()->getIcon("preferences-system-network"));
   // new qCompleter to the search pattern
   startSearchHistory();
   createCompleter();
-#if QT_VERSION >= 0x040500
+#if (QT_VERSION >= QT_VERSION_CHECK(4,5,0))
   tabWidget->setTabsClosable(true);
   connect(tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
 #else
   // Add close tab button
   closeTab_button = new QPushButton();
-  closeTab_button->setIcon(QIcon(QString::fromUtf8(":/Icons/oxygen/tab-close.png")));
+  closeTab_button->setIcon(IconProvider::instance()->getIcon("tab-close"));
   closeTab_button->setFlat(true);
   tabWidget->setCornerWidget(closeTab_button);
   connect(closeTab_button, SIGNAL(clicked()), this, SLOT(closeTab_button_clicked()));
@@ -199,11 +206,11 @@ SearchEngine::~SearchEngine(){
 
 void SearchEngine::displayPatternContextMenu(QPoint) {
   QMenu myMenu(this);
-  QAction cutAct(QIcon(":/Icons/oxygen/edit-cut.png"), tr("Cut"), &myMenu);
-  QAction copyAct(QIcon(":/Icons/oxygen/edit-copy.png"), tr("Copy"), &myMenu);
-  QAction pasteAct(QIcon(":/Icons/oxygen/edit-paste.png"), tr("Paste"), &myMenu);
-  QAction clearAct(QIcon(":/Icons/oxygen/edit_clear.png"), tr("Clear field"), &myMenu);
-  QAction clearHistoryAct(QIcon(":/Icons/oxygen/edit-clear.png"), tr("Clear completion history"), &myMenu);
+  QAction cutAct(IconProvider::instance()->getIcon("edit-cut"), tr("Cut"), &myMenu);
+  QAction copyAct(IconProvider::instance()->getIcon("edit-copy"), tr("Copy"), &myMenu);
+  QAction pasteAct(IconProvider::instance()->getIcon("edit-paste"), tr("Paste"), &myMenu);
+  QAction clearAct(IconProvider::instance()->getIcon("edit-clear"), tr("Clear field"), &myMenu);
+  QAction clearHistoryAct(IconProvider::instance()->getIcon("edit-clear-history"), tr("Clear completion history"), &myMenu);
   bool hasCopyAct = false;
   if(search_pattern->hasSelectedText()) {
     myMenu.addAction(&cutAct);
@@ -249,8 +256,10 @@ void SearchEngine::tab_changed(int t)
   {//-1 = no more tab
     if(all_tab.at(tabWidget->currentIndex())->getCurrentSearchListModel()->rowCount()) {
       download_button->setEnabled(true);
+      goToDescBtn->setEnabled(true);
     } else {
       download_button->setEnabled(false);
+      goToDescBtn->setEnabled(false);
     }
   }
 }
@@ -607,8 +616,9 @@ void SearchEngine::appendSearchResult(const QString &line){
     search_stopped = true;
     return;
   }
-  QStringList parts = line.split("|");
-  if(parts.size() < 6){
+  const QStringList parts = line.split("|");
+  const int nb_fields = parts.size();
+  if(nb_fields < NB_PLUGIN_COLUMNS-1){ //-1 because desc_link is optional
     return;
   }
   Q_ASSERT(currentSearchTab);
@@ -618,28 +628,32 @@ void SearchEngine::appendSearchResult(const QString &line){
   int row = cur_model->rowCount();
   cur_model->insertRow(row);
 
-  cur_model->setData(cur_model->index(row, 5), parts.at(0).trimmed()); // download URL
-  cur_model->setData(cur_model->index(row, 0), parts.at(1).trimmed()); // Name
-  cur_model->setData(cur_model->index(row, 1), parts.at(2).trimmed().toLongLong()); // Size
+  cur_model->setData(cur_model->index(row, DL_LINK), parts.at(PL_DL_LINK).trimmed()); // download URL
+  cur_model->setData(cur_model->index(row, NAME), parts.at(PL_NAME).trimmed()); // Name
+  cur_model->setData(cur_model->index(row, SIZE), parts.at(PL_SIZE).trimmed().toLongLong()); // Size
   bool ok = false;
-  qlonglong nb_seeders = parts.at(3).trimmed().toLongLong(&ok);
+  qlonglong nb_seeders = parts.at(PL_SEEDS).trimmed().toLongLong(&ok);
   if(!ok || nb_seeders < 0) {
-    cur_model->setData(cur_model->index(row, 2), tr("Unknown")); // Seeders
+    cur_model->setData(cur_model->index(row, SEEDS), tr("Unknown")); // Seeders
   } else {
-    cur_model->setData(cur_model->index(row, 2), nb_seeders); // Seeders
+    cur_model->setData(cur_model->index(row, SEEDS), nb_seeders); // Seeders
   }
-  qlonglong nb_leechers = parts.at(4).trimmed().toLongLong(&ok);
+  qlonglong nb_leechers = parts.at(PL_LEECHS).trimmed().toLongLong(&ok);
   if(!ok || nb_leechers < 0) {
-    cur_model->setData(cur_model->index(row, 3), tr("Unknown")); // Leechers
+    cur_model->setData(cur_model->index(row, LEECHS), tr("Unknown")); // Leechers
   } else {
-    cur_model->setData(cur_model->index(row, 3), nb_leechers); // Leechers
+    cur_model->setData(cur_model->index(row, LEECHS), nb_leechers); // Leechers
   }
-  cur_model->setData(cur_model->index(row, 4), parts.at(5).trimmed()); // Engine URL
+  cur_model->setData(cur_model->index(row, ENGINE_URL), parts.at(PL_ENGINE_URL).trimmed()); // Engine URL
+  // Description Link
+  if(nb_fields == NB_PLUGIN_COLUMNS)
+    cur_model->setData(cur_model->index(row, DESC_LINK), parts.at(PL_DESC_LINK).trimmed());
 
   no_search_results = false;
   ++nb_search_results;
   // Enable clear & download buttons
   download_button->setEnabled(true);
+  goToDescBtn->setEnabled(true);
 }
 
 #if QT_VERSION >= 0x040500
@@ -658,6 +672,7 @@ void SearchEngine::closeTab(int index) {
   delete all_tab.takeAt(index);
   if(!all_tab.size()) {
     download_button->setEnabled(false);
+    goToDescBtn->setEnabled(false);
   }
 }
 #else
@@ -698,6 +713,19 @@ void SearchEngine::on_download_button_clicked(){
       QString engine_url = model->data(model->index(index.row(), ENGINE_URL_COLUMN)).toString();
       downloadTorrent(engine_url, torrent_url);
       all_tab.at(tabWidget->currentIndex())->setRowColor(index.row(), "red");
+    }
+  }
+}
+
+void SearchEngine::on_goToDescBtn_clicked()
+{
+  QModelIndexList selectedIndexes = all_tab.at(tabWidget->currentIndex())->getCurrentTreeView()->selectionModel()->selectedIndexes();
+  foreach(const QModelIndex &index, selectedIndexes){
+    if(index.column() == NAME) {
+      QSortFilterProxyModel* model = all_tab.at(tabWidget->currentIndex())->getCurrentSearchListProxy();
+      const QString desc_url = model->data(model->index(index.row(), DESC_LINK)).toString();
+      if(!desc_url.isEmpty())
+        QDesktopServices::openUrl(QUrl(desc_url));
     }
   }
 }

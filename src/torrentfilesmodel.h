@@ -39,7 +39,7 @@
 #include <QDir>
 #include <libtorrent/torrent_info.hpp>
 #include "proplistdelegate.h"
-#include "misc.h"
+#include "iconprovider.h"
 
 enum FilePriority {IGNORED=0, NORMAL=1, HIGH=2, MAXIMUM=7, PARTIAL=-1};
 enum TreeItemType {TFILE, FOLDER, ROOT};
@@ -65,10 +65,10 @@ public:
     type = TFILE;
     file_index = _file_index;
 #if LIBTORRENT_VERSION_MINOR >= 16
-    QString name = misc::toQStringU(t.files().file_path(f)).replace("\\", "/").split("/").last();
+    QString name = misc::fileName(misc::toQStringU(t.files().file_path(f)));
 #else
     Q_UNUSED(t);
-    QString name = misc::toQStringU(f.path.string()).split("/").last();
+    QString name = misc::toQStringU(f.path.filename());
 #endif
     // Do not display incomplete extensions
     if(name.endsWith(".!qB"))
@@ -169,6 +169,7 @@ public:
   }
 
   void setProgress(qulonglong done) {
+    if(getPriority() == 0) return;
     total_done = done;
     qulonglong size = getSize();
     Q_ASSERT(total_done <= size);
@@ -188,6 +189,8 @@ public:
   }
 
   float getProgress() const {
+    if(getPriority() == 0)
+      return 0.;
     qulonglong size = getSize();
     if(size > 0)
       return total_done/(float)getSize();
@@ -216,6 +219,11 @@ public:
     const int old_prio = getPriority();
     if(old_prio == new_prio) return;
     qDebug("setPriority(%s, %d)", qPrintable(getName()), new_prio);
+    // Reset progress if priority is 0
+    if(new_prio == 0) {
+      setProgress(0);
+    }
+
     itemData.replace(COL_PRIO, new_prio);
 
     // Update parent
@@ -434,9 +442,9 @@ public:
     TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
     if(index.column() == 0 && role == Qt::DecorationRole) {
       if(item->isFolder())
-        return QIcon(":/Icons/oxygen/folder.png");
+        return IconProvider::instance()->getIcon("inode-directory");
       else
-        return QIcon(":/Icons/oxygen/file.png");
+        return IconProvider::instance()->getIcon("text-plain");
     }
     if(index.column() == 0 && role == Qt::CheckStateRole) {
       if(item->data(TreeItem::COL_PRIO).toInt() == IGNORED)
@@ -546,6 +554,7 @@ public:
 #endif
       // Iterate of parts of the path to create necessary folders
       QStringList pathFolders = path.split("/");
+      pathFolders.removeAll(".unwanted");
       pathFolders.takeLast();
       foreach(const QString &pathPart, pathFolders) {
         TreeItem *new_parent = current_parent->childWithName(pathPart);

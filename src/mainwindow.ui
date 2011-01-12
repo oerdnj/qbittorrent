@@ -36,14 +36,12 @@
     <property name="title">
      <string>&amp;Edit</string>
     </property>
-    <addaction name="actionStart_All"/>
-    <addaction name="actionPause_All"/>
     <addaction name="separator"/>
     <addaction name="actionStart"/>
     <addaction name="actionPause"/>
     <addaction name="separator"/>
-    <addaction name="separator"/>
     <addaction name="actionDelete"/>
+    <addaction name="separator"/>
     <addaction name="actionDecreasePriority"/>
     <addaction name="actionIncreasePriority"/>
    </widget>
@@ -61,13 +59,20 @@
     <property name="title">
      <string>&amp;Tools</string>
     </property>
-    <addaction name="actionShow_console"/>
+    <widget class="QMenu" name="menuAuto_Shutdown_on_downloads_completion">
+     <property name="title">
+      <string>Auto-Shutdown on downloads completion</string>
+     </property>
+     <addaction name="actionAutoShutdown_Disabled"/>
+     <addaction name="actionAutoExit_qBittorrent"/>
+     <addaction name="actionAutoSuspend_system"/>
+     <addaction name="actionAutoShutdown_system"/>
+    </widget>
     <addaction name="actionCreate_torrent"/>
     <addaction name="separator"/>
     <addaction name="actionOptions"/>
     <addaction name="separator"/>
-    <addaction name="actionShutdown_when_downloads_complete"/>
-    <addaction name="actionShutdown_qBittorrent_when_downloads_complete"/>
+    <addaction name="menuAuto_Shutdown_on_downloads_completion"/>
    </widget>
    <widget class="QMenu" name="menu_File">
     <property name="title">
@@ -87,6 +92,7 @@
     <addaction name="separator"/>
     <addaction name="actionSearch_engine"/>
     <addaction name="actionRSS_Reader"/>
+    <addaction name="actionExecution_Logs"/>
     <addaction name="separator"/>
     <addaction name="actionLock_qBittorrent"/>
    </widget>
@@ -97,23 +103,11 @@
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="contextMenuPolicy">
-    <enum>Qt::NoContextMenu</enum>
-   </property>
    <property name="movable">
     <bool>false</bool>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>32</width>
-     <height>32</height>
-    </size>
    </property>
    <property name="floatable">
     <bool>false</bool>
@@ -125,28 +119,20 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionOpen"/>
-   <addaction name="actionDownload_from_URL"/>
-   <addaction name="separator"/>
    <addaction name="actionDelete"/>
    <addaction name="separator"/>
    <addaction name="actionStart"/>
    <addaction name="actionPause"/>
-   <addaction name="separator"/>
-   <addaction name="actionStart_All"/>
-   <addaction name="actionPause_All"/>
    <addaction name="actionDecreasePriority"/>
    <addaction name="actionIncreasePriority"/>
    <addaction name="separator"/>
    <addaction name="actionOptions"/>
-   <addaction name="separator"/>
-   <addaction name="actionExit"/>
-   <addaction name="separator"/>
    <addaction name="actionLock_qBittorrent"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen">
    <property name="text">
-    <string>&amp;Add File...</string>
+    <string>&amp;Add torrent file...</string>
    </property>
   </action>
   <action name="actionExit">
@@ -182,39 +168,23 @@
     <string>&amp;Delete</string>
    </property>
   </action>
-  <action name="actionPause_All">
-   <property name="text">
-    <string>P&amp;ause All</string>
-   </property>
-  </action>
-  <action name="actionStart_All">
-   <property name="text">
-    <string>R&amp;esume All</string>
-   </property>
-  </action>
   <action name="actionWebsite">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/Icons/skin/qbittorrent32.png</normaloff>:/Icons/skin/qbittorrent32.png</iconset>
+   </property>
    <property name="text">
     <string>Visit &amp;Website</string>
    </property>
   </action>
   <action name="actionDownload_from_URL">
    <property name="text">
-    <string>Add &amp;URL...</string>
+    <string>Add &amp;link to torrent...</string>
    </property>
   </action>
   <action name="actionCreate_torrent">
    <property name="text">
     <string>Torrent &amp;creator</string>
-   </property>
-  </action>
-  <action name="actionPreview_file">
-   <property name="text">
-    <string>Preview file</string>
-   </property>
-  </action>
-  <action name="actionClearLog">
-   <property name="text">
-    <string>Clear log</string>
    </property>
   </action>
   <action name="actionBugReport">
@@ -248,39 +218,19 @@
    </property>
   </action>
   <action name="actionDecreasePriority">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/Icons/skin/decrease.png</normaloff>:/Icons/skin/decrease.png</iconset>
-   </property>
    <property name="text">
     <string>Decrease priority</string>
    </property>
    <property name="visible">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="actionIncreasePriority">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/Icons/skin/increase.png</normaloff>:/Icons/skin/increase.png</iconset>
-   </property>
    <property name="text">
     <string>Increase priority</string>
    </property>
    <property name="visible">
-    <bool>false</bool>
-   </property>
-  </action>
-  <action name="actionShow_console">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/Icons/oxygen/log.png</normaloff>:/Icons/oxygen/log.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Log viewer...</string>
-   </property>
-   <property name="toolTip">
-    <string>Log viewer</string>
+    <bool>true</bool>
    </property>
   </action>
   <action name="actionUse_alternative_speed_limits">
@@ -332,17 +282,6 @@
     <string>Search &amp;engine</string>
    </property>
   </action>
-  <action name="actionShutdown_when_downloads_complete">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Shutdown computer when downloads complete</string>
-   </property>
-   <property name="toolTip">
-    <string>Shutdown computer when downloads complete</string>
-   </property>
-  </action>
   <action name="actionLock_qBittorrent">
    <property name="text">
     <string>Lock qBittorrent</string>
@@ -354,31 +293,15 @@
     <string>Ctrl+L</string>
    </property>
   </action>
-  <action name="actionShutdown_qBittorrent_when_downloads_complete">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Shutdown qBittorrent when downloads complete</string>
-   </property>
-  </action>
   <action name="action_Import_Torrent">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/Icons/oxygen/list-add.png</normaloff>:/Icons/oxygen/list-add.png</iconset>
-   </property>
    <property name="text">
-    <string>Import torrent...</string>
+    <string>Import existing torrent...</string>
    </property>
    <property name="toolTip">
     <string>Import torrent...</string>
    </property>
   </action>
   <action name="actionDonate_money">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/Icons/oxygen/emblem-favorite.png</normaloff>:/Icons/oxygen/emblem-favorite.png</iconset>
-   </property>
    <property name="text">
     <string>Donate money</string>
    </property>
@@ -386,9 +309,62 @@
     <string>If you like qBittorrent, please donate!</string>
    </property>
   </action>
+  <action name="actionStart_All">
+   <property name="text">
+    <string>R&amp;esume All</string>
+   </property>
+  </action>
+  <action name="actionPause_All">
+   <property name="text">
+    <string>P&amp;ause All</string>
+   </property>
+  </action>
+  <action name="actionExecution_Logs">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Execution &amp;Log</string>
+   </property>
+   <property name="toolTip">
+    <string>Execution Log</string>
+   </property>
+  </action>
+  <action name="actionAutoExit_qBittorrent">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Exit qBittorrent</string>
+   </property>
+  </action>
+  <action name="actionAutoSuspend_system">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Suspend system</string>
+   </property>
+  </action>
+  <action name="actionAutoShutdown_system">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Shutdown system</string>
+   </property>
+  </action>
+  <action name="actionAutoShutdown_Disabled">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Disabled</string>
+   </property>
+  </action>
  </widget>
  <resources>
-  <include location="../icons.qrc"/>
+  <include location="icons.qrc"/>
  </resources>
  <connections/>
 </ui>

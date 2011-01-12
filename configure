@@ -18,6 +18,7 @@ Main options:
   --help              This help text.
 
 Dependency options:
+  --enable-debug                                  Enable debug mode
   --disable-gui                                   Disable qBittorrent
                                                  Graphical user interface for
                                                  headless running
@@ -32,8 +33,6 @@ Dependency options:
                                                  executable (please follow
                                                  instructions in
                                                  src/geoip/README)
-  --disable-qtsingleapplication                  Disable use of
-                                                 qtsingleapplication
   --with-qtsingleapplication=[system|shipped]     Use the shipped
                                                  qtsingleapplication library
                                                  or the system one
@@ -153,6 +152,11 @@ while [ $# -gt 0 ]; do
 			shift
 			;;
 
+		--enable-debug)
+			QC_ENABLE_DEBUG="Y"
+			shift
+			;;
+
 		--disable-gui)
 			QC_DISABLE_GUI="Y"
 			shift
@@ -183,11 +187,6 @@ while [ $# -gt 0 ]; do
 			shift
 			;;
 
-		--disable-qtsingleapplication)
-			QC_DISABLE_qtsingleapplication="Y"
-			shift
-			;;
-
 		--with-qtsingleapplication=*)
 			QC_WITH_QTSINGLEAPPLICATION=$optarg
 			shift
@@ -214,13 +213,13 @@ echo PREFIX=$PREFIX
 echo BINDIR=$BINDIR
 echo DATADIR=$DATADIR
 echo EX_QTDIR=$EX_QTDIR
+echo QC_ENABLE_DEBUG=$QC_ENABLE_DEBUG
 echo QC_DISABLE_GUI=$QC_DISABLE_GUI
 echo QC_WITH_LIBBOOST_INC=$QC_WITH_LIBBOOST_INC
 echo QC_WITH_LIBBOOST_LIB=$QC_WITH_LIBBOOST_LIB
 echo QC_DISABLE_libnotify=$QC_DISABLE_libnotify
 echo QC_DISABLE_geoip_database=$QC_DISABLE_geoip_database
 echo QC_WITH_GEOIP_DATABASE_EMBEDDED=$QC_WITH_GEOIP_DATABASE_EMBEDDED
-echo QC_DISABLE_qtsingleapplication=$QC_DISABLE_qtsingleapplication
 echo QC_WITH_QTSINGLEAPPLICATION=$QC_WITH_QTSINGLEAPPLICATION
 echo
 fi
@@ -327,6 +326,7 @@ cat >$1/modules.cpp <<EOT
 /*
 -----BEGIN QCMOD-----
 name: Qt >= 4.5
+arg: enable-debug, Enable debug mode
 arg: disable-gui, Disable qBittorrent Graphical user interface for headless running
 -----END QCMOD-----
 */
@@ -338,9 +338,14 @@ public:
 	QString shortname() const { return "Qt 4.5"; }
 	bool exec()
 	{
+                // NOX mode
 		if(!conf->getenv("QC_DISABLE_GUI").isEmpty()) {
 			conf->addExtra("CONFIG += nox");
-		}	
+		}
+                // Debug mode
+                if(!conf->getenv("QC_ENABLE_DEBUG").isEmpty()) {
+                  conf->addExtra("CONFIG += debug");
+                }
 		return(QT_VERSION >= 0x040500);
 	}
 };
@@ -656,7 +661,7 @@ cat >$1/modules_new.cpp <<EOT
     o->required = false;
     o->disabled = false;
     o = new qc_qtsingleapplication(conf);
-    o->required = false;
+    o->required = true;
     o->disabled = false;
 
 EOT
@@ -1603,13 +1608,13 @@ export PREFIX
 export BINDIR
 export DATADIR
 export EX_QTDIR
+export QC_ENABLE_DEBUG
 export QC_DISABLE_GUI
 export QC_WITH_LIBBOOST_INC
 export QC_WITH_LIBBOOST_LIB
 export QC_DISABLE_libnotify
 export QC_DISABLE_geoip_database
 export QC_WITH_GEOIP_DATABASE_EMBEDDED
-export QC_DISABLE_qtsingleapplication
 export QC_WITH_QTSINGLEAPPLICATION
 export QC_VERBOSE
 rm -rf .qconftemp

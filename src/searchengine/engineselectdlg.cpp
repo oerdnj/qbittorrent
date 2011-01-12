@@ -34,6 +34,7 @@
 #include "ico.h"
 #include "searchengine.h"
 #include "pluginsource.h"
+#include "iconprovider.h"
 #include <QProcess>
 #include <QHeaderView>
 #include <QMenu>
@@ -52,11 +53,8 @@ engineSelectDlg::engineSelectDlg(QWidget *parent, SupportedEngines *supported_en
   pluginsTree->header()->resizeSection(0, 170);
   pluginsTree->header()->resizeSection(1, 220);
   pluginsTree->hideColumn(ENGINE_ID);
-  actionEnable->setIcon(QIcon(QString::fromUtf8(":/Icons/oxygen/button_ok.png")));
-  actionDisable->setIcon(QIcon(QString::fromUtf8(":/Icons/oxygen/button_cancel.png")));
-  actionUninstall->setIcon(QIcon(QString::fromUtf8(":/Icons/oxygen/list-remove.png")));
-  connect(actionEnable, SIGNAL(triggered()), this, SLOT(enableSelection()));
-  connect(actionDisable, SIGNAL(triggered()), this, SLOT(disableSelection()));
+  actionUninstall->setIcon(IconProvider::instance()->getIcon("list-remove"));
+  connect(actionEnable, SIGNAL(toggled(bool)), this, SLOT(enableSelection(bool)));
   connect(pluginsTree, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(displayContextMenu(const QPoint&)));
   downloader = new downloadThread(this);
   connect(downloader, SIGNAL(downloadFinished(QString, QString)), this, SLOT(processDownloadedFile(QString, QString)));
@@ -78,22 +76,18 @@ engineSelectDlg::~engineSelectDlg() {
 void engineSelectDlg::dropEvent(QDropEvent *event) {
   event->acceptProposedAction();
   QStringList files=event->mimeData()->text().split(QString::fromUtf8("\n"));
-  QString file;
-  foreach(file, files) {
+  foreach(QString file, files) {
     qDebug("dropped %s", qPrintable(file));
-#ifdef Q_WS_WIN
-    file = file.replace("file:///", "");
-#else
-    file = file.replace("file://", "");
-#endif
-    if(file.startsWith("http://", Qt::CaseInsensitive) || file.startsWith("https://", Qt::CaseInsensitive) || file.startsWith("ftp://", Qt::CaseInsensitive)) {
+    if(misc::isUrl(file)) {
       setCursor(QCursor(Qt::WaitCursor));
       downloader->downloadUrl(file);
       continue;
     }
     if(file.endsWith(".py", Qt::CaseInsensitive)) {
-      QString plugin_name = file.split(QDir::separator()).last();
-      plugin_name.replace(".py", "");
+      if(file.startsWith("file:", Qt::CaseInsensitive))
+        file = QUrl(file).toLocalFile();
+      QString plugin_name = misc::fileName(file);
+      plugin_name.chop(3); // Remove extension
       installPlugin(file, plugin_name);
     }
   }
@@ -132,20 +126,10 @@ void engineSelectDlg::displayContextMenu(const QPoint&) {
   QMenu myContextMenu(this);
   // Enable/disable pause/start action given the DL state
   QList<QTreeWidgetItem *> items = pluginsTree->selectedItems();
-  bool has_enable = false, has_disable = false;
-  QTreeWidgetItem *item;
-  foreach(item, items) {
-    QString id = item->text(ENGINE_ID);
-    if(supported_engines->value(id)->isEnabled() && !has_disable) {
-      myContextMenu.addAction(actionDisable);
-      has_disable = true;
-    }
-    if(!supported_engines->value(id)->isEnabled() && !has_enable) {
-      myContextMenu.addAction(actionEnable);
-      has_enable = true;
-    }
-    if(has_enable && has_disable) break;
-  }
+  if(items.isEmpty()) return;
+  QString first_id = items.first()->text(ENGINE_ID);
+  actionEnable->setChecked(supported_engines->value(first_id)->isEnabled());
+  myContextMenu.addAction(actionEnable);
   myContextMenu.addSeparator();
   myContextMenu.addAction(actionUninstall);
   myContextMenu.exec(QCursor::pos());
@@ -194,29 +178,21 @@ void engineSelectDlg::on_actionUninstall_triggered() {
     QMessageBox::information(0, tr("Uninstall success"), tr("All selected plugins were uninstalled successfully"));
 }
 
-void engineSelectDlg::enableSelection() {
+void engineSelectDlg::enableSelection(bool enable) {
   QList<QTreeWidgetItem *> items = pluginsTree->selectedItems();
   QTreeWidgetItem *item;
   foreach(item, items) {
     int index = pluginsTree->indexOfTopLevelItem(item);
     Q_ASSERT(index != -1);
     QString id = item->text(ENGINE_ID);
-    supported_engines->value(id)->setEnabled(true);
-    item->setText(ENGINE_STATE, tr("Yes"));
-    setRowColor(index, "green");
-  }
-}
-
-void engineSelectDlg::disableSelection() {
-  QList<QTreeWidgetItem *> items = pluginsTree->selectedItems();
-  QTreeWidgetItem *item;
-  foreach(item, items) {
-    int index = pluginsTree->indexOfTopLevelItem(item);
-    Q_ASSERT(index != -1);
-    QString id = item->text(ENGINE_ID);
-    supported_engines->value(id)->setEnabled(false);
-    item->setText(ENGINE_STATE, tr("No"));
-    setRowColor(index, "red");
+    supported_engines->value(id)->setEnabled(enable);
+    if(enable) {
+      item->setText(ENGINE_STATE, tr("Yes"));
+      setRowColor(index, "green");
+    } else {
+      item->setText(ENGINE_STATE, tr("No"));
+      setRowColor(index, "red");
+    }
   }
 }
 
@@ -455,8 +431,8 @@ void engineSelectDlg::processDownloadedFile(QString url, QString filePath) {
     return;
   }
   if(url.endsWith(".py", Qt::CaseInsensitive)) {
-    QString plugin_name = url.split('/').last();
-    plugin_name.replace(".py", "");
+    QString plugin_name = misc::fileName(url);
+    plugin_name.chop(3); // Remove extension
     installPlugin(filePath, plugin_name);
     misc::safeRemove(filePath);
     return;

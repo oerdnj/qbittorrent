@@ -37,6 +37,7 @@
 #include "misc.h"
 #include "qinisettings.h"
 #include "torrentcreatorthread.h"
+#include "iconprovider.h"
 
 const uint NB_PIECES_MIN = 1200;
 const uint NB_PIECES_MAX = 2200;
@@ -45,6 +46,12 @@ using namespace libtorrent;
 
 TorrentCreatorDlg::TorrentCreatorDlg(QWidget *parent): QDialog(parent), creatorThread(0) {
   setupUi(this);
+  // Icons
+  addFile_button->setIcon(IconProvider::instance()->getIcon("document-new"));
+  addFolder_button->setIcon(IconProvider::instance()->getIcon("folder-new"));
+  createButton->setIcon(IconProvider::instance()->getIcon("document-save"));
+  cancelButton->setIcon(IconProvider::instance()->getIcon("dialog-cancel"));
+
   setAttribute(Qt::WA_DeleteOnClose);
   setModal(true);
   showProgressBar(false);
@@ -240,8 +247,6 @@ void TorrentCreatorDlg::updateOptimalPieceSize()
     }
     ++i;
   }while(i<m_piece_sizes.size());
-  qDebug("ASSERT value %d <= %d", (int)(torrent_size/(m_piece_sizes.at(i)*1024.)), NB_PIECES_MIN);
-  Q_ASSERT((double)torrent_size/(m_piece_sizes.at(i)*1024.) > NB_PIECES_MIN);
   comboPieceSize->setCurrentIndex(i);
 }
 

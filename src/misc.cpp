@@ -35,6 +35,7 @@
 #include <QFileInfo>
 #include <QDateTime>
 #include <QByteArray>
+#include <QDebug>
 
 #ifdef DISABLE_GUI
 #include <QCoreApplication>
@@ -46,6 +47,7 @@
 #ifdef Q_WS_WIN
 #include <shlobj.h>
 #include <windows.h>
+#include <PowrProf.h>
 const int UNLEN = 256;
 #else
 #include <unistd.h>
@@ -194,15 +196,34 @@ long long misc::freeDiskSpaceOnPath(QString path) {
 #endif
 }
 
-void misc::shutdownComputer() {
+void suspendComputer() {
 #ifdef Q_WS_X11
   // Use dbus to power off the system
   // dbus-send --print-reply --system --dest=org.freedesktop.Hal /org/freedesktop/Hal/devices/computer org.freedesktop.Hal.Device.SystemPowerManagement.Shutdown
   QDBusInterface computer("org.freedesktop.Hal", "/org/freedesktop/Hal/devices/computer", "org.freedesktop.Hal.Device.SystemPowerManagement", QDBusConnection::systemBus());
-  computer.call("Shutdown");
+  computer.call("Suspend", 5);
 #endif
 #ifdef Q_WS_MAC
-  AEEventID EventToSend = kAEShutDown;
+
+#endif
+}
+
+void misc::shutdownComputer(bool sleep) {
+#ifdef Q_WS_X11
+  // Use dbus to power off the system
+  // dbus-send --print-reply --system --dest=org.freedesktop.Hal /org/freedesktop/Hal/devices/computer org.freedesktop.Hal.Device.SystemPowerManagement.Shutdown
+  QDBusInterface computer("org.freedesktop.Hal", "/org/freedesktop/Hal/devices/computer", "org.freedesktop.Hal.Device.SystemPowerManagement", QDBusConnection::systemBus());
+  if(sleep)
+    computer.call("Suspend", 5);
+  else
+    computer.call("Shutdown");
+#endif
+#ifdef Q_WS_MAC
+  AEEventID EventToSend;
+  if(sleep)
+    EventToSend = kAESleep;
+  else
+    EventToSend = kAEShutDown;
   AEAddressDesc targetDesc;
   static const ProcessSerialNumber kPSNOfSystemProcess = { 0, kSystemProcess };
   AppleEvent eventReply = {typeNull, NULL};
@@ -259,8 +280,11 @@ void misc::shutdownComputer() {
 
   if (GetLastError() != ERROR_SUCCESS)
     return;
-  bool ret = InitiateSystemShutdownA(0, tr("qBittorrent will shutdown the computer now because all downloads are complete.").toLocal8Bit().data(), 10, true, false);
-  qDebug("ret: %d", (int)ret);
+  bool ret;
+  if(sleep)
+    SetSuspendState(false, false, false);
+  else
+    InitiateSystemShutdownA(0, tr("qBittorrent will shutdown the computer now because all downloads are complete.").toLocal8Bit().data(), 10, true, false);
 
   // Disable shutdown privilege.
   tkp.Privileges[0].Attributes = 0;
@@ -281,8 +305,7 @@ QString misc::truncateRootFolder(boost::intrusive_ptr<torrent_info> t) {
 #else
     QString path = QString::fromUtf8(t->file_at(0).path.string().c_str());
 #endif
-    QStringList path_parts = path.split("/", QString::SkipEmptyParts);
-    t->rename_file(0, path_parts.last().toUtf8().data());
+    t->rename_file(0, fileName(path).toUtf8().data());
     return QString::null;
   }
   QString root_folder;
@@ -316,8 +339,7 @@ QString misc::truncateRootFolder(libtorrent::torrent_handle h) {
 #else
     QString path = QString::fromUtf8(t.file_at(0).path.string().c_str());
 #endif
-    QStringList path_parts = path.split("/", QString::SkipEmptyParts);
-    t.rename_file(0, path_parts.last().toUtf8().data());
+    t.rename_file(0, fileName(path).toUtf8().data());
     return QString::null;
   }
   QString root_folder;
@@ -747,8 +769,31 @@ bool misc::isValidTorrentFile(const QString &torrent_path) {
   return true;
 }
 
-QString misc::branchPath(QString file_path)
+QString misc::branchPath(QString file_path, bool uses_slashes)
+{
+  if(!uses_slashes)
+    file_path.replace("\\", "/");
+  Q_ASSERT(!file_path.contains("\\"));
+  if(file_path.endsWith("/"))
+    file_path.chop(1); // Remove trailing slash
+  qDebug() << Q_FUNC_INFO << "before:" << file_path;
+  if(file_path.contains("/"))
+    return file_path.left(file_path.lastIndexOf('/'));
+  return "";
+}
+
+bool misc::isUrl(const QString &s)
+{
+  const QString scheme = QUrl(s).scheme();
+  QRegExp is_url("http[s]?|ftp", Qt::CaseInsensitive);
+  return is_url.exactMatch(scheme);
+}
+
+QString misc::fileName(QString file_path)
 {
   file_path.replace("\\", "/");
-  return file_path.left(file_path.lastIndexOf('/'));
+  const int slash_index = file_path.lastIndexOf('/');
+  if(slash_index == -1)
+    return file_path;
+  return file_path.mid(slash_index);
 }

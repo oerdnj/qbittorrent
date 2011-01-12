@@ -88,14 +88,13 @@
       </property>
       <item>
        <property name="text">
-        <string>UI</string>
+        <string extracomment="User Interface">UI</string>
+       </property>
+       <property name="toolTip">
+        <string>User Interface</string>
        </property>
        <property name="textAlignment">
         <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-       </property>
-       <property name="icon">
-        <iconset resource="../icons.qrc">
-         <normaloff>:/Icons/oxygen/preferences-desktop.png</normaloff>:/Icons/oxygen/preferences-desktop.png</iconset>
        </property>
        <property name="flags">
         <set>ItemIsSelectable|ItemIsEnabled</set>
@@ -108,10 +107,6 @@
        <property name="textAlignment">
         <set>AlignHCenter|AlignVCenter|AlignCenter</set>
        </property>
-       <property name="icon">
-        <iconset resource="../icons.qrc">
-         <normaloff>:/Icons/oxygen/download.png</normaloff>:/Icons/oxygen/download.png</iconset>
-       </property>
        <property name="flags">
         <set>ItemIsSelectable|ItemIsEnabled</set>
        </property>
@@ -123,10 +118,6 @@
        <property name="textAlignment">
         <set>AlignHCenter|AlignVCenter|AlignCenter</set>
        </property>
-       <property name="icon">
-        <iconset resource="../icons.qrc">
-         <normaloff>:/Icons/oxygen/connection.png</normaloff>:/Icons/oxygen/connection.png</iconset>
-       </property>
        <property name="flags">
         <set>ItemIsSelectable|ItemIsEnabled</set>
        </property>
@@ -135,21 +126,13 @@
        <property name="text">
         <string>Speed</string>
        </property>
-       <property name="icon">
-        <iconset resource="../icons.qrc">
-         <normaloff>:/Icons/oxygen/chronometer.png</normaloff>:/Icons/oxygen/chronometer.png</iconset>
-       </property>
       </item>
       <item>
        <property name="text">
-        <string>Bittorrent</string>
+        <string>BitTorrent</string>
        </property>
        <property name="textAlignment">
         <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-       </property>
-       <property name="icon">
-        <iconset resource="../icons.qrc">
-         <normaloff>:/Icons/oxygen/bt_settings.png</normaloff>:/Icons/oxygen/bt_settings.png</iconset>
        </property>
        <property name="flags">
         <set>ItemIsSelectable|ItemIsEnabled</set>
@@ -162,10 +145,6 @@
        <property name="textAlignment">
         <set>AlignHCenter|AlignVCenter|AlignCenter</set>
        </property>
-       <property name="icon">
-        <iconset resource="../icons.qrc">
-         <normaloff>:/Icons/oxygen/webui.png</normaloff>:/Icons/oxygen/webui.png</iconset>
-       </property>
        <property name="flags">
         <set>ItemIsSelectable|ItemIsEnabled</set>
        </property>
@@ -173,10 +152,6 @@
       <item>
        <property name="text">
         <string>Advanced</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../icons.qrc">
-         <normaloff>:/Icons/oxygen/gear32.png</normaloff>:/Icons/oxygen/gear32.png</iconset>
        </property>
       </item>
      </widget>
@@ -202,7 +177,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>507</width>
+             <width>506</width>
              <height>430</height>
             </rect>
            </property>
@@ -359,7 +334,7 @@
                     </property>
                     <item>
                      <property name="text">
-                      <string>Start / Stop</string>
+                      <string>Start / Stop Torrent</string>
                      </property>
                     </item>
                     <item>
@@ -385,7 +360,7 @@
                    <widget class="QComboBox" name="actionTorrentFnOnDblClBox">
                     <item>
                      <property name="text">
-                      <string>Start / Stop</string>
+                      <string>Start / Stop Torrent</string>
                      </property>
                     </item>
                     <item>
@@ -506,7 +481,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>507</width>
+             <width>506</width>
              <height>698</height>
             </rect>
            </property>
@@ -612,9 +587,8 @@ QGroupBox {
                         <height>27</height>
                        </size>
                       </property>
-                      <property name="icon">
-                       <iconset resource="../icons.qrc">
-                        <normaloff>:/Icons/oxygen/browse.png</normaloff>:/Icons/oxygen/browse.png</iconset>
+                      <property name="text">
+                       <string notr="true">...</string>
                       </property>
                      </widget>
                     </item>
@@ -685,9 +659,8 @@ QGroupBox {
                       <height>27</height>
                      </size>
                     </property>
-                    <property name="icon">
-                     <iconset resource="../icons.qrc">
-                      <normaloff>:/Icons/oxygen/browse.png</normaloff>:/Icons/oxygen/browse.png</iconset>
+                    <property name="text">
+                     <string notr="true">...</string>
                     </property>
                    </widget>
                   </item>
@@ -803,6 +776,12 @@ QGroupBox {
                </item>
                <item>
                 <widget class="QGroupBox" name="checkExportDir">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">QGroupBox::title {
 font-weight: normal;
@@ -843,9 +822,8 @@ QGroupBox {
                       <height>27</height>
                      </size>
                     </property>
-                    <property name="icon">
-                     <iconset resource="../icons.qrc">
-                      <normaloff>:/Icons/oxygen/browse.png</normaloff>:/Icons/oxygen/browse.png</iconset>
+                    <property name="text">
+                     <string notr="true">...</string>
                     </property>
                    </widget>
                   </item>
@@ -875,6 +853,9 @@ QGroupBox {
               </property>
               <property name="checkable">
                <bool>true</bool>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
               </property>
               <layout class="QGridLayout" name="gridLayout_15">
                <item row="0" column="0">
@@ -908,6 +889,9 @@ QGroupBox {
               <property name="checkable">
                <bool>true</bool>
               </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
               <layout class="QVBoxLayout" name="verticalLayout_19">
                <item>
                 <widget class="QLineEdit" name="autoRun_txt"/>
@@ -940,8 +924,8 @@ QGroupBox {
             <rect>
              <x>0</x>
              <y>-51</y>
-             <width>507</width>
-             <height>485</height>
+             <width>506</width>
+             <height>457</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_20">
@@ -1000,17 +984,7 @@ QGroupBox {
                  <item>
                   <widget class="QCheckBox" name="checkUPnP">
                    <property name="text">
-                    <string>Enable UPnP port mapping</string>
-                   </property>
-                   <property name="checked">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QCheckBox" name="checkNATPMP">
-                   <property name="text">
-                    <string>Enable NAT-PMP port mapping</string>
+                    <string>Use UPnP / NAT-PMP port forwarding from my router</string>
                    </property>
                    <property name="checked">
                     <bool>true</bool>
@@ -1375,13 +1349,34 @@ QGroupBox {
                 <widget class="QToolButton" name="browseFilterButton">
                  <property name="minimumSize">
                   <size>
-                   <width>22</width>
-                   <height>22</height>
+                   <width>28</width>
+                   <height>27</height>
                   </size>
                  </property>
-                 <property name="icon">
-                  <iconset resource="../icons.qrc">
-                   <normaloff>:/Icons/oxygen/browse.png</normaloff>:/Icons/oxygen/browse.png</iconset>
+                 <property name="text">
+                  <string notr="true">...</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="3">
+                <widget class="QToolButton" name="IpFilterRefreshBtn">
+                 <property name="minimumSize">
+                  <size>
+                   <width>28</width>
+                   <height>27</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Reload the filter</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>16</width>
+                   <height>16</height>
+                  </size>
                  </property>
                 </widget>
                </item>
@@ -1410,7 +1405,7 @@ QGroupBox {
              <x>0</x>
              <y>0</y>
              <width>524</width>
-             <height>406</height>
+             <height>414</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_33">
@@ -1797,8 +1792,8 @@ QGroupBox {
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-25</y>
-             <width>570</width>
+             <y>0</y>
+             <width>581</width>
              <height>422</height>
             </rect>
            </property>
@@ -1806,7 +1801,7 @@ QGroupBox {
             <item>
              <widget class="QGroupBox" name="AddBTFeaturesBox">
               <property name="title">
-               <string>Bittorrent features</string>
+               <string>Privacy</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_14">
                <item>
@@ -1822,7 +1817,7 @@ QGroupBox {
 }</string>
                  </property>
                  <property name="title">
-                  <string>Enable DHT network (decentralized)</string>
+                  <string>Enable DHT (decentralized network) to find more peers</string>
                  </property>
                  <property name="checkable">
                   <bool>true</bool>
@@ -1844,7 +1839,7 @@ QGroupBox {
 }</string>
                     </property>
                     <property name="title">
-                     <string>Use a different port for DHT and Bittorrent</string>
+                     <string>Use a different port for DHT and BitTorrent</string>
                     </property>
                     <property name="checkable">
                      <bool>true</bool>
@@ -1908,7 +1903,7 @@ QGroupBox {
                   <string>Exchange peers with compatible Bittorrent clients (µTorrent, Vuze, ...)</string>
                  </property>
                  <property name="text">
-                  <string>Enable Peer Exchange / PeX (requires restart)</string>
+                  <string>Enable Peer Exchange (PeX) to find more peers</string>
                  </property>
                  <property name="checked">
                   <bool>true</bool>
@@ -1921,7 +1916,7 @@ QGroupBox {
                   <string>Look for peers on your local network</string>
                  </property>
                  <property name="text">
-                  <string>Enable Local Peer Discovery</string>
+                  <string>Enable Local Peer Discovery to find more peers</string>
                  </property>
                  <property name="checked">
                   <bool>true</bool>
@@ -1933,7 +1928,7 @@ QGroupBox {
                  <item>
                   <widget class="QLabel" name="lbl_encryption">
                    <property name="text">
-                    <string>Protocol encryption:</string>
+                    <string>Encryption mode:</string>
                    </property>
                   </widget>
                  </item>
@@ -1941,17 +1936,17 @@ QGroupBox {
                   <widget class="QComboBox" name="comboEncryption">
                    <item>
                     <property name="text">
-                     <string>Enabled</string>
+                     <string>Prefer encryption</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>Forced</string>
+                     <string>Require encryption</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>Disabled</string>
+                     <string>Disable encryption</string>
                     </property>
                    </item>
                   </widget>
@@ -2181,8 +2176,8 @@ QGroupBox {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>524</width>
-             <height>406</height>
+             <width>377</width>
+             <height>229</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_23">
@@ -2344,8 +2339,8 @@ QGroupBox {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>524</width>
-             <height>406</height>
+             <width>98</width>
+             <height>28</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_36"/>
@@ -2401,7 +2396,6 @@ QGroupBox {
   <tabstop>checkStartPaused</tabstop>
   <tabstop>spinPort</tabstop>
   <tabstop>checkUPnP</tabstop>
-  <tabstop>checkNATPMP</tabstop>
   <tabstop>checkLSD</tabstop>
   <tabstop>comboEncryption</tabstop>
   <tabstop>checkMaxRatio</tabstop>

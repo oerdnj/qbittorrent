@@ -1,24 +1,38 @@
-* Sat Jan 1 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.5.3
-    - BUGFIX: Fix priority up/down for multiple torrents at the same time (closes #692184)
-    - BUGFIX: Make sure the number of torrents is properly set on startup (closes #694135)
-    - BUGFIX: Fix scan directories saving (closes #694768)
-    - BUGFIX: Remove empty folders on torrent soft deletion (closes #695174)
-    - BUGFIX: Make sure the main window has focus on startup
-    - BUGFIX: Fix ampersand display in search tabs (closes #695715)
+* Wed Jan 12 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.6.2
+    - BUGFIX: Do not report PeX as being disabled when DHT is
+    - BUGFIX: Fix possible crash on adding magnet links
+    - BUGFIX: Fix torrent import (was not working)
+    - I18N: Updated Greek, Croatian, Russian, Unkrainian and Bulgarian translations
+    - I18N: Added Armenian translation (New)
+    - I18N: Remove country flags from program preferences (language selection)
+    - I18N: Translate locale names (language selection)
 
-* Sun Dec 19 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.5.2
-    - BUGFIX: Fix alternative speed icon staying pressed when disabled
-    - BUGFIX: Fix slot warning on startup
-    - BUGFIX: Fix alignment issues in program preferences
-    - BUGFIX: Make sure we don't move completed torrent to the temp directory
-    for checking (closes #602938)
-    - BUGFIX: Fix some 'File Not found' warning in the Web UI
-    - BUGFIX: Fix dangerous usage of vector iterator
-    - BUGFIX: No longer expand the first folder in the torrent content list
-    - BUGFIX: Fixes possible crash in the RSS Downloader dialog (closes #691426)
+* Mon Jan 10 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.6.1
+    - BUGFIX: Really disable torrent addition dialog by default
+    - BUGFIX: Fix some missing icons in the Web UI
+    - BUGFIX: Fix magnet torrent name update problem
+    - COSMETIC: Use 24px size for toolbar icons and reduce spacing
+    - COSMETIC: Move transfer list filter on the right side of the toolbar
 
-* Sun Dec 5 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.5.1
-    - BUGFIX: Fix possible crash when right-clicking on a torrent
+* Sun Jan 9 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.6.0
+    - FEATURE: Use system icons (Linux, Qt >= 4.6)
+    - FEATURE: Improved ETA calculation
+    - FEATURE: Simplify program preferences
+    - FEATURE: Software update check can now be disabled (Mac OS X / Windows)
+    - FEATURE: Display pieces size in torrent properties
+    - FEATURE: Added "Time Active/Seeded" column to transfer list
+    - FEATURE: Give feedback regarding the IP filter parsing
+    - FEATURE: Added a button to reload the IP filter
+    - FEATURE: Search engine results can now be opened in a Web browser
+    - FEATURE: Added a search engine plugin to extratorrent.com
+    - FEATURE: Added a search engine plugin for kickasstorrents.com
+    - FEATURE: Added auto-suspend upon downloads completion feature
+    - BUGFIX: Hide unwanted files that have to be partly downloaded
+    - BUGFIX: Do not allocate space for unwanted files (preallocation mode)
+    - I18N: Added Galician translation
+    - COSMETIC: Same deletion confirmation dialog in the GUI and Web UI
+    - COSMETIC: Simplified the top toolbar
+    - COSMETIC: Display execution log as a tab instead of a modal window
 
 * Sun Dec 5 2010 - Christophe Dumez <chris@qbittorrent.org> - v2.5.0
     - FEATURE: qBittorrent can now act as a tracker

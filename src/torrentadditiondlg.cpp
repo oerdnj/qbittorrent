@@ -52,7 +52,7 @@
 #include "misc.h"
 #include "proplistdelegate.h"
 #include "torrentpersistentdata.h"
-
+#include "iconprovider.h"
 #include "torrentadditiondlg.h"
 
 using namespace libtorrent;
@@ -62,6 +62,9 @@ torrentAdditionDialog::torrentAdditionDialog(QWidget *parent) :
   const Preferences pref;
   setupUi(this);
   setAttribute(Qt::WA_DeleteOnClose);
+  // Icons
+  CancelButton->setIcon(IconProvider::instance()->getIcon("dialog-cancel"));
+  OkButton->setIcon(IconProvider::instance()->getIcon("list-add"));
   // Set Properties list model
   PropListModel = new TorrentFilesModel();
   connect(PropListModel, SIGNAL(filteredFilesChanged()), SLOT(updateDiskSpaceLabels()));
@@ -138,13 +141,9 @@ void torrentAdditionDialog::saveSettings() {
 }
 
 void torrentAdditionDialog::renameTorrentNameInModel(QString file_path) {
-  file_path = file_path.trimmed();
-  if(file_path.isEmpty()) return;
-  file_path = file_path.replace("\\", "/");
-  // Rename in torrent files model too
-  QStringList parts = file_path.split("/", QString::SkipEmptyParts);
-  if(!parts.empty())
-    PropListModel->setData(PropListModel->index(0, 0), parts.last());
+  const QString new_name = misc::fileName(file_path);
+  if(!new_name.isEmpty())
+    PropListModel->setData(PropListModel->index(0, 0), new_name);
 }
 
 void torrentAdditionDialog::limitDialogWidth() {
@@ -327,7 +326,7 @@ void torrentAdditionDialog::displayContentListMenu(const QPoint&) {
   const QModelIndexList selectedRows = torrentContentList->selectionModel()->selectedRows(0);
   QAction *actRename = 0;
   if(selectedRows.size() == 1 && t->num_files() > 1) {
-    actRename = myFilesLlistMenu.addAction(QIcon(QString::fromUtf8(":/Icons/oxygen/edit_clear.png")), tr("Rename..."));
+    actRename = myFilesLlistMenu.addAction(IconProvider::instance()->getIcon("edit-rename"), tr("Rename..."));
     myFilesLlistMenu.addSeparator();
   }
   QMenu subMenu;

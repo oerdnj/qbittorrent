@@ -11,7 +11,14 @@
 #include "preferences.h"
 
 enum AdvSettingsCols {PROPERTY, VALUE};
-enum AdvSettingsRows {DISK_CACHE, OUTGOING_PORT_MIN, OUTGOING_PORT_MAX, IGNORE_LIMIT_LAN, COUNT_OVERHEAD, RECHECK_COMPLETED, LIST_REFRESH, RESOLVE_COUNTRIES, RESOLVE_HOSTS, MAX_HALF_OPEN, SUPER_SEEDING, NETWORK_IFACE, PROGRAM_NOTIFICATIONS, TRACKER_STATUS, TRACKER_PORT, ROW_COUNT };
+enum AdvSettingsRows {DISK_CACHE, OUTGOING_PORT_MIN, OUTGOING_PORT_MAX, IGNORE_LIMIT_LAN, COUNT_OVERHEAD, RECHECK_COMPLETED, LIST_REFRESH, RESOLVE_COUNTRIES, RESOLVE_HOSTS, MAX_HALF_OPEN, SUPER_SEEDING, NETWORK_IFACE, PROGRAM_NOTIFICATIONS, TRACKER_STATUS, TRACKER_PORT,
+                    #if defined(Q_WS_WIN) || defined(Q_WS_MAC)
+                      UPDATE_CHECK,
+                    #endif
+                    #if defined(Q_WS_X11) && (QT_VERSION >= QT_VERSION_CHECK(4,6,0))
+                      USE_ICON_THEME,
+                    #endif
+                      ROW_COUNT };
 
 class AdvancedSettings: public QTableWidget {
   Q_OBJECT
@@ -20,6 +27,12 @@ private:
   QSpinBox *spin_cache, *outgoing_ports_min, *outgoing_ports_max, *spin_list_refresh, *spin_maxhalfopen, *spin_tracker_port;
   QCheckBox *cb_ignore_limits_lan, *cb_count_overhead, *cb_recheck_completed, *cb_resolve_countries, *cb_resolve_hosts, *cb_super_seeding, *cb_program_notifications, *cb_tracker_status;
   QComboBox *combo_iface;
+#if defined(Q_WS_WIN) || defined(Q_WS_MAC)
+  QCheckBox *cb_update_check;
+#endif
+#if defined(Q_WS_X11) && (QT_VERSION >= QT_VERSION_CHECK(4,6,0))
+  QCheckBox *cb_use_icon_theme;
+#endif
 
 public:
   AdvancedSettings(QWidget *parent=0): QTableWidget(parent) {
@@ -54,6 +67,12 @@ public:
     delete cb_program_notifications;
     delete spin_tracker_port;
     delete cb_tracker_status;
+#if defined(Q_WS_WIN) || defined(Q_WS_MAC)
+    delete cb_update_check;
+#endif
+#if defined(Q_WS_X11) && (QT_VERSION >= QT_VERSION_CHECK(4,6,0))
+    delete cb_use_icon_theme;
+#endif
   }
 
 public slots:
@@ -93,6 +112,13 @@ public slots:
     // Tracker
     pref.setTrackerEnabled(cb_tracker_status->isChecked());
     pref.setTrackerPort(spin_tracker_port->value());
+#if defined(Q_WS_WIN) || defined(Q_WS_MAC)
+    pref.setUpdateCheckEnabled(cb_update_check->isChecked());
+#endif
+    // Icon theme
+#if defined(Q_WS_X11) && (QT_VERSION >= QT_VERSION_CHECK(4,6,0))
+    pref.useSystemIconTheme(cb_use_icon_theme->isChecked());
+#endif
   }
 
 protected slots:
@@ -215,6 +241,20 @@ protected slots:
     spin_tracker_port->setMaximum(65535);
     spin_tracker_port->setValue(pref.getTrackerPort());
     setCellWidget(TRACKER_PORT, VALUE, spin_tracker_port);
+#if defined(Q_WS_WIN) || defined(Q_WS_MAC)
+    setItem(UPDATE_CHECK, PROPERTY, new QTableWidgetItem(tr("Check for software updates")));
+    cb_update_check = new QCheckBox();
+    connect(cb_update_check, SIGNAL(toggled(bool)), this, SLOT(emitSettingsChanged()));
+    cb_update_check->setChecked(pref.isUpdateCheckEnabled());
+    setCellWidget(UPDATE_CHECK, VALUE, cb_update_check);
+#endif
+#if defined(Q_WS_X11) && (QT_VERSION >= QT_VERSION_CHECK(4,6,0))
+    setItem(USE_ICON_THEME, PROPERTY, new QTableWidgetItem(tr("Use system icon theme")));
+    cb_use_icon_theme = new QCheckBox();
+    connect(cb_use_icon_theme, SIGNAL(toggled(bool)), this, SLOT(emitSettingsChanged()));
+    cb_use_icon_theme->setChecked(pref.useSystemIconTheme());
+    setCellWidget(USE_ICON_THEME, VALUE, cb_use_icon_theme);
+#endif
   }
 
   void emitSettingsChanged() {

@@ -36,6 +36,9 @@
 #include "json.h"
 #include "qbtsession.h"
 #include "misc.h"
+#ifndef DISABLE_GUI
+#include "iconprovider.h"
+#endif
 #include <QTcpSocket>
 #include <QDateTime>
 #include <QStringList>
@@ -237,14 +240,25 @@ void HttpConnection::respond() {
       return;
     }
   }
-  if (list[0] == "images") {
-    list[0] = "Icons";
+  // Icons from theme
+  qDebug() << "list[0]" << list[0];
+  if(list[0] == "theme" && list.size() == 2) {
+#ifdef DISABLE_GUI
+    url = ":/Icons/oxygen/"+list[1]+".png";
+#else
+    url = IconProvider::instance()->getIconPath(list[1]);
+#endif
+    qDebug() << "There icon:" << url;
   } else {
-    if(list.last().endsWith(".html"))
-      list.prepend("html");
-    list.prepend("webui");
+    if (list[0] == "images") {
+      list[0] = "Icons";
+    } else {
+      if(list.last().endsWith(".html"))
+        list.prepend("html");
+      list.prepend("webui");
+    }
+    url = ":/" + list.join("/");
   }
-  url = ":/" + list.join("/");
   QFile file(url);
   if(!file.open(QIODevice::ReadOnly))
   {
@@ -492,11 +506,17 @@ void HttpConnection::respondCommand(QString command)
     return;
   }
   if(command == "delete") {
-    emit deleteTorrent(parser.post("hash"), false);
+    QStringList hashes = parser.post("hashes").split("|");
+    foreach(const QString &hash, hashes) {
+      emit deleteTorrent(hash, false);
+    }
     return;
   }
   if(command == "deletePerm") {
-    emit deleteTorrent(parser.post("hash"), true);
+    QStringList hashes = parser.post("hashes").split("|");
+    foreach(const QString &hash, hashes) {
+      emit deleteTorrent(hash, true);
+    }
     return;
   }
   if(command == "increasePrio") {

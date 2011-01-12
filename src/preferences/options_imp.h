@@ -42,6 +42,8 @@ class AdvancedSettings;
 
 class options_imp : public QDialog, private Ui_Preferences {
   Q_OBJECT
+private:
+  enum Tabs {TAB_UI, TAB_DOWNLOADS, TAB_CONNECTION, TAB_SPEED, TAB_BITTORRENT, TAB_WEBUI, TAB_ADVANCED};
 
 public:
   // Contructor / Destructor
@@ -78,6 +80,8 @@ protected slots:
   void on_addScanFolderButton_clicked();
   void on_removeScanFolderButton_clicked();
   void handleScanFolderViewSelectionChanged();
+  void on_IpFilterRefreshBtn_clicked();
+  void handleIPFilterParsed(bool error, int ruleCount);
 
 public slots:
   void setLocale(QString locale);
@@ -93,6 +97,7 @@ private:
   void saveOptions();
   void loadOptions();
   void initializeLanguageCombo();
+  static QString languageToLocalizedString(QLocale::Language language, const QString& country);
   // General options
   QString getLocale() const;
   QString getStyle() const;
@@ -114,7 +119,6 @@ private:
   // Connection options
   int getPort() const;
   bool isUPnPEnabled() const;
-  bool isNATPMPEnabled() const;
   QPair<int,int> getGlobalBandwidthLimits() const;
   // Bittorrent options
   int getMaxConnecs() const;
@@ -137,6 +141,7 @@ private:
   // IP Filter
   bool isFilteringEnabled() const;
   QString getFilter() const;
+  bool m_refreshingIpFilter;
   // Queueing system
   bool isQueueingSystemEnabled() const;
   int getMaxActiveDownloads() const;

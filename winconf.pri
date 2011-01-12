@@ -26,8 +26,9 @@ DEFINES += _WIN32
 DEFINES += _WIN32_WINNT=0x0500
 DEFINES += __USE_W32_SOCKETS
 DEFINES += WITH_SHIPPED_GEOIP_H
+DEFINES += TORRENT_USE_WPATH
 
-debug {
+CONFIG(debug, debug|release) {
   DEFINES += TORRENT_DEBUG
 } else {
   DEFINES += NDEBUG
@@ -35,7 +36,7 @@ debug {
 
 RC_FILE = qbittorrent.rc
 
-debug {
+CONFIG(debug, debug|release) {
   LIBS += libtorrentd.lib \
           libboost_system-vc90-mt-gd.lib \
           libboost_filesystem-vc90-mt-gd.lib \
@@ -49,6 +50,7 @@ debug {
 
 LIBS += advapi32.lib shell32.lib
 LIBS += libeay32MD.lib ssleay32MD.lib
+LIBS += PowrProf.lib
 
 DEFINES += WITH_GEOIP_EMBEDDED
 message("On Windows, GeoIP database must be embedded.")
