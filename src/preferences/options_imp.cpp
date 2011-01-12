@@ -49,16 +49,28 @@
 #include "advancedsettings.h"
 #include "scannedfoldersmodel.h"
 #include "qinisettings.h"
+#include "qbtsession.h"
+#include "iconprovider.h"
 
 using namespace libtorrent;
 
 // Constructor
-options_imp::options_imp(QWidget *parent):QDialog(parent){
+options_imp::options_imp(QWidget *parent):
+  QDialog(parent), m_refreshingIpFilter(false) {
   qDebug("-> Constructing Options");
+  setupUi(this);
   setAttribute(Qt::WA_DeleteOnClose);
   setModal(true);
+  // Icons
+  tabSelection->item(TAB_UI)->setIcon(IconProvider::instance()->getIcon("preferences-desktop"));
+  tabSelection->item(TAB_BITTORRENT)->setIcon(IconProvider::instance()->getIcon("preferences-system-network"));
+  tabSelection->item(TAB_CONNECTION)->setIcon(IconProvider::instance()->getIcon("network-wired"));
+  tabSelection->item(TAB_DOWNLOADS)->setIcon(IconProvider::instance()->getIcon("download"));
+  tabSelection->item(TAB_SPEED)->setIcon(IconProvider::instance()->getIcon("chronometer"));
+  tabSelection->item(TAB_WEBUI)->setIcon(IconProvider::instance()->getIcon("network-server"));
+  tabSelection->item(TAB_ADVANCED)->setIcon(IconProvider::instance()->getIcon("preferences-other"));
+  IpFilterRefreshBtn->setIcon(IconProvider::instance()->getIcon("view-refresh"));
 
-  setupUi(this);
   hsplitter->setCollapsible(0, false);
   hsplitter->setCollapsible(1, false);
   // Get apply button in button box
@@ -144,7 +156,6 @@ options_imp::options_imp(QWidget *parent):QDialog(parent){
   // Connection tab
   connect(spinPort, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(checkUPnP, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
-  connect(checkNATPMP, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkUploadLimit, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkDownloadLimit, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(spinUploadLimit, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
@@ -219,8 +230,8 @@ void options_imp::initializeLanguageCombo()
     localeStr.chop(3); // Remove ".qm"
     QLocale locale(localeStr);
     const QString country = locale.name().split("_").last().toLower();
-    QString language_name = QLocale::languageToString(locale.language());
-    comboI18n->addItem(QIcon(":/Icons/flags/"+country+".png"), language_name, locale.name());
+    QString language_name = languageToLocalizedString(locale.language(), country);
+        comboI18n->addItem(/*QIcon(":/Icons/flags/"+country+".png"), */language_name, locale.name());
     qDebug() << "Supported locale:" << locale.name();
   }
 }
@@ -359,7 +370,6 @@ void options_imp::saveOptions(){
   // Connection preferences
   pref.setSessionPort(getPort());
   pref.setUPnPEnabled(isUPnPEnabled());
-  pref.setNATPMPEnabled(isNATPMPEnabled());
   const QPair<int, int> down_up_limit = getGlobalBandwidthLimits();
   pref.setGlobalDownloadLimit(down_up_limit.first);
   pref.setGlobalUploadLimit(down_up_limit.second);
@@ -529,7 +539,6 @@ void options_imp::loadOptions(){
   // Connection preferences
   spinPort->setValue(pref.getSessionPort());
   checkUPnP->setChecked(pref.isUPnPEnabled());
-  checkNATPMP->setChecked(pref.isNATPMPEnabled());
   intValue = pref.getGlobalDownloadLimit();
   if(intValue > 0) {
     // Enabled
@@ -715,10 +724,6 @@ bool options_imp::isLSDEnabled() const{
 
 bool options_imp::isUPnPEnabled() const{
   return checkUPnP->isChecked();
-}
-
-bool options_imp::isNATPMPEnabled() const{
-  return checkNATPMP->isChecked();
 }
 
 // Return Download & Upload limits in kbps
@@ -1145,3 +1150,78 @@ void options_imp::showConnectionTab()
   tabSelection->setCurrentRow(2);
 }
 
+void options_imp::on_IpFilterRefreshBtn_clicked() {
+  if(m_refreshingIpFilter) return;
+  m_refreshingIpFilter = true;
+  // Updating program preferences
+  Preferences pref;
+  pref.setFilteringEnabled(true);
+  pref.setFilter(getFilter());
+  // Force refresh
+  connect(QBtSession::instance(), SIGNAL(ipFilterParsed(bool, int)), SLOT(handleIPFilterParsed(bool, int)));
+  setCursor(QCursor(Qt::WaitCursor));
+  QBtSession::instance()->enableIPFilter(getFilter(), true);
+}
+
+void options_imp::handleIPFilterParsed(bool error, int ruleCount)
+{
+  setCursor(QCursor(Qt::ArrowCursor));
+  if(error) {
+    QMessageBox::warning(this, tr("Parsing error"), tr("Failed to parse the provided IP filter"));
+  } else {
+    QMessageBox::information(this, tr("Succesfully refreshed"), tr("Successfuly parsed the provided IP filter: %1 rules were applied.", "%1 is a number").arg(ruleCount));
+  }
+  m_refreshingIpFilter = false;
+  disconnect(QBtSession::instance(), SIGNAL(ipFilterParsed(bool, int)), this, SLOT(handleIPFilterParsed(bool, int)));
+}
+
+QString options_imp::languageToLocalizedString(QLocale::Language language, const QString& country)
+{
+  switch(language) {
+  case QLocale::English: return "English";
+  case QLocale::French: return QString::fromUtf8("Français");
+  case QLocale::German: return QString::fromUtf8("Deutsch");
+  case QLocale::Hungarian: return QString::fromUtf8("Magyar");
+  case QLocale::Italian: return QString::fromUtf8("Italiano");
+  case QLocale::Dutch: return QString::fromUtf8("Nederlands");
+  case QLocale::Spanish: return QString::fromUtf8("Español");
+  case QLocale::Catalan: return QString::fromUtf8("Català");
+  case QLocale::Galician: return QString::fromUtf8("Galego");
+  case QLocale::Portuguese: {
+    if(country == "br")
+      return QString::fromUtf8("Português brasileiro");
+    return QString::fromUtf8("Português");
+  }
+  case QLocale::Polish: return QString::fromUtf8("Polski");
+  case QLocale::Czech: return QString::fromUtf8("Čeština");
+  case QLocale::Slovak: return QString::fromUtf8("Slovenčina");
+  case QLocale::Serbian: return QString::fromUtf8("Српски");
+  case QLocale::Croatian: return QString::fromUtf8("Hrvatski");
+  case QLocale::Armenian: return QString::fromUtf8("Հայերեն");
+  case QLocale::Romanian: return QString::fromUtf8("Română");
+  case QLocale::Turkish: return QString::fromUtf8("Türkçe");
+  case QLocale::Greek: return QString::fromUtf8("Ελληνικά");
+  case QLocale::Swedish: return QString::fromUtf8("Svenska");
+  case QLocale::Finnish: return QString::fromUtf8("Suomi");
+  case QLocale::Norwegian: return QString::fromUtf8("Norsk");
+  case QLocale::Danish: return QString::fromUtf8("Dansk");
+  case QLocale::Bulgarian: return QString::fromUtf8("Български");
+  case QLocale::Ukrainian: return QString::fromUtf8("Українська");
+  case QLocale::Russian: return QString::fromUtf8("Русский");
+  case QLocale::Japanese: return QString::fromUtf8("日本語");
+  case QLocale::Arabic: return QString::fromUtf8("عربي");
+  case QLocale::Chinese: {
+    if(country == "cn")
+      return QString::fromUtf8("中文 (简体)");
+    return QString::fromUtf8("中文 (繁體)");
+  }
+  case QLocale::Korean: return QString::fromUtf8("한글");
+  default: {
+    // Fallback to English
+    const QString eng_lang = QLocale::languageToString(language);
+    qWarning() << "Unrecognized language name: " << eng_lang;
+    return eng_lang;
+  }
+  }
+
+}

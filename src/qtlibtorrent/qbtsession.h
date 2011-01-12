@@ -59,6 +59,7 @@ class FilterParserThread;
 class HttpServer;
 class BandwidthScheduler;
 class ScanFoldersModel;
+class TorrentSpeedMonitor;
 
 class QBtSession : public QObject {
   Q_OBJECT
@@ -86,7 +87,6 @@ public:
   //int getMaximumActiveDownloads() const;
   //int getMaximumActiveTorrents() const;
   int loadTorrentPriority(QString hash);
-  qlonglong getETA(QString hash);
   inline QStringList getConsoleMessages() const { return consoleMessages; }
   inline QStringList getPeerBanMessages() const { return peerBanMessages; }
   inline libtorrent::session* getSession() const { return s; }
@@ -95,7 +95,7 @@ public:
   inline ScanFoldersModel* getScanFoldersModel() const {  return m_scanFolders; }
   inline bool isDHTEnabled() const { return DHTEnabled; }
   inline bool isLSDEnabled() const { return LSDEnabled; }
-  inline bool isPexEnabled() const { return DHTEnabled; }
+  inline bool isPexEnabled() const { return PeXEnabled; }
   inline bool isQueueingEnabled() const { return queueingEnabled; }
 
 public slots:
@@ -108,6 +108,7 @@ public slots:
   void startUpTorrents();
   void recheckTorrent(QString hash);
   void useAlternativeSpeedsLimit(bool alternative);
+  qlonglong getETA(const QString& hash) const;
   /* Needed by Web UI */
   void pauseAllTorrents();
   void pauseTorrent(QString hash);
@@ -116,7 +117,7 @@ public slots:
   /* End Web UI */
   void preAllocateAllFiles(bool b);
   void saveFastResumeData();
-  void enableIPFilter(QString filter);
+  void enableIPFilter(const QString &filter_path, bool force=false);
   void disableIPFilter();
   void setQueueingEnabled(bool enable);
   void handleDownloadFailure(QString url, QString reason);
@@ -145,7 +146,6 @@ public slots:
   void setDownloadLimit(QString hash, long val);
   void setUploadLimit(QString hash, long val);
   void enableUPnP(bool b);
-  void enableNATPMP(bool b);
   void enableLSD(bool b);
   bool enableDHT(bool b);
 #ifdef DISABLE_GUI
@@ -161,18 +161,18 @@ public slots:
   void banIP(QString ip);
   void recursiveTorrentDownload(const QTorrentHandle &h);
 
-protected:
+private:
   QString getSavePath(QString hash, bool fromScanDir = false, QString filePath = QString::null, QString root_folder=QString::null);
   bool loadFastResumeData(QString hash, std::vector<char> &buf);
   void loadTorrentSettings(QTorrentHandle h);
   void loadTorrentTempData(QTorrentHandle h, QString savePath, bool magnet);
   libtorrent::add_torrent_params initializeAddTorrentParams(QString hash);
+  libtorrent::entry generateFilePriorityResumeData(boost::intrusive_ptr<libtorrent::torrent_info> t, const std::vector<int> &fp);
 
-protected slots:
+private slots:
   void addTorrentsFromScanFolder(QStringList&);
   void readAlerts();
   void processBigRatios();
-  void takeETASamples();
   void exportTorrentFiles(QString path);
   void saveTempFastResumeData();
   void sendNotificationEmail(QTorrentHandle h);
@@ -181,6 +181,8 @@ protected slots:
   void mergeTorrents(QTorrentHandle h_ex, boost::intrusive_ptr<libtorrent::torrent_info> t);
   void exportTorrentFile(QTorrentHandle h);
   void initWebUi();
+  void handleIPFilterParsed(int ruleCount);
+  void handleIPFilterError();
 
 signals:
   void addedTorrent(const QTorrentHandle& h);
@@ -198,9 +200,11 @@ signals:
   void torrentFinishedChecking(const QTorrentHandle& h);
   void metadataReceived(const QTorrentHandle &h);
   void savePathChanged(const QTorrentHandle &h);
-  void newConsoleMessage(QString msg);
+  void newConsoleMessage(const QString &msg);
+  void newBanMessage(const QString &msg);
   void alternativeSpeedsModeChanged(bool alternative);
   void recursiveTorrentDownloadPossible(const QTorrentHandle &h);
+  void ipFilterParsed(bool error, int ruleCount);
 
 private:
 #if LIBTORRENT_VERSION_MINOR < 15
@@ -232,7 +236,6 @@ private:
   float ratio_limit;
   int high_ratio_action;
   bool UPnPEnabled;
-  bool NATPMPEnabled;
   bool LSDEnabled;
   bool DHTEnabled;
   int current_dht_port;
@@ -245,9 +248,6 @@ private:
 #endif
   QString defaultSavePath;
   QString defaultTempPath;
-  // ETA Computation
-  QPointer<QTimer> timerETA;
-  QHash<QString, QList<int> > ETA_samples;
   // IP filtering
   QPointer<FilterParserThread> filterParser;
   QString filterPath;
@@ -261,6 +261,7 @@ private:
 #endif
   // Tracker
   QPointer<QTracker> m_tracker;
+  TorrentSpeedMonitor *m_speedMonitor;
 
 };
 

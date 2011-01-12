@@ -39,6 +39,7 @@
 
 #include "smtp.h"
 #include "filesystemwatcher.h"
+#include "torrentspeedmonitor.h"
 #include "qbtsession.h"
 #include "misc.h"
 #include "downloadthread.h"
@@ -86,7 +87,7 @@ enum VersionType { NORMAL,ALPHA,BETA,RELEASE_CANDIDATE,DEVEL };
 QBtSession::QBtSession()
   : m_scanFolders(ScanFoldersModel::instance(this)),
     preAllocateAll(false), addInPause(false), ratio_limit(-1),
-    UPnPEnabled(false), NATPMPEnabled(false), LSDEnabled(false),
+    UPnPEnabled(false), LSDEnabled(false),
     DHTEnabled(false), current_dht_port(0), queueingEnabled(false),
     torrentExport(false)
   #ifndef DISABLE_GUI
@@ -118,7 +119,7 @@ QBtSession::QBtSession()
   //s->add_extension(&create_metadata_plugin);
   s->add_extension(&create_ut_metadata_plugin);
 #if LIBTORRENT_VERSION_MINOR > 14
-  s->add_extension(create_lt_trackers_plugin);
+  s->add_extension(&create_lt_trackers_plugin);
 #endif
   if(pref.isPeXEnabled()) {
     PeXEnabled = true;
@@ -143,21 +144,23 @@ QBtSession::QBtSession()
   connect(m_scanFolders, SIGNAL(torrentsAdded(QStringList&)), this, SLOT(addTorrentsFromScanFolder(QStringList&)));
   // Apply user settings to Bittorrent session
   configureSession();
+  // Torrent speed monitor
+  m_speedMonitor = new TorrentSpeedMonitor(this);
+  m_speedMonitor->start();
   qDebug("* BTSession constructed");
 }
 
 // Main destructor
 QBtSession::~QBtSession() {
   qDebug("BTSession destructor IN");
+  delete m_speedMonitor;
+  qDebug("Deleted the torrent speed monitor");
   // Do some BT related saving
 #if LIBTORRENT_VERSION_MINOR < 15
   saveDHTEntry();
 #endif
   saveSessionState();
   saveFastResumeData();
-  qDebug("Deleting the session");
-  delete s;
-  qDebug("Session deleted");
   // Delete our objects
   if(m_tracker)
     delete m_tracker;
@@ -172,8 +175,8 @@ QBtSession::~QBtSession() {
   // HTTP Server
   if(httpServer)
     delete httpServer;
-  if(timerETA)
-    delete timerETA;
+  qDebug("Deleting the session");
+  delete s;
   qDebug("BTSession destructor OUT");
 }
 
@@ -355,21 +358,13 @@ void QBtSession::configureSession() {
     }
   }
 #endif
-  // * UPnP
+  // * UPnP / NAT-PMP
   if(pref.isUPnPEnabled()) {
     enableUPnP(true);
-    addConsoleMessage(tr("UPnP support [ON]"), QString::fromUtf8("blue"));
+    addConsoleMessage(tr("UPnP / NAT-PMP support [ON]"), QString::fromUtf8("blue"));
   } else {
     enableUPnP(false);
-    addConsoleMessage(tr("UPnP support [OFF]"), QString::fromUtf8("blue"));
-  }
-  // * NAT-PMP
-  if(pref.isNATPMPEnabled()) {
-    enableNATPMP(true);
-    addConsoleMessage(tr("NAT-PMP support [ON]"), QString::fromUtf8("blue"));
-  } else {
-    enableNATPMP(false);
-    addConsoleMessage(tr("NAT-PMP support [OFF]"), QString::fromUtf8("blue"));
+    addConsoleMessage(tr("UPnP / NAT-PMP support [OFF]"), QString::fromUtf8("blue"));
   }
   // * Session settings
   session_settings sessionSettings;
@@ -391,7 +386,7 @@ void QBtSession::configureSession() {
   sessionSettings.auto_scrape_min_interval = 900; // 15 minutes
 #endif
   sessionSettings.cache_size = pref.diskCacheSize()*64;
-  addConsoleMessage(tr("Using a disk cache size of %1 MiB").arg(pref.diskCacheSize()));
+  qDebug() << "Using a disk cache size of" << pref.diskCacheSize() << "MiB";
   // Queueing System
   if(pref.isQueueingSystemEnabled()) {
     sessionSettings.active_downloads = pref.getMaxActiveDownloads();
@@ -458,7 +453,7 @@ void QBtSession::configureSession() {
   // * LSD
   if(pref.isLSDEnabled()) {
     enableLSD(true);
-    addConsoleMessage(tr("Local Peer Discovery [ON]"), QString::fromUtf8("blue"));
+    addConsoleMessage(tr("Local Peer Discovery support [ON]"), QString::fromUtf8("blue"));
   } else {
     enableLSD(false);
     addConsoleMessage(tr("Local Peer Discovery support [OFF]"), QString::fromUtf8("blue"));
@@ -607,66 +602,6 @@ void QBtSession::useAlternativeSpeedsLimit(bool alternative) {
   emit alternativeSpeedsModeChanged(alternative);
 }
 
-void QBtSession::takeETASamples() {
-  bool change = false;;
-  foreach(const QString &hash, ETA_samples.keys()) {
-    const QTorrentHandle h = getTorrentHandle(hash);
-    if(h.is_valid() && !h.is_paused() && !h.is_seed()) {
-      QList<int> samples = ETA_samples.value(h.hash(), QList<int>());
-      if(samples.size() >= MAX_SAMPLES)
-        samples.removeFirst();
-      samples.append(h.download_payload_rate());
-      ETA_samples[h.hash()] = samples;
-      change = true;
-    } else {
-      ETA_samples.remove(hash);
-    }
-  }
-  if(!change && timerETA) {
-    delete timerETA;
-  }
-}
-
-// This algorithm was inspired from KTorrent - http://www.ktorrent.org
-// Calculate the ETA using a combination of several algorithms:
-// GASA: Global Average Speed Algorithm
-// CSA: Current Speed Algorithm
-// WINX: Window of X Algorithm
-qlonglong QBtSession::getETA(QString hash) {
-  const QTorrentHandle h = getTorrentHandle(hash);
-  if(!h.is_valid() || h.state() != torrent_status::downloading || !h.active_time())
-    return -1;
-  // See if the torrent is going to be completed soon
-  const qulonglong bytes_left = h.actual_size() - h.total_wanted_done();
-  if(h.actual_size() > 10485760L) { // Size > 10MiB
-    if(h.progress() >= (float)0.99 && bytes_left < 10485760L) { // Progress>99% but less than 10MB left.
-      // Compute by taking samples
-      if(!ETA_samples.contains(h.hash())) {
-        ETA_samples[h.hash()] = QList<int>();
-      }
-      if(!timerETA) {
-        timerETA = new QTimer(this);
-        connect(timerETA, SIGNAL(timeout()), this, SLOT(takeETASamples()));
-        timerETA->start();
-      } else {
-        const QList<int> samples = ETA_samples.value(h.hash(), QList<int>());
-        const int nb_samples = samples.size();
-        if(nb_samples > 3) {
-          long sum_samples = 0;
-          foreach(const int val, samples) {
-            sum_samples += val;
-          }
-          // Use WINX
-          return (qlonglong)(((double)bytes_left) / (((double)sum_samples) / ((double)nb_samples)));
-        }
-      }
-    }
-  }
-  // Normal case: Use GASA
-  double avg_speed = (double)h.all_time_download() / h.active_time();
-  return (qlonglong) floor((double) (bytes_left) / avg_speed);
-}
-
 // Return the torrent handle, given its hash
 QTorrentHandle QBtSession::getTorrentHandle(QString hash) const{
   return QTorrentHandle(s->find_torrent(misc::QStringToSha1(hash)));
@@ -732,7 +667,7 @@ void QBtSession::deleteTorrent(QString hash, bool delete_local_files) {
     if(h.has_metadata())
       uneeded_files = h.uneeded_files_path();
     s->remove_torrent(h);
-    // Remove unneeded files
+    // Remove unneeded and incomplete files
     foreach(const QString &uneeded_file, uneeded_files) {
       qDebug("Removing uneeded file: %s", qPrintable(uneeded_file));
       misc::safeRemove(uneeded_file);
@@ -920,36 +855,32 @@ QTorrentHandle QBtSession::addTorrent(QString path, bool fromScanDir, QString fr
   if(!path.endsWith(".torrent"))
     if(QFile::rename(path, path+".torrent")) path += ".torrent";
 #endif
-#ifdef Q_WS_WIN
-  const QString file = path.trimmed().replace("file:///", "", Qt::CaseInsensitive);
-#else
-  const QString file = path.trimmed().replace("file://", "", Qt::CaseInsensitive);
-#endif
-  if(file.isEmpty()) return h;
+  if(path.startsWith("file:", Qt::CaseInsensitive))
+    path = QUrl(path).toLocalFile();
+  if(path.isEmpty()) return h;
 
-  Q_ASSERT(!file.startsWith("http://", Qt::CaseInsensitive) && !file.startsWith("https://", Qt::CaseInsensitive)
-           && !file.startsWith("ftp://", Qt::CaseInsensitive));
+  Q_ASSERT(!misc::isUrl(path));
 
-  qDebug("Adding %s to download list", qPrintable(file));
+  qDebug("Adding %s to download list", qPrintable(path));
   boost::intrusive_ptr<torrent_info> t;
   try {
     // Getting torrent file informations
-    t = new torrent_info(file.toUtf8().constData());
+    t = new torrent_info(path.toUtf8().constData());
     if(!t->is_valid())
       throw std::exception();
   } catch(std::exception&) {
     if(!from_url.isNull()) {
       addConsoleMessage(tr("Unable to decode torrent file: '%1'", "e.g: Unable to decode torrent file: '/home/y/xxx.torrent'").arg(from_url), QString::fromUtf8("red"));
       //emit invalidTorrent(from_url);
-      misc::safeRemove(file);
+      misc::safeRemove(path);
     }else{
-      addConsoleMessage(tr("Unable to decode torrent file: '%1'", "e.g: Unable to decode torrent file: '/home/y/xxx.torrent'").arg(file), QString::fromUtf8("red"));
-      //emit invalidTorrent(file);
+      addConsoleMessage(tr("Unable to decode torrent file: '%1'", "e.g: Unable to decode torrent file: '/home/y/xxx.torrent'").arg(path), QString::fromUtf8("red"));
+      //emit invalidTorrent(path);
     }
     addConsoleMessage(tr("This file is either corrupted or this isn't a torrent."),QString::fromUtf8("red"));
     if(fromScanDir) {
       // Remove file
-      misc::safeRemove(file);
+      misc::safeRemove(path);
     }
     return h;
   }
@@ -966,14 +897,14 @@ QTorrentHandle QBtSession::addTorrent(QString path, bool fromScanDir, QString fr
     if(!from_url.isNull()) {
       addConsoleMessage(tr("'%1' is already in download list.", "e.g: 'xxx.avi' is already in download list.").arg(from_url));
     }else{
-      addConsoleMessage(tr("'%1' is already in download list.", "e.g: 'xxx.avi' is already in download list.").arg(file));
+      addConsoleMessage(tr("'%1' is already in download list.", "e.g: 'xxx.avi' is already in download list.").arg(path));
     }
     // Check if the torrent contains trackers or url seeds we don't know about
     // and add them
     mergeTorrents(getTorrentHandle(hash), t);
 
     // Delete file if temporary
-    if(!from_url.isNull() || fromScanDir) misc::safeRemove(file);
+    if(!from_url.isNull() || fromScanDir) misc::safeRemove(path);
     return h;
   }
 
@@ -981,7 +912,7 @@ QTorrentHandle QBtSession::addTorrent(QString path, bool fromScanDir, QString fr
   if(t->num_files() < 1) {
     addConsoleMessage(tr("Error: The torrent %1 does not contain any file.").arg(misc::toQStringU(t->name())));
     // Delete file if temporary
-    if(!from_url.isNull() || fromScanDir) misc::safeRemove(file);
+    if(!from_url.isNull() || fromScanDir) misc::safeRemove(path);
     return h;
   }
 
@@ -1001,7 +932,20 @@ QTorrentHandle QBtSession::addTorrent(QString path, bool fromScanDir, QString fr
       p.resume_data = &buf;
       qDebug("Successfully loaded fast resume data");
     }
+  } else {
+    // Generate fake resume data to make sure unwanted files
+    // are not allocated
+    if(preAllocateAll) {
+      vector<int> fp;
+      TorrentTempData::getFilesPriority(hash, fp);
+      if((int)fp.size() == t->num_files()) {
+        entry rd = generateFilePriorityResumeData(t, fp);
+        bencode(std::back_inserter(buf), rd);
+        p.resume_data = &buf;
+      }
+    }
   }
+
   QString savePath;
   if(!from_url.isEmpty() && savepathLabel_fromurl.contains(QUrl::fromEncoded(from_url.toLocal8Bit()))) {
     // Enforcing the save path defined before URL download (from RSS for example)
@@ -1042,7 +986,7 @@ QTorrentHandle QBtSession::addTorrent(QString path, bool fromScanDir, QString fr
   // Check if it worked
   if(!h.is_valid()) {
     qDebug("/!\\ Error: Invalid handle");
-    if(!from_url.isNull()) misc::safeRemove(file);
+    if(!from_url.isNull()) misc::safeRemove(path);
     return h;
   }
   // Remember root folder
@@ -1074,8 +1018,8 @@ QTorrentHandle QBtSession::addTorrent(QString path, bool fromScanDir, QString fr
 #endif
     // Backup torrent file
     const QString newFile = torrentBackup.absoluteFilePath(hash + ".torrent");
-    if(file != newFile)
-      QFile::copy(file, newFile);
+    if(path != newFile)
+      QFile::copy(path, newFile);
     // Copy the torrent file to the export folder
     if(torrentExport)
       exportTorrentFile(h);
@@ -1087,7 +1031,7 @@ QTorrentHandle QBtSession::addTorrent(QString path, bool fromScanDir, QString fr
   }
 
   // If temporary file, remove it
-  if(!from_url.isNull() || fromScanDir) misc::safeRemove(file);
+  if(!from_url.isNull() || fromScanDir) misc::safeRemove(path);
 
   // Display console message
   if(!from_url.isNull()) {
@@ -1097,9 +1041,9 @@ QTorrentHandle QBtSession::addTorrent(QString path, bool fromScanDir, QString fr
       addConsoleMessage(tr("'%1' added to download list.", "'/home/y/xxx.torrent' was added to download list.").arg(from_url));
   }else{
     if(fastResume)
-      addConsoleMessage(tr("'%1' resumed. (fast resume)", "'/home/y/xxx.torrent' was resumed. (fast resume)").arg(file));
+      addConsoleMessage(tr("'%1' resumed. (fast resume)", "'/home/y/xxx.torrent' was resumed. (fast resume)").arg(path));
     else
-      addConsoleMessage(tr("'%1' added to download list.", "'/home/y/xxx.torrent' was added to download list.").arg(file));
+      addConsoleMessage(tr("'%1' added to download list.", "'/home/y/xxx.torrent' was added to download list.").arg(path));
   }
 
   // Send torrent addition signal
@@ -1164,6 +1108,9 @@ void QBtSession::loadTorrentTempData(QTorrentHandle h, QString savePath, bool ma
       vector<int> fp;
       TorrentTempData::getFilesPriority(hash, fp);
       h.prioritize_files(fp);
+
+      // Prioritize first/last piece
+      h.prioritize_first_last_piece(TorrentTempData::isSequential(hash));
 
       // Update file names
       const QStringList files_path = TorrentTempData::getFilesPath(hash);
@@ -1313,31 +1260,17 @@ void QBtSession::setMaxUploadsPerTorrent(int max) {
 void QBtSession::enableUPnP(bool b) {
   if(b) {
     if(!UPnPEnabled) {
-      qDebug("Enabling UPnP");
+      qDebug("Enabling UPnP / NAT-PMP");
       s->start_upnp();
+      s->start_natpmp();
       UPnPEnabled = true;  
     }
   } else {
     if(UPnPEnabled) {
-      qDebug("Disabling UPnP");
+      qDebug("Disabling UPnP / NAT-PMP");
       s->stop_upnp();
-      UPnPEnabled = false;
-    }
-  }
-}
-
-void QBtSession::enableNATPMP(bool b) {
-  if(b) {
-    if(!NATPMPEnabled) {
-      qDebug("Enabling NAT-PMP");
-      s->start_natpmp();
-      NATPMPEnabled = true;
-    }
-  } else {
-    if(NATPMPEnabled) {
-      qDebug("Disabling NAT-PMP");
       s->stop_natpmp();
-      NATPMPEnabled = false;
+      UPnPEnabled = false;
     }
   }
 }
@@ -1345,13 +1278,13 @@ void QBtSession::enableNATPMP(bool b) {
 void QBtSession::enableLSD(bool b) {
   if(b) {
     if(!LSDEnabled) {
-      qDebug("Enabling LSD");
+      qDebug("Enabling Local Peer Discovery");
       s->start_lsd();
       LSDEnabled = true;
     }
   } else {
     if(LSDEnabled) {
-      qDebug("Disabling LSD");
+      qDebug("Disabling Local Peer Discovery");
       s->stop_lsd();
       LSDEnabled = false;
     }
@@ -1564,27 +1497,32 @@ void QBtSession::saveFastResumeData() {
 
 #ifdef DISABLE_GUI
 void QBtSession::addConsoleMessage(QString msg, QString) {
+  emit newConsoleMessage(QDateTime::currentDateTime().toString("dd/MM/yyyy hh:mm:ss") + " - " + msg);
 #else
 void QBtSession::addConsoleMessage(QString msg, QColor color) {
   if(consoleMessages.size() > 100) {
-    consoleMessages.removeFirst();
+    consoleMessages.removeLast();
   }
 #if defined(Q_WS_WIN) || defined(Q_OS_OS2)
   msg = msg.replace("/", "\\");
 #endif
-  consoleMessages.append(QString::fromUtf8("<font color='grey'>")+ QDateTime::currentDateTime().toString(QString::fromUtf8("dd/MM/yyyy hh:mm:ss")) + QString::fromUtf8("</font> - <font color='") + color.name() +QString::fromUtf8("'><i>") + msg + QString::fromUtf8("</i></font>"));
+  msg = "<font color='grey'>"+ QDateTime::currentDateTime().toString(QString::fromUtf8("dd/MM/yyyy hh:mm:ss")) + "</font> - <font color='" + color.name() + "'><i>" + msg + "</i></font>";
+  consoleMessages.prepend(msg);
+  emit newConsoleMessage(msg);
 #endif
-  emit newConsoleMessage(QDateTime::currentDateTime().toString("dd/MM/yyyy hh:mm:ss") + " - " + msg);
 }
 
 void QBtSession::addPeerBanMessage(QString ip, bool from_ipfilter) {
   if(peerBanMessages.size() > 100) {
-    peerBanMessages.removeFirst();
+    peerBanMessages.removeLast();
   }
+  QString msg;
   if(from_ipfilter)
-    peerBanMessages.append(QString::fromUtf8("<font color='grey'>")+ QDateTime::currentDateTime().toString(QString::fromUtf8("dd/MM/yyyy hh:mm:ss")) + QString::fromUtf8("</font> - ")+tr("<font color='red'>%1</font> <i>was blocked due to your IP filter</i>", "x.y.z.w was blocked").arg(ip));
+    msg = "<font color='grey'>" + QDateTime::currentDateTime().toString(QString::fromUtf8("dd/MM/yyyy hh:mm:ss")) + "</font> - " + tr("<font color='red'>%1</font> <i>was blocked due to your IP filter</i>", "x.y.z.w was blocked").arg(ip);
   else
-    peerBanMessages.append(QString::fromUtf8("<font color='grey'>")+ QDateTime::currentDateTime().toString(QString::fromUtf8("dd/MM/yyyy hh:mm:ss")) + QString::fromUtf8("</font> - ")+tr("<font color='red'>%1</font> <i>was banned due to corrupt pieces</i>", "x.y.z.w was banned").arg(ip));
+    msg = "<font color='grey'>" + QDateTime::currentDateTime().toString(QString::fromUtf8("dd/MM/yyyy hh:mm:ss")) + "</font> - " + tr("<font color='red'>%1</font> <i>was banned due to corrupt pieces</i>", "x.y.z.w was banned").arg(ip);
+  peerBanMessages.prepend(msg);
+  emit newBanMessage(msg);
 }
 
 bool QBtSession::isFilePreviewPossible(QString hash) const{
@@ -1822,14 +1760,16 @@ void QBtSession::setDHTPort(int dht_port) {
 }
 
 // Enable IP Filtering
-void QBtSession::enableIPFilter(QString filter) {
+void QBtSession::enableIPFilter(const QString &filter_path, bool force) {
   qDebug("Enabling IPFiler");
   if(!filterParser) {
     filterParser = new FilterParserThread(this, s);
+    connect(filterParser.data(), SIGNAL(IPFilterParsed(int)), SLOT(handleIPFilterParsed(int)));
+    connect(filterParser.data(), SIGNAL(IPFilterError()), SLOT(handleIPFilterError()));
   }
-  if(filterPath.isEmpty() || filterPath != filter) {
-    filterPath = filter;
-    filterParser->processFilterFile(filter);
+  if(filterPath.isEmpty() || filterPath != filter_path || force) {
+    filterPath = filter_path;
+    filterParser->processFilterFile(filter_path);
   }
 }
 
@@ -1838,6 +1778,7 @@ void QBtSession::disableIPFilter() {
   qDebug("Disabling IPFilter");
   s->set_ip_filter(ip_filter());
   if(filterParser) {
+    disconnect(filterParser.data(), 0, this, 0);
     delete filterParser;
   }
   filterPath = "";
@@ -2024,7 +1965,9 @@ void QBtSession::readAlerts() {
           qDebug("Emitting finishedTorrent() signal");
           emit finishedTorrent(h);
           qDebug("Received finished alert for %s", qPrintable(h.name()));
-          bool will_shutdown = (pref.shutdownWhenDownloadsComplete() || pref.shutdownqBTWhenDownloadsComplete())
+          bool will_shutdown = (pref.shutdownWhenDownloadsComplete() ||
+                                pref.shutdownqBTWhenDownloadsComplete() ||
+                                pref.suspendWhenDownloadsComplete())
               && !hasDownloadingTorrents();
           // AutoRun program
           if(pref.isAutoRunEnabled())
@@ -2034,10 +1977,13 @@ void QBtSession::readAlerts() {
             sendNotificationEmail(h);
           // Auto-Shutdown
           if(will_shutdown) {
-            if(pref.shutdownWhenDownloadsComplete()) {
+            bool suspend = pref.suspendWhenDownloadsComplete();
+            bool shutdown = pref.shutdownWhenDownloadsComplete();
+            if(suspend || shutdown) {
               qDebug("Preparing for auto-shutdown because all downloads are complete!");
               // Disabling it for next time
               pref.setShutdownWhenDownloadsComplete(false);
+              pref.setSuspendWhenDownloadsComplete(false);
 #if LIBTORRENT_VERSION_MINOR < 15
               saveDHTEntry();
 #endif
@@ -2045,8 +1991,8 @@ void QBtSession::readAlerts() {
               saveSessionState();
               qDebug("Saving fast resume data");
               saveFastResumeData();
-              qDebug("Sending computer shutdown signal");
-              misc::shutdownComputer();
+              qDebug("Sending computer shutdown/suspend signal");
+              misc::shutdownComputer(suspend);
             }
             qDebug("Exiting the application");
             qApp->exit();
@@ -2618,4 +2564,63 @@ void QBtSession::drop()
     delete m_instance;
     m_instance = 0;
   }
+}
+
+qlonglong QBtSession::getETA(const QString &hash) const
+{
+  return m_speedMonitor->getETA(hash);
+}
+
+void QBtSession::handleIPFilterParsed(int ruleCount)
+{
+  addConsoleMessage(tr("Successfuly parsed the provided IP filter: %1 rules were applied.", "%1 is a number").arg(ruleCount));
+  emit ipFilterParsed(false, ruleCount);
+}
+
+void QBtSession::handleIPFilterError()
+{
+  addConsoleMessage(tr("Error: Failed to parse the provided IP filter."), "red");
+  emit ipFilterParsed(true, 0);
+}
+
+entry QBtSession::generateFilePriorityResumeData(boost::intrusive_ptr<torrent_info> t, const std::vector<int> &fp)
+{
+  entry::dictionary_type rd;
+  rd["file-format"] = "libtorrent resume file";
+  rd["file-version"] = 1;
+  rd["libtorrent-version"] = LIBTORRENT_VERSION;
+  rd["allocation"] = "full";
+  sha1_hash info_hash = t->info_hash();
+  rd["info-hash"] = std::string((char*)info_hash.begin(), (char*)info_hash.end());
+  // Priorities
+  entry::list_type priorities;
+  priorities.resize(fp.size());
+  for(uint i=0; i<fp.size(); ++i) {
+    priorities.push_back(entry(fp[i]));
+  }
+  rd["file_priority"] = entry(priorities);
+  // files sizes (useless but required)
+  entry::list_type sizes;
+  for(int i=0; i<t->num_files(); ++i) {
+    entry::list_type p;
+    p.push_back(entry(0));
+    p.push_back(entry(0));
+    sizes.push_back(entry(p));
+  }
+  rd["file sizes"] = entry(sizes);
+  // Slots
+  entry::list_type tslots;
+
+  for(int i=0; i<t->num_pieces(); ++i) {
+    tslots.push_back(-1);
+  }
+  rd["slots"] = entry(tslots);
+
+  entry::string_type pieces;
+  std::memset(&pieces[0], 0, t->num_pieces());
+  rd["pieces"] = entry(pieces);
+
+  entry ret(rd);
+  Q_ASSERT(ret.type() == entry::dictionary_t);
+  return ret;
 }

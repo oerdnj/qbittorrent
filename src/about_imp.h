@@ -60,6 +60,7 @@ class about : public QDialog, private Ui::AboutDlg{
       // Translation
       QString trans_txt = "<p>"+tr("I would like to thank the following people who volunteered to translate qBittorrent:")+"</p>";
       trans_txt += QString::fromUtf8("<ul><li><u>Arabic:</u> SDERAWI (abz8868@msn.com) and sn51234 (nesseyan@gmail.com)</li>\
+          <li><u>Armenian:</u> Hrant Ohanyan (hrantohanyan@mail.am)</li>\
           <li><u>Brazilian:</u> Nick Marinho (nickmarinho@gmail.com)</li>\
           <li><u>Bulgarian:</u> Tsvetan & Boyko Bankoff (emerge_life@users.sourceforge.net)</li>\
           <li><u>Catalan:</u> Francisco Luque Contreras (frannoe@ya.com)</li>\
@@ -70,6 +71,7 @@ class about : public QDialog, private Ui::AboutDlg{
           <li><u>Danish:</u> Mathias Nielsen (comoneo@gmail.com)</li>\
           <li><u>Dutch:</u> Pieter Heyvaert (pieter_heyvaert@hotmail.com)</li>\
           <li><u>Finnish:</u> Niklas Laxström (nikerabbit@users.sourceforge.net) and Pekka Niemi (pekka.niemi@iki.fi)</li>\
+          <li><u>Galician:</u> Marcos Lans (marcoslansgarza@gmail.com)</li>\
           <li><u>German:</u> Niels Hoffmann (zentralmaschine@users.sourceforge.net)</li>\
           <li><u>Greek:</u> Tsvetan Bankov (emerge_life@users.sourceforge.net)</li>\
           <li><u>Hungarian:</u> Majoros Péter (majoros.peterj@gmail.com)</li>\

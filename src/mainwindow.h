@@ -59,6 +59,7 @@ class downloadFromURL;
 class HidableTabWidget;
 class LineEdit;
 class QFileSystemWatcher;
+class ExecutionLog;
 
 class MainWindow : public QMainWindow, private Ui::MainWindow{
   Q_OBJECT
@@ -91,7 +92,6 @@ protected slots:
   void on_actionCreate_torrent_triggered();
   void on_actionWebsite_triggered() const;
   void on_actionBugReport_triggered() const;
-  void on_actionShow_console_triggered();
   void balloonClicked();
   void writeSettings();
   void readSettings();
@@ -172,24 +172,27 @@ private:
   QShortcut *switchRSSShortcut;
   // Widgets
   QAction *prioSeparator;
-  QAction *prioSeparator2;
+  QAction *prioSeparatorMenu;
   QSplitter *hSplitter;
   QSplitter *vSplitter;
-  QMenu *lockMenu;
   // Search
   QPointer<SearchEngine> searchEngine;
   // RSS
   QPointer<RSSImp> rssWidget;
+  // Execution Log
+  QPointer<ExecutionLog> m_executionLog;
 
 private slots:
     void on_actionSearch_engine_triggered();
     void on_actionRSS_Reader_triggered();
     void on_actionSpeed_in_title_bar_triggered();
     void on_actionTop_tool_bar_triggered();
-    void on_actionShutdown_when_downloads_complete_triggered();
-    void on_actionShutdown_qBittorrent_when_downloads_complete_triggered();
     void on_action_Import_Torrent_triggered();
     void on_actionDonate_money_triggered();
+    void on_actionExecution_Logs_triggered(bool checked);
+    void on_actionAutoExit_qBittorrent_toggled(bool );
+    void on_actionAutoSuspend_system_toggled(bool );
+    void on_actionAutoShutdown_system_toggled(bool );
 };
 
 #endif

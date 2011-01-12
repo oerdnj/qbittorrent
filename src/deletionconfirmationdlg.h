@@ -34,7 +34,7 @@
 #include <QDialog>
 #include "ui_confirmdeletiondlg.h"
 #include "preferences.h"
-#include "misc.h"
+#include "iconprovider.h"
 
 class DeletionConfirmationDlg : public QDialog, private Ui::confirmDeletionDlg {
   Q_OBJECT
@@ -42,6 +42,11 @@ class DeletionConfirmationDlg : public QDialog, private Ui::confirmDeletionDlg {
   public:
   DeletionConfirmationDlg(QWidget *parent=0): QDialog(parent) {
     setupUi(this);
+    // Icons
+    lbl_warn->setPixmap(IconProvider::instance()->getIcon("dialog-warning").pixmap(lbl_warn->height()));
+    lbl_warn->setFixedWidth(lbl_warn->height());
+    rememberBtn->setIcon(IconProvider::instance()->getIcon("object-locked"));
+
     move(misc::screenCenter(this));
     checkPermDelete->setChecked(Preferences().deleteTorrentFilesAsDefault());
     connect(checkPermDelete, SIGNAL(clicked()), this, SLOT(updateRememberButtonState()));

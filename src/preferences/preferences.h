@@ -335,14 +335,6 @@ public:
     setValue(QString::fromUtf8("Preferences/Connection/UPnP"), enabled);
   }
 
-  bool isNATPMPEnabled() const {
-    return value(QString::fromUtf8("Preferences/Connection/NAT-PMP"), true).toBool();
-  }
-
-  void setNATPMPEnabled(bool enabled) {
-    setValue(QString::fromUtf8("Preferences/Connection/NAT-PMP"), enabled);
-  }
-
   int getGlobalDownloadLimit() const {
     return value("Preferences/Connection/GlobalDLLimit", -1).toInt();
   }
@@ -608,6 +600,16 @@ public:
     setValue(QString::fromUtf8("Preferences/Search/SearchEnabled"), enabled);
   }
 
+  // Execution Log
+
+  bool isExecutionLogEnabled() const {
+    return value(QString::fromUtf8("Preferences/ExecutionLog/enabled"), false).toBool();
+  }
+
+  void setExecutionLogEnabled(bool b) {
+    setValue(QString::fromUtf8("Preferences/ExecutionLog/enabled"), b);
+  }
+
   // Queueing system
   bool isQueueingSystemEnabled() const {
     return value("Preferences/Queueing/QueueingEnabled", false).toBool();
@@ -737,6 +739,14 @@ public:
     setValue(QString::fromUtf8("Preferences/Downloads/AutoShutDownOnCompletion"), shutdown);
   }
 
+  bool suspendWhenDownloadsComplete() const {
+    return value(QString::fromUtf8("Preferences/Downloads/AutoSuspendOnCompletion"), false).toBool();
+  }
+
+  void setSuspendWhenDownloadsComplete(bool suspend) {
+    setValue(QString::fromUtf8("Preferences/Downloads/AutoSuspendOnCompletion"), suspend);
+  }
+
   bool shutdownqBTWhenDownloadsComplete() const {
     return value(QString::fromUtf8("Preferences/Downloads/AutoShutDownqBTOnCompletion"), false).toBool();
   }
@@ -846,6 +856,16 @@ public:
   }
 #endif
 
+#if defined(Q_WS_X11) && (QT_VERSION >= QT_VERSION_CHECK(4,6,0))
+  bool useSystemIconTheme() const {
+    return value(QString::fromUtf8("Preferences/Advanced/useSystemIconTheme"), true).toBool();
+  }
+
+  void useSystemIconTheme(bool enabled) {
+    setValue(QString::fromUtf8("Preferences/Advanced/useSystemIconTheme"), enabled);
+  }
+#endif
+
   QStringList getTorrentLabels() const {
     return value("TransferListFilters/customLabels").toStringList();
   }
@@ -888,12 +908,16 @@ public:
         return path;
       }
     }
+    if(QFile::exists("C:/Python27/python.exe")) {
+      reg_python.setValue("2.7/InstallPath/Default", "C:\\Python27");
+      return "C:\\Python27";
+    }
     if(QFile::exists("C:/Python26/python.exe")) {
       reg_python.setValue("2.6/InstallPath/Default", "C:\\Python26");
       return "C:\\Python26";
     }
     if(QFile::exists("C:/Python25/python.exe")) {
-      reg_python.setValue("2.5/InstallPath/Default", "C:\\Python26");
+      reg_python.setValue("2.5/InstallPath/Default", "C:\\Python25");
       return "C:\\Python25";
     }
     return QString::null;
@@ -976,6 +1000,15 @@ public:
     setValue(QString::fromUtf8("Preferences/Advanced/trackerPort"), port);
   }
 
+#if defined(Q_WS_WIN) || defined(Q_WS_MAC)
+  bool isUpdateCheckEnabled() const {
+    return value(QString::fromUtf8("Preferences/Advanced/updateCheck"), true).toBool();
+  }
+
+  void setUpdateCheckEnabled(bool enabled) {
+    setValue(QString::fromUtf8("Preferences/Advanced/updateCheck"), enabled);
+  }
+#endif
 };
 
 #endif // PREFERENCES_H

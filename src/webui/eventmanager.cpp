@@ -109,7 +109,7 @@ QList<QVariantMap> EventManager::getPropFilesInfo(QString hash) const {
   for(fi=t.begin_files(); fi != t.end_files(); fi++) {
     QVariantMap file;
     QString path = h.filepath(*fi);
-    QString name = path.split('/').last();
+    QString name = misc::fileName(path);
     file["name"] = name;
     file["size"] = misc::friendlyUnit((double)fi->size);
     if(fi->size > 0)
@@ -208,8 +208,6 @@ void EventManager::setGlobalPreferences(QVariantMap m) const {
     pref.setSessionPort(m["listen_port"].toInt());
   if(m.contains("upnp"))
     pref.setUPnPEnabled(m["upnp"].toBool());
-  if(m.contains("natpmp"))
-    pref.setNATPMPEnabled(m["natpmp"].toBool());
   if(m.contains("dl_limit"))
     pref.setGlobalDownloadLimit(m["dl_limit"].toInt());
   if(m.contains("up_limit"))
@@ -296,7 +294,6 @@ QVariantMap EventManager::getGlobalPreferences() const {
   // Connection
   data["listen_port"] = pref.getSessionPort();
   data["upnp"] = pref.isUPnPEnabled();
-  data["natpmp"] = pref.isNATPMPEnabled();
   data["dl_limit"] = pref.getGlobalDownloadLimit();
   data["up_limit"] = pref.getGlobalUploadLimit();
   data["max_connec"] = pref.getMaxConnecs();
@@ -336,6 +333,8 @@ QVariantMap EventManager::getPropGeneralInfo(QString hash) const {
     data["save_path"] = p;
     // Creation date
     data["creation_date"] = h.creation_date();
+    // Piece size
+    data["piece_size"] = misc::friendlyUnit(h.piece_length());
     // Comment
     data["comment"] = h.comment();
     data["total_wasted"] = QVariant(misc::friendlyUnit(h.total_failed_bytes()+h.total_redundant_bytes()));

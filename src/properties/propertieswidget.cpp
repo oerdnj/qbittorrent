@@ -54,6 +54,7 @@
 #include "pieceavailabilitybar.h"
 #include "qinisettings.h"
 #include "proptabbar.h"
+#include "iconprovider.h"
 
 using namespace libtorrent;
 
@@ -61,6 +62,12 @@ PropertiesWidget::PropertiesWidget(QWidget *parent, MainWindow* main_window, Tra
   QWidget(parent), transferList(transferList), main_window(main_window) {
 
   setupUi(this);
+  // Icons
+  deleteWS_button->setIcon(IconProvider::instance()->getIcon("list-remove"));
+  addWS_button->setIcon(IconProvider::instance()->getIcon("list-add"));
+  trackerUpButton->setIcon(IconProvider::instance()->getIcon("go-up"));
+  trackerDownButton->setIcon(IconProvider::instance()->getIcon("go-down"));
+
   state = VISIBLE;
   setEnabled(false);
 
@@ -171,6 +178,7 @@ void PropertiesWidget::clear() {
   qDebug("Clearing torrent properties");
   save_path->clear();
   lbl_creationDate->clear();
+  pieceSize_lbl->clear();
   hash_lbl->clear();
   comment_text->clear();
   progress_lbl->clear();
@@ -241,6 +249,8 @@ void PropertiesWidget::loadTorrentInfos(const QTorrentHandle &_h) {
     if(h.has_metadata()) {
       // Creation date
       lbl_creationDate->setText(h.creation_date());
+      // Pieces size
+      pieceSize_lbl->setText(misc::friendlyUnit(h.piece_length()));
       // Comment
       comment_text->setHtml(h.comment());
       // URL seeds
@@ -442,11 +452,7 @@ void PropertiesWidget::openDoubleClickedFile(QModelIndex index) {
     h.flush_cache();
 #endif
     if(QFile::exists(file_path)) {
-#ifdef Q_WS_WIN
-      QDesktopServices::openUrl(QUrl("file:///"+file_path));
-#else
-      QDesktopServices::openUrl(QUrl("file://"+file_path));
-#endif
+      QDesktopServices::openUrl(QUrl::fromLocalFile(file_path));
     } else {
       QMessageBox::warning(this, tr("I/O Error"), tr("This file does not exist yet."));
     }
@@ -468,11 +474,7 @@ void PropertiesWidget::openDoubleClickedFile(QModelIndex index) {
     h.flush_cache();
 #endif
     if(QFile::exists(file_path)) {
-#ifdef Q_WS_WIN
-      QDesktopServices::openUrl(QUrl("file:///"+file_path));
-#else
-      QDesktopServices::openUrl(QUrl("file://"+file_path));
-#endif
+      QDesktopServices::openUrl(QUrl::fromLocalFile(file_path));
     } else {
       QMessageBox::warning(this, tr("I/O Error"), tr("This folder does not exist yet."));
     }
@@ -484,16 +486,18 @@ void PropertiesWidget::displayFilesListMenu(const QPoint&){
   QModelIndexList selectedRows = filesList->selectionModel()->selectedRows(0);
   QAction *actRename = 0;
   if(selectedRows.size() == 1) {
-    actRename = myFilesLlistMenu.addAction(QIcon(QString::fromUtf8(":/Icons/oxygen/edit_clear.png")), tr("Rename..."));
+    actRename = myFilesLlistMenu.addAction(IconProvider::instance()->getIcon("edit-rename"), tr("Rename..."));
     myFilesLlistMenu.addSeparator();
   }
-  QMenu subMenu;
-  subMenu.setTitle(tr("Priority"));
-  subMenu.addAction(actionNot_downloaded);
-  subMenu.addAction(actionNormal);
-  subMenu.addAction(actionHigh);
-  subMenu.addAction(actionMaximum);
-  myFilesLlistMenu.addMenu(&subMenu);
+  if(static_cast<torrent_handle>(h).is_seed()) {
+    QMenu subMenu;
+    subMenu.setTitle(tr("Priority"));
+    subMenu.addAction(actionNot_downloaded);
+    subMenu.addAction(actionNormal);
+    subMenu.addAction(actionHigh);
+    subMenu.addAction(actionMaximum);
+    myFilesLlistMenu.addMenu(&subMenu);
+  }
   // Call menu
   const QAction *act = myFilesLlistMenu.exec(QCursor::pos());
   if(act) {
@@ -710,9 +714,7 @@ void PropertiesWidget::on_changeSavePathButton_clicked() {
     QString save_path_dir = new_path.replace("\\", "/");
     QString new_file_name;
     if(h.has_metadata() && h.num_files() == 1) {
-      QStringList parts = save_path_dir.split("/");
-      new_file_name = parts.takeLast(); // Skip file name
-      save_path_dir = parts.join("/");
+      save_path_dir = misc::branchPath(save_path_dir, true); // Skip file name
     }
     QDir savePath(misc::expandPath(save_path_dir));
     // Actually move storage
