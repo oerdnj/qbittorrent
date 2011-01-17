@@ -2,7 +2,9 @@
 include(conf.pri)
 
 # COMPILATION SPECIFIC
-QT += dbus
+!nox {
+  QT += dbus
+}
 QMAKE_LFLAGS_APP += -rdynamic
 CONFIG += link_pkgconfig
 PKGCONFIG += libtorrent-rasterbar
@@ -17,7 +19,8 @@ nox {
 } else {
     man.files = ../doc/qbittorrent.1
 }
-man.path = $$PREFIX/share/man/man1/
+
+man.path = $$MANPREFIX/man/man1/
 INSTALLS += man
 
 # Menu Icon

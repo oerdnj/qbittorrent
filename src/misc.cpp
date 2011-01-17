@@ -60,7 +60,7 @@ const int UNLEN = 256;
 #endif
 
 #ifndef Q_WS_WIN
-#ifdef Q_WS_MAC
+#if defined(Q_WS_MAC) || defined(Q_OS_FREEBSD)
 #include <sys/param.h>
 #include <sys/mount.h>
 #else
@@ -70,10 +70,12 @@ const int UNLEN = 256;
 #include <winbase.h>
 #endif
 
+#ifndef DISABLE_GUI
 #ifdef Q_WS_X11
 #include <QDBusInterface>
 #include <QDBusMessage>
 #endif
+#endif // DISABLE_GUI
 
 using namespace libtorrent;
 
@@ -196,18 +198,7 @@ long long misc::freeDiskSpaceOnPath(QString path) {
 #endif
 }
 
-void suspendComputer() {
-#ifdef Q_WS_X11
-  // Use dbus to power off the system
-  // dbus-send --print-reply --system --dest=org.freedesktop.Hal /org/freedesktop/Hal/devices/computer org.freedesktop.Hal.Device.SystemPowerManagement.Shutdown
-  QDBusInterface computer("org.freedesktop.Hal", "/org/freedesktop/Hal/devices/computer", "org.freedesktop.Hal.Device.SystemPowerManagement", QDBusConnection::systemBus());
-  computer.call("Suspend", 5);
-#endif
-#ifdef Q_WS_MAC
-
-#endif
-}
-
+#ifndef DISABLE_GUI
 void misc::shutdownComputer(bool sleep) {
 #ifdef Q_WS_X11
   // Use dbus to power off the system
@@ -292,6 +283,7 @@ void misc::shutdownComputer(bool sleep) {
                         (PTOKEN_PRIVILEGES) NULL, 0);
 #endif
 }
+#endif // DISABLE_GUI
 
 QString misc::truncateRootFolder(boost::intrusive_ptr<torrent_info> t) {
 #if LIBTORRENT_VERSION_MINOR >= 16

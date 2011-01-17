@@ -1965,16 +1965,21 @@ void QBtSession::readAlerts() {
           qDebug("Emitting finishedTorrent() signal");
           emit finishedTorrent(h);
           qDebug("Received finished alert for %s", qPrintable(h.name()));
+#ifndef DISABLE_GUI
           bool will_shutdown = (pref.shutdownWhenDownloadsComplete() ||
                                 pref.shutdownqBTWhenDownloadsComplete() ||
                                 pref.suspendWhenDownloadsComplete())
               && !hasDownloadingTorrents();
+#else
+          bool will_shutdown = false;
+#endif
           // AutoRun program
           if(pref.isAutoRunEnabled())
             autoRunExternalProgram(h, will_shutdown);
           // Mail notification
           if(pref.isMailNotificationEnabled())
             sendNotificationEmail(h);
+#ifndef DISABLE_GUI
           // Auto-Shutdown
           if(will_shutdown) {
             bool suspend = pref.suspendWhenDownloadsComplete();
@@ -1998,6 +2003,7 @@ void QBtSession::readAlerts() {
             qApp->exit();
             return;
           }
+#endif // DISABLE_GUI
         }
       }
     }
@@ -2583,7 +2589,7 @@ void QBtSession::handleIPFilterError()
   emit ipFilterParsed(true, 0);
 }
 
-entry QBtSession::generateFilePriorityResumeData(boost::intrusive_ptr<torrent_info> t, const std::vector<int> &fp)
+entry QBtSession::generateFilePriorityResumeData(boost::intrusive_ptr<torrent_info> &t, const std::vector<int> &fp)
 {
   entry::dictionary_type rd;
   rd["file-format"] = "libtorrent resume file";
@@ -2594,7 +2600,6 @@ entry QBtSession::generateFilePriorityResumeData(boost::intrusive_ptr<torrent_in
   rd["info-hash"] = std::string((char*)info_hash.begin(), (char*)info_hash.end());
   // Priorities
   entry::list_type priorities;
-  priorities.resize(fp.size());
   for(uint i=0; i<fp.size(); ++i) {
     priorities.push_back(entry(fp[i]));
   }
@@ -2610,14 +2615,14 @@ entry QBtSession::generateFilePriorityResumeData(boost::intrusive_ptr<torrent_in
   rd["file sizes"] = entry(sizes);
   // Slots
   entry::list_type tslots;
-
   for(int i=0; i<t->num_pieces(); ++i) {
     tslots.push_back(-1);
   }
   rd["slots"] = entry(tslots);
 
   entry::string_type pieces;
-  std::memset(&pieces[0], 0, t->num_pieces());
+  pieces.resize(t->num_pieces());
+  std::memset(&pieces[0], 0, pieces.size());
   rd["pieces"] = entry(pieces);
 
   entry ret(rd);
