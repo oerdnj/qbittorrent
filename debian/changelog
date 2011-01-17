@@ -1,3 +1,9 @@
+qbittorrent (2.6.3-1) experimental; urgency=low
+
+  * New upstream version.
+
+ -- Cristian Greco <cristian@regolo.cc>  Mon, 17 Jan 2011 18:33:33 +0100
+
 qbittorrent (2.6.2-1) experimental; urgency=low
 
   * New upstream version.
