@@ -31,6 +31,7 @@
 #include <QLocale>
 #include <QTranslator>
 #include <QFile>
+#include <QLibraryInfo>
 
 #ifndef DISABLE_GUI
 #include <QMessageBox>
@@ -52,6 +53,7 @@
 #include "headlessloader.h"
 #endif
 
+#include "preferences.h"
 #include "qinisettings.h"
 #if defined(Q_WS_X11) || defined(Q_WS_MAC)
 #include <signal.h>
@@ -104,6 +106,8 @@ public:
     msgBox.setWindowTitle(tr("Legal notice"));
     msgBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
     QAbstractButton *agree_button = msgBox.addButton(tr("I Agree"), QMessageBox::AcceptRole);
+    msgBox.show(); // Need to be shown or to moveToCenter does not work
+    msgBox.move(misc::screenCenter(&msgBox));
     msgBox.exec();
     if(msgBox.clickedButton() == agree_button) {
       // Save the answer
@@ -188,19 +192,27 @@ int main(int argc, char *argv[]){
     return 0;
   }
 
-  QString locale;
-  QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
+  Preferences pref;
 #ifndef DISABLE_GUI
   bool no_splash = false;
 #endif
 
   // Load translation
-  locale = settings.value(QString::fromUtf8("Preferences/General/Locale"), QString()).toString();
+  QString locale = pref.getLocale();
+  QTranslator qtTranslator;
   QTranslator translator;
   if(locale.isEmpty()){
     locale = QLocale::system().name();
-    settings.setValue(QString::fromUtf8("Preferences/General/Locale"), locale);
+    pref.setLocale(locale);
   }
+  if(qtTranslator.load(
+          QString::fromUtf8("qt_") + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath)
+                                                                    )){
+    qDebug("Qt %s locale recognized, using translation.", qPrintable(locale));
+  }else{
+    qDebug("Qt %s locale unrecognized, using default (en_GB).", qPrintable(locale));
+  }
+  app.installTranslator(&qtTranslator);
   if(translator.load(QString::fromUtf8(":/lang/qbittorrent_") + locale)){
     qDebug("%s locale recognized, using translation.", qPrintable(locale));
   }else{
@@ -251,7 +263,7 @@ int main(int argc, char *argv[]){
   }
 
 #ifndef DISABLE_GUI
-  if(settings.value(QString::fromUtf8("Preferences/General/NoSplashScreen"), false).toBool()) {
+  if(pref.isSlashScreenDisabled()) {
     no_splash = true;
   }
   QSplashScreen *splash = 0;
@@ -274,7 +286,7 @@ int main(int argc, char *argv[]){
   }
 
 #ifndef DISABLE_GUI
-  useStyle(settings.value("Preferences/General/Style", "").toString());
+  useStyle(pref.getStyle());
   app.setStyleSheet("QStatusBar::item { border-width: 0; }");
 #endif
 
@@ -302,8 +314,6 @@ int main(int argc, char *argv[]){
 
 #ifndef DISABLE_GUI
   MainWindow window(0, torrentCmdLine);
-  if(!no_splash)
-    window.raise();
   QObject::connect(&app, SIGNAL(messageReceived(const QString&)),
                    &window, SLOT(processParams(const QString&)));
   app.setActivationWindow(&window);

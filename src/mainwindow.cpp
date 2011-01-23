@@ -92,7 +92,7 @@ using namespace libtorrent;
  *****************************************************/
 
 // Constructor
-MainWindow::MainWindow(QWidget *parent, QStringList torrentCmdLine) : QMainWindow(parent), force_exit(false) {
+MainWindow::MainWindow(QWidget *parent, QStringList torrentCmdLine) : QMainWindow(parent), m_posInitialized(false), force_exit(false) {
   setupUi(this);
   Preferences pref;
   ui_locked = pref.isUILocked();
@@ -233,22 +233,18 @@ MainWindow::MainWindow(QWidget *parent, QStringList torrentCmdLine) : QMainWindo
   if(!autoShutdownGroup->checkedAction())
     actionAutoShutdown_Disabled->setChecked(true);
 
-  show();
-
   // Load Window state and sizes
   readSettings();
   properties->readSettings();
 
-  // Limit status filters list height
-  transferListFilters->getStatusFilters()->updateHeight();
-
-  if(ui_locked) {
-    hide();
-  } else {
+  if(!ui_locked) {
     if(pref.startMinimized())
       showMinimized();
-    else
-      setFocus();
+    else {
+      show();
+      activateWindow();
+      raise();
+    }
   }
 
   // Start watching the executable for updates
@@ -462,7 +458,10 @@ void MainWindow::writeSettings() {
 void MainWindow::readSettings() {
   QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
   settings.beginGroup(QString::fromUtf8("MainWindow"));
-  restoreGeometry(settings.value("geometry").toByteArray());
+  if(settings.contains("geometry")) {
+    restoreGeometry(settings.value("geometry").toByteArray());
+    m_posInitialized = true;
+  }
   const QByteArray splitterState = settings.value("vsplitterState").toByteArray();
   if(splitterState.isEmpty()) {
     // Default sizes
@@ -677,10 +676,21 @@ void MainWindow::on_actionAbout_triggered() {
 
 void MainWindow::showEvent(QShowEvent *e) {
   qDebug("** Show Event **");
+
+  // Update status filters list height
+  transferListFilters->getStatusFilters()->updateHeight();
+
   if(getCurrentTabWidget() == transferList) {
     properties->loadDynamicData();
   }
+
   e->accept();
+
+  // Make sure the window is initially centered
+  if(!m_posInitialized) {
+    move(misc::screenCenter(this));
+    m_posInitialized = true;
+  }
 }
 
 // Called when we close the program
