@@ -75,8 +75,12 @@ public:
       break;
     case PROGRESS:{
         QStyleOptionProgressBarV2 newopt;
-        float progress = index.data().toDouble()*100.;
+        qreal progress = index.data().toDouble()*100.;
         newopt.rect = opt.rect;
+        // We don't want to display 100% unless
+        // the torrent is really complete
+        if(progress > 99.94 && progress < 100.)
+          progress = 99.9;
         newopt.text = QString(QByteArray::number(progress, 'f', 1))+QString::fromUtf8("%");
         newopt.progress = (int)progress;
         newopt.maximum = 100;

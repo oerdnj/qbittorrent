@@ -559,6 +559,77 @@ Informacje te powinny zostać pobrane z ustawień przeglądarki internetowej.</t
     </message>
 </context>
 <context>
+    <name>DownloadThread</name>
+    <message>
+        <source>I/O Error</source>
+        <translation type="obsolete">Błąd We/Wy</translation>
+    </message>
+    <message>
+        <source>The remote host name was not found (invalid hostname)</source>
+        <translation type="obsolete">Nie odnaleziono nazwy zdalnego hosta (nieprawidłowa nazwa hosta)</translation>
+    </message>
+    <message>
+        <source>The operation was canceled</source>
+        <translation type="obsolete">Operacja została anulowana</translation>
+    </message>
+    <message>
+        <source>The remote server closed the connection prematurely, before the entire reply was received and processed</source>
+        <translation type="obsolete">Zdalny serwer przedwcześnie zakończył połączenie, zanim otrzymano i przetworzono odpowiedź</translation>
+    </message>
+    <message>
+        <source>The connection to the remote server timed out</source>
+        <translation type="obsolete">Przekroczono czas oczekiwania na połącznie ze zdalnym serwerem</translation>
+    </message>
+    <message>
+        <source>SSL/TLS handshake failed</source>
+        <translation type="obsolete">Niepomyślna próba negocjacji połączenie SSL/TLS</translation>
+    </message>
+    <message>
+        <source>The remote server refused the connection</source>
+        <translation type="obsolete">Zdalny serwer odrzucił połączenie</translation>
+    </message>
+    <message>
+        <source>The connection to the proxy server was refused</source>
+        <translation type="obsolete">Połączenie z serwerem proxy zostało odrzucone</translation>
+    </message>
+    <message>
+        <source>The proxy server closed the connection prematurely</source>
+        <translation type="obsolete">Serwer proxy przedwcześnie zakończył połączenie</translation>
+    </message>
+    <message>
+        <source>The proxy host name was not found</source>
+        <translation type="obsolete">Nie znaleziono nazwy hosta serwera proxy</translation>
+    </message>
+    <message>
+        <source>The connection to the proxy timed out or the proxy did not reply in time to the request sent</source>
+        <translation type="obsolete">Przkroczono czas oczekiwania na połączenie z serwerm proxy lub serwer nie odpowiedział na czas</translation>
+    </message>
+    <message>
+        <source>The proxy requires authentication in order to honour the request but did not accept any credentials offered</source>
+        <translation type="obsolete">Serwer proxy wymaga uwierzytelnienia aby zaakceptować żądanie lecz oferowane dane uwierzytelnienia zostały odrzucone</translation>
+    </message>
+    <message>
+        <source>The access to the remote content was denied (401)</source>
+        <translation type="obsolete">Odmówiono dostępu do zdalnego zasobu (401)</translation>
+    </message>
+    <message>
+        <source>The operation requested on the remote content is not permitted</source>
+        <translation type="obsolete">Żądana operacja na zdalnym zasobie nie jest dozwolona</translation>
+    </message>
+    <message>
+        <source>The remote content was not found at the server (404)</source>
+        <translation type="obsolete">Nie znaleziono zdalnego zasobu na serwerze (404)</translation>
+    </message>
+    <message>
+        <source>The remote server requires authentication to serve the content but the credentials provided were not accepted</source>
+        <translation type="obsolete">Zdalny serwer wymaga uwierzytelnienia w celu dostępu do zasobu lecz dane uwierzytelniające nie zostały zaakceptowane</translation>
+    </message>
+    <message>
+        <source>Unknown error</source>
+        <translation type="obsolete">Nieznany błąd</translation>
+    </message>
+</context>
+<context>
     <name>EventManager</name>
     <message>
         <source>%1/s</source>
@@ -3034,7 +3105,7 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
     </message>
     <message>
         <source>Feed URL</source>
-        <translation>Adres kanału RSS</translation>
+        <translation type="obsolete">Adres kanału RSS</translation>
     </message>
     <message>
         <source>Update</source>
@@ -3058,7 +3129,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Article title</source>
-        <translation>Tytuł</translation>
+        <translation type="obsolete">Tytuł</translation>
     </message>
     <message>
         <source>Update all feeds</source>
@@ -3210,7 +3281,7 @@ p, li { white-space: pre-wrap; }
     <name>RssArticle</name>
     <message>
         <source>No description available</source>
-        <translation>Opis niedostępny</translation>
+        <translation type="obsolete">Opis niedostępny</translation>
     </message>
 </context>
 <context>
@@ -4606,67 +4677,71 @@ Do you want to install it now?</source>
     <name>downloadThread</name>
     <message>
         <source>I/O Error</source>
-        <translation>Błąd We/Wy</translation>
+        <translation type="unfinished">Błąd We/Wy</translation>
     </message>
     <message>
         <source>The remote host name was not found (invalid hostname)</source>
-        <translation>Nie odnaleziono nazwy zdalnego hosta (nieprawidłowa nazwa hosta)</translation>
+        <translation type="unfinished">Nie odnaleziono nazwy zdalnego hosta (nieprawidłowa nazwa hosta)</translation>
     </message>
     <message>
         <source>The operation was canceled</source>
-        <translation>Operacja została anulowana</translation>
+        <translation type="unfinished">Operacja została anulowana</translation>
     </message>
     <message>
         <source>The remote server closed the connection prematurely, before the entire reply was received and processed</source>
-        <translation>Zdalny serwer przedwcześnie zakończył połączenie, zanim otrzymano i przetworzono odpowiedź</translation>
+        <translation type="unfinished">Zdalny serwer przedwcześnie zakończył połączenie, zanim otrzymano i przetworzono odpowiedź</translation>
     </message>
     <message>
         <source>The connection to the remote server timed out</source>
-        <translation>Przekroczono czas oczekiwania na połącznie ze zdalnym serwerem</translation>
+        <translation type="unfinished">Przekroczono czas oczekiwania na połącznie ze zdalnym serwerem</translation>
     </message>
     <message>
         <source>SSL/TLS handshake failed</source>
-        <translation>Niepomyślna próba negocjacji połączenie SSL/TLS</translation>
+        <translation type="unfinished">Niepomyślna próba negocjacji połączenie SSL/TLS</translation>
     </message>
     <message>
         <source>The remote server refused the connection</source>
-        <translation>Zdalny serwer odrzucił połączenie</translation>
+        <translation type="unfinished">Zdalny serwer odrzucił połączenie</translation>
     </message>
     <message>
         <source>The connection to the proxy server was refused</source>
-        <translation>Połączenie z serwerem proxy zostało odrzucone</translation>
+        <translation type="unfinished">Połączenie z serwerem proxy zostało odrzucone</translation>
     </message>
     <message>
         <source>The proxy server closed the connection prematurely</source>
-        <translation>Serwer proxy przedwcześnie zakończył połączenie</translation>
+        <translation type="unfinished">Serwer proxy przedwcześnie zakończył połączenie</translation>
     </message>
     <message>
         <source>The proxy host name was not found</source>
-        <translation>Nie znaleziono nazwy hosta serwera proxy</translation>
+        <translation type="unfinished">Nie znaleziono nazwy hosta serwera proxy</translation>
     </message>
     <message>
         <source>The connection to the proxy timed out or the proxy did not reply in time to the request sent</source>
-        <translation>Przkroczono czas oczekiwania na połączenie z serwerm proxy lub serwer nie odpowiedział na czas</translation>
+        <translation type="unfinished">Przkroczono czas oczekiwania na połączenie z serwerm proxy lub serwer nie odpowiedział na czas</translation>
     </message>
     <message>
         <source>The proxy requires authentication in order to honour the request but did not accept any credentials offered</source>
-        <translation>Serwer proxy wymaga uwierzytelnienia aby zaakceptować żądanie lecz oferowane dane uwierzytelnienia zostały odrzucone</translation>
+        <translation type="unfinished">Serwer proxy wymaga uwierzytelnienia aby zaakceptować żądanie lecz oferowane dane uwierzytelnienia zostały odrzucone</translation>
     </message>
     <message>
         <source>The access to the remote content was denied (401)</source>
-        <translation>Odmówiono dostępu do zdalnego zasobu (401)</translation>
+        <translation type="unfinished">Odmówiono dostępu do zdalnego zasobu (401)</translation>
     </message>
     <message>
         <source>The operation requested on the remote content is not permitted</source>
-        <translation>Żądana operacja na zdalnym zasobie nie jest dozwolona</translation>
+        <translation type="unfinished">Żądana operacja na zdalnym zasobie nie jest dozwolona</translation>
     </message>
     <message>
         <source>The remote content was not found at the server (404)</source>
-        <translation>Nie znaleziono zdalnego zasobu na serwerze (404)</translation>
+        <translation type="unfinished">Nie znaleziono zdalnego zasobu na serwerze (404)</translation>
     </message>
     <message>
         <source>The remote server requires authentication to serve the content but the credentials provided were not accepted</source>
-        <translation>Zdalny serwer wymaga uwierzytelnienia w celu dostępu do zasobu lecz dane uwierzytelniające nie zostały zaakceptowane</translation>
+        <translation type="unfinished">Zdalny serwer wymaga uwierzytelnienia w celu dostępu do zasobu lecz dane uwierzytelniające nie zostały zaakceptowane</translation>
+    </message>
+    <message>
+        <source>Unknown error</source>
+        <translation type="unfinished">Nieznany błąd</translation>
     </message>
     <message>
         <source>The Network Access API cannot honor the request because the protocol is not known</source>
@@ -4691,10 +4766,6 @@ Do you want to install it now?</source>
     <message>
         <source>A breakdown in protocol was detected</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unknown error</source>
-        <translation>Nieznany błąd</translation>
     </message>
 </context>
 <context>

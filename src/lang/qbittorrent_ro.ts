@@ -337,6 +337,97 @@ You should get this information from your Web browser preferences.</source>
     </message>
 </context>
 <context>
+    <name>DownloadThread</name>
+    <message>
+        <source>The remote host name was not found (invalid hostname)</source>
+        <translation type="obsolete">Numele host-ului nu a fost găsit(nume invalid)</translation>
+    </message>
+    <message>
+        <source>The operation was canceled</source>
+        <translation type="obsolete">Operțiunea a fost anulată</translation>
+    </message>
+    <message>
+        <source>The remote server closed the connection prematurely, before the entire reply was received and processed</source>
+        <translation type="obsolete">Serverul a închis conectarea înainte ca să recepționez și proceses răspunsul</translation>
+    </message>
+    <message>
+        <source>The connection to the remote server timed out</source>
+        <translation type="obsolete">Timpul de conectare la server a expirat</translation>
+    </message>
+    <message>
+        <source>SSL/TLS handshake failed</source>
+        <translation type="obsolete">Conectarea SSL/TLS eșuată</translation>
+    </message>
+    <message>
+        <source>The remote server refused the connection</source>
+        <translation type="obsolete">Serverul refuză conectarea</translation>
+    </message>
+    <message>
+        <source>The connection to the proxy server was refused</source>
+        <translation type="obsolete">Conectarea prin proxy server refuzată</translation>
+    </message>
+    <message>
+        <source>The proxy server closed the connection prematurely</source>
+        <translation type="obsolete">Serverul proxy a închis conectarea pre deverme</translation>
+    </message>
+    <message>
+        <source>The proxy host name was not found</source>
+        <translation type="obsolete">Numele serverului proxy nu este găsit</translation>
+    </message>
+    <message>
+        <source>The connection to the proxy timed out or the proxy did not reply in time to the request sent</source>
+        <translation type="obsolete">Timpul de conectare la proxy a expirat</translation>
+    </message>
+    <message>
+        <source>The proxy requires authentication in order to honour the request but did not accept any credentials offered</source>
+        <translation type="obsolete">The proxy requires authentication in order to honour the request but did not accept any credentials offered</translation>
+    </message>
+    <message>
+        <source>The access to the remote content was denied (401)</source>
+        <translation type="obsolete">The access to the remote content was denied (401)</translation>
+    </message>
+    <message>
+        <source>The operation requested on the remote content is not permitted</source>
+        <translation type="obsolete">The operation requested on the remote content is not permitted</translation>
+    </message>
+    <message>
+        <source>The remote content was not found at the server (404)</source>
+        <translation type="obsolete">The remote content was not found at the server (404)</translation>
+    </message>
+    <message>
+        <source>The remote server requires authentication to serve the content but the credentials provided were not accepted</source>
+        <translation type="obsolete">The remote server requires authentication to serve the content but the credentials provided were not accepted</translation>
+    </message>
+    <message>
+        <source>The Network Access API cannot honor the request because the protocol is not known</source>
+        <translation type="obsolete">The Network Access API cannot honor the request because the protocol is not known</translation>
+    </message>
+    <message>
+        <source>The requested operation is invalid for this protocol</source>
+        <translation type="obsolete">The requested operation is invalid for this protocol</translation>
+    </message>
+    <message>
+        <source>An unknown network-related error was detected</source>
+        <translation type="obsolete">An unknown network-related error was detected</translation>
+    </message>
+    <message>
+        <source>An unknown proxy-related error was detected</source>
+        <translation type="obsolete">An unknown proxy-related error was detected</translation>
+    </message>
+    <message>
+        <source>An unknown error related to the remote content was detected</source>
+        <translation type="obsolete">An unknown error related to the remote content was detected</translation>
+    </message>
+    <message>
+        <source>A breakdown in protocol was detected</source>
+        <translation type="obsolete">A breakdown in protocol was detected</translation>
+    </message>
+    <message>
+        <source>Unknown error</source>
+        <translation type="obsolete">Eroare necunoscută</translation>
+    </message>
+</context>
+<context>
     <name>EventManager</name>
     <message>
         <source>%1/s</source>
@@ -2056,11 +2147,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Feed URL</source>
-        <translation>Feed URL</translation>
+        <translation type="obsolete">Feed URL</translation>
     </message>
     <message>
         <source>Article title</source>
-        <translation>TItlul articolului</translation>
+        <translation type="obsolete">TItlul articolului</translation>
     </message>
     <message>
         <source>Rename...</source>
@@ -2179,7 +2270,7 @@ p, li { white-space: pre-wrap; }
     <name>RssArticle</name>
     <message>
         <source>No description available</source>
-        <translation type="unfinished">Descrierea nu este disponobilă</translation>
+        <translation type="obsolete">Descrierea nu este disponobilă</translation>
     </message>
 </context>
 <context>
@@ -3351,95 +3442,95 @@ Do you want to install it now?</source>
     <name>downloadThread</name>
     <message>
         <source>I/O Error</source>
-        <translation>Eroare de intrare/eşire</translation>
+        <translation type="unfinished">Eroare de intrare/eşire</translation>
     </message>
     <message>
         <source>The remote host name was not found (invalid hostname)</source>
-        <translation>Numele host-ului nu a fost găsit(nume invalid)</translation>
+        <translation type="unfinished">Numele host-ului nu a fost găsit(nume invalid)</translation>
     </message>
     <message>
         <source>The operation was canceled</source>
-        <translation>Operțiunea a fost anulată</translation>
+        <translation type="unfinished">Operțiunea a fost anulată</translation>
     </message>
     <message>
         <source>The remote server closed the connection prematurely, before the entire reply was received and processed</source>
-        <translation>Serverul a închis conectarea înainte ca să recepționez și proceses răspunsul</translation>
+        <translation type="unfinished">Serverul a închis conectarea înainte ca să recepționez și proceses răspunsul</translation>
     </message>
     <message>
         <source>The connection to the remote server timed out</source>
-        <translation>Timpul de conectare la server a expirat</translation>
+        <translation type="unfinished">Timpul de conectare la server a expirat</translation>
     </message>
     <message>
         <source>SSL/TLS handshake failed</source>
-        <translation>Conectarea SSL/TLS eșuată</translation>
+        <translation type="unfinished">Conectarea SSL/TLS eșuată</translation>
     </message>
     <message>
         <source>The remote server refused the connection</source>
-        <translation>Serverul refuză conectarea</translation>
+        <translation type="unfinished">Serverul refuză conectarea</translation>
     </message>
     <message>
         <source>The connection to the proxy server was refused</source>
-        <translation>Conectarea prin proxy server refuzată</translation>
+        <translation type="unfinished">Conectarea prin proxy server refuzată</translation>
     </message>
     <message>
         <source>The proxy server closed the connection prematurely</source>
-        <translation>Serverul proxy a închis conectarea pre deverme</translation>
+        <translation type="unfinished">Serverul proxy a închis conectarea pre deverme</translation>
     </message>
     <message>
         <source>The proxy host name was not found</source>
-        <translation>Numele serverului proxy nu este găsit</translation>
+        <translation type="unfinished">Numele serverului proxy nu este găsit</translation>
     </message>
     <message>
         <source>The connection to the proxy timed out or the proxy did not reply in time to the request sent</source>
-        <translation>Timpul de conectare la proxy a expirat</translation>
+        <translation type="unfinished">Timpul de conectare la proxy a expirat</translation>
     </message>
     <message>
         <source>The proxy requires authentication in order to honour the request but did not accept any credentials offered</source>
-        <translation>The proxy requires authentication in order to honour the request but did not accept any credentials offered</translation>
+        <translation type="unfinished">The proxy requires authentication in order to honour the request but did not accept any credentials offered</translation>
     </message>
     <message>
         <source>The access to the remote content was denied (401)</source>
-        <translation>The access to the remote content was denied (401)</translation>
+        <translation type="unfinished">The access to the remote content was denied (401)</translation>
     </message>
     <message>
         <source>The operation requested on the remote content is not permitted</source>
-        <translation>The operation requested on the remote content is not permitted</translation>
+        <translation type="unfinished">The operation requested on the remote content is not permitted</translation>
     </message>
     <message>
         <source>The remote content was not found at the server (404)</source>
-        <translation>The remote content was not found at the server (404)</translation>
+        <translation type="unfinished">The remote content was not found at the server (404)</translation>
     </message>
     <message>
         <source>The remote server requires authentication to serve the content but the credentials provided were not accepted</source>
-        <translation>The remote server requires authentication to serve the content but the credentials provided were not accepted</translation>
+        <translation type="unfinished">The remote server requires authentication to serve the content but the credentials provided were not accepted</translation>
     </message>
     <message>
         <source>The Network Access API cannot honor the request because the protocol is not known</source>
-        <translation>The Network Access API cannot honor the request because the protocol is not known</translation>
+        <translation type="unfinished">The Network Access API cannot honor the request because the protocol is not known</translation>
     </message>
     <message>
         <source>The requested operation is invalid for this protocol</source>
-        <translation>The requested operation is invalid for this protocol</translation>
+        <translation type="unfinished">The requested operation is invalid for this protocol</translation>
     </message>
     <message>
         <source>An unknown network-related error was detected</source>
-        <translation>An unknown network-related error was detected</translation>
+        <translation type="unfinished">An unknown network-related error was detected</translation>
     </message>
     <message>
         <source>An unknown proxy-related error was detected</source>
-        <translation>An unknown proxy-related error was detected</translation>
+        <translation type="unfinished">An unknown proxy-related error was detected</translation>
     </message>
     <message>
         <source>An unknown error related to the remote content was detected</source>
-        <translation>An unknown error related to the remote content was detected</translation>
+        <translation type="unfinished">An unknown error related to the remote content was detected</translation>
     </message>
     <message>
         <source>A breakdown in protocol was detected</source>
-        <translation>A breakdown in protocol was detected</translation>
+        <translation type="unfinished">A breakdown in protocol was detected</translation>
     </message>
     <message>
         <source>Unknown error</source>
-        <translation>Eroare necunoscută</translation>
+        <translation type="unfinished">Eroare necunoscută</translation>
     </message>
 </context>
 <context>

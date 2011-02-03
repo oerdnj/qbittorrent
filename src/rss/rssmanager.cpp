@@ -28,34 +28,37 @@
  * Contact: chris@qbittorrent.org, arnaud@qbittorrent.org
  */
 
+#include <QDebug>
 #include "rssmanager.h"
 #include "rsssettings.h"
 #include "qbtsession.h"
 #include "rssfeed.h"
 #include "rssarticle.h"
 #include "rssdownloadrulelist.h"
+#include "downloadthread.h"
 
 RssManager* RssManager::m_instance = 0;
 
 RssManager::RssManager(): RssFolder() {
-  loadStreamList();
-  connect(&newsRefresher, SIGNAL(timeout()), this, SLOT(refreshAll()));
-  refreshInterval = RssSettings().getRSSRefreshInterval();
-  newsRefresher.start(refreshInterval*60000);
+  m_rssDownloader = new downloadThread(this);
+  connect(&m_refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
+  m_refreshInterval = RssSettings().getRSSRefreshInterval();
+  m_refreshTimer.start(m_refreshInterval*60000);
 }
 
 RssManager::~RssManager(){
   qDebug("Deleting RSSManager");
+  delete m_rssDownloader;
   RssDownloadRuleList::drop();
   saveStreamList();
   qDebug("RSSManager deleted");
 }
 
-void RssManager::updateRefreshInterval(unsigned int val){
-  if(refreshInterval != val) {
-    refreshInterval = val;
-    newsRefresher.start(refreshInterval*60000);
-    qDebug("New RSS refresh interval is now every %dmin", refreshInterval);
+void RssManager::updateRefreshInterval(uint val){
+  if(m_refreshInterval != val) {
+    m_refreshInterval = val;
+    m_refreshTimer.start(m_refreshInterval*60000);
+    qDebug("New RSS refresh interval is now every %dmin", m_refreshInterval);
   }
 }
 
@@ -67,19 +70,23 @@ void RssManager::loadStreamList() {
     std::cerr << "Corrupted Rss list, not loading it\n";
     return;
   }
-  unsigned int i = 0;
+  uint i = 0;
+  qDebug() << Q_FUNC_INFO << streamsUrl;
   foreach(QString s, streamsUrl){
-    QStringList path = s.split("\\");
+    QStringList path = s.split("\\", QString::SkipEmptyParts);
     if(path.empty()) continue;
-    QString feed_url = path.takeLast();
+    const QString feed_url = path.takeLast();
+    qDebug() << "Feed URL:" << feed_url;
     // Create feed path (if it does not exists)
     RssFolder * feed_parent = this;
-    foreach(QString folder_name, path) {
+    foreach(const QString &folder_name, path) {
+      qDebug() << "Adding parent folder:" << folder_name;
       feed_parent = feed_parent->addFolder(folder_name);
     }
     // Create feed
+    qDebug() << "Adding feed to parent folder";
     RssFeed *stream = feed_parent->addStream(feed_url);
-    QString alias = aliases.at(i);
+    const QString alias = aliases.at(i);
     if(!alias.isEmpty()) {
       stream->rename(alias);
     }
@@ -88,55 +95,55 @@ void RssManager::loadStreamList() {
   qDebug("NB RSS streams loaded: %d", streamsUrl.size());
 }
 
-void RssManager::forwardFeedInfosChanged(QString url, QString aliasOrUrl, unsigned int nbUnread) {
-  emit feedInfosChanged(url, aliasOrUrl, nbUnread);
+void RssManager::forwardFeedInfosChanged(const QString &url, const QString &display_name, uint nbUnread) {
+  emit feedInfosChanged(url, display_name, nbUnread);
 }
 
-void RssManager::forwardFeedIconChanged(QString url, QString icon_path) {
+void RssManager::forwardFeedIconChanged(const QString &url, const QString &icon_path) {
   emit feedIconChanged(url, icon_path);
 }
 
-void RssManager::moveFile(RssFile* file, RssFolder* dest_folder) {
-  RssFolder* src_folder = file->getParent();
+void RssManager::moveFile(IRssFile* file, RssFolder* dest_folder) {
+  RssFolder* src_folder = file->parent();
   if(dest_folder != src_folder) {
-    // Copy to new Folder
-    dest_folder->addFile(file);
     // Remove reference in old folder
-    src_folder->remove(file->getID());
+    src_folder->takeChild(file->id());
+    // add to new Folder
+    dest_folder->addFile(file);
   } else {
     qDebug("Nothing to move, same destination folder");
   }
 }
 
-void RssManager::saveStreamList(){
+void RssManager::saveStreamList() const {
   QStringList streamsUrl;
   QStringList aliases;
   const QList<RssFeed*> streams = getAllFeeds();
   foreach(const RssFeed *stream, streams) {
-    QString stream_path = stream->getPath().join("\\");
+    QString stream_path = stream->pathHierarchy().join("\\");
     if(stream_path.isNull()) {
       stream_path = "";
     }
     qDebug("Saving stream path: %s", qPrintable(stream_path));
     streamsUrl << stream_path;
-    aliases << stream->getName();
+    aliases << stream->displayName();
   }
   RssSettings settings;
   settings.setRssFeedsUrls(streamsUrl);
   settings.setRssFeedsAliases(aliases);
 }
 
-void RssManager::insertSortElem(QList<RssArticle*> &list, RssArticle *item) {
+void RssManager::insertSortElem(QList<RssArticle> &list, const RssArticle &item) {
   int i = 0;
-  while(i < list.size() && item->getDate() < list.at(i)->getDate()) {
+  while(i < list.size() && item.date() < list.at(i).date()) {
     ++i;
   }
   list.insert(i, item);
 }
 
-QList<RssArticle*> RssManager::sortNewsList(const QList<RssArticle*>& news_list) {
-  QList<RssArticle*> new_list;
-  foreach(RssArticle *item, news_list) {
+QList<RssArticle> RssManager::sortNewsList(const QList<RssArticle>& news_list) {
+  QList<RssArticle> new_list;
+  foreach(const RssArticle &item, news_list) {
     insertSortElem(new_list, item);
   }
   return new_list;
