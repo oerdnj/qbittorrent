@@ -1,3 +1,10 @@
+qbittorrent (2.6.5-1) experimental; urgency=low
+
+  * New upstream version.
+    - debian/copyright: new Norwegian translator.
+
+ -- Cristian Greco <cristian@regolo.cc>  Thu, 03 Feb 2011 19:54:04 +0100
+
 qbittorrent (2.6.4-1) experimental; urgency=low
 
   * New upstream version.
