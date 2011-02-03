@@ -348,7 +348,7 @@ void PropertiesWidget::loadDynamicData() {
       // Update next announce time
       reannounce_lbl->setText(h.next_announce());
       // Update ratio info
-      const double ratio = QBtSession::instance()->getRealRatio(h.hash());
+      const qreal ratio = QBtSession::instance()->getRealRatio(h.hash());
       if(ratio > 100.)
         shareRatio->setText(QString::fromUtf8("∞"));
       else
@@ -370,7 +370,10 @@ void PropertiesWidget::loadDynamicData() {
           showPiecesAvailability(false);
         }
         // Progress
-        progress_lbl->setText(QString::number(h.progress()*100., 'f', 1)+"%");
+        qreal progress = h.progress()*100.;
+        if(progress > 99.94 && progress < 100.)
+          progress = 99.9;
+        progress_lbl->setText(QString::number(progress, 'f', 1)+"%");
       } else {
         showPiecesAvailability(false);
         showPiecesDownloaded(false);
@@ -409,8 +412,8 @@ void PropertiesWidget::selectAllFiles() {
   // Update torrent properties
   std::vector<int> prio = h.file_priorities();
   for(std::vector<int>::iterator it = prio.begin(); it != prio.end(); it++) {
-    if(*it == IGNORED) {
-      *it = NORMAL;
+    if(*it == prio::IGNORED) {
+      *it = prio::NORMAL;
     }
   }
   h.prioritize_files(prio);
@@ -421,7 +424,7 @@ void PropertiesWidget::selectAllFiles() {
 void PropertiesWidget::selectNoneFiles() {
   // Update torrent properties
   std::vector<int> prio;
-  prio.assign(h.num_files(), IGNORED);
+  prio.assign(h.num_files(), prio::IGNORED);
   h.prioritize_files(prio);
   // Update model
   PropListModel->selectNone();
@@ -441,7 +444,7 @@ void PropertiesWidget::loadUrlSeeds(){
 void PropertiesWidget::openDoubleClickedFile(QModelIndex index) {
   if(!index.isValid()) return;
   if(!h.is_valid() || !h.has_metadata()) return;
-  if(PropListModel->getType(index) == TFILE) {
+  if(PropListModel->getType(index) == TorrentFileItem::TFILE) {
     int i = PropListModel->getFileIndex(index);
     const QDir saveDir(h.save_path());
     const QString filename = h.filepath_at(i);
@@ -506,13 +509,13 @@ void PropertiesWidget::displayFilesListMenu(const QPoint&){
     } else {
       int prio = 1;
       if(act == actionHigh) {
-        prio = HIGH;
+        prio = prio::HIGH;
       } else {
         if(act == actionMaximum) {
-          prio = MAXIMUM;
+          prio = prio::MAXIMUM;
         } else {
           if(act == actionNot_downloaded) {
-            prio = IGNORED;
+            prio = prio::IGNORED;
           }
         }
       }
@@ -543,7 +546,7 @@ void PropertiesWidget::renameSelectedFile() {
                            QMessageBox::Ok);
       return;
     }
-    if(PropListModel->getType(index)==TFILE) {
+    if(PropListModel->getType(index) == TorrentFileItem::TFILE) {
       // File renaming
       const int file_index = PropListModel->getFileIndex(index);
       if(!h.is_valid() || !h.has_metadata()) return;
@@ -699,15 +702,8 @@ void PropertiesWidget::on_changeSavePathButton_clicked() {
     new_path = QFileDialog::getSaveFileName(this, tr("Choose save path"),  h.firstFileSavePath());
   } else {
     const QDir saveDir(TorrentPersistentData::getSavePath(h.hash()));
-    QFileDialog dlg(this, tr("Choose save path"), saveDir.absolutePath());
-    dlg.setConfirmOverwrite(false);
-    dlg.setFileMode(QFileDialog::Directory);
-    dlg.setOption(QFileDialog::ShowDirsOnly, true);
-    dlg.setFilter(QDir::AllDirs);
-    dlg.setAcceptMode(QFileDialog::AcceptSave);
-    dlg.setNameFilterDetailsVisible(false);
-    if(dlg.exec())
-      new_path = dlg.selectedFiles().first();
+    new_path = QFileDialog::getExistingDirectory(this, tr("Choose save path"), saveDir.absolutePath(),
+                                                 QFileDialog::DontConfirmOverwrite|QFileDialog::ShowDirsOnly|QFileDialog::HideNameFilterDetails);
   }
   if(!new_path.isEmpty()){
     // Check if savePath exists

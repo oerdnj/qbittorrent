@@ -28,46 +28,13 @@
  * Contact: chris@qbittorrent.org, arnaud@qbittorrent.org
  */
 
-#ifndef RSSMANAGER_H
-#define RSSMANAGER_H
-
-#include <QTimer>
-
+#include "rssfile.h"
 #include "rssfolder.h"
 
-class downloadThread;
-
-class RssManager: public RssFolder {
-  Q_OBJECT
-private:
-  explicit RssManager();
-  static RssManager* m_instance;
-
-public:
-  static RssManager* instance();
-  static void drop();
-  ~RssManager();
-  inline downloadThread* rssDownloader() const { return m_rssDownloader; }
-  static void insertSortElem(QList<RssArticle> &list, const RssArticle &item);
-  static QList<RssArticle> sortNewsList(const QList<RssArticle>& news_list);
-
-public slots:
-  void loadStreamList();
-  void saveStreamList() const;
-  void forwardFeedInfosChanged(const QString &url, const QString &aliasOrUrl, uint nbUnread);
-  void forwardFeedIconChanged(const QString &url, const QString &icon_path);
-  void moveFile(IRssFile* file, RssFolder* dest_folder);
-  void updateRefreshInterval(uint val);
-
-signals:
-  void feedInfosChanged(const QString &url, const QString &display_name, uint nbUnread);
-  void feedIconChanged(const QString &url, const QString &icon_path);
-
-private:
-  QTimer m_refreshTimer;
-  uint m_refreshInterval;
-  downloadThread *m_rssDownloader;
-
-};
-
-#endif // RSSMANAGER_H
+QStringList IRssFile::pathHierarchy() const {
+  QStringList path;
+  if(parent())
+    path << parent()->pathHierarchy();
+  path << id();
+  return path;
+}

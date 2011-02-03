@@ -74,13 +74,14 @@
 #include "libtorrent/error_code.hpp"
 #endif
 #include <queue>
+#include <string.h>
 
 using namespace libtorrent;
 
 QBtSession* QBtSession::m_instance = 0;
 
 const int MAX_TRACKER_ERRORS = 2;
-const float MAX_RATIO = 100.;
+const qreal MAX_RATIO = 100.;
 enum VersionType { NORMAL,ALPHA,BETA,RELEASE_CANDIDATE,DEVEL };
 
 // Main constructor
@@ -198,7 +199,7 @@ void QBtSession::processBigRatios() {
     if(!h.is_valid()) continue;
     if(h.is_seed()) {
       const QString hash = h.hash();
-      const float ratio = getRealRatio(hash);
+      const qreal ratio = getRealRatio(hash);
       qDebug("Ratio: %f (limit: %f)", ratio, ratio_limit);
       if(ratio <= MAX_RATIO && ratio >= ratio_limit) {
         if(high_ratio_action == REMOVE_ACTION) {
@@ -747,7 +748,13 @@ void QBtSession::resumeTorrent(QString hash) {
 bool QBtSession::loadFastResumeData(QString hash, std::vector<char> &buf) {
   const QString fastresume_path = QDir(misc::BTBackupLocation()).absoluteFilePath(hash+QString(".fastresume"));
   qDebug("Trying to load fastresume data: %s", qPrintable(fastresume_path));
-  return (load_file(qPrintable(fastresume_path), buf) == 0);
+  QFile fastresume_file(fastresume_path);
+  if(!fastresume_file.open(QIODevice::ReadOnly)) return false;
+  const QByteArray content = fastresume_file.readAll();
+  const int content_size = content.size();
+  buf.resize(content_size);
+  memcpy(&buf[0], content.data(), content_size);
+  return true;
 }
 
 void QBtSession::loadTorrentSettings(QTorrentHandle h) {
@@ -1300,20 +1307,17 @@ void QBtSession::loadSessionState() {
     return;
   }
 #if LIBTORRENT_VERSION_MINOR > 14
+  QFile state_file(state_path);
+  if(!state_file.open(QIODevice::ReadOnly)) return;
   std::vector<char> in;
-  if (load_file(state_path.toUtf8().constData(), in) == 0)
-  {
-    lazy_entry e;
-#if LIBTORRENT_VERSION_MINOR > 15
-    error_code ec;
-    lazy_bdecode(&in[0], &in[0] + in.size(), e, ec);
-    if(!ec)
-      s->load_state(e);
-#else
-    if (lazy_bdecode(&in[0], &in[0] + in.size(), e) == 0)
-      s->load_state(e);
-#endif
-  }
+  const QByteArray content = state_file.readAll();
+  const int content_size = content.size();
+  in.resize(content_size);
+  memcpy(&in[0], content.data(), content_size);
+  // bdecode
+  lazy_entry e;
+  if (lazy_bdecode(&in[0], &in[0] + in.size(), e) == 0)
+    s->load_state(e);
 #else
   boost::filesystem::ifstream ses_state_file(state_path.toUtf8().constData()
                                              , std::ios_base::binary);
@@ -1392,7 +1396,7 @@ bool QBtSession::enableDHT(bool b) {
   return true;
 }
 
-float QBtSession::getRealRatio(QString hash) const{
+qreal QBtSession::getRealRatio(QString hash) const{
   QTorrentHandle h = getTorrentHandle(hash);
   if(!h.is_valid()) {
     return 0.;
@@ -1404,7 +1408,7 @@ float QBtSession::getRealRatio(QString hash) const{
       return 0;
     return 101;
   }
-  float ratio = (float)h.all_time_upload()/(float)h.total_done();
+  qreal ratio = (float)h.all_time_upload()/(float)h.total_done();
   Q_ASSERT(ratio >= 0.);
   if(ratio > 100.)
     ratio = 100.;
@@ -1728,7 +1732,7 @@ void QBtSession::setUploadRateLimit(long rate) {
 
 // Torrents will a ratio superior to the given value will
 // be automatically deleted
-void QBtSession::setMaxRatio(float ratio) {
+void QBtSession::setMaxRatio(qreal ratio) {
   if(ratio < 0) ratio = -1.;
   if(ratio_limit == -1 && ratio != -1) {
     Q_ASSERT(!BigRatioTimer);
@@ -2425,7 +2429,7 @@ void QBtSession::downloadUrlAndSkipDialog(QString url, QString save_path, QStrin
   savepathLabel_fromurl[qurl] = qMakePair(save_path, label);
   url_skippingDlg << qurl;
   // Launch downloader thread
-  downloader->downloadUrl(url);
+  downloader->downloadTorrentUrl(url);
 }
 
 // Add to Bittorrent session the downloaded torrent file
@@ -2456,14 +2460,14 @@ void QBtSession::processDownloadedFile(QString url, QString file_path) {
 // Return current download rate for the BT
 // session. Payload means that it only take into
 // account "useful" part of the rate
-float QBtSession::getPayloadDownloadRate() const{
+qreal QBtSession::getPayloadDownloadRate() const{
   return s->status().payload_download_rate;
 }
 
 // Return current upload rate for the BT
 // session. Payload means that it only take into
 // account "useful" part of the rate
-float QBtSession::getPayloadUploadRate() const{
+qreal QBtSession::getPayloadUploadRate() const{
   return s->status().payload_upload_rate;
 }
 

@@ -36,49 +36,45 @@
 #include "rssfile.h"
 
 class RssArticle;
-class downloadThread;
 class RssFeed;
 
-class RssFolder: public RssFile, public QHash<QString, RssFile*> {
+class RssFolder: public QObject, public IRssFile {
   Q_OBJECT
 
 public:
-  RssFolder(RssFolder *parent = 0, QString name = QString());
-  ~RssFolder();
-  RssFolder* getParent() const { return parent; }
-  void setParent(RssFolder* _parent) { parent = _parent; }
-  unsigned int getNbUnRead() const;
-  FileType getType() const;
-  RssFeed* addStream(QString url);
-  RssFolder* addFolder(QString name);
-  QList<RssFeed*> findFeedsWithIcon(QString icon_url) const;
+  RssFolder(RssFolder *parent = 0, const QString &name = QString());
+  virtual ~RssFolder();
+  inline RssFolder* parent() const { return m_parent; }
+  void setParent(RssFolder* parent) { m_parent = parent; }
+  unsigned int unreadCount() const;
+  FileType type() const;
+  RssFeed* addStream(const QString &url);
+  RssFolder* addFolder(const QString &name);
   unsigned int getNbFeeds() const;
-  QList<RssFile*> getContent() const;
+  QList<IRssFile*> getContent() const;
   QList<RssFeed*> getAllFeeds() const;
   QHash<QString, RssFeed*> getAllFeedsAsHash() const;
-  QString getName() const;
-  QString getID() const;
-  bool hasChild(QString ID);
-  QList<RssArticle*> getNewsList() const;
-  QList<RssArticle*> getUnreadNewsList() const;
+  QString displayName() const;
+  QString id() const;
+  bool hasChild(const QString &childId);
+  const QList<RssArticle> articleList() const;
+  const QList<RssArticle> unreadArticleList() const;
   void removeAllSettings();
   void removeAllItems();
+  void renameChildFolder(const QString &old_name, const QString &new_name);
+  IRssFile *takeChild(const QString &childId);
 
 public slots:
-  void refreshAll();
-  void addFile(RssFile * item);
-  void removeFile(QString ID);
   void refresh();
-  void refreshStream(QString url);
-  void processFinishedDownload(QString url, QString path);
-  void handleDownloadFailure(QString url, QString reason);
-  void rename(QString new_name);
-  void markAllAsRead();
+  void addFile(IRssFile * item);
+  void removeChild(const QString &childId);
+  void rename(const QString &new_name);
+  void markAsRead();
 
 private:
-  RssFolder *parent;
-  downloadThread *downloader;
-  QString name;
+  RssFolder *m_parent;
+  QString m_name;
+  QHash<QString, IRssFile*> m_children;
 };
 
 #endif // RSSFOLDER_H
