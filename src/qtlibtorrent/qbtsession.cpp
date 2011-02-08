@@ -238,7 +238,7 @@ void QBtSession::setUploadLimit(QString hash, long val) {
 void QBtSession::handleDownloadFailure(QString url, QString reason) {
   emit downloadFromUrlFailure(url, reason);
   // Clean up
-  const QUrl qurl = QUrl::fromEncoded(url.toLocal8Bit());
+  const QUrl qurl = QUrl::fromEncoded(url.toUtf8());
   url_skippingDlg.removeOne(qurl);
   savepathLabel_fromurl.remove(qurl);
 }
@@ -408,6 +408,16 @@ void QBtSession::configureSession() {
   sessionSettings.ignore_limits_on_local_network = pref.ignoreLimitsOnLAN();
   // Include overhead in transfer limits
   sessionSettings.rate_limit_ip_overhead = pref.includeOverheadInLimits();
+  // IP address to announce to trackers
+  QString announce_ip = pref.getNetworkAddress();
+  if(!announce_ip.isEmpty()) {
+    boost::system::error_code ec;
+    boost::asio::ip::address addr = boost::asio::ip::address::from_string(announce_ip.toStdString(), ec);
+    if(!ec) {
+      addConsoleMessage(tr("Reporting IP address %1 to trackers...").arg(announce_ip));
+      sessionSettings.announce_ip = addr;
+    }
+  }
   // Super seeding
 #if LIBTORRENT_VERSION_MINOR > 14
   sessionSettings.strict_super_seeding = pref.isSuperSeedingEnabled();
@@ -881,7 +891,13 @@ QTorrentHandle QBtSession::addTorrent(QString path, bool fromScanDir, QString fr
       //emit invalidTorrent(from_url);
       misc::safeRemove(path);
     }else{
+#if defined(Q_WS_WIN) || defined(Q_OS_OS2)
+      QString displayed_path = path;
+      displayed_path.replace("/", "\\");
+      addConsoleMessage(tr("Unable to decode torrent file: '%1'", "e.g: Unable to decode torrent file: '/home/y/xxx.torrent'").arg(displayed_path), QString::fromUtf8("red"));
+#else
       addConsoleMessage(tr("Unable to decode torrent file: '%1'", "e.g: Unable to decode torrent file: '/home/y/xxx.torrent'").arg(path), QString::fromUtf8("red"));
+#endif
       //emit invalidTorrent(path);
     }
     addConsoleMessage(tr("This file is either corrupted or this isn't a torrent."),QString::fromUtf8("red"));
@@ -904,7 +920,13 @@ QTorrentHandle QBtSession::addTorrent(QString path, bool fromScanDir, QString fr
     if(!from_url.isNull()) {
       addConsoleMessage(tr("'%1' is already in download list.", "e.g: 'xxx.avi' is already in download list.").arg(from_url));
     }else{
+#if defined(Q_WS_WIN) || defined(Q_OS_OS2)
+      QString displayed_path = path;
+      displayed_path.replace("/", "\\");
+      addConsoleMessage(tr("'%1' is already in download list.", "e.g: 'xxx.avi' is already in download list.").arg(displayed_path));
+#else
       addConsoleMessage(tr("'%1' is already in download list.", "e.g: 'xxx.avi' is already in download list.").arg(path));
+#endif
     }
     // Check if the torrent contains trackers or url seeds we don't know about
     // and add them
@@ -954,9 +976,9 @@ QTorrentHandle QBtSession::addTorrent(QString path, bool fromScanDir, QString fr
   }
 
   QString savePath;
-  if(!from_url.isEmpty() && savepathLabel_fromurl.contains(QUrl::fromEncoded(from_url.toLocal8Bit()))) {
+  if(!from_url.isEmpty() && savepathLabel_fromurl.contains(QUrl::fromEncoded(from_url.toUtf8()))) {
     // Enforcing the save path defined before URL download (from RSS for example)
-    QPair<QString, QString> savePath_label = savepathLabel_fromurl.take(QUrl::fromEncoded(from_url.toLocal8Bit()));
+    QPair<QString, QString> savePath_label = savepathLabel_fromurl.take(QUrl::fromEncoded(from_url.toUtf8()));
     if(savePath_label.first.isEmpty())
       savePath = getSavePath(hash, fromScanDir, path, root_folder);
     else
@@ -1047,10 +1069,19 @@ QTorrentHandle QBtSession::addTorrent(QString path, bool fromScanDir, QString fr
     else
       addConsoleMessage(tr("'%1' added to download list.", "'/home/y/xxx.torrent' was added to download list.").arg(from_url));
   }else{
+#if defined(Q_WS_WIN) || defined(Q_OS_OS2)
+    QString displayed_path = path;
+    displayed_path.replace("/", "\\");
+    if(fastResume)
+      addConsoleMessage(tr("'%1' resumed. (fast resume)", "'/home/y/xxx.torrent' was resumed. (fast resume)").arg(displayed_path));
+    else
+      addConsoleMessage(tr("'%1' added to download list.", "'/home/y/xxx.torrent' was added to download list.").arg(displayed_path));
+#else
     if(fastResume)
       addConsoleMessage(tr("'%1' resumed. (fast resume)", "'/home/y/xxx.torrent' was resumed. (fast resume)").arg(path));
     else
       addConsoleMessage(tr("'%1' added to download list.", "'/home/y/xxx.torrent' was added to download list.").arg(path));
+#endif
   }
 
   // Send torrent addition signal
@@ -1489,7 +1520,7 @@ void QBtSession::saveFastResumeData() {
       const QString file = torrentBackup.absoluteFilePath(h.hash()+".fastresume");
       if(QFile::exists(file))
         misc::safeRemove(file);
-      boost::filesystem::ofstream out(boost::filesystem::path(file.toLocal8Bit().constData()), std::ios_base::binary);
+      boost::filesystem::ofstream out(boost::filesystem::path(file.toUtf8().constData()), std::ios_base::binary);
       out.unsetf(std::ios_base::skipws);
       bencode(std::ostream_iterator<char>(out), *rd->resume_data);
       // Remove torrent from session
@@ -1507,9 +1538,6 @@ void QBtSession::addConsoleMessage(QString msg, QColor color) {
   if(consoleMessages.size() > 100) {
     consoleMessages.removeLast();
   }
-#if defined(Q_WS_WIN) || defined(Q_OS_OS2)
-  msg = msg.replace("/", "\\");
-#endif
   msg = "<font color='grey'>"+ QDateTime::currentDateTime().toString(QString::fromUtf8("dd/MM/yyyy hh:mm:ss")) + "</font> - <font color='" + color.name() + "'><i>" + msg + "</i></font>";
   consoleMessages.prepend(msg);
   emit newConsoleMessage(msg);
@@ -1683,12 +1711,14 @@ void QBtSession::setAppendqBExtension(bool append) {
 // Set the ports range in which is chosen the port the Bittorrent
 // session will listen to
 void QBtSession::setListeningPort(int port) {
+  Preferences pref;
   std::pair<int,int> ports(port, port);
-  const QString& iface_name = Preferences().getNetworkInterface();
+  const QString iface_name = pref.getNetworkInterface();
   if(iface_name.isEmpty()) {
     s->listen_on(ports);
     return;
   }
+  // Attempt to listen on provided interface
   const QNetworkInterface network_iface = QNetworkInterface::interfaceFromName(iface_name);
   if(!network_iface.isValid()) {
     qDebug("Invalid network interface: %s", qPrintable(iface_name));
@@ -1701,7 +1731,7 @@ void QBtSession::setListeningPort(int port) {
   qDebug("This network interface has %d IP addresses", network_iface.addressEntries().size());
   foreach(const QNetworkAddressEntry &entry, network_iface.addressEntries()) {
     qDebug("Trying to listen on IP %s (%s)", qPrintable(entry.ip().toString()), qPrintable(iface_name));
-    if(s->listen_on(ports, qPrintable(entry.ip().toString()))) {
+    if(s->listen_on(ports, entry.ip().toString().toAscii().constData())) {
       ip = entry.ip().toString();
       break;
     }
@@ -1856,7 +1886,13 @@ void QBtSession::recursiveTorrentDownload(const QTorrentHandle &h) {
     for(it = h.get_torrent_info().begin_files(); it != h.get_torrent_info().end_files(); it++)  {
       const QString torrent_relpath = h.filepath(*it);
       if(torrent_relpath.endsWith(".torrent")) {
+#if defined(Q_WS_WIN) || defined(Q_OS_OS2)
+        QString displayed_relpath = torrent_relpath;
+        displayed_relpath.replace("/", "\\");
+        addConsoleMessage(tr("Recursive download of file %1 embedded in torrent %2", "Recursive download of test.torrent embedded in torrent test2").arg(displayed_relpath).arg(h.name()));
+#else
         addConsoleMessage(tr("Recursive download of file %1 embedded in torrent %2", "Recursive download of test.torrent embedded in torrent test2").arg(torrent_relpath).arg(h.name()));
+#endif
         const QString torrent_fullpath = h.save_path()+QDir::separator()+torrent_relpath;
 
         boost::intrusive_ptr<torrent_info> t = new torrent_info(torrent_fullpath.toUtf8().constData());
@@ -1944,7 +1980,13 @@ void QBtSession::readAlerts() {
                 }
               } catch(std::exception&) {
                 qDebug("Caught error loading torrent");
+#if defined(Q_WS_WIN) || defined(Q_OS_OS2)
+                QString displayed_path = torrent_fullpath;
+                displayed_path.replace("/", "\\");
+                addConsoleMessage(tr("Unable to decode %1 torrent file.").arg(displayed_path), QString::fromUtf8("red"));
+#else
                 addConsoleMessage(tr("Unable to decode %1 torrent file.").arg(torrent_fullpath), QString::fromUtf8("red"));
+#endif
               }
             }
           }
@@ -2021,7 +2063,7 @@ void QBtSession::readAlerts() {
           misc::safeRemove(file);
         qDebug("Saving fastresume data in %s", qPrintable(file));
         if (p->resume_data) {
-          boost::filesystem::ofstream out(boost::filesystem::path(file.toLocal8Bit().constData()), std::ios_base::binary);
+          boost::filesystem::ofstream out(boost::filesystem::path(file.toUtf8().constData()), std::ios_base::binary);
           out.unsetf(std::ios_base::skipws);
           bencode(std::ostream_iterator<char>(out), *p->resume_data);
         }
@@ -2425,7 +2467,7 @@ void QBtSession::addMagnetSkipAddDlg(QString uri) {
 
 void QBtSession::downloadUrlAndSkipDialog(QString url, QString save_path, QString label) {
   //emit aboutToDownloadFromUrl(url);
-  const QUrl qurl = QUrl::fromEncoded(url.toLocal8Bit());
+  const QUrl qurl = QUrl::fromEncoded(url.toUtf8());
   savepathLabel_fromurl[qurl] = qMakePair(save_path, label);
   url_skippingDlg << qurl;
   // Launch downloader thread
@@ -2434,14 +2476,14 @@ void QBtSession::downloadUrlAndSkipDialog(QString url, QString save_path, QStrin
 
 // Add to Bittorrent session the downloaded torrent file
 void QBtSession::processDownloadedFile(QString url, QString file_path) {
-  const int index = url_skippingDlg.indexOf(QUrl::fromEncoded(url.toLocal8Bit()));
+  const int index = url_skippingDlg.indexOf(QUrl::fromEncoded(url.toUtf8()));
   if(index < 0) {
     // Add file to torrent download list
 #ifdef Q_WS_WIN
     // Windows hack
-    if(!file_path.endsWith(".torrent")) {
+    if(!file_path.endsWith(".torrent", Qt::CaseInsensitive)) {
       Q_ASSERT(QFile::exists(file_path));
-      qDebug("Torrent name does not end with .torrent, fixing...");
+      qDebug("Torrent name does not end with .torrent, from %s", qPrintable(file_path));
       if(QFile::rename(file_path, file_path+".torrent")) {
         file_path += ".torrent";
       } else {
@@ -2481,7 +2523,7 @@ void QBtSession::saveDHTEntry() {
       const QString dht_path = misc::cacheLocation()+QDir::separator()+QString::fromUtf8("dht_state");
       if(QFile::exists(dht_path))
         misc::safeRemove(dht_path);
-      boost::filesystem::ofstream out(dht_path.toLocal8Bit().constData(), std::ios_base::binary);
+      boost::filesystem::ofstream out(dht_path.toUtf8().constData(), std::ios_base::binary);
       out.unsetf(std::ios_base::skipws);
       bencode(std::ostream_iterator<char>(out), dht_state);
       qDebug("DHT entry saved");

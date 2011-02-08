@@ -1,3 +1,15 @@
+* Tue Feb 8 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.6.6 
+  - FEATURE: IP address reported to trackers is now customizable
+  - BUGFIX: Use slashes instead of antislashes in URLs (Windows)
+  - BUGFIX: Fix articles read state reset problem in RSS
+  - BUGFIX: Fix possible path encoding issues on Windows
+  - BUGFIX: Fix downloads from URLs on Windows
+  - I18N: Added Lithuanian translation
+  - COSMETIC: Improve main window layout
+  - COSMETIC: Improve properties buttons style
+  - COSMETIC: Display pieces being downloaded in green instead of yellow
+  - COSMETIC: Improve piece availability bar appearance
+
 * Thu Feb 3 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.6.5
    - BUGFIX: Make sure the progress is not 100% unless the file is complete
    - BUGFIX: Fix memory leak in HTTP torrent downloader
