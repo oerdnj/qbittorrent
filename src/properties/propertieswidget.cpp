@@ -152,14 +152,14 @@ void PropertiesWidget::showPiecesDownloaded(bool show) {
 void PropertiesWidget::setVisibility(bool visible) {
   if(!visible && state == VISIBLE) {
     QSplitter *hSplitter = static_cast<QSplitter*>(parentWidget());
-    slideSizes = hSplitter->sizes();
     stackedProperties->setVisible(false);
-    QList<int> sizes;
-    sizes << hSplitter->geometry().height()-30 << 30;
-    hSplitter->setSizes(sizes);
+    slideSizes = hSplitter->sizes();
     hSplitter->handle(1)->setVisible(false);
     hSplitter->handle(1)->setDisabled(true);
+    QList<int> sizes = QList<int>() << hSplitter->geometry().height()-30 << 30;
+    hSplitter->setSizes(sizes);
     state = REDUCED;
+    return;
   }
 
   if(visible && state == REDUCED) {
@@ -365,7 +365,7 @@ void PropertiesWidget::loadDynamicData() {
           std::vector<int> avail;
           h.piece_availability(avail);
           pieces_availability->setAvailability(avail);
-          avail_average_lbl->setText(QString::number(h.status().distributed_copies, 'f', 1));
+          avail_average_lbl->setText(QString::number(h.status().distributed_copies, 'f', 3));
         } else {
           showPiecesAvailability(false);
         }
