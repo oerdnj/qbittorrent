@@ -79,9 +79,9 @@
 using namespace libtorrent;
 
 QBtSession* QBtSession::m_instance = 0;
+const qreal QBtSession::MAX_RATIO = 9999.;
 
 const int MAX_TRACKER_ERRORS = 2;
-const qreal MAX_RATIO = 100.;
 enum VersionType { NORMAL,ALPHA,BETA,RELEASE_CANDIDATE,DEVEL };
 
 // Main constructor
@@ -388,6 +388,9 @@ void QBtSession::configureSession() {
 #endif
   sessionSettings.cache_size = pref.diskCacheSize()*64;
   qDebug() << "Using a disk cache size of" << pref.diskCacheSize() << "MiB";
+  // Disable OS cache to avoid memory problems (uTorrent behavior)
+  sessionSettings.disk_io_write_mode = session_settings::disable_os_cache_for_aligned_files;
+  sessionSettings.disk_io_read_mode = session_settings::disable_os_cache_for_aligned_files;
   // Queueing System
   if(pref.isQueueingSystemEnabled()) {
     sessionSettings.active_downloads = pref.getMaxActiveDownloads();
@@ -821,6 +824,8 @@ QTorrentHandle QBtSession::addMagnetUri(QString magnet_uri, bool resumed) {
     if(!QDir(savePath).exists()) QDir().mkpath(savePath);
     qDebug("addMagnetURI: using save_path: %s", qPrintable(savePath));
   }
+
+  qDebug("Adding magnet URI: %s", qPrintable(magnet_uri));
 
   // Adding torrent to Bittorrent session
   try {
@@ -1350,7 +1355,7 @@ void QBtSession::loadSessionState() {
   if (lazy_bdecode(&in[0], &in[0] + in.size(), e) == 0)
     s->load_state(e);
 #else
-  boost::filesystem::ifstream ses_state_file(state_path.toUtf8().constData()
+  boost::filesystem::ifstream ses_state_file(state_path.toLocal8Bit().constData()
                                              , std::ios_base::binary);
   ses_state_file.unsetf(std::ios_base::skipws);
   s->load_state(bdecode(
@@ -1375,7 +1380,7 @@ void QBtSession::saveSessionState() {
   f.writev(0, &b, 1, ec);
 #else
   entry session_state = s->state();
-  boost::filesystem::ofstream out(state_path.toUtf8().constData()
+  boost::filesystem::ofstream out(state_path.toLocal8Bit().constData()
                                   , std::ios_base::binary);
   out.unsetf(std::ios_base::skipws);
   bencode(std::ostream_iterator<char>(out), session_state);
@@ -1390,7 +1395,7 @@ bool QBtSession::enableDHT(bool b) {
       entry dht_state;
       const QString dht_state_path = misc::cacheLocation()+QDir::separator()+QString::fromUtf8("dht_state");
       if(QFile::exists(dht_state_path)) {
-        boost::filesystem::ifstream dht_state_file(dht_state_path.toUtf8().constData(), std::ios_base::binary);
+        boost::filesystem::ifstream dht_state_file(dht_state_path.toLocal8Bit().constData(), std::ios_base::binary);
         dht_state_file.unsetf(std::ios_base::skipws);
         try{
           dht_state = bdecode(std::istream_iterator<char>(dht_state_file), std::istream_iterator<char>());
@@ -1437,12 +1442,12 @@ qreal QBtSession::getRealRatio(QString hash) const{
   if(h.total_done() == 0) {
     if(h.all_time_upload() == 0)
       return 0;
-    return 101;
+    return MAX_RATIO+1;
   }
   qreal ratio = (float)h.all_time_upload()/(float)h.total_done();
   Q_ASSERT(ratio >= 0.);
-  if(ratio > 100.)
-    ratio = 100.;
+  if(ratio > MAX_RATIO)
+    ratio = MAX_RATIO;
   return ratio;
 }
 
@@ -1520,7 +1525,7 @@ void QBtSession::saveFastResumeData() {
       const QString file = torrentBackup.absoluteFilePath(h.hash()+".fastresume");
       if(QFile::exists(file))
         misc::safeRemove(file);
-      boost::filesystem::ofstream out(boost::filesystem::path(file.toUtf8().constData()), std::ios_base::binary);
+      boost::filesystem::ofstream out(boost::filesystem::path(file.toLocal8Bit().constData()), std::ios_base::binary);
       out.unsetf(std::ios_base::skipws);
       bencode(std::ostream_iterator<char>(out), *rd->resume_data);
       // Remove torrent from session
@@ -2410,11 +2415,6 @@ QString QBtSession::getSavePath(QString hash, bool fromScanDir, QString filePath
         savePath = defaultSavePath;
         append_root_folder = true;
       }
-    } else {
-      QIniSettings settings("qBittorrent", "qBittorrent");
-      if(!settings.value("ported_to_new_savepath_system", false).toBool()) {
-        append_root_folder = true;
-      }
     }
     if(!fromScanDir && appendLabelToSavePath) {
       const QString label = TorrentPersistentData::getLabel(hash);
@@ -2425,9 +2425,7 @@ QString QBtSession::getSavePath(QString hash, bool fromScanDir, QString filePath
     }
     if(append_root_folder && !root_folder.isEmpty()) {
       // Append torrent root folder to the save path
-      if(!savePath.endsWith(QDir::separator()))
-        savePath += QDir::separator();
-      savePath += root_folder;
+      savePath = QDir(savePath).absoluteFilePath(root_folder);
       qDebug("Torrent root folder is %s", qPrintable(root_folder));
       TorrentPersistentData::saveSavePath(hash, savePath);
     }
@@ -2523,7 +2521,7 @@ void QBtSession::saveDHTEntry() {
       const QString dht_path = misc::cacheLocation()+QDir::separator()+QString::fromUtf8("dht_state");
       if(QFile::exists(dht_path))
         misc::safeRemove(dht_path);
-      boost::filesystem::ofstream out(dht_path.toUtf8().constData(), std::ios_base::binary);
+      boost::filesystem::ofstream out(dht_path.toLocal8Bit().constData(), std::ios_base::binary);
       out.unsetf(std::ios_base::skipws);
       bencode(std::ostream_iterator<char>(out), dht_state);
       qDebug("DHT entry saved");
