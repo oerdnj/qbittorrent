@@ -1,3 +1,9 @@
+qbittorrent (2.6.9-2) experimental; urgency=low
+
+  * debian/qbittorrent.mime: new file to provide MIME information.
+
+ -- Cristian Greco <cristian@regolo.cc>  Mon, 14 Mar 2011 19:31:02 +0100
+
 qbittorrent (2.6.9-1) experimental; urgency=low
 
   * New upstream version.
