@@ -389,8 +389,13 @@ void QBtSession::configureSession() {
   sessionSettings.cache_size = pref.diskCacheSize()*64;
   qDebug() << "Using a disk cache size of" << pref.diskCacheSize() << "MiB";
   // Disable OS cache to avoid memory problems (uTorrent behavior)
+#ifdef Q_WS_WIN
+#if LIBTORRENT_VERSION_MINOR > 14
+  // Fixes huge memory usage on Windows 7 (especially when checking files)
   sessionSettings.disk_io_write_mode = session_settings::disable_os_cache_for_aligned_files;
   sessionSettings.disk_io_read_mode = session_settings::disable_os_cache_for_aligned_files;
+#endif
+#endif
   // Queueing System
   if(pref.isQueueingSystemEnabled()) {
     sessionSettings.active_downloads = pref.getMaxActiveDownloads();
@@ -2113,21 +2118,20 @@ void QBtSession::readAlerts() {
 #endif
       if(!hash.isEmpty()) {
         if(savePathsToRemove.contains(hash)) {
-          QDir().rmpath(savePathsToRemove.take(hash));
+          const QString dirpath = savePathsToRemove.take(hash);
+          qDebug() << "Removing save path: " << dirpath << "...";
+          bool ok = misc::removeEmptyFolder(dirpath);
+          Q_UNUSED(ok);
+          qDebug() << "Folder was removed: " << ok;
         }
       } else {
-        // XXX: Fallback
-        QStringList hashes_deleted;
+        // Fallback
+        qDebug() << "hash is empty, use fallback to remove save path";
         foreach(const QString& key, savePathsToRemove.keys()) {
           // Attempt to delete
-          QDir().rmpath(savePathsToRemove[key]);
-          if(!QDir(savePathsToRemove[key]).exists()) {
-            hashes_deleted << key;
+          if(misc::removeEmptyFolder(savePathsToRemove[key])) {
+            savePathsToRemove.remove(key);
           }
-        }
-        // Clean up
-        foreach(const QString& key, hashes_deleted) {
-          savePathsToRemove.remove(key);
         }
       }
     }
@@ -2409,12 +2413,12 @@ QString QBtSession::getSavePath(QString hash, bool fromScanDir, QString filePath
     qDebug("SavePath got from persistant data is %s", qPrintable(savePath));
     bool append_root_folder = false;
     if(savePath.isEmpty()) {
-      if(fromScanDir && m_scanFolders->downloadInTorrentFolder(filePath))
+      if(fromScanDir && m_scanFolders->downloadInTorrentFolder(filePath)) {
         savePath = QFileInfo(filePath).dir().path();
-      else {
+      } else {
         savePath = defaultSavePath;
-        append_root_folder = true;
       }
+      append_root_folder = true;
     }
     if(!fromScanDir && appendLabelToSavePath) {
       const QString label = TorrentPersistentData::getLabel(hash);

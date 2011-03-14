@@ -1,3 +1,16 @@
+* Sun Mar 13 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.6.9
+  - BUGFIX: Fix column hiding/showing in transfer list
+
+* Sun Mar 13 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.6.8
+  - BUGFIX: Fix compilation with libtorrent v0.14.x
+  - BUGFIX: Fix issues when writing on NTFS (Linux, Mac)
+  - BUGFIX: Fix root folder being cut off if the torrent comes from a scanned folder (Christian Kandeler)
+  - BUGFIX: Improve folder removal behavior
+  - BUGFIX: Make sure the .unwanted folder is deleted on soft torrent removal
+  - BUGFIX: Indicate support for Magnet links in desktop file (Fisiu)
+  - BUGFIX: Do not report torrent being checked as queued
+  - BUGFIX: Improve lists columns state saving
+
 * Sat Feb 26 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.6.7
   - BUGFIX: Encoding fixes (Windows)
   - BUGFIX: Fix "append label to save path" (Windows)
