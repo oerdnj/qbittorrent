@@ -147,7 +147,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Display program notification balloons</source>
-        <translation>Wyświetlaj powiadomienia w dymkach</translation>
+        <translation type="obsolete">Wyświetlaj powiadomienia w dymkach</translation>
     </message>
     <message>
         <source>Enable embedded tracker</source>
@@ -166,7 +166,15 @@ p, li { white-space: pre-wrap; }
         <translation>Używaj systemowego zestawu ikon</translation>
     </message>
     <message>
+        <source>Confirm torrent deletion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>IP Address to report to trackers (requires restart)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display program on-screen notifications</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -566,71 +574,95 @@ Informacje te powinny zostać pobrane z ustawień przeglądarki internetowej.</t
     <name>DownloadThread</name>
     <message>
         <source>I/O Error</source>
-        <translation type="obsolete">Błąd We/Wy</translation>
+        <translation type="unfinished">Błąd We/Wy</translation>
     </message>
     <message>
         <source>The remote host name was not found (invalid hostname)</source>
-        <translation type="obsolete">Nie odnaleziono nazwy zdalnego hosta (nieprawidłowa nazwa hosta)</translation>
+        <translation type="unfinished">Nie odnaleziono nazwy zdalnego hosta (nieprawidłowa nazwa hosta)</translation>
     </message>
     <message>
         <source>The operation was canceled</source>
-        <translation type="obsolete">Operacja została anulowana</translation>
+        <translation type="unfinished">Operacja została anulowana</translation>
     </message>
     <message>
         <source>The remote server closed the connection prematurely, before the entire reply was received and processed</source>
-        <translation type="obsolete">Zdalny serwer przedwcześnie zakończył połączenie, zanim otrzymano i przetworzono odpowiedź</translation>
+        <translation type="unfinished">Zdalny serwer przedwcześnie zakończył połączenie, zanim otrzymano i przetworzono odpowiedź</translation>
     </message>
     <message>
         <source>The connection to the remote server timed out</source>
-        <translation type="obsolete">Przekroczono czas oczekiwania na połącznie ze zdalnym serwerem</translation>
+        <translation type="unfinished">Przekroczono czas oczekiwania na połącznie ze zdalnym serwerem</translation>
     </message>
     <message>
         <source>SSL/TLS handshake failed</source>
-        <translation type="obsolete">Niepomyślna próba negocjacji połączenie SSL/TLS</translation>
+        <translation type="unfinished">Niepomyślna próba negocjacji połączenie SSL/TLS</translation>
     </message>
     <message>
         <source>The remote server refused the connection</source>
-        <translation type="obsolete">Zdalny serwer odrzucił połączenie</translation>
+        <translation type="unfinished">Zdalny serwer odrzucił połączenie</translation>
     </message>
     <message>
         <source>The connection to the proxy server was refused</source>
-        <translation type="obsolete">Połączenie z serwerem proxy zostało odrzucone</translation>
+        <translation type="unfinished">Połączenie z serwerem proxy zostało odrzucone</translation>
     </message>
     <message>
         <source>The proxy server closed the connection prematurely</source>
-        <translation type="obsolete">Serwer proxy przedwcześnie zakończył połączenie</translation>
+        <translation type="unfinished">Serwer proxy przedwcześnie zakończył połączenie</translation>
     </message>
     <message>
         <source>The proxy host name was not found</source>
-        <translation type="obsolete">Nie znaleziono nazwy hosta serwera proxy</translation>
+        <translation type="unfinished">Nie znaleziono nazwy hosta serwera proxy</translation>
     </message>
     <message>
         <source>The connection to the proxy timed out or the proxy did not reply in time to the request sent</source>
-        <translation type="obsolete">Przkroczono czas oczekiwania na połączenie z serwerm proxy lub serwer nie odpowiedział na czas</translation>
+        <translation type="unfinished">Przkroczono czas oczekiwania na połączenie z serwerm proxy lub serwer nie odpowiedział na czas</translation>
     </message>
     <message>
         <source>The proxy requires authentication in order to honour the request but did not accept any credentials offered</source>
-        <translation type="obsolete">Serwer proxy wymaga uwierzytelnienia aby zaakceptować żądanie lecz oferowane dane uwierzytelnienia zostały odrzucone</translation>
+        <translation type="unfinished">Serwer proxy wymaga uwierzytelnienia aby zaakceptować żądanie lecz oferowane dane uwierzytelnienia zostały odrzucone</translation>
     </message>
     <message>
         <source>The access to the remote content was denied (401)</source>
-        <translation type="obsolete">Odmówiono dostępu do zdalnego zasobu (401)</translation>
+        <translation type="unfinished">Odmówiono dostępu do zdalnego zasobu (401)</translation>
     </message>
     <message>
         <source>The operation requested on the remote content is not permitted</source>
-        <translation type="obsolete">Żądana operacja na zdalnym zasobie nie jest dozwolona</translation>
+        <translation type="unfinished">Żądana operacja na zdalnym zasobie nie jest dozwolona</translation>
     </message>
     <message>
         <source>The remote content was not found at the server (404)</source>
-        <translation type="obsolete">Nie znaleziono zdalnego zasobu na serwerze (404)</translation>
+        <translation type="unfinished">Nie znaleziono zdalnego zasobu na serwerze (404)</translation>
     </message>
     <message>
         <source>The remote server requires authentication to serve the content but the credentials provided were not accepted</source>
-        <translation type="obsolete">Zdalny serwer wymaga uwierzytelnienia w celu dostępu do zasobu lecz dane uwierzytelniające nie zostały zaakceptowane</translation>
+        <translation type="unfinished">Zdalny serwer wymaga uwierzytelnienia w celu dostępu do zasobu lecz dane uwierzytelniające nie zostały zaakceptowane</translation>
+    </message>
+    <message>
+        <source>The Network Access API cannot honor the request because the protocol is not known</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The requested operation is invalid for this protocol</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An unknown network-related error was detected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An unknown proxy-related error was detected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An unknown error related to the remote content was detected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A breakdown in protocol was detected</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unknown error</source>
-        <translation type="obsolete">Nieznany błąd</translation>
+        <translation type="unfinished">Nieznany błąd</translation>
     </message>
 </context>
 <context>
@@ -1918,6 +1950,10 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
         <source>Disabled</source>
         <translation>Wyłączone</translation>
     </message>
+    <message>
+        <source>The password should contain at least 3 characters</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PeerAdditionDlg</name>
@@ -2040,7 +2076,7 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
     <message>
         <source>UI</source>
         <extracomment>User Interface</extracomment>
-        <translation>Wygląd</translation>
+        <translation type="obsolete">Wygląd</translation>
     </message>
     <message>
         <source>Downloads</source>
@@ -2064,7 +2100,7 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
     </message>
     <message>
         <source>Language:</source>
-        <translation>Język:</translation>
+        <translation type="obsolete">Język:</translation>
     </message>
     <message>
         <source>(Requires restart)</source>
@@ -2072,7 +2108,7 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
     </message>
     <message>
         <source>Visual style:</source>
-        <translation>Styl wizualny:</translation>
+        <translation type="obsolete">Styl wizualny:</translation>
     </message>
     <message>
         <source>Transfer list</source>
@@ -2302,7 +2338,7 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
     </message>
     <message>
         <source>Visual Appearance</source>
-        <translation>Wygląd</translation>
+        <translation type="obsolete">Wygląd</translation>
     </message>
     <message>
         <source>Action on double-click</source>
@@ -2453,7 +2489,7 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
     </message>
     <message>
         <source>Use %f to pass the torrent path in parameters</source>
-        <translation>Użyj %f w celu przekazania ścieżki torrenta jako parametru</translation>
+        <translation type="obsolete">Użyj %f w celu przekazania ścieżki torrenta jako parametru</translation>
     </message>
     <message>
         <source>Proxy server</source>
@@ -2509,11 +2545,47 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
     </message>
     <message>
         <source>User Interface</source>
-        <translation type="unfinished">Interfejs użytkownika</translation>
+        <translation type="obsolete">Interfejs użytkownika</translation>
     </message>
     <message>
         <source>Reload the filter</source>
         <translation>Przeładuj filtr</translation>
+    </message>
+    <message>
+        <source>Behavior</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation type="unfinished">Język</translation>
+    </message>
+    <message>
+        <source>Power Management</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Inhibit system sleep when torrents are active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bypass authentication for localhost</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ask for program exit confirmation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use monochrome system tray icon (requires restart)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following parameters are supported:
+&lt;ul&gt;
+&lt;li&gt;%f: Torrent path&lt;/li&gt;
+&lt;li&gt;%n: Torrent name&lt;/li&gt;
+&lt;/ul&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2820,6 +2892,10 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
         <extracomment>Time (duration) the torrent is active (not paused)</extracomment>
         <translation>Pobierany przez:</translation>
     </message>
+    <message>
+        <source>Torrent content:</source>
+        <translation type="unfinished">Zawartość torrenta:</translation>
+    </message>
 </context>
 <context>
     <name>QBtSession</name>
@@ -3090,6 +3166,18 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
     </message>
     <message>
         <source>Reporting IP address %1 to trackers...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The computer will now go to sleep mode unless you cancel within the next 15 seconds...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The computer will now be switched off unless you cancel within the next 15 seconds...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>qBittorrent will now exit unless you cancel within the next 15 seconds...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3529,6 +3617,13 @@ Do you want to install it now?</source>
     </message>
 </context>
 <context>
+    <name>ShutdownConfirmDlg</name>
+    <message>
+        <source>Shutdown confirmation</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SpeedLimitDialog</name>
     <message>
         <source>KiB/s</source>
@@ -3568,22 +3663,22 @@ Do you want to install it now?</source>
     <message>
         <source>D: %1/s - T: %2</source>
         <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
-        <translation>Pobieranie: %1/s - Pobrano: %2</translation>
+        <translation type="obsolete">Pobieranie: %1/s - Pobrano: %2</translation>
     </message>
     <message>
         <source>U: %1/s - T: %2</source>
         <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
-        <translation>Wysyłanie: %1/s - Wysłano: %2</translation>
+        <translation type="obsolete">Wysyłanie: %1/s - Wysłano: %2</translation>
     </message>
     <message>
         <source>D: %1 B/s - T: %2</source>
         <comment>Download speed: x B/s - Transferred: x MiB</comment>
-        <translation>Pobieranie: %1/s - Pobrano: %2</translation>
+        <translation type="obsolete">Pobieranie: %1/s - Pobrano: %2</translation>
     </message>
     <message>
         <source>U: %1 B/s - T: %2</source>
         <comment>Upload speed: x B/s - Transferred: x MiB</comment>
-        <translation>Wysyłanie: %1/s - Wysłano: %2</translation>
+        <translation type="obsolete">Wysyłanie: %1/s - Wysłano: %2</translation>
     </message>
     <message>
         <source>Offline. This usually means that qBittorrent failed to listen on the selected port for incoming connections.</source>
@@ -3591,11 +3686,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Click to disable alternative speed limits</source>
-        <translation>Kliknij, aby wyłączyć alternatywne limity prędkości</translation>
+        <translation type="obsolete">Kliknij, aby wyłączyć alternatywne limity prędkości</translation>
     </message>
     <message>
         <source>Click to enable alternative speed limits</source>
-        <translation>Kliknij, aby włączyć alternatywne limity prędkości</translation>
+        <translation type="obsolete">Kliknij, aby włączyć alternatywne limity prędkości</translation>
     </message>
     <message>
         <source>qBittorrent needs to be restarted</source>
@@ -3604,6 +3699,19 @@ Do you want to install it now?</source>
     <message>
         <source>qBittorrent was just updated and needs to be restarted for the changes to be effective.</source>
         <translation>qBittorrent został zaktualizowany i konieczne jest jego ponowne uruchomienie.</translation>
+    </message>
+    <message>
+        <source>Click to switch to alternative speed limits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click to switch to regular speed limits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1/s</source>
+        <comment>Per second</comment>
+        <translation type="unfinished">%1/s</translation>
     </message>
 </context>
 <context>
@@ -4288,6 +4396,33 @@ Do you want to install it now?</source>
         <source>Tracker</source>
         <translation type="obsolete">Tracker</translation>
     </message>
+    <message>
+        <source>Limit share ratio...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UpDownRatioDlg</name>
+    <message>
+        <source>Torrent Upload/Download Ratio Limiting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use global ratio limit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>buttonGroup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set no ratio limit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set ratio limit to</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>UsageDisplay</name>
@@ -4685,95 +4820,71 @@ Do you want to install it now?</source>
     <name>downloadThread</name>
     <message>
         <source>I/O Error</source>
-        <translation type="unfinished">Błąd We/Wy</translation>
+        <translation type="obsolete">Błąd We/Wy</translation>
     </message>
     <message>
         <source>The remote host name was not found (invalid hostname)</source>
-        <translation type="unfinished">Nie odnaleziono nazwy zdalnego hosta (nieprawidłowa nazwa hosta)</translation>
+        <translation type="obsolete">Nie odnaleziono nazwy zdalnego hosta (nieprawidłowa nazwa hosta)</translation>
     </message>
     <message>
         <source>The operation was canceled</source>
-        <translation type="unfinished">Operacja została anulowana</translation>
+        <translation type="obsolete">Operacja została anulowana</translation>
     </message>
     <message>
         <source>The remote server closed the connection prematurely, before the entire reply was received and processed</source>
-        <translation type="unfinished">Zdalny serwer przedwcześnie zakończył połączenie, zanim otrzymano i przetworzono odpowiedź</translation>
+        <translation type="obsolete">Zdalny serwer przedwcześnie zakończył połączenie, zanim otrzymano i przetworzono odpowiedź</translation>
     </message>
     <message>
         <source>The connection to the remote server timed out</source>
-        <translation type="unfinished">Przekroczono czas oczekiwania na połącznie ze zdalnym serwerem</translation>
+        <translation type="obsolete">Przekroczono czas oczekiwania na połącznie ze zdalnym serwerem</translation>
     </message>
     <message>
         <source>SSL/TLS handshake failed</source>
-        <translation type="unfinished">Niepomyślna próba negocjacji połączenie SSL/TLS</translation>
+        <translation type="obsolete">Niepomyślna próba negocjacji połączenie SSL/TLS</translation>
     </message>
     <message>
         <source>The remote server refused the connection</source>
-        <translation type="unfinished">Zdalny serwer odrzucił połączenie</translation>
+        <translation type="obsolete">Zdalny serwer odrzucił połączenie</translation>
     </message>
     <message>
         <source>The connection to the proxy server was refused</source>
-        <translation type="unfinished">Połączenie z serwerem proxy zostało odrzucone</translation>
+        <translation type="obsolete">Połączenie z serwerem proxy zostało odrzucone</translation>
     </message>
     <message>
         <source>The proxy server closed the connection prematurely</source>
-        <translation type="unfinished">Serwer proxy przedwcześnie zakończył połączenie</translation>
+        <translation type="obsolete">Serwer proxy przedwcześnie zakończył połączenie</translation>
     </message>
     <message>
         <source>The proxy host name was not found</source>
-        <translation type="unfinished">Nie znaleziono nazwy hosta serwera proxy</translation>
+        <translation type="obsolete">Nie znaleziono nazwy hosta serwera proxy</translation>
     </message>
     <message>
         <source>The connection to the proxy timed out or the proxy did not reply in time to the request sent</source>
-        <translation type="unfinished">Przkroczono czas oczekiwania na połączenie z serwerm proxy lub serwer nie odpowiedział na czas</translation>
+        <translation type="obsolete">Przkroczono czas oczekiwania na połączenie z serwerm proxy lub serwer nie odpowiedział na czas</translation>
     </message>
     <message>
         <source>The proxy requires authentication in order to honour the request but did not accept any credentials offered</source>
-        <translation type="unfinished">Serwer proxy wymaga uwierzytelnienia aby zaakceptować żądanie lecz oferowane dane uwierzytelnienia zostały odrzucone</translation>
+        <translation type="obsolete">Serwer proxy wymaga uwierzytelnienia aby zaakceptować żądanie lecz oferowane dane uwierzytelnienia zostały odrzucone</translation>
     </message>
     <message>
         <source>The access to the remote content was denied (401)</source>
-        <translation type="unfinished">Odmówiono dostępu do zdalnego zasobu (401)</translation>
+        <translation type="obsolete">Odmówiono dostępu do zdalnego zasobu (401)</translation>
     </message>
     <message>
         <source>The operation requested on the remote content is not permitted</source>
-        <translation type="unfinished">Żądana operacja na zdalnym zasobie nie jest dozwolona</translation>
+        <translation type="obsolete">Żądana operacja na zdalnym zasobie nie jest dozwolona</translation>
     </message>
     <message>
         <source>The remote content was not found at the server (404)</source>
-        <translation type="unfinished">Nie znaleziono zdalnego zasobu na serwerze (404)</translation>
+        <translation type="obsolete">Nie znaleziono zdalnego zasobu na serwerze (404)</translation>
     </message>
     <message>
         <source>The remote server requires authentication to serve the content but the credentials provided were not accepted</source>
-        <translation type="unfinished">Zdalny serwer wymaga uwierzytelnienia w celu dostępu do zasobu lecz dane uwierzytelniające nie zostały zaakceptowane</translation>
+        <translation type="obsolete">Zdalny serwer wymaga uwierzytelnienia w celu dostępu do zasobu lecz dane uwierzytelniające nie zostały zaakceptowane</translation>
     </message>
     <message>
         <source>Unknown error</source>
-        <translation type="unfinished">Nieznany błąd</translation>
-    </message>
-    <message>
-        <source>The Network Access API cannot honor the request because the protocol is not known</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The requested operation is invalid for this protocol</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>An unknown network-related error was detected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>An unknown proxy-related error was detected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>An unknown error related to the remote content was detected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>A breakdown in protocol was detected</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Nieznany błąd</translation>
     </message>
 </context>
 <context>
@@ -5037,12 +5148,16 @@ Jednak tamte wtyczki były wyłączone.</translation>
     </message>
     <message>
         <source>Succesfully refreshed</source>
-        <translation>Przeładowano pomyślnie</translation>
+        <translation type="obsolete">Przeładowano pomyślnie</translation>
     </message>
     <message>
         <source>Successfuly parsed the provided IP filter: %1 rules were applied.</source>
         <comment>%1 is a number</comment>
         <translation>Pomyślnie przetworzono podany filtr IP: zastosowano %1 reguł.</translation>
+    </message>
+    <message>
+        <source>Successfully refreshed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

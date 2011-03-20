@@ -34,8 +34,10 @@
 #include <QXmlStreamReader>
 #include <QDateTime>
 #include <QVariantHash>
+#include <QExplicitlySharedDataPointer>
 
 class RssFeed;
+class RssArticleData;
 
 // Item of a rss stream, single information
 class RssArticle {
@@ -43,13 +45,15 @@ class RssArticle {
 public:
   RssArticle(RssFeed* parent, QXmlStreamReader& xml);
   RssArticle(RssFeed* parent = 0, const QString &guid = QString());
+  RssArticle(const RssArticle& other); // Copy constructor
+  RssArticle& operator=(const RssArticle& other);
   ~RssArticle();
   // Accessors
   bool isValid() const;
   bool hasAttachment() const;
-  inline QString guid() const { return m_guid; }
+  QString guid() const;
   RssFeed* parent() const;
-  inline QString title() const { return m_title; }
+  QString title() const;
   QString author() const;
   QString torrentUrl() const;
   QString link() const;
@@ -66,15 +70,7 @@ private:
   static QDateTime parseDate(const QString &string);
 
 private:
-  RssFeed* m_parent;
-  QString m_guid;
-  QString m_title;
-  QString m_torrentUrl;
-  QString m_link;
-  QString m_description;
-  QDateTime m_date;
-  QString m_author;
-  bool m_read;
+  QExplicitlySharedDataPointer<RssArticleData> d;
 };
 
 RssArticle hashToRssArticle(RssFeed* parent, const QVariantHash &hash);

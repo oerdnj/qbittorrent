@@ -91,6 +91,7 @@ include (preferences/preferences.pri)
   include(rss/rss.pri)
   include(torrentcreator/torrentcreator.pri)
   include(geoip/geoip.pri)
+  include(powermanagement/powermanagement.pri)
 }
 
 HEADERS += misc.h \
@@ -131,7 +132,8 @@ nox {
               sessionapplication.h \
               torrentimportdlg.h \
               executionlog.h \
-              iconprovider.h
+              iconprovider.h \
+              updownratiodlg.h
 
   SOURCES += mainwindow.cpp \
              ico.cpp \
@@ -141,7 +143,8 @@ nox {
              torrentimportdlg.cpp \
              executionlog.cpp \
              previewselect.cpp \
-             iconprovider.cpp
+             iconprovider.cpp \
+             updownratiodlg.cpp
 
   win32 {
     HEADERS += programupdater.h
@@ -163,6 +166,7 @@ nox {
            downloadfromurldlg.ui \
            torrentadditiondlg.ui \
            bandwidth_limit.ui \
+           updownratiodlg.ui \
            confirmdeletiondlg.ui \
            torrentimportdlg.ui \
            executionlog.ui

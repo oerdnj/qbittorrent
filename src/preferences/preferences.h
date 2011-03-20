@@ -77,14 +77,6 @@ public:
     setValue(QString::fromUtf8("Preferences/General/Locale"), locale);
   }
 
-  QString getStyle() const {
-    return value(QString::fromUtf8("Preferences/General/Style"), "").toString();
-  }
-
-  void setStyle(const QString &style) {
-    setValue(QString::fromUtf8("Preferences/General/Style"), style);
-  }
-
   bool useProgramNotification() const {
     return value(QString::fromUtf8("Preferences/General/ProgramNotification"), true).toBool();
   }
@@ -171,6 +163,15 @@ public:
 
   void setSplashScreenDisabled(bool b) {
     setValue("Preferences/General/NoSplashScreen", b);
+  }
+
+  // Preventing from system suspend while active torrents are presented.
+  bool preventFromSuspend() const {
+    return value(QString::fromUtf8("Preferences/General/PreventFromSuspend"), false).toBool();
+  }
+
+  void setPreventFromSuspend(bool b) {
+    setValue("Preferences/General/PreventFromSuspend", b);
   }
 
   // Downloads
@@ -546,11 +547,11 @@ public:
     setValue(QString::fromUtf8("Preferences/Bittorrent/Encryption"), val);
   }
 
-  qreal getMaxRatio() const {
+  qreal getGlobalMaxRatio() const {
     return value(QString::fromUtf8("Preferences/Bittorrent/MaxRatio"), -1).toDouble();
   }
 
-  void setMaxRatio(qreal ratio) {
+  void setGlobalMaxRatio(qreal ratio) {
     setValue(QString::fromUtf8("Preferences/Bittorrent/MaxRatio"), ratio);
   }
 
@@ -652,6 +653,14 @@ public:
 
   void setWebUiEnabled(bool enabled) {
     setValue("Preferences/WebUI/Enabled", enabled);
+  }
+
+  void setWebUiLocalAuthEnabled(bool enabled) {
+    setValue("Preferences/WebUI/LocalHostAuth", enabled);
+  }
+
+  bool isWebUiLocalAuthEnabled() const {
+    return value("Preferences/WebUI/LocalHostAuth", true).toBool();
   }
 
   quint16 getWebUiPort() const {
@@ -1017,6 +1026,19 @@ public:
     setValue(QString::fromUtf8("Preferences/Advanced/updateCheck"), enabled);
   }
 #endif
+  bool confirmTorrentDeletion() const {
+    return value(QString::fromUtf8("Preferences/Advanced/confirmTorrentDeletion"), true).toBool();
+  }
+  void setConfirmTorrentDeletion(bool enabled) {
+    setValue(QString::fromUtf8("Preferences/Advanced/confirmTorrentDeletion"), enabled);
+  }
+
+  bool useMonochromeTrayIcon() const {
+    return value(QString::fromUtf8("Preferences/Advanced/useMonochromeTrayIcon"), false).toBool();
+  }
+  void setUseMonochromeTrayIcon(bool use) {
+    setValue(QString::fromUtf8("Preferences/Advanced/useMonochromeTrayIcon"), use);
+  }
 };
 
 #endif // PREFERENCES_H

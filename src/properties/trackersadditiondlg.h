@@ -66,8 +66,8 @@ public:
 
 public slots:
   void on_uTorrentListButton_clicked() {
-    downloadThread *d = new downloadThread(this);
     uTorrentListButton->setEnabled(false);
+    DownloadThread *d = new DownloadThread(this);
     connect(d, SIGNAL(downloadFinished(QString,QString)), SLOT(parseUTorrentList(QString,QString)));
     connect(d, SIGNAL(downloadFailure(QString,QString)), SLOT(getTrackerError(QString,QString)));
     //Just to show that it takes times

@@ -2,8 +2,11 @@
 include(conf.pri)
 
 # COMPILATION SPECIFIC
-!nox {
+!nox:dbus {
   QT += dbus
+}
+!nox:svg {
+  QT += svg
 }
 QMAKE_LFLAGS_APP += -rdynamic
 CONFIG += link_pkgconfig
@@ -62,6 +65,10 @@ INSTALLS += man
           icon96 \
           icon128 \
           icon192
+
+      pixmap.files = menuicons/128x128/apps/qbittorrent.png
+      pixmap.path = $$PREFIX/share/pixmaps/
+      INSTALLS += pixmap
 }
 
 # INSTALL

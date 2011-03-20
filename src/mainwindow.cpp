@@ -80,10 +80,12 @@ void qt_mac_set_dock_menu(QMenu *menu);
 #if defined(Q_WS_WIN) || defined(Q_WS_MAC)
 #include "programupdater.h"
 #endif
+#include "powermanagement.h"
 
 using namespace libtorrent;
 
 #define TIME_TRAY_BALLOON 5000
+#define PREVENT_SUSPEND_INTERVAL 60000
 
 /*****************************************************
  *                                                   *
@@ -192,6 +194,10 @@ MainWindow::MainWindow(QWidget *parent, QStringList torrentCmdLine) : QMainWindo
   connect(actionIncreasePriority, SIGNAL(triggered()), transferList, SLOT(increasePrioSelectedTorrents()));
   connect(actionDecreasePriority, SIGNAL(triggered()), transferList, SLOT(decreasePrioSelectedTorrents()));
 
+  m_pwr = new PowerManagement(this);
+  preventTimer = new QTimer(this);
+  connect(preventTimer, SIGNAL(timeout()), SLOT(checkForActiveTorrents()));
+
   // Configure BT session according to options
   loadPreferences(false);
 
@@ -228,9 +234,15 @@ MainWindow::MainWindow(QWidget *parent, QStringList torrentCmdLine) : QMainWindo
   autoShutdownGroup->addAction(actionAutoExit_qBittorrent);
   autoShutdownGroup->addAction(actionAutoShutdown_system);
   autoShutdownGroup->addAction(actionAutoSuspend_system);
-  actionAutoExit_qBittorrent->setChecked(pref.shutdownqBTWhenDownloadsComplete());
+#if !defined(Q_WS_X11) || defined(QT_DBUS_LIB)
   actionAutoShutdown_system->setChecked(pref.shutdownWhenDownloadsComplete());
   actionAutoSuspend_system->setChecked(pref.suspendWhenDownloadsComplete());
+#else
+  actionAutoShutdown_system->setDisabled(true);
+  actionAutoSuspend_system->setDisabled(true);
+#endif
+  actionAutoExit_qBittorrent->setChecked(pref.shutdownqBTWhenDownloadsComplete());
+
   if(!autoShutdownGroup->checkedAction())
     actionAutoShutdown_Disabled->setChecked(true);
 
@@ -290,13 +302,13 @@ MainWindow::MainWindow(QWidget *parent, QStringList torrentCmdLine) : QMainWindo
     updater->checkForUpdates();
   }
 #endif
-
 }
 
 void MainWindow::deleteBTSession() {
   guiUpdater->stop();
   status_bar->stopTimer();
   QBtSession::drop();
+  m_pwr->setActivityState(false);
   QTimer::singleShot(0, this, SLOT(close()));
 }
 
@@ -364,6 +376,11 @@ void MainWindow::defineUILockPassword() {
   bool ok = false;
   QString new_clear_password = QInputDialog::getText(this, tr("UI lock password"), tr("Please type the UI lock password:"), QLineEdit::Password, old_pass_md5, &ok);
   if(ok) {
+    new_clear_password = new_clear_password.trimmed();
+    if(new_clear_password.size() < 3) {
+      QMessageBox::warning(this, tr("Invalid password"), tr("The password should contain at least 3 characters"));
+      return;
+    }
     if(new_clear_password != old_pass_md5) {
       Preferences().setUILockPassword(new_clear_password);
     }
@@ -900,8 +917,8 @@ void MainWindow::processParams(const QString& params_str) {
 }
 
 void MainWindow::processParams(const QStringList& params) {
-  QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
-  const bool useTorrentAdditionDialog = settings.value(QString::fromUtf8("Preferences/Downloads/AdditionDialog"), true).toBool();
+  Preferences pref;
+  const bool useTorrentAdditionDialog = pref.useAdditionDialog();
   foreach(QString param, params) {
     param = param.trimmed();
     if(misc::isUrl(param)) {
@@ -985,6 +1002,17 @@ void MainWindow::loadPreferences(bool configure_session) {
     search_filter->clear();
     toolBar->setVisible(false);
   }
+
+  if(pref.preventFromSuspend())
+  {
+    preventTimer->start(PREVENT_SUSPEND_INTERVAL);
+  }
+  else
+  {
+    preventTimer->stop();
+    m_pwr->setActivityState(false);
+  }
+
   const uint new_refreshInterval = pref.getRefreshInterval();
   transferList->setRefreshInterval(new_refreshInterval);
   transferList->setAlternatingRowColors(pref.useAlternatingRowColors());
@@ -1175,11 +1203,7 @@ QMenu* MainWindow::getTrayIconMenu() {
 
 void MainWindow::createTrayIcon() {
   // Tray icon
-#ifdef Q_WS_WIN
-  systrayIcon = new QSystemTrayIcon(QIcon(QString::fromUtf8(":/Icons/skin/qbittorrent16.png")), this);
-#else
-  systrayIcon = new QSystemTrayIcon(QIcon(QString::fromUtf8(":/Icons/skin/qbittorrent22.png")), this);
-#endif
+  systrayIcon = new QSystemTrayIcon(getSystrayIcon(), this);
 
   systrayIcon->setContextMenu(getTrayIconMenu());
   connect(systrayIcon, SIGNAL(messageClicked()), this, SLOT(balloonClicked()));
@@ -1312,4 +1336,27 @@ void MainWindow::on_actionAutoShutdown_system_toggled(bool enabled)
 {
   qDebug() << Q_FUNC_INFO << enabled;
   Preferences().setShutdownWhenDownloadsComplete(enabled);
+}
+
+void MainWindow::checkForActiveTorrents()
+{
+  const TorrentStatusReport report = transferList->getSourceModel()->getTorrentStatusReport();
+  if(report.nb_active > 0) // Active torrents are present; prevent system from suspend
+    m_pwr->setActivityState(true);
+  else
+    m_pwr->setActivityState(false);
+}
+
+QIcon MainWindow::getSystrayIcon() const
+{
+#if defined(Q_WS_X11) && defined(QT_SVG_LIB)
+  if(Preferences().useMonochromeTrayIcon()) {
+    return QIcon(":/Icons/skin/qbittorrent_mono.svg");
+  }
+#endif
+  QIcon icon;
+  icon.addFile(":/Icons/skin/qbittorrent22.png", QSize(22, 22));
+  icon.addFile(":/Icons/skin/qbittorrent16.png", QSize(16, 16));
+  icon.addFile(":/Icons/skin/qbittorrent32.png", QSize(32, 32));
+  return icon;
 }

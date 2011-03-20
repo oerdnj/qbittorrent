@@ -1,83 +1,18 @@
-* Sun Mar 13 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.6.9
-  - BUGFIX: Fix column hiding/showing in transfer list
-
-* Sun Mar 13 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.6.8
-  - BUGFIX: Fix compilation with libtorrent v0.14.x
-  - BUGFIX: Fix issues when writing on NTFS (Linux, Mac)
-  - BUGFIX: Fix root folder being cut off if the torrent comes from a scanned folder (Christian Kandeler)
-  - BUGFIX: Improve folder removal behavior
-  - BUGFIX: Make sure the .unwanted folder is deleted on soft torrent removal
-  - BUGFIX: Indicate support for Magnet links in desktop file (Fisiu)
-  - BUGFIX: Do not report torrent being checked as queued
-  - BUGFIX: Improve lists columns state saving
-
-* Sat Feb 26 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.6.7
-  - BUGFIX: Encoding fixes (Windows)
-  - BUGFIX: Fix "append label to save path" (Windows)
-  - BUGFIX: Disable OS cache for aligned files to reduce memory consumption
-  - BUGFIX: Fix torrent upload from Web UI (Windows)
-  - BUGFIX: Fix cursor problem in torrent addition dialog
-  - BUGFIX: Fix crash when additing an empty tracker URL
-  - BUGFIX: Share ratio can now go over 100
-  - BUGFIX: Fix compilation with boost >= v1.46
-
-* Tue Feb 8 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.6.6 
-  - FEATURE: IP address reported to trackers is now customizable
-  - BUGFIX: Use slashes instead of antislashes in URLs (Windows)
-  - BUGFIX: Fix articles read state reset problem in RSS
-  - BUGFIX: Fix possible path encoding issues on Windows
-  - BUGFIX: Fix downloads from URLs on Windows
-  - I18N: Added Lithuanian translation
-  - COSMETIC: Improve main window layout
-  - COSMETIC: Improve properties buttons style
-  - COSMETIC: Display pieces being downloaded in green instead of yellow
-  - COSMETIC: Improve piece availability bar appearance
-
-* Thu Feb 3 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.6.5
-   - BUGFIX: Make sure the progress is not 100% unless the file is complete
-   - BUGFIX: Fix memory leak in HTTP torrent downloader
-   - BUGFIX: Use native file dialogs (by Vladimir Golovnev)
-   - BUGFIX: Fix encoding problem in torrent moving code (by Vladimir Golovnev)
-   - BUGFIX: Performance improvement on ARM
-   - BUGFIX: RSS code rewrite (more cpu/memory efficient)
-   - I18N: Updated Norwegian translation (Tomaso)
-
-* Sun Jan 23 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.6.4
-   - BUGFIX: Added unicode support to email notification
-   - BUGFIX: Improved compatibility with various SMTP servers
-   - BUGFIX: Fix Labeling in RSS downloader
-   - BUGFIX: Avoid main window flashing on startup (closes #703984)
-   - BUGFIX: Improved hostname resolution code
-   - BUGFIX: Dropped dependency on libboost-thread
-   - BUGFIX: Display legal notice on screen center
-   - BUGFIX: Fix renaming of single-file torrents (by Vladimir Golovnev)
-   - I18N: More dialog buttons are now translated (by Vladimir Golovnev)
-   - I18N: Fix translation of size units (by Vladimir Golovnev)
-
-* Sat Jan 15 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.6.3
-   - BUGFIX: Fix possible crashes in full allocation mode
-   - BUGFIX: Fix icon size issues (Linux, icon theme)
-   - BUGFIX: Fixed file priority context menu
-   - BUGFIX: Remove dbus dependency in nox mode
-   - BUGFIX: Fix compilation on FreeBSD
-   - I18N: Improve Web UI translation
-   - I18N: Updated Polish translation
-
-* Wed Jan 12 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.6.2
-    - BUGFIX: Do not report PeX as being disabled when DHT is
-    - BUGFIX: Fix possible crash on adding magnet links
-    - BUGFIX: Fix torrent import (was not working)
-    - I18N: Updated Greek, Croatian, Russian, Unkrainian and Bulgarian translations
-    - I18N: Added Armenian translation (New)
-    - I18N: Remove country flags from program preferences (language selection)
-    - I18N: Translate locale names (language selection)
-
-* Mon Jan 10 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.6.1
-    - BUGFIX: Really disable torrent addition dialog by default
-    - BUGFIX: Fix some missing icons in the Web UI
-    - BUGFIX: Fix magnet torrent name update problem
-    - COSMETIC: Use 24px size for toolbar icons and reduce spacing
-    - COSMETIC: Move transfer list filter on the right side of the toolbar
+* Sun Mar 20 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.7.0
+    - FEATURE: Added search field for torrent content
+    - FEATURE: Added auto-shutdown confirmation dialog
+    - FEATURE: Added option to skip torrent deletion confirmation (Ville Kiiskinen)
+    - FEATURE: IP address reported to trackers is now customizable
+    - FEATURE: Inhibit system sleep when torrents are active (Vladimir Golovnev)
+    - FEATURE: Added option to bypass Web UI authentication for localhost
+    - FEATURE: Added option to disable program exit confirmation
+    - FEATURE: Added per-torrent ratio limiting (Christian Kandeler)
+    - FEATURE: Torrent content list is now sortable
+    - BUGFIX: Fix compilation with namespaced Qt (Christian Kandeler)
+    - BUGFIX: Added length restriction on UI lock password
+    - COSMETIC: Added monochrome tray icon
+    - COSMETIC: Improved status bar's style
+    - OTHER: Make QtDBus dependency optional (X11)
 
 * Sun Jan 9 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.6.0
     - FEATURE: Use system icons (Linux, Qt >= 4.6)

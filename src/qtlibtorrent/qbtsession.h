@@ -31,7 +31,6 @@
 #define __BITTORRENT_H__
 
 #include <QHash>
-#include <QMap>
 #include <QUrl>
 #include <QStringList>
 #ifdef DISABLE_GUI
@@ -53,8 +52,7 @@
 
 #define MAX_SAMPLES 20
 
-class downloadThread;
-class QTimer;
+class DownloadThread;
 class FilterParserThread;
 class HttpServer;
 class BandwidthScheduler;
@@ -76,20 +74,19 @@ public:
   static QBtSession* instance();
   static void drop();
   ~QBtSession();
-  QTorrentHandle getTorrentHandle(QString hash) const;
+  QTorrentHandle getTorrentHandle(const QString &hash) const;
   std::vector<libtorrent::torrent_handle> getTorrents() const;
-  bool isFilePreviewPossible(QString fileHash) const;
+  bool isFilePreviewPossible(const QString& hash) const;
   qreal getPayloadDownloadRate() const;
   qreal getPayloadUploadRate() const;
   libtorrent::session_status getSessionStatus() const;
   int getListenPort() const;
-  qreal getRealRatio(QString hash) const;
-  QHash<QString, TrackerInfos> getTrackersInfo(QString hash) const;
+  qreal getRealRatio(const QString& hash) const;
+  QHash<QString, TrackerInfos> getTrackersInfo(const QString &hash) const;
   bool hasActiveTorrents() const;
   bool hasDownloadingTorrents() const;
   //int getMaximumActiveDownloads() const;
   //int getMaximumActiveTorrents() const;
-  int loadTorrentPriority(QString hash);
   inline QStringList getConsoleMessages() const { return consoleMessages; }
   inline QStringList getPeerBanMessages() const { return peerBanMessages; }
   inline libtorrent::session* getSession() const { return s; }
@@ -106,16 +103,16 @@ public slots:
   QTorrentHandle addMagnetUri(QString magnet_uri, bool resumed=false);
   void loadSessionState();
   void saveSessionState();
-  void downloadFromUrl(QString url);
-  void deleteTorrent(QString hash, bool delete_local_files = false);
+  void downloadFromUrl(const QString &url);
+  void deleteTorrent(const QString &hash, bool delete_local_files = false);
   void startUpTorrents();
-  void recheckTorrent(QString hash);
+  void recheckTorrent(const QString &hash);
   void useAlternativeSpeedsLimit(bool alternative);
   qlonglong getETA(const QString& hash) const;
   /* Needed by Web UI */
   void pauseAllTorrents();
-  void pauseTorrent(QString hash);
-  void resumeTorrent(QString hash);
+  void pauseTorrent(const QString &hash);
+  void resumeTorrent(const QString &hash);
   void resumeAllTorrents();
   /* End Web UI */
   void preAllocateAllFiles(bool b);
@@ -132,7 +129,11 @@ public slots:
   void setMaxUploadsPerTorrent(int max);
   void setDownloadRateLimit(long rate);
   void setUploadRateLimit(long rate);
-  void setMaxRatio(qreal ratio);
+  void setGlobalMaxRatio(qreal ratio);
+  qreal getGlobalMaxRatio() const { return global_ratio_limit; }
+  void setMaxRatioPerTorrent(const QString &hash, qreal ratio);
+  qreal getMaxRatioPerTorrent(const QString &hash, bool *usesGlobalRatio) const;
+  void removeRatioPerTorrent(const QString &hash);
   void setDHTPort(int dht_port);
   void setProxySettings(const libtorrent::proxy_settings &proxySettings);
   void setSessionSettings(const libtorrent::session_settings &sessionSettings);
@@ -165,12 +166,13 @@ public slots:
   void recursiveTorrentDownload(const QTorrentHandle &h);
 
 private:
-  QString getSavePath(QString hash, bool fromScanDir = false, QString filePath = QString::null, QString root_folder=QString::null);
-  bool loadFastResumeData(QString hash, std::vector<char> &buf);
-  void loadTorrentSettings(QTorrentHandle h);
-  void loadTorrentTempData(QTorrentHandle h, QString savePath, bool magnet);
-  libtorrent::add_torrent_params initializeAddTorrentParams(QString hash);
+  QString getSavePath(const QString &hash, bool fromScanDir = false, QString filePath = QString::null, QString root_folder=QString::null);
+  bool loadFastResumeData(const QString &hash, std::vector<char> &buf);
+  void loadTorrentSettings(QTorrentHandle &h);
+  void loadTorrentTempData(QTorrentHandle &h, QString savePath, bool magnet);
+  libtorrent::add_torrent_params initializeAddTorrentParams(const QString &hash);
   libtorrent::entry generateFilePriorityResumeData(boost::intrusive_ptr<libtorrent::torrent_info> &t, const std::vector<int> &fp);
+  void updateRatioTimer();
 
 private slots:
   void addTorrentsFromScanFolder(QStringList&);
@@ -178,27 +180,27 @@ private slots:
   void processBigRatios();
   void exportTorrentFiles(QString path);
   void saveTempFastResumeData();
-  void sendNotificationEmail(QTorrentHandle h);
-  void autoRunExternalProgram(QTorrentHandle h, bool async=true);
+  void sendNotificationEmail(const QTorrentHandle &h);
+  void autoRunExternalProgram(const QTorrentHandle &h, bool async=true);
   void cleanUpAutoRunProcess(int);
-  void mergeTorrents(QTorrentHandle h_ex, boost::intrusive_ptr<libtorrent::torrent_info> t);
-  void exportTorrentFile(QTorrentHandle h);
+  void mergeTorrents(QTorrentHandle &h_ex, boost::intrusive_ptr<libtorrent::torrent_info> t);
+  void exportTorrentFile(const QTorrentHandle &h);
   void initWebUi();
   void handleIPFilterParsed(int ruleCount);
   void handleIPFilterError();
 
 signals:
   void addedTorrent(const QTorrentHandle& h);
-  void deletedTorrent(QString hash);
+  void deletedTorrent(const QString &hash);
   void torrentAboutToBeRemoved(const QTorrentHandle &h);
   void pausedTorrent(const QTorrentHandle& h);
   void resumedTorrent(const QTorrentHandle& h);
   void finishedTorrent(const QTorrentHandle& h);
   void fullDiskError(const QTorrentHandle& h, QString msg);
-  void trackerError(QString hash, QString time, QString msg);
+  void trackerError(const QString &hash, QString time, QString msg);
   void trackerAuthenticationRequired(const QTorrentHandle& h);
   void newDownloadedTorrent(QString path, QString url);
-  void updateFileSize(QString hash);
+  void updateFileSize(const QString &hash);
   void downloadFromUrlFailure(QString url, QString reason);
   void torrentFinishedChecking(const QTorrentHandle& h);
   void metadataReceived(const QTorrentHandle &h);
@@ -219,7 +221,7 @@ private:
   libtorrent::session *s;
   QPointer<QTimer> timerAlerts;
   QPointer<BandwidthScheduler> bd_scheduler;
-  QMap<QUrl, QPair<QString, QString> > savepathLabel_fromurl;
+  QMap<QUrl, QPair<QString, QString> > savepathLabel_fromurl; // Use QMap for compatibility with Qt < 4.7: qHash(QUrl)
   QHash<QString, QHash<QString, TrackerInfos> > trackersInfos;
   QHash<QString, QString> savePathsToRemove;
   QStringList torrentsToPausedAfterChecking;
@@ -227,7 +229,7 @@ private:
   // Ratio
   QPointer<QTimer> BigRatioTimer;
   // HTTP
-  downloadThread* downloader;
+  DownloadThread* downloader;
   // File System
   ScanFoldersModel *m_scanFolders;
   // Console / Log
@@ -236,7 +238,7 @@ private:
   // Settings
   bool preAllocateAll;
   bool addInPause;
-  qreal ratio_limit;
+  qreal global_ratio_limit;
   int high_ratio_action;
   bool UPnPEnabled;
   bool LSDEnabled;
