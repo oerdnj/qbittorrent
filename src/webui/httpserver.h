@@ -38,8 +38,11 @@
 #include <QHash>
 #include "preferences.h"
 
-class QTimer;
 class EventManager;
+
+QT_BEGIN_NAMESPACE
+class QTimer;
+QT_END_NAMESPACE
 
 const int MAX_AUTH_FAILED_ATTEMPTS = 5;
 
@@ -52,6 +55,8 @@ public:
   ~HttpServer();
   void setAuthorization(QString username, QString password_ha1);
   bool isAuthorized(QByteArray auth, QString method) const;
+  void setlocalAuthEnabled(bool enabled);
+  bool isLocalAuthEnabled() const;
   EventManager *eventManager() const;
   QString generateNonce() const;
   int NbFailedAttemptsForIp(QString ip) const;
@@ -69,6 +74,7 @@ private:
   EventManager *manager;
   QTimer *timer;
   QHash<QString, int> client_failed_attempts;
+  bool m_localAuth;
 };
 
 #endif

@@ -67,9 +67,9 @@ p, li { white-space: pre-wrap; }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;A Bittorrent клиент написанный на C++, с использованием библиотеки Qt4 &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;Bittorrent клиент, написанный на C++ с использованием библиотеки Qt4 &lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;и libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2010 Christophe Dumez&lt;br /&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Домашняя страница:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Форум:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;IRC:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; #qbittorrent on Freenode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;IRC:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; #qbittorrent на Freenode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -150,7 +150,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Display program notification balloons</source>
-        <translation>Показывать всплывающие сообщения в  системном лотке</translation>
+        <translation type="obsolete">Показывать всплывающие сообщения в  системном лотке</translation>
     </message>
     <message>
         <source>Enable embedded tracker</source>
@@ -170,7 +170,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>IP Address to report to trackers (requires restart)</source>
-        <translation type="unfinished"></translation>
+        <translation>IP адрес для сообщения трекерам (требуется перезапуск)</translation>
+    </message>
+    <message>
+        <source>Display program on-screen notifications</source>
+        <translation>Показывать экранные сообщения</translation>
+    </message>
+    <message>
+        <source>Confirm torrent deletion</source>
+        <translation>Подтверждать удаление торрента</translation>
     </message>
 </context>
 <context>
@@ -441,7 +449,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Recursive download of file %1 embedded in torrent %2</source>
         <comment>Recursive download of test.torrent embedded in torrent test2</comment>
-        <translation type="obsolete">Рекурсивная загрузка файла %1 ввстроенного в торрент %2</translation>
+        <translation type="obsolete">Рекурсивная загрузка файла %1 встроенного в торрент %2</translation>
     </message>
     <message>
         <source>Unable to decode %1 torrent file.</source>
@@ -589,95 +597,95 @@ You should get this information from your Web browser preferences.</source>
     <name>DownloadThread</name>
     <message>
         <source>I/O Error</source>
-        <translation type="obsolete">Ошибка ввода/вывода</translation>
+        <translation>Ошибка ввода/вывода</translation>
     </message>
     <message>
         <source>The remote host name was not found (invalid hostname)</source>
-        <translation type="obsolete">Удаленный хост не был найден (неправильное имя хоста)</translation>
+        <translation>Удаленный хост не был найден (неправильное имя хоста)</translation>
     </message>
     <message>
         <source>The operation was canceled</source>
-        <translation type="obsolete">Операция была отменена</translation>
+        <translation>Операция была отменена</translation>
     </message>
     <message>
         <source>The remote server closed the connection prematurely, before the entire reply was received and processed</source>
-        <translation type="obsolete">Удаленный сервер закрыл соединение навсегда, прежде чем весь ответ был принят и обработан</translation>
+        <translation>Удаленный сервер закрыл соединение, прежде чем весь ответ был принят и обработан</translation>
     </message>
     <message>
         <source>The connection to the remote server timed out</source>
-        <translation type="obsolete">Время соединения с  удаленным сервером вышло</translation>
+        <translation>Время соединения с удаленным сервером вышло</translation>
     </message>
     <message>
         <source>SSL/TLS handshake failed</source>
-        <translation type="obsolete">Соединение SSL/TLS не удалось</translation>
+        <translation>Соединение SSL/TLS не удалось</translation>
     </message>
     <message>
         <source>The remote server refused the connection</source>
-        <translation type="obsolete">Удаленный сервер отклонил соединение</translation>
+        <translation>Удаленный сервер отклонил соединение</translation>
     </message>
     <message>
         <source>The connection to the proxy server was refused</source>
-        <translation type="obsolete">Прокси-сервер отклонил соединение</translation>
+        <translation>Прокси-сервер отклонил соединение</translation>
     </message>
     <message>
         <source>The proxy server closed the connection prematurely</source>
-        <translation type="obsolete">Прокси-сервер закрыл соединение навсегда</translation>
+        <translation>Прокси-сервер преждевременно закрыл соединение</translation>
     </message>
     <message>
         <source>The proxy host name was not found</source>
-        <translation type="obsolete">имя прокси-сервера не найдено</translation>
+        <translation>Имя прокси-сервера не было найдено</translation>
     </message>
     <message>
         <source>The connection to the proxy timed out or the proxy did not reply in time to the request sent</source>
-        <translation type="obsolete">Подключение к прокси-серверу истекло или прокси-сервер не ответил на запрос</translation>
+        <translation>Подключение к прокси-серверу истекло или прокси-сервер не ответил на запрос</translation>
     </message>
     <message>
         <source>The proxy requires authentication in order to honour the request but did not accept any credentials offered</source>
-        <translation type="obsolete">Прокси-сервер требует аутентификации но не принял указанные учетные данные</translation>
+        <translation>Прокси-сервер требует аутентификации, но не принял указанные учетные данные</translation>
     </message>
     <message>
         <source>The access to the remote content was denied (401)</source>
-        <translation type="obsolete">В доступе к данным было отказано (401)</translation>
+        <translation>В доступе к данным было отказано (401)</translation>
     </message>
     <message>
         <source>The operation requested on the remote content is not permitted</source>
-        <translation type="obsolete">В данной операции над данными отказано</translation>
+        <translation>В данной операции над данными отказано</translation>
     </message>
     <message>
         <source>The remote content was not found at the server (404)</source>
-        <translation type="obsolete">Данные не были найдены на сервере (404)</translation>
+        <translation>Данные не были найдены на сервере (404)</translation>
     </message>
     <message>
         <source>The remote server requires authentication to serve the content but the credentials provided were not accepted</source>
-        <translation type="obsolete">Удаленный сервер требует аутентификацию для отдачи данных, но указанные учетные данные не были приняты</translation>
+        <translation>Удаленный сервер требует аутентификацию для отдачи данных, но указанные учетные данные не были приняты</translation>
     </message>
     <message>
         <source>The Network Access API cannot honor the request because the protocol is not known</source>
-        <translation type="obsolete">API сетевого доступа не может выполнить запрос потому что протокол не известен</translation>
+        <translation>API сетевого доступа не может выполнить запрос, потому что протокол не известен</translation>
     </message>
     <message>
         <source>The requested operation is invalid for this protocol</source>
-        <translation type="obsolete">Запрошенная операция не поддерживается данным протоколом</translation>
+        <translation>Запрошенная операция не поддерживается данным протоколом</translation>
     </message>
     <message>
         <source>An unknown network-related error was detected</source>
-        <translation type="obsolete">Неизвестная сетевая ошибка</translation>
+        <translation>Неизвестная сетевая ошибка</translation>
     </message>
     <message>
         <source>An unknown proxy-related error was detected</source>
-        <translation type="obsolete">Неизвестная ошибка прокси-сервера</translation>
+        <translation>Неизвестная ошибка прокси-сервера</translation>
     </message>
     <message>
         <source>An unknown error related to the remote content was detected</source>
-        <translation type="obsolete">Неизвестная ошибка данных</translation>
+        <translation>Неизвестная ошибка данных</translation>
     </message>
     <message>
         <source>A breakdown in protocol was detected</source>
-        <translation type="obsolete">Ошибка в протоколе</translation>
+        <translation>Ошибка в протоколе</translation>
     </message>
     <message>
         <source>Unknown error</source>
-        <translation type="obsolete">Неизвестная ошибка</translation>
+        <translation>Неизвестная ошибка</translation>
     </message>
 </context>
 <context>
@@ -962,7 +970,7 @@ You should get this information from your Web browser preferences.</source>
     <message>
         <source>UP speed: %1 KiB/s</source>
         <comment>e.g: Upload speed: 10 KiB/s</comment>
-        <translation type="obsolete">Отдача.: %1 KiB/с</translation>
+        <translation type="obsolete">Отдача: %1 KiB/с</translation>
     </message>
     <message>
         <source>%1 has finished downloading.</source>
@@ -1029,7 +1037,7 @@ Are you sure you want to quit qBittorrent?</source>
     </message>
     <message>
         <source>Global Upload Speed Limit</source>
-        <translation type="obsolete">Глобальное ограничение  скорость раздачи</translation>
+        <translation type="obsolete">Глобальное ограничение скорости раздачи</translation>
     </message>
     <message>
         <source>Global Download Speed Limit</source>
@@ -1063,7 +1071,7 @@ Are you sure you want to quit qBittorrent?</source>
 Do you want to associate qBittorrent to torrent files and Magnet links?</source>
         <translatorcomment>Может лучше наоборот, ссылки с файлами к qBittorrent привязывать?</translatorcomment>
         <translation type="obsolete">qBittorrent сейчас не является приложением по умолчанию для открытия торрент-файлов или Magnet-ссылок.
-Хотите ли вы открывать торрент-файлы и Magnet-ссылкам с помощью qBittorrent?</translation>
+Хотите ли вы открывать торрент-файлы и Magnet-ссылки с помощью qBittorrent?</translation>
     </message>
     <message>
         <source>Yes</source>
@@ -1141,7 +1149,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Argentina</source>
-        <translation type="obsolete">Аргентине</translation>
+        <translation type="obsolete">Аргентина</translation>
     </message>
     <message>
         <source>Austria</source>
@@ -1377,7 +1385,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Ukraine</source>
-        <translation type="obsolete">Украниа</translation>
+        <translation type="obsolete">Украина</translation>
     </message>
     <message>
         <source>South Africa</source>
@@ -1448,7 +1456,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Download Torrents from their URL or Magnet link</source>
-        <translation>Скачативать торренты с их URL и Magnet ссылки</translation>
+        <translation>Скачативать торренты с их URL и Magnet ссылок</translation>
     </message>
     <message>
         <source>Only one link per line</source>
@@ -1516,7 +1524,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>The Web UI password must be at least 3 characters long.</source>
-        <translation>Пароль Web интерфейса должно быть длинее 3 символов.</translation>
+        <translation>Пароль Web интерфейса должен быть длинее 3 символов.</translation>
     </message>
     <message>
         <source>Downloaded</source>
@@ -1525,11 +1533,11 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <source>qBittorrent client is not reachable</source>
-        <translation type="unfinished"></translation>
+        <translation>клиент qBittorrent недоступен</translation>
     </message>
 </context>
 <context>
@@ -1623,7 +1631,7 @@ No further notices will be issued.</source>
     </message>
     <message>
         <source>Add &amp;URL...</source>
-        <translation type="obsolete">Добавить  &amp;URL...</translation>
+        <translation type="obsolete">Добавить &amp;URL...</translation>
     </message>
     <message>
         <source>Torrent &amp;creator</source>
@@ -1641,7 +1649,7 @@ No further notices will be issued.</source>
     </message>
     <message>
         <source>Set global download limit...</source>
-        <translation>Установить глобальное ораничение закачки...</translation>
+        <translation>Установить глобальное ограничение закачки...</translation>
     </message>
     <message>
         <source>Set global upload limit...</source>
@@ -1778,7 +1786,7 @@ No further notices will be issued.</source>
         <source>qBittorrent is not the default application to open torrent files or Magnet links.
 Do you want to associate qBittorrent to torrent files and Magnet links?</source>
         <translation>qBittorrent сейчас не является приложением по умолчанию для открытия торрент-файлов или Magnet-ссылок.
-Хотите ли вы открывать торрент-файлы и Magnet-ссылкам с помощью qBittorrent?</translation>
+Хотите ли вы открывать торрент-файлы и Magnet-ссылки с помощью qBittorrent?</translation>
     </message>
     <message>
         <source>UI lock password</source>
@@ -1880,7 +1888,7 @@ Do you want to associate qBittorrent to torrent files and Magnet links?</source>
     </message>
     <message>
         <source>Global Upload Speed Limit</source>
-        <translation>Глобальное ограничение  скорость раздачи</translation>
+        <translation>Глобальное ограничение скорости раздачи</translation>
     </message>
     <message>
         <source>Global Download Speed Limit</source>
@@ -1996,6 +2004,10 @@ Would you like to update qBittorrent to version %1?</source>
         <source>Disabled</source>
         <translation>Выключено</translation>
     </message>
+    <message>
+        <source>The password should contain at least 3 characters</source>
+        <translation>Пароль должен содержать минимум 3 символа</translation>
+    </message>
 </context>
 <context>
     <name>PeerAdditionDlg</name>
@@ -2104,12 +2116,12 @@ Would you like to update qBittorrent to version %1?</source>
     <message>
         <source>Limit download rate...</source>
         <translatorcomment>Хоть в предыдущем и &apos;сотношение скачивания&apos;, но мимо _этого_ я пройти просто не могу! Ratio - соотношение, Rate - скорость!</translatorcomment>
-        <translation>Ограничение скорость скачивания...</translation>
+        <translation>Ограничение скорости скачивания...</translation>
     </message>
     <message>
         <source>Limit upload rate...</source>
         <translatorcomment>Хоть в предыдущем и &apos;сотношение раздачи&apos;, но мимо _этого_ я пройти просто не могу! Ratio - соотношение, Rate - скорость!</translatorcomment>
-        <translation>ограничить скорость раздачи...</translation>
+        <translation>Ограничение скорости раздачи...</translation>
     </message>
     <message>
         <source>Copy IP</source>
@@ -2121,7 +2133,7 @@ Would you like to update qBittorrent to version %1?</source>
     <message>
         <source>UI</source>
         <extracomment>User Interface</extracomment>
-        <translation>Интерфейс</translation>
+        <translation type="obsolete">Интерфейс</translation>
     </message>
     <message>
         <source>Downloads</source>
@@ -2146,7 +2158,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Language:</source>
-        <translation>Язык:</translation>
+        <translation type="obsolete">Язык:</translation>
     </message>
     <message>
         <source>(Requires restart)</source>
@@ -2154,7 +2166,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Visual style:</source>
-        <translation>Визуальный стиль:</translation>
+        <translation type="obsolete">Визуальный стиль:</translation>
     </message>
     <message>
         <source>Transfer list</source>
@@ -2251,7 +2263,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Use a different port for DHT and Bittorrent</source>
-        <translation type="obsolete">Использовать разные  порты для DHT и Bittorrent</translation>
+        <translation type="obsolete">Использовать разные порты для DHT и Bittorrent</translation>
     </message>
     <message>
         <source>DHT port:</source>
@@ -2387,7 +2399,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Visual Appearance</source>
-        <translation>Визуальное Поведение</translation>
+        <translation type="obsolete">Визуальное Поведение</translation>
     </message>
     <message>
         <source>Action on double-click</source>
@@ -2494,7 +2506,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Look for peers on your local network</source>
-        <translation>Искать пиров в вашей локальной сети</translation>
+        <translation>Искать пиры в вашей локальной сети</translation>
     </message>
     <message>
         <source>Protocol encryption:</source>
@@ -2549,7 +2561,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Use %f to pass the torrent path in parameters</source>
-        <translation>Использовать %f для передачи пути к торренту в параметрах</translation>
+        <translation type="obsolete">Использовать %f для передачи пути к торренту в параметрах</translation>
     </message>
     <message>
         <source>Proxy server</source>
@@ -2605,11 +2617,55 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>User Interface</source>
-        <translation>Пользовательский интерфейс</translation>
+        <translation type="obsolete">Пользовательский интерфейс</translation>
     </message>
     <message>
         <source>Reload the filter</source>
         <translation>Перезагрузить фильтр</translation>
+    </message>
+    <message>
+        <source>Prevent system from suspend</source>
+        <translation type="obsolete">Предотвращать переход в спящий режим</translation>
+    </message>
+    <message>
+        <source>Behavior</source>
+        <translation>Поведение</translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation>Язык</translation>
+    </message>
+    <message>
+        <source>Power Management</source>
+        <translation>Управление питанием</translation>
+    </message>
+    <message>
+        <source>Inhibit system sleep when torrents are active</source>
+        <translation>Запретить спящий режим, когда есть активные торренты</translation>
+    </message>
+    <message>
+        <source>Bypass authentication for localhost</source>
+        <translation>Пропускать аутентификацию для localhost</translation>
+    </message>
+    <message>
+        <source>Ask for program exit confirmation</source>
+        <translation>Запрашивать подтверждение завершени программы</translation>
+    </message>
+    <message>
+        <source>Use monochrome system tray icon (requires restart)</source>
+        <translation>Использовать монохромную иконку в трее (требуется перезапуск)</translation>
+    </message>
+    <message>
+        <source>The following parameters are supported:
+&lt;ul&gt;
+&lt;li&gt;%f: Torrent path&lt;/li&gt;
+&lt;li&gt;%n: Torrent name&lt;/li&gt;
+&lt;/ul&gt;</source>
+        <translation>Поддерживаются следующие параметры:
+&lt;ul&gt;
+&lt;li&gt;%f: Путь торрента&lt;/li&gt;
+&lt;li&gt;%n: Имя торрента&lt;/li&gt;
+&lt;/ul&gt;</translation>
     </message>
 </context>
 <context>
@@ -2916,6 +2972,10 @@ Would you like to update qBittorrent to version %1?</source>
         <extracomment>Time (duration) the torrent is active (not paused)</extracomment>
         <translation>Время активности:</translation>
     </message>
+    <message>
+        <source>Torrent content:</source>
+        <translation>Содержимое торрента:</translation>
+    </message>
 </context>
 <context>
     <name>QBtSession</name>
@@ -3006,7 +3066,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Failed to start the embedded tracker!</source>
-        <translation>Не удалост запустить встроенный трекер!</translation>
+        <translation>Не удалось запустить встроенный трекер!</translation>
     </message>
     <message>
         <source>Embedded Tracker [OFF]</source>
@@ -3186,7 +3246,19 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Reporting IP address %1 to trackers...</source>
-        <translation type="unfinished"></translation>
+        <translation>Сообщаю IP адрес %1 трекерам...</translation>
+    </message>
+    <message>
+        <source>The computer will now go to sleep mode unless you cancel within the next 15 seconds...</source>
+        <translation>Сейчас компьютер перейдёт в спящий режим, если вы не отмените это в течение следующих 15 секунд...</translation>
+    </message>
+    <message>
+        <source>The computer will now be switched off unless you cancel within the next 15 seconds...</source>
+        <translation>Сейчас компьютер будет отключён, если вы не отмените это в течение следующих 15 секунд...</translation>
+    </message>
+    <message>
+        <source>qBittorrent will now exit unless you cancel within the next 15 seconds...</source>
+        <translation>Сейчас qBittorrent будет завершен, если вы не отмените это в течение следующих 15 секунд...</translation>
     </message>
 </context>
 <context>
@@ -3587,7 +3659,7 @@ Please install it manually.</source>
     <message>
         <source>Python 2.x is required to use the search engine but it does not seem to be installed.
 Do you want to install it now?</source>
-        <translation>Python 2.x требуется для использования поисковиков, но не похоже что он установлен
+        <translation>Python 2.x требуется для использования поисковиков, но не похоже что он установлен.
 Хотите ли Вы установить его сечас?</translation>
     </message>
     <message>
@@ -3628,6 +3700,13 @@ Do you want to install it now?</source>
     </message>
 </context>
 <context>
+    <name>ShutdownConfirmDlg</name>
+    <message>
+        <source>Shutdown confirmation</source>
+        <translation>Подтверждение выключения</translation>
+    </message>
+</context>
+<context>
     <name>SpeedLimitDialog</name>
     <message>
         <source>KiB/s</source>
@@ -3662,27 +3741,27 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Global Upload Speed Limit</source>
-        <translation>Глобальное ограничение  скорость раздачи</translation>
+        <translation>Глобальное ограничение скорости раздачи</translation>
     </message>
     <message>
         <source>D: %1/s - T: %2</source>
         <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
-        <translation>Скач: %1/с - Перед: %2</translation>
+        <translation type="obsolete">Скач: %1/с - Перед: %2</translation>
     </message>
     <message>
         <source>U: %1/s - T: %2</source>
         <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
-        <translation>Отдача: %1/с - Перед: %2</translation>
+        <translation type="obsolete">Отдача: %1/с - Перед: %2</translation>
     </message>
     <message>
         <source>D: %1 B/s - T: %2</source>
         <comment>Download speed: x B/s - Transferred: x MiB</comment>
-        <translation>Скач: %1Б/с - Перед: %2</translation>
+        <translation type="obsolete">Скач: %1Б/с - Перед: %2</translation>
     </message>
     <message>
         <source>U: %1 B/s - T: %2</source>
         <comment>Upload speed: x B/s - Transferred: x MiB</comment>
-        <translation>Отдача: %1Б/с - Перед: %2</translation>
+        <translation type="obsolete">Отдача: %1Б/с - Перед: %2</translation>
     </message>
     <message>
         <source>Offline. This usually means that qBittorrent failed to listen on the selected port for incoming connections.</source>
@@ -3690,11 +3769,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Click to disable alternative speed limits</source>
-        <translation>Нажмите для отключения альтернативных лимитов скорости</translation>
+        <translation type="obsolete">Нажмите для отключения альтернативных лимитов скорости</translation>
     </message>
     <message>
         <source>Click to enable alternative speed limits</source>
-        <translation>Нажмите для включения альтернативных лимитов скорости</translation>
+        <translation type="obsolete">Нажмите для включения альтернативных лимитов скорости</translation>
     </message>
     <message>
         <source>qBittorrent needs to be restarted</source>
@@ -3704,12 +3783,25 @@ Do you want to install it now?</source>
         <source>qBittorrent was just updated and needs to be restarted for the changes to be effective.</source>
         <translation>qBittorrent был обновлен и нуждается в перезапуске, чтобы изменение вступили в силу.</translation>
     </message>
+    <message>
+        <source>Click to switch to alternative speed limits</source>
+        <translation>Нажмите для переключения к альтернативным лимитам скорости</translation>
+    </message>
+    <message>
+        <source>Click to switch to regular speed limits</source>
+        <translation>Нажмите для переключения к обычным лимитам скорости</translation>
+    </message>
+    <message>
+        <source>%1/s</source>
+        <comment>Per second</comment>
+        <translation>%1/с</translation>
+    </message>
 </context>
 <context>
     <name>TorrentCreatorDlg</name>
     <message>
         <source>Select a folder to add to the torrent</source>
-        <translation>Выберите папку для добавления к торренту</translation>
+        <translation>Выберите папку для добавления в torrent</translation>
     </message>
     <message>
         <source>Select a file to add to the torrent</source>
@@ -3788,7 +3880,7 @@ Do you want to install it now?</source>
     <name>TorrentImportDlg</name>
     <message>
         <source>Torrent Import</source>
-        <translation>Имортировать торрент</translation>
+        <translation>Импортировать торрент</translation>
     </message>
     <message>
         <source>This assistant will help you share with qBittorrent a torrent that you have already downloaded.</source>
@@ -4014,11 +4106,11 @@ Do you want to install it now?</source>
     <name>TrackersAdditionDlg</name>
     <message>
         <source>Trackers addition dialog</source>
-        <translation>Диалог добавление трекеров</translation>
+        <translation>Диалог добавления трекеров</translation>
     </message>
     <message>
         <source>List of trackers to add (one per line):</source>
-        <translation>Список трекеров для добавление (один трекер на строку):</translation>
+        <translation>Список трекеров для добавления (один трекер на строку):</translation>
     </message>
     <message utf8="true">
         <source>µTorrent compatible list URL:</source>
@@ -4030,7 +4122,7 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Error while trying to open the downloaded file.</source>
-        <translation>Ошибеп при открытии скачанного файла.</translation>
+        <translation>Ошибка при открытии скачанного файла.</translation>
     </message>
     <message>
         <source>No change</source>
@@ -4107,7 +4199,7 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Completed</source>
-        <translation> Завершено</translation>
+        <translation>Завершено</translation>
     </message>
     <message>
         <source>Active</source>
@@ -4339,11 +4431,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Limit upload rate...</source>
-        <translation>ограничить скорость раздачи...</translation>
+        <translation>Ограничение скорости раздачи...</translation>
     </message>
     <message>
         <source>Limit download rate...</source>
-        <translation>Ограничение скорость скачивания...</translation>
+        <translation>Ограничение скорости скачивания...</translation>
     </message>
     <message>
         <source>Move up</source>
@@ -4387,6 +4479,34 @@ Do you want to install it now?</source>
     <message>
         <source>Tracker</source>
         <translation type="obsolete">Трэкер</translation>
+    </message>
+    <message>
+        <source>Limit share ratio...</source>
+        <translation>Ограничить коэффициент раздачи...</translation>
+    </message>
+</context>
+<context>
+    <name>UpDownRatioDlg</name>
+    <message>
+        <source>Torrent Upload/Download Ratio Limiting</source>
+        <translation>Ограничение коэффициента скачивания/раздачи торрента</translation>
+    </message>
+    <message>
+        <source>Use global ratio limit</source>
+        <translation>Использовать глобальное ограничение коэффициента</translation>
+    </message>
+    <message>
+        <source>buttonGroup</source>
+        <translatorcomment>Do you really need to translate it?</translatorcomment>
+        <translation type="unfinished">buttonGroup</translation>
+    </message>
+    <message>
+        <source>Set no ratio limit</source>
+        <translation>Убрать ограничение коэффициента</translation>
+    </message>
+    <message>
+        <source>Set ratio limit to</source>
+        <translation>Установить ограничение коэффициента</translation>
     </message>
 </context>
 <context>
@@ -4591,7 +4711,7 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Announce urls (trackers):</source>
-        <translation type="obsolete">Аоносирующие ссылки (трэкеров):</translation>
+        <translation type="obsolete">Аносирующие ссылки (трэкеров):</translation>
     </message>
     <message>
         <source>Comment (optional):</source>
@@ -4770,7 +4890,7 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Please type at least one URL.</source>
-        <translation>Пожалуста введите минимум один URL.</translation>
+        <translation>Пожалуйста введите минимум один URL.</translation>
     </message>
     <message>
         <source>Add torrent links</source>
@@ -4785,95 +4905,95 @@ Do you want to install it now?</source>
     <name>downloadThread</name>
     <message>
         <source>I/O Error</source>
-        <translation type="unfinished">Ошибка ввода/вывода</translation>
+        <translation type="obsolete">Ошибка ввода/вывода</translation>
     </message>
     <message>
         <source>The remote host name was not found (invalid hostname)</source>
-        <translation type="unfinished">Удаленный хост не был найден (неправильное имя хоста)</translation>
+        <translation type="obsolete">Имя удалённого хоста не было найдено (неправильное имя хоста)</translation>
     </message>
     <message>
         <source>The operation was canceled</source>
-        <translation type="unfinished">Операция была отменена</translation>
+        <translation type="obsolete">Операция была отменена</translation>
     </message>
     <message>
         <source>The remote server closed the connection prematurely, before the entire reply was received and processed</source>
-        <translation type="unfinished">Удаленный сервер закрыл соединение навсегда, прежде чем весь ответ был принят и обработан</translation>
+        <translation type="obsolete">Удаленный сервер преждевременно закрыл соединение, прежде чем весь ответ был принят и обработан</translation>
     </message>
     <message>
         <source>The connection to the remote server timed out</source>
-        <translation type="unfinished">Время соединения с  удаленным сервером вышло</translation>
+        <translation type="obsolete">Время соединения с удаленным сервером вышло</translation>
     </message>
     <message>
         <source>SSL/TLS handshake failed</source>
-        <translation type="unfinished">Соединение SSL/TLS не удалось</translation>
+        <translation type="obsolete">Соединение SSL/TLS не удалось</translation>
     </message>
     <message>
         <source>The remote server refused the connection</source>
-        <translation type="unfinished">Удаленный сервер отклонил соединение</translation>
+        <translation type="obsolete">Удаленный сервер отклонил соединение</translation>
     </message>
     <message>
         <source>The connection to the proxy server was refused</source>
-        <translation type="unfinished">Прокси-сервер отклонил соединение</translation>
+        <translation type="obsolete">Соединение с прокси-сервером отклонено</translation>
     </message>
     <message>
         <source>The proxy server closed the connection prematurely</source>
-        <translation type="unfinished">Прокси-сервер закрыл соединение навсегда</translation>
+        <translation type="obsolete">Прокси-сервер преждевременно закрыл соединение</translation>
     </message>
     <message>
         <source>The proxy host name was not found</source>
-        <translation type="unfinished">имя прокси-сервера не найдено</translation>
+        <translation type="obsolete">Имя прокси-сервера не было найдено</translation>
     </message>
     <message>
         <source>The connection to the proxy timed out or the proxy did not reply in time to the request sent</source>
-        <translation type="unfinished">Подключение к прокси-серверу истекло или прокси-сервер не ответил на запрос</translation>
+        <translation type="obsolete">Подключение к прокси-серверу истекло или прокси-сервер не ответил на запрос</translation>
     </message>
     <message>
         <source>The proxy requires authentication in order to honour the request but did not accept any credentials offered</source>
-        <translation type="unfinished">Прокси-сервер требует аутентификации но не принял указанные учетные данные</translation>
+        <translation type="obsolete">Прокси-сервер требует аутентификации, но не принял указанные учетные данные</translation>
     </message>
     <message>
         <source>The access to the remote content was denied (401)</source>
-        <translation type="unfinished">В доступе к данным было отказано (401)</translation>
+        <translation type="obsolete">В доступе к данным было отказано (401)</translation>
     </message>
     <message>
         <source>The operation requested on the remote content is not permitted</source>
-        <translation type="unfinished">В данной операции над данными отказано</translation>
+        <translation type="obsolete">Запрошенная операция над данными запрещена</translation>
     </message>
     <message>
         <source>The remote content was not found at the server (404)</source>
-        <translation type="unfinished">Данные не были найдены на сервере (404)</translation>
+        <translation type="obsolete">Данные не были найдены на сервере (404)</translation>
     </message>
     <message>
         <source>The remote server requires authentication to serve the content but the credentials provided were not accepted</source>
-        <translation type="unfinished">Удаленный сервер требует аутентификацию для отдачи данных, но указанные учетные данные не были приняты</translation>
+        <translation type="obsolete">Удаленный сервер требует аутентификацию для отдачи данных, но указанные учетные данные не были приняты</translation>
     </message>
     <message>
         <source>The Network Access API cannot honor the request because the protocol is not known</source>
-        <translation type="unfinished">API сетевого доступа не может выполнить запрос потому что протокол не известен</translation>
+        <translation type="obsolete">API сетевого доступа не может выполнить запрос, потому что протокол не известен</translation>
     </message>
     <message>
         <source>The requested operation is invalid for this protocol</source>
-        <translation type="unfinished">Запрошенная операция не поддерживается данным протоколом</translation>
+        <translation type="obsolete">Запрошенная операция не поддерживается данным протоколом</translation>
     </message>
     <message>
         <source>An unknown network-related error was detected</source>
-        <translation type="unfinished">Неизвестная сетевая ошибка</translation>
+        <translation type="obsolete">Неизвестная сетевая ошибка</translation>
     </message>
     <message>
         <source>An unknown proxy-related error was detected</source>
-        <translation type="unfinished">Неизвестная ошибка прокси-сервера</translation>
+        <translation type="obsolete">Неизвестная ошибка прокси-сервера</translation>
     </message>
     <message>
         <source>An unknown error related to the remote content was detected</source>
-        <translation type="unfinished">Неизвестная ошибка данных</translation>
+        <translation type="obsolete">Неизвестная ошибка данных</translation>
     </message>
     <message>
         <source>A breakdown in protocol was detected</source>
-        <translation type="unfinished">Ошибка в протоколе</translation>
+        <translation type="obsolete">Ошибка в протоколе</translation>
     </message>
     <message>
         <source>Unknown error</source>
-        <translation type="unfinished">Неизвестная ошибка</translation>
+        <translation type="obsolete">Неизвестная ошибка</translation>
     </message>
 </context>
 <context>
@@ -4924,7 +5044,7 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>You can get new search engine plugins here: &lt;a href=&quot;http://plugins.qbittorrent.org&quot;&gt;http://plugins.qbittorrent.org&lt;/a&gt;</source>
-        <translation>Вы можете получить новый плагины поиска здесь: &lt;a href=&quot;http://plugins.qbittorrent.org&quot;&gt;http://plugins.qbittorrent.org&lt;/a&gt;</translation>
+        <translation>Вы можете получить новые плагины поиска здесь: &lt;a href=&quot;http://plugins.qbittorrent.org&quot;&gt;http://plugins.qbittorrent.org&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -4976,7 +5096,7 @@ However, those plugins were disabled.</source>
     </message>
     <message>
         <source>All your plugins are already up to date.</source>
-        <translation>Все ваши плагины имеют последнии версии.</translation>
+        <translation>Все ваши плагины имеют последние версии.</translation>
     </message>
     <message>
         <source>%1 search engine plugin could not be updated, keeping old version.</source>
@@ -5109,7 +5229,7 @@ However, those plugins were disabled.</source>
     </message>
     <message>
         <source>Folder is already being watched.</source>
-        <translation>Папку уже отслеживается.</translation>
+        <translation>Папка уже отслеживается.</translation>
     </message>
     <message>
         <source>Folder does not exist.</source>
@@ -5137,12 +5257,16 @@ However, those plugins were disabled.</source>
     </message>
     <message>
         <source>Succesfully refreshed</source>
-        <translation type="unfinished">Успешно обновлен</translation>
+        <translation type="obsolete">Успешно обновлен</translation>
     </message>
     <message>
         <source>Successfuly parsed the provided IP filter: %1 rules were applied.</source>
         <comment>%1 is a number</comment>
         <translation>Успешно прочитан данный фильтр IP: %1 правил применено.</translation>
+    </message>
+    <message>
+        <source>Successfully refreshed</source>
+        <translation>Успешно обновлён</translation>
     </message>
 </context>
 <context>
@@ -5176,7 +5300,7 @@ However, those plugins were disabled.</source>
     </message>
     <message>
         <source>The following files support previewing, &lt;br&gt;please select one of them:</source>
-        <translation>Следующее файлы поддерживают предпросмотр, &lt;br&gt;выберите одно из них:</translation>
+        <translation>Следующие файлы поддерживают предпросмотр, &lt;br&gt;выберите один из них:</translation>
     </message>
     <message>
         <source>Preview</source>

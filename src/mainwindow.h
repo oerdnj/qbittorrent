@@ -38,18 +38,13 @@
 #include "qtorrenthandle.h"
 
 class QBtSession;
-class QTimer;
 class downloadFromURL;
 class SearchEngine;
-class QCloseEvent;
 class RSSImp;
-class QShortcut;
 class about;
 class options_imp;
-class QTabWidget;
 class TransferListWidget;
 class TransferListFiltersWidget;
-class QSplitter;
 class PropertiesWidget;
 class StatusBar;
 class consoleDlg;
@@ -58,8 +53,17 @@ class TorrentCreatorDlg;
 class downloadFromURL;
 class HidableTabWidget;
 class LineEdit;
-class QFileSystemWatcher;
 class ExecutionLog;
+class PowerManagement;
+
+QT_BEGIN_NAMESPACE
+class QCloseEvent;
+class QFileSystemWatcher;
+class QShortcut;
+class QSplitter;
+class QTabWidget;
+class QTimer;
+QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow, private Ui::MainWindow{
   Q_OBJECT
@@ -143,6 +147,9 @@ protected:
   void displaySearchTab(bool enable);
 
 private:
+  QIcon getSystrayIcon() const;
+
+private:
   QFileSystemWatcher *executable_watcher;
   // Bittorrent
   QList<QPair<QTorrentHandle,QString> > unauthenticated_trackers; // Still needed?
@@ -182,6 +189,9 @@ private:
   QPointer<RSSImp> rssWidget;
   // Execution Log
   QPointer<ExecutionLog> m_executionLog;
+  // Power Management
+  PowerManagement *m_pwr;
+  QTimer *preventTimer;
 
 private slots:
     void on_actionSearch_engine_triggered();
@@ -194,6 +204,8 @@ private slots:
     void on_actionAutoExit_qBittorrent_toggled(bool );
     void on_actionAutoSuspend_system_toggled(bool );
     void on_actionAutoShutdown_system_toggled(bool );
+    // Check for active torrents and set preventing from suspend state
+    void checkForActiveTorrents();
 };
 
 #endif

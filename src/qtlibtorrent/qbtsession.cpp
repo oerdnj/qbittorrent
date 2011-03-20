@@ -47,6 +47,7 @@
 #include "preferences.h"
 #include "scannedfoldersmodel.h"
 #ifndef DISABLE_GUI
+#include "shutdownconfirm.h"
 #include "geoipmanager.h"
 #endif
 #include "torrentpersistentdata.h"
@@ -87,7 +88,7 @@ enum VersionType { NORMAL,ALPHA,BETA,RELEASE_CANDIDATE,DEVEL };
 // Main constructor
 QBtSession::QBtSession()
   : m_scanFolders(ScanFoldersModel::instance(this)),
-    preAllocateAll(false), addInPause(false), ratio_limit(-1),
+    preAllocateAll(false), addInPause(false), global_ratio_limit(-1),
     UPnPEnabled(false), LSDEnabled(false),
     DHTEnabled(false), current_dht_port(0), queueingEnabled(false),
     torrentExport(false)
@@ -96,11 +97,13 @@ QBtSession::QBtSession()
   #endif
   , m_tracker(0)
 {
+  BigRatioTimer = new QTimer(this);
+  BigRatioTimer->setInterval(10000);
+  connect(BigRatioTimer, SIGNAL(timeout()), SLOT(processBigRatios()));
   Preferences pref;
   // To avoid some exceptions
   boost::filesystem::path::default_name_check(boost::filesystem::no_check);
   // Creating Bittorrent session
-  // Check if we should spoof utorrent
   QList<int> version;
   version << VERSION_MAJOR;
   version << VERSION_MINOR;
@@ -130,19 +133,19 @@ QBtSession::QBtSession()
   }
   s->add_extension(&create_smart_ban_plugin);
   timerAlerts = new QTimer(this);
-  connect(timerAlerts, SIGNAL(timeout()), this, SLOT(readAlerts()));
-  timerAlerts->start(3000);
-  connect(&resumeDataTimer, SIGNAL(timeout()), this, SLOT(saveTempFastResumeData()));
+  connect(timerAlerts, SIGNAL(timeout()), SLOT(readAlerts()));
+  timerAlerts->start(1000);
+  connect(&resumeDataTimer, SIGNAL(timeout()), SLOT(saveTempFastResumeData()));
   resumeDataTimer.start(180000); // 3min
   // To download from urls
-  downloader = new downloadThread(this);
-  connect(downloader, SIGNAL(downloadFinished(QString, QString)), this, SLOT(processDownloadedFile(QString, QString)));
-  connect(downloader, SIGNAL(downloadFailure(QString, QString)), this, SLOT(handleDownloadFailure(QString, QString)));
+  downloader = new DownloadThread(this);
+  connect(downloader, SIGNAL(downloadFinished(QString, QString)), SLOT(processDownloadedFile(QString, QString)));
+  connect(downloader, SIGNAL(downloadFailure(QString, QString)), SLOT(handleDownloadFailure(QString, QString)));
   appendLabelToSavePath = pref.appendTorrentLabel();
 #if LIBTORRENT_VERSION_MINOR > 14
   appendqBExtension = pref.useIncompleteFilesExtension();
 #endif
-  connect(m_scanFolders, SIGNAL(torrentsAdded(QStringList&)), this, SLOT(addTorrentsFromScanFolder(QStringList&)));
+  connect(m_scanFolders, SIGNAL(torrentsAdded(QStringList&)), SLOT(addTorrentsFromScanFolder(QStringList&)));
   // Apply user settings to Bittorrent session
   configureSession();
   // Torrent speed monitor
@@ -190,7 +193,6 @@ void QBtSession::preAllocateAllFiles(bool b) {
 }
 
 void QBtSession::processBigRatios() {
-  if(ratio_limit < 0) return;
   qDebug("Process big ratios...");
   std::vector<torrent_handle> torrents = s->get_torrents();
   std::vector<torrent_handle>::iterator torrentIT;
@@ -200,7 +202,13 @@ void QBtSession::processBigRatios() {
     if(h.is_seed()) {
       const QString hash = h.hash();
       const qreal ratio = getRealRatio(hash);
+      qreal ratio_limit = TorrentPersistentData::getRatioLimit(hash);
+      if(ratio_limit == TorrentPersistentData::NO_RATIO_LIMIT)
+        continue;
+      if(ratio_limit == TorrentPersistentData::USE_GLOBAL_RATIO)
+        ratio_limit = global_ratio_limit;
       qDebug("Ratio: %f (limit: %f)", ratio, ratio_limit);
+      Q_ASSERT(ratio_limit >= 0.f);
       if(ratio <= MAX_RATIO && ratio >= ratio_limit) {
         if(high_ratio_action == REMOVE_ACTION) {
           addConsoleMessage(tr("%1 reached the maximum ratio you set.").arg(h.name()));
@@ -502,7 +510,8 @@ void QBtSession::configureSession() {
   applyEncryptionSettings(encryptionSettings);
   // * Maximum ratio
   high_ratio_action = pref.getMaxRatioAction();
-  setMaxRatio(pref.getMaxRatio());
+  setGlobalMaxRatio(pref.getGlobalMaxRatio());
+  updateRatioTimer();
   // Ip Filter
   FilterParserThread::processFilterList(s, pref.bannedIPs());
   if(pref.isFilteringEnabled()) {
@@ -584,6 +593,7 @@ void QBtSession::initWebUi() {
       httpServer = new HttpServer(3000, this);
     }
     httpServer->setAuthorization(username, password);
+    httpServer->setlocalAuthEnabled(pref.isWebUiLocalAuthEnabled());
     if(!httpServer->isListening()) {
       bool success = httpServer->listen(QHostAddress::Any, port);
       if (success)
@@ -622,7 +632,7 @@ void QBtSession::useAlternativeSpeedsLimit(bool alternative) {
 }
 
 // Return the torrent handle, given its hash
-QTorrentHandle QBtSession::getTorrentHandle(QString hash) const{
+QTorrentHandle QBtSession::getTorrentHandle(const QString &hash) const{
   return QTorrentHandle(s->find_torrent(misc::QStringToSha1(hash)));
 }
 
@@ -659,7 +669,7 @@ void QBtSession::banIP(QString ip) {
 
 // Delete a torrent from the session, given its hash
 // permanent = true means that the torrent will be removed from the hard-drive too
-void QBtSession::deleteTorrent(QString hash, bool delete_local_files) {
+void QBtSession::deleteTorrent(const QString &hash, bool delete_local_files) {
   qDebug("Deleting torrent with hash: %s", qPrintable(hash));
   const QTorrentHandle h = getTorrentHandle(hash);
   if(!h.is_valid()) {
@@ -692,7 +702,7 @@ void QBtSession::deleteTorrent(QString hash, bool delete_local_files) {
       misc::safeRemove(uneeded_file);
       const QString parent_folder = misc::branchPath(uneeded_file);
       qDebug("Attempt to remove parent folder (if empty): %s", qPrintable(parent_folder));
-      QDir().rmpath(parent_folder);
+      misc::removeEmptyFolder(parent_folder);
     }
   }
   // Remove it from torrent backup directory
@@ -747,7 +757,7 @@ void QBtSession::resumeAllTorrents() {
   }
 }
 
-void QBtSession::pauseTorrent(QString hash) {
+void QBtSession::pauseTorrent(const QString &hash) {
   QTorrentHandle h = getTorrentHandle(hash);
   if(!h.is_paused()) {
     h.pause();
@@ -755,7 +765,7 @@ void QBtSession::pauseTorrent(QString hash) {
   }
 }
 
-void QBtSession::resumeTorrent(QString hash) {
+void QBtSession::resumeTorrent(const QString &hash) {
   QTorrentHandle h = getTorrentHandle(hash);
   if(h.is_paused()) {
     h.resume();
@@ -763,7 +773,7 @@ void QBtSession::resumeTorrent(QString hash) {
   }
 }
 
-bool QBtSession::loadFastResumeData(QString hash, std::vector<char> &buf) {
+bool QBtSession::loadFastResumeData(const QString &hash, std::vector<char> &buf) {
   const QString fastresume_path = QDir(misc::BTBackupLocation()).absoluteFilePath(hash+QString(".fastresume"));
   qDebug("Trying to load fastresume data: %s", qPrintable(fastresume_path));
   QFile fastresume_file(fastresume_path);
@@ -775,7 +785,7 @@ bool QBtSession::loadFastResumeData(QString hash, std::vector<char> &buf) {
   return true;
 }
 
-void QBtSession::loadTorrentSettings(QTorrentHandle h) {
+void QBtSession::loadTorrentSettings(QTorrentHandle& h) {
   Preferences pref;
   // Connections limit per torrent
   h.set_max_connections(pref.getMaxConnecsPerTorrent());
@@ -883,7 +893,7 @@ QTorrentHandle QBtSession::addTorrent(QString path, bool fromScanDir, QString fr
     if(QFile::rename(path, path+".torrent")) path += ".torrent";
 #endif
   if(path.startsWith("file:", Qt::CaseInsensitive))
-    path = QUrl(path).toLocalFile();
+    path = QUrl::fromEncoded(path.toLocal8Bit()).toLocalFile();
   if(path.isEmpty()) return h;
 
   Q_ASSERT(!misc::isUrl(path));
@@ -940,7 +950,8 @@ QTorrentHandle QBtSession::addTorrent(QString path, bool fromScanDir, QString fr
     }
     // Check if the torrent contains trackers or url seeds we don't know about
     // and add them
-    mergeTorrents(getTorrentHandle(hash), t);
+    QTorrentHandle h_ex = getTorrentHandle(hash);
+    mergeTorrents(h_ex, t);
 
     // Delete file if temporary
     if(!from_url.isNull() || fromScanDir) misc::safeRemove(path);
@@ -1099,7 +1110,7 @@ QTorrentHandle QBtSession::addTorrent(QString path, bool fromScanDir, QString fr
   return h;
 }
 
-void QBtSession::exportTorrentFile(QTorrentHandle h) {
+void QBtSession::exportTorrentFile(const QTorrentHandle &h) {
   Q_ASSERT(torrentExport);
   QString torrent_path = QDir(misc::BTBackupLocation()).absoluteFilePath(h.hash()+".torrent");
   QDir exportPath(Preferences().getExportDir());
@@ -1114,7 +1125,7 @@ void QBtSession::exportTorrentFile(QTorrentHandle h) {
   }
 }
 
-add_torrent_params QBtSession::initializeAddTorrentParams(QString hash) {
+add_torrent_params QBtSession::initializeAddTorrentParams(const QString &hash) {
   add_torrent_params p;
 
   // Seeding mode
@@ -1142,7 +1153,7 @@ add_torrent_params QBtSession::initializeAddTorrentParams(QString hash) {
   return p;
 }
 
-void QBtSession::loadTorrentTempData(QTorrentHandle h, QString savePath, bool magnet) {
+void QBtSession::loadTorrentTempData(QTorrentHandle &h, QString savePath, bool magnet) {
   qDebug("loadTorrentTempdata() - ENTER");
   const QString hash = h.hash();
   // Sequential download
@@ -1194,7 +1205,7 @@ void QBtSession::loadTorrentTempData(QTorrentHandle h, QString savePath, bool ma
     TorrentPersistentData::saveTorrentPersistentData(h, savePath, magnet);
 }
 
-void QBtSession::mergeTorrents(QTorrentHandle h_ex, boost::intrusive_ptr<torrent_info> t) {
+void QBtSession::mergeTorrents(QTorrentHandle &h_ex, boost::intrusive_ptr<torrent_info> t) {
   // Check if the torrent contains trackers or url seeds we don't know about
   // and add them
   if(!h_ex.is_valid()) return;
@@ -1351,10 +1362,10 @@ void QBtSession::loadSessionState() {
   QFile state_file(state_path);
   if(!state_file.open(QIODevice::ReadOnly)) return;
   std::vector<char> in;
-  const QByteArray content = state_file.readAll();
-  const int content_size = content.size();
+  const qint64 content_size = state_file.bytesAvailable();
+  if(content_size <= 0) return;
   in.resize(content_size);
-  memcpy(&in[0], content.data(), content_size);
+  state_file.read(&in[0], content_size);
   // bdecode
   lazy_entry e;
   if (lazy_bdecode(&in[0], &in[0] + in.size(), e) == 0)
@@ -1375,14 +1386,13 @@ void QBtSession::saveSessionState() {
 #if LIBTORRENT_VERSION_MINOR > 14
   entry session_state;
   s->save_state(session_state);
-  std::vector<char> out;
-  bencode(std::back_inserter(out), session_state);
-  file f;
-  error_code ec;
-  if (!f.open(state_path.toUtf8().constData(), file::write_only, ec)) return;
-  if (ec) return;
-  file::iovec_t b = {&out[0], out.size()};
-  f.writev(0, &b, 1, ec);
+  vector<char> out;
+  bencode(back_inserter(out), session_state);
+  QFile session_file(state_path);
+  if (!out.empty() && session_file.open(QIODevice::WriteOnly)) {
+    session_file.write(&out[0], out.size());
+    session_file.close();
+  }
 #else
   entry session_state = s->state();
   boost::filesystem::ofstream out(state_path.toLocal8Bit().constData()
@@ -1437,7 +1447,7 @@ bool QBtSession::enableDHT(bool b) {
   return true;
 }
 
-qreal QBtSession::getRealRatio(QString hash) const{
+qreal QBtSession::getRealRatio(const QString &hash) const{
   QTorrentHandle h = getTorrentHandle(hash);
   if(!h.is_valid()) {
     return 0.;
@@ -1527,12 +1537,16 @@ void QBtSession::saveFastResumeData() {
     if(!h.is_valid()) continue;
     try {
       // Remove old fastresume file if it exists
-      const QString file = torrentBackup.absoluteFilePath(h.hash()+".fastresume");
-      if(QFile::exists(file))
-        misc::safeRemove(file);
-      boost::filesystem::ofstream out(boost::filesystem::path(file.toLocal8Bit().constData()), std::ios_base::binary);
-      out.unsetf(std::ios_base::skipws);
-      bencode(std::ostream_iterator<char>(out), *rd->resume_data);
+      vector<char> out;
+      bencode(back_inserter(out), *rd->resume_data);
+      const QString filepath = torrentBackup.absoluteFilePath(h.hash()+".fastresume");
+      QFile resume_file(filepath);
+      if(resume_file.exists())
+        misc::safeRemove(filepath);
+      if(!out.empty() && resume_file.open(QIODevice::WriteOnly)) {
+        resume_file.write(&out[0], out.size());
+        resume_file.close();
+      }
       // Remove torrent from session
       s->remove_torrent(rd->handle);
       s->pop_alert();
@@ -1567,7 +1581,7 @@ void QBtSession::addPeerBanMessage(QString ip, bool from_ipfilter) {
   emit newBanMessage(msg);
 }
 
-bool QBtSession::isFilePreviewPossible(QString hash) const{
+bool QBtSession::isFilePreviewPossible(const QString &hash) const{
   // See if there are supported files in the torrent
   const QTorrentHandle h = getTorrentHandle(hash);
   if(!h.is_valid() || !h.has_metadata()) {
@@ -1772,22 +1786,53 @@ void QBtSession::setUploadRateLimit(long rate) {
 
 // Torrents will a ratio superior to the given value will
 // be automatically deleted
-void QBtSession::setMaxRatio(qreal ratio) {
+void QBtSession::setGlobalMaxRatio(qreal ratio) {
   if(ratio < 0) ratio = -1.;
-  if(ratio_limit == -1 && ratio != -1) {
-    Q_ASSERT(!BigRatioTimer);
-    BigRatioTimer = new QTimer(this);
-    connect(BigRatioTimer, SIGNAL(timeout()), this, SLOT(processBigRatios()));
-    BigRatioTimer->start(10000);
-  } else {
-    if(ratio_limit != -1 && ratio == -1) {
-      delete BigRatioTimer;
-    }
+  if(global_ratio_limit != ratio) {
+    global_ratio_limit = ratio;
+    qDebug("* Set global deleteRatio to %.1f", global_ratio_limit);
+    updateRatioTimer();
   }
-  if(ratio_limit != ratio) {
-    ratio_limit = ratio;
-    qDebug("* Set deleteRatio to %.1f", ratio_limit);
-    processBigRatios();
+}
+
+void QBtSession::setMaxRatioPerTorrent(const QString &hash, qreal ratio)
+{
+  if (ratio < 0)
+    ratio = -1;
+  if (ratio > MAX_RATIO)
+    ratio = MAX_RATIO;
+  qDebug("* Set individual max ratio for torrent %s to %.1f.",
+         qPrintable(hash), ratio);
+  TorrentPersistentData::setRatioLimit(hash, ratio);
+  updateRatioTimer();
+}
+
+void QBtSession::removeRatioPerTorrent(const QString &hash)
+{
+  qDebug("* Remove individual max ratio for torrent %s.", qPrintable(hash));
+  TorrentPersistentData::setRatioLimit(hash, TorrentPersistentData::USE_GLOBAL_RATIO);
+  updateRatioTimer();
+}
+
+qreal QBtSession::getMaxRatioPerTorrent(const QString &hash, bool *usesGlobalRatio) const
+{
+  qreal ratio_limit = TorrentPersistentData::getRatioLimit(hash);
+  if(ratio_limit == TorrentPersistentData::USE_GLOBAL_RATIO) {
+    ratio_limit = global_ratio_limit;
+    *usesGlobalRatio = true;
+  } else {
+    *usesGlobalRatio = false;
+  }
+  return ratio_limit;
+}
+
+void QBtSession::updateRatioTimer()
+{
+  if (global_ratio_limit == -1 && !TorrentPersistentData::hasPerTorrentRatioLimit()) {
+    if (BigRatioTimer->isActive())
+      BigRatioTimer->stop();
+  } else if (!BigRatioTimer->isActive()) {
+    BigRatioTimer->start();
   }
 }
 
@@ -1921,7 +1966,7 @@ void QBtSession::cleanUpAutoRunProcess(int) {
   sender()->deleteLater();
 }
 
-void QBtSession::autoRunExternalProgram(QTorrentHandle h, bool async) {
+void QBtSession::autoRunExternalProgram(const QTorrentHandle &h, bool async) {
   if(!h.is_valid()) return;
   QString program = Preferences().getAutoRunProgram().trimmed();
   if(program.isEmpty()) return;
@@ -1932,6 +1977,8 @@ void QBtSession::autoRunExternalProgram(QTorrentHandle h, bool async) {
   else
     torrent_path = h.save_path();
   program.replace("%f", torrent_path);
+  // Replace %n by torrent name
+  program.replace("%n", h.name());
   QProcess *process = new QProcess;
   if(async) {
     connect(process, SIGNAL(finished(int)), this, SLOT(cleanUpAutoRunProcess(int)));
@@ -1942,7 +1989,7 @@ void QBtSession::autoRunExternalProgram(QTorrentHandle h, bool async) {
   }
 }
 
-void QBtSession::sendNotificationEmail(QTorrentHandle h) {
+void QBtSession::sendNotificationEmail(const QTorrentHandle &h) {
   // Prepare mail content
   QString content = tr("Torrent name: %1").arg(h.name()) + "\n";
   content += tr("Torrent size: %1").arg(misc::friendlyUnit(h.actual_size())) + "\n";
@@ -2040,6 +2087,18 @@ void QBtSession::readAlerts() {
           if(will_shutdown) {
             bool suspend = pref.suspendWhenDownloadsComplete();
             bool shutdown = pref.shutdownWhenDownloadsComplete();
+            // Confirm shutdown
+            QString confirm_msg;
+            if(suspend) {
+              confirm_msg = tr("The computer will now go to sleep mode unless you cancel within the next 15 seconds...");
+            } else if(shutdown) {
+              confirm_msg = tr("The computer will now be switched off unless you cancel within the next 15 seconds...");
+            } else {
+              confirm_msg = tr("qBittorrent will now exit unless you cancel within the next 15 seconds...");
+            }
+            if(!ShutdownConfirmDlg::askForConfirmation(confirm_msg))
+              return;
+            // Actually shut down
             if(suspend || shutdown) {
               qDebug("Preparing for auto-shutdown because all downloads are complete!");
               // Disabling it for next time
@@ -2066,16 +2125,17 @@ void QBtSession::readAlerts() {
     else if (save_resume_data_alert* p = dynamic_cast<save_resume_data_alert*>(a.get())) {
       const QDir torrentBackup(misc::BTBackupLocation());
       const QTorrentHandle h(p->handle);
-      if(h.is_valid()) {
-        const QString file = torrentBackup.absoluteFilePath(h.hash()+".fastresume");
-        // Delete old fastresume file if necessary
-        if(QFile::exists(file))
-          misc::safeRemove(file);
-        qDebug("Saving fastresume data in %s", qPrintable(file));
-        if (p->resume_data) {
-          boost::filesystem::ofstream out(boost::filesystem::path(file.toUtf8().constData()), std::ios_base::binary);
-          out.unsetf(std::ios_base::skipws);
-          bencode(std::ostream_iterator<char>(out), *p->resume_data);
+      if(h.is_valid() && p->resume_data) {
+        const QString filepath = torrentBackup.absoluteFilePath(h.hash()+".fastresume");
+        QFile resume_file(filepath);
+        if(resume_file.exists())
+          misc::safeRemove(filepath);
+        qDebug("Saving fastresume data in %s", qPrintable(filepath));
+        vector<char> out;
+        bencode(back_inserter(out), *p->resume_data);
+        if(!out.empty() && resume_file.open(QIODevice::WriteOnly)) {
+          resume_file.write(&out[0], out.size());
+          resume_file.close();
         }
       }
     }
@@ -2367,7 +2427,7 @@ void QBtSession::readAlerts() {
   }
 }
 
-void QBtSession::recheckTorrent(QString hash) {
+void QBtSession::recheckTorrent(const QString &hash) {
   QTorrentHandle h = getTorrentHandle(hash);
   if(h.is_valid() && h.has_metadata()) {
     if(h.is_paused()) {
@@ -2380,7 +2440,7 @@ void QBtSession::recheckTorrent(QString hash) {
   }
 }
 
-QHash<QString, TrackerInfos> QBtSession::getTrackersInfo(QString hash) const{
+QHash<QString, TrackerInfos> QBtSession::getTrackersInfo(const QString &hash) const{
   return trackersInfos.value(hash, QHash<QString, TrackerInfos>());
 }
 
@@ -2393,7 +2453,7 @@ session_status QBtSession::getSessionStatus() const{
   return s->status();
 }
 
-QString QBtSession::getSavePath(QString hash, bool fromScanDir, QString filePath, QString root_folder) {
+QString QBtSession::getSavePath(const QString &hash, bool fromScanDir, QString filePath, QString root_folder) {
   QString savePath;
   if(TorrentTempData::hasTempData(hash)) {
     savePath = TorrentTempData::getSavePath(hash);
@@ -2446,7 +2506,7 @@ QString QBtSession::getSavePath(QString hash, bool fromScanDir, QString filePath
 // Take an url string to a torrent file,
 // download the torrent file to a tmp location, then
 // add it to download list
-void QBtSession::downloadFromUrl(QString url) {
+void QBtSession::downloadFromUrl(const QString &url) {
   addConsoleMessage(tr("Downloading '%1', please wait...", "e.g: Downloading 'xxx.torrent', please wait...").arg(url)
                   #ifndef DISABLE_GUI
                     , QPalette::WindowText

@@ -36,7 +36,6 @@
 #include <QDialogButtonBox>
 #include <QCloseEvent>
 #include <QDesktopWidget>
-#include <QStyleFactory>
 #include <QTranslator>
 
 #include <libtorrent/version.hpp>
@@ -88,7 +87,6 @@ options_imp::options_imp(QWidget *parent):
   connect(scanFoldersView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(handleScanFolderViewSelectionChanged()));
 
   connect(buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(applySettings(QAbstractButton*)));
-  comboStyle->addItems(QStyleFactory::keys());
   // Languages supported
   initializeLanguageCombo();
 
@@ -108,6 +106,9 @@ options_imp::options_imp(QWidget *parent):
     checkShowSystray->setChecked(false);
     checkShowSystray->setEnabled(false);
   }
+#if !defined(Q_WS_X11) || !defined(QT_SVG_LIB)
+  checkUseMonoSystrayIcon->setVisible(false);
+#endif
   // Connect signals / slots
   // General tab
   connect(checkShowSystray, SIGNAL(toggled(bool)), this, SLOT(setSystrayOptionsState(bool)));
@@ -126,13 +127,18 @@ options_imp::options_imp(QWidget *parent):
   // Apply button is activated when a value is changed
   // General tab
   connect(comboI18n, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApplyButton()));
-  connect(comboStyle, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApplyButton()));
   connect(checkAltRowColors, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkShowSystray, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkCloseToSystray, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkMinimizeToSysTray, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkStartMinimized, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkShowSplash, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+  connect(checkProgramExitConfirm, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+  connect(checkPreventFromSuspend, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+  connect(checkUseMonoSystrayIcon, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+#if defined(Q_WS_X11) && !defined(QT_DBUS_LIB)
+  checkPreventFromSuspend->setDisabled(true);
+#endif
   // Downloads tab
   connect(textSavePath, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
   connect(textTempPath, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
@@ -201,6 +207,7 @@ options_imp::options_imp(QWidget *parent):
   connect(spinWebUiPort, SIGNAL(valueChanged(int)), this, SLOT(enableApplyButton()));
   connect(textWebUiUsername, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
   connect(textWebUiPassword, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
+  connect(checkBypassLocalAuth, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   // Disable apply Button
   applyButton->setEnabled(false);
   // Tab selection mecanism
@@ -231,7 +238,7 @@ void options_imp::initializeLanguageCombo()
     QLocale locale(localeStr);
     const QString country = locale.name().split("_").last().toLower();
     QString language_name = languageToLocalizedString(locale.language(), country);
-        comboI18n->addItem(/*QIcon(":/Icons/flags/"+country+".png"), */language_name, locale.name());
+    comboI18n->addItem(/*QIcon(":/Icons/flags/"+country+".png"), */language_name, locale.name());
     qDebug() << "Supported locale:" << locale.name();
   }
 }
@@ -249,10 +256,6 @@ void options_imp::changePage(QListWidgetItem *current, QListWidgetItem *previous
   if (!current)
     current = previous;
   tabOption->setCurrentIndex(tabSelection->row(current));
-}
-
-void options_imp::useStyle() {
-  QApplication::setStyle(QStyleFactory::create(comboStyle->itemText(comboStyle->currentIndex())));
 }
 
 void options_imp::loadWindowState() {
@@ -308,8 +311,6 @@ QSize options_imp::sizeFittingScreen() {
 void options_imp::saveOptions(){
   applyButton->setEnabled(false);
   Preferences pref;
-  // Apply style
-  useStyle();
   // Load the translation
   QString locale = getLocale();
   if(pref.getLocale() != locale) {
@@ -324,13 +325,15 @@ void options_imp::saveOptions(){
 
   // General preferences
   pref.setLocale(locale);
-  pref.setStyle(getStyle());
   pref.setAlternatingRowColors(checkAltRowColors->isChecked());
   pref.setSystrayIntegration(systrayIntegration());
+  pref.setUseMonochromeTrayIcon(checkUseMonoSystrayIcon->isChecked());
   pref.setCloseToTray(closeToTray());
   pref.setMinimizeToTray(minimizeToTray());
   pref.setStartMinimized(startMinimized());
   pref.setSplashScreenDisabled(isSlashScreenDisabled());
+  pref.setConfirmOnExit(checkProgramExitConfirm->isChecked());
+  pref.setPreventFromSuspend(preventFromSuspend());
   // End General preferences
 
   // Downloads preferences
@@ -396,7 +399,7 @@ void options_imp::saveOptions(){
   pref.setDHTPort(getDHTPort());
   pref.setLSDEnabled(isLSDEnabled());
   pref.setEncryptionSetting(getEncryptionSetting());
-  pref.setMaxRatio(getMaxRatio());
+  pref.setGlobalMaxRatio(getMaxRatio());
   pref.setMaxRatioAction(comboRatioLimitAct->currentIndex());
   // End Bittorrent preferences
   // Misc preferences
@@ -424,6 +427,7 @@ void options_imp::saveOptions(){
     pref.setWebUiUsername(webUiUsername());
     // FIXME: Check that the password is valid (not empty at least)
     pref.setWebUiPassword(webUiPassword());
+    pref.setWebUiLocalAuthEnabled(!checkBypassLocalAuth->isChecked());
   }
   // End Web UI
   // End preferences
@@ -455,16 +459,6 @@ int options_imp::getProxyType() const{
   }
 }
 
-QString options_imp::getStyle() const{
-  return comboStyle->itemText(comboStyle->currentIndex());
-}
-
-void options_imp::setStyle(QString style) {
-  int index = comboStyle->findText(style, Qt::MatchFixedString);
-  if(index > 0)
-    comboStyle->setCurrentIndex(index);
-}
-
 void options_imp::loadOptions(){
   int intValue;
   qreal floatValue;
@@ -472,7 +466,6 @@ void options_imp::loadOptions(){
   // General preferences
   const Preferences pref;
   setLocale(pref.getLocale());
-  setStyle(pref.getStyle());
   checkAltRowColors->setChecked(pref.useAlternatingRowColors());
   checkShowSystray->setChecked(pref.systrayIntegration());
   checkShowSplash->setChecked(!pref.isSlashScreenDisabled());
@@ -483,7 +476,10 @@ void options_imp::loadOptions(){
     checkCloseToSystray->setChecked(pref.closeToTray());
     checkMinimizeToSysTray->setChecked(pref.minimizeToTray());
     checkStartMinimized->setChecked(pref.startMinimized());
+    checkUseMonoSystrayIcon->setChecked(pref.useMonochromeTrayIcon());
   }
+  checkProgramExitConfirm->setChecked(pref.confirmOnExit());
+  checkPreventFromSuspend->setChecked(pref.preventFromSuspend());
   // End General preferences
   // Downloads preferences
   QString save_path = pref.getSavePath();
@@ -637,7 +633,7 @@ void options_imp::loadOptions(){
   checkLSD->setChecked(pref.isLSDEnabled());
   comboEncryption->setCurrentIndex(pref.getEncryptionSetting());
   // Ratio limit
-  floatValue = pref.getMaxRatio();
+  floatValue = pref.getGlobalMaxRatio();
   if(floatValue >= 0.) {
     // Enable
     checkMaxRatio->setChecked(true);
@@ -668,6 +664,7 @@ void options_imp::loadOptions(){
   spinWebUiPort->setValue(pref.getWebUiPort());
   textWebUiUsername->setText(pref.getWebUiUsername());
   textWebUiPassword->setText(pref.getWebUiPassword());
+  checkBypassLocalAuth->setChecked(!pref.isWebUiLocalAuthEnabled());
   // End Web UI
   // Random stuff
   srand(time(0));
@@ -857,11 +854,13 @@ void options_imp::enableMaxConnecsLimitPerTorrent(bool checked){
 void options_imp::enableSystrayOptions() {
   checkCloseToSystray->setEnabled(true);
   checkMinimizeToSysTray->setEnabled(true);
+  checkUseMonoSystrayIcon->setEnabled(true);
 }
 
 void options_imp::disableSystrayOptions() {
   checkCloseToSystray->setEnabled(false);
   checkMinimizeToSysTray->setEnabled(false);
+  checkUseMonoSystrayIcon->setEnabled(false);
 }
 
 void options_imp::setSystrayOptionsState(bool checked) {
@@ -926,6 +925,10 @@ void options_imp::enableProxyAuth(bool checked){
 
 bool options_imp::isSlashScreenDisabled() const {
   return !checkShowSplash->isChecked();
+}
+
+bool options_imp::preventFromSuspend() const {
+  return checkPreventFromSuspend->isChecked();
 }
 
 bool options_imp::preAllocateAllFiles() const {
@@ -1169,7 +1172,7 @@ void options_imp::handleIPFilterParsed(bool error, int ruleCount)
   if(error) {
     QMessageBox::warning(this, tr("Parsing error"), tr("Failed to parse the provided IP filter"));
   } else {
-    QMessageBox::information(this, tr("Succesfully refreshed"), tr("Successfuly parsed the provided IP filter: %1 rules were applied.", "%1 is a number").arg(ruleCount));
+    QMessageBox::information(this, tr("Successfully refreshed"), tr("Successfuly parsed the provided IP filter: %1 rules were applied.", "%1 is a number").arg(ruleCount));
   }
   m_refreshingIpFilter = false;
   disconnect(QBtSession::instance(), SIGNAL(ipFilterParsed(bool, int)), this, SLOT(handleIPFilterParsed(bool, int)));
