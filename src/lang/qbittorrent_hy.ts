@@ -106,7 +106,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../preferences/advancedsettings.h" line="124"/>
         <source> MiB</source>
-        <translation>Մբիթ</translation>
+        <translation>ՄԲ</translation>
     </message>
     <message>
         <location filename="../preferences/advancedsettings.h" line="127"/>
@@ -2169,31 +2169,31 @@ Would you like to update qBittorrent to version %1?</source>
 <context>
     <name>PreviewSelect</name>
     <message>
-        <location filename="../previewselect.cpp" line="18"/>
+        <location filename="../previewselect.cpp" line="48"/>
         <source>Name</source>
         <translation>Անունը</translation>
     </message>
     <message>
-        <location filename="../previewselect.cpp" line="19"/>
+        <location filename="../previewselect.cpp" line="49"/>
         <source>Size</source>
         <translation>Չափը</translation>
     </message>
     <message>
-        <location filename="../previewselect.cpp" line="20"/>
+        <location filename="../previewselect.cpp" line="50"/>
         <source>Progress</source>
         <translation>Ընթացքը</translation>
     </message>
     <message>
-        <location filename="../previewselect.cpp" line="45"/>
-        <location filename="../previewselect.cpp" line="80"/>
-        <location filename="../previewselect.cpp" line="86"/>
+        <location filename="../previewselect.cpp" line="75"/>
+        <location filename="../previewselect.cpp" line="110"/>
+        <location filename="../previewselect.cpp" line="116"/>
         <source>Preview impossible</source>
         <translation>Դիտումը հնարավոր չէ</translation>
     </message>
     <message>
-        <location filename="../previewselect.cpp" line="45"/>
-        <location filename="../previewselect.cpp" line="80"/>
-        <location filename="../previewselect.cpp" line="86"/>
+        <location filename="../previewselect.cpp" line="75"/>
+        <location filename="../previewselect.cpp" line="110"/>
+        <location filename="../previewselect.cpp" line="116"/>
         <source>Sorry, we can&apos;t preview this file</source>
         <translation>Հնարավոր չէ դիտել այս ֆայլը</translation>
     </message>
@@ -4528,42 +4528,42 @@ Please install it manually.</source>
     <message>
         <location filename="../torrentcreator/createtorrent.ui" line="167"/>
         <source>32 KiB</source>
-        <translation>32 Կբիթ</translation>
+        <translation>32 ԿԲ</translation>
     </message>
     <message>
         <location filename="../torrentcreator/createtorrent.ui" line="172"/>
         <source>64 KiB</source>
-        <translation>64 Կբիթ</translation>
+        <translation>64 ԿԲ</translation>
     </message>
     <message>
         <location filename="../torrentcreator/createtorrent.ui" line="177"/>
         <source>128 KiB</source>
-        <translation>128 Կբիթ</translation>
+        <translation>128 ԿԲ</translation>
     </message>
     <message>
         <location filename="../torrentcreator/createtorrent.ui" line="182"/>
         <source>256 KiB</source>
-        <translation>256 Կբիթ</translation>
+        <translation>256 ԿԲ</translation>
     </message>
     <message>
         <location filename="../torrentcreator/createtorrent.ui" line="187"/>
         <source>512 KiB</source>
-        <translation>512 Կբիթ</translation>
+        <translation>512 ԿԲ</translation>
     </message>
     <message>
         <location filename="../torrentcreator/createtorrent.ui" line="192"/>
         <source>1 MiB</source>
-        <translation>1 Մբիթ</translation>
+        <translation>1 ՄԲ</translation>
     </message>
     <message>
         <location filename="../torrentcreator/createtorrent.ui" line="197"/>
         <source>2 MiB</source>
-        <translation>2 Մբիթ</translation>
+        <translation>2 ՄԲ</translation>
     </message>
     <message>
         <location filename="../torrentcreator/createtorrent.ui" line="202"/>
         <source>4 MiB</source>
-        <translation>4 Մբիթ</translation>
+        <translation>4 ՄԲ</translation>
     </message>
     <message>
         <location filename="../torrentcreator/createtorrent.ui" line="210"/>
@@ -4936,76 +4936,76 @@ However, those plugins were disabled.</source>
 <context>
     <name>misc</name>
     <message>
-        <location filename="../misc.cpp" line="83"/>
+        <location filename="../misc.cpp" line="85"/>
         <source>B</source>
         <comment>bytes</comment>
         <translation>Բ</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="84"/>
+        <location filename="../misc.cpp" line="86"/>
         <source>KiB</source>
         <comment>kibibytes (1024 bytes)</comment>
-        <translation>Կբիթ</translation>
-    </message>
-    <message>
-        <location filename="../misc.cpp" line="85"/>
-        <source>MiB</source>
-        <comment>mebibytes (1024 kibibytes)</comment>
-        <translation>Մբիթ</translation>
-    </message>
-    <message>
-        <location filename="../misc.cpp" line="86"/>
-        <source>GiB</source>
-        <comment>gibibytes (1024 mibibytes)</comment>
-        <translation>Գբիթ</translation>
+        <translation>ԿԲ</translation>
     </message>
     <message>
         <location filename="../misc.cpp" line="87"/>
-        <source>TiB</source>
-        <comment>tebibytes (1024 gibibytes)</comment>
-        <translation>Տբիթ</translation>
+        <source>MiB</source>
+        <comment>mebibytes (1024 kibibytes)</comment>
+        <translation>ՄԲ</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="698"/>
+        <location filename="../misc.cpp" line="88"/>
+        <source>GiB</source>
+        <comment>gibibytes (1024 mibibytes)</comment>
+        <translation>ԳԲ</translation>
+    </message>
+    <message>
+        <location filename="../misc.cpp" line="89"/>
+        <source>TiB</source>
+        <comment>tebibytes (1024 gibibytes)</comment>
+        <translation>ՏԲ</translation>
+    </message>
+    <message>
+        <location filename="../misc.cpp" line="721"/>
         <source>%1h %2m</source>
         <comment>e.g: 3hours 5minutes</comment>
         <translation>%1ժ %2ր</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="703"/>
+        <location filename="../misc.cpp" line="726"/>
         <source>%1d %2h</source>
         <comment>e.g: 2days 10hours</comment>
         <translation>%1օր %2ժ</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="527"/>
+        <location filename="../misc.cpp" line="550"/>
         <source>Unknown</source>
         <comment>Unknown (size)</comment>
         <translation>Անհայտ</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="284"/>
+        <location filename="../misc.cpp" line="286"/>
         <source>qBittorrent will shutdown the computer now because all downloads are complete.</source>
         <translation>Բոլոր բեռնումները ավարտվել են։ Համակարգիչը անջատվում է։</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="638"/>
-        <location filename="../misc.cpp" line="643"/>
-        <location filename="../misc.cpp" line="647"/>
-        <location filename="../misc.cpp" line="650"/>
-        <location filename="../misc.cpp" line="655"/>
-        <location filename="../misc.cpp" line="658"/>
+        <location filename="../misc.cpp" line="661"/>
+        <location filename="../misc.cpp" line="666"/>
+        <location filename="../misc.cpp" line="670"/>
+        <location filename="../misc.cpp" line="673"/>
+        <location filename="../misc.cpp" line="678"/>
+        <location filename="../misc.cpp" line="681"/>
         <source>Unknown</source>
         <translation>Անհայտ</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="689"/>
+        <location filename="../misc.cpp" line="712"/>
         <source>&lt; 1m</source>
         <comment>&lt; 1 minute</comment>
         <translation>« 1ր</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="693"/>
+        <location filename="../misc.cpp" line="716"/>
         <source>%1m</source>
         <comment>e.g: 10minutes</comment>
         <translation>%1րոպե</translation>

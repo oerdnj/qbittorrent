@@ -1634,7 +1634,7 @@ Vil du oppdatere qBittorrent til versjon %1?</translation>
     <message>
         <location filename="../preferences/options.ui" line="134"/>
         <source>Web UI</source>
-        <translation>Nettbrukergrensesnitt</translation>
+        <translation>Web UI</translation>
     </message>
     <message>
         <location filename="../preferences/options.ui" line="145"/>
@@ -1728,7 +1728,7 @@ Vil du oppdatere qBittorrent til versjon %1?</translation>
     <message>
         <location filename="../preferences/options.ui" line="1975"/>
         <source>Torrent queueing</source>
-        <translation>Torrent kødanning</translation>
+        <translation>Torrentkø-danning</translation>
     </message>
     <message>
         <location filename="../preferences/options.ui" line="1990"/>
@@ -1789,7 +1789,7 @@ Vil du oppdatere qBittorrent til versjon %1?</translation>
     <message>
         <location filename="../preferences/options.ui" line="1013"/>
         <source>Global maximum number of connections:</source>
-        <translation>Globalt maksimalt antall av tilkoblinger:</translation>
+        <translation>Globalt maksimalt antall tilkoblinger:</translation>
     </message>
     <message>
         <location filename="../preferences/options.ui" line="1056"/>
@@ -2186,31 +2186,31 @@ Vil du oppdatere qBittorrent til versjon %1?</translation>
 <context>
     <name>PreviewSelect</name>
     <message>
-        <location filename="../previewselect.cpp" line="18"/>
+        <location filename="../previewselect.cpp" line="48"/>
         <source>Name</source>
         <translation>Navn</translation>
     </message>
     <message>
-        <location filename="../previewselect.cpp" line="19"/>
+        <location filename="../previewselect.cpp" line="49"/>
         <source>Size</source>
         <translation>Størrelse</translation>
     </message>
     <message>
-        <location filename="../previewselect.cpp" line="20"/>
+        <location filename="../previewselect.cpp" line="50"/>
         <source>Progress</source>
         <translation>Fremdrift</translation>
     </message>
     <message>
-        <location filename="../previewselect.cpp" line="45"/>
-        <location filename="../previewselect.cpp" line="80"/>
-        <location filename="../previewselect.cpp" line="86"/>
+        <location filename="../previewselect.cpp" line="75"/>
+        <location filename="../previewselect.cpp" line="110"/>
+        <location filename="../previewselect.cpp" line="116"/>
         <source>Preview impossible</source>
         <translation>Forhåndsvisning er ikke mulig</translation>
     </message>
     <message>
-        <location filename="../previewselect.cpp" line="45"/>
-        <location filename="../previewselect.cpp" line="80"/>
-        <location filename="../previewselect.cpp" line="86"/>
+        <location filename="../previewselect.cpp" line="75"/>
+        <location filename="../previewselect.cpp" line="110"/>
+        <location filename="../previewselect.cpp" line="116"/>
         <source>Sorry, we can&apos;t preview this file</source>
         <translation>Beklager, vi kan ikke forhåndsvise denne filen</translation>
     </message>
@@ -3560,7 +3560,7 @@ Vennligst installer det manuelt.</translation>
     <message>
         <location filename="../torrentimportdlg.ui" line="50"/>
         <source>Torrent file to import:</source>
-        <translation>Torrent fil til å importere:</translation>
+        <translation>Torrentfil til å importere:</translation>
     </message>
     <message>
         <location filename="../torrentimportdlg.ui" line="66"/>
@@ -3586,12 +3586,12 @@ Vennligst installer det manuelt.</translation>
     <message>
         <location filename="../torrentimportdlg.cpp" line="70"/>
         <source>Torrent file to import</source>
-        <translation>Torrent fil til å importere</translation>
+        <translation>Torrentfil til å importere</translation>
     </message>
     <message>
         <location filename="../torrentimportdlg.cpp" line="70"/>
         <source>Torrent files (*.torrent)</source>
-        <translation>Torrent filer (*.torrent)</translation>
+        <translation>Torrentfiler (*.torrent)</translation>
     </message>
     <message>
         <location filename="../torrentimportdlg.cpp" line="98"/>
@@ -4497,7 +4497,7 @@ Vennligst installer det manuelt.</translation>
     <message>
         <location filename="../torrentcreator/createtorrent.ui" line="43"/>
         <source>Torrent file creation</source>
-        <translation>Torrent filopprettelse</translation>
+        <translation>Torrentfil-opprettelse</translation>
     </message>
     <message>
         <location filename="../torrentcreator/createtorrent.ui" line="65"/>
@@ -4968,76 +4968,76 @@ Disse programtilleggene ble derimot deaktivert.</translation>
 <context>
     <name>misc</name>
     <message>
-        <location filename="../misc.cpp" line="284"/>
+        <location filename="../misc.cpp" line="286"/>
         <source>qBittorrent will shutdown the computer now because all downloads are complete.</source>
         <translation>qBittorrent vil nå slå av maskinen fordi alle nedlastinger er fullførte.</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="83"/>
+        <location filename="../misc.cpp" line="85"/>
         <source>B</source>
         <comment>bytes</comment>
         <translation>B</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="84"/>
+        <location filename="../misc.cpp" line="86"/>
         <source>KiB</source>
         <comment>kibibytes (1024 bytes)</comment>
         <translation>KiB</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="85"/>
+        <location filename="../misc.cpp" line="87"/>
         <source>MiB</source>
         <comment>mebibytes (1024 kibibytes)</comment>
         <translation>MiB</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="86"/>
+        <location filename="../misc.cpp" line="88"/>
         <source>GiB</source>
         <comment>gibibytes (1024 mibibytes)</comment>
         <translation>GiB</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="87"/>
+        <location filename="../misc.cpp" line="89"/>
         <source>TiB</source>
         <comment>tebibytes (1024 gibibytes)</comment>
         <translation>TiB</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="698"/>
+        <location filename="../misc.cpp" line="721"/>
         <source>%1h %2m</source>
         <comment>e.g: 3hours 5minutes</comment>
         <translation>%1t %2m</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="703"/>
+        <location filename="../misc.cpp" line="726"/>
         <source>%1d %2h</source>
         <comment>e.g: 2days 10hours</comment>
         <translation>%1d %2t</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="638"/>
-        <location filename="../misc.cpp" line="643"/>
-        <location filename="../misc.cpp" line="647"/>
-        <location filename="../misc.cpp" line="650"/>
-        <location filename="../misc.cpp" line="655"/>
-        <location filename="../misc.cpp" line="658"/>
+        <location filename="../misc.cpp" line="661"/>
+        <location filename="../misc.cpp" line="666"/>
+        <location filename="../misc.cpp" line="670"/>
+        <location filename="../misc.cpp" line="673"/>
+        <location filename="../misc.cpp" line="678"/>
+        <location filename="../misc.cpp" line="681"/>
         <source>Unknown</source>
         <translation>Ukjent</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="527"/>
+        <location filename="../misc.cpp" line="550"/>
         <source>Unknown</source>
         <comment>Unknown (size)</comment>
         <translation>Ukjent</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="689"/>
+        <location filename="../misc.cpp" line="712"/>
         <source>&lt; 1m</source>
         <comment>&lt; 1 minute</comment>
         <translation>&lt; 1m</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="693"/>
+        <location filename="../misc.cpp" line="716"/>
         <source>%1m</source>
         <comment>e.g: 10minutes</comment>
         <translation>%1m</translation>

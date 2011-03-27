@@ -2069,31 +2069,31 @@ Desexa actualizar o qBittorrent a esta versión %1?</translation>
 <context>
     <name>PreviewSelect</name>
     <message>
-        <location filename="../previewselect.cpp" line="18"/>
+        <location filename="../previewselect.cpp" line="48"/>
         <source>Name</source>
         <translation>Nome</translation>
     </message>
     <message>
-        <location filename="../previewselect.cpp" line="19"/>
+        <location filename="../previewselect.cpp" line="49"/>
         <source>Size</source>
         <translation>Tamaño</translation>
     </message>
     <message>
-        <location filename="../previewselect.cpp" line="20"/>
+        <location filename="../previewselect.cpp" line="50"/>
         <source>Progress</source>
         <translation>Progreso</translation>
     </message>
     <message>
-        <location filename="../previewselect.cpp" line="45"/>
-        <location filename="../previewselect.cpp" line="80"/>
-        <location filename="../previewselect.cpp" line="86"/>
+        <location filename="../previewselect.cpp" line="75"/>
+        <location filename="../previewselect.cpp" line="110"/>
+        <location filename="../previewselect.cpp" line="116"/>
         <source>Preview impossible</source>
         <translation>A previsualización non é posíbel</translation>
     </message>
     <message>
-        <location filename="../previewselect.cpp" line="45"/>
-        <location filename="../previewselect.cpp" line="80"/>
-        <location filename="../previewselect.cpp" line="86"/>
+        <location filename="../previewselect.cpp" line="75"/>
+        <location filename="../previewselect.cpp" line="110"/>
+        <location filename="../previewselect.cpp" line="116"/>
         <source>Sorry, we can&apos;t preview this file</source>
         <translation>Sentímolo, non se pode previsualizar este ficheiro</translation>
     </message>
@@ -4776,76 +4776,76 @@ Con todo, eses plugins desactiváronse.</translation>
 <context>
     <name>misc</name>
     <message>
-        <location filename="../misc.cpp" line="83"/>
+        <location filename="../misc.cpp" line="85"/>
         <source>B</source>
         <comment>bytes</comment>
         <translation>B</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="84"/>
+        <location filename="../misc.cpp" line="86"/>
         <source>KiB</source>
         <comment>kibibytes (1024 bytes)</comment>
         <translation>KiB</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="85"/>
+        <location filename="../misc.cpp" line="87"/>
         <source>MiB</source>
         <comment>mebibytes (1024 kibibytes)</comment>
         <translation>MiB</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="86"/>
+        <location filename="../misc.cpp" line="88"/>
         <source>GiB</source>
         <comment>gibibytes (1024 mibibytes)</comment>
         <translation>GiB</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="87"/>
+        <location filename="../misc.cpp" line="89"/>
         <source>TiB</source>
         <comment>tebibytes (1024 gibibytes)</comment>
         <translation>TiB</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="698"/>
+        <location filename="../misc.cpp" line="721"/>
         <source>%1h %2m</source>
         <comment>e.g: 3hours 5minutes</comment>
         <translation>%1h %2m</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="703"/>
+        <location filename="../misc.cpp" line="726"/>
         <source>%1d %2h</source>
         <comment>e.g: 2days 10hours</comment>
         <translation>%1d %2h</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="527"/>
+        <location filename="../misc.cpp" line="550"/>
         <source>Unknown</source>
         <comment>Unknown (size)</comment>
         <translation>Descoñecido</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="284"/>
+        <location filename="../misc.cpp" line="286"/>
         <source>qBittorrent will shutdown the computer now because all downloads are complete.</source>
         <translation>O qBittorrent vai apagar o computador porque remataron todas as descargas.</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="638"/>
-        <location filename="../misc.cpp" line="643"/>
-        <location filename="../misc.cpp" line="647"/>
-        <location filename="../misc.cpp" line="650"/>
-        <location filename="../misc.cpp" line="655"/>
-        <location filename="../misc.cpp" line="658"/>
+        <location filename="../misc.cpp" line="661"/>
+        <location filename="../misc.cpp" line="666"/>
+        <location filename="../misc.cpp" line="670"/>
+        <location filename="../misc.cpp" line="673"/>
+        <location filename="../misc.cpp" line="678"/>
+        <location filename="../misc.cpp" line="681"/>
         <source>Unknown</source>
         <translation>Descoñecido</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="689"/>
+        <location filename="../misc.cpp" line="712"/>
         <source>&lt; 1m</source>
         <comment>&lt; 1 minute</comment>
         <translation>&lt; 1 m</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="693"/>
+        <location filename="../misc.cpp" line="716"/>
         <source>%1m</source>
         <comment>e.g: 10minutes</comment>
         <translation>%1 m</translation>

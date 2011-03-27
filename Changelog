@@ -1,3 +1,13 @@
+* Sat Mar 26 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.7.1
+    - BUGFIX: Limit file names to 255 bytes to avoid issues on Linux FS
+    - BUGFIX: Fix possible crash when changing the priority of a file
+    - BUGFIX: Magnet link association fix on Win32 (sledgehammer999)
+    - BUGFIX: Easier compilation on Win32 using MinGW (sledgehammer999)
+    - BUGFIX: Sync program preferences before computer shutdown to avoid loss
+    - OTHER: Get rid of QtSVG dependency
+    - I18N: Updated German, Italian, Hungarian, Portuguese, Brazilian, 
+      Spanish and Catalan translations
+
 * Sun Mar 20 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.7.0
     - FEATURE: Added search field for torrent content
     - FEATURE: Added auto-shutdown confirmation dialog
