@@ -163,6 +163,7 @@ Public License can be found in `/usr/share/common-licenses/GPL-2'.
 
 
 Files: src/Icons/skin/qbittorrent_mono.svg
+       src/Icons/skin/qbittorrent_mono_dark.png
 Copyright: Daniel Eguren <deguren@gmail.com>
 License: LGPL-2.1+
 
