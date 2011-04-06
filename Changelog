@@ -1,3 +1,14 @@
+* Tue Apr 5 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.7.2
+    - BUGFIX: Uninhibit system sleep on exit (Vladimir Golovnev)
+    - BUGFIX: Fix error on Windows when qBittorrent is shutdown by session manager (Vladimir Golovnev)
+    - BUGFIX: Fix alternative speeds tooltip
+    - BUGFIX: Parse URLs in torrent description
+    - BUGFIX: Make sure python is not required on startup (Windows)
+    - BUGFIX: Use ConsoleKit to shutdown the system instead of HAL (deprecated)
+    - BUGFIX: use UPower to suspend the system instead of HAL (deprecated)
+    - BUGFIX: Rewrote computer shutdown/suspend code to avoid data loss
+    - OTHER: Get rid of libnotify dependency (Use DBus instead)
+
 * Sat Mar 26 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.7.1
     - BUGFIX: Limit file names to 255 bytes to avoid issues on Linux FS
     - BUGFIX: Fix possible crash when changing the priority of a file

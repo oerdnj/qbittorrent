@@ -3767,6 +3767,14 @@ Vill du installera den nu?</translation>
         <source>Please point to the location of the torrent: %1</source>
         <translation>Peka ut platsen för torrent-filen: %1</translation>
     </message>
+    <message>
+        <source>Invalid torrent file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This is not a valid torrent file.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TorrentModel</name>

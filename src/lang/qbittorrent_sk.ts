@@ -3866,11 +3866,11 @@ Chcete ho nainštalovať teraz?</translation>
     </message>
     <message>
         <source>Invalid torrent file</source>
-        <translation type="obsolete">Neplatný torrent</translation>
+        <translation type="unfinished">Neplatný torrent</translation>
     </message>
     <message>
         <source>This is not a valid torrent file.</source>
-        <translation type="obsolete">Toto nie je platný torrent.</translation>
+        <translation type="unfinished">Toto nie je platný torrent.</translation>
     </message>
 </context>
 <context>

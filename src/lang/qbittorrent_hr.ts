@@ -4304,11 +4304,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Invalid torrent file</source>
-        <translation type="obsolete">Neispravna torrent datoteka</translation>
+        <translation type="unfinished">Neispravna torrent datoteka</translation>
     </message>
     <message>
         <source>This is not a valid torrent file.</source>
-        <translation type="obsolete">Ovo nije ispravna torrent datoteka.</translation>
+        <translation type="unfinished">Ovo nije ispravna torrent datoteka.</translation>
     </message>
 </context>
 <context>

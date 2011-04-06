@@ -3882,11 +3882,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Invalid torrent file</source>
-        <translation type="obsolete">無效的 torrent 檔案</translation>
+        <translation type="unfinished">無效的 torrent 檔案</translation>
     </message>
     <message>
         <source>This is not a valid torrent file.</source>
-        <translation type="obsolete">這是一個無效的 torrent 檔案。</translation>
+        <translation type="unfinished">這是一個無效的 torrent 檔案。</translation>
     </message>
 </context>
 <context>

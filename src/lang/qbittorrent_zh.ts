@@ -3874,11 +3874,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Invalid torrent file</source>
-        <translation type="obsolete">无效torrent文件</translation>
+        <translation type="unfinished">无效torrent文件</translation>
     </message>
     <message>
         <source>This is not a valid torrent file.</source>
-        <translation type="obsolete">这不是有效的torrent文件.</translation>
+        <translation type="unfinished">这不是有效的torrent文件.</translation>
     </message>
 </context>
 <context>
