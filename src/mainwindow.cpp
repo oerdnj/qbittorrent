@@ -27,10 +27,11 @@
  *
  * Contact : chris@qbittorrent.org
  */
-#ifdef WITH_LIBNOTIFY
-#include <glib.h>
-#include <unistd.h>
-#include <libnotify/notify.h>
+
+#include <QtGlobal>
+#if defined(Q_WS_X11) && defined(QT_DBUS_LIB)
+#include <QDBusConnection>
+#include "notifications.h"
 #endif
 
 #include <QFileDialog>
@@ -309,7 +310,7 @@ void MainWindow::deleteBTSession() {
   status_bar->stopTimer();
   QBtSession::drop();
   m_pwr->setActivityState(false);
-  QTimer::singleShot(0, this, SLOT(close()));
+  close();
 }
 
 // Destructor
@@ -365,6 +366,7 @@ MainWindow::~MainWindow() {
   delete switchRSSShortcut;
   IconProvider::drop();
   // Delete QBtSession::instance() object
+  m_pwr->setActivityState(false);
   qDebug("Deleting QBtSession::instance()");
   QBtSession::drop();
   qDebug("Exiting GUI destructor...");
@@ -1096,21 +1098,18 @@ void MainWindow::updateGUI() {
 
 void MainWindow::showNotificationBaloon(QString title, QString msg) const {
   if(!Preferences().useProgramNotification()) return;
-#ifdef WITH_LIBNOTIFY
-  if (notify_init ("summary-body")) {
-    NotifyNotification* notification;
-
-    notification = notify_notification_new (qPrintable(title), qPrintable(msg), "qbittorrent"
-                                        #if !defined(NOTIFY_VERSION_MINOR) || (NOTIFY_VERSION_MAJOR == 0 && NOTIFY_VERSION_MINOR < 7)
-                                            , 0
-                                        #endif
-                                            );
-    gboolean success = notify_notification_show (notification, NULL);
-    g_object_unref(G_OBJECT(notification));
-    notify_uninit ();
-    if(success) {
+#if defined(Q_WS_X11) && defined(QT_DBUS_LIB)
+  org::freedesktop::Notifications notifications("org.freedesktop.Notifications",
+                                                "/org/freedesktop/Notifications",
+                                                QDBusConnection::sessionBus());
+  if(notifications.isValid()) {
+    QVariantMap hints;
+    hints["desktop-entry"] = "qBittorrent";
+    QDBusPendingReply<uint> reply = notifications.Notify("qBittorrent", 0, "qbittorrent", title,
+                                                         msg, QStringList(), hints, -1);
+    reply.waitForFinished();
+    if(!reply.isError())
       return;
-    }
   }
 #endif
   if(systrayIcon && QSystemTrayIcon::supportsMessages())

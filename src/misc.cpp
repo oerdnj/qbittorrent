@@ -209,13 +209,34 @@ long long misc::freeDiskSpaceOnPath(QString path) {
 #ifndef DISABLE_GUI
 void misc::shutdownComputer(bool sleep) {
 #if defined(Q_WS_X11) && defined(QT_DBUS_LIB)
-  // Use dbus to power off the system
-  // dbus-send --print-reply --system --dest=org.freedesktop.Hal /org/freedesktop/Hal/devices/computer org.freedesktop.Hal.Device.SystemPowerManagement.Shutdown
-  QDBusInterface computer("org.freedesktop.Hal", "/org/freedesktop/Hal/devices/computer", "org.freedesktop.Hal.Device.SystemPowerManagement", QDBusConnection::systemBus());
-  if(sleep)
-    computer.call("Suspend", 5);
-  else
-    computer.call("Shutdown");
+  // Use dbus to power off / suspend the system
+  if(sleep) {
+    // Recent systems use UPower
+    QDBusInterface upowerIface("org.freedesktop.UPower", "/org/freedesktop/UPower",
+                               "org.freedesktop.UPower", QDBusConnection::systemBus());
+    if(upowerIface.isValid()) {
+      upowerIface.call("Suspend");
+      return;
+    }
+    // HAL (older systems)
+    QDBusInterface halIface("org.freedesktop.Hal", "/org/freedesktop/Hal/devices/computer",
+                            "org.freedesktop.Hal.Device.SystemPowerManagement",
+                            QDBusConnection::systemBus());
+    halIface.call("Suspend", 5);
+  } else {
+    // Recent systems use ConsoleKit
+    QDBusInterface consolekitIface("org.freedesktop.ConsoleKit", "/org/freedesktop/ConsoleKit/Manager",
+                                   "org.freedesktop.ConsoleKit.Manager", QDBusConnection::systemBus());
+    if(consolekitIface.isValid()) {
+      consolekitIface.call("Stop");
+      return;
+    }
+    // HAL (older systems)
+    QDBusInterface halIface("org.freedesktop.Hal", "/org/freedesktop/Hal/devices/computer",
+                            "org.freedesktop.Hal.Device.SystemPowerManagement",
+                            QDBusConnection::systemBus());
+    halIface.call("Shutdown");
+  }
 #endif
 #ifdef Q_WS_MAC
   AEEventID EventToSend;
@@ -831,4 +852,64 @@ bool misc::removeEmptyFolder(const QString &dirpath)
     return savedir.rmdir(dirname);
   }
   return false;
+}
+
+QString misc::parseHtmlLinks(const QString &raw_text)
+{
+  QString result = raw_text;
+  QRegExp reURL("(\\s|^)"                                     //start with whitespace or beginning of line
+                "("
+                "("                                      //case 1 -- URL with scheme
+                "(http(s?))\\://"                    //start with scheme
+                "([a-zA-Z0-9_-]+\\.)+"               //  domainpart.  at least one of these must exist
+                "([a-zA-Z0-9\\?%=&/_\\.:#;-]+)"      //  everything to 1st non-URI char, must be at least one char after the previous dot (cannot use ".*" because it can be too greedy)
+                ")"
+                "|"
+                "("                                     //case 2a -- no scheme, contains common TLD  example.com
+                "([a-zA-Z0-9_-]+\\.)+"              //  domainpart.  at least one of these must exist
+                "(?="                               //  must be followed by TLD
+                "AERO|aero|"                  //N.B. assertions are non-capturing
+                "ARPA|arpa|"
+                "ASIA|asia|"
+                "BIZ|biz|"
+                "CAT|cat|"
+                "COM|com|"
+                "COOP|coop|"
+                "EDU|edu|"
+                "GOV|gov|"
+                "INFO|info|"
+                "INT|int|"
+                "JOBS|jobs|"
+                "MIL|mil|"
+                "MOBI|mobi|"
+                "MUSEUM|museum|"
+                "NAME|name|"
+                "NET|net|"
+                "ORG|org|"
+                "PRO|pro|"
+                "RO|ro|"
+                "RU|ru|"
+                "TEL|tel|"
+                "TRAVEL|travel"
+                ")"
+                "([a-zA-Z0-9\\?%=&/_\\.:#;-]+)"     //  everything to 1st non-URI char, must be at least one char after the previous dot (cannot use ".*" because it can be too greedy)
+                ")"
+                "|"
+                "("                                     // case 2b no scheme, no TLD, must have at least 2 aphanum strings plus uncommon TLD string  --> del.icio.us
+                "([a-zA-Z0-9_-]+\\.){2,}"           //2 or more domainpart.   --> del.icio.
+                "[a-zA-Z]{2,}"                      //one ab  (2 char or longer) --> us
+                "([a-zA-Z0-9\\?%=&/_\\.:#;-]*)"     // everything to 1st non-URI char, maybe nothing  in case of del.icio.us/path
+                ")"
+                ")"
+                );
+
+
+  // Capture links
+  result.replace(reURL, "\\1<a href=\"\\2\">\\2</a>");
+
+  // Capture links without scheme
+  QRegExp reNoScheme("<a\\s+href=\"(?!http(s?))([a-zA-Z0-9\\?%=&/_\\.-:#]+)\\s*\">");
+  result.replace(reNoScheme, "<a href=\"http://\\1\">");
+
+  return result;
 }

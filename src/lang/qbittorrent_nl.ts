@@ -3641,11 +3641,11 @@ Wilt u het nu installeren?</translation>
     </message>
     <message>
         <source>Invalid torrent file</source>
-        <translation type="obsolete">Ongeldig torrentbestand</translation>
+        <translation type="unfinished">Ongeldig torrentbestand</translation>
     </message>
     <message>
         <source>This is not a valid torrent file.</source>
-        <translation type="obsolete">Dit is geen geldig torrentbestand.</translation>
+        <translation type="unfinished">Dit is geen geldig torrentbestand.</translation>
     </message>
 </context>
 <context>

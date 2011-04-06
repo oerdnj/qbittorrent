@@ -3873,11 +3873,11 @@ Gostaria de instalar agora?</translation>
     </message>
     <message>
         <source>Invalid torrent file</source>
-        <translation type="obsolete">Arquivo torrent inválido</translation>
+        <translation type="unfinished">Arquivo torrent inválido</translation>
     </message>
     <message>
         <source>This is not a valid torrent file.</source>
-        <translation type="obsolete">Este não é um arquivo torrent válido.</translation>
+        <translation type="unfinished">Este não é um arquivo torrent válido.</translation>
     </message>
 </context>
 <context>

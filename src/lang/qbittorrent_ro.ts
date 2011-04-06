@@ -3385,6 +3385,14 @@ Do you want to install it now?</source>
         <source>Please point to the location of the torrent: %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Invalid torrent file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This is not a valid torrent file.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TorrentModel</name>

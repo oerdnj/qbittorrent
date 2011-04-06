@@ -3849,11 +3849,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Invalid torrent file</source>
-        <translation type="obsolete">Nieprawidłowy plik torrent</translation>
+        <translation type="unfinished">Nieprawidłowy plik torrent</translation>
     </message>
     <message>
         <source>This is not a valid torrent file.</source>
-        <translation type="obsolete">To nie jest prawidłowy plik torrent.</translation>
+        <translation type="unfinished">To nie jest prawidłowy plik torrent.</translation>
     </message>
 </context>
 <context>

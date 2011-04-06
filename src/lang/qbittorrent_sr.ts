@@ -3952,11 +3952,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Invalid torrent file</source>
-        <translation type="obsolete">Неисправна торент датотека</translation>
+        <translation type="unfinished">Неисправна торент датотека</translation>
     </message>
     <message>
         <source>This is not a valid torrent file.</source>
-        <translation type="obsolete">Ово није валидан торент фајл.</translation>
+        <translation type="unfinished">Ово није валидан торент фајл.</translation>
     </message>
 </context>
 <context>

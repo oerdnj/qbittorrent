@@ -3931,11 +3931,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Invalid torrent file</source>
-        <translation type="obsolete">Неправильный торрент файл</translation>
+        <translation type="unfinished">Неправильный торрент файл</translation>
     </message>
     <message>
         <source>This is not a valid torrent file.</source>
-        <translation type="obsolete">Это не правильный торрент файл.</translation>
+        <translation type="unfinished">Это не правильный торрент файл.</translation>
     </message>
 </context>
 <context>
