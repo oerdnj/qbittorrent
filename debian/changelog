@@ -2,6 +2,7 @@ qbittorrent (2.7.3-1) unstable; urgency=low
 
   * New upstream version.
     - debian/copyright: updated with a notice about the btdigg search engine.
+  * debian/control: bump up Standards-Version to 3.9.2.
   * Upload to unstable.
 
  -- Cristian Greco <cristian@regolo.cc>  Wed, 11 May 2011 14:18:07 +0200
