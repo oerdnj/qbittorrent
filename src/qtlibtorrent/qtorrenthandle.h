@@ -87,7 +87,6 @@ public:
   libtorrent::size_type filesize_at(unsigned int index) const;
   QString filepath_at(unsigned int index) const;
   QString orig_filepath_at(unsigned int index) const;
-  QString filepath(const libtorrent::file_entry &f) const;
   libtorrent::torrent_status::state_t state() const;
   QString creator() const;
   QString comment() const;
@@ -98,13 +97,14 @@ public:
   libtorrent::size_type all_time_upload() const;
   libtorrent::size_type all_time_download() const;
   libtorrent::size_type total_done() const;
-  QStringList files_path() const;
-  QStringList uneeded_files_path() const;
+  QStringList absolute_files_path() const;
+  QStringList absolute_files_path_uneeded() const;
   bool has_missing_files() const;
   int num_uploads() const;
   bool is_seed() const;
   bool is_checking() const;
   bool is_auto_managed() const;
+  bool is_sequential_download() const;
   qlonglong active_time() const;
   qlonglong seeding_time() const;
   QString creation_date() const;
@@ -117,6 +117,9 @@ public:
   bool has_error() const;
   QString error() const;
   void downloading_pieces(libtorrent::bitfield &bf) const;
+  bool has_metadata() const;
+  float distributed_copies() const;
+  void file_progress(std::vector<libtorrent::size_type>& fp) const;
 
   //
   // Setters

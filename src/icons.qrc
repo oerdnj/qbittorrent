@@ -9,6 +9,7 @@
   <file>Icons/magnet.png</file>
   <file>Icons/slow.png</file>
   <file>Icons/L.gif</file>
+  <file>Icons/skin/qbittorrent_mono_light.png</file>
   <file>Icons/skin/seeding.png</file>
   <file>Icons/skin/splash.png</file>
   <file>Icons/skin/tabs.gif</file>
@@ -291,6 +292,7 @@
   <file>Icons/oxygen/edit-copy.png</file>
   <file>Icons/oxygen/folder-documents.png</file>
   <file>Icons/oxygen/document-edit.png</file>
+  <file>Icons/oxygen/security-low.png</file>
   <file>Icons/oxygen/insert-link.png</file>
   <file>Icons/oxygen/network-wired.png</file>
   <file>Icons/oxygen/mail-mark-read.png</file>
@@ -314,9 +316,11 @@
   <file>Icons/oxygen/edit-delete.png</file>
   <file>Icons/oxygen/chronometer.png</file>
   <file>Icons/oxygen/dialog-cancel.png</file>
+  <file>Icons/oxygen/task-attention.png</file>
   <file>Icons/oxygen/preferences-system-network.png</file>
   <file>Icons/oxygen/document-properties.png</file>
   <file>Icons/oxygen/user-group-new.png</file>
+  <file>Icons/oxygen/security-high.png</file>
   <file>Icons/oxygen/network-server.png</file>
   <file>Icons/oxygen/wallet-open.png</file>
   <file>Icons/oxygen/preferences-web-browser-cookies.png</file>

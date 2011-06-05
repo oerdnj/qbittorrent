@@ -62,18 +62,30 @@ AutomatedRssDownloader::AutomatedRssDownloader(QWidget *parent) :
   ui->hsplitter->setCollapsible(0, false);
   ui->hsplitter->setCollapsible(1, false);
   ui->hsplitter->setCollapsible(2, true); // Only the preview list is collapsible
-
-  connect(ui->listRules, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(displayRulesListMenu(const QPoint&)));
+  bool ok; Q_UNUSED(ok);
+  ok = connect(ui->checkRegex, SIGNAL(toggled(bool)), SLOT(updateFieldsToolTips(bool)));
+  Q_ASSERT(ok);
+  ok = connect(ui->listRules, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(displayRulesListMenu(const QPoint&)));
+  Q_ASSERT(ok);
   m_ruleList = RssDownloadRuleList::instance();
   initLabelCombobox();
   loadFeedList();
   loadSettings();
-  connect(ui->listRules, SIGNAL(itemSelectionChanged()), SLOT(updateRuleDefinitionBox()));
-  connect(ui->listRules, SIGNAL(itemSelectionChanged()), SLOT(updateFeedList()));
-  connect(ui->listFeeds, SIGNAL(itemChanged(QListWidgetItem*)), SLOT(handleFeedCheckStateChange(QListWidgetItem*)));
+  ok = connect(ui->listRules, SIGNAL(itemSelectionChanged()), SLOT(updateRuleDefinitionBox()));
+  Q_ASSERT(ok);
+  ok = connect(ui->listRules, SIGNAL(itemSelectionChanged()), SLOT(updateFeedList()));
+  Q_ASSERT(ok);
+  ok = connect(ui->listFeeds, SIGNAL(itemChanged(QListWidgetItem*)), SLOT(handleFeedCheckStateChange(QListWidgetItem*)));
+  Q_ASSERT(ok);
   // Update matching articles when necessary
-  connect(ui->lineContains, SIGNAL(textEdited(QString)), SLOT(updateMatchingArticles()));
-  connect(ui->lineNotContains, SIGNAL(textEdited(QString)), SLOT(updateMatchingArticles()));
+  ok = connect(ui->lineContains, SIGNAL(textEdited(QString)), SLOT(updateMatchingArticles()));
+  Q_ASSERT(ok);
+  ok = connect(ui->lineContains, SIGNAL(textEdited(QString)), SLOT(updateMustLineValidity()));
+  Q_ASSERT(ok);
+  ok = connect(ui->lineNotContains, SIGNAL(textEdited(QString)), SLOT(updateMatchingArticles()));
+  Q_ASSERT(ok);
+  ok = connect(ui->lineNotContains, SIGNAL(textEdited(QString)), SLOT(updateMustNotLineValidity()));
+  Q_ASSERT(ok);
   updateRuleDefinitionBox();
   updateFeedList();
 }
@@ -197,17 +209,21 @@ void AutomatedRssDownloader::updateRuleDefinitionBox()
       ui->lineNotContains->setText(rule.mustNotContain());
       ui->saveDiffDir_check->setChecked(!rule.savePath().isEmpty());
       ui->lineSavePath->setText(rule.savePath());
+      ui->checkRegex->setChecked(rule.useRegex());
       if(rule.label().isEmpty()) {
         ui->comboLabel->setCurrentIndex(-1);
         ui->comboLabel->clearEditText();
       } else {
         ui->comboLabel->setCurrentIndex(ui->comboLabel->findText(rule.label()));
       }
+      updateMustLineValidity();
+      updateMustNotLineValidity();
     } else {
       // New rule
       clearRuleDefinitionBox();
       ui->lineContains->setText(selection.first()->text());
     }
+    updateFieldsToolTips(ui->checkRegex->isChecked());
     // Enable
     ui->ruleDefBox->setEnabled(true);
   } else {
@@ -225,6 +241,10 @@ void AutomatedRssDownloader::clearRuleDefinitionBox()
   ui->saveDiffDir_check->setChecked(false);
   ui->lineSavePath->clear();
   ui->comboLabel->clearEditText();
+  ui->checkRegex->setChecked(false);
+  updateFieldsToolTips(ui->checkRegex->isChecked());
+  updateMustLineValidity();
+  updateMustNotLineValidity();
 }
 
 RssDownloadRule AutomatedRssDownloader::getCurrentRule() const
@@ -261,6 +281,7 @@ void AutomatedRssDownloader::saveEditedRule()
     rule.setEnabled(false);
   else
     rule.setEnabled(true);
+  rule.setUseRegex(ui->checkRegex->isChecked());
   rule.setMustContain(ui->lineContains->text());
   rule.setMustNotContain(ui->lineNotContains->text());
   if(ui->saveDiffDir_check->isChecked())
@@ -491,6 +512,71 @@ void AutomatedRssDownloader::addFeedArticlesToTree(const RssFeed *feed, const QS
     treeFeedItem->addChild(item);
   }
   ui->treeMatchingArticles->expandItem(treeFeedItem);
+}
+
+void AutomatedRssDownloader::updateFieldsToolTips(bool regex)
+{
+  QString tip;
+  if(regex) {
+    tip = tr("Regex mode: use Perl-like regular expressions");
+    ui->lineContains->setToolTip(tip);
+    ui->lineNotContains->setToolTip(tip);
+  } else {
+    tip = tr("Wildcard mode: you can use<ul><li>? to match any single character</li><li>* to match zero or more of any characters</li><li>Whitespaces count as AND operators</li></ul>");
+    ui->lineContains->setToolTip(tip);
+    tip = tr("Wildcard mode: you can use<ul><li>? to match any single character</li><li>* to match zero or more of any characters</li><li>| is used as OR operator</li></ul>");
+    ui->lineNotContains->setToolTip(tip);
+  }
+}
+
+void AutomatedRssDownloader::updateMustLineValidity()
+{
+  const QString text = ui->lineContains->text();
+  bool valid = true;
+  QStringList tokens;
+  if(ui->checkRegex->isChecked())
+    tokens << text;
+  else
+    tokens << text.split(" ");
+  foreach(const QString &token, tokens) {
+    QRegExp reg(token, Qt::CaseInsensitive, ui->checkRegex->isChecked() ? QRegExp::RegExp : QRegExp::Wildcard);
+    if(!reg.isValid()) {
+      valid = false;
+      break;
+    }
+  }
+  if(valid) {
+    ui->lineContains->setStyleSheet("");
+    ui->lbl_must_stat->setPixmap(QPixmap());
+  } else {
+    ui->lineContains->setStyleSheet("QLineEdit { color: #ff0000; }");
+    ui->lbl_must_stat->setPixmap(IconProvider::instance()->getIcon("task-attention").pixmap(16, 16));
+  }
+}
+
+void AutomatedRssDownloader::updateMustNotLineValidity()
+{
+  const QString text = ui->lineNotContains->text();
+  bool valid = true;
+  QStringList tokens;
+  if(ui->checkRegex->isChecked())
+    tokens << text;
+  else
+    tokens << text.split(QRegExp("[\\s|]"));
+  foreach(const QString &token, tokens) {
+    QRegExp reg(token, Qt::CaseInsensitive, ui->checkRegex->isChecked() ? QRegExp::RegExp : QRegExp::Wildcard);
+    if(!reg.isValid()) {
+      valid = false;
+      break;
+    }
+  }
+  if(valid) {
+    ui->lineNotContains->setStyleSheet("");
+    ui->lbl_mustnot_stat->setPixmap(QPixmap());
+  } else {
+    ui->lineNotContains->setStyleSheet("QLineEdit { color: #ff0000; }");
+    ui->lbl_mustnot_stat->setPixmap(IconProvider::instance()->getIcon("task-attention").pixmap(16, 16));
+  }
 }
 
 

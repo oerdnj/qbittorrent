@@ -63,7 +63,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;A Bittorrent client programmed in C++, based on Qt4 toolkit &lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;and libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2010 Christophe Dumez&lt;br /&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Home Page:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Forum:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;IRC:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; #qbittorrent on Freenode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -71,16 +71,32 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;и libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2010 Christophe Dumez&lt;br /&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Домашняя страница:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Форум:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;IRC:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; #qbittorrent на Freenode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
+    <message utf8="true">
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;An advanced BitTorrent client programmed in C++, based on Qt4 toolkit and libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2011 Christophe Dumez&lt;br /&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Home Page:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans&apos;; text-decoration: underline; color:#0057ae;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Bug Tracker:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://bugs.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://bugs.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Forum:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans&apos;; text-decoration: underline; color:#0057ae;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;IRC:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; #qbittorrent on Freenode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;Продвинутый BitTorrent клиент, написанный на C++ с использованием библиотек Qt4 и libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2011 Christophe Dumez&lt;br /&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Домашняя страница:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans&apos;; text-decoration: underline; color:#0057ae;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Bug Tracker:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://bugs.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://bugs.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Форум:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans&apos;; text-decoration: underline; color:#0057ae;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;IRC:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; #qbittorrent на Freenode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
 </context>
 <context>
     <name>AdvancedSettings</name>
     <message>
         <source>Property</source>
-        <translation>Свойство</translation>
+        <translation type="obsolete">Свойство</translation>
     </message>
     <message>
         <source>Value</source>
-        <translation>Значение</translation>
+        <translation type="obsolete">Значение</translation>
     </message>
     <message>
         <source>Ignore transfer limits on local network</source>
@@ -88,7 +104,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Include TCP/IP overhead in transfer limits</source>
-        <translation>Включать TCP/IP заголовки в лимит передачи</translation>
+        <translation type="obsolete">Включать TCP/IP заголовки в лимит передачи</translation>
     </message>
     <message>
         <source>Disk write cache size</source>
@@ -179,6 +195,19 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Confirm torrent deletion</source>
         <translation>Подтверждать удаление торрента</translation>
+    </message>
+    <message>
+        <source>Setting</source>
+        <translation>Параметр</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <comment>Value set for this setting</comment>
+        <translation>Значение</translation>
+    </message>
+    <message>
+        <source>Exchange trackers with other peers</source>
+        <translation>Обмениваться трекерами с другими пирами</translation>
     </message>
 </context>
 <context>
@@ -338,6 +367,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Please type the new rule name</source>
         <translation>Введите новое имя правила</translation>
+    </message>
+    <message>
+        <source>Use regular expressions</source>
+        <translation>Использовать регулярные выражения</translation>
+    </message>
+    <message>
+        <source>Regex mode: use Perl-like regular expressions</source>
+        <translation>Режим Regex: использовать регулярные выражения в стиле Perl</translation>
+    </message>
+    <message>
+        <source>Wildcard mode: you can use&lt;ul&gt;&lt;li&gt;? to match any single character&lt;/li&gt;&lt;li&gt;* to match zero or more of any characters&lt;/li&gt;&lt;li&gt;Whitespaces count as AND operators&lt;/li&gt;&lt;/ul&gt;</source>
+        <translation>Режим Wildcard: можно использовать&lt;ul&gt;&lt;li&gt;? для замещения любого одного символа&lt;/li&gt;&lt;li&gt;* для замещения нуля и более любых символов&lt;/li&gt;&lt;li&gt;Пробелы действуют как операторы AND&lt;/li&gt;&lt;/ul&gt;</translation>
+    </message>
+    <message>
+        <source>Wildcard mode: you can use&lt;ul&gt;&lt;li&gt;? to match any single character&lt;/li&gt;&lt;li&gt;* to match zero or more of any characters&lt;/li&gt;&lt;li&gt;| is used as OR operator&lt;/li&gt;&lt;/ul&gt;</source>
+        <translation>Режим Wildcard: можно использовать&lt;ul&gt;&lt;li&gt;? для замещения любого одного символа&lt;/li&gt;&lt;li&gt;* для замещения нуля и более любых символов&lt;/li&gt;&lt;li&gt;| используется как оператор OR&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
 </context>
 <context>
@@ -591,6 +636,49 @@ You should get this information from your Web browser preferences.</source>
         <translatorcomment>&apos;из настроек&apos; - в firefox 3.6.4</translatorcomment>
         <translation>Частые ключи для cookies это : &apos;%1&apos;, &apos;%2&apos;.
 Вам следует взять эту информацию из настроек вашего веб-браузера.</translation>
+    </message>
+</context>
+<context>
+    <name>DNSUpdater</name>
+    <message>
+        <source>Your dynamic DNS was successfuly updated.</source>
+        <translation>Ваш динамический DNS адрес был успешно обновлён.</translation>
+    </message>
+    <message>
+        <source>Dynamic DNS error: The service is temporarily unavailable, it will be retried in 30 minutes.</source>
+        <translation>Ошибка Dynamic DNS: Служба временно не доступна. Попробую соединиться через 30 минут.</translation>
+    </message>
+    <message>
+        <source>Dynamic DNS error: hostname supplied does not exist under specified account.</source>
+        <translation>Ошибка Dynamic DNS:предоставленное  имя хоста не существует в указанной учётной записи.</translation>
+    </message>
+    <message>
+        <source>Dynamic DNS error: Invalid username/password.</source>
+        <translation>Ошибка Dynamic DNS: Неверное имя пользователя/пароль.</translation>
+    </message>
+    <message>
+        <source>Dynamic DNS error: qBittorrent was blacklisted by the service, please report a bug at http://bugs.qbittorrent.org.</source>
+        <translation>Ошибка Dynamic DNS: qBittorrent внесён службой в чёрный список. Пожалуйста, сообщите об ошибке на  http://bugs.qbittorrent.org.</translation>
+    </message>
+    <message>
+        <source>Dynamic DNS error: %1 was returned by the service, please report a bug at http://bugs.qbittorrent.org.</source>
+        <translation>Ошибка Dynamic DNS: %1 было возвращено службой. Пожалуйста, сообщите об ошибке на  http://bugs.qbittorrent.org.</translation>
+    </message>
+    <message>
+        <source>Dynamic DNS error: Your username was blocked due to abuse.</source>
+        <translation>Ошибка Dynamic DNS: Ваше имя пользователя было блокировано из-за злоупотребления.</translation>
+    </message>
+    <message>
+        <source>Dynamic DNS error: supplied domain name is invalid.</source>
+        <translation>Ошибка Dynamic DNS: предоставленное доменное имя неверное.</translation>
+    </message>
+    <message>
+        <source>Dynamic DNS error: supplied username is too short.</source>
+        <translation>Ошибка Dynamic DNS: предоставленное имя пользователя слишком короткое.</translation>
+    </message>
+    <message>
+        <source>Dynamic DNS error: supplied password is too short.</source>
+        <translation>Ошибка Dynamic DNS: предоставленный пароль слишком короткий.</translation>
     </message>
 </context>
 <context>
@@ -1539,6 +1627,22 @@ Would you like to update qBittorrent to version %1?</source>
         <source>qBittorrent client is not reachable</source>
         <translation>клиент qBittorrent недоступен</translation>
     </message>
+    <message>
+        <source>HTTP Server</source>
+        <translation>HTTP сервер</translation>
+    </message>
+    <message>
+        <source>Torrent path</source>
+        <translation>Путь торрента</translation>
+    </message>
+    <message>
+        <source>Torrent name</source>
+        <translation>Имя торрента</translation>
+    </message>
+    <message>
+        <source>The following parameters are supported:</source>
+        <translation>Поддерживаются следующие параметры:</translation>
+    </message>
 </context>
 <context>
     <name>LegalNotice</name>
@@ -2127,6 +2231,10 @@ Would you like to update qBittorrent to version %1?</source>
         <source>Copy IP</source>
         <translation>Копировать IP</translation>
     </message>
+    <message>
+        <source>Connection</source>
+        <translation>Соединение</translation>
+    </message>
 </context>
 <context>
     <name>Preferences</name>
@@ -2170,7 +2278,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Transfer list</source>
-        <translation>Список передач</translation>
+        <translation type="obsolete">Список передач</translation>
     </message>
     <message>
         <source>Use alternating row colors</source>
@@ -2179,11 +2287,11 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>File system</source>
-        <translation>Файловая система</translation>
+        <translation type="obsolete">Файловая система</translation>
     </message>
     <message>
         <source>Torrent queueing</source>
-        <translation>Очереди Torrent</translation>
+        <translation type="obsolete">Очереди Torrent</translation>
     </message>
     <message>
         <source>Maximum active downloads:</source>
@@ -2207,7 +2315,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Listening port</source>
-        <translation>Прослушивание порта</translation>
+        <translation type="obsolete">Прослушивание порта</translation>
     </message>
     <message>
         <source>Port used for incoming connections:</source>
@@ -2227,7 +2335,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Connections limit</source>
-        <translation>Ограничение соединений</translation>
+        <translation type="obsolete">Ограничение соединений</translation>
     </message>
     <message>
         <source>Global maximum number of connections:</source>
@@ -2323,7 +2431,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>HTTP Server</source>
-        <translation>HTTP сервер</translation>
+        <translation type="obsolete">HTTP сервер</translation>
     </message>
     <message>
         <source>Filter path (.dat, .p2p, .p2b):</source>
@@ -2352,11 +2460,11 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Global speed limits</source>
-        <translation>Глобальные лимиты скорости</translation>
+        <translation type="obsolete">Глобальные лимиты скорости</translation>
     </message>
     <message>
         <source>Alternative global speed limits</source>
-        <translation>Альтернативные лимиты скорости</translation>
+        <translation type="obsolete">Альтернативные лимиты скорости</translation>
     </message>
     <message>
         <source>to</source>
@@ -2438,7 +2546,7 @@ Would you like to update qBittorrent to version %1?</source>
     <message>
         <source>Show qBittorrent icon in notification area</source>
         <translatorcomment>А может лучше &apos;в трее&apos;?</translatorcomment>
-        <translation>Показывать значок qBittorrent в области уведомлений</translation>
+        <translation type="obsolete">Показывать значок qBittorrent в области уведомлений</translation>
     </message>
     <message>
         <source>Minimize qBittorrent to notification area</source>
@@ -2476,7 +2584,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Append .!qB extension to incomplete files&apos; names</source>
-        <translation>Добавить расширение .!qB к незаконченым файлам</translation>
+        <translation type="obsolete">Добавить расширение .!qB к незаконченым файлам</translation>
     </message>
     <message>
         <source>Automatically add torrents from:</source>
@@ -2493,7 +2601,7 @@ Would you like to update qBittorrent to version %1?</source>
     <message>
         <source>Schedule the use of alternative speed limits</source>
         <translatorcomment>Или &apos;для использования&apos;?</translatorcomment>
-        <translation>Расписание использования альтернативных лимитов скорости</translation>
+        <translation type="obsolete">Расписание использования альтернативных лимитов скорости</translation>
     </message>
     <message>
         <source>from</source>
@@ -2519,7 +2627,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Share ratio limiting</source>
-        <translation>Ограничение коэффициента раздачи</translation>
+        <translation type="obsolete">Ограничение коэффициента раздачи</translation>
     </message>
     <message>
         <source>Seed torrents until their ratio reaches</source>
@@ -2565,7 +2673,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Proxy server</source>
-        <translation>Прокси сервер</translation>
+        <translation type="obsolete">Прокси сервер</translation>
     </message>
     <message>
         <source>BitTorrent</source>
@@ -2649,11 +2757,11 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Ask for program exit confirmation</source>
-        <translation>Запрашивать подтверждение завершени программы</translation>
+        <translation>Запрашивать подтверждение завершения программы</translation>
     </message>
     <message>
         <source>Use monochrome system tray icon (requires restart)</source>
-        <translation>Использовать монохромную иконку в трее (требуется перезапуск)</translation>
+        <translation type="obsolete">Использовать монохромную иконку в трее (требуется перезапуск)</translation>
     </message>
     <message>
         <source>The following parameters are supported:
@@ -2666,6 +2774,150 @@ Would you like to update qBittorrent to version %1?</source>
 &lt;li&gt;%f: Путь торрента&lt;/li&gt;
 &lt;li&gt;%n: Имя торрента&lt;/li&gt;
 &lt;/ul&gt;</translation>
+    </message>
+    <message>
+        <source>Tray icon style:</source>
+        <translation>Стиль иконки в трее:</translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation>Обычная</translation>
+    </message>
+    <message>
+        <source>Monochrome (Dark theme)</source>
+        <translation>Монохромная (Тёмная тема)</translation>
+    </message>
+    <message>
+        <source>Monochrome (Light theme)</source>
+        <translation>Монохромная (Светлая тема)</translation>
+    </message>
+    <message>
+        <source>This server requires a secure connection (SSL)</source>
+        <translation>Этот сервер требует защищённое соединение (SSL)</translation>
+    </message>
+    <message>
+        <source>User Interface Language:</source>
+        <translation>Язык пользовательского интерфейса:</translation>
+    </message>
+    <message>
+        <source>Transfer List</source>
+        <translation>Список передач</translation>
+    </message>
+    <message>
+        <source>Show qBittorrent in notification area</source>
+        <translation>Показывать qBittorrent в области уведомлений</translation>
+    </message>
+    <message>
+        <source>Hard Disk</source>
+        <translation>Жёсткий диск</translation>
+    </message>
+    <message>
+        <source>Listening Port</source>
+        <translation>Прослушиваемый порт</translation>
+    </message>
+    <message>
+        <source>Connections Limits</source>
+        <translation>Ограничения соединений</translation>
+    </message>
+    <message>
+        <source>Proxy Server</source>
+        <translation>Прокси сервер</translation>
+    </message>
+    <message>
+        <source>Global Speed Limits</source>
+        <translation type="obsolete">Глобальные ограничения скорости</translation>
+    </message>
+    <message>
+        <source>Alternative Global Speed Limits</source>
+        <translation type="obsolete">Альтернативные ограничения скорости</translation>
+    </message>
+    <message>
+        <source>Torrent Queueing</source>
+        <translation>Очерёдность торрентов</translation>
+    </message>
+    <message>
+        <source>Share Ratio Limiting</source>
+        <translation>Ограничение коэффициента раздачи</translation>
+    </message>
+    <message>
+        <source>Use UPnP / NAT-PMP to forward the port from my router</source>
+        <translation>Использовать UPnP / NAT-PMP для перенаправления порта через мой маршрутизатор</translation>
+    </message>
+    <message>
+        <source>Update my dynamic domain name</source>
+        <translation>Обновлять моё динамическое доменное имя</translation>
+    </message>
+    <message>
+        <source>Service:</source>
+        <translation>Служба:</translation>
+    </message>
+    <message>
+        <source>Register</source>
+        <translation>Регистрация</translation>
+    </message>
+    <message>
+        <source>Domain name:</source>
+        <translation>Доменное имя:</translation>
+    </message>
+    <message>
+        <source>Global Rate Limits</source>
+        <translation>Глобальные ограничения скорости</translation>
+    </message>
+    <message>
+        <source>Apply rate limit to uTP connections</source>
+        <translation>Применять ограничение скорости к uTP соединениям</translation>
+    </message>
+    <message>
+        <source>Apply rate limit to transport overhead</source>
+        <translation>Применять ограничение скорости к накладным расходам передачи</translation>
+    </message>
+    <message>
+        <source>Alternative Global Rate Limits</source>
+        <translation>Альтернативные ограничения скорости</translation>
+    </message>
+    <message>
+        <source>Schedule the use of alternative rate limits</source>
+        <translation>Запланировать использование альтернативных ограничений скорости</translation>
+    </message>
+    <message>
+        <source>Enable bandwidth management (uTP)</source>
+        <translation>Включить управление полосой пропускания (uTP)</translation>
+    </message>
+    <message>
+        <source>Otherwise, the proxy server is only used for tracker connections</source>
+        <translation>Иначе прокси сервер используется только для соединения с трекерами</translation>
+    </message>
+    <message>
+        <source>Use proxy for peer connections</source>
+        <translation>Использовать прокси для соединения с пирами</translation>
+    </message>
+    <message>
+        <source>Append .!qB extension to incomplete files</source>
+        <translation>Добавить расширение .!qB к незаконченным файлам</translation>
+    </message>
+    <message>
+        <source>Use HTTPS instead of HTTP</source>
+        <translation>Использовать HTTPS вместо HTTP</translation>
+    </message>
+    <message>
+        <source>Import SSL Certificate</source>
+        <translation>Импортировать сертификат SSL</translation>
+    </message>
+    <message>
+        <source>Import SSL Key</source>
+        <translation>Импортировать ключ SSL</translation>
+    </message>
+    <message>
+        <source>Certificate:</source>
+        <translation>Сертификат:</translation>
+    </message>
+    <message>
+        <source>Key:</source>
+        <translation>Ключ:</translation>
+    </message>
+    <message>
+        <source>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</source>
+        <translation>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Информация о сертификатах&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -3909,7 +4161,7 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Torrent file to import</source>
-        <translation>Файл торрент для импорта</translation>
+        <translation>Торрент файл для импорта</translation>
     </message>
     <message>
         <source>Torrent files (*.torrent)</source>
@@ -3931,11 +4183,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Invalid torrent file</source>
-        <translation type="unfinished">Неправильный торрент файл</translation>
+        <translation>Неправильный торрент файл</translation>
     </message>
     <message>
         <source>This is not a valid torrent file.</source>
-        <translation type="unfinished">Это не правильный торрент файл.</translation>
+        <translation>Это не правильный торрент файл.</translation>
     </message>
 </context>
 <context>
@@ -4498,7 +4750,7 @@ Do you want to install it now?</source>
     <message>
         <source>buttonGroup</source>
         <translatorcomment>Do you really need to translate it?</translatorcomment>
-        <translation type="unfinished">buttonGroup</translation>
+        <translation>buttonGroup</translation>
     </message>
     <message>
         <source>Set no ratio limit</source>
@@ -5267,6 +5519,30 @@ However, those plugins were disabled.</source>
     <message>
         <source>Successfully refreshed</source>
         <translation>Успешно обновлён</translation>
+    </message>
+    <message>
+        <source>SSL Certificate (*.crt *.pem)</source>
+        <translation>SSL сертификат (*.crt *.pem)</translation>
+    </message>
+    <message>
+        <source>SSL Key (*.key *.pem)</source>
+        <translation>SSL ключ (*.key *.pem)</translation>
+    </message>
+    <message>
+        <source>Invalid key</source>
+        <translation>Недействительный ключ</translation>
+    </message>
+    <message>
+        <source>This is not a valid SSL key.</source>
+        <translation>Это не действительный SSL ключ.</translation>
+    </message>
+    <message>
+        <source>Invalid certificate</source>
+        <translation>Недействительный сертификат</translation>
+    </message>
+    <message>
+        <source>This is not a valid SSL certificate.</source>
+        <translation>Это не действительный SSL сертификат.</translation>
     </message>
 </context>
 <context>

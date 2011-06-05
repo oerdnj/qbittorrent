@@ -57,20 +57,21 @@ PeerListWidget::PeerListWidget(PropertiesWidget *parent): QTreeView(parent), pro
   setAllColumnsShowFocus(true);
   setSelectionMode(QAbstractItemView::ExtendedSelection);
   // List Model
-  listModel = new QStandardItemModel(0, 8);
-  listModel->setHeaderData(IP, Qt::Horizontal, tr("IP"));
-  listModel->setHeaderData(CLIENT, Qt::Horizontal, tr("Client", "i.e.: Client application"));
-  listModel->setHeaderData(PROGRESS, Qt::Horizontal, tr("Progress", "i.e: % downloaded"));
-  listModel->setHeaderData(DOWN_SPEED, Qt::Horizontal, tr("Down Speed", "i.e: Download speed"));
-  listModel->setHeaderData(UP_SPEED, Qt::Horizontal, tr("Up Speed", "i.e: Upload speed"));
-  listModel->setHeaderData(TOT_DOWN, Qt::Horizontal, tr("Downloaded", "i.e: total data downloaded"));
-  listModel->setHeaderData(TOT_UP, Qt::Horizontal, tr("Uploaded", "i.e: total data uploaded"));
+  listModel = new QStandardItemModel(0, PeerListDelegate::COL_COUNT);
+  listModel->setHeaderData(PeerListDelegate::IP, Qt::Horizontal, tr("IP"));
+  listModel->setHeaderData(PeerListDelegate::CONNECTION, Qt::Horizontal, tr("Connection"));
+  listModel->setHeaderData(PeerListDelegate::CLIENT, Qt::Horizontal, tr("Client", "i.e.: Client application"));
+  listModel->setHeaderData(PeerListDelegate::PROGRESS, Qt::Horizontal, tr("Progress", "i.e: % downloaded"));
+  listModel->setHeaderData(PeerListDelegate::DOWN_SPEED, Qt::Horizontal, tr("Down Speed", "i.e: Download speed"));
+  listModel->setHeaderData(PeerListDelegate::UP_SPEED, Qt::Horizontal, tr("Up Speed", "i.e: Upload speed"));
+  listModel->setHeaderData(PeerListDelegate::TOT_DOWN, Qt::Horizontal, tr("Downloaded", "i.e: total data downloaded"));
+  listModel->setHeaderData(PeerListDelegate::TOT_UP, Qt::Horizontal, tr("Uploaded", "i.e: total data uploaded"));
   // Proxy model to support sorting without actually altering the underlying model
   proxyModel = new QSortFilterProxyModel();
   proxyModel->setDynamicSortFilter(true);
   proxyModel->setSourceModel(listModel);
   setModel(proxyModel);
-  hideColumn(IP_HIDDEN);
+  hideColumn(PeerListDelegate::IP_HIDDEN);
   // Context menu
   setContextMenuPolicy(Qt::CustomContextMenu);
   connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showPeerListMenu(QPoint)));
@@ -129,7 +130,7 @@ void PeerListWidget::showPeerListMenu(QPoint) {
   QStringList selectedPeerIPs;
   foreach(const QModelIndex &index, selectedIndexes) {
     int row = proxyModel->mapToSource(index).row();
-    QString myip = listModel->data(listModel->index(row, IP_HIDDEN)).toString();
+    QString myip = listModel->data(listModel->index(row, PeerListDelegate::IP_HIDDEN)).toString();
     selectedPeerIPs << myip;
   }
   // Add Peer Action
@@ -206,10 +207,18 @@ void PeerListWidget::banSelectedPeers(QStringList peer_ips) {
 }
 
 void PeerListWidget::limitUpRateSelectedPeers(QStringList peer_ips) {
+  if(peer_ips.empty()) return;
   QTorrentHandle h = properties->getCurrentTorrent();
   if(!h.is_valid()) return;
   bool ok=false;
-  long limit = SpeedLimitDialog::askSpeedLimit(&ok, tr("Upload rate limiting"), -1, Preferences().getGlobalUploadLimit()*1024.);
+  int cur_limit = -1;
+#if LIBTORRENT_VERSION_MINOR > 15
+  libtorrent::asio::ip::tcp::endpoint first_ep = peerEndpoints.value(peer_ips.first(),
+                                                                     libtorrent::asio::ip::tcp::endpoint());
+  if(first_ep != libtorrent::asio::ip::tcp::endpoint())
+    cur_limit = h.get_peer_upload_limit(first_ep);
+#endif
+  long limit = SpeedLimitDialog::askSpeedLimit(&ok, tr("Upload rate limiting"), cur_limit, Preferences().getGlobalUploadLimit()*1024.);
   if(!ok) return;
   foreach(const QString &ip, peer_ips) {
     libtorrent::asio::ip::tcp::endpoint ep = peerEndpoints.value(ip, libtorrent::asio::ip::tcp::endpoint());
@@ -230,7 +239,14 @@ void PeerListWidget::limitDlRateSelectedPeers(QStringList peer_ips) {
   QTorrentHandle h = properties->getCurrentTorrent();
   if(!h.is_valid()) return;
   bool ok=false;
-  long limit = SpeedLimitDialog::askSpeedLimit(&ok, tr("Download rate limiting"), -1, Preferences().getGlobalDownloadLimit()*1024.);
+  int cur_limit = -1;
+#if LIBTORRENT_VERSION_MINOR > 15
+  libtorrent::asio::ip::tcp::endpoint first_ep = peerEndpoints.value(peer_ips.first(),
+                                                                     libtorrent::asio::ip::tcp::endpoint());
+  if(first_ep != libtorrent::asio::ip::tcp::endpoint())
+    cur_limit = h.get_peer_download_limit(first_ep);
+#endif
+  long limit = SpeedLimitDialog::askSpeedLimit(&ok, tr("Download rate limiting"), cur_limit, Preferences().getGlobalDownloadLimit()*1024.);
   if(!ok) return;
   foreach(const QString &ip, peer_ips) {
     libtorrent::asio::ip::tcp::endpoint ep = peerEndpoints.value(ip, libtorrent::asio::ip::tcp::endpoint());
@@ -272,13 +288,15 @@ void PeerListWidget::saveSettings() const {
 
 void PeerListWidget::loadPeers(const QTorrentHandle &h, bool force_hostname_resolution) {
   if(!h.is_valid()) return;
+  boost::system::error_code ec;
   std::vector<peer_info> peers;
   h.get_peer_info(peers);
   std::vector<peer_info>::iterator itr;
   QSet<QString> old_peers_set = peerItems.keys().toSet();
   for(itr = peers.begin(); itr != peers.end(); itr++) {
     peer_info peer = *itr;
-    QString peer_ip = misc::toQString(peer.ip.address().to_string());
+    QString peer_ip = misc::toQString(peer.ip.address().to_string(ec));
+    if(ec) continue;
     if(peerItems.contains(peer_ip)) {
       // Update existing peer
       updatePeer(peer_ip, peer);
@@ -320,30 +338,31 @@ QStandardItem* PeerListWidget::addPeer(QString ip, peer_info peer) {
     host = resolver->getHostFromCache(peer.ip);
   }
   if(host.isNull())
-    listModel->setData(listModel->index(row, IP), ip);
+    listModel->setData(listModel->index(row, PeerListDelegate::IP), ip);
   else
-    listModel->setData(listModel->index(row, IP), host);
-  listModel->setData(listModel->index(row, IP_HIDDEN), ip);
+    listModel->setData(listModel->index(row, PeerListDelegate::IP), host);
+  listModel->setData(listModel->index(row, PeerListDelegate::IP_HIDDEN), ip);
   // Resolve peer host name is asked
   if(resolver && host.isNull())
     resolver->resolve(peer.ip);
   if(display_flags) {
     const QIcon ico = GeoIPManager::CountryISOCodeToIcon(peer.country);
     if(!ico.isNull()) {
-      listModel->setData(listModel->index(row, IP), ico, Qt::DecorationRole);
+      listModel->setData(listModel->index(row, PeerListDelegate::IP), ico, Qt::DecorationRole);
       const QString country_name = GeoIPManager::CountryISOCodeToName(peer.country);
-      listModel->setData(listModel->index(row, IP), country_name, Qt::ToolTipRole);
+      listModel->setData(listModel->index(row, PeerListDelegate::IP), country_name, Qt::ToolTipRole);
     } else {
       missingFlags.insert(ip);
     }
   }
-  listModel->setData(listModel->index(row, CLIENT), misc::toQStringU(peer.client));
-  listModel->setData(listModel->index(row, PROGRESS), peer.progress);
-  listModel->setData(listModel->index(row, DOWN_SPEED), peer.payload_down_speed);
-  listModel->setData(listModel->index(row, UP_SPEED), peer.payload_up_speed);
-  listModel->setData(listModel->index(row, TOT_DOWN), (qulonglong)peer.total_download);
-  listModel->setData(listModel->index(row, TOT_UP), (qulonglong)peer.total_upload);
-  return listModel->item(row, IP);
+  listModel->setData(listModel->index(row, PeerListDelegate::CONNECTION), getConnectionString(peer.connection_type));
+  listModel->setData(listModel->index(row, PeerListDelegate::CLIENT), misc::toQStringU(peer.client));
+  listModel->setData(listModel->index(row, PeerListDelegate::PROGRESS), peer.progress);
+  listModel->setData(listModel->index(row, PeerListDelegate::DOWN_SPEED), peer.payload_down_speed);
+  listModel->setData(listModel->index(row, PeerListDelegate::UP_SPEED), peer.payload_up_speed);
+  listModel->setData(listModel->index(row, PeerListDelegate::TOT_DOWN), (qulonglong)peer.total_download);
+  listModel->setData(listModel->index(row, PeerListDelegate::TOT_UP), (qulonglong)peer.total_upload);
+  return listModel->item(row, PeerListDelegate::IP);
 }
 
 void PeerListWidget::updatePeer(QString ip, peer_info peer) {
@@ -352,18 +371,19 @@ void PeerListWidget::updatePeer(QString ip, peer_info peer) {
   if(display_flags) {
     const QIcon ico = GeoIPManager::CountryISOCodeToIcon(peer.country);
     if(!ico.isNull()) {
-      listModel->setData(listModel->index(row, IP), ico, Qt::DecorationRole);
+      listModel->setData(listModel->index(row, PeerListDelegate::IP), ico, Qt::DecorationRole);
       const QString country_name = GeoIPManager::CountryISOCodeToName(peer.country);
-      listModel->setData(listModel->index(row, IP), country_name, Qt::ToolTipRole);
+      listModel->setData(listModel->index(row, PeerListDelegate::IP), country_name, Qt::ToolTipRole);
       missingFlags.remove(ip);
     }
   }
-  listModel->setData(listModel->index(row, CLIENT), misc::toQStringU(peer.client));
-  listModel->setData(listModel->index(row, PROGRESS), peer.progress);
-  listModel->setData(listModel->index(row, DOWN_SPEED), peer.payload_down_speed);
-  listModel->setData(listModel->index(row, UP_SPEED), peer.payload_up_speed);
-  listModel->setData(listModel->index(row, TOT_DOWN), (qulonglong)peer.total_download);
-  listModel->setData(listModel->index(row, TOT_UP), (qulonglong)peer.total_upload);
+  listModel->setData(listModel->index(row, PeerListDelegate::CONNECTION), getConnectionString(peer.connection_type));
+  listModel->setData(listModel->index(row, PeerListDelegate::CLIENT), misc::toQStringU(peer.client));
+  listModel->setData(listModel->index(row, PeerListDelegate::PROGRESS), peer.progress);
+  listModel->setData(listModel->index(row, PeerListDelegate::DOWN_SPEED), peer.payload_down_speed);
+  listModel->setData(listModel->index(row, PeerListDelegate::UP_SPEED), peer.payload_up_speed);
+  listModel->setData(listModel->index(row, PeerListDelegate::TOT_DOWN), (qulonglong)peer.total_download);
+  listModel->setData(listModel->index(row, PeerListDelegate::TOT_UP), (qulonglong)peer.total_upload);
 }
 
 void PeerListWidget::handleResolved(const QString &ip, const QString &hostname) {
@@ -383,4 +403,24 @@ void PeerListWidget::handleSortColumnChanged(int col)
   } else {
     proxyModel->setSortRole(Qt::DisplayRole);
   }
+}
+
+QString PeerListWidget::getConnectionString(int connection_type)
+{
+  QString connection;
+  switch(connection_type) {
+#if LIBTORRENT_VERSION_MINOR > 15
+  case peer_info::bittorrent_utp:
+    connection = "uTP";
+    break;
+  case peer_info::http_seed:
+#endif
+  case peer_info::web_seed:
+    connection = "Web";
+    break;
+  default:
+    connection = "BT";
+    break;
+  }
+  return connection;
 }
