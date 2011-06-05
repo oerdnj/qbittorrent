@@ -63,7 +63,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;A Bittorrent client programmed in C++, based on Qt4 toolkit &lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;and libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2010 Christophe Dumez&lt;br /&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Home Page:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Forum:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;IRC:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; #qbittorrent on Freenode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -71,16 +71,32 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;和libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2010 Christophe Dumez&lt;br /&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;主页:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Forum:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;IRC:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; #qbittorrent on Freenode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
+    <message utf8="true">
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;An advanced BitTorrent client programmed in C++, based on Qt4 toolkit and libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2011 Christophe Dumez&lt;br /&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Home Page:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans&apos;; text-decoration: underline; color:#0057ae;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Bug Tracker:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://bugs.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://bugs.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Forum:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans&apos;; text-decoration: underline; color:#0057ae;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;IRC:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; #qbittorrent on Freenode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;该高级Bitorrent用户以C++语言编写, 并以Qt4 工具包和libtorrent-rasterbar为基础. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2011 Christophe Dumez&lt;br /&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;主页:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans&apos;; text-decoration: underline; color:#0057ae;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;故障跟踪:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://bugs.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://bugs.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Forum:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans&apos;; text-decoration: underline; color:#0057ae;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;IRC:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; #qbittorrent on Freenode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
 </context>
 <context>
     <name>AdvancedSettings</name>
     <message>
         <source>Property</source>
-        <translation>属性</translation>
+        <translation type="obsolete">属性</translation>
     </message>
     <message>
         <source>Value</source>
-        <translation>值</translation>
+        <translation type="obsolete">值</translation>
     </message>
     <message>
         <source>Ignore transfer limits on local network</source>
@@ -88,7 +104,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Include TCP/IP overhead in transfer limits</source>
-        <translation>在传输限制中包括TCP/IP总开销</translation>
+        <translation type="obsolete">在传输限制中包括TCP/IP总开销</translation>
     </message>
     <message>
         <source>Disk write cache size</source>
@@ -178,7 +194,20 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Display program on-screen notifications</source>
-        <translation>显示程序通知</translation>
+        <translation>在屏幕上显示程序通知</translation>
+    </message>
+    <message>
+        <source>Setting</source>
+        <translation>设置</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <comment>Value set for this setting</comment>
+        <translation>值</translation>
+    </message>
+    <message>
+        <source>Exchange trackers with other peers</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -334,6 +363,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Please type the new rule name</source>
         <translation>请输入新的规则名称</translation>
+    </message>
+    <message>
+        <source>Use regular expressions</source>
+        <translation>使用正则表达式</translation>
+    </message>
+    <message>
+        <source>Regex mode: use Perl-like regular expressions</source>
+        <translation>正则表达式模式: 使用类似Perl的正则表达式</translation>
+    </message>
+    <message>
+        <source>Wildcard mode: you can use&lt;ul&gt;&lt;li&gt;? to match any single character&lt;/li&gt;&lt;li&gt;* to match zero or more of any characters&lt;/li&gt;&lt;li&gt;Whitespaces count as AND operators&lt;/li&gt;&lt;/ul&gt;</source>
+        <translation>通配符模式:可使用&lt;ul&gt;&lt;li&gt;? 匹配任意单字符&lt;/li&gt;&lt;li&gt;* 匹配零个或多个任意字符&lt;/li&gt;&lt;li&gt;空格视为运算符&quot;且&quot;&lt;/li&gt;&lt;/ul&gt;</translation>
+    </message>
+    <message>
+        <source>Wildcard mode: you can use&lt;ul&gt;&lt;li&gt;? to match any single character&lt;/li&gt;&lt;li&gt;* to match zero or more of any characters&lt;/li&gt;&lt;li&gt;| is used as OR operator&lt;/li&gt;&lt;/ul&gt;</source>
+        <translation>通配符模式:可使用&lt;ul&gt;&lt;li&gt;? 匹配任意单字符&lt;/li&gt;&lt;li&gt;* 匹配零个或多个任意字符&lt;/li&gt;&lt;li&gt;| 表示运算符&quot;或&quot;&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
 </context>
 <context>
@@ -591,6 +636,49 @@ p, li { white-space: pre-wrap; }
 You should get this information from your Web browser preferences.</source>
         <translation>对cookies的公共键值为:%1,%2.
 您可以在您的浏览器首选项里得到相关信息.</translation>
+    </message>
+</context>
+<context>
+    <name>DNSUpdater</name>
+    <message>
+        <source>Your dynamic DNS was successfuly updated.</source>
+        <translation>您的动态域名系统已更新成功.</translation>
+    </message>
+    <message>
+        <source>Dynamic DNS error: The service is temporarily unavailable, it will be retried in 30 minutes.</source>
+        <translation>动态域名系统错误: 该服务暂时无法使用, 30分钟后将重试.</translation>
+    </message>
+    <message>
+        <source>Dynamic DNS error: hostname supplied does not exist under specified account.</source>
+        <translation>动态域名系统错误: 指定的帐户下不存在提供的主机名.</translation>
+    </message>
+    <message>
+        <source>Dynamic DNS error: Invalid username/password.</source>
+        <translation>动态域名系统错误: 无效用户名/密码.</translation>
+    </message>
+    <message>
+        <source>Dynamic DNS error: qBittorrent was blacklisted by the service, please report a bug at http://bugs.qbittorrent.org.</source>
+        <translation>动态域名系统错误: qBittorrent被该服务列入黑名单, 请报告故障至 http://bugs.qbittorrent.org.</translation>
+    </message>
+    <message>
+        <source>Dynamic DNS error: %1 was returned by the service, please report a bug at http://bugs.qbittorrent.org.</source>
+        <translation>动态域名系统错误: 服务返回%1, 请报告故障至 http://bugs.qbittorrent.org.</translation>
+    </message>
+    <message>
+        <source>Dynamic DNS error: Your username was blocked due to abuse.</source>
+        <translation>动态域名系统错误: 您的用户名由于滥用被阻止.</translation>
+    </message>
+    <message>
+        <source>Dynamic DNS error: supplied domain name is invalid.</source>
+        <translation>动态域名系统错误: 提供的域名无效.</translation>
+    </message>
+    <message>
+        <source>Dynamic DNS error: supplied username is too short.</source>
+        <translation>动态域名系统错误: 提供的用户名过短.</translation>
+    </message>
+    <message>
+        <source>Dynamic DNS error: supplied password is too short.</source>
+        <translation>动态域名系统错误: 提供的密码过短.</translation>
     </message>
 </context>
 <context>
@@ -1527,6 +1615,22 @@ Would you like to update qBittorrent to version %1?</source>
         <source>qBittorrent client is not reachable</source>
         <translation>无法访问qBittorrent客户端</translation>
     </message>
+    <message>
+        <source>HTTP Server</source>
+        <translation>HTTP 服务器</translation>
+    </message>
+    <message>
+        <source>Torrent path</source>
+        <translation>Torrent 路径</translation>
+    </message>
+    <message>
+        <source>Torrent name</source>
+        <translation>Torrent 名称</translation>
+    </message>
+    <message>
+        <source>The following parameters are supported:</source>
+        <translation>支持以下参数:</translation>
+    </message>
 </context>
 <context>
     <name>LegalNotice</name>
@@ -2102,6 +2206,10 @@ Would you like to update qBittorrent to version %1?</source>
         <source>Copy IP</source>
         <translation>复制IP</translation>
     </message>
+    <message>
+        <source>Connection</source>
+        <translation>连接</translation>
+    </message>
 </context>
 <context>
     <name>Preferences</name>
@@ -2144,7 +2252,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Transfer list</source>
-        <translation>传输列表</translation>
+        <translation type="obsolete">传输列表</translation>
     </message>
     <message>
         <source>Use alternating row colors</source>
@@ -2153,11 +2261,11 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>File system</source>
-        <translation>文件系统</translation>
+        <translation type="obsolete">文件系统</translation>
     </message>
     <message>
         <source>Torrent queueing</source>
-        <translation>Torrent排队</translation>
+        <translation type="obsolete">Torrent排队</translation>
     </message>
     <message>
         <source>Maximum active downloads:</source>
@@ -2181,7 +2289,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Listening port</source>
-        <translation>侦听端口</translation>
+        <translation type="obsolete">侦听端口</translation>
     </message>
     <message>
         <source>Port used for incoming connections:</source>
@@ -2201,7 +2309,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Connections limit</source>
-        <translation>连接限度</translation>
+        <translation type="obsolete">连接限度</translation>
     </message>
     <message>
         <source>Global maximum number of connections:</source>
@@ -2297,7 +2405,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>HTTP Server</source>
-        <translation>HTTP 服务器</translation>
+        <translation type="obsolete">HTTP 服务器</translation>
     </message>
     <message>
         <source>Filter path (.dat, .p2p, .p2b):</source>
@@ -2325,11 +2433,11 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Global speed limits</source>
-        <translation>总速度限制</translation>
+        <translation type="obsolete">总速度限制</translation>
     </message>
     <message>
         <source>Alternative global speed limits</source>
-        <translation>供选择的总速度限制</translation>
+        <translation type="obsolete">供选择的总速度限制</translation>
     </message>
     <message>
         <source>to</source>
@@ -2406,7 +2514,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Show qBittorrent icon in notification area</source>
-        <translation>在通知区域显示qBittorrent图标</translation>
+        <translation type="obsolete">在通知区域显示qBittorrent图标</translation>
     </message>
     <message>
         <source>Minimize qBittorrent to notification area</source>
@@ -2440,7 +2548,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Append .!qB extension to incomplete files&apos; names</source>
-        <translation>给未完成文件附加扩展名.!qB</translation>
+        <translation type="obsolete">给未完成文件附加扩展名.!qB</translation>
     </message>
     <message>
         <source>Automatically add torrents from:</source>
@@ -2456,7 +2564,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Schedule the use of alternative speed limits</source>
-        <translation>为替代速度限制的使用安排时间</translation>
+        <translation type="obsolete">为替代速度限制的使用安排时间</translation>
     </message>
     <message>
         <source>from</source>
@@ -2481,7 +2589,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Share ratio limiting</source>
-        <translation>分享率限制中</translation>
+        <translation type="obsolete">分享率限制中</translation>
     </message>
     <message>
         <source>Seed torrents until their ratio reaches</source>
@@ -2525,7 +2633,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Proxy server</source>
-        <translation>代理服务器</translation>
+        <translation type="obsolete">代理服务器</translation>
     </message>
     <message>
         <source>BitTorrent</source>
@@ -2609,7 +2717,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Use monochrome system tray icon (requires restart)</source>
-        <translation>使用单色系统托盘图标(需重启)</translation>
+        <translation type="obsolete">使用单色系统托盘图标(需重启)</translation>
     </message>
     <message>
         <source>The following parameters are supported:
@@ -2617,7 +2725,147 @@ Would you like to update qBittorrent to version %1?</source>
 &lt;li&gt;%f: Torrent path&lt;/li&gt;
 &lt;li&gt;%n: Torrent name&lt;/li&gt;
 &lt;/ul&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>支持以下参数:
+&lt;ul&gt;
+&lt;li&gt;%f: Torrent 路径&lt;/li&gt;
+&lt;li&gt;%n: Torrent 名称&lt;/li&gt;
+&lt;/ul&gt;</translation>
+    </message>
+    <message>
+        <source>Tray icon style:</source>
+        <translation>托盘图标样式:</translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation>正常</translation>
+    </message>
+    <message>
+        <source>Monochrome (Dark theme)</source>
+        <translation>单色 (深色主题)</translation>
+    </message>
+    <message>
+        <source>Monochrome (Light theme)</source>
+        <translation>单色 (浅色主题)</translation>
+    </message>
+    <message>
+        <source>This server requires a secure connection (SSL)</source>
+        <translation>该服务器需要安全链接 (SSL)</translation>
+    </message>
+    <message>
+        <source>User Interface Language:</source>
+        <translation>用户界面语言:</translation>
+    </message>
+    <message>
+        <source>Transfer List</source>
+        <translation>传输列表</translation>
+    </message>
+    <message>
+        <source>Show qBittorrent in notification area</source>
+        <translation>在通知区域显示qBittorrent</translation>
+    </message>
+    <message>
+        <source>Hard Disk</source>
+        <translation>硬盘</translation>
+    </message>
+    <message>
+        <source>Listening Port</source>
+        <translation>侦听端口</translation>
+    </message>
+    <message>
+        <source>Connections Limits</source>
+        <translation>连接限度</translation>
+    </message>
+    <message>
+        <source>Proxy Server</source>
+        <translation>代理服务器</translation>
+    </message>
+    <message>
+        <source>Torrent Queueing</source>
+        <translation>Torrent排队</translation>
+    </message>
+    <message>
+        <source>Share Ratio Limiting</source>
+        <translation>分享率限制</translation>
+    </message>
+    <message>
+        <source>Use UPnP / NAT-PMP to forward the port from my router</source>
+        <translation>使用UPnP / NAT-PMP 从路由器转发转发端口</translation>
+    </message>
+    <message>
+        <source>Update my dynamic domain name</source>
+        <translation>更新我的动态域名</translation>
+    </message>
+    <message>
+        <source>Service:</source>
+        <translation>服务:</translation>
+    </message>
+    <message>
+        <source>Register</source>
+        <translation>注册</translation>
+    </message>
+    <message>
+        <source>Domain name:</source>
+        <translation>域名:</translation>
+    </message>
+    <message>
+        <source>Global Rate Limits</source>
+        <translation>总速度限制</translation>
+    </message>
+    <message>
+        <source>Apply rate limit to uTP connections</source>
+        <translation>应用速度限制于 uTP 连接</translation>
+    </message>
+    <message>
+        <source>Apply rate limit to transport overhead</source>
+        <translation>应用速度限制于传送总开销</translation>
+    </message>
+    <message>
+        <source>Alternative Global Rate Limits</source>
+        <translation>可替代的总速度限制</translation>
+    </message>
+    <message>
+        <source>Schedule the use of alternative rate limits</source>
+        <translation>预定可替代的速度限制的使用时间</translation>
+    </message>
+    <message>
+        <source>Enable bandwidth management (uTP)</source>
+        <translation>启用宽带管理 (uTP)</translation>
+    </message>
+    <message>
+        <source>Otherwise, the proxy server is only used for tracker connections</source>
+        <translation>否则, 代理服务器将仅用于tracker连接</translation>
+    </message>
+    <message>
+        <source>Use proxy for peer connections</source>
+        <translation>使用代理服务器进行对等连接</translation>
+    </message>
+    <message>
+        <source>Append .!qB extension to incomplete files</source>
+        <translation>为不完整的文件添加扩展名 .!qB</translation>
+    </message>
+    <message>
+        <source>Use HTTPS instead of HTTP</source>
+        <translation>用 HTTPS 取代 HTTP</translation>
+    </message>
+    <message>
+        <source>Import SSL Certificate</source>
+        <translation>导入 SSL 证书</translation>
+    </message>
+    <message>
+        <source>Import SSL Key</source>
+        <translation>导入 SSL 密匙</translation>
+    </message>
+    <message>
+        <source>Certificate:</source>
+        <translation>证书:</translation>
+    </message>
+    <message>
+        <source>Key:</source>
+        <translation>密匙:</translation>
+    </message>
+    <message>
+        <source>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</source>
+        <translation>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -3874,11 +4122,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Invalid torrent file</source>
-        <translation type="unfinished">无效torrent文件</translation>
+        <translation>无效torrent文件</translation>
     </message>
     <message>
         <source>This is not a valid torrent file.</source>
-        <translation type="unfinished">这不是有效的torrent文件.</translation>
+        <translation>这不是有效的torrent文件.</translation>
     </message>
 </context>
 <context>
@@ -5203,6 +5451,30 @@ However, those plugins were disabled.</source>
     <message>
         <source>Successfully refreshed</source>
         <translation>刷新成功</translation>
+    </message>
+    <message>
+        <source>SSL Certificate (*.crt *.pem)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SSL Key (*.key *.pem)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This is not a valid SSL key.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid certificate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This is not a valid SSL certificate.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

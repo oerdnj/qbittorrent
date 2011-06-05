@@ -52,46 +52,38 @@ public:
   // Contructor / Destructor
   options_imp(QWidget *parent=0);
   ~options_imp();
-  QSize sizeFittingScreen();
-
-protected slots:
-  void enableUploadLimit(bool checked);
-  void enableDownloadLimit(bool checked);
-  void enableProxy(int comboIndex);
-  void enableProxyAuth(bool checked);
-  void enableMaxConnecsLimit(bool checked);
-  void enableMaxConnecsLimitPerTorrent(bool checked);
-  void enableMaxUploadsLimitPerTorrent(bool checked);
-  void enableMaxRatio(bool checked);
-  void on_buttonBox_accepted();
-  void closeEvent(QCloseEvent *e);
-  void on_buttonBox_rejected();
-  void applySettings(QAbstractButton* button);
-  void on_browseExportDirButton_clicked();
-  void on_browseFilterButton_clicked();
-  void on_browseSaveDirButton_clicked();
-  void on_browseTempDirButton_clicked();
-  void enableApplyButton();
-  void enableSystrayOptions();
-  void disableSystrayOptions();
-  void setSystrayOptionsState(bool checked);
-  void changePage(QListWidgetItem*, QListWidgetItem*);
-  void loadWindowState();
-  void saveWindowState() const;
-  void on_randomButton_clicked();
-  void on_addScanFolderButton_clicked();
-  void on_removeScanFolderButton_clicked();
-  void handleScanFolderViewSelectionChanged();
-  void on_IpFilterRefreshBtn_clicked();
-  void handleIPFilterParsed(bool error, int ruleCount);
 
 public slots:
-  void setLocale(QString locale);
   void showConnectionTab();
 
 signals:
   void status_changed() const;
   void exitWithCancel();
+
+private slots:
+  void enableProxy(int comboIndex);
+  void on_buttonBox_accepted();
+  void closeEvent(QCloseEvent *e);
+  void on_buttonBox_rejected();
+  void applySettings(QAbstractButton* button);
+  void enableApplyButton();
+  void changePage(QListWidgetItem*, QListWidgetItem*);
+  void loadWindowState();
+  void saveWindowState() const;
+  void handleScanFolderViewSelectionChanged();
+  void on_IpFilterRefreshBtn_clicked();
+  void handleIPFilterParsed(bool error, int ruleCount);
+  void on_browseExportDirButton_clicked();
+  void on_browseFilterButton_clicked();
+  void on_browseSaveDirButton_clicked();
+  void on_browseTempDirButton_clicked();
+  void on_randomButton_clicked();
+  void on_addScanFolderButton_clicked();
+  void on_removeScanFolderButton_clicked();
+  void on_btnWebUiCrt_clicked();
+  void on_btnWebUiKey_clicked();
+  void on_registerDNSBtn_clicked();
+  void setLocale(const QString &locale);
 
 private:
   // Methods
@@ -152,12 +144,19 @@ private:
   quint16 webUiPort() const;
   QString webUiUsername() const;
   QString webUiPassword() const;
+  QSize sizeFittingScreen() const;
+
+private:
+  void setSslKey(const QByteArray &key, bool interactive = true);
+  void setSslCertificate(const QByteArray &cert, bool interactive = true);
 
 private:
   QButtonGroup choiceLanguage;
   QAbstractButton *applyButton;
   AdvancedSettings *advancedSettings;
   QList<QString> addedScanDirs;
+  // SSL Cert / key
+  QByteArray m_sslCert, m_sslKey;
 
 };
 

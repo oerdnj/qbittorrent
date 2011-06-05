@@ -75,6 +75,9 @@ private slots:
   void on_importBtn_clicked();
   void renameSelectedRule();
   void updateMatchingArticles();
+  void updateFieldsToolTips(bool regex);
+  void updateMustLineValidity();
+  void updateMustNotLineValidity();
 
 private:
   RssDownloadRule getCurrentRule() const;

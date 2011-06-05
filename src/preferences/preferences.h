@@ -58,6 +58,12 @@ enum maxRatioAction {PAUSE_ACTION, REMOVE_ACTION};
 namespace Proxy {
 enum ProxyType {HTTP=1, SOCKS5=2, HTTP_PW=3, SOCKS5_PW=4, SOCKS4=5};
 }
+namespace TrayIcon {
+enum Style { NORMAL = 0, MONO_DARK, MONO_LIGHT };
+}
+namespace DNS {
+enum Service { DYNDNS, NOIP, NONE = -1 };
+}
 
 class Preferences : public QIniSettings {
   Q_DISABLE_COPY(Preferences);
@@ -303,6 +309,38 @@ public:
     setValue(QString::fromUtf8("Preferences/MailNotification/smtp_server"), smtp_server);
   }
 
+  bool getMailNotificationSMTPSSL() const {
+    return value(QString::fromUtf8("Preferences/MailNotification/req_ssl"), false).toBool();
+  }
+
+  void setMailNotificationSMTPSSL(bool use) {
+    setValue(QString::fromUtf8("Preferences/MailNotification/req_ssl"), use);
+  }
+
+  bool getMailNotificationSMTPAuth() const {
+    return value(QString::fromUtf8("Preferences/MailNotification/req_auth"), false).toBool();
+  }
+
+  void setMailNotificationSMTPAuth(bool use) {
+    setValue(QString::fromUtf8("Preferences/MailNotification/req_auth"), use);
+  }
+
+  QString getMailNotificationSMTPUsername() const {
+    return value(QString::fromUtf8("Preferences/MailNotification/username")).toString();
+  }
+
+  void setMailNotificationSMTPUsername(const QString &username) {
+    setValue(QString::fromUtf8("Preferences/MailNotification/username"), username);
+  }
+
+  QString getMailNotificationSMTPPassword() const {
+    return value(QString::fromUtf8("Preferences/MailNotification/password")).toString();
+  }
+
+  void setMailNotificationSMTPPassword(const QString &password) {
+    setValue(QString::fromUtf8("Preferences/MailNotification/password"), password);
+  }
+
   int getActionOnDblClOnTorrentDl() const {
     return value(QString::fromUtf8("Preferences/Downloads/DblClOnTorDl"), 0).toInt();
   }
@@ -471,6 +509,14 @@ public:
     setValue(QString::fromUtf8("Preferences/Connection/ProxyType"), type);
   }
 
+  void setProxyPeerConnections(bool enabled) {
+    setValue(QString::fromUtf8("Preferences/Connection/ProxyPeerConnections"), enabled);
+  }
+
+  bool proxyPeerConnections() const {
+    return value(QString::fromUtf8("Preferences/Connection/ProxyPeerConnections"), false).toBool();
+  }
+
   // Bittorrent options
   int getMaxConnecs() const {
     return value(QString::fromUtf8("Preferences/Bittorrent/MaxConnecs"), 500).toInt();
@@ -497,6 +543,22 @@ public:
   void setMaxUploadsPerTorrent(int val) {
     if(val <= 0) val = -1;
     setValue(QString::fromUtf8("Preferences/Bittorrent/MaxUploadsPerTorrent"), val);
+  }
+
+  bool isuTPEnabled() const {
+    return value(QString::fromUtf8("Preferences/Bittorrent/uTP"), true).toBool();
+  }
+
+  void setuTPEnabled(bool enabled) {
+    setValue("Preferences/Bittorrent/uTP", enabled);
+  }
+
+  bool isuTPRateLimited() const {
+    return value(QString::fromUtf8("Preferences/Bittorrent/uTP_rate_limiting"), false).toBool();
+  }
+
+  void setuTPRateLimited(bool enabled) {
+    setValue("Preferences/Bittorrent/uTP_rate_limiting", enabled);
   }
 
   bool isDHTEnabled() const {
@@ -671,6 +733,14 @@ public:
     setValue("Preferences/WebUI/Port", port);
   }
 
+  bool useUPnPForWebUIPort() const {
+    return value("Preferences/WebUI/UseUPnP", true).toBool();
+  }
+
+  void setUPnPForWebUIPort(bool enabled) {
+    setValue("Preferences/WebUI/UseUPnP", enabled);
+  }
+
   QString getWebUiUsername() const {
     return value("Preferences/WebUI/Username", "admin").toString();
   }
@@ -701,6 +771,70 @@ public:
       pass_ha1 = md5.result().toHex();
     }
     return pass_ha1;
+  }
+
+  bool isWebUiHttpsEnabled() const {
+    return value("Preferences/WebUI/HTTPS/Enabled", false).toBool();
+  }
+
+  void setWebUiHttpsEnabled(bool enabled) {
+    setValue("Preferences/WebUI/HTTPS/Enabled", enabled);
+  }
+
+  QByteArray getWebUiHttpsCertificate() const {
+    return value("Preferences/WebUI/HTTPS/Certificate").toByteArray();
+  }
+
+  void setWebUiHttpsCertificate(const QByteArray &data) {
+    setValue("Preferences/WebUI/HTTPS/Certificate", data);
+  }
+
+  QByteArray getWebUiHttpsKey() const {
+    return value("Preferences/WebUI/HTTPS/Key").toByteArray();
+  }
+
+  void setWebUiHttpsKey(const QByteArray &data) {
+    setValue("Preferences/WebUI/HTTPS/Key", data);
+  }
+
+  bool isDynDNSEnabled() const {
+    return value("Preferences/DynDNS/Enabled", false).toBool();
+  }
+
+  void setDynDNSEnabled(bool enabled) {
+    setValue("Preferences/DynDNS/Enabled", enabled);
+  }
+
+  DNS::Service getDynDNSService() const {
+    return DNS::Service(value("Preferences/DynDNS/Service", DNS::DYNDNS).toInt());
+  }
+
+  void setDynDNSService(int service) {
+    setValue("Preferences/DynDNS/Service", service);
+  }
+
+  QString getDynDomainName() const {
+    return value("Preferences/DynDNS/DomainName", "changeme.dyndns.org").toString();
+  }
+
+  void setDynDomainName(const QString name) {
+    setValue("Preferences/DynDNS/DomainName", name);
+  }
+
+  QString getDynDNSUsername() const {
+    return value("Preferences/DynDNS/Username").toString();
+  }
+
+  void setDynDNSUsername(const QString username) {
+    setValue("Preferences/DynDNS/Username", username);
+  }
+
+  QString getDynDNSPassword() const {
+    return value("Preferences/DynDNS/Password").toString();
+  }
+
+  void setDynDNSPassword(const QString password) {
+    setValue("Preferences/DynDNS/Password", password);
   }
 
   // Advanced settings
@@ -802,6 +936,14 @@ public:
 
   void includeOverheadInLimits(bool include) {
     setValue(QString::fromUtf8("Preferences/Advanced/IncludeOverhead"), include);
+  }
+
+  bool trackerExchangeEnabled() const {
+    return value(QString::fromUtf8("Preferences/Advanced/TrackerExchange"), true).toBool();
+  }
+
+  void setTrackerExchangeEnabled(bool enable) {
+    setValue(QString::fromUtf8("Preferences/Advanced/TrackerExchange"), enable);
   }
 
   bool recheckTorrentsOnCompletion() const {
@@ -1033,11 +1175,11 @@ public:
     setValue(QString::fromUtf8("Preferences/Advanced/confirmTorrentDeletion"), enabled);
   }
 
-  bool useMonochromeTrayIcon() const {
-    return value(QString::fromUtf8("Preferences/Advanced/useMonochromeTrayIcon"), false).toBool();
+  TrayIcon::Style trayIconStyle() const {
+    return TrayIcon::Style(value(QString::fromUtf8("Preferences/Advanced/TrayIconStyle"), TrayIcon::NORMAL).toInt());
   }
-  void setUseMonochromeTrayIcon(bool use) {
-    setValue(QString::fromUtf8("Preferences/Advanced/useMonochromeTrayIcon"), use);
+  void setTrayIconStyle(TrayIcon::Style style) {
+    setValue(QString::fromUtf8("Preferences/Advanced/TrayIconStyle"), style);
   }
 };
 

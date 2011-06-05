@@ -1,32 +1,26 @@
-* Sat Apr 16 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.7.3
-   - FEATURE: Added search plugin for btdigg.org (From BTDigg research team)
-   - BUGFIX: Do not delete unwanted files that were already present when adding the torrent
-   - BUGFIX: Fix URL decoding in search engine
-   - BUGFIX: Trackers can now be added to torrents without metadata
-   - BUGFIX: Fix initialization problem with some private trackers
-   - BUGFIX: Fix crash in RSS downloader (in debug mode only)
-   - BUGFIX: Make sure assertions are disabled in release mode
+* Sun Jun 05 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.8.1
+    - BUGFIX: Fix Web UI username/password change (Web UI)
 
-* Tue Apr 5 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.7.2
-    - BUGFIX: Uninhibit system sleep on exit (Vladimir Golovnev)
-    - BUGFIX: Fix error on Windows when qBittorrent is shutdown by session manager (Vladimir Golovnev)
-    - BUGFIX: Fix alternative speeds tooltip
-    - BUGFIX: Parse URLs in torrent description
-    - BUGFIX: Make sure python is not required on startup (Windows)
-    - BUGFIX: Use ConsoleKit to shutdown the system instead of HAL (deprecated)
-    - BUGFIX: use UPower to suspend the system instead of HAL (deprecated)
-    - BUGFIX: Rewrote computer shutdown/suspend code to avoid data loss
-    - OTHER: Get rid of libnotify dependency (Use DBus instead)
-
-* Sat Mar 26 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.7.1
-    - BUGFIX: Limit file names to 255 bytes to avoid issues on Linux FS
-    - BUGFIX: Fix possible crash when changing the priority of a file
-    - BUGFIX: Magnet link association fix on Win32 (sledgehammer999)
-    - BUGFIX: Easier compilation on Win32 using MinGW (sledgehammer999)
-    - BUGFIX: Sync program preferences before computer shutdown to avoid loss
-    - OTHER: Get rid of QtSVG dependency
-    - I18N: Updated German, Italian, Hungarian, Portuguese, Brazilian, 
-      Spanish and Catalan translations
+* Thu Jun 02 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.8.0
+    - FEATURE: Added full libtorrent v0.16 support (uTP, ...)
+    - FEATURE: Proxy can be disabled for peer connections
+    - FEATURE: Added support for secure SMTP connection (SSL)
+    - FEATURE: Added support for SMTP authentication
+    - FEATURE: Added UPnP/NAT-PMP port forward for the Web UI port
+    - FEATURE: qBittorrent can update dynamic DNS services (DynDNS, no-ip)
+    - FEATURE: Display peer connection type in peer list (BT, uTP, Web)
+    - FEATURE: Added full regex support to RSS downloader
+    - FEATURE: Added regex help and validation in RSS downloader
+    - FEATURE: Added HTTPS support to Web UI (Ishan Arora)
+    - BUGFIX: Change systray icon on the fly (no restart needed)
+    - BUGFIX: Remember peer-level rate limits (requires libtorrent v0.16)
+    - BUGFIX: Stop annoncing to trackers an all tiers (more respectful)
+    - BUGFIX: Stop sharing private trackers with other peers
+    - BUGFIX: Tracker exchange extension can be disabled
+    - BUGFIX: Cleaner program exit on system log out
+    - BUGFIX: Fix possible magnet link parsing problems
+    - BUGFIX: Fix possible RSS URL parsing problems
+    - COSMETIC: Added monochrome icon for light themes 
 
 * Sun Mar 20 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.7.0
     - FEATURE: Added search field for torrent content

@@ -28,71 +28,54 @@
  * Contact : chris@qbittorrent.org
  */
 
-/*
- * This code is based on QxtSmtp from libqxt (http://libqxt.org)
- */
+#ifndef DNSUPDATER_H
+#define DNSUPDATER_H
 
-#ifndef SMTP_H
-#define SMTP_H
-
-#include <QString>
 #include <QObject>
-#include <QByteArray>
-#include <QHash>
+#include <QHostAddress>
+#include <QNetworkReply>
+#include <QDateTime>
+#include <QTimer>
+#include "preferences.h"
 
-QT_BEGIN_NAMESPACE
-struct QTextStream;
-#ifndef QT_NO_OPENSSL
-struct QSslSocket;
-#else
-struct QTcpSocket;
-#endif
-struct QTextCodec;
-QT_END_NAMESPACE
-
-class Smtp : public QObject {
+/*!
+ * Based on http://www.dyndns.com/developers/specs/
+ */
+class DNSUpdater : public QObject
+{
   Q_OBJECT
-
 public:
-  Smtp(QObject *parent = 0);
-  ~Smtp();
-  void sendMail(const QString &from, const QString &to, const QString &subject, const QString &body);
+  explicit DNSUpdater(QObject *parent = 0);
+  ~DNSUpdater();
+  static QUrl getRegistrationUrl(int service);
+
+public slots:
+  void updateCredentials();
 
 private slots:
-  void readyRead();
+  void checkPublicIP();
+  void ipRequestFinished(QNetworkReply* reply);
+  void updateDNSService();
+  void ipUpdateFinished(QNetworkReply* reply);
 
 private:
-  QByteArray encode_mime_header(const QString& key, const QString& value, QTextCodec* latin1, const QByteArray& prefix=QByteArray());
-  void ehlo();
-  void parseEhloResponse(const QByteArray& code, bool continued, const QString& line);
-  void authenticate();
-  void startTLS();
-  void authCramMD5(const QByteArray& challenge = QByteArray());
-  void authPlain();
-  void authLogin();
-  void logError(const QString &msg);
+  QUrl getUpdateUrl() const;
+  void processIPUpdateReply(const QString &reply);
 
 private:
-  enum states { Rcpt, EhloSent, HeloSent, EhloDone, EhloGreetReceived, AuthRequestSent, AuthSent,
-                AuthUsernameSent, Authenticated, StartTLSSent, Data, Init, Body, Quit, Close };
-  enum AuthType { AuthPlain, AuthLogin, AuthCramMD5 };
+  QHostAddress m_lastIP;
+  QDateTime m_lastIPCheckTime;
+  QTimer m_ipCheckTimer;
+  int m_state;
+  // Service creds
+  DNS::Service m_service;
+  QString m_domain;
+  QString m_username;
+  QString m_password;
 
 private:
-  QByteArray message;
-#ifndef QT_NO_OPENSSL
-  QSslSocket *socket;
-#else
-  QTcpSocket *socket;
-#endif
-  QString from;
-  QString rcpt;
-  QString response;
-  int state;
-  QHash<QString, QString> extensions;
-  QByteArray buffer;
-  bool use_ssl;
-  AuthType authType;
-  QString username;
-  QString password;
+  static const int IP_CHECK_INTERVAL_MS = 1800000; // 30 min
+  enum State { OK, INVALID_CREDS, FATAL };
 };
-#endif
+
+#endif // DNSUPDATER_H

@@ -58,6 +58,7 @@ class HttpServer;
 class BandwidthScheduler;
 class ScanFoldersModel;
 class TorrentSpeedMonitor;
+class DNSUpdater;
 
 class QBtSession : public QObject {
   Q_OBJECT
@@ -136,7 +137,7 @@ public slots:
   qreal getMaxRatioPerTorrent(const QString &hash, bool *usesGlobalRatio) const;
   void removeRatioPerTorrent(const QString &hash);
   void setDHTPort(int dht_port);
-  void setProxySettings(const libtorrent::proxy_settings &proxySettings);
+  void setProxySettings(libtorrent::proxy_settings proxySettings);
   void setSessionSettings(const libtorrent::session_settings &sessionSettings);
   void startTorrentsInPause(bool b);
   void setDefaultTempPath(QString temppath);
@@ -242,7 +243,6 @@ private:
   bool addInPause;
   qreal global_ratio_limit;
   int high_ratio_action;
-  bool UPnPEnabled;
   bool LSDEnabled;
   bool DHTEnabled;
   int current_dht_port;
@@ -270,7 +270,11 @@ private:
   QPointer<QTracker> m_tracker;
   TorrentSpeedMonitor *m_speedMonitor;
   shutDownAction m_shutdownAct;
-
+  // Port forwarding
+  libtorrent::upnp *m_upnp;
+  libtorrent::natpmp *m_natpmp;
+  // DynDNS
+  DNSUpdater *m_dynDNSUpdater;
 };
 
 #endif

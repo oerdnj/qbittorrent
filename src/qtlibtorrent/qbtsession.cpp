@@ -54,6 +54,7 @@
 #include "httpserver.h"
 #include "qinisettings.h"
 #include "bandwidthscheduler.h"
+#include <libtorrent/version.hpp>
 #include <libtorrent/extensions/ut_metadata.hpp>
 #include <libtorrent/version.hpp>
 #if LIBTORRENT_VERSION_MINOR > 14
@@ -64,10 +65,12 @@
 //#include <libtorrent/extensions/metadata_transfer.hpp>
 #include <libtorrent/entry.hpp>
 #include <libtorrent/bencode.hpp>
+#include <libtorrent/error_code.hpp>
 #include <libtorrent/identify_client.hpp>
 #include <libtorrent/alert_types.hpp>
 #include <libtorrent/torrent_info.hpp>
-#include <libtorrent/version.hpp>
+#include <libtorrent/upnp.hpp>
+#include <libtorrent/natpmp.hpp>
 #include <boost/filesystem/exception.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -76,6 +79,7 @@
 #endif
 #include <queue>
 #include <string.h>
+#include "dnsupdater.h"
 
 using namespace libtorrent;
 
@@ -89,13 +93,14 @@ enum VersionType { NORMAL,ALPHA,BETA,RELEASE_CANDIDATE,DEVEL };
 QBtSession::QBtSession()
   : m_scanFolders(ScanFoldersModel::instance(this)),
     preAllocateAll(false), addInPause(false), global_ratio_limit(-1),
-    UPnPEnabled(false), LSDEnabled(false),
+    LSDEnabled(false),
     DHTEnabled(false), current_dht_port(0), queueingEnabled(false),
     torrentExport(false)
   #ifndef DISABLE_GUI
   , geoipDBLoaded(false), resolve_countries(false)
   #endif
-  , m_tracker(0), m_shutdownAct(NO_SHUTDOWN)
+  , m_tracker(0), m_shutdownAct(NO_SHUTDOWN),
+    m_upnp(0), m_natpmp(0), m_dynDNSUpdater(0)
 {
   BigRatioTimer = new QTimer(this);
   BigRatioTimer->setInterval(10000);
@@ -123,7 +128,8 @@ QBtSession::QBtSession()
   //s->add_extension(&create_metadata_plugin);
   s->add_extension(&create_ut_metadata_plugin);
 #if LIBTORRENT_VERSION_MINOR > 14
-  s->add_extension(&create_lt_trackers_plugin);
+  if(pref.trackerExchangeEnabled())
+    s->add_extension(&create_lt_trackers_plugin);
 #endif
   if(pref.isPeXEnabled()) {
     PeXEnabled = true;
@@ -277,6 +283,7 @@ void QBtSession::configureSession() {
   const unsigned short old_listenPort = getListenPort();
   const unsigned short new_listenPort = pref.getSessionPort();
   if(old_listenPort != new_listenPort) {
+    qDebug("Session port changes in program preferences: %d -> %d", old_listenPort, new_listenPort);
     setListeningPort(new_listenPort);
     addConsoleMessage(tr("qBittorrent is bound to port: TCP/%1", "e.g: qBittorrent is bound to port: 6881").arg(QString::number(new_listenPort)));
   }
@@ -372,7 +379,7 @@ void QBtSession::configureSession() {
     addConsoleMessage(tr("UPnP / NAT-PMP support [OFF]"), QString::fromUtf8("blue"));
   }
   // * Session settings
-  session_settings sessionSettings;
+  session_settings sessionSettings = s->settings();
   sessionSettings.user_agent = "qBittorrent "VERSION;
   std::cout << "HTTP user agent is " << sessionSettings.user_agent << std::endl;
   addConsoleMessage(tr("HTTP user agent is %1").arg(misc::toQString(sessionSettings.user_agent)));
@@ -387,7 +394,7 @@ void QBtSession::configureSession() {
   sessionSettings.auto_scrape_interval = 1200; // 20 minutes
 #if LIBTORRENT_VERSION_MINOR > 14
   sessionSettings.announce_to_all_trackers = true;
-  sessionSettings.announce_to_all_tiers = true; //uTorrent behavior
+  sessionSettings.announce_to_all_tiers = false;
   sessionSettings.auto_scrape_min_interval = 900; // 15 minutes
 #endif
   sessionSettings.cache_size = pref.diskCacheSize()*64;
@@ -423,24 +430,51 @@ void QBtSession::configureSession() {
   // IP address to announce to trackers
   QString announce_ip = pref.getNetworkAddress();
   if(!announce_ip.isEmpty()) {
+#if LIBTORRENT_VERSION_MINOR > 15
+    sessionSettings.announce_ip = announce_ip.toStdString();
+#else
     boost::system::error_code ec;
     boost::asio::ip::address addr = boost::asio::ip::address::from_string(announce_ip.toStdString(), ec);
     if(!ec) {
       addConsoleMessage(tr("Reporting IP address %1 to trackers...").arg(announce_ip));
       sessionSettings.announce_ip = addr;
     }
+#endif
   }
   // Super seeding
 #if LIBTORRENT_VERSION_MINOR > 14
   sessionSettings.strict_super_seeding = pref.isSuperSeedingEnabled();
 #endif
-  qDebug() << "Settings SessionSettings";
-  setSessionSettings(sessionSettings);
-  // Bittorrent
+#if LIBTORRENT_VERSION_MINOR > 15
+  // * Max Half-open connections
+  sessionSettings.half_open_limit = pref.getMaxHalfOpenConnections();
+  // * Max connections limit
+  sessionSettings.connections_limit = pref.getMaxConnecs();
+#else
   // * Max Half-open connections
   s->set_max_half_open_connections(pref.getMaxHalfOpenConnections());
   // * Max connections limit
   setMaxConnections(pref.getMaxConnecs());
+#endif
+#if LIBTORRENT_VERSION_MINOR > 15
+  // uTP
+  if(pref.isuTPEnabled()) {
+    sessionSettings.enable_incoming_utp = true;
+    sessionSettings.enable_outgoing_utp = true;
+  } else {
+    sessionSettings.enable_incoming_utp = false;
+    sessionSettings.enable_outgoing_utp = false;
+  }
+  // uTP rate limiting
+  sessionSettings.rate_limit_utp = pref.isuTPRateLimited();
+  if(sessionSettings.rate_limit_utp)
+    sessionSettings.mixed_mode_algorithm = session_settings::prefer_tcp;
+  else
+    sessionSettings.mixed_mode_algorithm = session_settings::peer_proportional;
+#endif
+  qDebug() << "Settings SessionSettings";
+  setSessionSettings(sessionSettings);
+  // Bittorrent
   // * Max connections per torrent limit
   setMaxConnectionsPerTorrent(pref.getMaxConnecsPerTorrent());
   // * Max uploads per torrent limit
@@ -600,6 +634,22 @@ void QBtSession::initWebUi() {
     } else {
       httpServer = new HttpServer(3000, this);
     }
+
+#ifndef QT_NO_OPENSSL
+    if (pref.isWebUiHttpsEnabled()) {
+      QSslCertificate cert(pref.getWebUiHttpsCertificate());
+      QSslKey key;
+      const QByteArray raw_key = pref.getWebUiHttpsKey();
+      key = QSslKey(raw_key, QSsl::Rsa);
+      if (!cert.isNull() && !key.isNull())
+        httpServer->enableHttps(cert, key);
+      else
+        httpServer->disableHttps();
+    } else {
+      httpServer->disableHttps();
+    }
+#endif
+
     httpServer->setAuthorization(username, password);
     httpServer->setlocalAuthEnabled(pref.isWebUiLocalAuthEnabled());
     if(!httpServer->isListening()) {
@@ -609,8 +659,25 @@ void QBtSession::initWebUi() {
       else
         addConsoleMessage(tr("Web User Interface Error - Unable to bind Web UI to port %1").arg(port), "red");
     }
-  } else if(httpServer) {
-    delete httpServer;
+    // DynDNS
+    if(pref.isDynDNSEnabled()) {
+      if(!m_dynDNSUpdater)
+        m_dynDNSUpdater = new DNSUpdater(this);
+      else
+        m_dynDNSUpdater->updateCredentials();
+    } else {
+      if(m_dynDNSUpdater) {
+        delete m_dynDNSUpdater;
+        m_dynDNSUpdater = 0;
+      }
+    }
+  } else {
+    if(httpServer)
+      delete httpServer;
+    if(m_dynDNSUpdater) {
+      delete m_dynDNSUpdater;
+      m_dynDNSUpdater = 0;
+    }
   }
 }
 
@@ -702,7 +769,7 @@ void QBtSession::deleteTorrent(const QString &hash, bool delete_local_files) {
   } else {
     QStringList uneeded_files;
     if(h.has_metadata())
-      uneeded_files = h.uneeded_files_path();
+      uneeded_files = h.absolute_files_path_uneeded();
     s->remove_torrent(h);
     // Remove unneeded and incomplete files
     foreach(const QString &uneeded_file, uneeded_files) {
@@ -991,7 +1058,9 @@ QTorrentHandle QBtSession::addTorrent(QString path, bool fromScanDir, QString fr
       p.resume_data = &buf;
       qDebug("Successfully loaded fast resume data");
     }
-  } else {
+  }
+#if LIBTORRENT_VERSION_MINOR < 16
+  else {
     // Generate fake resume data to make sure unwanted files
     // are not allocated
     if(preAllocateAll) {
@@ -1004,6 +1073,7 @@ QTorrentHandle QBtSession::addTorrent(QString path, bool fromScanDir, QString fr
       }
     }
   }
+#endif
 
   QString savePath;
   if(!from_url.isEmpty() && savepathLabel_fromurl.contains(QUrl::fromEncoded(from_url.toUtf8()))) {
@@ -1154,6 +1224,21 @@ add_torrent_params QBtSession::initializeAddTorrentParams(const QString &hash) {
   else
     p.storage_mode = storage_mode_sparse;
 
+  // Priorities
+#if LIBTORRENT_VERSION_MINOR > 15
+  if(TorrentTempData::hasTempData(hash)) {
+    std::vector<int> fp;
+    TorrentTempData::getFilesPriority(hash, fp);
+    if(!fp.empty()) {
+      std::vector<boost::uint8_t> *fp_conv = new std::vector<boost::uint8_t>();
+      for(uint i=0; i<fp.size(); ++i) {
+        fp_conv->push_back(fp[i]);
+      }
+      p.file_priorities = fp_conv;
+    }
+  }
+#endif
+
   // Start in pause
   p.paused = true;
   p.duplicate_is_error = false; // Already checked
@@ -1172,10 +1257,12 @@ void QBtSession::loadTorrentTempData(QTorrentHandle &h, QString savePath, bool m
 
     // The following is useless for newly added magnet
     if(!magnet) {
+#if LIBTORRENT_VERSION_MINOR < 16
       // Files priorities
       vector<int> fp;
       TorrentTempData::getFilesPriority(hash, fp);
       h.prioritize_files(fp);
+#endif
 
       // Prioritize first/last piece
       h.prioritize_first_last_piece(TorrentTempData::isSequential(hash));
@@ -1185,7 +1272,7 @@ void QBtSession::loadTorrentTempData(QTorrentHandle &h, QString savePath, bool m
       bool force_recheck = false;
       if(files_path.size() == h.num_files()) {
         for(int i=0; i<h.num_files(); ++i) {
-          QString old_path = h.files_path().at(i);
+          QString old_path = h.absolute_files_path().at(i);
           old_path = old_path.replace("\\", "/");
           if(!QFile::exists(old_path)) {
             // Remove old parent folder manually since we will
@@ -1241,14 +1328,27 @@ void QBtSession::mergeTorrents(QTorrentHandle &h_ex, boost::intrusive_ptr<torren
   }
   bool urlseeds_added = false;
   const QStringList old_urlseeds = h_ex.url_seeds();
+#if LIBTORRENT_VERSION_MINOR > 15
+  std::vector<web_seed_entry> new_urlseeds = t->web_seeds();
+  std::vector<web_seed_entry>::iterator it;
+  for(it = new_urlseeds.begin(); it != new_urlseeds.end(); it++) {
+    const QString new_url = misc::toQString(it->url.c_str());
+    if(!old_urlseeds.contains(new_url)) {
+      urlseeds_added = true;
+      h_ex.add_url_seed(new_url);
+    }
+  }
+#else
   std::vector<std::string> new_urlseeds = t->url_seeds();
-  for(std::vector<std::string>::iterator it = new_urlseeds.begin(); it != new_urlseeds.end(); it++) {
+  std::vector<std::string>::iterator it;
+  for(it = new_urlseeds.begin(); it != new_urlseeds.end(); it++) {
     const QString new_url = misc::toQString(it->c_str());
     if(!old_urlseeds.contains(new_url)) {
       urlseeds_added = true;
       h_ex.add_url_seed(new_url);
     }
   }
+#endif
   if(urlseeds_added) {
     addConsoleMessage(tr("Note: new URL seeds were added to the existing torrent."));
   }
@@ -1293,8 +1393,13 @@ void QBtSession::exportTorrentFiles(QString path) {
 
 // Set the maximum number of opened connections
 void QBtSession::setMaxConnections(int maxConnec) {
+#if LIBTORRENT_VERSION_MINOR > 15
+  Q_UNUSED(maxConnec);
+  Q_ASSERT(0); // Should not be used
+#else
   qDebug() << Q_FUNC_INFO << maxConnec;
   s->set_max_connections(maxConnec);
+#endif
 }
 
 void QBtSession::setMaxConnectionsPerTorrent(int max) {
@@ -1326,19 +1431,26 @@ void QBtSession::setMaxUploadsPerTorrent(int max) {
 }
 
 void QBtSession::enableUPnP(bool b) {
+  Preferences pref;
   if(b) {
-    if(!UPnPEnabled) {
+    if(!m_upnp) {
       qDebug("Enabling UPnP / NAT-PMP");
-      s->start_upnp();
-      s->start_natpmp();
-      UPnPEnabled = true;  
+      m_upnp = s->start_upnp();
+      m_natpmp = s->start_natpmp();
+    }
+    // Use UPnP/NAT-PMP for Web UI too
+    if(pref.isWebUiEnabled() && pref.useUPnPForWebUIPort()) {
+      const qint16 port = pref.getWebUiPort();
+      m_upnp->add_mapping(upnp::tcp, port, port);
+      m_natpmp->add_mapping(natpmp::tcp, port, port);
     }
   } else {
-    if(UPnPEnabled) {
+    if(m_upnp) {
       qDebug("Disabling UPnP / NAT-PMP");
       s->stop_upnp();
       s->stop_natpmp();
-      UPnPEnabled = false;
+      m_upnp = 0;
+      m_natpmp = 0;
     }
   }
 }
@@ -1377,8 +1489,15 @@ void QBtSession::loadSessionState() {
   state_file.read(&in[0], content_size);
   // bdecode
   lazy_entry e;
-  if (lazy_bdecode(&in[0], &in[0] + in.size(), e) == 0)
+#if LIBTORRENT_VERSION_MINOR > 15
+  error_code ec;
+  lazy_bdecode(&in[0], &in[0] + in.size(), e, ec);
+  if(!ec) {
+#else
+  if (lazy_bdecode(&in[0], &in[0] + in.size(), e) == 0) {
+#endif
     s->load_state(e);
+  }
 #else
   boost::filesystem::ifstream ses_state_file(state_path.toLocal8Bit().constData()
                                              , std::ios_base::binary);
@@ -1475,6 +1594,7 @@ qreal QBtSession::getRealRatio(const QString &hash) const{
   return ratio;
 }
 
+// Called periodically
 void QBtSession::saveTempFastResumeData() {
   std::vector<torrent_handle> torrents =  s->get_torrents();
   std::vector<torrent_handle>::iterator torrentIT;
@@ -1482,6 +1602,9 @@ void QBtSession::saveTempFastResumeData() {
     QTorrentHandle h = QTorrentHandle(*torrentIT);
     try {
       if(!h.is_valid() || !h.has_metadata() /*|| h.is_seed() || h.is_paused()*/) continue;
+#if LIBTORRENT_VERSION_MINOR > 15
+      if(!h.need_save_resume_data()) continue;
+#endif
       if(h.state() == torrent_status::checking_files || h.state() == torrent_status::queued_for_checking) continue;
       qDebug("Saving fastresume data for %s", qPrintable(h.name()));
       h.save_resume_data();
@@ -1490,7 +1613,7 @@ void QBtSession::saveTempFastResumeData() {
 }
 
 // Only save fast resume data for unfinished and unpaused torrents (Optimization)
-// Called periodically and on exit
+// Called on exit
 void QBtSession::saveFastResumeData() {
   qDebug("Saving fast resume data...");
   // Stop listening for alerts
@@ -1744,11 +1867,19 @@ void QBtSession::setAppendqBExtension(bool append) {
 // Set the ports range in which is chosen the port the Bittorrent
 // session will listen to
 void QBtSession::setListeningPort(int port) {
+  qDebug() << Q_FUNC_INFO << port;
   Preferences pref;
   std::pair<int,int> ports(port, port);
+#if LIBTORRENT_VERSION_MINOR > 15
+  error_code ec;
+#endif
   const QString iface_name = pref.getNetworkInterface();
   if(iface_name.isEmpty()) {
+#if LIBTORRENT_VERSION_MINOR > 15
+    s->listen_on(ports, ec);
+#else
     s->listen_on(ports);
+#endif
     return;
   }
   // Attempt to listen on provided interface
@@ -1757,14 +1888,23 @@ void QBtSession::setListeningPort(int port) {
     qDebug("Invalid network interface: %s", qPrintable(iface_name));
     addConsoleMessage(tr("The network interface defined is invalid: %1").arg(iface_name), "red");
     addConsoleMessage(tr("Trying any other network interface available instead."));
+#if LIBTORRENT_VERSION_MINOR > 15
+    s->listen_on(ports, ec);
+#else
     s->listen_on(ports);
+#endif
     return;
   }
   QString ip;
   qDebug("This network interface has %d IP addresses", network_iface.addressEntries().size());
   foreach(const QNetworkAddressEntry &entry, network_iface.addressEntries()) {
     qDebug("Trying to listen on IP %s (%s)", qPrintable(entry.ip().toString()), qPrintable(iface_name));
+#if LIBTORRENT_VERSION_MINOR > 15
+    s->listen_on(ports, ec, entry.ip().toString().toAscii().constData());
+    if(!ec) {
+#else
     if(s->listen_on(ports, entry.ip().toString().toAscii().constData())) {
+#endif
       ip = entry.ip().toString();
       break;
     }
@@ -1782,7 +1922,13 @@ void QBtSession::setListeningPort(int port) {
 void QBtSession::setDownloadRateLimit(long rate) {
   qDebug() << Q_FUNC_INFO << rate;
   Q_ASSERT(rate == -1 || rate >= 0);
+#if LIBTORRENT_VERSION_MINOR > 15
+  session_settings settings = s->settings();
+  settings.download_rate_limit = rate;
+  s->set_settings(settings);
+#else
   s->set_download_rate_limit(rate);
+#endif
 }
 
 // Set upload rate limit
@@ -1790,7 +1936,13 @@ void QBtSession::setDownloadRateLimit(long rate) {
 void QBtSession::setUploadRateLimit(long rate) {
   qDebug() << Q_FUNC_INFO << rate;
   Q_ASSERT(rate == -1 || rate >= 0);
+#if LIBTORRENT_VERSION_MINOR > 15
+  session_settings settings = s->settings();
+  settings.upload_rate_limit = rate;
+  s->set_settings(settings);
+#else
   s->set_upload_rate_limit(rate);
+#endif
 }
 
 // Torrents will a ratio superior to the given value will
@@ -1889,17 +2041,22 @@ void QBtSession::setSessionSettings(const session_settings &sessionSettings) {
 }
 
 // Set Proxy
-void QBtSession::setProxySettings(const proxy_settings &proxySettings) {
+void QBtSession::setProxySettings(proxy_settings proxySettings) {
   qDebug() << Q_FUNC_INFO;
 
-#if (LIBTORRENT_VERSION_MINOR > 15) || (LIBTORRENT_VERSION_MINOR == 15 && LIBTORRENT_VERSION_TINY > 4)
+#if LIBTORRENT_VERSION_MINOR > 15
+  proxySettings.proxy_peer_connections = Preferences().proxyPeerConnections();
   s->set_proxy(proxySettings);
 #else
-  s->set_peer_proxy(proxySettings);
-  s->set_web_seed_proxy(proxySettings);
   s->set_tracker_proxy(proxySettings);
-  s->set_dht_proxy(proxySettings);
+  proxy_settings peer_proxy;
+  if (Preferences().proxyPeerConnections())
+    peer_proxy = proxySettings;
+  s->set_peer_proxy(peer_proxy);
+  s->set_web_seed_proxy(peer_proxy);
+  s->set_dht_proxy(peer_proxy);
 #endif
+
   // Define environment variable
   QString proxy_str;
   switch(proxySettings.type) {
@@ -1946,9 +2103,8 @@ void QBtSession::setProxySettings(const proxy_settings &proxySettings) {
 
 void QBtSession::recursiveTorrentDownload(const QTorrentHandle &h) {
   try {
-    torrent_info::file_iterator it;
-    for(it = h.get_torrent_info().begin_files(); it != h.get_torrent_info().end_files(); it++)  {
-      const QString torrent_relpath = h.filepath(*it);
+    for(int i=0; i<h.num_files(); ++i) {
+      const QString torrent_relpath = h.filepath_at(i);
       if(torrent_relpath.endsWith(".torrent")) {
 #if defined(Q_WS_WIN) || defined(Q_OS_OS2)
         QString displayed_relpath = torrent_relpath;
@@ -2006,7 +2162,8 @@ void QBtSession::sendNotificationEmail(const QTorrentHandle &h) {
   content += tr("The torrent was downloaded in %1.", "The torrent was downloaded in 1 hour and 20 seconds").arg(misc::userFriendlyDuration(h.active_time())) + "\n\n\n";
   content += tr("Thank you for using qBittorrent.") + "\n";
   // Send the notification email
-  new Smtp("notification@qbittorrent.org", Preferences().getMailNotificationEmail(), tr("[qBittorrent] %1 has finished downloading").arg(h.name()), content);
+  Smtp *sender = new Smtp(this);
+  sender->sendMail("notification@qbittorrent.org", Preferences().getMailNotificationEmail(), tr("[qBittorrent] %1 has finished downloading").arg(h.name()), content);
 }
 
 // Read alerts sent by the Bittorrent session
@@ -2030,9 +2187,9 @@ void QBtSession::readAlerts() {
           h.save_resume_data();
           qDebug("Checking if the torrent contains torrent files to download");
           // Check if there are torrent files inside
-          for(torrent_info::file_iterator it = h.get_torrent_info().begin_files(); it != h.get_torrent_info().end_files(); it++) {
-            qDebug() << "File path:" << h.filepath(*it);
-            const QString torrent_relpath = h.filepath(*it).replace("\\", "/");
+          for(int i=0; i<h.num_files(); ++i) {
+            const QString torrent_relpath = h.filepath_at(i).replace("\\", "/");
+            qDebug() << "File path:" << torrent_relpath;
             if(torrent_relpath.endsWith(".torrent", Qt::CaseInsensitive)) {
               qDebug("Found possible recursive torrent download.");
               const QString torrent_fullpath = h.save_path()+"/"+torrent_relpath;
@@ -2113,13 +2270,6 @@ void QBtSession::readAlerts() {
               // Disabling it for next time
               pref.setShutdownWhenDownloadsComplete(false);
               pref.setSuspendWhenDownloadsComplete(false);
-#if LIBTORRENT_VERSION_MINOR < 15
-              saveDHTEntry();
-#endif
-              qDebug("Saving session state");
-              saveSessionState();
-              qDebug("Saving fast resume data");
-              saveFastResumeData();
               // Make sure preferences are synced before exiting
               if(suspend)
                 m_shutdownAct = SUSPEND_COMPUTER;
@@ -2372,12 +2522,20 @@ void QBtSession::readAlerts() {
       //emit UPnPSuccess(QString(p->msg().c_str()));
     }
     else if (peer_blocked_alert* p = dynamic_cast<peer_blocked_alert*>(a.get())) {
-      addPeerBanMessage(QString(p->ip.to_string().c_str()), true);
-      //emit peerBlocked(QString::fromUtf8(p->ip.to_string().c_str()));
+      boost::system::error_code ec;
+      string ip = p->ip.to_string(ec);
+      if (!ec) {
+        addPeerBanMessage(QString::fromAscii(ip.c_str()), true);
+        //emit peerBlocked(QString::fromAscii(ip.c_str()));
+      }
     }
     else if (peer_ban_alert* p = dynamic_cast<peer_ban_alert*>(a.get())) {
-      addPeerBanMessage(QString(p->ip.address().to_string().c_str()), false);
-      //emit peerBlocked(QString::fromUtf8(p->ip.to_string().c_str()));
+      boost::system::error_code ec;
+      string ip = p->ip.address().to_string(ec);
+      if (!ec) {
+        addPeerBanMessage(QString::fromAscii(ip.c_str()), false);
+        //emit peerBlocked(QString::fromAscii(ip.c_str()));
+      }
     }
     else if (fastresume_rejected_alert* p = dynamic_cast<fastresume_rejected_alert*>(a.get())) {
       QTorrentHandle h(p->handle);
@@ -2405,7 +2563,8 @@ void QBtSession::readAlerts() {
       //emit urlSeedProblem(QString::fromUtf8(p->url.c_str()), QString::fromUtf8(p->msg().c_str()));
     }
     else if (listen_succeeded_alert *p = dynamic_cast<listen_succeeded_alert*>(a.get())) {
-      qDebug() << "Sucessfully listening on" << p->endpoint.address().to_string().c_str() << "/" << p->endpoint.port();
+      boost::system::error_code ec;
+      qDebug() << "Sucessfully listening on" << p->endpoint.address().to_string(ec).c_str() << "/" << p->endpoint.port();
       // Force reannounce on all torrents because some trackers blacklist some ports
       std::vector<torrent_handle> torrents = s->get_torrents();
       std::vector<torrent_handle>::iterator it;

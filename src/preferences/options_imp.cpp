@@ -37,6 +37,7 @@
 #include <QCloseEvent>
 #include <QDesktopWidget>
 #include <QTranslator>
+#include <QDesktopServices>
 
 #include <libtorrent/version.hpp>
 #include <time.h>
@@ -50,6 +51,12 @@
 #include "qinisettings.h"
 #include "qbtsession.h"
 #include "iconprovider.h"
+#include "dnsupdater.h"
+
+#ifndef QT_NO_OPENSSL
+#include <QSslKey>
+#include <QSslCertificate>
+#endif
 
 using namespace libtorrent;
 
@@ -107,22 +114,15 @@ options_imp::options_imp(QWidget *parent):
     checkShowSystray->setEnabled(false);
   }
 #if !defined(Q_WS_X11)
-  checkUseMonoSystrayIcon->setVisible(false);
+  label_trayIconStyle->setVisible(false);
+  comboTrayIcon->setVisible(false);
+#endif
+#if defined(QT_NO_OPENSSL)
+  checkWebUiHttps->setVisible(false);
 #endif
   // Connect signals / slots
-  // General tab
-  connect(checkShowSystray, SIGNAL(toggled(bool)), this, SLOT(setSystrayOptionsState(bool)));
-  // Connection tab
-  connect(checkUploadLimit, SIGNAL(toggled(bool)), this, SLOT(enableUploadLimit(bool)));
-  connect(checkDownloadLimit,  SIGNAL(toggled(bool)), this, SLOT(enableDownloadLimit(bool)));
-  // Bittorrent tab
-  connect(checkMaxConnecs,  SIGNAL(toggled(bool)), this, SLOT(enableMaxConnecsLimit(bool)));
-  connect(checkMaxConnecsPerTorrent,  SIGNAL(toggled(bool)), this, SLOT(enableMaxConnecsLimitPerTorrent(bool)));
-  connect(checkMaxUploadsPerTorrent,  SIGNAL(toggled(bool)), this, SLOT(enableMaxUploadsLimitPerTorrent(bool)));
-  connect(checkMaxRatio,  SIGNAL(toggled(bool)), this, SLOT(enableMaxRatio(bool)));
   // Proxy tab
   connect(comboProxyType, SIGNAL(currentIndexChanged(int)),this, SLOT(enableProxy(int)));
-  connect(checkProxyAuth,  SIGNAL(toggled(bool)), this, SLOT(enableProxyAuth(bool)));
 
   // Apply button is activated when a value is changed
   // General tab
@@ -135,7 +135,7 @@ options_imp::options_imp(QWidget *parent):
   connect(checkShowSplash, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkProgramExitConfirm, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkPreventFromSuspend, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
-  connect(checkUseMonoSystrayIcon, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+  connect(comboTrayIcon, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApplyButton()));
 #if defined(Q_WS_X11) && !defined(QT_DBUS_LIB)
   checkPreventFromSuspend->setDisabled(true);
 #endif
@@ -157,6 +157,10 @@ options_imp::options_imp(QWidget *parent):
   connect(groupMailNotification, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(dest_email_txt, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
   connect(smtp_server_txt, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
+  connect(checkSmtpSSL, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+  connect(groupMailNotifAuth, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+  connect(mailNotifUsername, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
+  connect(mailNotifPassword, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
   connect(autoRunBox, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(autoRun_txt, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
   // Connection tab
@@ -172,6 +176,9 @@ options_imp::options_imp(QWidget *parent):
   connect(schedule_from, SIGNAL(timeChanged(QTime)), this, SLOT(enableApplyButton()));
   connect(schedule_to, SIGNAL(timeChanged(QTime)), this, SLOT(enableApplyButton()));
   connect(schedule_days, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApplyButton()));
+  connect(checkuTP, SIGNAL(toggled(bool)), SLOT(enableApplyButton()));
+  connect(checkLimituTPConnections, SIGNAL(toggled(bool)), SLOT(enableApplyButton()));
+  connect(checkLimitTransportOverhead, SIGNAL(toggled(bool)), SLOT(enableApplyButton()));
   // Bittorrent tab
   connect(checkMaxConnecs, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkMaxConnecsPerTorrent, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
@@ -192,6 +199,7 @@ options_imp::options_imp(QWidget *parent):
   connect(comboProxyType, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApplyButton()));
   connect(textProxyIP, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
   connect(spinProxyPort, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
+  connect(checkProxyPeerConnecs, SIGNAL(toggled(bool)), SLOT(enableApplyButton()));
   connect(checkProxyAuth, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(textProxyUsername, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
   connect(textProxyPassword, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
@@ -205,15 +213,28 @@ options_imp::options_imp(QWidget *parent):
   // Web UI tab
   connect(checkWebUi, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(spinWebUiPort, SIGNAL(valueChanged(int)), this, SLOT(enableApplyButton()));
+  connect(checkWebUIUPnP, SIGNAL(toggled(bool)), SLOT(enableApplyButton()));
+  connect(checkWebUiHttps, SIGNAL(toggled(bool)), SLOT(enableApplyButton()));
+  connect(btnWebUiKey, SIGNAL(clicked()), SLOT(enableApplyButton()));
+  connect(btnWebUiCrt, SIGNAL(clicked()), SLOT(enableApplyButton()));
   connect(textWebUiUsername, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
   connect(textWebUiPassword, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
   connect(checkBypassLocalAuth, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+  connect(checkDynDNS, SIGNAL(toggled(bool)), SLOT(enableApplyButton()));
+  connect(comboDNSService, SIGNAL(currentIndexChanged(int)), SLOT(enableApplyButton()));
+  connect(domainNameTxt, SIGNAL(textChanged(QString)), SLOT(enableApplyButton()));
+  connect(DNSUsernameTxt, SIGNAL(textChanged(QString)), SLOT(enableApplyButton()));
+  connect(DNSPasswordTxt, SIGNAL(textChanged(QString)), SLOT(enableApplyButton()));
   // Disable apply Button
   applyButton->setEnabled(false);
   // Tab selection mecanism
   connect(tabSelection, SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)), this, SLOT(changePage(QListWidgetItem *, QListWidgetItem*)));
 #if LIBTORRENT_VERSION_MINOR < 15
   checkAppendqB->setVisible(false);
+#endif
+#if LIBTORRENT_VERSION_MINOR < 16
+  checkuTP->setVisible(false);
+  checkLimituTPConnections->setVisible(false);
 #endif
   // Load Advanced settings
   QVBoxLayout *adv_layout = new QVBoxLayout();
@@ -289,7 +310,7 @@ void options_imp::saveWindowState() const {
   settings.setValue(QString::fromUtf8("Preferences/State/hSplitterSizes"), sizes_str);
 }
 
-QSize options_imp::sizeFittingScreen() {
+QSize options_imp::sizeFittingScreen() const {
   int scrn = 0;
   QWidget *w = this->topLevelWidget();
 
@@ -327,7 +348,7 @@ void options_imp::saveOptions(){
   pref.setLocale(locale);
   pref.setAlternatingRowColors(checkAltRowColors->isChecked());
   pref.setSystrayIntegration(systrayIntegration());
-  pref.setUseMonochromeTrayIcon(checkUseMonoSystrayIcon->isChecked());
+  pref.setTrayIconStyle(TrayIcon::Style(comboTrayIcon->currentIndex()));
   pref.setCloseToTray(closeToTray());
   pref.setMinimizeToTray(minimizeToTray());
   pref.setStartMinimized(startMinimized());
@@ -365,6 +386,10 @@ void options_imp::saveOptions(){
   pref.setMailNotificationEnabled(groupMailNotification->isChecked());
   pref.setMailNotificationEmail(dest_email_txt->text());
   pref.setMailNotificationSMTP(smtp_server_txt->text());
+  pref.setMailNotificationSMTPSSL(checkSmtpSSL->isChecked());
+  pref.setMailNotificationSMTPAuth(groupMailNotifAuth->isChecked());
+  pref.setMailNotificationSMTPUsername(mailNotifUsername->text());
+  pref.setMailNotificationSMTPPassword(mailNotifPassword->text());
   pref.setAutoRunEnabled(autoRunBox->isChecked());
   pref.setAutoRunProgram(autoRun_txt->text());
   pref.setActionOnDblClOnTorrentDl(getActionOnDblClOnTorrentDl());
@@ -376,6 +401,9 @@ void options_imp::saveOptions(){
   const QPair<int, int> down_up_limit = getGlobalBandwidthLimits();
   pref.setGlobalDownloadLimit(down_up_limit.first);
   pref.setGlobalUploadLimit(down_up_limit.second);
+  pref.setuTPEnabled(checkuTP->isChecked());
+  pref.setuTPRateLimited(checkLimituTPConnections->isChecked());
+  pref.includeOverheadInLimits(checkLimitTransportOverhead->isChecked());
   pref.setAltGlobalDownloadLimit(spinDownloadLimitAlt->value());
   pref.setAltGlobalUploadLimit(spinUploadLimitAlt->value());
   pref.setSchedulerEnabled(check_schedule->isChecked());
@@ -385,6 +413,7 @@ void options_imp::saveOptions(){
   pref.setProxyType(getProxyType());
   pref.setProxyIp(getProxyIp());
   pref.setProxyPort(getProxyPort());
+  pref.setProxyPeerConnections(checkProxyPeerConnecs->isChecked());
   pref.setProxyAuthEnabled(isProxyAuthEnabled());
   pref.setProxyUsername(getProxyUsername());
   pref.setProxyPassword(getProxyPassword());
@@ -424,10 +453,23 @@ void options_imp::saveOptions(){
   if(isWebUiEnabled())
   {
     pref.setWebUiPort(webUiPort());
+    pref.setUPnPForWebUIPort(checkWebUIUPnP->isChecked());
+    pref.setWebUiHttpsEnabled(checkWebUiHttps->isChecked());
+    if(checkWebUiHttps->isChecked())
+    {
+      pref.setWebUiHttpsCertificate(m_sslCert);
+      pref.setWebUiHttpsKey(m_sslKey);
+    }
     pref.setWebUiUsername(webUiUsername());
     // FIXME: Check that the password is valid (not empty at least)
     pref.setWebUiPassword(webUiPassword());
     pref.setWebUiLocalAuthEnabled(!checkBypassLocalAuth->isChecked());
+    // DynDNS
+    pref.setDynDNSEnabled(checkDynDNS->isChecked());
+    pref.setDynDNSService(comboDNSService->currentIndex());
+    pref.setDynDomainName(domainNameTxt->text());
+    pref.setDynDNSUsername(DNSUsernameTxt->text());
+    pref.setDynDNSPassword(DNSPasswordTxt->text());
   }
   // End Web UI
   // End preferences
@@ -469,15 +511,12 @@ void options_imp::loadOptions(){
   checkAltRowColors->setChecked(pref.useAlternatingRowColors());
   checkShowSystray->setChecked(pref.systrayIntegration());
   checkShowSplash->setChecked(!pref.isSlashScreenDisabled());
-  if(!checkShowSystray->isChecked()) {
-    disableSystrayOptions();
-  } else {
-    enableSystrayOptions();
+  if(checkShowSystray->isChecked()) {
     checkCloseToSystray->setChecked(pref.closeToTray());
     checkMinimizeToSysTray->setChecked(pref.minimizeToTray());
     checkStartMinimized->setChecked(pref.startMinimized());
-    checkUseMonoSystrayIcon->setChecked(pref.useMonochromeTrayIcon());
   }
+  comboTrayIcon->setCurrentIndex(pref.trayIconStyle());
   checkProgramExitConfirm->setChecked(pref.confirmOnExit());
   checkPreventFromSuspend->setChecked(pref.preventFromSuspend());
   // End General preferences
@@ -521,6 +560,10 @@ void options_imp::loadOptions(){
   groupMailNotification->setChecked(pref.isMailNotificationEnabled());
   dest_email_txt->setText(pref.getMailNotificationEmail());
   smtp_server_txt->setText(pref.getMailNotificationSMTP());
+  checkSmtpSSL->setChecked(pref.getMailNotificationSMTPSSL());
+  groupMailNotifAuth->setChecked(pref.getMailNotificationSMTPAuth());
+  mailNotifUsername->setText(pref.getMailNotificationSMTPUsername());
+  mailNotifPassword->setText(pref.getMailNotificationSMTPPassword());
   autoRunBox->setChecked(pref.isAutoRunEnabled());
   autoRun_txt->setText(pref.getAutoRunProgram());
   intValue = pref.getActionOnDblClOnTorrentDl();
@@ -559,6 +602,10 @@ void options_imp::loadOptions(){
   }
   spinUploadLimitAlt->setValue(pref.getAltGlobalUploadLimit());
   spinDownloadLimitAlt->setValue(pref.getAltGlobalDownloadLimit());
+  // Options
+  checkuTP->setChecked(pref.isuTPEnabled());
+  checkLimituTPConnections->setChecked(pref.isuTPRateLimited());
+  checkLimitTransportOverhead->setChecked(pref.includeOverheadInLimits());
   // Scheduler
   check_schedule->setChecked(pref.isSchedulerEnabled());
   schedule_from->setTime(pref.getSchedulerStartTime());
@@ -586,10 +633,10 @@ void options_imp::loadOptions(){
   // Proxy is enabled, save settings
   textProxyIP->setText(pref.getProxyIp());
   spinProxyPort->setValue(pref.getProxyPort());
+  checkProxyPeerConnecs->setChecked(pref.proxyPeerConnections());
   checkProxyAuth->setChecked(pref.isProxyAuthEnabled());
   textProxyUsername->setText(pref.getProxyUsername());
   textProxyPassword->setText(pref.getProxyPassword());
-  enableProxyAuth(checkProxyAuth->isChecked());
   //}
   // End Connection preferences
   // Bittorrent preferences
@@ -662,9 +709,19 @@ void options_imp::loadOptions(){
   // Web UI
   checkWebUi->setChecked(pref.isWebUiEnabled());
   spinWebUiPort->setValue(pref.getWebUiPort());
+  checkWebUIUPnP->setChecked(pref.useUPnPForWebUIPort());
+  checkWebUiHttps->setChecked(pref.isWebUiHttpsEnabled());
+  setSslCertificate(pref.getWebUiHttpsCertificate(), false);
+  setSslKey(pref.getWebUiHttpsKey(), false);
   textWebUiUsername->setText(pref.getWebUiUsername());
   textWebUiPassword->setText(pref.getWebUiPassword());
   checkBypassLocalAuth->setChecked(!pref.isWebUiLocalAuthEnabled());
+  // Dynamic DNS
+  checkDynDNS->setChecked(pref.isDynDNSEnabled());
+  comboDNSService->setCurrentIndex((int)pref.getDynDNSService());
+  domainNameTxt->setText(pref.getDynDomainName());
+  DNSUsernameTxt->setText(pref.getDynDNSUsername());
+  DNSPasswordTxt->setText(pref.getDynDNSPassword());
   // End Web UI
   // Random stuff
   srand(time(0));
@@ -831,65 +888,12 @@ void options_imp::on_buttonBox_rejected(){
   reject();
 }
 
-void options_imp::enableDownloadLimit(bool checked){
-  if(checked){
-    spinDownloadLimit->setEnabled(true);
-  }else{
-    spinDownloadLimit->setEnabled(false);
-  }
-}
-
 bool options_imp::useAdditionDialog() const{
   return checkAdditionDialog->isChecked();
 }
 
-void options_imp::enableMaxConnecsLimit(bool checked){
-  spinMaxConnec->setEnabled(checked);
-}
-
-void options_imp::enableMaxConnecsLimitPerTorrent(bool checked){
-  spinMaxConnecPerTorrent->setEnabled(checked);
-}
-
-void options_imp::enableSystrayOptions() {
-  checkCloseToSystray->setEnabled(true);
-  checkMinimizeToSysTray->setEnabled(true);
-  checkUseMonoSystrayIcon->setEnabled(true);
-}
-
-void options_imp::disableSystrayOptions() {
-  checkCloseToSystray->setEnabled(false);
-  checkMinimizeToSysTray->setEnabled(false);
-  checkUseMonoSystrayIcon->setEnabled(false);
-}
-
-void options_imp::setSystrayOptionsState(bool checked) {
-  if(checked) {
-    enableSystrayOptions();
-  } else {
-    disableSystrayOptions();
-  }
-}
-
-void options_imp::enableMaxUploadsLimitPerTorrent(bool checked){
-  if(checked){
-    spinMaxUploadsPerTorrent->setEnabled(true);
-  }else{
-    spinMaxUploadsPerTorrent->setEnabled(false);
-  }
-}
-
-void options_imp::enableUploadLimit(bool checked){
-  spinUploadLimit->setEnabled(checked);
-}
-
 void options_imp::enableApplyButton(){
   applyButton->setEnabled(true);
-}
-
-void options_imp::enableMaxRatio(bool checked){
-  spinMaxRatio->setEnabled(checked);
-  comboRatioLimitAct->setEnabled(checked);
 }
 
 void options_imp::enableProxy(int index){
@@ -899,6 +903,7 @@ void options_imp::enableProxy(int index){
     textProxyIP->setEnabled(true);
     lblProxyPort->setEnabled(true);
     spinProxyPort->setEnabled(true);
+    checkProxyPeerConnecs->setEnabled(true);
     if(index > 1) {
       checkProxyAuth->setEnabled(true);
     } else {
@@ -911,16 +916,10 @@ void options_imp::enableProxy(int index){
     textProxyIP->setEnabled(false);
     lblProxyPort->setEnabled(false);
     spinProxyPort->setEnabled(false);
+    checkProxyPeerConnecs->setEnabled(false);
     checkProxyAuth->setEnabled(false);
     checkProxyAuth->setChecked(false);
   }
-}
-
-void options_imp::enableProxyAuth(bool checked){
-  lblProxyUsername->setEnabled(checked);
-  lblProxyPassword->setEnabled(checked);
-  textProxyUsername->setEnabled(checked);
-  textProxyPassword->setEnabled(checked);
 }
 
 bool options_imp::isSlashScreenDisabled() const {
@@ -953,9 +952,7 @@ bool options_imp::isProxyAuthEnabled() const{
 }
 
 QString options_imp::getProxyIp() const{
-  QString ip = textProxyIP->text();
-  ip = ip.trimmed();
-  return ip;
+  return textProxyIP->text().trimmed();
 }
 
 unsigned short options_imp::getProxyPort() const{
@@ -979,7 +976,7 @@ QString options_imp::getLocale() const{
   return comboI18n->itemData(comboI18n->currentIndex(), Qt::UserRole).toString();
 }
 
-void options_imp::setLocale(QString localeStr) {
+void options_imp::setLocale(const QString &localeStr) {
   QLocale locale(localeStr);
   // Attempt to find exact match
   int index = comboI18n->findData(locale.name(), Qt::UserRole);
@@ -992,23 +989,21 @@ void options_imp::setLocale(QString localeStr) {
 }
 
 QString options_imp::getExportDir() const {
-  if(checkExportDir->isChecked()){
+  if(checkExportDir->isChecked())
     return misc::expandPath(textExportDir->text());
-  }else{
-    return QString::null;
-  }
+  return QString();
 }
 
 // Return action on double-click on a downloading torrent set in options
 int options_imp::getActionOnDblClOnTorrentDl() const {
-  if(actionTorrentDlOnDblClBox->currentIndex()<1)
+  if(actionTorrentDlOnDblClBox->currentIndex() < 1)
     return 0;
   return actionTorrentDlOnDblClBox->currentIndex();
 }
 
 // Return action on double-click on a finished torrent set in options
 int options_imp::getActionOnDblClOnTorrentFn() const {
-  if(actionTorrentFnOnDblClBox->currentIndex()<1)
+  if(actionTorrentFnOnDblClBox->currentIndex() < 1)
     return 0;
   return actionTorrentFnOnDblClBox->currentIndex();
 }
@@ -1053,7 +1048,7 @@ void options_imp::handleScanFolderViewSelectionChanged() {
 }
 
 void options_imp::on_browseExportDirButton_clicked() {
-  QString export_path = misc::expandPath(textExportDir->text());
+  const QString export_path = misc::expandPath(textExportDir->text());
   QDir exportDir(export_path);
   QString dir;
   if(!export_path.isEmpty() && exportDir.exists()) {
@@ -1070,7 +1065,7 @@ void options_imp::on_browseExportDirButton_clicked() {
 }
 
 void options_imp::on_browseFilterButton_clicked() {
-  QString filter_path = misc::expandPath(textFilterPath->text());
+  const QString filter_path = misc::expandPath(textFilterPath->text());
   QDir filterDir(filter_path);
   QString ipfilter;
   if(!filter_path.isEmpty() && filterDir.exists()) {
@@ -1088,7 +1083,7 @@ void options_imp::on_browseFilterButton_clicked() {
 
 // Display dialog to choose save dir
 void options_imp::on_browseSaveDirButton_clicked(){
-  QString save_path = misc::expandPath(textSavePath->text());
+  const QString save_path = misc::expandPath(textSavePath->text());
   QDir saveDir(save_path);
   QString dir;
   if(!save_path.isEmpty() && saveDir.exists()) {
@@ -1105,7 +1100,7 @@ void options_imp::on_browseSaveDirButton_clicked(){
 }
 
 void options_imp::on_browseTempDirButton_clicked(){
-  QString temp_path = misc::expandPath(textTempPath->text());
+  const QString temp_path = misc::expandPath(textTempPath->text());
   QDir tempDir(temp_path);
   QString dir;
   if(!temp_path.isEmpty() && tempDir.exists()) {
@@ -1151,6 +1146,32 @@ QString options_imp::webUiPassword() const
 void options_imp::showConnectionTab()
 {
   tabSelection->setCurrentRow(2);
+}
+
+void options_imp::on_btnWebUiCrt_clicked() {
+  QString filename = QFileDialog::getOpenFileName(this, QString(), QString(), tr("SSL Certificate (*.crt *.pem)"));
+  if(filename.isNull())
+    return;
+  QFile file(filename);
+  if (file.open(QIODevice::ReadOnly)) {
+    setSslCertificate(file.readAll());
+    file.close();
+  }
+}
+
+void options_imp::on_btnWebUiKey_clicked() {
+  QString filename = QFileDialog::getOpenFileName(this, QString(), QString(), tr("SSL Key (*.key *.pem)"));
+  if(filename.isNull())
+    return;
+  QFile file(filename);
+  if (file.open(QIODevice::ReadOnly)) {
+    setSslKey(file.readAll());
+    file.close();
+  }
+}
+
+void options_imp::on_registerDNSBtn_clicked() {
+  QDesktopServices::openUrl(DNSUpdater::getRegistrationUrl(comboDNSService->currentIndex()));
 }
 
 void options_imp::on_IpFilterRefreshBtn_clicked() {
@@ -1227,5 +1248,34 @@ QString options_imp::languageToLocalizedString(QLocale::Language language, const
     return eng_lang;
   }
   }
+}
 
+void options_imp::setSslKey(const QByteArray &key, bool interactive)
+{
+#ifndef QT_NO_OPENSSL
+  if (!key.isEmpty() && !QSslKey(key, QSsl::Rsa).isNull()) {
+    lblSslKeyStatus->setPixmap(QPixmap(":/Icons/oxygen/security-high.png").scaledToHeight(20, Qt::SmoothTransformation));
+    m_sslKey = key;
+  } else {
+    lblSslKeyStatus->setPixmap(QPixmap(":/Icons/oxygen/security-low.png").scaledToHeight(20, Qt::SmoothTransformation));
+    m_sslKey.clear();
+    if (interactive)
+      QMessageBox::warning(this, tr("Invalid key"), tr("This is not a valid SSL key."));
+  }
+#endif
+}
+
+void options_imp::setSslCertificate(const QByteArray &cert, bool interactive)
+{
+#ifndef QT_NO_OPENSSL
+  if (!cert.isEmpty() && !QSslCertificate(cert).isNull()) {
+    lblSslCertStatus->setPixmap(QPixmap(":/Icons/oxygen/security-high.png").scaledToHeight(20, Qt::SmoothTransformation));
+    m_sslCert = cert;
+  } else {
+    lblSslCertStatus->setPixmap(QPixmap(":/Icons/oxygen/security-low.png").scaledToHeight(20, Qt::SmoothTransformation));
+    m_sslCert.clear();
+    if (interactive)
+      QMessageBox::warning(this, tr("Invalid certificate"), tr("This is not a valid SSL certificate."));
+  }
+#endif
 }

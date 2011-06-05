@@ -6,9 +6,11 @@ include(conf.pri)
   QT += dbus
 }
 
+QMAKE_CXXFLAGS += -Wall -Wformat -Wformat-security
 QMAKE_LFLAGS_APP += -rdynamic
 CONFIG += link_pkgconfig
 PKGCONFIG += libtorrent-rasterbar
+LIBS += -lssl -lcrypto
 
 # Man page
 nox {

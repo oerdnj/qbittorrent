@@ -97,6 +97,7 @@ using namespace libtorrent;
 // Constructor
 MainWindow::MainWindow(QWidget *parent, QStringList torrentCmdLine) : QMainWindow(parent), m_posInitialized(false), force_exit(false) {
   setupUi(this);
+
   Preferences pref;
   ui_locked = pref.isUILocked();
   setWindowTitle(tr("qBittorrent %1", "e.g: qBittorrent v0.x").arg(QString::fromUtf8(VERSION)));
@@ -310,7 +311,10 @@ void MainWindow::deleteBTSession() {
   status_bar->stopTimer();
   QBtSession::drop();
   m_pwr->setActivityState(false);
-  close();
+  // Save window size, columns size
+  writeSettings();
+  // Accept exit
+  qApp->exit();
 }
 
 // Destructor
@@ -321,8 +325,6 @@ MainWindow::~MainWindow() {
   // Workaround to avoid bug http://bugreports.qt.nokia.com/browse/QTBUG-7305
   setUnifiedTitleAndToolBarOnMac(false);
 #endif
-  // Some saving
-  properties->saveSettings();
   disconnect(tabs, SIGNAL(currentChanged(int)), this, SLOT(tab_changed(int)));
   // Delete other GUI objects
   if(executable_watcher)
@@ -474,6 +476,7 @@ void MainWindow::writeSettings() {
   // Splitter size
   settings.setValue(QString::fromUtf8("vsplitterState"), vSplitter->saveState());
   settings.endGroup();
+  properties->saveSettings();
 }
 
 void MainWindow::readSettings() {
@@ -589,10 +592,15 @@ void MainWindow::handleDownloadFromUrlFailure(QString url, QString reason) const
 void MainWindow::on_actionSet_global_upload_limit_triggered() {
   qDebug("actionSet_global_upload_limit_triggered");
   bool ok;
-  const long new_limit = SpeedLimitDialog::askSpeedLimit(&ok, tr("Global Upload Speed Limit"), QBtSession::instance()->getSession()->upload_rate_limit());
+#if LIBTORRENT_VERSION_MINOR > 15
+    int cur_limit = QBtSession::instance()->getSession()->settings().upload_rate_limit;
+#else
+    int cur_limit = QBtSession::instance()->getSession()->upload_rate_limit();
+#endif
+  const long new_limit = SpeedLimitDialog::askSpeedLimit(&ok, tr("Global Upload Speed Limit"), cur_limit);
   if(ok) {
     qDebug("Setting global upload rate limit to %.1fKb/s", new_limit/1024.);
-    QBtSession::instance()->getSession()->set_upload_rate_limit(new_limit);
+    QBtSession::instance()->setUploadRateLimit(new_limit);
     if(new_limit <= 0)
       Preferences().setGlobalUploadLimit(-1);
     else
@@ -603,10 +611,15 @@ void MainWindow::on_actionSet_global_upload_limit_triggered() {
 void MainWindow::on_actionSet_global_download_limit_triggered() {
   qDebug("actionSet_global_download_limit_triggered");
   bool ok;
-  const long new_limit = SpeedLimitDialog::askSpeedLimit(&ok, tr("Global Download Speed Limit"), QBtSession::instance()->getSession()->download_rate_limit());
+#if LIBTORRENT_VERSION_MINOR > 15
+    int cur_limit = QBtSession::instance()->getSession()->settings().download_rate_limit;
+#else
+    int cur_limit = QBtSession::instance()->getSession()->download_rate_limit();
+#endif
+  const long new_limit = SpeedLimitDialog::askSpeedLimit(&ok, tr("Global Download Speed Limit"), cur_limit);
   if(ok) {
     qDebug("Setting global download rate limit to %.1fKb/s", new_limit/1024.);
-    QBtSession::instance()->getSession()->set_download_rate_limit(new_limit);
+    QBtSession::instance()->setDownloadRateLimit(new_limit);
     if(new_limit <= 0)
       Preferences().setGlobalDownloadLimit(-1);
     else
@@ -716,14 +729,14 @@ void MainWindow::showEvent(QShowEvent *e) {
 
 // Called when we close the program
 void MainWindow::closeEvent(QCloseEvent *e) {
-  QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
-  const bool goToSystrayOnExit = settings.value(QString::fromUtf8("Preferences/General/CloseToTray"), false).toBool();
+  Preferences pref;
+  const bool goToSystrayOnExit = pref.closeToTray();
   if(!force_exit && systrayIcon && goToSystrayOnExit && !this->isHidden()) {
     hide();
     e->accept();
     return;
   }
-  if(settings.value(QString::fromUtf8("Preferences/General/ExitConfirm"), true).toBool() && QBtSession::instance() && QBtSession::instance()->hasActiveTorrents()) {
+  if(pref.confirmOnExit() && QBtSession::instance()->hasActiveTorrents()) {
     if(e->spontaneous() || force_exit) {
       if(!isVisible())
         show();
@@ -995,6 +1008,10 @@ void MainWindow::loadPreferences(bool configure_session) {
       delete systrayIcon;
       delete myTrayIconMenu;
     }
+  }
+  // Reload systray icon
+  if(newSystrayIntegration && systrayIcon) {
+    systrayIcon->setIcon(getSystrayIcon());
   }
   // General
   if(pref.isToolbarDisplayed()) {
@@ -1349,8 +1366,14 @@ void MainWindow::checkForActiveTorrents()
 QIcon MainWindow::getSystrayIcon() const
 {
 #if defined(Q_WS_X11)
-  if(Preferences().useMonochromeTrayIcon()) {
+  TrayIcon::Style style = Preferences().trayIconStyle();
+  switch(style) {
+  case TrayIcon::MONO_DARK:
     return QIcon(":/Icons/skin/qbittorrent_mono_dark.png");
+  case TrayIcon::MONO_LIGHT:
+    return QIcon(":/Icons/skin/qbittorrent_mono_light.png");
+  default:
+    break;
   }
 #endif
   QIcon icon;
