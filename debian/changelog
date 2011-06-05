@@ -1,3 +1,10 @@
+qbittorrent (2.8.1-1) unstable; urgency=low
+
+  * New upstream version.
+    - debian/copyright: japanase translator and other updates.
+
+ -- Cristian Greco <cristian@regolo.cc>  Sun, 05 Jun 2011 17:19:10 +0200
+
 qbittorrent (2.7.3-1) unstable; urgency=low
 
   * New upstream version.
