@@ -85,14 +85,6 @@ License: other
     warranty, liability or support of any kind.
 
 
-Files: src/smtp.[ch]
-Copyright: Copyright (C) 1992-2005 Trolltech AS.  All rights reserved.
-License: other
-
-    This file is part of an example program for Qt.  This example
-    program may be used, distributed and modified without limitation.
-
-
 Files: debian/*
 Copyright: Copyright © 2008 Cristian Greco
 License: GPL-2+
@@ -162,8 +154,7 @@ On Debian systems, the complete text of the GNU General
 Public License can be found in `/usr/share/common-licenses/GPL-2'.
 
 
-Files: src/Icons/skin/qbittorrent_mono.svg
-       src/Icons/skin/qbittorrent_mono_dark.png
+Files: src/Icons/skin/qbittorrent_mono*
 Copyright: Daniel Eguren <deguren@gmail.com>
 License: LGPL-2.1+
 
