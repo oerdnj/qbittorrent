@@ -110,7 +110,7 @@ public slots:
 #endif
     pref.setConfirmTorrentDeletion(cb_confirm_torrent_deletion.isChecked());
     // Tracker exchange
-    pref.setTrackerEnabled(cb_enable_tracker_ext.isChecked());
+    pref.setTrackerExchangeEnabled(cb_enable_tracker_ext.isChecked());
   }
 
 signals:
