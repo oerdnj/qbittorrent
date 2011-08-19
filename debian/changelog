@@ -1,3 +1,12 @@
+qbittorrent (2.8.4-1) unstable; urgency=low
+
+  * New upstream version.
+  * debian/control:
+    - use my @debian.org address.
+    - drop DMUA field.
+
+ -- Cristian Greco <cristian@debian.org>  Sat, 20 Aug 2011 00:07:27 +0200
+
 qbittorrent (2.8.2-1) unstable; urgency=low
 
   * New upstream version.
