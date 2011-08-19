@@ -392,7 +392,8 @@ void QBtSession::configureSession() {
   //sessionSettings.announce_to_all_trackers = true;
   sessionSettings.auto_scrape_interval = 1200; // 20 minutes
 #if LIBTORRENT_VERSION_MINOR > 14
-  sessionSettings.announce_to_all_trackers = true;
+  // Comply with the multi-tracker specification
+  sessionSettings.announce_to_all_trackers = false;
   sessionSettings.announce_to_all_tiers = false;
   sessionSettings.auto_scrape_min_interval = 900; // 15 minutes
 #endif
@@ -1692,25 +1693,25 @@ void QBtSession::addConsoleMessage(QString msg, QString) {
   emit newConsoleMessage(QDateTime::currentDateTime().toString("dd/MM/yyyy hh:mm:ss") + " - " + msg);
 #else
 void QBtSession::addConsoleMessage(QString msg, QColor color) {
-  if(consoleMessages.size() > 100) {
-    consoleMessages.removeLast();
+  if(consoleMessages.size() > MAX_LOG_MESSAGES) {
+    consoleMessages.removeFirst();
   }
   msg = "<font color='grey'>"+ QDateTime::currentDateTime().toString(QString::fromUtf8("dd/MM/yyyy hh:mm:ss")) + "</font> - <font color='" + color.name() + "'><i>" + msg + "</i></font>";
-  consoleMessages.prepend(msg);
+  consoleMessages.append(msg);
   emit newConsoleMessage(msg);
 #endif
 }
 
 void QBtSession::addPeerBanMessage(QString ip, bool from_ipfilter) {
-  if(peerBanMessages.size() > 100) {
-    peerBanMessages.removeLast();
+  if(peerBanMessages.size() > MAX_LOG_MESSAGES) {
+    peerBanMessages.removeFirst();
   }
   QString msg;
   if(from_ipfilter)
     msg = "<font color='grey'>" + QDateTime::currentDateTime().toString(QString::fromUtf8("dd/MM/yyyy hh:mm:ss")) + "</font> - " + tr("<font color='red'>%1</font> <i>was blocked due to your IP filter</i>", "x.y.z.w was blocked").arg(ip);
   else
     msg = "<font color='grey'>" + QDateTime::currentDateTime().toString(QString::fromUtf8("dd/MM/yyyy hh:mm:ss")) + "</font> - " + tr("<font color='red'>%1</font> <i>was banned due to corrupt pieces</i>", "x.y.z.w was banned").arg(ip);
-  peerBanMessages.prepend(msg);
+  peerBanMessages.append(msg);
   emit newBanMessage(msg);
 }
 
