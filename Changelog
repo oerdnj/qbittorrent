@@ -1,3 +1,14 @@
+* Tue Aug 09 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.8.4
+    - BUGFIX: Added back ability to reorder trackers
+    - BUGFIX: Do not announce to all trackers in the same tier to comply
+      with the multi-tracker specification
+    - BUGFIX: Fix torrent addition dialog geometry saving
+
+* Tue Aug 02 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.8.3
+    - BUGFIX: Fix memory usage problem in log tab
+    - BUGFIX: Make sure the main window is not hidden on startup if no
+      system tray icon is available
+
 * Sat Jun 18 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.8.2
     - BUGFIX: Fix tracker exchange advanced setting
     - BUGFIX: Fix Proxy authentication settings
