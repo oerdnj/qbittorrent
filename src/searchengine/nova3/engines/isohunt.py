@@ -1,4 +1,4 @@
-#VERSION: 1.21
+#VERSION: 1.4
 #AUTHORS: Christophe Dumez (chris@qbittorrent.org)
 
 # Redistribution and use in source and binary forms, with or without
@@ -25,48 +25,45 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-
 from novaprinter import prettyPrinter
+import re
 from helpers import retrieve_url, download_file
-import json
 
-class kickasstorrents(object):
-  url = 'http://www.kat.ph'
-  name = 'kickasstorrents'
-  supported_categories = {'all': '', 'movies': 'Movies', 'tv': 'TV', 'music': 'Music', 'games': 'Games', 'software': 'Applications'}
+class isohunt(object):
+	url = 'http://isohunt.com'
+	name = 'isoHunt'
+	supported_categories = {'all': '', 'movies': '1', 'tv': '3', 'music': '2', 'games': '4', 'anime': '7', 'software': '5', 'pictures': '6', 'books': '9'}
 
-  def __init__(self):
-    self.results = []
+	def download_torrent(self, info):
+		print(download_file(info))
 
-  def download_torrent(self, info):
-    print download_file(info)
-
-  def search(self, what, cat='all'):
-    ret = []
-    i = 1
-    while True and i<11:
-      results = []
-      json_data = retrieve_url(self.url+'/json.php?q=%s&page=%d'%(what, i))
-      try:
-        json_dict = json.loads(json_data)
-      except:
-	i += 1
-	continue
-      if int(json_dict['total_results']) <= 0: return
-      results = json_dict['list']
-      for r in results:
-        try:
-          if cat != 'all' and self.supported_categories[cat] != r['category']: continue
-          res_dict = dict()
-          res_dict['name'] = r['title']
-          res_dict['size'] = str(r['size'])
-          res_dict['seeds'] = r['seeds']
-          res_dict['leech'] = r['leechs']
-          res_dict['link'] = r['torrentLink']
-          res_dict['desc_link'] = r['link']
-          res_dict['engine_url'] = self.url
-          prettyPrinter(res_dict)
-        except:
-          pass
-      i += 1
-      
+	def search(self, what, cat='all'):
+		# Remove {} since isohunt does not seem
+		# to handle those very well
+		what = what.replace('{', '').replace('}', '')
+		i = 1
+		while True and i<11:
+			res = 0
+			dat = retrieve_url(self.url+'/torrents.php?ihq=%s&iht=%s&ihp=%s&ihs1=2&iho1=d'%(what, self.supported_categories[cat],i))
+			# I know it's not very readable, but the SGML parser feels in pain
+			section_re = re.compile('(?s)id=link.*?</tr><tr')
+			torrent_re = re.compile('(?s)torrent_details/(?P<link>.*?[^/]+).*?'
+			'>(?P<name>.*?)</a>.*?'
+			'>(?P<size>[\d,\.]+\s+MB)</td>.*?'
+			'>(?P<seeds>\d+)</td>.*?'
+			'>(?P<leech>\d+)</td>')
+			for match in section_re.finditer(dat):
+				txt = match.group(0)
+				m = torrent_re.search(txt)
+				if m:
+					torrent_infos = m.groupdict()
+					torrent_infos['name'] = re.sub('<.*?>', '', torrent_infos['name'])
+					torrent_infos['engine_url'] = self.url
+					torrent_code = torrent_infos['link']
+					torrent_infos['link'] = 'http://isohunt.com/download/'+torrent_code
+					torrent_infos['desc_link'] = 'http://isohunt.com/torrent_details/'+torrent_code+'/dvdrip?tab=summary'
+					prettyPrinter(torrent_infos)
+					res = res + 1
+			if res == 0:
+				break
+			i = i + 1
