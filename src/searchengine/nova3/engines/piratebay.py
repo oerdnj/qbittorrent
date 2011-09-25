@@ -1,4 +1,4 @@
-#VERSION: 1.41
+#VERSION: 1.40
 #AUTHORS: Fabien Devaux (fab@gnux.info)
 #CONTRIBUTORS: Christophe Dumez (chris@qbittorrent.org)
 
@@ -27,7 +27,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from novaprinter import prettyPrinter
-import sgmllib
+import sgmllib3
 from helpers import retrieve_url, download_file
 
 class piratebay(object):
@@ -40,11 +40,11 @@ class piratebay(object):
 		self.parser = self.SimpleSGMLParser(self.results, self.url)
 		
 	def download_torrent(self, info):
-		print download_file(info)
+		print(download_file(info))
 
-	class SimpleSGMLParser(sgmllib.SGMLParser):
+	class SimpleSGMLParser(sgmllib3.SGMLParser):
 		def __init__(self, results, url, *args):
-			sgmllib.SGMLParser.__init__(self)
+			sgmllib3.SGMLParser.__init__(self)
 			self.td_counter = None
 			self.current_item = None
 			self.results = results
@@ -67,7 +67,7 @@ class piratebay(object):
 		def handle_data(self, data):
 			if self.td_counter == 0:
 				if self.in_name:
-					if not self.current_item.has_key('name'):
+					if 'name' not in self.current_item:
 						self.current_item['name'] = ''
 					self.current_item['name']+= data.strip()
 				else:
@@ -76,11 +76,11 @@ class piratebay(object):
 						self.current_item['size'] = data[data.index("Size")+5:]
 						self.current_item['size'] = self.current_item['size'][:self.current_item['size'].index(',')]
 			elif self.td_counter == 1:
-				if not self.current_item.has_key('seeds'):
+				if 'seeds' not in self.current_item:
 					self.current_item['seeds'] = ''
 				self.current_item['seeds']+= data.strip()
 			elif self.td_counter == 2:
-				if not self.current_item.has_key('leech'):
+				if 'leech' not in self.current_item:
 					self.current_item['leech'] = ''
 				self.current_item['leech']+= data.strip()
 

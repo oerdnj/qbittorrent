@@ -39,7 +39,7 @@ class kickasstorrents(object):
     self.results = []
 
   def download_torrent(self, info):
-    print download_file(info)
+    print(download_file(info))
 
   def search(self, what, cat='all'):
     ret = []
@@ -50,8 +50,8 @@ class kickasstorrents(object):
       try:
         json_dict = json.loads(json_data)
       except:
-	i += 1
-	continue
+        i += 1
+        continue
       if int(json_dict['total_results']) <= 0: return
       results = json_dict['list']
       for r in results:

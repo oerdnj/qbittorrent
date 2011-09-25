@@ -1,5 +1,5 @@
-#VERSION: 1.21
-#AUTHORS: Christophe Dumez (chris@qbittorrent.org)
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -25,48 +25,40 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+#VERSION: 1.10
 
-from novaprinter import prettyPrinter
-from helpers import retrieve_url, download_file
-import json
+# Author:
+#  Christophe DUMEZ (chris@qbittorrent.org)
 
-class kickasstorrents(object):
-  url = 'http://www.kat.ph'
-  name = 'kickasstorrents'
-  supported_categories = {'all': '', 'movies': 'Movies', 'tv': 'TV', 'music': 'Music', 'games': 'Games', 'software': 'Applications'}
+import sys
+import os
+import glob
+from helpers import download_file
 
-  def __init__(self):
-    self.results = []
+supported_engines = dict()
 
-  def download_torrent(self, info):
-    print download_file(info)
+engines = glob.glob(os.path.join(os.path.dirname(__file__), 'engines','*.py'))
+for engine in engines:
+	e = engine.split(os.sep)[-1][:-3]
+	if len(e.strip()) == 0: continue
+	if e.startswith('_'): continue
+	try:
+		exec("from engines.%s import %s"%(e,e))
+		exec("engine_url = %s.url"%e)
+		supported_engines[engine_url] = e
+	except:
+		pass
 
-  def search(self, what, cat='all'):
-    ret = []
-    i = 1
-    while True and i<11:
-      results = []
-      json_data = retrieve_url(self.url+'/json.php?q=%s&page=%d'%(what, i))
-      try:
-        json_dict = json.loads(json_data)
-      except:
-	i += 1
-	continue
-      if int(json_dict['total_results']) <= 0: return
-      results = json_dict['list']
-      for r in results:
-        try:
-          if cat != 'all' and self.supported_categories[cat] != r['category']: continue
-          res_dict = dict()
-          res_dict['name'] = r['title']
-          res_dict['size'] = str(r['size'])
-          res_dict['seeds'] = r['seeds']
-          res_dict['leech'] = r['leechs']
-          res_dict['link'] = r['torrentLink']
-          res_dict['desc_link'] = r['link']
-          res_dict['engine_url'] = self.url
-          prettyPrinter(res_dict)
-        except:
-          pass
-      i += 1
-      
+if __name__ == '__main__':
+	if len(sys.argv) < 3:
+		raise SystemExit('./nova2dl.py engine_url download_parameter')
+	engine_url = sys.argv[1].strip()
+	download_param = sys.argv[2].strip()
+	if engine_url not in list(supported_engines.keys()):
+		raise SystemExit('./nova2dl.py: this engine_url was not recognized')
+	exec("engine = %s()"%supported_engines[engine_url])
+	if hasattr(engine, 'download_torrent'):
+		engine.download_torrent(download_param)
+	else:
+		print(download_file(download_param))
+	sys.exit(0)
