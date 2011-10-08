@@ -120,9 +120,18 @@ options_imp::options_imp(QWidget *parent):
 #if defined(QT_NO_OPENSSL)
   checkWebUiHttps->setVisible(false);
 #endif
+
+#ifndef Q_WS_WIN
+  groupFileAssociation->setVisible(false);
+#endif
+#if LIBTORRENT_VERSION_MINOR < 16
+  checkAnonymousMode->setVisible(false);
+  label_anonymous->setVisible(false);
+#endif
+
   // Connect signals / slots
-  // Proxy tab
   connect(comboProxyType, SIGNAL(currentIndexChanged(int)),this, SLOT(enableProxy(int)));
+  connect(checkAnonymousMode, SIGNAL(toggled(bool)), this, SLOT(toggleAnonymousMode(bool)));
 
   // Apply button is activated when a value is changed
   // General tab
@@ -138,6 +147,10 @@ options_imp::options_imp(QWidget *parent):
   connect(comboTrayIcon, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApplyButton()));
 #if defined(Q_WS_X11) && !defined(QT_DBUS_LIB)
   checkPreventFromSuspend->setDisabled(true);
+#endif
+#ifdef Q_WS_WIN
+  connect(checkAssociateTorrents, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+  connect(checkAssociateMagnetLinks, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
 #endif
   // Downloads tab
   connect(textSavePath, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
@@ -187,6 +200,9 @@ options_imp::options_imp(QWidget *parent):
   connect(spinMaxConnecPerTorrent, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(spinMaxUploadsPerTorrent, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(checkDHT, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+#if LIBTORRENT_VERSION_MINOR > 15
+  connect(checkAnonymousMode, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+#endif
   connect(checkPeX, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkDifferentDHTPort, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(spinDHTPort, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
@@ -210,6 +226,7 @@ options_imp::options_imp(QWidget *parent):
   connect(spinMaxActiveDownloads, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(spinMaxActiveUploads, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(spinMaxActiveTorrents, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
+  connect(checkIgnoreSlowTorrentsForQueueing, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   // Web UI tab
   connect(checkWebUi, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(spinWebUiPort, SIGNAL(valueChanged(int)), this, SLOT(enableApplyButton()));
@@ -355,18 +372,23 @@ void options_imp::saveOptions(){
   pref.setSplashScreenDisabled(isSlashScreenDisabled());
   pref.setConfirmOnExit(checkProgramExitConfirm->isChecked());
   pref.setPreventFromSuspend(preventFromSuspend());
+#ifdef Q_WS_WIN
+  // Windows: file association settings
+  Preferences::setTorrentFileAssoc(checkAssociateTorrents->isChecked());
+  Preferences::setMagnetLinkAssoc(checkAssociateMagnetLinks->isChecked());
+#endif
   // End General preferences
 
   // Downloads preferences
   QString save_path = getSavePath();
 #if defined(Q_WS_WIN) || defined(Q_OS_OS2)
-  save_path = save_path.replace("\\", "/");
+  save_path.replace("\\", "/");
 #endif
   pref.setSavePath(save_path);
   pref.setTempPathEnabled(isTempPathEnabled());
   QString temp_path = getTempPath();
 #if defined(Q_WS_WIN) || defined(Q_OS_OS2)
-  temp_path = temp_path.replace("\\", "/");
+  temp_path.replace("\\", "/");
 #endif
   pref.setTempPath(temp_path);
   pref.setAppendTorrentLabel(checkAppendLabel->isChecked());
@@ -380,7 +402,7 @@ void options_imp::saveOptions(){
   addedScanDirs.clear();
   QString export_dir = getExportDir();
 #if defined(Q_WS_WIN) || defined(Q_OS_OS2)
-  export_dir = export_dir.replace("\\", "/");
+  export_dir.replace("\\", "/");
 #endif
   pref.setExportDir(export_dir);
   pref.setMailNotificationEnabled(groupMailNotification->isChecked());
@@ -428,6 +450,9 @@ void options_imp::saveOptions(){
   pref.setDHTPort(getDHTPort());
   pref.setLSDEnabled(isLSDEnabled());
   pref.setEncryptionSetting(getEncryptionSetting());
+#if LIBTORRENT_VERSION_MINOR > 15
+  pref.enableAnonymousMode(checkAnonymousMode->isChecked());
+#endif
   pref.setGlobalMaxRatio(getMaxRatio());
   pref.setMaxRatioAction(comboRatioLimitAct->currentIndex());
   // End Bittorrent preferences
@@ -437,7 +462,7 @@ void options_imp::saveOptions(){
   if(isFilteringEnabled()){
     QString filter_path = textFilterPath->text();
 #if defined(Q_WS_WIN) || defined(Q_OS_OS2)
-    filter_path = filter_path.replace("\\", "/");
+    filter_path.replace("\\", "/");
 #endif
     pref.setFilter(filter_path);
   }
@@ -447,6 +472,7 @@ void options_imp::saveOptions(){
   pref.setMaxActiveDownloads(spinMaxActiveDownloads->value());
   pref.setMaxActiveUploads(spinMaxActiveUploads->value());
   pref.setMaxActiveTorrents(spinMaxActiveTorrents->value());
+  pref.setIgnoreSlowTorrentsForQueueing(checkIgnoreSlowTorrentsForQueueing->isChecked());
   // End Queueing system preferences
   // Web UI
   pref.setWebUiEnabled(isWebUiEnabled());
@@ -519,11 +545,16 @@ void options_imp::loadOptions(){
   comboTrayIcon->setCurrentIndex(pref.trayIconStyle());
   checkProgramExitConfirm->setChecked(pref.confirmOnExit());
   checkPreventFromSuspend->setChecked(pref.preventFromSuspend());
+#ifdef Q_WS_WIN
+  // Windows: file association settings
+  checkAssociateTorrents->setChecked(Preferences::isTorrentFileAssocSet());
+  checkAssociateMagnetLinks->setChecked(Preferences::isMagnetLinkAssocSet());
+#endif
   // End General preferences
   // Downloads preferences
   QString save_path = pref.getSavePath();
 #if defined(Q_WS_WIN) || defined(Q_OS_OS2)
-  save_path = save_path.replace("/", "\\");
+  save_path.replace("/", "\\");
 #endif
   textSavePath->setText(save_path);
   if(pref.isTempPathEnabled()) {
@@ -534,7 +565,7 @@ void options_imp::loadOptions(){
   }
   QString temp_path = pref.getTempPath();
 #if defined(Q_WS_WIN) || defined(Q_OS_OS2)
-  temp_path = temp_path.replace("/", "\\");
+  temp_path.replace("/", "\\");
 #endif
   textTempPath->setText(temp_path);
   checkAppendLabel->setChecked(pref.appendTorrentLabel());
@@ -553,7 +584,7 @@ void options_imp::loadOptions(){
     // enable
     checkExportDir->setChecked(true);
 #if defined(Q_WS_WIN) || defined(Q_OS_OS2)
-    strValue = strValue.replace("/", "\\");
+    strValue.replace("/", "\\");
 #endif
     textExportDir->setText(strValue);
   }
@@ -679,6 +710,9 @@ void options_imp::loadOptions(){
   checkPeX->setChecked(pref.isPeXEnabled());
   checkLSD->setChecked(pref.isLSDEnabled());
   comboEncryption->setCurrentIndex(pref.getEncryptionSetting());
+#if LIBTORRENT_VERSION_MINOR > 15
+  checkAnonymousMode->setChecked(pref.isAnonymousModeEnabled());
+#endif
   // Ratio limit
   floatValue = pref.getGlobalMaxRatio();
   if(floatValue >= 0.) {
@@ -705,6 +739,7 @@ void options_imp::loadOptions(){
   spinMaxActiveDownloads->setValue(pref.getMaxActiveDownloads());
   spinMaxActiveUploads->setValue(pref.getMaxActiveUploads());
   spinMaxActiveTorrents->setValue(pref.getMaxActiveTorrents());
+  checkIgnoreSlowTorrentsForQueueing->setChecked(pref.ignoreSlowTorrentsForQueueing());
   // End Queueing system preferences
   // Web UI
   checkWebUi->setChecked(pref.isWebUiEnabled());
@@ -820,7 +855,7 @@ QString options_imp::getSavePath() const{
   if(textSavePath->text().trimmed().isEmpty()){
     QString save_path = Preferences().getSavePath();
 #if defined(Q_WS_WIN) || defined(Q_OS_OS2)
-    save_path = save_path.replace("/", "\\");
+    save_path.replace("/", "\\");
 #endif
     textSavePath->setText(save_path);
   }
@@ -1058,7 +1093,7 @@ void options_imp::on_browseExportDirButton_clicked() {
   }
   if(!dir.isNull()){
 #if defined(Q_WS_WIN) || defined(Q_OS_OS2)
-    dir = dir.replace("/", "\\");
+    dir.replace("/", "\\");
 #endif
     textExportDir->setText(dir);
   }
@@ -1075,7 +1110,7 @@ void options_imp::on_browseFilterButton_clicked() {
   }
   if(!ipfilter.isNull()){
 #if defined(Q_WS_WIN) || defined(Q_OS_OS2)
-    ipfilter = ipfilter.replace("/", "\\");
+    ipfilter.replace("/", "\\");
 #endif
     textFilterPath->setText(ipfilter);
   }
@@ -1093,7 +1128,7 @@ void options_imp::on_browseSaveDirButton_clicked(){
   }
   if(!dir.isNull()){
 #if defined(Q_WS_WIN) || defined(Q_OS_OS2)
-    dir = dir.replace("/", "\\");
+    dir.replace("/", "\\");
 #endif
     textSavePath->setText(dir);
   }
@@ -1110,7 +1145,7 @@ void options_imp::on_browseTempDirButton_clicked(){
   }
   if(!dir.isNull()){
 #if defined(Q_WS_WIN) || defined(Q_OS_OS2)
-    dir = dir.replace("/", "\\");
+    dir.replace("/", "\\");
 #endif
     textTempPath->setText(dir);
   }
@@ -1278,4 +1313,23 @@ void options_imp::setSslCertificate(const QByteArray &cert, bool interactive)
       QMessageBox::warning(this, tr("Invalid certificate"), tr("This is not a valid SSL certificate."));
   }
 #endif
+}
+
+void options_imp::toggleAnonymousMode(bool enabled)
+{
+  if (enabled) {
+    // Disable DHT, LSD, UPnP / NAT-PMP
+    checkDHT->setEnabled(false);
+    checkDifferentDHTPort->setEnabled(false);
+    checkDHT->setChecked(false);
+    checkLSD->setEnabled(false);
+    checkLSD->setChecked(false);
+    checkUPnP->setEnabled(false);
+    checkUPnP->setChecked(false);
+  } else {
+    checkDHT->setEnabled(true);
+    checkDifferentDHTPort->setEnabled(true);
+    checkLSD->setEnabled(true);
+    checkUPnP->setEnabled(true);
+  }
 }

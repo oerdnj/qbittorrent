@@ -33,116 +33,107 @@
 #include <QUrl>
 #include <QDebug>
 
-HttpRequestParser::HttpRequestParser()
+HttpRequestParser::HttpRequestParser(): m_error(false)
 {
-	headerDone = false;
-	messageDone = false;
-	error = false;
 }
 
 HttpRequestParser::~HttpRequestParser()
 {
 }
 
-bool HttpRequestParser::isParsable() const
-{
-	return !error && headerDone && isValid() && (messageDone || !hasContentLength() || contentLength() == 0);
+bool HttpRequestParser::isError() const {
+  return m_error;
 }
 
-bool HttpRequestParser::isError() const
-{
-	return error;
+QString HttpRequestParser::url() const {
+  return m_path;
 }
 
-QString HttpRequestParser::url() const
-{
-	return path;
+QByteArray HttpRequestParser::message() const {
+  return m_data;
 }
 
-QByteArray HttpRequestParser::message() const
-{
-	if(isParsable())
-		return data;
-	return QByteArray();
+QString HttpRequestParser::get(const QString& key) const {
+  return m_getMap.value(key);
 }
 
-QString HttpRequestParser::get(const QString key) const
-{
-        return getMap.value(key);
+QString HttpRequestParser::post(const QString& key) const {
+  return m_postMap.value(key);
 }
 
-QString HttpRequestParser::post(const QString key) const
-{
-        return postMap.value(key);
+const QByteArray& HttpRequestParser::torrent() const {
+  return m_torrentContent;
 }
 
-QByteArray HttpRequestParser::torrent() const
-{
-	return torrent_content;
+void HttpRequestParser::writeHeader(const QByteArray& ba) {
+  // Parse header
+  m_header = QHttpRequestHeader(ba);
+  QUrl url = QUrl::fromEncoded(m_header.path().toAscii());
+  m_path = url.path();
+
+  // Parse GET parameters
+  QListIterator<QPair<QString, QString> > i(url.queryItems());
+  while (i.hasNext()) {
+    QPair<QString, QString> pair = i.next();
+    m_getMap[pair.first] = pair.second;
+  }
 }
 
-void HttpRequestParser::write(QByteArray str)
-{
-	while (!headerDone && str.size()>0)
-	{
-		int index = str.indexOf('\n') + 1;
-		if(index == 0)
-		{
-			data += str;
-			str.clear();
-		}
-		else
-		{
-			data += str.left(index);
-			str.remove(0, index);
-			if(data.right(4) == "\r\n\r\n")
-			{
-				QHttpRequestHeader::operator=(QHttpRequestHeader(data));
-				headerDone = true;
-				data.clear();
-				QUrl url = QUrl::fromEncoded(QHttpRequestHeader::path().toAscii());
-				path = url.path();
-                                //() << path;
-				QListIterator<QPair<QString, QString> > i(url.queryItems());
-				while (i.hasNext())
-				{
-					QPair<QString, QString> pair = i.next();
-					getMap[pair.first] = pair.second;
-                                        //qDebug() << pair.first << "=" << get(pair.first);
-				}
-			}
-		}
-	}
-	if(!messageDone && str.size()>0)
-	{
-		if(hasContentLength())
-		{
-			data += str;
-			if(data.size() >= (int) contentLength())
-			{
-				data.resize(contentLength());
-				messageDone = true;
-				//parse POST data
-				if(contentType() == "application/x-www-form-urlencoded")
-				{
-					QUrl url;
-					url.setEncodedQuery(data);
-					QListIterator<QPair<QString, QString> > i(url.queryItems());
-					while (i.hasNext())
-					{
-						QPair<QString, QString> pair = i.next();
-						postMap[pair.first] = pair.second;
-                                                //qDebug() << pair.first << "=" << post(pair.first);
-					}
-				}
-				if(contentType() == "multipart/form-data")
-				{
-					//qDebug() << data.right(data.size()-data.indexOf("\r\n\r\n")-QByteArray("\r\n\r\n").size());
-					torrent_content = data.right(data.size()-data.indexOf("\r\n\r\n")-QByteArray("\r\n\r\n").size());
-				}
-			}
-		}
-		else
-			error = true;
-        }
+void HttpRequestParser::writeMessage(const QByteArray& ba) {
+  // Parse message content
+  Q_ASSERT (m_header.hasContentLength());
+
+  m_data = ba;
+  qDebug() << Q_FUNC_INFO << "m_data.size(): " << m_data.size();
+
+  // Parse POST data
+  if(m_header.contentType() == "application/x-www-form-urlencoded") {
+    QUrl url;
+    url.setEncodedQuery(m_data);
+    QListIterator<QPair<QString, QString> > i(url.queryItems());
+    while (i.hasNext())	{
+      QPair<QString, QString> pair = i.next();
+      m_postMap[pair.first] = pair.second;
+    }
+    return;
+  }
+
+  // Parse multipart/form data (torrent file)
+  /**
+        m_data has the following format (if boundary is "cH2ae0GI3KM7GI3Ij5ae0ei4Ij5Ij5")
+
+--cH2ae0GI3KM7GI3Ij5ae0ei4Ij5Ij5
+Content-Disposition: form-data; name=\"Filename\"
+
+PB020344.torrent
+--cH2ae0GI3KM7GI3Ij5ae0ei4Ij5Ij5
+Content-Disposition: form-data; name=\"torrentfile"; filename=\"PB020344.torrent\"
+Content-Type: application/x-bittorrent
+
+BINARY DATA IS HERE
+--cH2ae0GI3KM7GI3Ij5ae0ei4Ij5Ij5
+Content-Disposition: form-data; name=\"Upload\"
+
+Submit Query
+--cH2ae0GI3KM7GI3Ij5ae0ei4Ij5Ij5--
+**/
+  if (m_header.contentType().startsWith("multipart/form-data")) {
+    qDebug() << Q_FUNC_INFO << "header is: " << m_header.toString();
+
+    int filename_index = m_data.indexOf("filename=");
+    if (filename_index >= 0) {
+      QByteArray boundary = m_data.left(m_data.indexOf("\r\n"));
+      qDebug() << "Boundary is " << boundary << "\n\n";
+      qDebug() << "Before binary data: " << m_data.left(m_data.indexOf("\r\n\r\n", filename_index+9)) << "\n\n";
+      m_torrentContent = m_data.mid(m_data.indexOf("\r\n\r\n", filename_index+9) + 4);
+      int binaryend_index = m_torrentContent.indexOf("\r\n"+boundary);
+      if (binaryend_index >= 0) {
+        qDebug() << "found end boundary :)";
+        m_torrentContent = m_torrentContent.left(binaryend_index);
+      }
+      qDebug() << Q_FUNC_INFO << "m_torrentContent.size(): " << m_torrentContent.size()<< "\n\n";
+    } else {
+      m_error = true;
+    }
+  }
 }

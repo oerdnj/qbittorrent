@@ -124,7 +124,7 @@ QList<QVariantMap> EventManager::getPropFilesInfo(QString hash) const {
   return files;
 }
 
-void EventManager::setGlobalPreferences(QVariantMap m) const {
+void EventManager::setGlobalPreferences(QVariantMap m) {
   // UI
   Preferences pref;
   if(m.contains("locale")) {
@@ -137,9 +137,10 @@ void EventManager::setGlobalPreferences(QVariantMap m) const {
         qDebug("%s locale unrecognized, using default (en_GB).", qPrintable(locale));
       }
       qApp->installTranslator(translator);
-    }
 
-    pref.setLocale(locale);
+      pref.setLocale(locale);
+      emit localeChanged(locale);
+    }
   }
   // Downloads
   if(m.contains("save_path"))
@@ -206,6 +207,8 @@ void EventManager::setGlobalPreferences(QVariantMap m) const {
     pref.setMaxActiveTorrents(m["max_active_torrents"].toInt());
   if(m.contains("max_active_uploads"))
     pref.setMaxActiveUploads(m["max_active_uploads"].toInt());
+  if(m.contains("dont_count_slow_torrents"))
+    pref.setIgnoreSlowTorrentsForQueueing(m["dont_count_slow_torrents"].toBool());
 #if LIBTORRENT_VERSION_MINOR > 14
   if(m.contains("incomplete_files_ext"))
     pref.useIncompleteFilesExtension(m["incomplete_files_ext"].toBool());
@@ -247,6 +250,10 @@ void EventManager::setGlobalPreferences(QVariantMap m) const {
     pref.setLSDEnabled(m["lsd"].toBool());
   if(m.contains("encryption"))
     pref.setEncryptionSetting(m["encryption"].toInt());
+#if LIBTORRENT_VERSION_MINOR >= 16
+  if(m.contains("anonymous_mode"))
+    pref.enableAnonymousMode(m["anonymous_mode"].toBool());
+#endif
   // Proxy
   if(m.contains("proxy_type"))
     pref.setProxyType(m["proxy_type"].toInt());
@@ -336,6 +343,7 @@ QVariantMap EventManager::getGlobalPreferences() const {
   data["max_active_downloads"] = pref.getMaxActiveDownloads();
   data["max_active_torrents"] = pref.getMaxActiveTorrents();
   data["max_active_uploads"] = pref.getMaxActiveUploads();
+  data["dont_count_slow_torrents"] = pref.ignoreSlowTorrentsForQueueing();
 #if LIBTORRENT_VERSION_MINOR > 14
   data["incomplete_files_ext"] = pref.useIncompleteFilesExtension();
 #endif
@@ -359,6 +367,9 @@ QVariantMap EventManager::getGlobalPreferences() const {
   data["pex"] = pref.isPeXEnabled();
   data["lsd"] = pref.isLSDEnabled();
   data["encryption"] = pref.getEncryptionSetting();
+#if LIBTORRENT_VERSION_MINOR >= 16
+  data["anonymous_mode"] = pref.isAnonymousModeEnabled();
+#endif
   // Proxy
   data["proxy_type"] = pref.getProxyType();
   data["proxy_ip"] = pref.getProxyIp();

@@ -87,6 +87,26 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;故障跟踪:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://bugs.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://bugs.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Forum:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans&apos;; text-decoration: underline; color:#0057ae;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;IRC:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; #qbittorrent on Freenode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
+    <message>
+        <source>Libraries</source>
+        <translation>库</translation>
+    </message>
+    <message>
+        <source>This version of qBittorrent was built against the following libraries:</source>
+        <translation>该版本qBittorrent使用以下库:</translation>
+    </message>
+    <message>
+        <source>Qt:</source>
+        <translation>Qt:</translation>
+    </message>
+    <message>
+        <source>Boost:</source>
+        <translation>Boost:</translation>
+    </message>
+    <message>
+        <source>Libtorrent:</source>
+        <translation>Libtorrent:</translation>
+    </message>
 </context>
 <context>
     <name>AdvancedSettings</name>
@@ -207,7 +227,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Exchange trackers with other peers</source>
-        <translation type="unfinished"></translation>
+        <translation>与其他用户交换trackers</translation>
+    </message>
+    <message>
+        <source>Always announce to all trackers</source>
+        <translation>总是向所有trackers宣布</translation>
     </message>
 </context>
 <context>
@@ -1669,6 +1693,13 @@ No further notices will be issued.</source>
     </message>
 </context>
 <context>
+    <name>LogListWidget</name>
+    <message>
+        <source>Copy</source>
+        <translation>复制</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <source>&amp;Edit</source>
@@ -2026,7 +2057,7 @@ Are you sure you want to quit qBittorrent?</source>
     <message>
         <source>qBittorrent %1 (Down: %2/s, Up: %3/s)</source>
         <comment>%1 is qBittorrent version</comment>
-        <translation>qBittorrent %1 (下载: %2/s, 上传: %3/s)</translation>
+        <translation type="obsolete">qBittorrent %1 (下载: %2/s, 上传: %3/s)</translation>
     </message>
     <message>
         <source>A newer version is available</source>
@@ -2089,6 +2120,19 @@ Would you like to update qBittorrent to version %1?</source>
     <message>
         <source>The password should contain at least 3 characters</source>
         <translation>密码应包含至少三个字符</translation>
+    </message>
+    <message>
+        <source>Show</source>
+        <translation>显示</translation>
+    </message>
+    <message>
+        <source>Hide</source>
+        <translation>隐藏</translation>
+    </message>
+    <message>
+        <source>[D: %1/s, U: %2/s] qBittorrent %3</source>
+        <comment>D = Download; U = Upload; %3 is qBittorrent version</comment>
+        <translation>[下载: %1/s, 上传: %2/s] qBittorrent %3</translation>
     </message>
 </context>
 <context>
@@ -2867,6 +2911,30 @@ Would you like to update qBittorrent to version %1?</source>
         <source>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</source>
         <translation>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</translation>
     </message>
+    <message>
+        <source>File association</source>
+        <translation>文件关联</translation>
+    </message>
+    <message>
+        <source>Use qBittorrent for .torrent files</source>
+        <translation>使用qBittorrent打开.torrent文件</translation>
+    </message>
+    <message>
+        <source>Use qBittorrent for magnet links</source>
+        <translation>使用qBittorrent打开magnet链接</translation>
+    </message>
+    <message>
+        <source>Do not count slow torrents in these limits</source>
+        <translation>慢速torrent不计入限制内</translation>
+    </message>
+    <message>
+        <source>Enable anonymous mode</source>
+        <translation>启用匿名模式</translation>
+    </message>
+    <message>
+        <source> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;More information&lt;/a&gt;)</source>
+        <translation> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;更多信息&lt;/a&gt;)</translation>
+    </message>
 </context>
 <context>
     <name>PreviewSelect</name>
@@ -3459,6 +3527,10 @@ Would you like to update qBittorrent to version %1?</source>
     <message>
         <source>qBittorrent will now exit unless you cancel within the next 15 seconds...</source>
         <translation>如果您15秒内不取消qBitorrent将退出...</translation>
+    </message>
+    <message>
+        <source>Anonymous mode [ON]</source>
+        <translation>匿名模式[开]</translation>
     </message>
 </context>
 <context>
@@ -4828,6 +4900,10 @@ Do you want to install it now?</source>
         <source>Do not download</source>
         <translation>不下载</translation>
     </message>
+    <message>
+        <source>Set as default save path</source>
+        <translation>设置为默认保存路径</translation>
+    </message>
 </context>
 <context>
     <name>authentication</name>
@@ -5388,6 +5464,10 @@ However, those plugins were disabled.</source>
         <source>qBittorrent will shutdown the computer now because all downloads are complete.</source>
         <translation>所有下载已完成,qBittorrent即将关闭电脑</translation>
     </message>
+    <message>
+        <source>Downloads</source>
+        <translation type="unfinished">下载</translation>
+    </message>
 </context>
 <context>
     <name>options_imp</name>
@@ -5454,27 +5534,27 @@ However, those plugins were disabled.</source>
     </message>
     <message>
         <source>SSL Certificate (*.crt *.pem)</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL证书(*.crt *.pem)</translation>
     </message>
     <message>
         <source>SSL Key (*.key *.pem)</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL密匙(*.key *.pem)</translation>
     </message>
     <message>
         <source>Invalid key</source>
-        <translation type="unfinished"></translation>
+        <translation>无效密匙</translation>
     </message>
     <message>
         <source>This is not a valid SSL key.</source>
-        <translation type="unfinished"></translation>
+        <translation>这不是有效的SSL密匙</translation>
     </message>
     <message>
         <source>Invalid certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>无效证书</translation>
     </message>
     <message>
         <source>This is not a valid SSL certificate.</source>
-        <translation type="unfinished"></translation>
+        <translation>这不是有效的SSL证书</translation>
     </message>
 </context>
 <context>

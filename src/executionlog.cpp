@@ -34,14 +34,21 @@
 #include "ui_executionlog.h"
 #include "qbtsession.h"
 #include "iconprovider.h"
+#include "loglistwidget.h"
 
 ExecutionLog::ExecutionLog(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::ExecutionLog)
+  QWidget(parent),
+  ui(new Ui::ExecutionLog),
+  m_logList(new LogListWidget(MAX_LOG_MESSAGES)),
+  m_banList(new LogListWidget(MAX_LOG_MESSAGES))
 {
     ui->setupUi(this);
+
     ui->tabConsole->setTabIcon(0, IconProvider::instance()->getIcon("view-calendar-journal"));
     ui->tabConsole->setTabIcon(1, IconProvider::instance()->getIcon("view-filter"));
+    ui->tabGeneral->layout()->addWidget(m_logList);
+    ui->tabBan->layout()->addWidget(m_banList);
+
     const QStringList log_msgs = QBtSession::instance()->getConsoleMessages();
     foreach(const QString& msg, log_msgs)
       addLogMessage(msg);
@@ -54,29 +61,17 @@ ExecutionLog::ExecutionLog(QWidget *parent) :
 
 ExecutionLog::~ExecutionLog()
 {
+  delete m_logList;
+  delete m_banList;
   delete ui;
 }
 
 void ExecutionLog::addLogMessage(const QString &msg)
 {
-   QListWidgetItem *item = new QListWidgetItem;
-   QLabel *lbl = new QLabel(msg);
-   lbl->setContentsMargins(4, 2, 4, 2);
-   item->setSizeHint(lbl->sizeHint());
-   ui->logList->insertItem(0, item);
-   ui->logList->setItemWidget(item, lbl);
-   if(ui->logList->count() > MAX_LOG_MESSAGES)
-     delete ui->logList->takeItem(ui->logList->count()-1);
+  m_logList->appendLine(msg);
 }
 
 void ExecutionLog::addBanMessage(const QString &msg)
 {
-  QListWidgetItem *item = new QListWidgetItem;
-  QLabel *lbl = new QLabel(msg);
-  lbl->setContentsMargins(4, 2, 4, 2);
-  item->setSizeHint(lbl->sizeHint());
-  ui->banList->insertItem(0, item);
-  ui->banList->setItemWidget(item, lbl);
-  if(ui->banList->count() > MAX_LOG_MESSAGES)
-    delete ui->banList->takeItem(ui->banList->count()-1);
+  m_banList->appendLine(msg);
 }

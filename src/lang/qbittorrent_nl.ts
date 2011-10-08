@@ -87,6 +87,26 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Bug Tracker:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://bugs.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://bugs.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Forum:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans&apos;; text-decoration: underline; color:#0057ae;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;IRC:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; #qbittorrent op Freenode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
+    <message>
+        <source>Libraries</source>
+        <translation>Bibliotheken</translation>
+    </message>
+    <message>
+        <source>This version of qBittorrent was built against the following libraries:</source>
+        <translation>Deze versie van qBittorrent werd gebouw met de volgende bibliotheken:</translation>
+    </message>
+    <message>
+        <source>Qt:</source>
+        <translation>Qt:</translation>
+    </message>
+    <message>
+        <source>Boost:</source>
+        <translation>Verhoog:</translation>
+    </message>
+    <message>
+        <source>Libtorrent:</source>
+        <translation>Libtorrent:</translation>
+    </message>
 </context>
 <context>
     <name>AdvancedSettings</name>
@@ -203,7 +223,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Exchange trackers with other peers</source>
-        <translation type="unfinished"></translation>
+        <translation>Wissel trackers uit met andere peers</translation>
+    </message>
+    <message>
+        <source>Always announce to all trackers</source>
+        <translation>Kondig altijd aan naar alle trackers</translation>
     </message>
 </context>
 <context>
@@ -1464,6 +1488,13 @@ No further notices will be issued.</source>
     </message>
 </context>
 <context>
+    <name>LogListWidget</name>
+    <message>
+        <source>Copy</source>
+        <translation>Kopiëren</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <source>&amp;File</source>
@@ -1816,7 +1847,7 @@ Weet u zeker dat u qBittorrent wilt afsluiten?</translation>
     <message>
         <source>qBittorrent %1 (Down: %2/s, Up: %3/s)</source>
         <comment>%1 is qBittorrent version</comment>
-        <translation>qBittorrent %1 (Down: %2/s, Up: %3/s)</translation>
+        <translation type="obsolete">qBittorrent %1 (Down: %2/s, Up: %3/s)</translation>
     </message>
     <message>
         <source>A newer version is available</source>
@@ -1879,6 +1910,19 @@ Wil u qBittorrent updaten naar versie %1?</translation>
     <message>
         <source>The password should contain at least 3 characters</source>
         <translation>Het wachtwoord moet minstens 3 tekens bevatten</translation>
+    </message>
+    <message>
+        <source>Show</source>
+        <translation>Toon</translation>
+    </message>
+    <message>
+        <source>Hide</source>
+        <translation>Verberg</translation>
+    </message>
+    <message>
+        <source>[D: %1/s, U: %2/s] qBittorrent %3</source>
+        <comment>D = Download; U = Upload; %3 is qBittorrent version</comment>
+        <translation>[D: %1/s, U: %2/s] qBittorrent %3</translation>
     </message>
 </context>
 <context>
@@ -2657,6 +2701,30 @@ Wil u qBittorrent updaten naar versie %1?</translation>
         <source>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</source>
         <translation>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Informatie over certificaten&lt;/a&gt;</translation>
     </message>
+    <message>
+        <source>File association</source>
+        <translation>Bestandskoppeling</translation>
+    </message>
+    <message>
+        <source>Use qBittorrent for .torrent files</source>
+        <translation>Gebruik qBittorrent vor .torrent-bestanden</translation>
+    </message>
+    <message>
+        <source>Use qBittorrent for magnet links</source>
+        <translation>Gebruik qBittorrent voor magnet links</translation>
+    </message>
+    <message>
+        <source>Do not count slow torrents in these limits</source>
+        <translation>Tel trage torrents niet mee bij deze limieten</translation>
+    </message>
+    <message>
+        <source>Enable anonymous mode</source>
+        <translation>Activeer anonieme modus</translation>
+    </message>
+    <message>
+        <source> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;More information&lt;/a&gt;)</source>
+        <translation> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;Meer informatie&lt;/a&gt;)</translation>
+    </message>
 </context>
 <context>
     <name>PreviewSelect</name>
@@ -3237,6 +3305,10 @@ Wil u qBittorrent updaten naar versie %1?</translation>
     <message>
         <source>qBittorrent will now exit unless you cancel within the next 15 seconds...</source>
         <translation>qBittorrent zal nu afsluiten tenzij u annuleert binnen 15 seconden...</translation>
+    </message>
+    <message>
+        <source>Anonymous mode [ON]</source>
+        <translation>Anonieme modues [AAN]</translation>
     </message>
 </context>
 <context>
@@ -4555,6 +4627,10 @@ Wilt u het nu installeren?</translation>
         <source>Do not download</source>
         <translation>Download niet</translation>
     </message>
+    <message>
+        <source>Set as default save path</source>
+        <translation>Stel in als standaard pad om op te slaan</translation>
+    </message>
 </context>
 <context>
     <name>authentication</name>
@@ -5115,6 +5191,10 @@ De plugins zijn uitgeschakeld.</translation>
         <source>qBittorrent will shutdown the computer now because all downloads are complete.</source>
         <translation>qBittorrent zal de computer afsluiten, want alle downloads zijn voltooid.</translation>
     </message>
+    <message>
+        <source>Downloads</source>
+        <translation type="unfinished">Downloads</translation>
+    </message>
 </context>
 <context>
     <name>options_imp</name>
@@ -5181,27 +5261,27 @@ De plugins zijn uitgeschakeld.</translation>
     </message>
     <message>
         <source>SSL Certificate (*.crt *.pem)</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL Cerfticaat (*.crt *.pem)</translation>
     </message>
     <message>
         <source>SSL Key (*.key *.pem)</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL Sleutel (*.key *pem)</translation>
     </message>
     <message>
         <source>Invalid key</source>
-        <translation type="unfinished"></translation>
+        <translation>Ongeldige sleutel</translation>
     </message>
     <message>
         <source>This is not a valid SSL key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dit is geen geldige SSL sleutel.</translation>
     </message>
     <message>
         <source>Invalid certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Ongeldig certificaat</translation>
     </message>
     <message>
         <source>This is not a valid SSL certificate.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dit is geen geldig SSL certificaat.</translation>
     </message>
 </context>
 <context>

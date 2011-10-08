@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt4 and libtorrent.
- * Copyright (C) 2006  Ishan Arora and Christophe Dumez
+ * Copyright (C) 2011  Christophe Dumez
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,42 +27,34 @@
  *
  * Contact : chris@qbittorrent.org
  */
+#ifndef LOGLISTWIDGET_H
+#define LOGLISTWIDGET_H
 
+#include <QListWidget>
 
-#ifndef EVENTMANAGER_H
-#define EVENTMANAGER_H
+QT_BEGIN_NAMESPACE
+class QKeyEvent;
+QT_END_NAMESPACE
 
-#include "qtorrenthandle.h"
-#include <QHash>
-#include <QVariant>
-
-class EventManager : public QObject
+class LogListWidget : public QListWidget
 {
-  Q_OBJECT
-  Q_DISABLE_COPY(EventManager)
-
-private:
-  QHash<QString, QVariantMap> event_list;
-
-protected:
-  void update(QVariantMap event);
+    Q_OBJECT
 
 public:
-  EventManager(QObject *parent);
-  QList<QVariantMap> getEventList() const;
-  QVariantMap getPropGeneralInfo(QString hash) const;
-  QList<QVariantMap> getPropTrackersInfo(QString hash) const;
-  QList<QVariantMap> getPropFilesInfo(QString hash) const;
-  QVariantMap getGlobalPreferences() const;
-  void setGlobalPreferences(QVariantMap m);
-
-signals:
-  void localeChanged(const QString &locale);
+  explicit LogListWidget(int max_lines = 100, QWidget *parent = 0);
 
 public slots:
-  void addedTorrent(const QTorrentHandle& h);
-  void deletedTorrent(QString hash);
-  void modifiedTorrent(const QTorrentHandle& h);
+  void appendLine(const QString &line);
+
+protected slots:
+  void copySelection();
+
+protected:
+  void keyPressEvent(QKeyEvent *event);
+
+private:
+  int m_maxLines;
+
 };
 
-#endif
+#endif // LOGLISTWIDGET_H

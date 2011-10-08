@@ -54,172 +54,207 @@
 using namespace libtorrent;
 
 HttpConnection::HttpConnection(QTcpSocket *socket, HttpServer *parent)
-  : QObject(parent), socket(socket), httpserver(parent)
+  : QObject(parent), m_socket(socket), m_httpserver(parent)
 {
-  socket->setParent(this);
-  connect(socket, SIGNAL(readyRead()), this, SLOT(read()));
-  connect(socket, SIGNAL(disconnected()), this, SLOT(deleteLater()));
+  m_socket->setParent(this);
+  connect(m_socket, SIGNAL(readyRead()), SLOT(read()));
+  connect(m_socket, SIGNAL(disconnected()), SLOT(deleteLater()));
 }
 
-HttpConnection::~HttpConnection()
-{
-  delete socket;
+HttpConnection::~HttpConnection() {
+  delete m_socket;
 }
 
-void HttpConnection::processDownloadedFile(QString url, QString file_path) {
-  qDebug("URL %s successfully downloaded !", (const char*)url.toLocal8Bit());
+void HttpConnection::processDownloadedFile(const QString &url,
+                                           const QString &file_path) {
+  qDebug("URL %s successfully downloaded !", qPrintable(url));
   emit torrentReadyToBeDownloaded(file_path, false, url, false);
 }
 
-void HttpConnection::handleDownloadFailure(QString url, QString reason) {
-  std::cerr << "Could not download " << (const char*)url.toLocal8Bit() << ", reason: " << (const char*)reason.toLocal8Bit() << "\n";
+void HttpConnection::handleDownloadFailure(const QString& url,
+                                           const QString& reason) {
+  std::cerr << "Could not download " << qPrintable(url) << ", reason: "
+            << qPrintable(reason) << std::endl;
 }
 
-void HttpConnection::read()
-{
-  QByteArray input = socket->readAll();
-  /*qDebug(" -------");
-        qDebug("|REQUEST|");
-        qDebug(" -------"); */
-  //qDebug("%s", input.toAscii().constData());
-  if(input.size() > 100000) {
-    qDebug("Request too big");
-    generator.setStatusLine(400, "Bad Request");
+void HttpConnection::read() {
+  QByteArray input = m_socket->readAll();
+
+  // Parse HTTP request header
+  int header_end = input.indexOf("\r\n\r\n");
+  if (header_end < 0) {
+    qDebug() << Q_FUNC_INFO << "missing double-CRLF";
+    m_generator.setStatusLine(400, "Bad Request");
     write();
     return;
   }
-  parser.write(input);
-  if(parser.isError())
-  {
-    generator.setStatusLine(400, "Bad Request");
+  QByteArray header = input.left(header_end);
+  m_parser.writeHeader(header);
+  if (m_parser.isError()) {
+    qDebug() << Q_FUNC_INFO << "header parsing error";
+    m_generator.setStatusLine(400, "Bad Request");
     write();
+    return;
   }
-  else
-    if (parser.isParsable())
-      respond();
-}
 
-void HttpConnection::write()
-{
-  QByteArray output = generator.toByteArray();
-  /*qDebug(" --------");
-        qDebug("|RESPONSE|");
-        qDebug(" --------");
-        qDebug()<<output;*/
-  socket->write(output);
-  socket->disconnectFromHost();
-}
+  // Parse HTTP request message
+  if (m_parser.header().hasContentLength())  {
+    QByteArray message = input.mid(header_end + 4);
+    int expected_length = m_parser.header().contentLength();
 
-QString HttpConnection::translateDocument(QString data) {
-  std::string contexts[] = {"TransferListFiltersWidget", "TransferListWidget", "PropertiesWidget", "MainWindow", "HttpServer", "confirmDeletionDlg", "TrackerList", "TorrentFilesModel", "options_imp", "Preferences", "TrackersAdditionDlg", "ScanFoldersModel", "PropTabBar", "TorrentModel", "downloadFromURL"};
-  int i=0;
-  bool found = false;
-  do {
-    found = false;
-    static QRegExp regex(QString::fromUtf8("_\\(([\\w\\s?!:\\/\\(\\),%µ&\\-\\.]+)\\)"));
-    i = regex.indexIn(data, i);
-    if(i >= 0) {
-      //qDebug("Found translatable string: %s", regex.cap(1).toUtf8().data());
-      QString word = regex.cap(1);
-      QString translation = word;
-      int context_index= 0;
-      do {
-        translation = qApp->translate(contexts[context_index].c_str(), word.toLocal8Bit().constData(), 0, QCoreApplication::UnicodeUTF8, 1);
-        ++context_index;
-      }while(translation == word && context_index < 15);
-      // Remove keyboard shortcuts
-      static QRegExp mnemonic("\\(?&([a-zA-Z]?\\))?");
-      translation = translation.replace(mnemonic, "");
-      //qDebug("Translation is %s", translation.toUtf8().data());
-      data = data.replace(i, regex.matchedLength(), translation);
-      i += translation.length();
-      found = true;
-    }
-  }while(found && i < data.size());
-  return data;
-}
-
-void HttpConnection::respond() {
-  if((socket->peerAddress() != QHostAddress::LocalHost && socket->peerAddress() != QHostAddress::LocalHostIPv6)
-      || httpserver->isLocalAuthEnabled()) {
-    // Authentication
-    const QString peer_ip = socket->peerAddress().toString();
-    const int nb_fail = httpserver->NbFailedAttemptsForIp(peer_ip);
-    if(nb_fail >= MAX_AUTH_FAILED_ATTEMPTS) {
-      generator.setStatusLine(403, "Forbidden");
-      generator.setMessage(tr("Your IP address has been banned after too many failed authentication attempts."));
+    if (expected_length > 100000) {
+      m_generator.setStatusLine(400, "Bad Request");
       write();
       return;
     }
-    QString auth = parser.value("Authorization");
+
+    bool is_reading = true;
+    while (message.length() < expected_length && is_reading) {
+      disconnect(m_socket, SIGNAL(readyRead()), this, SLOT(read()));
+      is_reading = m_socket->waitForReadyRead(2000);
+      if (is_reading) {
+        message.append(m_socket->readAll());
+      }
+      connect(m_socket, SIGNAL(readyRead()), this, SLOT(read()));
+    }
+    m_parser.writeMessage(message);
+  }
+
+  if(m_parser.isError()) {
+    qDebug() << Q_FUNC_INFO << "message parsing error";
+    m_generator.setStatusLine(400, "Bad Request");
+    write();
+  } else {
+    respond();
+  }
+}
+
+void HttpConnection::write() {
+  m_socket->write(m_generator.toByteArray());
+  m_socket->disconnectFromHost();
+}
+
+void HttpConnection::translateDocument(QString& data) {
+  static QRegExp regex(QString::fromUtf8("_\\(([\\w\\s?!:\\/\\(\\),%µ&\\-\\.]+)\\)"));
+  static QRegExp mnemonic("\\(?&([a-zA-Z]?\\))?");
+  const std::string contexts[] = {"TransferListFiltersWidget", "TransferListWidget",
+                                  "PropertiesWidget", "MainWindow", "HttpServer",
+                                  "confirmDeletionDlg", "TrackerList", "TorrentFilesModel",
+                                  "options_imp", "Preferences", "TrackersAdditionDlg",
+                                  "ScanFoldersModel", "PropTabBar", "TorrentModel",
+                                  "downloadFromURL"};
+  int i = 0;
+  bool found;
+
+  do {
+    found = false;
+
+    i = regex.indexIn(data, i);
+    if(i >= 0) {
+      //qDebug("Found translatable string: %s", regex.cap(1).toUtf8().data());
+      QByteArray word = regex.cap(1).toLocal8Bit();
+
+      QString translation = word;
+      if (m_httpserver->isTranslationNeeded()) {
+        int context_index = 0;
+        do {
+          translation = qApp->translate(contexts[context_index].c_str(), word.constData(), 0, QCoreApplication::UnicodeUTF8, 1);
+          ++context_index;
+        } while(translation == word && context_index < 15);
+      }
+      // Remove keyboard shortcuts
+      translation.replace(mnemonic, "");
+
+      data.replace(i, regex.matchedLength(), translation);
+      i += translation.length();
+      found = true;
+    }
+  } while(found && i < data.size());
+}
+
+void HttpConnection::respond() {
+  if((m_socket->peerAddress() != QHostAddress::LocalHost
+      && m_socket->peerAddress() != QHostAddress::LocalHostIPv6)
+     || m_httpserver->isLocalAuthEnabled()) {
+    // Authentication
+    const QString peer_ip = m_socket->peerAddress().toString();
+    const int nb_fail = m_httpserver->NbFailedAttemptsForIp(peer_ip);
+    if(nb_fail >= MAX_AUTH_FAILED_ATTEMPTS) {
+      m_generator.setStatusLine(403, "Forbidden");
+      m_generator.setMessage(tr("Your IP address has been banned after too many failed authentication attempts."));
+      write();
+      return;
+    }
+    QString auth = m_parser.header().value("Authorization");
     if(auth.isEmpty()) {
       // Return unauthorized header
       qDebug("Auth is Empty...");
-      generator.setStatusLine(401, "Unauthorized");
-      generator.setValue("WWW-Authenticate",  "Digest realm=\""+QString(QBT_REALM)+"\", nonce=\""+httpserver->generateNonce()+"\", opaque=\""+httpserver->generateNonce()+"\", stale=\"false\", algorithm=\"MD5\", qop=\"auth\"");
+      m_generator.setStatusLine(401, "Unauthorized");
+      m_generator.setValue("WWW-Authenticate",  "Digest realm=\""+QString(QBT_REALM)+"\", nonce=\""+m_httpserver->generateNonce()+"\", opaque=\""+m_httpserver->generateNonce()+"\", stale=\"false\", algorithm=\"MD5\", qop=\"auth\"");
       write();
       return;
     }
     //qDebug("Auth: %s", qPrintable(auth.split(" ").first()));
-    if (QString::compare(auth.split(" ").first(), "Digest", Qt::CaseInsensitive) != 0 || !httpserver->isAuthorized(auth.toLocal8Bit(), parser.method())) {
+    if (QString::compare(auth.split(" ").first(), "Digest", Qt::CaseInsensitive) != 0
+        || !m_httpserver->isAuthorized(auth.toLocal8Bit(), m_parser.header().method())) {
       // Update failed attempt counter
-      httpserver->increaseNbFailedAttemptsForIp(peer_ip);
-      qDebug("client IP: %s (%d failed attempts)", qPrintable(peer_ip), nb_fail+1);
+      m_httpserver->increaseNbFailedAttemptsForIp(peer_ip);
+      qDebug("client IP: %s (%d failed attempts)", qPrintable(peer_ip), nb_fail);
       // Return unauthorized header
-      generator.setStatusLine(401, "Unauthorized");
-      generator.setValue("WWW-Authenticate",  "Digest realm=\""+QString(QBT_REALM)+"\", nonce=\""+httpserver->generateNonce()+"\", opaque=\""+httpserver->generateNonce()+"\", stale=\"false\", algorithm=\"MD5\", qop=\"auth\"");
+      m_generator.setStatusLine(401, "Unauthorized");
+      m_generator.setValue("WWW-Authenticate",  "Digest realm=\""+QString(QBT_REALM)+"\", nonce=\""+m_httpserver->generateNonce()+"\", opaque=\""+m_httpserver->generateNonce()+"\", stale=\"false\", algorithm=\"MD5\", qop=\"auth\"");
       write();
       return;
     }
     // Client successfully authenticated, reset number of failed attempts
-    httpserver->resetNbFailedAttemptsForIp(peer_ip);
+    m_httpserver->resetNbFailedAttemptsForIp(peer_ip);
   }
-  QString url  = parser.url();
+  QString url  = m_parser.url();
   // Favicon
   if(url.endsWith("favicon.ico")) {
     qDebug("Returning favicon");
     QFile favicon(":/Icons/skin/qbittorrent16.png");
     if(favicon.open(QIODevice::ReadOnly)) {
       QByteArray data = favicon.readAll();
-      generator.setStatusLine(200, "OK");
-      generator.setContentTypeByExt("png");
-      generator.setMessage(data);
+      favicon.close();
+      m_generator.setStatusLine(200, "OK");
+      m_generator.setContentTypeByExt("png");
+      m_generator.setMessage(data);
       write();
     } else {
       respondNotFound();
     }
     return;
   }
+
   QStringList list = url.split('/', QString::SkipEmptyParts);
-  if (list.contains(".") || list.contains(".."))
-  {
+  if (list.contains(".") || list.contains("..")) {
     respondNotFound();
     return;
   }
-  if (list.size() == 0)
+
+  if (list.isEmpty())
     list.append("index.html");
-  if (list.size() >= 2)
-  {
-    if (list[0] == "json")
-    {
-      if (list[1] == "events")
-      {
+
+  if (list.size() >= 2) {
+    if (list[0] == "json") {
+      if (list[1] == "events") {
         respondJson();
         return;
       }
       if(list.size() > 2) {
         if(list[1] == "propertiesGeneral") {
-          QString hash = list[2];
+          const QString& hash = list[2];
           respondGenPropertiesJson(hash);
           return;
         }
         if(list[1] == "propertiesTrackers") {
-          QString hash = list[2];
+          const QString& hash = list[2];
           respondTrackersPropertiesJson(hash);
           return;
         }
         if(list[1] == "propertiesFiles") {
-          QString hash = list[2];
+          const QString& hash = list[2];
           respondFilesPropertiesJson(hash);
           return;
         }
@@ -235,15 +270,15 @@ void HttpConnection::respond() {
         }
       }
     }
-    if (list[0] == "command")
-    {
-      QString command = list[1];
+    if (list[0] == "command") {
+      const QString& command = list[1];
       respondCommand(command);
-      generator.setStatusLine(200, "OK");
+      m_generator.setStatusLine(200, "OK");
       write();
       return;
     }
   }
+
   // Icons from theme
   qDebug() << "list[0]" << list[0];
   if(list[0] == "theme" && list.size() == 2) {
@@ -264,8 +299,7 @@ void HttpConnection::respond() {
     url = ":/" + list.join("/");
   }
   QFile file(url);
-  if(!file.open(QIODevice::ReadOnly))
-  {
+  if(!file.open(QIODevice::ReadOnly)) {
     qDebug("File %s was not found!", qPrintable(url));
     respondNotFound();
     return;
@@ -277,65 +311,70 @@ void HttpConnection::respond() {
   else
     ext.clear();
   QByteArray data = file.readAll();
+  file.close();
+
   // Translate the page
   if(ext == "html" || (ext == "js" && !list.last().startsWith("excanvas"))) {
-    data = translateDocument(QString::fromUtf8(data.data())).toUtf8();
+    QString dataStr = QString::fromUtf8(data.constData());
+    translateDocument(dataStr);
+    if (url.endsWith("about.html")) {
+      dataStr.replace("${VERSION}", VERSION);
+    }
+    data = dataStr.toUtf8();
   }
-  generator.setStatusLine(200, "OK");
-  generator.setContentTypeByExt(ext);
-  generator.setMessage(data);
+  m_generator.setStatusLine(200, "OK");
+  m_generator.setContentTypeByExt(ext);
+  m_generator.setMessage(data);
   write();
 }
 
-void HttpConnection::respondNotFound()
-{
-  generator.setStatusLine(404, "File not found");
+void HttpConnection::respondNotFound() {
+  m_generator.setStatusLine(404, "File not found");
   write();
 }
 
-void HttpConnection::respondJson()
-{
-  EventManager* manager =  httpserver->eventManager();
+void HttpConnection::respondJson() {
+  EventManager* manager =  m_httpserver->eventManager();
   QString string = json::toJson(manager->getEventList());
-  generator.setStatusLine(200, "OK");
-  generator.setContentTypeByExt("js");
-  generator.setMessage(string);
+  m_generator.setStatusLine(200, "OK");
+  m_generator.setContentTypeByExt("js");
+  m_generator.setMessage(string);
   write();
 }
 
-void HttpConnection::respondGenPropertiesJson(QString hash) {
-  EventManager* manager =  httpserver->eventManager();
+void HttpConnection::respondGenPropertiesJson(const QString& hash) {
+  EventManager* manager =  m_httpserver->eventManager();
   QString string = json::toJson(manager->getPropGeneralInfo(hash));
-  generator.setStatusLine(200, "OK");
-  generator.setContentTypeByExt("js");
-  generator.setMessage(string);
+  m_generator.setStatusLine(200, "OK");
+  m_generator.setContentTypeByExt("js");
+  m_generator.setMessage(string);
   write();
 }
 
-void HttpConnection::respondTrackersPropertiesJson(QString hash) {
-  EventManager* manager =  httpserver->eventManager();
+void HttpConnection::respondTrackersPropertiesJson(const QString& hash) {
+  EventManager* manager =  m_httpserver->eventManager();
   QString string = json::toJson(manager->getPropTrackersInfo(hash));
-  generator.setStatusLine(200, "OK");
-  generator.setContentTypeByExt("js");
-  generator.setMessage(string);
+  m_generator.setStatusLine(200, "OK");
+  m_generator.setContentTypeByExt("js");
+  m_generator.setMessage(string);
   write();
 }
 
-void HttpConnection::respondFilesPropertiesJson(QString hash) {
-  EventManager* manager =  httpserver->eventManager();
+void HttpConnection::respondFilesPropertiesJson(const QString& hash) {
+  EventManager* manager =  m_httpserver->eventManager();
   QString string = json::toJson(manager->getPropFilesInfo(hash));
-  generator.setStatusLine(200, "OK");
-  generator.setContentTypeByExt("js");
-  generator.setMessage(string);
+  m_generator.setStatusLine(200, "OK");
+  m_generator.setContentTypeByExt("js");
+  m_generator.setMessage(string);
   write();
 }
 
 void HttpConnection::respondPreferencesJson() {
-  EventManager* manager =  httpserver->eventManager();
+  EventManager* manager =  m_httpserver->eventManager();
   QString string = json::toJson(manager->getGlobalPreferences());
-  generator.setStatusLine(200, "OK");
-  generator.setContentTypeByExt("js");
-  generator.setMessage(string);
+  m_generator.setStatusLine(200, "OK");
+  m_generator.setContentTypeByExt("js");
+  m_generator.setMessage(string);
   write();
 }
 
@@ -345,17 +384,15 @@ void HttpConnection::respondGlobalTransferInfoJson() {
   info["DlInfos"] = tr("D: %1/s - T: %2", "Download speed: x KiB/s - Transferred: x MiB").arg(misc::friendlyUnit(sessionStatus.payload_download_rate)).arg(misc::friendlyUnit(sessionStatus.total_payload_download));
   info["UpInfos"] = tr("U: %1/s - T: %2", "Upload speed: x KiB/s - Transferred: x MiB").arg(misc::friendlyUnit(sessionStatus.payload_upload_rate)).arg(misc::friendlyUnit(sessionStatus.total_payload_upload));
   QString string = json::toJson(info);
-  generator.setStatusLine(200, "OK");
-  generator.setContentTypeByExt("js");
-  generator.setMessage(string);
+  m_generator.setStatusLine(200, "OK");
+  m_generator.setContentTypeByExt("js");
+  m_generator.setMessage(string);
   write();
 }
 
-void HttpConnection::respondCommand(QString command)
-{
-  if(command == "download")
-  {
-    QString urls = parser.post("urls");
+void HttpConnection::respondCommand(const QString& command) {
+  if(command == "download") {
+    QString urls = m_parser.post("urls");
     QStringList list = urls.split('\n');
     foreach(QString url, list){
       url = url.trimmed();
@@ -374,52 +411,46 @@ void HttpConnection::respondCommand(QString command)
     }
     return;
   }
+
   if(command == "addTrackers") {
-    QString hash = parser.post("hash");
+    QString hash = m_parser.post("hash");
     if(!hash.isEmpty()) {
       QTorrentHandle h = QBtSession::instance()->getTorrentHandle(hash);
       if(h.is_valid() && h.has_metadata()) {
-        QString urls = parser.post("urls");
+        QString urls = m_parser.post("urls");
         QStringList list = urls.split('\n');
-        foreach(QString url, list) {
+        foreach(const QString& url, list) {
           announce_entry e(url.toStdString());
           h.add_tracker(e);
         }
       }
     }
+    return;
   }
-  if(command == "upload")
-  {
-    QByteArray torrentfile = parser.torrent();
+  if(command == "upload") {
+    qDebug() << Q_FUNC_INFO << "upload";
     // Get a unique filename
-    QString filePath;
-    // XXX: We need to use a QTemporaryFile pointer here
-    // and it fails on Windows
-    QTemporaryFile *tmpfile = new QTemporaryFile;
+    QTemporaryFile *tmpfile = new QTemporaryFile (QDir::temp().absoluteFilePath("qBT-XXXXXX.torrent"));
     tmpfile->setAutoRemove(false);
     if (tmpfile->open()) {
-      filePath = tmpfile->fileName();
+      QString filePath = tmpfile->fileName();
+      tmpfile->write(m_parser.torrent());
+      tmpfile->close();
+      // XXX: tmpfile needs to be deleted on Windows before using the file
+      // or it will complain that the file is used by another process.
+      delete tmpfile;
+      emit torrentReadyToBeDownloaded(filePath, false, QString(), false);
+      // Clean up
+      QFile::remove(filePath);
     } else {
       std::cerr << "I/O Error: Could not create temporary file" << std::endl;
+      delete tmpfile;
       return;
     }
-    tmpfile->close();
-    // Now temporary file is created but closed so that it can be used.
-    // write torrent to temporary file
-    QFile torrent(filePath);
-    if(torrent.open(QIODevice::WriteOnly)) {
-      torrent.write(torrentfile);
-      torrent.close();
-    } else {
-      std::cerr << "I/O Error: Could not create temporary file" << std::endl;
-      return;
-    }
-    emit torrentReadyToBeDownloaded(filePath, false, QString(), false);
-    delete tmpfile;
     // Prepare response
-    generator.setStatusLine(200, "OK");
-    generator.setContentTypeByExt("html");
-    generator.setMessage(QString("<script type=\"text/javascript\">window.parent.hideAll();</script>"));
+    m_generator.setStatusLine(200, "OK");
+    m_generator.setContentTypeByExt("html");
+    m_generator.setMessage(QString("<script type=\"text/javascript\">window.parent.hideAll();</script>"));
     write();
     return;
   }
@@ -432,164 +463,154 @@ void HttpConnection::respondCommand(QString command)
     return;
   }
   if(command == "resume") {
-    emit resumeTorrent(parser.post("hash"));
+    emit resumeTorrent(m_parser.post("hash"));
     return;
   }
   if(command == "setPreferences") {
-    QString json_str = parser.post("json");
-    EventManager* manager =  httpserver->eventManager();
+    QString json_str = m_parser.post("json");
+    EventManager* manager =  m_httpserver->eventManager();
     manager->setGlobalPreferences(json::fromJson(json_str));
+    return;
   }
   if(command == "setFilePrio") {
-    QString hash = parser.post("hash");
-    int file_id = parser.post("id").toInt();
-    int priority = parser.post("priority").toInt();
+    QString hash = m_parser.post("hash");
+    int file_id = m_parser.post("id").toInt();
+    int priority = m_parser.post("priority").toInt();
     QTorrentHandle h = QBtSession::instance()->getTorrentHandle(hash);
     if(h.is_valid() && h.has_metadata()) {
       h.file_priority(file_id, priority);
     }
+    return;
   }
   if(command == "getGlobalUpLimit") {
-    generator.setStatusLine(200, "OK");
-    generator.setContentTypeByExt("html");
+    m_generator.setStatusLine(200, "OK");
+    m_generator.setContentTypeByExt("html");
 #if LIBTORRENT_VERSION_MINOR > 15
-    generator.setMessage(QString::number(QBtSession::instance()->getSession()->settings().upload_rate_limit));
+    m_generator.setMessage(QString::number(QBtSession::instance()->getSession()->settings().upload_rate_limit));
 #else
-    generator.setMessage(QString::number(QBtSession::instance()->getSession()->upload_rate_limit()));
+    m_generator.setMessage(QString::number(QBtSession::instance()->getSession()->upload_rate_limit()));
 #endif
     write();
+    return;
   }
   if(command == "getGlobalDlLimit") {
-    generator.setStatusLine(200, "OK");
-    generator.setContentTypeByExt("html");
+    m_generator.setStatusLine(200, "OK");
+    m_generator.setContentTypeByExt("html");
 #if LIBTORRENT_VERSION_MINOR > 15
-    generator.setMessage(QString::number(QBtSession::instance()->getSession()->settings().download_rate_limit));
+    m_generator.setMessage(QString::number(QBtSession::instance()->getSession()->settings().download_rate_limit));
 #else
-    generator.setMessage(QString::number(QBtSession::instance()->getSession()->download_rate_limit()));
+    m_generator.setMessage(QString::number(QBtSession::instance()->getSession()->download_rate_limit()));
 #endif
     write();
+    return;
   }
   if(command == "getTorrentUpLimit") {
-    QString hash = parser.post("hash");
+    QString hash = m_parser.post("hash");
     QTorrentHandle h = QBtSession::instance()->getTorrentHandle(hash);
     if(h.is_valid()) {
-      generator.setStatusLine(200, "OK");
-      generator.setContentTypeByExt("html");
-      generator.setMessage(QString::number(h.upload_limit()));
+      m_generator.setStatusLine(200, "OK");
+      m_generator.setContentTypeByExt("html");
+      m_generator.setMessage(QString::number(h.upload_limit()));
       write();
     }
+    return;
   }
   if(command == "getTorrentDlLimit") {
-    QString hash = parser.post("hash");
+    QString hash = m_parser.post("hash");
     QTorrentHandle h = QBtSession::instance()->getTorrentHandle(hash);
     if(h.is_valid()) {
-      generator.setStatusLine(200, "OK");
-      generator.setContentTypeByExt("html");
-      generator.setMessage(QString::number(h.download_limit()));
+      m_generator.setStatusLine(200, "OK");
+      m_generator.setContentTypeByExt("html");
+      m_generator.setMessage(QString::number(h.download_limit()));
       write();
     }
+    return;
   }
   if(command == "setTorrentUpLimit") {
-    QString hash = parser.post("hash");
-    qlonglong limit = parser.post("limit").toLongLong();
+    QString hash = m_parser.post("hash");
+    qlonglong limit = m_parser.post("limit").toLongLong();
     if(limit == 0) limit = -1;
     QTorrentHandle h = QBtSession::instance()->getTorrentHandle(hash);
     if(h.is_valid()) {
       h.set_upload_limit(limit);
     }
+    return;
   }
   if(command == "setTorrentDlLimit") {
-    QString hash = parser.post("hash");
-    qlonglong limit = parser.post("limit").toLongLong();
+    QString hash = m_parser.post("hash");
+    qlonglong limit = m_parser.post("limit").toLongLong();
     if(limit == 0) limit = -1;
     QTorrentHandle h = QBtSession::instance()->getTorrentHandle(hash);
     if(h.is_valid()) {
       h.set_download_limit(limit);
     }
+    return;
   }
   if(command == "setGlobalUpLimit") {
-    qlonglong limit = parser.post("limit").toLongLong();
+    qlonglong limit = m_parser.post("limit").toLongLong();
     if(limit == 0) limit = -1;
     QBtSession::instance()->setUploadRateLimit(limit);
     Preferences().setGlobalUploadLimit(limit/1024.);
+    return;
   }
   if(command == "setGlobalDlLimit") {
-    qlonglong limit = parser.post("limit").toLongLong();
+    qlonglong limit = m_parser.post("limit").toLongLong();
     if(limit == 0) limit = -1;
     QBtSession::instance()->setDownloadRateLimit(limit);
     Preferences().setGlobalDownloadLimit(limit/1024.);
+    return;
   }
   if(command == "pause") {
-    emit pauseTorrent(parser.post("hash"));
+    emit pauseTorrent(m_parser.post("hash"));
     return;
   }
   if(command == "delete") {
-    QStringList hashes = parser.post("hashes").split("|");
+    QStringList hashes = m_parser.post("hashes").split("|");
     foreach(const QString &hash, hashes) {
       emit deleteTorrent(hash, false);
     }
     return;
   }
   if(command == "deletePerm") {
-    QStringList hashes = parser.post("hashes").split("|");
+    QStringList hashes = m_parser.post("hashes").split("|");
     foreach(const QString &hash, hashes) {
       emit deleteTorrent(hash, true);
     }
     return;
   }
   if(command == "increasePrio") {
-    increaseTorrentsPriority(parser.post("hashes").split("|"));
+    increaseTorrentsPriority(m_parser.post("hashes").split("|"));
     return;
   }
   if(command == "decreasePrio") {
-    decreaseTorrentsPriority(parser.post("hashes").split("|"));
+    decreaseTorrentsPriority(m_parser.post("hashes").split("|"));
     return;
   }
   if(command == "topPrio") {
-    foreach(const QString &hash, parser.post("hashes").split("|")) {
+    foreach(const QString &hash, m_parser.post("hashes").split("|")) {
       QTorrentHandle h = QBtSession::instance()->getTorrentHandle(hash);
       if(h.is_valid()) h.queue_position_top();
     }
     return;
   }
   if(command == "bottomPrio") {
-    foreach(const QString &hash, parser.post("hashes").split("|")) {
+    foreach(const QString &hash, m_parser.post("hashes").split("|")) {
       QTorrentHandle h = QBtSession::instance()->getTorrentHandle(hash);
       if(h.is_valid()) h.queue_position_bottom();
     }
     return;
   }
   if(command == "recheck"){
-    recheckTorrent(parser.post("hash"));
-    return;
-  }
-  if(command == "recheckall"){
-    recheckAllTorrents();
+    QBtSession::instance()->recheckTorrent(m_parser.post("hash"));
     return;
   }
 }
 
-void HttpConnection::recheckTorrent(QString hash) {
-  QTorrentHandle h = QBtSession::instance()->getTorrentHandle(hash);
-  if(h.is_valid()){
-    QBtSession::instance()->recheckTorrent(h.hash());
-  }
-}
-
-void HttpConnection::recheckAllTorrents() {
-  std::vector<torrent_handle> torrents = QBtSession::instance()->getTorrents();
-  std::vector<torrent_handle>::iterator torrentIT;
-  for(torrentIT = torrents.begin(); torrentIT != torrents.end(); torrentIT++) {
-    QTorrentHandle h = QTorrentHandle(*torrentIT);
-    if(h.is_valid())
-      QBtSession::instance()->recheckTorrent(h.hash());
-  }
-}
-
-void HttpConnection::decreaseTorrentsPriority(const QStringList &hashes)
-{
+void HttpConnection::decreaseTorrentsPriority(const QStringList &hashes) {
   qDebug() << Q_FUNC_INFO << hashes;
-  std::priority_queue<QPair<int, QTorrentHandle>, std::vector<QPair<int, QTorrentHandle> >, std::less<QPair<int, QTorrentHandle> > > torrent_queue;
+  std::priority_queue<QPair<int, QTorrentHandle>,
+      std::vector<QPair<int, QTorrentHandle> >,
+      std::less<QPair<int, QTorrentHandle> > > torrent_queue;
   // Sort torrents by priority
   foreach(const QString &hash, hashes) {
     try {
@@ -612,7 +633,9 @@ void HttpConnection::decreaseTorrentsPriority(const QStringList &hashes)
 void HttpConnection::increaseTorrentsPriority(const QStringList &hashes)
 {
   qDebug() << Q_FUNC_INFO << hashes;
-  std::priority_queue<QPair<int, QTorrentHandle>, std::vector<QPair<int, QTorrentHandle> >, std::greater<QPair<int, QTorrentHandle> > > torrent_queue;
+  std::priority_queue<QPair<int, QTorrentHandle>,
+      std::vector<QPair<int, QTorrentHandle> >,
+      std::greater<QPair<int, QTorrentHandle> > > torrent_queue;
   // Sort torrents by priority
   foreach(const QString &hash, hashes) {
     try {

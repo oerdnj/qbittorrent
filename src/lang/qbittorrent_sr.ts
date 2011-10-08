@@ -88,6 +88,26 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Bug Tracker:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://bugs.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://bugs.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Forum:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans&apos;; text-decoration: underline; color:#0057ae;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;IRC:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; #qbittorrent on Freenode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
+    <message>
+        <source>Libraries</source>
+        <translation>Библиотеке</translation>
+    </message>
+    <message>
+        <source>This version of qBittorrent was built against the following libraries:</source>
+        <translation>Ова верзија qBittorrentа је изграђена помоћу следећих библиотека:</translation>
+    </message>
+    <message>
+        <source>Qt:</source>
+        <translation>Qt:</translation>
+    </message>
+    <message>
+        <source>Boost:</source>
+        <translation>Boost:</translation>
+    </message>
+    <message>
+        <source>Libtorrent:</source>
+        <translation>Libtorrent:</translation>
+    </message>
 </context>
 <context>
     <name>AdvancedSettings</name>
@@ -211,6 +231,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Exchange trackers with other peers</source>
         <translation>Размена претилаца са осталим учесницима</translation>
+    </message>
+    <message>
+        <source>Always announce to all trackers</source>
+        <translation>Увек објави за све пратиоце</translation>
     </message>
 </context>
 <context>
@@ -1708,6 +1732,13 @@ No further notices will be issued.</source>
     </message>
 </context>
 <context>
+    <name>LogListWidget</name>
+    <message>
+        <source>Copy</source>
+        <translation>Копирај</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <source>&amp;Edit</source>
@@ -2068,7 +2099,7 @@ Are you sure you want to quit qBittorrent?</source>
     <message>
         <source>qBittorrent %1 (Down: %2/s, Up: %3/s)</source>
         <comment>%1 is qBittorrent version</comment>
-        <translation>qBittorrent %1 (Преуз: %2/s, Сл: %3/s)</translation>
+        <translation type="obsolete">qBittorrent %1 (Преуз: %2/s, Сл: %3/s)</translation>
     </message>
     <message>
         <source>A newer version is available</source>
@@ -2131,6 +2162,19 @@ Would you like to update qBittorrent to version %1?</source>
     <message>
         <source>The password should contain at least 3 characters</source>
         <translation>Лозинка мора имати најмање 3 карактера</translation>
+    </message>
+    <message>
+        <source>Show</source>
+        <translation>Прикажи</translation>
+    </message>
+    <message>
+        <source>Hide</source>
+        <translation>Сакриј</translation>
+    </message>
+    <message>
+        <source>[D: %1/s, U: %2/s] qBittorrent %3</source>
+        <comment>D = Download; U = Upload; %3 is qBittorrent version</comment>
+        <translation>[П: %1/s, С: %2/s] qBittorrent %3</translation>
     </message>
 </context>
 <context>
@@ -2924,6 +2968,31 @@ Would you like to update qBittorrent to version %1?</source>
         <source>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</source>
         <translation>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</translation>
     </message>
+    <message>
+        <source>File association</source>
+        <translatorcomment>Придруживање датотека</translatorcomment>
+        <translation>Асоцириње фајлова</translation>
+    </message>
+    <message>
+        <source>Use qBittorrent for .torrent files</source>
+        <translation>Користи qBittorrent за .torrent фајлове</translation>
+    </message>
+    <message>
+        <source>Use qBittorrent for magnet links</source>
+        <translation>Користи qBittorrent за магнет линкове</translation>
+    </message>
+    <message>
+        <source>Do not count slow torrents in these limits</source>
+        <translation>Не вреднуј споре торенте у овим ограничењима</translation>
+    </message>
+    <message>
+        <source>Enable anonymous mode</source>
+        <translation>Омогући анонимни начин рада</translation>
+    </message>
+    <message>
+        <source> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;More information&lt;/a&gt;)</source>
+        <translation> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;More information&lt;/a&gt;)</translation>
+    </message>
 </context>
 <context>
     <name>PreviewSelect</name>
@@ -3522,6 +3591,10 @@ Would you like to update qBittorrent to version %1?</source>
     <message>
         <source>qBittorrent will now exit unless you cancel within the next 15 seconds...</source>
         <translation>qBittorrent ће сада бити искључен осим ако то не откажете у наредних 15 секунди...</translation>
+    </message>
+    <message>
+        <source>Anonymous mode [ON]</source>
+        <translation>Анонимни начин рада [Укључен]</translation>
     </message>
 </context>
 <context>
@@ -4920,6 +4993,10 @@ Do you want to install it now?</source>
         <source>Do not download</source>
         <translation>Не преузимај</translation>
     </message>
+    <message>
+        <source>Set as default save path</source>
+        <translation>Подесите подразумевану путању чувања</translation>
+    </message>
 </context>
 <context>
     <name>authentication</name>
@@ -5502,6 +5579,10 @@ However, those plugins were disabled.</source>
         <source>qBittorrent will shutdown the computer now because all downloads are complete.</source>
         <translation>qBittorrent ће искључити рачунар сада, јер су сва преузимања завршена.</translation>
     </message>
+    <message>
+        <source>Downloads</source>
+        <translation type="unfinished">Преузимање</translation>
+    </message>
 </context>
 <context>
     <name>options_imp</name>
@@ -5595,11 +5676,11 @@ However, those plugins were disabled.</source>
     </message>
     <message>
         <source>SSL Certificate (*.crt *.pem)</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL Сертификат (*.crt *.pem)</translation>
     </message>
     <message>
         <source>SSL Key (*.key *.pem)</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL Кључ (*.key *.pem)</translation>
     </message>
 </context>
 <context>

@@ -88,7 +88,7 @@ public:
 
   static inline QString removeLastPathPart(QString path) {
     if(path.isEmpty()) return path;
-    path = path.replace("\\", "/");
+    path.replace("\\", "/");
     QStringList tmp = path.split("/");
     tmp.removeLast();
     return tmp.join("/");
@@ -145,6 +145,7 @@ public:
   /* Ported from Qt4 to drop dependency on QtGui */
   static QString QDesktopServicesDataLocation();
   static QString QDesktopServicesCacheLocation();
+  static QString QDesktopServicesDownloadLocation();
   /* End of Qt4 code */
 
 #ifndef DISABLE_GUI

@@ -87,6 +87,26 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Bug Tracker:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://bugs.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://bugs.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Forum:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans&apos;; text-decoration: underline; color:#0057ae;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;IRC:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; #qbittorrent on Freenode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
+    <message>
+        <source>Libraries</source>
+        <translation>Biblioteki</translation>
+    </message>
+    <message>
+        <source>This version of qBittorrent was built against the following libraries:</source>
+        <translation type="unfinished">qBittorrent został zbudowany z użyciem następujących bibliotek:</translation>
+    </message>
+    <message>
+        <source>Qt:</source>
+        <translation>Qt:</translation>
+    </message>
+    <message>
+        <source>Boost:</source>
+        <translation>Boost:</translation>
+    </message>
+    <message>
+        <source>Libtorrent:</source>
+        <translation>Libtorrent:</translation>
+    </message>
 </context>
 <context>
     <name>AdvancedSettings</name>
@@ -204,7 +224,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Exchange trackers with other peers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wymieniaj adresy trackerów z innymi partnerami</translation>
+    </message>
+    <message>
+        <source>Always announce to all trackers</source>
+        <translation type="unfinished">Zawsze ogłaszaj do wszystkich trackerów</translation>
     </message>
 </context>
 <context>
@@ -623,11 +647,11 @@ Informacje te powinny zostać pobrane z ustawień przeglądarki internetowej.</t
     </message>
     <message>
         <source>Dynamic DNS error: The service is temporarily unavailable, it will be retried in 30 minutes.</source>
-        <translation type="unfinished">Błąd dynamicznego DNS: Usługa tymczasowo niedostępna, ponowienie za 30 minut.</translation>
+        <translation>Błąd dynamicznego DNS: Usługa tymczasowo niedostępna, ponowienie za 30 minut.</translation>
     </message>
     <message>
         <source>Dynamic DNS error: hostname supplied does not exist under specified account.</source>
-        <translation type="unfinished">Błąd dynamicznego DNS: Wskazane konto nie zawiera podanej nazwy hosta.</translation>
+        <translation>Błąd dynamicznego DNS: Wskazane konto nie zawiera podanej nazwy hosta.</translation>
     </message>
     <message>
         <source>Dynamic DNS error: Invalid username/password.</source>
@@ -734,19 +758,19 @@ Informacje te powinny zostać pobrane z ustawień przeglądarki internetowej.</t
     </message>
     <message>
         <source>An unknown network-related error was detected</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wykryto nieznany błąd związany z siecią</translation>
     </message>
     <message>
         <source>An unknown proxy-related error was detected</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wykryto nieznany błąd związany z proxy</translation>
     </message>
     <message>
         <source>An unknown error related to the remote content was detected</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wykryto nieznany błąd związany ze zdalną zawartością</translation>
     </message>
     <message>
         <source>A breakdown in protocol was detected</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wykryto błąd w protokole</translation>
     </message>
     <message>
         <source>Unknown error</source>
@@ -1571,11 +1595,11 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
     <message>
         <source>Downloaded</source>
         <comment>Is the file downloaded or not?</comment>
-        <translation type="unfinished">Pobrany</translation>
+        <translation>Pobrany</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Zapisz</translation>
+        <translation>Zapisz</translation>
     </message>
     <message>
         <source>qBittorrent client is not reachable</source>
@@ -1634,6 +1658,13 @@ W przyszłości powiadomienie nie będzie wyświetlane.</translation>
     <message>
         <source>Clear the text</source>
         <translation>Wyczyść tekst</translation>
+    </message>
+</context>
+<context>
+    <name>LogListWidget</name>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Kopiuj</translation>
     </message>
 </context>
 <context>
@@ -1994,7 +2025,7 @@ Czy na pewno zamknąć qBittorrent?</translation>
     <message>
         <source>qBittorrent %1 (Down: %2/s, Up: %3/s)</source>
         <comment>%1 is qBittorrent version</comment>
-        <translation>qBittorrent %1 (Pobieranie: %2/s, Wysyłanie: %3/s)</translation>
+        <translation type="obsolete">qBittorrent %1 (Pobieranie: %2/s, Wysyłanie: %3/s)</translation>
     </message>
     <message>
         <source>A newer version is available</source>
@@ -2036,7 +2067,7 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
     </message>
     <message>
         <source>Auto-Shutdown on downloads completion</source>
-        <translation type="unfinished">Zamykanie po ukończeniu pobierania</translation>
+        <translation>Zamykanie po ukończeniu pobierania</translation>
     </message>
     <message>
         <source>Exit qBittorrent</source>
@@ -2044,11 +2075,11 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
     </message>
     <message>
         <source>Suspend system</source>
-        <translation type="unfinished">Wstrzymaj system</translation>
+        <translation>Wstrzymaj system</translation>
     </message>
     <message>
         <source>Shutdown system</source>
-        <translation type="unfinished">Zamknij system</translation>
+        <translation>Zamknij system</translation>
     </message>
     <message>
         <source>Disabled</source>
@@ -2057,6 +2088,20 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
     <message>
         <source>The password should contain at least 3 characters</source>
         <translation>Hasło powinno zawierać przynajmniej 3 znaki</translation>
+    </message>
+    <message>
+        <source>Show</source>
+        <translation>Pokaż</translation>
+    </message>
+    <message>
+        <source>Hide</source>
+        <translation>Ukryj</translation>
+    </message>
+    <message>
+        <source>[D: %1/s, U: %2/s] qBittorrent %3</source>
+        <comment>D = Download; U = Upload; %3 is qBittorrent version</comment>
+        <translatorcomment>P = Pobieranie; W = Wysyłanie; %3 to jest wersja qBittorrent</translatorcomment>
+        <translation>[P: %1/s, W: %2/s] qBittorrent %3</translation>
     </message>
 </context>
 <context>
@@ -2701,15 +2746,15 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
     </message>
     <message>
         <source>Normal</source>
-        <translation type="unfinished">normalny</translation>
+        <translation>normalny</translation>
     </message>
     <message>
         <source>Monochrome (Dark theme)</source>
-        <translation type="unfinished">monochromatyczny (ciemny motyw)</translation>
+        <translation>monochromatyczny (ciemny motyw)</translation>
     </message>
     <message>
         <source>Monochrome (Light theme)</source>
-        <translation type="unfinished">monochromatyczny (jasny motyw)</translation>
+        <translation>monochromatyczny (jasny motyw)</translation>
     </message>
     <message>
         <source>This server requires a secure connection (SSL)</source>
@@ -2758,7 +2803,7 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
     </message>
     <message>
         <source>Update my dynamic domain name</source>
-        <translation type="unfinished">Aktualizuj nazwę domeny dynamicznej</translation>
+        <translation>Aktualizuj nazwę domeny dynamicznej</translation>
     </message>
     <message>
         <source>Service:</source>
@@ -2817,11 +2862,11 @@ Ignoruj narzuty protokołu TCP/IP w limitach prędkości</translatorcomment>
     </message>
     <message>
         <source>Import SSL Certificate</source>
-        <translation type="unfinished">Importuj certyfikat SSL</translation>
+        <translation>Importuj certyfikat SSL</translation>
     </message>
     <message>
         <source>Import SSL Key</source>
-        <translation type="unfinished">Importuj klucz SSL</translation>
+        <translation>Importuj klucz SSL</translation>
     </message>
     <message>
         <source>Certificate:</source>
@@ -2834,6 +2879,30 @@ Ignoruj narzuty protokołu TCP/IP w limitach prędkości</translatorcomment>
     <message>
         <source>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</source>
         <translation>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Informacja na temat certyfikatów&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>File association</source>
+        <translation type="unfinished">Skojarzenie plików</translation>
+    </message>
+    <message>
+        <source>Use qBittorrent for .torrent files</source>
+        <translation type="unfinished">Używaj qBittorrent z plikami .torrent</translation>
+    </message>
+    <message>
+        <source>Use qBittorrent for magnet links</source>
+        <translation type="unfinished">Używaj qBittorrent z adresami magnet</translation>
+    </message>
+    <message>
+        <source>Do not count slow torrents in these limits</source>
+        <translation type="unfinished">Nie wliczaj wolnych torrentów do tych limitów</translation>
+    </message>
+    <message>
+        <source>Enable anonymous mode</source>
+        <translation>Włącz tryb anonimowy</translation>
+    </message>
+    <message>
+        <source> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;More information&lt;/a&gt;)</source>
+        <translation> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;Więcej informacji&lt;/a&gt;)</translation>
     </message>
 </context>
 <context>
@@ -3427,6 +3496,10 @@ Ignoruj narzuty protokołu TCP/IP w limitach prędkości</translatorcomment>
     <message>
         <source>qBittorrent will now exit unless you cancel within the next 15 seconds...</source>
         <translation type="unfinished">Działanie qBittorrent zostanie zakończone jeśli nie anulujesz akcji w ciągu 15 sekund...</translation>
+    </message>
+    <message>
+        <source>Anonymous mode [ON]</source>
+        <translation>Tryb anonimowy [WŁ]</translation>
     </message>
 </context>
 <context>
@@ -4197,7 +4270,7 @@ Do you want to install it now?</source>
     <message>
         <source>Time Active</source>
         <comment>Time (duration) the torrent is active (not paused)</comment>
-        <translation type="unfinished">Aktywny przez</translation>
+        <translation>Aktywny przez</translation>
     </message>
 </context>
 <context>
@@ -4807,6 +4880,10 @@ Do you want to install it now?</source>
         <source>Do not download</source>
         <translation>Nie pobieraj</translation>
     </message>
+    <message>
+        <source>Set as default save path</source>
+        <translation type="unfinished">Ustaw jako domyślną ścieżkę zapisu</translation>
+    </message>
 </context>
 <context>
     <name>authentication</name>
@@ -5343,6 +5420,10 @@ Jednak tamte wtyczki były wyłączone.</translation>
         <source>qBittorrent will shutdown the computer now because all downloads are complete.</source>
         <translation>qBittorrent wyłączy teraz komputer, ponieważ pobieranie zostało ukończone.</translation>
     </message>
+    <message>
+        <source>Downloads</source>
+        <translation type="unfinished">Pobieranie</translation>
+    </message>
 </context>
 <context>
     <name>options_imp</name>
@@ -5410,27 +5491,27 @@ Jednak tamte wtyczki były wyłączone.</translation>
     </message>
     <message>
         <source>Invalid key</source>
-        <translation type="unfinished"></translation>
+        <translation>Niepoprawny klucz</translation>
     </message>
     <message>
         <source>This is not a valid SSL key.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">To nie jest poprawny klucz SSL.</translation>
     </message>
     <message>
         <source>Invalid certificate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Niepoprawny certyfikat</translation>
     </message>
     <message>
         <source>This is not a valid SSL certificate.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">To nie jest poprawny certyfikat SSL.</translation>
     </message>
     <message>
         <source>SSL Certificate (*.crt *.pem)</source>
-        <translation type="unfinished"></translation>
+        <translation>Certyfikat SSL (*.crt *.pem)</translation>
     </message>
     <message>
         <source>SSL Key (*.key *.pem)</source>
-        <translation type="unfinished"></translation>
+        <translation>Klucz SSL (*.key *.pem)</translation>
     </message>
 </context>
 <context>
