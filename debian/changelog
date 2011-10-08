@@ -1,3 +1,9 @@
+qbittorrent (2.9.0-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Cristian Greco <cristian@debian.org>  Sat, 08 Oct 2011 17:29:45 +0200
+
 qbittorrent (2.8.5-1) unstable; urgency=low
 
   * New upstream version.
