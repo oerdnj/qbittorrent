@@ -45,10 +45,6 @@
 #include <QCoreApplication>
 #endif
 
-#ifdef Q_WS_WIN
-#include <QDesktopServices>
-#endif
-
 #include "misc.h"
 #include "qinisettings.h"
 
@@ -66,7 +62,7 @@ enum Service { DYNDNS, NOIP, NONE = -1 };
 }
 
 class Preferences : public QIniSettings {
-  Q_DISABLE_COPY(Preferences);
+  Q_DISABLE_COPY(Preferences)
 
 public:
   Preferences() : QIniSettings("qBittorrent", "qBittorrent") {
@@ -182,12 +178,10 @@ public:
 
   // Downloads
   QString getSavePath() const {
-#ifdef Q_WS_WIN
-    return value(QString::fromUtf8("Preferences/Downloads/SavePath"),
-                 QDir(QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation)).absoluteFilePath("Downloads")).toString();
-#else
-    return value(QString::fromUtf8("Preferences/Downloads/SavePath"), QDir::home().absoluteFilePath("qBT_dir")).toString();
-#endif
+    QString save_path = value(QString::fromUtf8("Preferences/Downloads/SavePath")).toString();
+    if (!save_path.isEmpty())
+      return save_path;
+    return misc::QDesktopServicesDownloadLocation();
   }
 
   void setSavePath(const QString &save_path) {
@@ -227,6 +221,14 @@ public:
 
   void setAppendTorrentLabel(bool b) {
     setValue("Preferences/Downloads/AppendLabel", b);
+  }
+
+  QString lastLocationPath() const {
+    return value(QString::fromUtf8("Preferences/Downloads/LastLocationPath"), QString()).toString();
+}
+
+  void setLastLocationPath(const QString &path) {
+    setValue(QString::fromUtf8("Preferences/Downloads/LastLocationPath"), path);
   }
 
   bool preAllocateAllFiles() const {
@@ -709,6 +711,14 @@ public:
     setValue(QString::fromUtf8("Preferences/Queueing/MaxActiveTorrents"), val);
   }
 
+  void setIgnoreSlowTorrentsForQueueing(bool ignore) {
+    setValue("Preferences/Queueing/IgnoreSlowTorrents", ignore);
+  }
+
+  bool ignoreSlowTorrentsForQueueing() const {
+    return value("Preferences/Queueing/IgnoreSlowTorrents", false).toBool();
+  }
+
   bool isWebUiEnabled() const {
     return value("Preferences/WebUI/Enabled", false).toBool();
   }
@@ -939,11 +949,11 @@ public:
   }
 
   bool trackerExchangeEnabled() const {
-    return value(QString::fromUtf8("Preferences/Advanced/TrackerExchange"), true).toBool();
+    return value(QString::fromUtf8("Preferences/Advanced/LtTrackerExchange"), false).toBool();
   }
 
   void setTrackerExchangeEnabled(bool enable) {
-    setValue(QString::fromUtf8("Preferences/Advanced/TrackerExchange"), enable);
+    setValue(QString::fromUtf8("Preferences/Advanced/LtTrackerExchange"), enable);
   }
 
   bool recheckTorrentsOnCompletion() const {
@@ -1005,6 +1015,16 @@ public:
     return value(QString::fromUtf8("Preferences/Connection/InetAddress"), QString()).toString();
   }
 
+#if LIBTORRENT_VERSION_MINOR > 15
+  bool isAnonymousModeEnabled() const {
+    return value(QString::fromUtf8("Preferences/Advanced/AnonymousMode"), false).toBool();
+  }
+
+  void enableAnonymousMode(bool enabled) {
+    setValue(QString::fromUtf8("Preferences/Advanced/AnonymousMode"), enabled);
+  }
+#endif
+
 #if LIBTORRENT_VERSION_MINOR > 14
   bool isSuperSeedingEnabled() const {
     return value(QString::fromUtf8("Preferences/Advanced/SuperSeeding"), false).toBool();
@@ -1012,6 +1032,14 @@ public:
 
   void enableSuperSeeding(bool enabled) {
     setValue(QString::fromUtf8("Preferences/Advanced/SuperSeeding"), enabled);
+  }
+
+  bool announceToAllTrackers() const {
+    return value(QString::fromUtf8("Preferences/Advanced/AnnounceToAllTrackers"), false).toBool();
+  }
+
+  void setAnnounceToAllTrackers(bool enabled) {
+    setValue(QString::fromUtf8("Preferences/Advanced/AnnounceToAllTrackers"), enabled);
   }
 #endif
 
@@ -1070,9 +1098,9 @@ public:
     // Fallback: Detect python from default locations
     QStringList supported_versions;
     supported_versions << "32" << "31" << "30" << "27" << "26" << "25";
-    foreach(const v, supported_versions) {
+    foreach(const QString &v, supported_versions) {
       if(QFile::exists("C:/Python"+v+"/python.exe")) {
-        reg_python.setValue(v[0]+"."+v[1]+"/InstallPath/Default", "C:\\Python"+v);
+        reg_python.setValue(v[0]+"."+v[1]+"/InstallPath/Default", QString("C:\\Python"+v));
         return "C:\\Python"+v;
       }
     }
@@ -1083,11 +1111,11 @@ public:
     return value(QString::fromUtf8("Preferences/Win32/NeverCheckFileAssocation"), false).toBool();
   }
 
-  void setNeverCheckFileAssoc(bool check=true) {
+  void setNeverCheckFileAssoc(bool check = true) {
     setValue(QString::fromUtf8("Preferences/Win32/NeverCheckFileAssocation"), check);
   }
 
-  static bool isFileAssocOk() {
+  static bool isTorrentFileAssocSet() {
     QSettings settings("HKEY_CLASSES_ROOT", QIniSettings::NativeFormat);
     if(settings.value(".torrent/Default").toString() != "qBittorrent") {
       qDebug(".torrent != qBittorrent");
@@ -1107,37 +1135,72 @@ public:
     const QString icon_str = "\""+qApp->applicationFilePath().replace("/", "\\")+"\",1";
     if(settings.value("qBittorrent/DefaultIcon/Default", icon_str).toString().compare(icon_str, Qt::CaseInsensitive) != 0)
       return false;
+
+    return true;
+  }
+
+  static bool isMagnetLinkAssocSet() {
+    QSettings settings("HKEY_CLASSES_ROOT", QIniSettings::NativeFormat);
+
     // Check magnet link assoc
-    shell_command = settings.value("Magnet/shell/open/command/Default", "").toString();
+    QRegExp exe_reg("\"([^\"]+)\".*");
+    QString shell_command = settings.value("Magnet/shell/open/command/Default", "").toString();
     if(exe_reg.indexIn(shell_command) < 0)
       return false;
-    assoc_exe = exe_reg.cap(1);
+    QString assoc_exe = exe_reg.cap(1);
     qDebug("exe: %s", qPrintable(assoc_exe));
     if(assoc_exe.compare(qApp->applicationFilePath().replace("/", "\\"), Qt::CaseInsensitive) != 0)
       return false;
     return true;
   }
 
-  static void setFileAssoc() {
+  static void setTorrentFileAssoc(bool set) {
     QSettings settings("HKEY_CLASSES_ROOT", QSettings::NativeFormat);
+
     // .Torrent association
-    settings.setValue(".torrent/Default", "qBittorrent");
-    settings.setValue(".torrent/Content Type", "application/x-bittorrent");
-    settings.setValue("qBittorrent/shell/Default", "open");
-    const QString command_str = "\""+qApp->applicationFilePath().replace("/", "\\")+"\" \"%1\"";
-    settings.setValue("qBittorrent/shell/open/command/Default", command_str);
-    settings.setValue("qBittorrent/Content Type/Default", "application/x-bittorrent");
-    const QString icon_str = "\""+qApp->applicationFilePath().replace("/", "\\")+"\",1";
-    settings.setValue("qBittorrent/DefaultIcon/Default", icon_str);
-    // Magnet association
-    settings.setValue("Magnet/Default", "Magnet URI");
-    settings.setValue("Magnet/Content Type", "application/x-magnet");
-    settings.setValue("Magnet/URL Protocol", "");
-    settings.setValue("Magnet/DefaultIcon/Default", icon_str);
-    settings.setValue("Magnet/shell/Default", "open");
-    settings.setValue("Magnet/shell/open/command/Default", command_str);
+    if (set) {
+      const QString command_str = "\""+qApp->applicationFilePath().replace("/", "\\")+"\" \"%1\"";
+      const QString icon_str = "\""+qApp->applicationFilePath().replace("/", "\\")+"\",1";
+
+      settings.setValue(".torrent/Default", "qBittorrent");
+      settings.setValue(".torrent/Content Type", "application/x-bittorrent");
+      settings.setValue("qBittorrent/shell/Default", "open");
+      settings.setValue("qBittorrent/shell/open/command/Default", command_str);
+      settings.setValue("qBittorrent/Content Type/Default", "application/x-bittorrent");
+      settings.setValue("qBittorrent/DefaultIcon/Default", icon_str);
+    } else {
+      settings.remove(".torrent/Default");
+      settings.remove(".torrent/Content Type");
+      settings.remove("qBittorrent/shell/Default");
+      settings.remove("qBittorrent/shell/open/command/Default");
+      settings.remove("qBittorrent/Content Type/Default");
+      settings.remove("qBittorrent/DefaultIcon/Default");
+    }
   }
 
+  static void setMagnetLinkAssoc(bool set) {
+    QSettings settings("HKEY_CLASSES_ROOT", QSettings::NativeFormat);
+
+    // Magnet association
+    if (set) {
+      const QString command_str = "\""+qApp->applicationFilePath().replace("/", "\\")+"\" \"%1\"";
+      const QString icon_str = "\""+qApp->applicationFilePath().replace("/", "\\")+"\",1";
+
+      settings.setValue("Magnet/Default", "Magnet URI");
+      settings.setValue("Magnet/Content Type", "application/x-magnet");
+      settings.setValue("Magnet/URL Protocol", "");
+      settings.setValue("Magnet/DefaultIcon/Default", icon_str);
+      settings.setValue("Magnet/shell/Default", "open");
+      settings.setValue("Magnet/shell/open/command/Default", command_str);
+    } else {
+      settings.remove("Magnet/Default");
+      settings.remove("Magnet/Content Type");
+      settings.remove("Magnet/URL Protocol");
+      settings.remove("Magnet/DefaultIcon/Default");
+      settings.remove("Magnet/shell/Default");
+      settings.remove("Magnet/shell/open/command/Default");
+    }
+  }
 #endif
 
   bool isTrackerEnabled() const {

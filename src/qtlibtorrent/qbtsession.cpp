@@ -284,7 +284,7 @@ void QBtSession::configureSession() {
   if(old_listenPort != new_listenPort) {
     qDebug("Session port changes in program preferences: %d -> %d", old_listenPort, new_listenPort);
     setListeningPort(new_listenPort);
-    addConsoleMessage(tr("qBittorrent is bound to port: TCP/%1", "e.g: qBittorrent is bound to port: 6881").arg(QString::number(new_listenPort)));
+    addConsoleMessage(tr("qBittorrent is bound to port: TCP/%1", "e.g: qBittorrent is bound to port: 6881").arg(QString::number(getListenPort())));
   }
 
   // Downloads
@@ -392,10 +392,9 @@ void QBtSession::configureSession() {
   //sessionSettings.announce_to_all_trackers = true;
   sessionSettings.auto_scrape_interval = 1200; // 20 minutes
 #if LIBTORRENT_VERSION_MINOR > 14
-  // XXX: Does not comply with the multi-tracker specification
-  // but avoids stalling issues with libtorrent
-  sessionSettings.announce_to_all_trackers = true;
-  sessionSettings.announce_to_all_tiers = false;
+  bool announce_to_all = pref.announceToAllTrackers();
+  sessionSettings.announce_to_all_trackers = announce_to_all;
+  sessionSettings.announce_to_all_tiers = announce_to_all;
   sessionSettings.auto_scrape_min_interval = 900; // 15 minutes
 #endif
   sessionSettings.cache_size = pref.diskCacheSize()*64;
@@ -410,12 +409,18 @@ void QBtSession::configureSession() {
   sessionSettings.disk_io_read_mode = session_settings::disable_os_cache_for_aligned_files;
 #endif
 #endif
+#if LIBTORRENT_VERSION_MINOR > 15
+  sessionSettings.anonymous_mode = pref.isAnonymousModeEnabled();
+  if (sessionSettings.anonymous_mode) {
+    addConsoleMessage(tr("Anonymous mode [ON]"), "blue");
+  }
+#endif
   // Queueing System
   if(pref.isQueueingSystemEnabled()) {
     sessionSettings.active_downloads = pref.getMaxActiveDownloads();
     sessionSettings.active_seeds = pref.getMaxActiveUploads();
     sessionSettings.active_limit = pref.getMaxActiveTorrents();
-    sessionSettings.dont_count_slow_torrents = false;
+    sessionSettings.dont_count_slow_torrents = pref.ignoreSlowTorrentsForQueueing();
     setQueueingEnabled(true);
   } else {
     sessionSettings.active_downloads = -1;
@@ -984,9 +989,10 @@ QTorrentHandle QBtSession::addTorrent(QString path, bool fromScanDir, QString fr
     t = new torrent_info(path.toUtf8().constData());
     if(!t->is_valid())
       throw std::exception();
-  } catch(std::exception&) {
+  } catch(std::exception& e) {
     if(!from_url.isNull()) {
       addConsoleMessage(tr("Unable to decode torrent file: '%1'", "e.g: Unable to decode torrent file: '/home/y/xxx.torrent'").arg(from_url), QString::fromUtf8("red"));
+      addConsoleMessage(QString::fromLocal8Bit(e.what()), "red");
       //emit invalidTorrent(from_url);
       misc::safeRemove(path);
     }else{
@@ -1276,7 +1282,7 @@ void QBtSession::loadTorrentTempData(QTorrentHandle &h, QString savePath, bool m
       if(files_path.size() == h.num_files()) {
         for(int i=0; i<h.num_files(); ++i) {
           QString old_path = h.absolute_files_path().at(i);
-          old_path = old_path.replace("\\", "/");
+          old_path.replace("\\", "/");
           if(!QFile::exists(old_path)) {
             // Remove old parent folder manually since we will
             // not get a file_renamed alert
@@ -1583,14 +1589,15 @@ qreal QBtSession::getRealRatio(const QString &hash) const{
   if(!h.is_valid()) {
     return 0.;
   }
-  Q_ASSERT(h.total_done() >= 0);
-  Q_ASSERT(h.all_time_upload() >= 0);
-  if(h.total_done() == 0) {
-    if(h.all_time_upload() == 0)
+  const libtorrent::size_type all_time_download = h.all_time_download();
+  const libtorrent::size_type all_time_upload = h.all_time_upload();
+
+  if(all_time_download == 0) {
+    if(all_time_upload == 0)
       return 0;
     return MAX_RATIO+1;
   }
-  qreal ratio = (float)h.all_time_upload()/(float)h.total_done();
+  qreal ratio = all_time_upload / (float) all_time_download;
   Q_ASSERT(ratio >= 0.);
   if(ratio > MAX_RATIO)
     ratio = MAX_RATIO;
@@ -2077,31 +2084,16 @@ void QBtSession::setProxySettings(proxy_settings proxySettings) {
     break;
   default:
     qDebug("Disabling HTTP communications proxy");
-#ifdef Q_WS_WIN
-    putenv("http_proxy=");
-    putenv("sock_proxy=");
-#else
-    unsetenv("http_proxy");
-    unsetenv("sock_proxy");
-#endif
+    qputenv("http_proxy", QByteArray());
+    qputenv("sock_proxy", QByteArray());
     return;
   }
   // We need this for urllib in search engine plugins
-#ifdef Q_WS_WIN
-  QString type_str;
-  if(proxySettings.type == proxy_settings::socks5 || proxySettings.type == proxy_settings::socks5_pw)
-    type_str = "sock_proxy";
-  else
-    type_str = "http_proxy";
-  QString tmp = type_str+"="+proxy_str;
-  putenv(tmp.toLocal8Bit().constData());
-#else
   qDebug("HTTP communications proxy string: %s", qPrintable(proxy_str));
   if(proxySettings.type == proxy_settings::socks5 || proxySettings.type == proxy_settings::socks5_pw)
-    setenv("sock_proxy", proxy_str.toLocal8Bit().constData(), 1);
+    qputenv("sock_proxy", proxy_str.toLocal8Bit());
   else
-    setenv("http_proxy", proxy_str.toLocal8Bit().constData(), 1);
-#endif
+    qputenv("http_proxy", proxy_str.toLocal8Bit());
 }
 
 void QBtSession::recursiveTorrentDownload(const QTorrentHandle &h) {
@@ -2399,15 +2391,19 @@ void QBtSession::readAlerts() {
         // Truncate root folder
         const QString root_folder = misc::truncateRootFolder(p->handle);
         TorrentPersistentData::setRootFolder(h.hash(), root_folder);
+        qDebug() << "magnet root folder is:" <<  root_folder;
 
         // Move to a subfolder corresponding to the torrent root folder if necessary
         if(!root_folder.isEmpty()) {
           if(!h.is_seed() && !defaultTempPath.isEmpty()) {
+            qDebug("Incomplete torrent in temporary folder case");
             QString torrent_tmp_path = defaultTempPath.replace("\\", "/");
             if(!torrent_tmp_path.endsWith("/")) torrent_tmp_path += "/";
             torrent_tmp_path += root_folder;
+            qDebug() << "Moving torrent to" << torrent_tmp_path;
             h.move_storage(torrent_tmp_path);
           } else {
+            qDebug() << "Incomplete torrent in destination folder case";
             QString save_path = h.save_path();
             h.move_storage(QDir(save_path).absoluteFilePath(root_folder));
           }
@@ -2680,7 +2676,7 @@ QString QBtSession::getSavePath(const QString &hash, bool fromScanDir, QString f
     qDebug("getSavePath, got save_path from persistent data: %s", qPrintable(savePath));
   }
   // Clean path
-  savePath = savePath.replace("\\", "/");
+  savePath.replace("\\", "/");
   savePath = misc::expandPath(savePath);
   if(!savePath.endsWith("/"))
     savePath += "/";

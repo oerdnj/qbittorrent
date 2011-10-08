@@ -195,6 +195,7 @@ MainWindow::MainWindow(QWidget *parent, QStringList torrentCmdLine) : QMainWindo
   connect(actionDelete, SIGNAL(triggered()), transferList, SLOT(deleteSelectedTorrents()));
   connect(actionIncreasePriority, SIGNAL(triggered()), transferList, SLOT(increasePrioSelectedTorrents()));
   connect(actionDecreasePriority, SIGNAL(triggered()), transferList, SLOT(decreasePrioSelectedTorrents()));
+  connect(actionToggleVisibility, SIGNAL(triggered()), this, SLOT(toggleVisibility()));
 
   m_pwr = new PowerManagement(this);
   preventTimer = new QTimer(this);
@@ -283,11 +284,12 @@ MainWindow::MainWindow(QWidget *parent, QStringList torrentCmdLine) : QMainWindo
 
   qDebug("GUI Built");
 #ifdef Q_WS_WIN
-  if(!pref.neverCheckFileAssoc() && !Preferences::isFileAssocOk()) {
+  if(!pref.neverCheckFileAssoc() && (!Preferences::isTorrentFileAssocSet() || !Preferences::isMagnetLinkAssocSet())) {
     if(QMessageBox::question(0, tr("Torrent file association"),
                              tr("qBittorrent is not the default application to open torrent files or Magnet links.\nDo you want to associate qBittorrent to torrent files and Magnet links?"),
                              QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes) {
-      Preferences::setFileAssoc();
+      Preferences::setTorrentFileAssoc(true);
+      Preferences::setMagnetLinkAssoc(true);
     } else {
       pref.setNeverCheckFileAssoc();
     }
@@ -703,6 +705,7 @@ void MainWindow::toggleVisibility(QSystemTrayIcon::ActivationReason e) {
       hide();
     }
   }
+  actionToggleVisibility->setText(isVisible() ? tr("Hide") : tr("Show"));
 }
 
 // Display About Dialog
@@ -1113,7 +1116,7 @@ void MainWindow::updateGUI() {
     systrayIcon->setToolTip(html); // tray icon
   }
   if(displaySpeedInTitle) {
-    setWindowTitle(tr("qBittorrent %1 (Down: %2/s, Up: %3/s)", "%1 is qBittorrent version").arg(QString::fromUtf8(VERSION)).arg(misc::friendlyUnit(QBtSession::instance()->getSessionStatus().payload_download_rate)).arg(misc::friendlyUnit(QBtSession::instance()->getSessionStatus().payload_upload_rate)));
+    setWindowTitle(tr("[D: %1/s, U: %2/s] qBittorrent %3", "D = Download; U = Upload; %3 is qBittorrent version").arg(misc::friendlyUnit(QBtSession::instance()->getSessionStatus().payload_download_rate)).arg(misc::friendlyUnit(QBtSession::instance()->getSessionStatus().payload_upload_rate)).arg(QString::fromUtf8(VERSION)));
   }
 }
 
@@ -1202,6 +1205,9 @@ QMenu* MainWindow::getTrayIconMenu() {
     return myTrayIconMenu;
   // Tray icon Menu
   myTrayIconMenu = new QMenu(this);
+  actionToggleVisibility->setText(isVisible() ? tr("Hide") : tr("Show"));
+  myTrayIconMenu->addAction(actionToggleVisibility);
+  myTrayIconMenu->addSeparator();
   myTrayIconMenu->addAction(actionOpen);
   //myTrayIconMenu->addAction(actionDownload_from_URL);
   myTrayIconMenu->addSeparator();

@@ -1,218 +1,233 @@
 <div id="ConnectionTab" class="PrefTab">
-<fieldset>
-  <legend><b>_(Listening Port)</b></legend>
-  <div style="padding-left: 30px;">
-  _(Port used for incoming connections:)
-  <input type="text" id="port_value" style="width: 4em;"/>
-  <br/>
-  <table>
-  <tr>
-  <td style="vertical-align: bottom;"><input type="checkbox" id="upnp_checkbox" style="margin-bottom: -2px;"/></td><td>_(Use UPnP / NAT-PMP port forwarding from my router)</td>
-  </tr>
-  </table>
-  </div>
+<fieldset class="settings">
+  <legend>_(Listening Port)</legend>
+  <label for="port_value">_(Port used for incoming connections:)</label>
+  <input type="text" id="port_value" style="width: 4em;"/><br/>
+  <input type="checkbox" id="upnp_checkbox"/>
+  <label for="upnp_checkbox">_(Use UPnP / NAT-PMP port forwarding from my router)</label>
 </fieldset>
-<fieldset>
-  <legend><b>_(Connections Limits)</b></legend>
-  <div style="padding-left: 30px;">
+<fieldset class="settings">
+  <legend>_(Connections Limits)</legend>
   <table>
   <tr>
-  <td style="vertical-align: bottom;"><input type="checkbox" id="max_connec_checkbox" onClick="updateMaxConnecEnabled();"/></td><td style="padding-right: 3px;">_(Global maximum number of connections:)</td><td><input type="text" id="max_connec_value" style="width: 4em;"/></td>
+  <td>
+    <input type="checkbox" id="max_connec_checkbox" onClick="updateMaxConnecEnabled();"/>
+    <label for="max_connec_checkbox">_(Global maximum number of connections:)</label>
+  </td>
+  <td><input type="text" id="max_connec_value" style="width: 4em;"/></td>
   </tr>
   <tr>
-  <td style="vertical-align: bottom;"><input type="checkbox" id="max_connec_per_torrent_checkbox" onClick="updateMaxConnecPerTorrentEnabled();" style="margin-bottom: -2px;"/></td><td style="padding-right: 3px;">_(Maximum number of connections per torrent:)</td><td><input type="text" id="max_connec_per_torrent_value" style="width: 4em;"/></td>
+  <td>
+    <input type="checkbox" id="max_connec_per_torrent_checkbox" onClick="updateMaxConnecPerTorrentEnabled();"/>
+    <label for="max_connec_per_torrent_checkbox">_(Maximum number of connections per torrent:)</label>
+  </td>
+  <td><input type="text" id="max_connec_per_torrent_value" style="width: 4em;"/></td>
   </tr>
   <tr>
-  <td style="vertical-align: bottom;"><input type="checkbox" id="max_uploads_per_torrent_checkbox" onClick="updateMaxUploadsPerTorrentEnabled();" style="margin-bottom: -2px;"/></td><td style="padding-right: 3px;">_(Maximum number of upload slots per torrent:)</td><td><input type="text" id="max_uploads_per_torrent_value" style="width: 4em;"/></td>
+  <td>
+    <input type="checkbox" id="max_uploads_per_torrent_checkbox" onClick="updateMaxUploadsPerTorrentEnabled();"/>
+    <label for="max_uploads_per_torrent_checkbox">_(Maximum number of upload slots per torrent:)</label>
+  </td>
+  <td><input type="text" id="max_uploads_per_torrent_value" style="width: 4em;"/></td>
   </tr>
   </table>
-  </div>
 </fieldset>
-<fieldset>
-  <legend><b>_(Global Rate Limits)</b></legend>
-  <div style="padding-left: 30px;">
+<fieldset class="settings">
+  <legend>_(Global Rate Limits)</legend>
   <table>
   <tr>
-  <td style="vertical-align: bottom;"><input type="checkbox" id="up_limit_checkbox" onClick="updateUpLimitEnabled();"/></td><td style="padding-right: 3px;">_(Upload:)</td><td><input type="text" id="up_limit_value" style="width: 4em;"/>&nbsp;&nbsp;_(KiB/s)</td>
+  <td>
+    <input type="checkbox" id="up_limit_checkbox" onClick="updateUpLimitEnabled();"/>
+    <label for ="up_limit_checkbox">_(Upload:)</label>
+  </td>
+  <td><input type="text" id="up_limit_value" style="width: 4em;"/>&nbsp;&nbsp;_(KiB/s)</td>
   </tr>
   <tr>
-  <td style="vertical-align: bottom;"><input type="checkbox" id="dl_limit_checkbox" onClick="updateDlLimitEnabled();"/></td><td style="padding-right: 3px;">_(Download:)</td><td><input type="text" id="dl_limit_value" style="width: 4em;"/>&nbsp;&nbsp;_(KiB/s)</td>
+  <td>
+    <input type="checkbox" id="dl_limit_checkbox" onClick="updateDlLimitEnabled();"/>
+    <label for="dl_limit_checkbox">_(Download:)</label>
+  </td>
+  <td><input type="text" id="dl_limit_value" style="width: 4em;"/>&nbsp;&nbsp;_(KiB/s)</td>
   </tr>
   </table>
-  <fieldset>
-  <legend><b>_(Options)</b></legend>
-  <input type="checkbox" id="enable_utp_checkbox"/>&nbsp;&nbsp;_(Enable bandwidth management (uTP))<br/>
-  <input type="checkbox" id="limit_utp_rate_checkbox"/>&nbsp;&nbsp;_(Apply rate limit to uTP connections)<br/>
-  <input type="checkbox" id="limit_tcp_overhead_checkbox"/>&nbsp;&nbsp;_(Apply rate limit to transport overhead)<br/>
+  <fieldset class="settings">
+  <legend>_(Options)</legend>
+  <input type="checkbox" id="enable_utp_checkbox"/>
+  <label for="enable_utp_checkbox">_(Enable bandwidth management (uTP))</label><br/>
+  <input type="checkbox" id="limit_utp_rate_checkbox"/>
+  <label for="limit_utp_rate_checkbox">_(Apply rate limit to uTP connections)</label><br/>
+  <input type="checkbox" id="limit_tcp_overhead_checkbox"/>
+  <label for="limit_tcp_overhead_checkbox">_(Apply rate limit to transport overhead)</label><br/>
   </fieldset>
-  </div>
 </fieldset>
 </div>
 
 <div id="BittorrentTab" class="PrefTab invisible">
-<fieldset>
-  <legend><b>_(Privacy)</b></legend>
-  <div style="padding-left: 30px;">
-  <table>
-  <tr>
-  <td style="vertical-align: bottom; text-align: right;"><input type="checkbox" id="dht_checkbox"/></td><td>_(Enable DHT (decentralized network) to find more peers)</td>
-  </tr>
-  <tr>
-  <td style="vertical-align: bottom; text-align: right;"><input type="checkbox" id="DHTPortDiffThanBT_checkbox" onclick="updateDHTPortSettings();"/></td><td>_(Use a different port for DHT and BitTorrent)</td>
-  </tr>
-  <tr>
-  <td style="vertical-align: bottom; text-align: right;">_(DHT port:)</td><td><input type="text" id="DHTPort_txt" value="6881"/></td>
-  </tr>
-  <tr>
-  <td style="vertical-align: bottom; text-align: right;"><input type="checkbox" id="pex_checkbox"/></td><td>_(Enable Peer Exchange (PeX) to find more peers)</td>
-  </tr>
-  <tr>
-  <td style="vertical-align: bottom; text-align: right;"><input type="checkbox" id="lsd_checkbox"/></td><td>_(Enable Local Peer Discovery to find more peers)</td>
-  </tr>
-  </table>
-  _(Encryption mode:)
+<fieldset class="settings">
+  <legend>_(Privacy)</legend>
+  <input type="checkbox" id="dht_checkbox"/>
+  <label for="dht_checkbox">_(Enable DHT (decentralized network) to find more peers)</label><br/>
+  <input type="checkbox" id="DHTPortDiffThanBT_checkbox" onclick="updateDHTPortSettings();"/>
+  <label for="DHTPortDiffThanBT_checkbox">_(Use a different port for DHT and BitTorrent)</label><br/>
+  <label for="DHTPort_txt" style="margin-left: 20px;">_(DHT port:)</label>
+  <input type="text" id="DHTPort_txt" value="6881"/><br/>
+  <input type="checkbox" id="pex_checkbox"/>
+  <label for="pex_checkbox">_(Enable Peer Exchange (PeX) to find more peers)</label><br/>
+  <input type="checkbox" id="lsd_checkbox"/>
+  <label for="lsd_checkbox">_(Enable Local Peer Discovery to find more peers)</label><br/>
+
+  <label for="encryption_select">_(Encryption mode:)</label>
   <select id="encryption_select">
     <option value="0">_(Prefer encryption)</option>
     <option value="1">_(Require encryption)</option>
     <option value="2">_(Disable encryption)</option>
   </select><br/>
-  </div>
+  <input type="checkbox" id="anonymous_mode_checkbox" onClick="toggleAnonymousMode()"/>
+  <label for="anonymous_mode_checkbox">_(Enable anonymous mode) (<a href="http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode">More information</a>)</label><br/>
 </fieldset>
 </div>
 
 <div id="DownloadsTab" class="PrefTab invisible">
-  <fieldset>
-  <legend><b>_(Hard Disk)</b></legend>
-  <div style="padding-left: 30px;">
-  <table>
-  <tr>
-  <td style="vertical-align: bottom; text-align: right;">_(Save files to location:)</td><td><input type="text" id="savepath_text"/></td>
-  </tr>
-  <tr>
-  <td style="vertical-align: bottom; text-align: right;"><input type="checkbox" id="temppath_checkbox" onclick="updateTempDirEnabled();"/></td><td>_(Keep incomplete torrents in:)</td>
-  </tr>
-  <tr>
-  <td style="vertical-align: bottom; text-align: right;"></td><td><input type="text" id="temppath_text"/></td>
-  </tr>
-  <tr><td colspan="2">_(Automatically add torrents from:)</td></tr>
-  <tr>
-  <td></td>
-  <td>
-    <table style="text-align: center" border="1" id="watched_folders_tab">
+  <fieldset class="settings">
+  <legend>_(Hard Disk)</legend>
+  <div class="formRow">
+  <label for="savepath_text" class="leftLabelLarge">_(Save files to location:)</label>
+  <input type="text" id="savepath_text"/>
+  </div>
+  <div class="formRow">
+  <input type="checkbox" id="temppath_checkbox" onclick="updateTempDirEnabled();"/>
+  <label for="temppath_checkbox">_(Keep incomplete torrents in:)</label>
+  <input type="text" id="temppath_text"/>
+  </div>
+  <br/>
+  _(Automatically add torrents from:)<br/>
+    <table border="1" id="watched_folders_tab">
     <thead><tr><th>_(Watched Folder)</th><th>_(Download here)</th></tr></thead>
     <tbody></tbody>
     <tfoot><tr><td style="padding-top:4px;"><input type="text" id="new_watch_folder_txt"/></td><td style="padding-top:4px;"><input type="checkbox" id="new_watch_folder_dl" style="padding-left:18px;"/><img src="theme/list-add" alt="Add" style="padding-left:2px;width:16px;cursor:pointer;margin-right:-18px;" onclick="javascript:addWatchFolder();"/></td></tr></tfoot>
-    </table>
-  </td>
-  </tr>
-  <tr>
-  <td style="vertical-align: bottom; text-align: right;"><input type="checkbox" id="exportdir_checkbox" onclick="updateExportDirEnabled();"/></td><td>_(Copy .torrent files to:)</td>
-  </tr>
-  <tr>
-  <td style="vertical-align: bottom; text-align: right;"></td><td><input type="text" id="exportdir_text"/></td>
-  </tr>
-  <tr id="appendexttr">
-  <td style="vertical-align: bottom; text-align: right;"><input type="checkbox" id="appendext_checkbox"/></td><td>_(Append .!qB extension to incomplete files)</td>
-  </tr>
-  <tr>
-  <td style="vertical-align: bottom; text-align: right;"><input type="checkbox" id="preallocateall_checkbox"/></td><td>_(Pre-allocate disk space for all files)</td>
-  </tr>
-  </table>
+    </table><br/>
+
+  <input type="checkbox" id="exportdir_checkbox" onclick="updateExportDirEnabled();"/>
+  <label for="exportdir_checkbox">_(Copy .torrent files to:)</label>&nbsp;&nbsp;
+  <input type="text" id="exportdir_text"/><br/>
+  <span id="appendexttr">
+  <input type="checkbox" id="appendext_checkbox"/>
+  <label for="appendext_checkbox">_(Append .!qB extension to incomplete files)</label><br/>
+  </span>
+  
+  <input type="checkbox" id="preallocateall_checkbox"/>
+  <label for="preallocateall_checkbox">_(Pre-allocate disk space for all files)</label><br/>
+</fieldset>
+
+<fieldset class="settings">
+  <legend>_(Email notification upon download completion)</legend>
+  <input type="checkbox" id="mail_notification_checkbox" onclick="updateMailNotification();"/>
+  <label for="mail_notification_checkbox">_(Email notification upon download completion)</label><br/>
+  <div class="formRow">
+  <label for="dest_email_txt" class="leftLabelLarge">_(Destination email:)</label><input type="text" id="dest_email_txt"/>
   </div>
+  <div class="formRow">
+  <label for="smtp_server_txt" class="leftLabelLarge">_(SMTP server:)</label><input type="text" id="smtp_server_txt"/>
+  </div>
+  <div class="formRow">
+  <input type="checkbox" id="mail_ssl_checkbox"/><label for="mail_ssl_checkbox">_(This server requires a secure connection (SSL))</label>
+  </div>
+  <input type="checkbox" id="mail_auth_checkbox" onclick="updateMailAuthSettings();"/><label for="mail_auth_checkbox">_(Authentication)</label><br/>
+    <div class="formRow">
+    <label for="mail_username_text" class="leftLabelLarge">_(Username:)</label><input type="text" id="mail_username_text"/>
+    </div>
+    <div class="formRow">
+    <label for="mail_password_text" class="leftLabelLarge">_(Password:)</label><input type="password" id="mail_password_text"/>
+    </div>
 </fieldset>
-<fieldset>
-  <legend><b>_(Email notification upon download completion)</b></legend>
-<div style="padding-left: 30px;">
- <input type="checkbox" id="mail_notification_checkbox" onclick="updateMailNotification();"/> _(Email notification upon download completion)
-  <table>
-  <tr>
-  <td style="vertical-align: bottom; text-align: right;">_(Destination email:)</td><td><input type="text" id="dest_email_txt"/></td>
-  </tr>
-  <tr>
-  <td style="vertical-align: bottom; text-align: right;">_(SMTP server:)</td><td><input type="text" id="smtp_server_txt"/></td>
-  </tr>
-  </table>
-  <input type="checkbox" id="mail_ssl_checkbox"/> _(This server requires a secure connection (SSL))<br/>
-  <input type="checkbox" id="mail_auth_checkbox" onclick="updateMailAuthSettings();" />&nbsp;&nbsp;_(Authentication)<br/>
-    <table>
-    <tr><td style="padding-left: 10px;">_(Username:)</td><td><input type="text" id="mail_username_text" /></td></tr>
-    <tr><td style="padding-left: 10px;">_(Password:)</td><td><input type="password" id="mail_password_text" /></td></tr>
-    </table>
-</div>
-</fieldset>
-<fieldset>
-  <legend><b>_(Run an external program on torrent completion)</b></legend>
-<div style="padding-left: 30px;">
- <input type="checkbox" id="autorun_checkbox" onclick="updateAutoRun();"/> _(Run an external program on torrent completion)<br/>
+
+<fieldset class="settings">
+  <legend>_(Run an external program on torrent completion)</legend>
+ <input type="checkbox" id="autorun_checkbox" onclick="updateAutoRun();"/>
+ <label for="autorun_checkbox">_(Run an external program on torrent completion)</label><br/>
 <input type="text" id="autorunProg_txt" style="width: 400px;"/><br/>
 <i>_(The following parameters are supported:)
 <ul>
 <li>%f: _(Torrent path)</li>
 <li>%n: _(Torrent name)</li>
 </ul></i>
-</div>
 </fieldset>
-<fieldset>
-  <legend><b>_(Torrent Queueing)</b></legend>
-  <div style="padding-left: 30px;">
-  <input type="checkbox" id="queueing_checkbox" onclick="updateQueuingSystem();"/> _(Torrent Queueing)
-  <table>
-  <tr>
-  <td style="vertical-align: bottom; text-align: right;">_(Maximum active downloads:)</td><td><input type="text" id="max_active_dl_value" style="width: 4em;"/></td>
-  </tr>
-  <tr>
-  <td style="vertical-align: bottom; text-align: right;">_(Maximum active uploads:)</td><td><input type="text" id="max_active_up_value" style="width: 4em;"/></td>
-  </tr>
-  <tr>
-  <td style="vertical-align: bottom; text-align: right;">_(Maximum active torrents:)</td><td><input type="text" id="max_active_to_value" style="width: 4em;"/></td>
-  </tr>
-  </table>
+
+<fieldset class="settings">
+  <legend>_(Torrent Queueing)</legend>
+  <input type="checkbox" id="queueing_checkbox" onclick="updateQueuingSystem();"/>
+  <label for="queueing_checkbox">_(Torrent Queueing)</label><br/>
+  <div class="formRow">
+  <label for="max_active_dl_value" style="margin-left: 20px;" class="leftLabelLarge">_(Maximum active downloads:)</label>
+  <input type="text" id="max_active_dl_value" style="width: 4em;"/>
+  </div>
+  <div class="formRow">
+  <label for="max_active_up_value" style="margin-left: 20px;" class="leftLabelLarge">_(Maximum active uploads:)</label>
+  <input type="text" id="max_active_up_value" style="width: 4em;"/>
+  </div>
+  <div class="formRow">
+  <label for="max_active_to_value" style="margin-left: 20px;" class="leftLabelLarge">_(Maximum active torrents:)</label>
+  <input type="text" id="max_active_to_value" style="width: 4em;"/>
+  </div>
+  <div class="formRow">
+  <input type="checkbox" id="dont_count_slow_torrents_checkbox"/>
+  <label for="dont_count_slow_torrents_checkbox">_(Do not count slow torrents in these limits)</label>
   </div>
 </fieldset>
 </div>
 
 <div id="FilterTab" class="PrefTab invisible">
-  <legend><b>_(IP Filtering)</b></legend>
-  <div style="padding-left: 30px;">
-  <input type="checkbox" id="ipfilter_enabled_checkbox" onclick="updateFilterSettings();"/> _(IP Filtering)
-  <table>
-  <tr>
-  <td style="vertical-align: bottom;">_(Filter path (.dat, .p2p, .p2b):)</td><td><input type="text" id="ipfilter_text"/></td>
-  </tr>
-  </table>
-  </div>
+<fieldset class="settings">
+  <legend>_(IP Filtering)</legend>
+  <input type="checkbox" id="ipfilter_enabled_checkbox" onclick="updateFilterSettings();"/>
+  <label for="ipfilter_enabled_checkbox">_(IP Filtering)</label><br/>
+  <label for="ipfilter_text">_(Filter path (.dat, .p2p, .p2b):)</label>
+  <input type="text" id="ipfilter_text"/>
 </fieldset>
 </div>
 
 <div id="ProxyTab" class="PrefTab invisible">
-  <legend><b>_(Proxy Server)</b></legend>
-  <div style="padding-left: 30px;">
-    _(Type:) <select id ="peer_proxy_type_select" onchange="updatePeerProxySettings();">
+<fieldset class="settings">
+  <legend>_(Proxy Server)</legend>
+    <div class="formRow">
+    <label for="peer_proxy_type_select" class="leftLabelSmall">_(Type:)</label>
+    <select id ="peer_proxy_type_select" onchange="updatePeerProxySettings();">
       <option value="none">_((None))</option>
       <option value="socks4">_(SOCKS4)</option>
       <option value="socks5">_(SOCKS5)</option>
       <option value="http">_(HTTP)</option>
-    </select>&nbsp;&nbsp;&nbsp;&nbsp;
-    _(Host:) <input type="text" id="peer_proxy_host_text" />&nbsp;&nbsp;&nbsp;&nbsp;
-    _(Port:) <input type="text" id="peer_proxy_port_value" style="width: 4em;"/><br/>
-    <input type="checkbox" id="use_peer_proxy_checkbox" />&nbsp;&nbsp;_(Use proxy for peer connections)<br/><br/>
-    <input type="checkbox" id="peer_proxy_auth_checkbox" onclick="updatePeerProxyAuthSettings();" />&nbsp;&nbsp;_(Authentication)<br/>
-    <table>
-    <tr><td style="padding-left: 10px;">_(Username:)</td><td><input type="text" id="peer_proxy_username_text" /></td></tr>
-    <tr><td style="padding-left: 10px;">_(Password:)</td><td><input type="password" id="peer_proxy_password_text" /></td></tr>
-    </table>
-  </div>
+    </select>
+    </div>
+    <div class="formRow">
+    <label for="peer_proxy_host_text" class="leftLabelSmall">_(Host:)</label>
+    <input type="text" id="peer_proxy_host_text" />
+    </div>
+    <div class="formRow">
+    <label for="peer_proxy_port_value" class="leftLabelSmall">_(Port:)</label>
+    <input type="text" id="peer_proxy_port_value" style="width: 4em;"/>
+    </div>
+    <div class="formRow">
+    <input type="checkbox" id="use_peer_proxy_checkbox"/>
+    <label for="use_peer_proxy_checkbox">_(Use proxy for peer connections)</label>
+    </div>
+    <input type="checkbox" id="peer_proxy_auth_checkbox" onclick="updatePeerProxyAuthSettings();"/>
+    <label for="peer_proxy_auth_checkbox">_(Authentication)</label><br/>
+    
+    <div class="formRow">
+    <label for="peer_proxy_username_text" style="margin-left: 20px;" class="leftLabelSmall">_(Username:)</label>
+    <input type="text" id="peer_proxy_username_text" />
+    </div>
+    <div class="formRow">
+    <label for="peer_proxy_password_text" style="margin-left: 20px;" class="leftLabelSmall">_(Password:)</label>
+    <input type="password" id="peer_proxy_password_text" />
+    </div>
 </fieldset>
 </div>
 
 <div id="WebUITab" class="PrefTab invisible">
-<fieldset>
-  <legend><b>_(Language)</b></legend>
-  <div style="padding-left: 30px;">
-  <table>
-  <tr>
-  <td style="vertical-align: bottom;">_(User Interface Language:)</td>
-  <td style="padding-right: 3px;">
+<fieldset class="settings">
+  <legend>_(Language)</legend>
+  <label for="locale_select">_(User Interface Language:)</label>
     <select id="locale_select">
       <option value="en_GB">English</option>
       <option value="fr_FR">Français</option>
@@ -246,61 +261,54 @@
       <option value="zh_TW">中文 (繁體)</option>
       <option value="ko_KR">한글</option>
     </select>
-  </td>
-  </tr>
-  </table>
-  </div>
 </fieldset>
 
-<fieldset>
-  <legend><b>_(HTTP Server)</b></legend>
-  <div style="padding-left: 30px;">
-  <table>
-  <tr>
-  <td style="vertical-align: bottom;">_(Port:)</td><td style="padding-right: 3px;"><input type="text" id="webui_port_value" style="width: 4em;"/></td>
-  </tr>
-  </table>
-  <input type="checkbox" id="use_https_checkbox" onclick="updateHttpsSettings();" />&nbsp;&nbsp;_(Use HTTPS instead of HTTP)<br/>
-  <table>
-  <tr><td style="padding-left: 10px;">_(Key:)</td><td><textarea id="ssl_key_textarea" rows="5" cols="70"></textarea></td></tr>
-  <tr><td style="padding-left: 10px;">_(Certificate:)</td><td><textarea id="ssl_cert_textarea" rows="5" cols="70"></textarea></td></tr>
-  </table>
+<fieldset class="settings">
+  <legend>_(HTTP Server)</legend>
+  <label for="webui_port_value">_(Port:)</label><input type="text" id="webui_port_value" style="width: 4em;"/><br/>
+
+  <input type="checkbox" id="use_https_checkbox" onclick="updateHttpsSettings();" />
+  <label for="use_https_checkbox">_(Use HTTPS instead of HTTP)</label><br/>
+  <div class="formRow">
+  <label for="ssl_key_textarea" style="margin-left: 20px;" class="leftLabelSmall">_(Key:)</label>
+  <textarea id="ssl_key_textarea" rows="5" cols="70"></textarea>
+  </div>
+  <div class="formRow">
+  <label for="ssl_cert_textarea" style="margin-left: 20px;" class="leftLabelSmall">_(Certificate:)</label>
+  <textarea id="ssl_cert_textarea" rows="5" cols="70"></textarea>
+  </div>
   <div style="padding-left: 10px;"><a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts>Information about certificates</a></div>
-  </div>
 </fieldset>
-<fieldset>
-  <legend><b>_(Authentication)</b></legend>
-  <div style="padding-left: 30px;">
-  <table>
-  <tr>
-  <td style="vertical-align: bottom;">_(Username:)</td><td style="padding-right: 3px;"><input type="text" id="webui_username_text" /></td>
-  </tr>
-  <tr>
-  <td style="vertical-align: bottom;">_(Password:)</td><td style="padding-right: 3px;"><input type="password" id="webui_password_text" /></td>
-  </tr>
-  </table>
-  <input type="checkbox" id="bypass_local_auth_checkbox" />&nbsp;&nbsp;_(Bypass authentication for localhost)
+
+<fieldset class="settings">
+  <legend>_(Authentication)</legend>
+  <div class="formRow">
+  <label for="webui_username_text" class="leftLabelSmall">_(Username:)</label><input type="text" id="webui_username_text" />
   </div>
+  <div class="formRow">
+  <label for="webui_password_text" class="leftLabelSmall">_(Password:)</label><input type="password" id="webui_password_text" />
+  </div>
+
+  <input type="checkbox" id="bypass_local_auth_checkbox" />
+  <label for="bypass_local_auth_checkbox">_(Bypass authentication for localhost)</label>
 </fieldset>
-<fieldset>
-  <legend><b><input type="checkbox" id="use_dyndns_checkbox" onclick="updateDynDnsSettings();" />&nbsp;&nbsp;_(Update my dynamic domain name)</b></legend>
-  <div style="padding-left: 30px;">
+
+<fieldset class="settings">
+  <legend><input type="checkbox" id="use_dyndns_checkbox" onclick="updateDynDnsSettings();" />
+  <label for="use_dyndns_checkbox">_(Update my dynamic domain name)</label></legend>
   <select id="dyndns_select">
     <option value="0">DynDNS</option>
     <option value="1">NO-IP</option>
   </select>
-  <input type="button" value="_(Register)" onclick="registerDynDns();"/><br/>
-  <table>
-    <tr>
-      <td style="vertical-align: bottom;">_(Domain name:)</td><td style="padding-right: 3px;"><input type="text" id="dyndns_domain_text" /></td>
-    </tr>
-    <tr>
-      <td style="vertical-align: bottom;">_(Username:)</td><td style="padding-right: 3px;"><input type="text" id="dyndns_username_text" /></td>
-    </tr>
-    <tr>
-      <td style="vertical-align: bottom;">_(Password:)</td><td style="padding-right: 3px;"><input type="password" id="dyndns_password_text" /></td>
-    </tr>
-  </table>
+  <input type="button" value="_(Register)" onclick="registerDynDns();"/><br/><br/>
+  <div class="formRow">
+  <label for="dyndns_domain_text" class="leftLabelSmall">_(Domain name:)</label><input type="text" id="dyndns_domain_text"/>
+  </div>
+  <div class="formRow">
+  <label for="dyndns_username_text" class="leftLabelSmall">_(Username:)</label><input type="text" id="dyndns_username_text"/>
+  </div>
+  <div class="formRow">
+  <label for="dyndns_password_text" class="leftLabelSmall">_(Password:)</label><input type="password" id="dyndns_password_text"/>
   </div>
 </fieldset>
 </div>
@@ -310,6 +318,23 @@
 
 <script type="text/javascript">
   var WatchedFoldersTable = new HtmlTable($("watched_folders_tab"));
+
+toggleAnonymousMode = function() {
+  if($('anonymous_mode_checkbox').getProperty('checked')) {
+    $('dht_checkbox').setProperty('disabled', true);
+    $('DHTPortDiffThanBT_checkbox').setProperty('disabled', true);
+    $('dht_checkbox').setProperty('checked', false);
+    $('lsd_checkbox').setProperty('disabled', true);
+    $('lsd_checkbox').setProperty('checked', false);
+    $('upnp_checkbox').setProperty('disabled', true);
+    $('upnp_checkbox').setProperty('checked', false);
+  } else {
+    $('dht_checkbox').setProperty('disabled', false);
+    $('DHTPortDiffThanBT_checkbox').setProperty('disabled', false);
+    $('lsd_checkbox').setProperty('disabled', false);
+    $('upnp_checkbox').setProperty('disabled', false);
+  }
+}
 
 updateDlLimitEnabled = function() {
   if($('dl_limit_checkbox').getProperty('checked')) {
@@ -555,14 +580,8 @@ loadPreferences = function() {
           onSuccess: function(pref) {
                   if(pref){
                     // Connection
-                    var listen_port = pref.listen_port.toInt();
-                    $('port_value').setProperty('value', listen_port);
-                    
-                    if(pref.upnp) {
-                      $('upnp_checkbox').setProperty('checked', true);
-                    } else {
-                      $('upnp_checkbox').setProperty('checked', false);
-                    }
+                    $('port_value').setProperty('value', pref.listen_port.toInt());
+                    $('upnp_checkbox').setProperty('checked', pref.upnp);
                     
                     var dl_limit = pref.dl_limit.toInt();
                     if(dl_limit <= 0) {
@@ -584,19 +603,10 @@ loadPreferences = function() {
 		    utp_supported = $defined(pref.enable_utp);
 		    setuTPSettingsVisible(utp_supported);
 		    if(utp_supported) {
-		      if(pref.enable_utp)
-		        $('enable_utp_checkbox').setProperty('checked', true);
-	              else
-		        $('enable_utp_checkbox').setProperty('checked', false);
-		      if(pref.limit_utp_rate)
-		        $('limit_utp_rate_checkbox').setProperty('checked', true);
-	              else
-		        $('limit_utp_rate_checkbox').setProperty('checked', false);
+		      $('enable_utp_checkbox').setProperty('checked', pref.enable_utp);
+		      $('limit_utp_rate_checkbox').setProperty('checked', pref.limit_utp_rate);
 		    }
-		    if(pref.limit_tcp_overhead)
-		      $('limit_tcp_overhead_checkbox').setProperty('checked', true);
-	            else
-		      $('limit_tcp_overhead_checkbox').setProperty('checked', false);
+		    $('limit_tcp_overhead_checkbox').setProperty('checked', pref.limit_tcp_overhead);
                     var max_connec = pref.max_connec.toInt();
                     if(max_connec <= 0) {
                       $('max_connec_checkbox').setProperty('checked', false);
@@ -625,47 +635,25 @@ loadPreferences = function() {
                     }
                     updateMaxUploadsPerTorrentEnabled();
                     // Bittorrent
-                    var dht = pref.dht; //bool
-                    if(dht) {
-                      $('dht_checkbox').setProperty('checked', true);
-                    } else {
-                      $('dht_checkbox').setProperty('checked', false);
-                    }
-                    var dhtSameAsBT = pref.dhtSameAsBT;
-                    if(dhtSameAsBT) {
-                      $('DHTPortDiffThanBT_checkbox').setProperty('checked', false);
-                    } else {
-                      $('DHTPortDiffThanBT_checkbox').setProperty('checked', true);
-                    }
+                    $('dht_checkbox').setProperty('checked', pref.dht);
+                    $('DHTPortDiffThanBT_checkbox').setProperty('checked', !pref.dhtSameAsBT);
                     $('DHTPort_txt').setProperty('value', pref.dht_port);
                     updateDHTPortSettings();
-                    var pex = pref.pex; //bool
-                    if(pex) {
-                      $('pex_checkbox').setProperty('checked', true);
-                    } else {
-                      $('pex_checkbox').setProperty('checked', false);
-                    }
-                    var lsd = pref.lsd; //bool
-                    if(lsd) {
-                      $('lsd_checkbox').setProperty('checked', true);
-                    } else {
-                      $('lsd_checkbox').setProperty('checked', false);
-                    }
+                    $('pex_checkbox').setProperty('checked', pref.pex);
+                    $('lsd_checkbox').setProperty('checked', pref.lsd);
                     var encryption = pref.encryption.toInt();
                     $('encryption_select').getChildren('option')[encryption].setAttribute('selected', '');
-                    // Downloads
-                    var save_path = pref.save_path;
-                    $("savepath_text").setProperty('value', save_path);
-                    var temp_path_enabled = pref.temp_path_enabled;
-                    if(temp_path_enabled) {
-                      $('temppath_checkbox').setProperty('checked', true);
-                    } else {
-                      $('temppath_checkbox').setProperty('checked', false);
+	            	    if($defined(pref.anonymous_mode)) {
+		                  $('anonymous_mode_checkbox').setProperty('checked', pref.anonymous_mode);
+		                } else {
+                      $('anonymous_mode_checkbox').addClass('invisible');
                     }
-                    var temp_path = pref.temp_path;
-                    $('temppath_text').setProperty('value', temp_path);
+                    // Downloads
+                    $("savepath_text").setProperty('value', pref.save_path);
+                    $('temppath_checkbox').setProperty('checked', pref.temp_path_enabled);
+                    $('temppath_text').setProperty('value', pref.temp_path);
                     updateTempDirEnabled();
-                    var i = 0;
+                    var i;
                     for(i=0; i<pref.scan_dirs.length; i+=1) {
                       var myinput = new Element('input');
                       myinput.setProperty('id', 'text_watch_'+i);
@@ -678,8 +666,7 @@ loadPreferences = function() {
                       WatchedFoldersTable.push([myinput, mycb]);
                     }
 
-                    var export_dir_enabled = pref.export_dir_enabled;
-                    if(export_dir_enabled) {
+                    if(pref.export_dir_enabled) {
                       $('exportdir_text').setProperty('value', pref.export_dir);
                       $('exportdir_checkbox').setProperty('checked', true);
                     } else {
@@ -687,64 +674,33 @@ loadPreferences = function() {
                       $('exportdir_checkbox').setProperty('checked', false);
                     }
                     updateExportDirEnabled();
-                    var mail_notification_enabled = pref.mail_notification_enabled;
-                    if(mail_notification_enabled) {
-                      $('mail_notification_checkbox').setProperty('checked', true);
-                    } else {
-                      $('mail_notification_checkbox').setProperty('checked', false);
-                    }
+                    $('mail_notification_checkbox').setProperty('checked', pref.mail_notification_enabled);
                     $('dest_email_txt').setProperty('value', pref.mail_notification_email);
                     $('smtp_server_txt').setProperty('value', pref.mail_notification_smtp);
-                    if(pref.mail_notification_ssl_enabled)
-                      $('mail_ssl_checkbox').setProperty('checked', true);
-                    else
-                      $('mail_ssl_checkbox').setProperty('checked', false);
-                    if(pref.mail_notification_auth_enabled)
-                      $('mail_auth_checkbox').setProperty('checked', true);
-                    else
-                      $('mail_auth_checkbox').setProperty('checked', false);
+                    $('mail_ssl_checkbox').setProperty('checked', pref.mail_notification_ssl_enabled);
+                    $('mail_auth_checkbox').setProperty('checked', pref.mail_notification_auth_enabled);
                     $('mail_username_text').setProperty('value', pref.mail_notification_username);
                     $('mail_password_text').setProperty('value', pref.mail_notification_password);
                     updateMailNotification();
                     updateMailAuthSettings();
-                    var autorun_enabled = pref.autorun_enabled;
-                    if(autorun_enabled) {
-                      $('autorun_checkbox').setProperty('checked', true);
-                    } else {
-                      $('autorun_checkbox').setProperty('checked', false);
-                    }
+                    $('autorun_checkbox').setProperty('checked', pref.autorun_enabled);
                     $('autorunProg_txt').setProperty('value', pref.autorun_program);
                     updateAutoRun();
-                    if(pref.preallocate_all) {
-                      $('preallocateall_checkbox').setProperty('checked', true);
-                    } else {
-                      $('preallocateall_checkbox').setProperty('checked', false);
-                    }
+                    $('preallocateall_checkbox').setProperty('checked', pref.preallocate_all);
                     if($defined(pref.incomplete_files_ext)) {
                       $('appendexttr').removeClass('invisible');
-                      if(pref.incomplete_files_ext) {
-                        $('appendext_checkbox').setProperty('checked', true);
-                      } else {
-                        $('appendext_checkbox').setProperty('checked', false);
-                      }
+                      $('appendext_checkbox').setProperty('checked', pref.incomplete_files_ext);
                     } else {
                       $('appendexttr').addClass('invisible');
                     }
-                    if(pref.queueing_enabled) {
-                      $('queueing_checkbox').setProperty('checked', true);
-                    } else {
-                      $('queueing_checkbox').setProperty('checked', false);
-                    }
+                    $('queueing_checkbox').setProperty('checked', pref.queueing_enabled);
                     $('max_active_dl_value').setProperty('value', pref.max_active_downloads.toInt());
                     $('max_active_up_value').setProperty('value', pref.max_active_uploads.toInt());
                     $('max_active_to_value').setProperty('value', pref.max_active_torrents.toInt());
+                    $('dont_count_slow_torrents_checkbox').setProperty('checked', pref.dont_count_slow_torrents);
                     updateQueueingSystem();
                     // IP Filter
-                    if(pref.ip_filter_enabled) {
-                      $('ipfilter_enabled_checkbox').setProperty('checked', true);
-                    } else {
-                      $('ipfilter_enabled_checkbox').setProperty('checked', false);
-                    }
+                    $('ipfilter_enabled_checkbox').setProperty('checked', pref.ip_filter_enabled);
                     $('ipfilter_text').setProperty('value', pref.ip_filter_path);
                     updateFilterSettings();
                     // PEER Proxy
@@ -766,16 +722,8 @@ loadPreferences = function() {
                     updatePeerProxySettings();
                     $('peer_proxy_host_text').setProperty('value', pref.proxy_ip);
                     $('peer_proxy_port_value').setProperty('value', pref.proxy_port);
-                    if(pref.proxy_peer_connections) {
-                      $('use_peer_proxy_checkbox').setProperty('checked', true);
-                    } else {
-                      $('use_peer_proxy_checkbox').setProperty('checked', false);
-                    }
-                    if(pref.proxy_auth_enabled) {
-                      $('peer_proxy_auth_checkbox').setProperty('checked', true);
-                    } else {
-                      $('peer_proxy_auth_checkbox').setProperty('checked', false);
-                    }
+                    $('use_peer_proxy_checkbox').setProperty('checked', pref.proxy_peer_connections);
+                    $('peer_proxy_auth_checkbox').setProperty('checked', pref.proxy_auth_enabled);
                     updatePeerProxyAuthSettings();
                     $('peer_proxy_username_text').setProperty('value', pref.proxy_username);
                     $('peer_proxy_password_text').setProperty('value', pref.proxy_password);
@@ -783,14 +731,8 @@ loadPreferences = function() {
                     $('webui_port_value').setProperty('value', pref.web_ui_port);
                     $('webui_username_text').setProperty('value', pref.web_ui_username);
                     $('webui_password_text').setProperty('value', pref.web_ui_password);
-                    if(pref.bypass_local_auth)
-                      $('bypass_local_auth_checkbox').setProperty('checked', true);
-                    else
-                      $('bypass_local_auth_checkbox').setProperty('checked', false);
-                    if(pref.use_https)
-                      $('use_https_checkbox').setProperty('checked', true);
-                    else
-                      $('use_https_checkbox').setProperty('checked', false);
+                    $('bypass_local_auth_checkbox').setProperty('checked', pref.bypass_local_auth);
+                    $('use_https_checkbox').setProperty('checked', pref.use_https);
                     updateHttpsSettings();
                     $('ssl_key_textarea').setProperty('value', pref.ssl_key);
                     $('ssl_cert_textarea').setProperty('value', pref.ssl_cert);
@@ -884,6 +826,9 @@ applyPreferences = function() {
   settings.set('pex', $('pex_checkbox').getProperty('checked'));
   settings.set('lsd', $('lsd_checkbox').getProperty('checked'));
   settings.set('encryption', $('encryption_select').getSelected()[0].getProperty('value'));
+  if(!$('anonymous_mode_checkbox').hasClass('invisible')) {
+    settings.set('anonymous_mode', $('anonymous_mode_checkbox').getProperty('checked'));
+  }
   
   // Downloads
   settings.set('save_path', $('savepath_text').getProperty('value'));
@@ -906,6 +851,7 @@ applyPreferences = function() {
   settings.set('max_active_downloads', $('max_active_dl_value').getProperty('value').toInt());
   settings.set('max_active_uploads', $('max_active_up_value').getProperty('value').toInt());
   settings.set('max_active_torrents', $('max_active_to_value').getProperty('value').toInt());
+  settings.set('dont_count_slow_torrents', $('dont_count_slow_torrents_checkbox').getProperty('checked'));
  
   settings.set('mail_notification_enabled', $('mail_notification_checkbox').getProperty('checked'));
   settings.set('mail_notification_email', $('dest_email_txt').getProperty('value'));

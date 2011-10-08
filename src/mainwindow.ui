@@ -104,10 +104,13 @@
   </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="movable">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonFollowStyle</enum>
    </property>
    <property name="floatable">
     <bool>false</bool>
@@ -360,6 +363,11 @@
    </property>
    <property name="text">
     <string>Disabled</string>
+   </property>
+  </action>
+  <action name="actionToggleVisibility">
+   <property name="text">
+    <string>Show</string>
    </property>
   </action>
  </widget>

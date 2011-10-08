@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.0" language="pt_BR" sourcelanguage="en">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -70,6 +70,26 @@ p, li { white-space: pre-wrap; }(new line)
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;Um cliente BitTorrent avançado programado em C++, baseado no kit de ferramentas Qt4 e libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2011 Christophe Dumez&lt;br /&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Home Page:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans&apos;; text-decoration: underline; color:#0057ae;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;(new line)
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Bug Tracker:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://bugs.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://bugs.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Forum:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans&apos;; text-decoration: underline; color:#0057ae;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;(new line)
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;IRC:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; #qbittorrent no Freenode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source>Libraries</source>
+        <translation>Livrarias</translation>
+    </message>
+    <message>
+        <source>This version of qBittorrent was built against the following libraries:</source>
+        <translation>Esta versão fo qBittorrent foi construida sobre as seguintes livrarias:</translation>
+    </message>
+    <message>
+        <source>Qt:</source>
+        <translation>Qt:</translation>
+    </message>
+    <message>
+        <source>Boost:</source>
+        <translation>Impulsão:</translation>
+    </message>
+    <message>
+        <source>Libtorrent:</source>
+        <translation>Libtorrent:</translation>
     </message>
 </context>
 <context>
@@ -191,7 +211,11 @@ p, li { white-space: pre-wrap; }(new line)
     </message>
     <message>
         <source>Exchange trackers with other peers</source>
-        <translation type="unfinished"></translation>
+        <translation>Mudar os trackers com outros pares</translation>
+    </message>
+    <message>
+        <source>Always announce to all trackers</source>
+        <translation>Sempre anunciar para todos os trackers</translation>
     </message>
 </context>
 <context>
@@ -1655,6 +1679,13 @@ Nenhum outro aviso será dado.</translation>
     </message>
 </context>
 <context>
+    <name>LogListWidget</name>
+    <message>
+        <source>Copy</source>
+        <translation>Copia</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <source>&amp;Edit</source>
@@ -2012,7 +2043,7 @@ Quer mesmo sair do qBittorrent?</translation>
     <message>
         <source>qBittorrent %1 (Down: %2/s, Up: %3/s)</source>
         <comment>%1 is qBittorrent version</comment>
-        <translation>qBittorrent %1 (Down: %2/s, Up: %3/s)</translation>
+        <translation type="obsolete">qBittorrent %1 (Down: %2/s, Up: %3/s)</translation>
     </message>
     <message>
         <source>A newer version is available</source>
@@ -2075,6 +2106,19 @@ Gostaria de atualizar o qBittorrrent para a versão %1?</translation>
     <message>
         <source>The password should contain at least 3 characters</source>
         <translation>A senha deve conter ao menos 3 caracteres</translation>
+    </message>
+    <message>
+        <source>Show</source>
+        <translation>Mostrar</translation>
+    </message>
+    <message>
+        <source>Hide</source>
+        <translation>Esconder</translation>
+    </message>
+    <message>
+        <source>[D: %1/s, U: %2/s] qBittorrent %3</source>
+        <comment>D = Download; U = Upload; %3 is qBittorrent version</comment>
+        <translation>[D: %1/s, U: %2/s] qBittorrent %3</translation>
     </message>
 </context>
 <context>
@@ -2852,6 +2896,30 @@ Gostaria de atualizar o qBittorrrent para a versão %1?</translation>
         <source>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</source>
         <translation>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Informações sobre certificados&lt;/a&gt;</translation>
     </message>
+    <message>
+        <source>File association</source>
+        <translation>Associação de arquivo</translation>
+    </message>
+    <message>
+        <source>Use qBittorrent for .torrent files</source>
+        <translation>Usar qBittorrent para arquivos .torrent</translation>
+    </message>
+    <message>
+        <source>Use qBittorrent for magnet links</source>
+        <translation>Usar qBittorrent para links magnéticos</translation>
+    </message>
+    <message>
+        <source>Do not count slow torrents in these limits</source>
+        <translation>Não contar torrents lentos nesses limites</translation>
+    </message>
+    <message>
+        <source>Enable anonymous mode</source>
+        <translation>Habilitar modo anônimo</translation>
+    </message>
+    <message>
+        <source> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;More information&lt;/a&gt;)</source>
+        <translation> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;Mais informação&lt;/a&gt;)</translation>
+    </message>
 </context>
 <context>
     <name>PreviewSelect</name>
@@ -3444,6 +3512,10 @@ Gostaria de atualizar o qBittorrrent para a versão %1?</translation>
     <message>
         <source>qBittorrent will now exit unless you cancel within the next 15 seconds...</source>
         <translation>qBittorrent irá sair a não ser que você cancele durante os próximos 15 segundos...</translation>
+    </message>
+    <message>
+        <source>Anonymous mode [ON]</source>
+        <translation>Modo anônimo [LIG]</translation>
     </message>
 </context>
 <context>
@@ -4817,6 +4889,10 @@ Gostaria de instalar agora?</translation>
         <source>Do not download</source>
         <translation>Não baixar</translation>
     </message>
+    <message>
+        <source>Set as default save path</source>
+        <translation>Salvar como caminho padrão de salvamento</translation>
+    </message>
 </context>
 <context>
     <name>authentication</name>
@@ -5377,6 +5453,10 @@ Portanto os plugins foram desabilitados.</translation>
         <source>qBittorrent will shutdown the computer now because all downloads are complete.</source>
         <translation>qBIttorrent irá desligar seu computador agora porque os downloads terminaram.</translation>
     </message>
+    <message>
+        <source>Downloads</source>
+        <translation type="unfinished">Downloads</translation>
+    </message>
 </context>
 <context>
     <name>options_imp</name>
@@ -5443,27 +5523,27 @@ Portanto os plugins foram desabilitados.</translation>
     </message>
     <message>
         <source>Invalid key</source>
-        <translation type="unfinished"></translation>
+        <translation>Chave inválida</translation>
     </message>
     <message>
         <source>This is not a valid SSL key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta não é uma chave SSL válida.</translation>
     </message>
     <message>
         <source>Invalid certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Certificado inválido</translation>
     </message>
     <message>
         <source>This is not a valid SSL certificate.</source>
-        <translation type="unfinished"></translation>
+        <translation>Este não é um certificado SSL válido.</translation>
     </message>
     <message>
         <source>SSL Certificate (*.crt *.pem)</source>
-        <translation type="unfinished"></translation>
+        <translation>Certificado SSL (*.crt *.pem)</translation>
     </message>
     <message>
         <source>SSL Key (*.key *.pem)</source>
-        <translation type="unfinished"></translation>
+        <translation>Chave SSL (*.key *.pem)</translation>
     </message>
 </context>
 <context>

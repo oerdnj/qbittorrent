@@ -47,52 +47,47 @@ class HttpConnection : public QObject
   Q_OBJECT
   Q_DISABLE_COPY(HttpConnection)
 
-private:
-  QTcpSocket *socket;
-  HttpServer *httpserver;
-
-protected:
-  HttpRequestParser parser;
-  HttpResponseGenerator generator;
+public:
+  HttpConnection(QTcpSocket *m_socket, HttpServer *m_httpserver);
+  ~HttpConnection();
+  void translateDocument(QString& data);
 
 protected slots:
   void write();
   void respond();
   void respondJson();
-  void respondGenPropertiesJson(QString hash);
-  void respondTrackersPropertiesJson(QString hash);
-  void respondFilesPropertiesJson(QString hash);
+  void respondGenPropertiesJson(const QString& hash);
+  void respondTrackersPropertiesJson(const QString& hash);
+  void respondFilesPropertiesJson(const QString& hash);
   void respondPreferencesJson();
   void respondGlobalTransferInfoJson();
-  void respondCommand(QString command);
+  void respondCommand(const QString& command);
   void respondNotFound();
-  void processDownloadedFile(QString, QString);
-  void handleDownloadFailure(QString, QString);
-  void recheckTorrent(QString hash);
-  void recheckAllTorrents();
+  void processDownloadedFile(const QString& url, const QString& file_path);
+  void handleDownloadFailure(const QString& url, const QString& reason);
   void decreaseTorrentsPriority(const QStringList& hashes);
   void increaseTorrentsPriority(const QStringList& hashes);
-
-
-public:
-  HttpConnection(QTcpSocket *socket, HttpServer *httpserver);
-  ~HttpConnection();
-  QString translateDocument(QString data);
 
 private slots:
   void read();
 
 signals:
-  void UrlReadyToBeDownloaded(QString url);
-  void MagnetReadyToBeDownloaded(QString uri);
-  void torrentReadyToBeDownloaded(QString, bool, QString, bool);
-  void deleteTorrent(QString hash, bool permanently);
-  void resumeTorrent(QString hash);
-  void pauseTorrent(QString hash);
-  void increasePrioTorrent(QString hash);
-  void decreasePrioTorrent(QString hash);
+  void UrlReadyToBeDownloaded(const QString& url);
+  void MagnetReadyToBeDownloaded(const QString& uri);
+  void torrentReadyToBeDownloaded(const QString&, bool, const QString&, bool);
+  void deleteTorrent(const QString& hash, bool permanently);
+  void resumeTorrent(const QString& hash);
+  void pauseTorrent(const QString& hash);
+  void increasePrioTorrent(const QString& hash);
+  void decreasePrioTorrent(const QString& hash);
   void resumeAllTorrents();
   void pauseAllTorrents();
+
+private:
+  QTcpSocket *m_socket;
+  HttpServer *m_httpserver;
+  HttpRequestParser m_parser;
+  HttpResponseGenerator m_generator;
 };
 
 #endif

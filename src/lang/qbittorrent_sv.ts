@@ -87,6 +87,26 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Felhantering:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://bugs.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://bugs.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;Forum:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans&apos;; text-decoration: underline; color:#0057ae;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; text-decoration: underline;&quot;&gt;IRC:&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;;&quot;&gt; #qbittorrent på Freenode&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
+    <message>
+        <source>Libraries</source>
+        <translation>Bibliotek</translation>
+    </message>
+    <message>
+        <source>This version of qBittorrent was built against the following libraries:</source>
+        <translation>Denna version av qBittorrent byggdes mot följande bibliotek:</translation>
+    </message>
+    <message>
+        <source>Qt:</source>
+        <translation>Qt:</translation>
+    </message>
+    <message>
+        <source>Boost:</source>
+        <translation>Boost:</translation>
+    </message>
+    <message>
+        <source>Libtorrent:</source>
+        <translation>Libtorrent:</translation>
+    </message>
 </context>
 <context>
     <name>AdvancedSettings</name>
@@ -203,7 +223,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Exchange trackers with other peers</source>
-        <translation type="unfinished"></translation>
+        <translation>Utväxla bevakare med andra klienter</translation>
+    </message>
+    <message>
+        <source>Always announce to all trackers</source>
+        <translation>Annonsera alltid till alla bevakare</translation>
     </message>
 </context>
 <context>
@@ -1596,6 +1620,13 @@ Detta meddelande kommer inte att visas igen.</translation>
     </message>
 </context>
 <context>
+    <name>LogListWidget</name>
+    <message>
+        <source>Copy</source>
+        <translation>Kopiera</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <source>&amp;Edit</source>
@@ -1945,7 +1976,7 @@ Are you sure you want to quit qBittorrent?</source>
     <message>
         <source>qBittorrent %1 (Down: %2/s, Up: %3/s)</source>
         <comment>%1 is qBittorrent version</comment>
-        <translation>qBittorrent %1 (Ned: %2/s, Upp: %3/s)</translation>
+        <translation type="obsolete">qBittorrent %1 (Ned: %2/s, Upp: %3/s)</translation>
     </message>
     <message>
         <source>A newer version is available</source>
@@ -2008,6 +2039,19 @@ Vill du uppdatera qBittorrent till version %1?</translation>
     <message>
         <source>The password should contain at least 3 characters</source>
         <translation>Lösenordet bör innehålla minst 3 tecken</translation>
+    </message>
+    <message>
+        <source>Show</source>
+        <translation>Visa</translation>
+    </message>
+    <message>
+        <source>Hide</source>
+        <translation>Dölj</translation>
+    </message>
+    <message>
+        <source>[D: %1/s, U: %2/s] qBittorrent %3</source>
+        <comment>D = Download; U = Upload; %3 is qBittorrent version</comment>
+        <translation>[N: %1/s, U: %2/s] qBittorrent %3</translation>
     </message>
 </context>
 <context>
@@ -2782,6 +2826,30 @@ Vill du uppdatera qBittorrent till version %1?</translation>
         <source>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</source>
         <translation>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Information om certifikat&lt;/a&gt;</translation>
     </message>
+    <message>
+        <source>File association</source>
+        <translation>Filassociation</translation>
+    </message>
+    <message>
+        <source>Use qBittorrent for .torrent files</source>
+        <translation>Använd qBittorrent för .torrent-filer</translation>
+    </message>
+    <message>
+        <source>Use qBittorrent for magnet links</source>
+        <translation>Använd qBittorrent för magnet-länkar</translation>
+    </message>
+    <message>
+        <source>Do not count slow torrents in these limits</source>
+        <translation>Räkna inte in långsamma torrentfiler i dessa begränsningar</translation>
+    </message>
+    <message>
+        <source>Enable anonymous mode</source>
+        <translation>Aktivera anonymt läge</translation>
+    </message>
+    <message>
+        <source> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;More information&lt;/a&gt;)</source>
+        <translation> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;Mer information&lt;/a&gt;)</translation>
+    </message>
 </context>
 <context>
     <name>PreviewSelect</name>
@@ -3358,6 +3426,10 @@ Vill du uppdatera qBittorrent till version %1?</translation>
     <message>
         <source>qBittorrent will now exit unless you cancel within the next 15 seconds...</source>
         <translation>qBittorrent kommer nu att avslutas om du inte avbryter inom 15 sekunder...</translation>
+    </message>
+    <message>
+        <source>Anonymous mode [ON]</source>
+        <translation>Anonymt läge [PÅ]</translation>
     </message>
 </context>
 <context>
@@ -4723,6 +4795,10 @@ Vill du installera den nu?</translation>
         <source>Do not download</source>
         <translation>Hämta inte</translation>
     </message>
+    <message>
+        <source>Set as default save path</source>
+        <translation>Ange som standardsökväg för sparade filer</translation>
+    </message>
 </context>
 <context>
     <name>authentication</name>
@@ -5283,6 +5359,10 @@ Dock har dessa insticksmoduler blivit inaktiverade.</translation>
         <source>qBittorrent will shutdown the computer now because all downloads are complete.</source>
         <translation>qBittorrent kommer nu att stänga av datorn därför att alla hämtningar är färdiga.</translation>
     </message>
+    <message>
+        <source>Downloads</source>
+        <translation type="unfinished">Hämtningar</translation>
+    </message>
 </context>
 <context>
     <name>options_imp</name>
@@ -5349,27 +5429,27 @@ Dock har dessa insticksmoduler blivit inaktiverade.</translation>
     </message>
     <message>
         <source>Invalid key</source>
-        <translation type="unfinished"></translation>
+        <translation>Ogiltig nyckel</translation>
     </message>
     <message>
         <source>This is not a valid SSL key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Detta är inte en giltig SSL-nyckel.</translation>
     </message>
     <message>
         <source>Invalid certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Ogiltigt certifikat</translation>
     </message>
     <message>
         <source>This is not a valid SSL certificate.</source>
-        <translation type="unfinished"></translation>
+        <translation>Detta är inte ett giltigt SSL-certifikat.</translation>
     </message>
     <message>
         <source>SSL Certificate (*.crt *.pem)</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL-certifikat (*.crt *.pem)</translation>
     </message>
     <message>
         <source>SSL Key (*.key *.pem)</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL-nyckel (*.key *.pem)</translation>
     </message>
 </context>
 <context>

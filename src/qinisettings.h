@@ -35,6 +35,7 @@
 
 class QIniSettings : public QSettings {
   Q_OBJECT
+  Q_DISABLE_COPY (QIniSettings)
 
 public:
   QIniSettings(const QString &organization, const QString &application = QString(), QObject *parent = 0 ):
@@ -51,12 +52,6 @@ public:
 
   }
 
-  QIniSettings& operator =(const QIniSettings &other) {
-    Q_UNUSED(other);
-    Q_ASSERT(0);
-    return *this;
-  }
-
 #ifdef Q_WS_WIN
   QVariant value(const QString & key, const QVariant &defaultValue = QVariant()) const {
     QString key_tmp(key);
@@ -69,7 +64,7 @@ public:
   void setValue(const QString &key, const QVariant &val) {
     QString key_tmp(key);
     if(format() == QSettings::NativeFormat)
-      key_tmp = key_tmp.replace("\\", "/");
+      key_tmp.replace("\\", "/");
     QSettings::setValue(key_tmp, val);
   }
 #endif

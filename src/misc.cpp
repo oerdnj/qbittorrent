@@ -37,6 +37,8 @@
 #include <QByteArray>
 #include <QDebug>
 #include <QProcess>
+#include <QSettings>
+#include <boost/filesystem/operations.hpp>
 
 #ifdef DISABLE_GUI
 #include <QCoreApplication>
@@ -58,16 +60,10 @@ const int UNLEN = 256;
 #ifdef Q_WS_MAC
 #include <CoreServices/CoreServices.h>
 #include <Carbon/Carbon.h>
+#include <Cocoa/Cocoa.h>
 #endif
 
-#ifndef Q_WS_WIN
-#if defined(Q_WS_MAC) || defined(Q_OS_FREEBSD)
-#include <sys/param.h>
-#include <sys/mount.h>
-#else
-#include <sys/vfs.h>
-#endif
-#else
+#ifdef Q_WS_WIN
 #include <winbase.h>
 #endif
 
@@ -77,6 +73,10 @@ const int UNLEN = 256;
 #include <QDBusMessage>
 #endif
 #endif // DISABLE_GUI
+
+#ifdef Q_WS_WIN
+#include <QDesktopServices>
+#endif
 
 using namespace libtorrent;
 
@@ -107,7 +107,9 @@ QString misc::QDesktopServicesDataLocation() {
   return result;
 #else
 #ifdef Q_WS_MAC
-  // http://developer.apple.com/documentation/Carbon/Reference/Folder_Manager/Reference/reference.html
+  // http://developer.apple.com/library/mac/#documentation/Cocoa/Reference/Foundation/Miscellaneous/Foundation_Functions/Reference/reference.html
+  NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+  NSString *dataDirectory =
   FSRef ref;
   OSErr err = FSFindFolder(kUserDomain, kApplicationSupportFolderType, false, &ref);
   if (err)
@@ -155,9 +157,68 @@ QString misc::QDesktopServicesCacheLocation() {
 #endif
 }
 
+QString misc::QDesktopServicesDownloadLocation() {
+#ifdef Q_WS_WIN
+  // TODO: Use IKnownFolderManager to get path of FOLDERID_Downloads
+  // instead of hardcoding "Downloads"
+  // Unfortunately, this would break compatibility with WinXP
+#endif
+
+#ifdef Q_WS_X11
+  QString save_path;
+  // Default save path on Linux
+  QString config_path = QString::fromLocal8Bit(qgetenv("XDG_CONFIG_HOME").constData());
+  if (config_path.isEmpty())
+    config_path = QDir::home().absoluteFilePath(".config");
+
+  QString user_dirs_file = config_path + "/user-dirs.dirs";
+  if (QFile::exists(user_dirs_file)) {
+    QSettings settings(user_dirs_file, QSettings::IniFormat);
+    QString xdg_download_dir = settings.value("XDG_DOWNLOAD_DIR").toString();
+    if (!xdg_download_dir.isEmpty()) {
+      // Resolve $HOME environment variables
+      xdg_download_dir.replace("$HOME", QDir::homePath());
+      save_path = xdg_download_dir;
+      qDebug() << Q_FUNC_INFO << "SUCCESS: Using XDG path for downloads: " << save_path;
+    }
+  }
+
+  // Fallback
+  if (!save_path.isEmpty() && !QFile::exists(save_path)) {
+    QDir().mkpath(save_path);
+  }
+
+  if (save_path.isEmpty() || !QFile::exists(save_path)) {
+    save_path = QDir::home().absoluteFilePath(tr("Downloads"));
+    qDebug() << Q_FUNC_INFO << "using" << save_path << "as fallback since the XDG detection did not work";
+  }
+
+  return save_path;
+#endif
+
+#ifdef Q_WS_MAC
+  NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+  NSString *applicationDirectory = [paths objectAtIndex:0];
+  NSRange range;
+  range.location = 0;
+  range.length = [applicationDirectory length];
+  QString path(range.length, QChar(0));
+
+  unichar *chars = new unichar[range.location];
+  [nsstr getCharacters:chars range:range];
+  QString path = QString::fromUtf16(chars, range.length);
+  delete chars;
+  path += QLatin1Char('/') + qApp->applicationName();
+  return path;
+#endif
+
+  // Fallback
+  return QDir::home().absoluteFilePath(tr("Downloads"));
+}
+
 long long misc::freeDiskSpaceOnPath(QString path) {
   if(path.isEmpty()) return -1;
-  path = path.replace("\\", "/");
+  path.replace("\\", "/");
   QDir dir_path(path);
   if(!dir_path.exists()) {
     QStringList parts = path.split("/");
@@ -168,43 +229,9 @@ long long misc::freeDiskSpaceOnPath(QString path) {
     if(!dir_path.exists()) return -1;
   }
   Q_ASSERT(dir_path.exists());
-#ifndef Q_WS_WIN
-  unsigned long long available;
-  struct statfs stats;
-  const QString statfs_path = dir_path.path()+"/.";
-  const int ret = statfs (qPrintable(statfs_path), &stats) ;
-  if(ret == 0) {
-    available = ((unsigned long long)stats.f_bavail) *
-        ((unsigned long long)stats.f_bsize) ;
-    return available;
-  } else {
-    return -1;
-  }
-#else
-  typedef BOOL (WINAPI *GetDiskFreeSpaceEx_t)(LPCTSTR,
-                                              PULARGE_INTEGER,
-                                              PULARGE_INTEGER,
-                                              PULARGE_INTEGER);
-  GetDiskFreeSpaceEx_t
-      pGetDiskFreeSpaceEx = (GetDiskFreeSpaceEx_t)::GetProcAddress
-      (
-        ::GetModuleHandle(TEXT("kernel32.dll")),
-        "GetDiskFreeSpaceExW"
-        );
-  if ( pGetDiskFreeSpaceEx )
-  {
-    ULARGE_INTEGER bytesFree, bytesTotal;
-    unsigned long long *ret;
-    if (pGetDiskFreeSpaceEx((LPCTSTR)path.utf16(), &bytesFree, &bytesTotal, NULL)) {
-      ret = (unsigned long long*)&bytesFree;
-      return *ret;
-    } else {
-      return -1;
-    }
-  } else {
-    return -1;
-  }
-#endif
+  namespace fs = boost::filesystem;
+  fs::space_info sp_in = fs::space(fs::path(dir_path.path().toLocal8Bit()));
+  return sp_in.available;
 }
 
 #ifndef DISABLE_GUI
@@ -301,7 +328,7 @@ void misc::shutdownComputer(bool sleep) {
 
   if (GetLastError() != ERROR_SUCCESS)
     return;
-  bool ret;
+
   if(sleep)
     SetSuspendState(false, false, false);
   else
@@ -515,15 +542,15 @@ QString misc::updateLabelInSavePath(QString defaultSavePath, QString save_path, 
 
 QString misc::toValidFileSystemName(QString filename) {
   qDebug("toValidFSName: %s", qPrintable(filename));
-  filename = filename.replace("\\", "/").trimmed();
+  filename.replace("\\", "/").trimmed();
   const QRegExp regex("[/:?\"*<>|]");
-  filename = filename.replace(regex, " ").trimmed();
+  filename.replace(regex, " ").trimmed();
   qDebug("toValidFSName, result: %s", qPrintable(filename));
   return filename;
 }
 
 bool misc::isValidFileSystemName(QString filename) {
-  filename = filename.replace("\\", "/").trimmed();
+  filename.replace("\\", "/").trimmed();
   if(filename.isEmpty()) return false;
   const QRegExp regex("[/:?\"*<>|]");
   if(filename.contains(regex))
@@ -752,7 +779,7 @@ QString misc::expandPath(QString path) {
     if(path[0] == '~' ) return QDir::homePath();
   }
   if(path[0] == '~' && path[1] == QDir::separator()) {
-    path = path.replace(0, 1, QDir::homePath());
+    path.replace(0, 1, QDir::homePath());
   } else {
     if(QDir::isAbsolutePath(path)) {
       path = QDir(path).absolutePath();

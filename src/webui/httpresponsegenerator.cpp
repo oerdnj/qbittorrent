@@ -31,47 +31,34 @@
 
 #include "httpresponsegenerator.h"
 
-void HttpResponseGenerator::setMessage(const QByteArray message)
+void HttpResponseGenerator::setMessage(const QByteArray& message)
 {
 	HttpResponseGenerator::message = message;
 	setContentLength(message.size());
 }
 
-void HttpResponseGenerator::setMessage(const QString message)
-{
-  // This must be UTF-8!
+void HttpResponseGenerator::setMessage(const QString& message) {
   setMessage(message.toUtf8());
 }
 
-void HttpResponseGenerator::stripMessage()
-{
-	message.clear();
-}
-
-void HttpResponseGenerator::setContentTypeByExt(const QString ext)
-{
-	if(ext == "css")
-	{
+void HttpResponseGenerator::setContentTypeByExt(const QString& ext) {
+  if(ext == "css") {
 		setContentType("text/css");
 		return;
 	}
-	if(ext == "gif")
-	{
+  if(ext == "gif") {
 		setContentType("image/gif");
 		return;
 	}
-	if(ext == "htm" || ext == "html")
-	{
+	if(ext == "htm" || ext == "html")	{
 		setContentType("text/html");
 		return;
 	}
-	if(ext == "js")
-	{
+	if(ext == "js")	{
 		setContentType("text/javascript");
 		return;
 	}
-	if(ext == "png")
-	{
+  if(ext == "png") {
 		setContentType("image/x-png");
 		return;
 	}
