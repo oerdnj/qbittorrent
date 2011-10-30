@@ -71,9 +71,11 @@
 #include <libtorrent/torrent_info.hpp>
 #include <libtorrent/upnp.hpp>
 #include <libtorrent/natpmp.hpp>
+#if LIBTORRENT_VERSION_MINOR < 16
 #include <boost/filesystem/exception.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
+#endif
 #if LIBTORRENT_VERSION_MINOR > 15
 #include "libtorrent/error_code.hpp"
 #endif
@@ -105,8 +107,10 @@ QBtSession::QBtSession()
   BigRatioTimer->setInterval(10000);
   connect(BigRatioTimer, SIGNAL(timeout()), SLOT(processBigRatios()));
   Preferences pref;
+#if LIBTORRENT_VERSION_MINOR < 16
   // To avoid some exceptions
   boost::filesystem::path::default_name_check(boost::filesystem::no_check);
+#endif
   // Creating Bittorrent session
   QList<int> version;
   version << VERSION_MAJOR;
@@ -403,10 +407,8 @@ void QBtSession::configureSession() {
 #ifdef Q_WS_WIN
 #if LIBTORRENT_VERSION_MINOR > 14
   // Fixes huge memory usage on Windows 7 (especially when checking files)
-  //sessionSettings.disk_io_write_mode = session_settings::disable_os_cache;
-  //sessionSettings.disk_io_read_mode = session_settings::disable_os_cache;
-  sessionSettings.disk_io_write_mode = session_settings::disable_os_cache_for_aligned_files;
-  sessionSettings.disk_io_read_mode = session_settings::disable_os_cache_for_aligned_files;
+  sessionSettings.disk_io_write_mode = session_settings::disable_os_cache;
+  sessionSettings.disk_io_read_mode = session_settings::disable_os_cache;
 #endif
 #endif
 #if LIBTORRENT_VERSION_MINOR > 15
@@ -1564,9 +1566,8 @@ bool QBtSession::enableDHT(bool b) {
 #endif
         s->add_dht_router(std::make_pair(std::string("router.bittorrent.com"), 6881));
         s->add_dht_router(std::make_pair(std::string("router.utorrent.com"), 6881));
-        s->add_dht_router(std::make_pair(std::string("router.bitcomet.com"), 6881));
         s->add_dht_router(std::make_pair(std::string("dht.transmissionbt.com"), 6881));
-        s->add_dht_router(std::make_pair(std::string("dht.aelitis.com "), 6881)); // Vuze
+        s->add_dht_router(std::make_pair(std::string("dht.aelitis.com"), 6881)); // Vuze
         DHTEnabled = true;
         qDebug("DHT enabled");
       }catch(std::exception e) {
@@ -1589,14 +1590,20 @@ qreal QBtSession::getRealRatio(const QString &hash) const{
   if(!h.is_valid()) {
     return 0.;
   }
-  const libtorrent::size_type all_time_download = h.all_time_download();
-  const libtorrent::size_type all_time_upload = h.all_time_upload();
+
+  libtorrent::size_type all_time_upload = h.all_time_upload();
+  libtorrent::size_type all_time_download = h.all_time_download();
+  if (all_time_download == 0 && h.is_seed()) {
+    // Purely seeded torrent
+    all_time_download = h.total_done();
+  }
 
   if(all_time_download == 0) {
     if(all_time_upload == 0)
       return 0;
     return MAX_RATIO+1;
   }
+
   qreal ratio = all_time_upload / (float) all_time_download;
   Q_ASSERT(ratio >= 0.);
   if(ratio > MAX_RATIO)
