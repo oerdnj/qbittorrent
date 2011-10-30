@@ -1,3 +1,10 @@
+qbittorrent (2.9.2-1) unstable; urgency=low
+
+  * New upstream version.
+    - debian/control: drop explicit build-dep on libboost-date-time-dev.
+
+ -- Cristian Greco <cristian@debian.org>  Sun, 30 Oct 2011 11:23:10 +0100
+
 qbittorrent (2.9.0-1) unstable; urgency=low
 
   * New upstream version.
