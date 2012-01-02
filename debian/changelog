@@ -1,3 +1,10 @@
+qbittorrent (2.9.3-1) unstable; urgency=low
+
+  * New upstream version.
+    - debian/copyright: add info about Georgian translation.
+
+ -- Cristian Greco <cristian@debian.org>  Mon, 02 Jan 2012 12:26:54 +0100
+
 qbittorrent (2.9.2-1) unstable; urgency=low
 
   * New upstream version.
