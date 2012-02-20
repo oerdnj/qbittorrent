@@ -196,6 +196,7 @@ MainWindow::MainWindow(QWidget *parent, QStringList torrentCmdLine) : QMainWindo
   connect(actionIncreasePriority, SIGNAL(triggered()), transferList, SLOT(increasePrioSelectedTorrents()));
   connect(actionDecreasePriority, SIGNAL(triggered()), transferList, SLOT(decreasePrioSelectedTorrents()));
   connect(actionToggleVisibility, SIGNAL(triggered()), this, SLOT(toggleVisibility()));
+  connect(actionMinimize, SIGNAL(triggered()), SLOT(minimizeWindow()));
 
   m_pwr = new PowerManagement(this);
   preventTimer = new QTimer(this);
@@ -542,13 +543,21 @@ void MainWindow::createKeyboardShortcuts() {
   connect(switchRSSShortcut, SIGNAL(activated()), this, SLOT(displayRSSTab()));
   actionDocumentation->setShortcut(QKeySequence("F1"));
   actionOptions->setShortcut(QKeySequence(QString::fromUtf8("Alt+O")));
+#ifdef Q_WS_MAC
+  actionDelete->setShortcut(QKeySequence("Ctrl+Backspace"));
+#else
   actionDelete->setShortcut(QKeySequence(QString::fromUtf8("Del")));
+#endif
   actionStart->setShortcut(QKeySequence(QString::fromUtf8("Ctrl+S")));
   actionStart_All->setShortcut(QKeySequence(QString::fromUtf8("Ctrl+Shift+S")));
   actionPause->setShortcut(QKeySequence(QString::fromUtf8("Ctrl+P")));
   actionPause_All->setShortcut(QKeySequence(QString::fromUtf8("Ctrl+Shift+P")));
   actionDecreasePriority->setShortcut(QKeySequence(QString::fromUtf8("Ctrl+-")));
   actionIncreasePriority->setShortcut(QKeySequence(QString::fromUtf8("Ctrl++")));
+#ifdef Q_WS_MAC
+  actionMinimize->setShortcut(QKeySequence(QString::fromUtf8("Ctrl+M")));
+  addAction(actionMinimize);
+#endif
 }
 
 // Keyboard shortcuts slots
@@ -1330,6 +1339,11 @@ void MainWindow::showConnectionSettings()
 {
   on_actionOptions_triggered();
   options->showConnectionTab();
+}
+
+void MainWindow::minimizeWindow()
+{
+    setWindowState(windowState() ^ Qt::WindowMinimized);
 }
 
 void MainWindow::on_actionExecution_Logs_triggered(bool checked)
