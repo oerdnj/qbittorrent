@@ -1,3 +1,10 @@
+qbittorrent (2.9.5-1) unstable; urgency=low
+
+  * New upstream version.
+    - debian/copyright: add info about Belarusian translation.
+
+ -- Cristian Greco <cristian@debian.org>  Mon, 20 Feb 2012 22:06:17 +0100
+
 qbittorrent (2.9.3-1) unstable; urgency=low
 
   * New upstream version.
