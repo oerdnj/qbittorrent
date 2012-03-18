@@ -109,10 +109,14 @@ options_imp::options_imp(QWidget *parent):
   // Load options
   loadOptions();
   // Disable systray integration if it is not supported by the system
-  if(!QSystemTrayIcon::isSystemTrayAvailable()){
+#ifndef Q_WS_MAC
+  if (!QSystemTrayIcon::isSystemTrayAvailable()) {
+#endif
     checkShowSystray->setChecked(false);
     checkShowSystray->setEnabled(false);
+#ifndef Q_WS_MAC
   }
+#endif
 #if !defined(Q_WS_X11)
   label_trayIconStyle->setVisible(false);
   comboTrayIcon->setVisible(false);
@@ -1272,6 +1276,7 @@ QString options_imp::languageToLocalizedString(QLocale::Language language, const
   case QLocale::Arabic: return QString::fromUtf8("عربي");
   case QLocale::Georgian: return QString::fromUtf8("ქართული");
   case QLocale::Byelorussian: return QString::fromUtf8("Беларуская");
+  case QLocale::Basque: return QString::fromUtf8("Euskara");
   case QLocale::Chinese: {
     if(country == "cn")
       return QString::fromUtf8("中文 (简体)");
