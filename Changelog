@@ -1,3 +1,13 @@
+* Sat Mar 17 2012 - Christophe Dumez <chris@qbittorrent.org> - v2.9.6
+    - BUGFIX: Fix download first/last pieces state reporting
+    - BUGFIX: Fix name of progress column in torrent content panel
+    - BUGFIX: Disable system tray icon on Mac OS X
+    - BUGFIX: RSS downloader should not ignore "Do not start automatically" rule (closes #946910)
+    - BUGFIX: Fix DHT port setting in Web UI (Closes #952182)
+    - BUGFIX: Fix possible Web UI authentication problem when using SSL (closes #941343)
+    - BUGFIX: Fix possible issues with folder removal when removing a torrent
+    - I18N: Add Basque translation
+
 * Sat Feb 18 2012 - Christophe Dumez <chris@qbittorrent.org> - v2.9.5
     - BUGFIX: Fix crash when disabling then reenabling RSS
     - BUGFIX: Fix duplicate torrent detection when adding a magnet link
