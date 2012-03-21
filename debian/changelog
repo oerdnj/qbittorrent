@@ -1,3 +1,11 @@
+qbittorrent (2.9.7-1) unstable; urgency=low
+
+  * New upstream version.
+    - debian/copyright: add info about Basque translation.
+  * debian/watch: track .xz tarballs.
+
+ -- Cristian Greco <cristian@debian.org>  Wed, 21 Mar 2012 21:15:43 +0100
+
 qbittorrent (2.9.5-1) unstable; urgency=low
 
   * New upstream version.
