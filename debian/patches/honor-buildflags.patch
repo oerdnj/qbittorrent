@@ -1,0 +1,17 @@
+Description: Let the build system honor flags obtained through dpkg-buildflags.
+Origin: vendor
+Forwarded: no
+Author: Cristian Greco <cristian@debian.org>
+
+--- a/unixconf.pri
++++ b/unixconf.pri
+@@ -6,7 +6,8 @@
+   QT += dbus
+ }
+ 
+-QMAKE_CXXFLAGS += -Wformat -Wformat-security
++QMAKE_CXXFLAGS += -Wformat -Wformat-security $$(CXXFLAGS) $$(CPPFLAGS)
++QMAKE_LFLAGS_RELEASE += $$(LDFLAGS)
+ QMAKE_LFLAGS_APP += -rdynamic
+ CONFIG += link_pkgconfig
+ PKGCONFIG += libtorrent-rasterbar
