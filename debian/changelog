@@ -1,3 +1,15 @@
+qbittorrent (2.9.8-1) unstable; urgency=low
+
+  * New upstream version.
+    - fix ftbfs with gcc 4.7 (Closes: #667338).
+  * debian/control: update Standards-Version to 3.9.3.
+  * honor-buildflags.patch: new patch, let the build system honor
+    external flags.
+  * debian/rules: enable hardened buildflags (Closes: #671580).
+
+
+ -- Cristian Greco <cristian@debian.org>  Sat, 05 May 2012 16:29:43 +0200
+
 qbittorrent (2.9.7-1) unstable; urgency=low
 
   * New upstream version.
