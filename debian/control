@@ -8,7 +8,7 @@ Build-Depends: debhelper (>= 7.4.12),
                libboost-dev,
                libboost-system-dev,
                libboost-filesystem-dev,
-               libqt4-dev (>= 4.5.0)
+               libqt4-dev (>= 4.6.0)
 Standards-Version: 3.9.3
 Vcs-Git: git://git.debian.org/git/collab-maint/qbittorrent.git
 Vcs-Browser: http://git.debian.org/?p=collab-maint/qbittorrent.git
