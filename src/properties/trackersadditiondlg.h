@@ -53,12 +53,9 @@ public:
     setupUi(this);
     // Icons
     uTorrentListButton->setIcon(IconProvider::instance()->getIcon("download"));
-    // As a default, use torrentz.com link
-    list_url->setText("http://www.torrentz.com/announce_"+h.hash());
-    list_url->setCursorPosition(0);
   }
 
-  ~TrackersAdditionDlg(){}
+  ~TrackersAdditionDlg() {}
 
   QStringList newTrackers() const {
     return trackers_list->toPlainText().trimmed().split("\n");
@@ -87,25 +84,27 @@ public slots:
     QList<QUrl> existingTrackers;
     // Load from torrent handle
     std::vector<libtorrent::announce_entry> tor_trackers = h.trackers();
+
     std::vector<libtorrent::announce_entry>::iterator itr = tor_trackers.begin();
-    while(itr != tor_trackers.end()) {
+    std::vector<libtorrent::announce_entry>::iterator itrend = tor_trackers.end();
+    while(itr != itrend) {
       existingTrackers << QUrl(misc::toQString(itr->url));
-      itr++;
+      ++itr;
     }
     // Load from current user list
     QStringList tmp = trackers_list->toPlainText().split("\n");
-    foreach(const QString &user_url_str, tmp) {
+    foreach (const QString &user_url_str, tmp) {
       QUrl user_url(user_url_str);
-      if(!existingTrackers.contains(user_url))
+      if (!existingTrackers.contains(user_url))
         existingTrackers << user_url;
     }
     // Add new trackers to the list
-    if(!trackers_list->toPlainText().isEmpty() && !trackers_list->toPlainText().endsWith("\n"))
+    if (!trackers_list->toPlainText().isEmpty() && !trackers_list->toPlainText().endsWith("\n"))
       trackers_list->insertPlainText("\n");
     int nb = 0;
     while (!list_file.atEnd()) {
       const QByteArray line = list_file.readLine().trimmed();
-      if(line.isEmpty()) continue;
+      if (line.isEmpty()) continue;
       QUrl url(line);
       if (!existingTrackers.contains(url)) {
         trackers_list->insertPlainText(line + "\n");
@@ -119,7 +118,7 @@ public slots:
     setCursor(Qt::ArrowCursor);
     uTorrentListButton->setEnabled(true);
     // Display information message if necessary
-    if(nb == 0) {
+    if (nb == 0) {
       QMessageBox::information(this, tr("No change"), tr("No additional trackers were found."), QMessageBox::Ok);
     }
     sender()->deleteLater();
@@ -138,7 +137,7 @@ public:
   static QStringList askForTrackers(QTorrentHandle h) {
     QStringList trackers;
     TrackersAdditionDlg dlg(h);
-    if(dlg.exec() == QDialog::Accepted) {
+    if (dlg.exec() == QDialog::Accepted) {
       return dlg.newTrackers();
     }
     return trackers;

@@ -1,59 +1,84 @@
-* Sat May 5 2012 - Christophe Dumez <chris@qbittorrent.org> - v2.9.8
-    - BUGFIX: Various UI style fixes
-    - BUGFIX: Fix compilation with gcc 4.7
-    - BUGFIX: Fix possible compilation error with msvc (Windows)
-    - BUGFIX: Fix compilation on OS/2
-    - I18N: Update Italian translation
+* Sat Mar 16 2013 - Christophe Dumez <chris@qbittorrent.org> - v3.0.9
+    - BUGFIX: Raise qBittorrent windows when another instance is launched
+    - BUGFIX: Show human readable names for network interfaces in preferences (Windows)
+    - BUGFIX: Fix torrent creator bug when saving non-latin path (Windows)
+    - BUGFIX: Enable 'copy magnet uri' for torrents without metadata too
+    - BUGFIX: Fix a few JSON parser issues (Gelmir)
+    - BUGFIX: Add support for gzipped encoded HTTP responses (daimor)
+    - BUGFIX: Fix possibly missing "Add torrent" icon (Driim)
+    - OTHER: Add search plugin for Legit Torrents
 
-* Sun Mar 18 2012 - Christophe Dumez <chris@qbittorrent.org> - v2.9.7
-    - BUGFIX: Fix important HTTP request parsing bug (Web UI)
+* Sun Jan 20 2013 - Christophe Dumez <chris@qbittorrent.org> - v3.0.8
+    - BUGFIX: Fix support for --no-splash command line argument
+    - BUGFIX: Fix compilation error with libtorrent v0.15
+    - BUGFIX: Fix search issues with Python3
+    - BUGFIX: Fix dead link about certificates in program preferences
 
-* Sat Mar 17 2012 - Christophe Dumez <chris@qbittorrent.org> - v2.9.6
-    - BUGFIX: Fix download first/last pieces state reporting
-    - BUGFIX: Fix name of progress column in torrent content panel
-    - BUGFIX: Disable system tray icon on Mac OS X
-    - BUGFIX: RSS downloader should not ignore "Do not start automatically" rule (closes #946910)
-    - BUGFIX: Fix DHT port setting in Web UI (Closes #952182)
-    - BUGFIX: Fix possible Web UI authentication problem when using SSL (closes #941343)
-    - BUGFIX: Fix possible issues with folder removal when removing a torrent
-    - I18N: Add Basque translation
+* Sat Jan 19 2013 - Christophe Dumez <chris@qbittorrent.org> - v3.0.7
+    - BUGFIX: Update max write cache size to 2048MB and set it to automatic by default (closes #148)
+    - BUGFIX: Add m4v to the list of previewable file extensions (closes #216)
+    - BUGFIX: Fix "Couldn't set environment variable..." message on start up (closes #245)
+    - BUGFIX: Use right path separator in torrent addition dialog on Windows
+    - BUGFIX: Fix "Set as default save path" setting (closes #254)
+    - BUGFIX: Reenable disk cache on Windows since the memory issue seems to be gone
+    - BUGFIX: Fixed several search engine plugins and removed the dead ones
+    - BUGFIX: Use https links in search plugins when possible
+    - BUGFIX: Bump Mootools to v1.4.5 (Web UI)
+    - BUGFIX: Require password to exit qBittorrent from tray icon when locked (closes #311)
+    - BUGFIX: Fix possible crash in loadPeers() (closes #222)
 
-* Sat Feb 18 2012 - Christophe Dumez <chris@qbittorrent.org> - v2.9.5
-    - BUGFIX: Fix crash when disabling then reenabling RSS
-    - BUGFIX: Fix duplicate torrent detection when adding a magnet link
-    - BUGFIX: Fix import of new trackers when adding a torrent with same hash (Closes #747000)
-    - BUGFIX: Fix possible redownload of torrents marked as read (Closes #927495)
-    - BUGFIX: Properly remove RSS feed settings/history upon feed removal
+* Sun Oct 7 2012 - Christophe Dumez <chris@qbittorrent.org> - v3.0.6
+    - BUGFIX: Fix unicode support for command-line arguments on Windows (closes #139)
+    - BUGFIX: Do not store created torrent in memory before writing it to a file (closes #133)
+    - BUGFIX: No longer fallback to ANY interface if the user-selected interface cannot be found (closes #143)
+    - BUGFIX: Fix timezone parsing in RSS (closes #136)
+    - BUGFIX: Fix cookie support for RSS feeds (closes #119)
 
-* Sat Feb 18 2012 - Christophe Dumez <chris@qbittorrent.org> - v2.9.4
-    - BUGFIX: qBittorrent does not handle redirection to relative URLs correctly (Closes #919905)
-    - BUGFIX: Cmd+M minimizes main window on Mac OS X (Closes #928216)
-    - BUGFIX: Cmd+Del removes torrents on Mac OS X (Closes #928852)
-    - BUGFIX: Fix potential bug when moving single file torrents to tmp folder (closes #932861)
-    - BUGFIX: Fix torrent import dialog layout (Closes #930932)
-    - BUGFIX: Prevent log window buffer from filling up (Closes #929673)
-    - I18N: Add Belarusian translation
+* Sun Sep 30 2012 - Christophe Dumez <chris@qbittorrent.org> - v3.0.5
+    - BUGFIX: Disabling systray icon no longer disables file association settings (closes #114)
+    - BUGFIX: Import new trackers from magnet link in case of duplicate torrent (closes #111)
+    - BUGFIX: Fix "Skip hash check" feature in torrent import dialog (closes #128)
+    - BUGFIX: Several Web UI connection fixes
+    - BUGFIX: Add Basque locale to Web UI
 
-* Thu Dec 29 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.9.3
-    - BUGFIX: Fix btdigg plugin (Python3 support + torrent name in magnet links)
-    - BUGFIX: Fix banning of IPv6 peers (Closes #885021)
-    - BUGFIX: Fix torrent addition dialog layout problem (Closes #84650522)
-    - BUGFIX: Do not report any progress for disabled files (Closes #56731485)
-    - BUGFIX: Make torrent sorting case insensitive (Closes #857154)
-    - BUGFIX: Improve Web UI usability of small devices
-    - BUGFIX: Program updater: More reliable version detection / comparison
-    - I18N: Add Georgian translation
+* Tue Sep 18 2012 - Christophe Dumez <chris@qbittorrent.org> - v3.0.4
+    - BUGFIX: Fix issue with downloads starting from scratch on startup if temporary
+      directory setting is enabled.
 
-* Sat Oct 29 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.9.2
-    - BUGFIX: Fix mimimum dimensions for torrent addition dialog
-    - BUGFIX: Remove dependency on boost-datetime
-    - BUGFIX: Remove dependency on boost-filesystem (libtorrent v0.16.x)
+* Sun Sep 16 2012 - Christophe Dumez <chris@qbittorrent.org> - v3.0.3
+    - BUGFIX: Fix issue with temporary directory not being taken into consideration (closes #94)
+    - BUGFIX: Address encoding issues when using search engine on Windows (closes #29)
+    - BUGFIX: Bypass cache when uploading a torrent file in Web UI (closes #68)
+    - BUGFIX: "Completed On" column is not updated until restart (closes #84)
+    - BUGFIX: Fix possible build error on some systems
+    - I18N: Add hebrew translation
 
-* Sun Oct 23 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.9.1
-    - BUGFIX: Add support for speed limits scheduling (Web UI)
-    - BUGFIX: Fix ratio calculation for purely seeded torrents
-    - I18N: Update Russian translation
-    - COSMETIC: Torrent addition dialog layout fixes
+* Sat Sep 1 2012 - Christophe Dumez <chris@qbittorrent.org> - v3.0.2
+    - FEATURE: Add "clear" functionality to search field (closes #59)
+    - BUGFIX: Attempt to use qBittorrent icon from theme if available (closes #49)
+    - BUGFIX: Fix crash when a fastresume file is empty (closes #52)
+    - BUGFIX: Fix encoding problem for detected XDG Download folder (closes #53)
+    - BUGFIX: Improve performance when showing torrent content panel (Improves #24)
+    - BUGFIX: Fix label-based filtering of torrents whose label contains special characters
+    - BUGFIX: Fix possible crash due to labels (closes #64)
+
+* Tue Aug 21 2012 - Christophe Dumez <chris@qbittorrent.org> - v3.0.1
+    - BUGFIX: Fix possible crash when adding a tracker to a magnet torrent without metadata (Closes #1034254)
+    - BUGFIX: Remember queue position for torrents without metadata (closes #17)
+    - BUGFIX: Fix crash when using unauthorized characters in label names (closes #19)
+    - BUGFIX: Fix search plugins updating (closes #25)
+    - BUGFIX: Make uTP connections rate limited by default
+
+* Thu Aug 09 2012 - Christophe Dumez <chris@qbittorrent.org> - v3.0.0
+    - FEATURE: Brand new torrent addition dialog
+    - FEATURE: Add the ability to choose the save path when using magnet links (mutoso)
+    - FEATURE: Add support for adding multiple local torrents at once (Web UI)
+    - COSMETIC: Improve style of left panel
+    - BUGFIX: Lower panels no longer gets disabled
+    - BUGFIX: Major code refactoring and various optimizations.
+    - BUGFIX: No longer strip root folder from torrent files
+    - OTHER: Drop support for libtorrent v0.14.x
+    - OTHER: Drop support for Qt 4.5
 
 * Sat Oct 08 2011 - Christophe Dumez <chris@qbittorrent.org> - v2.9.0
     - FEATURE: Add file association settings to program preferences (Windows)

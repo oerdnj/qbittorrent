@@ -32,41 +32,47 @@
 #define RSSFEED_H
 
 #include <QHash>
+#include <QSharedPointer>
+#include <QXmlStreamReader>
+#include <QNetworkCookie>
 
 #include "rssfile.h"
 
+class RssFeed;
 class RssManager;
 
-class RssFeed: public QObject, public IRssFile {
+typedef QHash<QString, RssArticlePtr> RssArticleHash;
+typedef QSharedPointer<RssFeed> RssFeedPtr;
+typedef QList<RssFeedPtr> RssFeedList;
+
+class RssFeed: public QObject, public RssFile {
   Q_OBJECT
 
 public:
-  RssFeed(RssFolder* m_parent, const QString &url);
-  ~RssFeed();
-  inline RssFolder* parent() const { return m_parent; }
-  void setParent(RssFolder* parent) { m_parent = parent; }
-  FileType type() const;
+  RssFeed(RssManager* manager, RssFolder* m_parent, const QString &url);
+  virtual ~RssFeed();
+  virtual RssFolder* parent() const { return m_parent; }
+  virtual void setParent(RssFolder* parent) { m_parent = parent; }
   void refresh();
-  QString id() const { return m_url; }
+  virtual QString id() const { return m_url; }
   virtual void removeAllSettings();
   virtual void saveItemsToDisk();
-  bool itemAlreadyExists(const QString &hash) const;
   void setLoading(bool val);
   bool isLoading() const;
   QString title() const;
-  void rename(const QString &alias);
-  QString displayName() const;
+  virtual void rename(const QString &alias);
+  virtual QString displayName() const;
   QString url() const;
   QString icon() const;
   bool hasCustomIcon() const;
   void setIconPath(const QString &pathHierarchy);
-  RssArticle& getItem(const QString &name);
+  RssArticlePtr getItem(const QString &guid) const;
   uint count() const;
-  void markAsRead();
-  uint unreadCount() const;
-  const QList<RssArticle> articleList() const;
-  const QHash<QString, RssArticle>& articleListNoCopy() const { return m_articles; }
-  const QList<RssArticle> unreadArticleList() const;
+  virtual void markAsRead();
+  virtual uint unreadCount() const;
+  virtual RssArticleList articleList() const;
+  const RssArticleHash& articleHash() const { return m_articles; }
+  virtual RssArticleList unreadArticleList() const;
 
 private slots:
   void handleFinishedDownload(const QString& url, const QString &file_path);
@@ -74,14 +80,17 @@ private slots:
 
 private:
   bool parseRSS(QIODevice* device);
-  void resizeList();
+  void parseRSSChannel(QXmlStreamReader& xml);
+  void removeOldArticles();
   bool parseXmlFile(const QString &file_path);
   void downloadMatchingArticleTorrents();
   QString iconUrl() const;
   void loadItemsFromDisk();
+  QList<QNetworkCookie> feedCookies() const;
 
 private:
-  QHash<QString, RssArticle> m_articles;
+  RssManager* m_manager;
+  RssArticleHash m_articles;
   RssFolder *m_parent;
   QString m_title;
   QString m_url;

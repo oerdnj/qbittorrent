@@ -34,6 +34,10 @@
 #include <QLibraryInfo>
 
 #ifndef DISABLE_GUI
+#if defined(QBT_STATIC_QT)
+#include <QtPlugin>
+Q_IMPORT_PLUGIN(qico)
+#endif
 #include <QMessageBox>
 #include <QStyleFactory>
 #include <QStyle>
@@ -59,6 +63,12 @@
 #include <signal.h>
 #include <execinfo.h>
 #include "stacktrace.h"
+#endif
+
+#ifdef STACKTRACE_WIN
+#include <signal.h>
+#include "stacktrace_win.h"
+#include "stacktrace_win_dlg.h"
 #endif
 
 #include <stdlib.h>
@@ -87,14 +97,14 @@ class LegalNotice: public QObject {
 public:
   static bool userAgreesWithNotice() {
     QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
-    if(settings.value(QString::fromUtf8("LegalNotice/Accepted"), false).toBool()) // Already accepted once
+    if (settings.value(QString::fromUtf8("LegalNotice/Accepted"), false).toBool()) // Already accepted once
       return true;
 #ifdef DISABLE_GUI
     std::cout << std::endl << "*** " << qPrintable(tr("Legal Notice")) << " ***" << std::endl;
     std::cout << qPrintable(tr("qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.\n\nNo further notices will be issued.")) << std::endl << std::endl;
     std::cout << qPrintable(tr("Press %1 key to accept and continue...").arg("'y'")) << std::endl;
     char ret = getchar(); // Read pressed key
-    if(ret == 'y' || ret == 'Y') {
+    if (ret == 'y' || ret == 'Y') {
       // Save the answer
       settings.setValue(QString::fromUtf8("LegalNotice/Accepted"), true);
       return true;
@@ -109,7 +119,7 @@ public:
     msgBox.show(); // Need to be shown or to moveToCenter does not work
     msgBox.move(misc::screenCenter(&msgBox));
     msgBox.exec();
-    if(msgBox.clickedButton() == agree_button) {
+    if (msgBox.clickedButton() == agree_button) {
       // Save the answer
       settings.setValue(QString::fromUtf8("LegalNotice/Accepted"), true);
       return true;
@@ -121,7 +131,7 @@ public:
 
 #include "main.moc"
 
-#if defined(Q_WS_X11) || defined(Q_WS_MAC)
+#if defined(Q_WS_X11) || defined(Q_WS_MAC) || defined(STACKTRACE_WIN)
 void sigintHandler(int) {
   signal(SIGINT, 0);
   qDebug("Catching SIGINT, exiting cleanly");
@@ -136,25 +146,41 @@ void sigtermHandler(int) {
 void sigsegvHandler(int) {
   signal(SIGABRT, 0);
   signal(SIGSEGV, 0);
+#ifndef Q_OS_WIN
   std::cerr << "\n\n*************************************************************\n";
   std::cerr << "Catching SIGSEGV, please report a bug at http://bug.qbittorrent.org\nand provide the following backtrace:\n";
   std::cerr << "qBittorrent version: " << VERSION << std::endl;
   print_stacktrace();
+#else
+#ifdef STACKTRACE_WIN
+  StraceDlg dlg;
+  dlg.setStacktraceString(straceWin::getBacktrace());
+  dlg.exec();
+#endif
+#endif
   raise(SIGSEGV);
 }
 void sigabrtHandler(int) {
   signal(SIGABRT, 0);
   signal(SIGSEGV, 0);
+#ifndef Q_OS_WIN
   std::cerr << "\n\n*************************************************************\n";
   std::cerr << "Catching SIGABRT, please report a bug at http://bug.qbittorrent.org\nand provide the following backtrace:\n";
   std::cerr << "qBittorrent version: " << VERSION << std::endl;
   print_stacktrace();
+#else
+#ifdef STACKTRACE_WIN
+  StraceDlg dlg;
+  dlg.setStacktraceString(straceWin::getBacktrace());
+  dlg.exec();
+#endif
+#endif
   raise(SIGABRT);
 }
 #endif
 
 // Main
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[]) {
   // Create Application
   QString uid = misc::getUserIDString();
 #ifdef DISABLE_GUI
@@ -164,21 +190,24 @@ int main(int argc, char *argv[]){
 #endif
 
   // Check if qBittorrent is already running for this user
-  if(app.isRunning()) {
+  if (app.isRunning()) {
     qDebug("qBittorrent is already running for this user.");
+    // Read torrents given on command line
+    QStringList torrentCmdLine = app.arguments();
     //Pass program parameters if any
     QString message;
-    for (int a = 1; a < argc; ++a) {
-      QString p = QString::fromLocal8Bit(argv[a]);
-      if(p.startsWith("--")) continue;
-      message += p;
+    for (int a = 1; a < torrentCmdLine.size(); ++a) {
+      if (torrentCmdLine[a].startsWith("--")) continue;
+      message += torrentCmdLine[a];
       if (a < argc-1)
         message += "|";
     }
-    if(!message.isEmpty()) {
+    if (!message.isEmpty()) {
       qDebug("Passing program parameters to running instance...");
       qDebug("Message: %s", qPrintable(message));
       app.sendMessage(message);
+    } else { // Raise main window
+      app.sendMessage("qbt://show");
     }
     return 0;
   }
@@ -192,26 +221,26 @@ int main(int argc, char *argv[]){
   QString locale = pref.getLocale();
   QTranslator qtTranslator;
   QTranslator translator;
-  if(locale.isEmpty()){
+  if (locale.isEmpty()) {
     locale = QLocale::system().name();
     pref.setLocale(locale);
   }
-  if(qtTranslator.load(
+  if (qtTranslator.load(
           QString::fromUtf8("qt_") + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath)
-                                                                    )){
+                                                                    )) {
     qDebug("Qt %s locale recognized, using translation.", qPrintable(locale));
   }else{
     qDebug("Qt %s locale unrecognized, using default (en_GB).", qPrintable(locale));
   }
   app.installTranslator(&qtTranslator);
-  if(translator.load(QString::fromUtf8(":/lang/qbittorrent_") + locale)){
+  if (translator.load(QString::fromUtf8(":/lang/qbittorrent_") + locale)) {
     qDebug("%s locale recognized, using translation.", qPrintable(locale));
   }else{
     qDebug("%s locale unrecognized, using default (en_GB).", qPrintable(locale));
   }
   app.installTranslator(&translator);
 #ifndef DISABLE_GUI
-  if(locale.startsWith("ar")) {
+  if (locale.startsWith("ar") || locale.startsWith("he")) {
     qDebug("Right to Left mode");
     app.setLayoutDirection(Qt::RightToLeft);
   } else {
@@ -221,28 +250,28 @@ int main(int argc, char *argv[]){
   app.setApplicationName(QString::fromUtf8("qBittorrent"));
 
   // Check for executable parameters
-  if(argc > 1){
-    if(QString::fromLocal8Bit(argv[1]) == QString::fromUtf8("--version")){
+  if (argc > 1) {
+    if (QString::fromLocal8Bit(argv[1]) == QString::fromUtf8("--version")) {
       std::cout << "qBittorrent " << VERSION << '\n';
       return 0;
     }
-    if(QString::fromLocal8Bit(argv[1]) == QString::fromUtf8("--help")){
+    if (QString::fromLocal8Bit(argv[1]) == QString::fromUtf8("--help")) {
       UsageDisplay::displayUsage(argv[0]);
       return 0;
     }
 
-    for(int i=1; i<argc; ++i) {
+    for (int i=1; i<argc; ++i) {
 #ifndef DISABLE_GUI
-      if(QString::fromLocal8Bit(argv[i]) == QString::fromUtf8("--no-splash")) {
+      if (QString::fromLocal8Bit(argv[i]) == QString::fromUtf8("--no-splash")) {
         no_splash = true;
       } else {
 #endif
-        if(QString::fromLocal8Bit(argv[i]).startsWith("--webui-port=")) {
+        if (QString::fromLocal8Bit(argv[i]).startsWith("--webui-port=")) {
           QStringList parts = QString::fromLocal8Bit(argv[i]).split("=");
-          if(parts.size() == 2) {
+          if (parts.size() == 2) {
             bool ok = false;
             int new_port = parts.last().toInt(&ok);
-            if(ok && new_port > 0 && new_port <= 65535) {
+            if (ok && new_port > 0 && new_port <= 65535) {
               Preferences().setWebUiPort(new_port);
             }
           }
@@ -254,11 +283,11 @@ int main(int argc, char *argv[]){
   }
 
 #ifndef DISABLE_GUI
-  if(pref.isSlashScreenDisabled()) {
+  if (pref.isSlashScreenDisabled()) {
     no_splash = true;
   }
   QSplashScreen *splash = 0;
-  if(!no_splash) {
+  if (!no_splash) {
     QPixmap splash_img(":/Icons/skin/splash.png");
     QPainter painter(&splash_img);
     QString version = VERSION;
@@ -272,7 +301,7 @@ int main(int argc, char *argv[]){
   }
 #endif
   // Set environment variable
-  if (qputenv("QBITTORRENT", QByteArray(VERSION))) {
+  if (!qputenv("QBITTORRENT", QByteArray(VERSION))) {
     std::cerr << "Couldn't set environment variable...\n";
   }
 
@@ -280,36 +309,39 @@ int main(int argc, char *argv[]){
   app.setStyleSheet("QStatusBar::item { border-width: 0; }");
 #endif
 
-  if(!LegalNotice::userAgreesWithNotice()) {
+  if (!LegalNotice::userAgreesWithNotice()) {
     return 0;
   }
 #ifndef DISABLE_GUI
   app.setQuitOnLastWindowClosed(false);
 #endif
-#if defined(Q_WS_X11) || defined(Q_WS_MAC)
+#if defined(Q_WS_X11) || defined(Q_WS_MAC) || defined(STACKTRACE_WIN)
   signal(SIGABRT, sigabrtHandler);
   signal(SIGTERM, sigtermHandler);
   signal(SIGINT, sigintHandler);
   signal(SIGSEGV, sigsegvHandler);
 #endif
   // Read torrents given on command line
-  QStringList torrentCmdLine = app.arguments();
-  // Remove first argument (program name)
-  torrentCmdLine.removeFirst();
-#ifndef QT_NO_DEBUG_OUTPUT
-  foreach(const QString &argument, torrentCmdLine) {
-    qDebug() << "Command line argument:" << argument;
+  QStringList torrents;
+  QStringList appArguments = app.arguments();
+  for (int i = 1; i < appArguments.size(); ++i) {
+    if (!appArguments[i].startsWith("--")) {
+      qDebug() << "Command line argument:" << appArguments[i];
+      torrents << appArguments[i];
+    }
   }
-#endif
 
 #ifndef DISABLE_GUI
-  MainWindow window(0, torrentCmdLine);
+  MainWindow window(0, torrents);
   QObject::connect(&app, SIGNAL(messageReceived(const QString&)),
                    &window, SLOT(processParams(const QString&)));
   app.setActivationWindow(&window);
+#ifdef Q_WS_MAC
+  static_cast<QMacApplication*>(&app)->setReadyToProcessEvents();
+#endif // Q_WS_MAC
 #else
   // Load Headless class
-  HeadlessLoader loader(torrentCmdLine);
+  HeadlessLoader loader(torrents);
   QObject::connect(&app, SIGNAL(messageReceived(const QString&)),
                    &loader, SLOT(processParams(const QString&)));
 #endif

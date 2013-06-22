@@ -87,6 +87,150 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>AddNewTorrentDialog</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save as</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as default save path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Never show again</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Torrent settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start torrent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Label:</source>
+        <translation type="unfinished">Etichetă:</translation>
+    </message>
+    <message>
+        <source>Skip hash check</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Torrent Information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Comment:</source>
+        <translation type="unfinished">Comentarii:</translation>
+    </message>
+    <message>
+        <source>Date:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation type="unfinished">Normal</translation>
+    </message>
+    <message>
+        <source>High</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do not download</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other...</source>
+        <comment>Other save path...</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>I/O Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The torrent file does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid torrent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid magnet link</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This magnet link was not recognized</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Magnet link</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disk space: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose save path</source>
+        <translation type="unfinished">Alegeţi calea de salvare</translation>
+    </message>
+    <message>
+        <source>Rename the file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New name:</source>
+        <translation type="unfinished">Nume nou:</translation>
+    </message>
+    <message>
+        <source>The file could not be renamed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This file name contains forbidden characters, please choose a different one.</source>
+        <translation type="unfinished">This file name contains forbidden characters, please choose a different one.</translation>
+    </message>
+    <message>
+        <source>This name is already in use in this folder. Please use a different name.</source>
+        <translation type="unfinished">This name is already in use in this folder. Please use a different name.</translation>
+    </message>
+    <message>
+        <source>The folder could not be renamed</source>
+        <translation type="unfinished">The folder could not be renamed</translation>
+    </message>
+    <message>
+        <source>Rename...</source>
+        <translation type="unfinished">Redenumește...</translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation type="unfinished">Prioritate</translation>
+    </message>
+    <message>
+        <source>Failed to load the torrent: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AdvancedSettings</name>
     <message>
         <source>Ignore transfer limits on local network</source>
@@ -191,6 +335,10 @@ p, li { white-space: pre-wrap; }
         <source>Always announce to all trackers</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source> (auto)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AutomatedRssDownloader</name>
@@ -252,10 +400,6 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>New rule name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please type the name of the new download rule.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -323,15 +467,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Add new rule...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Delete rule</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rename rule...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -360,6 +496,18 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Wildcard mode: you can use&lt;ul&gt;&lt;li&gt;? to match any single character&lt;/li&gt;&lt;li&gt;* to match zero or more of any characters&lt;/li&gt;&lt;li&gt;| is used as OR operator&lt;/li&gt;&lt;/ul&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add new rule...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename rule...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please type the name of the new download rule.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -561,10 +709,6 @@ You should get this information from your Web browser preferences.</source>
 <context>
     <name>DNSUpdater</name>
     <message>
-        <source>Your dynamic DNS was successfuly updated.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Dynamic DNS error: The service is temporarily unavailable, it will be retried in 30 minutes.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -598,6 +742,10 @@ You should get this information from your Web browser preferences.</source>
     </message>
     <message>
         <source>Dynamic DNS error: supplied password is too short.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your dynamic DNS was successfully updated.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -701,42 +849,42 @@ You should get this information from your Web browser preferences.</source>
     <message>
         <source>%1/s</source>
         <comment>e.g. 120 KiB/s</comment>
-        <translation>%1/s</translation>
+        <translation type="obsolete">%1/s</translation>
     </message>
     <message>
         <source>Working</source>
-        <translation>Lucrează</translation>
+        <translation type="obsolete">Lucrează</translation>
     </message>
     <message>
         <source>Updating...</source>
-        <translation>Reînnoire...</translation>
+        <translation type="obsolete">Reînnoire...</translation>
     </message>
     <message>
         <source>Not working</source>
-        <translation>Nu lucrează</translation>
+        <translation type="obsolete">Nu lucrează</translation>
     </message>
     <message>
         <source>Not contacted yet</source>
-        <translation>Nu a fost contactat</translation>
+        <translation type="obsolete">Nu a fost contactat</translation>
     </message>
     <message>
         <source>this session</source>
-        <translation>sesiunea aceasta</translation>
+        <translation type="obsolete">sesiunea aceasta</translation>
     </message>
     <message>
         <source>/s</source>
         <comment>/second (i.e. per second)</comment>
-        <translation>/s</translation>
+        <translation type="obsolete">/s</translation>
     </message>
     <message>
         <source>Seeded for %1</source>
         <comment>e.g. Seeded for 3m10s</comment>
-        <translation>Sedat pentru %1</translation>
+        <translation type="obsolete">Sedat pentru %1</translation>
     </message>
     <message>
         <source>%1 max</source>
         <comment>e.g. 10 max</comment>
-        <translation>%1 max</translation>
+        <translation type="obsolete">%1 max</translation>
     </message>
 </context>
 <context>
@@ -1108,12 +1256,12 @@ Sunteți siguri că doriți să închideți qBittorrent?</translation>
     <message>
         <source>D: %1/s - T: %2</source>
         <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
-        <translation type="unfinished">D: %1/s - T: %2</translation>
+        <translation type="obsolete">D: %1/s - T: %2</translation>
     </message>
     <message>
         <source>U: %1/s - T: %2</source>
         <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
-        <translation type="unfinished">U: %1/s - T: %2</translation>
+        <translation type="obsolete">U: %1/s - T: %2</translation>
     </message>
 </context>
 <context>
@@ -2402,7 +2550,7 @@ Would you like to update qBittorrent to version %1?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</source>
+        <source>&lt;a href=http://httpd.apache.org/docs/2.2/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2426,7 +2574,7 @@ Would you like to update qBittorrent to version %1?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;More information&lt;/a&gt;)</source>
+        <source> (&lt;a href=&quot;http://github.com/qbittorrent/qBittorrent/wiki/Anonymous-Mode&quot;&gt;More information&lt;/a&gt;)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2564,7 +2712,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Choose save path</source>
-        <translation>Alegeţi calea de salvare</translation>
+        <translation type="obsolete">Alegeţi calea de salvare</translation>
     </message>
     <message>
         <source>Save path creation error</source>
@@ -2958,10 +3106,6 @@ Would you like to update qBittorrent to version %1?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Trying any other network interface available instead.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Listening on IP address %1 on network interface %2...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2979,11 +3123,6 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Local Peer Discovery support [ON]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Successfuly parsed the provided IP filter: %1 rules were applied.</source>
-        <comment>%1 is a number</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3008,6 +3147,15 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Anonymous mode [ON]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Successfully parsed the provided IP filter: %1 rules were applied.</source>
+        <comment>%1 is a number</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Anonymous mode [OFF]</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3315,23 +3463,23 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Cut</source>
-        <translation>Tăiere</translation>
+        <translation type="obsolete">Tăiere</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiere</translation>
+        <translation type="obsolete">Copiere</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>Pune</translation>
+        <translation type="obsolete">Pune</translation>
     </message>
     <message>
         <source>Clear field</source>
-        <translation>Ștergerea cîmpului</translation>
+        <translation type="obsolete">Ștergerea cîmpului</translation>
     </message>
     <message>
         <source>Clear completion history</source>
-        <translation>Șterge istoria de completare</translation>
+        <translation type="obsolete">Șterge istoria de completare</translation>
     </message>
     <message>
         <source>Search Engine</source>
@@ -3382,14 +3530,6 @@ Please install it manually.</source>
     <message>
         <source>Python 2.x is required to use the search engine but it does not seem to be installed.
 Do you want to install it now?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Confirmation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to clear the history?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3511,6 +3651,25 @@ Do you want to install it now?</source>
     </message>
 </context>
 <context>
+    <name>TorrentContentModel</name>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Nume</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation type="unfinished">Capacitate</translation>
+    </message>
+    <message>
+        <source>Progress</source>
+        <translation type="unfinished">Progress</translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation type="unfinished">Prioritate</translation>
+    </message>
+</context>
+<context>
     <name>TorrentCreatorDlg</name>
     <message>
         <source>Select a folder to add to the torrent</source>
@@ -3574,19 +3733,19 @@ Do you want to install it now?</source>
     <name>TorrentFilesModel</name>
     <message>
         <source>Name</source>
-        <translation>Nume</translation>
+        <translation type="obsolete">Nume</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation>Capacitate</translation>
+        <translation type="obsolete">Capacitate</translation>
     </message>
     <message>
         <source>Progress</source>
-        <translation>Progress</translation>
+        <translation type="obsolete">Progress</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation type="unfinished">Prioritate</translation>
+        <translation type="obsolete">Prioritate</translation>
     </message>
 </context>
 <context>
@@ -3808,10 +3967,6 @@ Do you want to install it now?</source>
         <source>Remove tracker</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Force reannounce</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>TrackersAdditionDlg</name>
@@ -3966,6 +4121,14 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Delete torrents</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Torrents</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Labels</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4255,83 +4418,67 @@ Do you want to install it now?</source>
     <name>addTorrentDialog</name>
     <message>
         <source>Torrent addition dialog</source>
-        <translation>Dialogul de adăugare a torrentului</translation>
+        <translation type="obsolete">Dialogul de adăugare a torrentului</translation>
     </message>
     <message>
         <source>Save path:</source>
-        <translation>Calea de salvare:</translation>
+        <translation type="obsolete">Calea de salvare:</translation>
     </message>
     <message>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="obsolete">...</translation>
     </message>
     <message>
         <source>Torrent content:</source>
-        <translation>Conţinutul torrent-ului:</translation>
+        <translation type="obsolete">Conţinutul torrent-ului:</translation>
     </message>
     <message>
         <source>Add to download list in paused state</source>
-        <translation>Adauga în lista de descărcare în stare de pauză</translation>
+        <translation type="obsolete">Adauga în lista de descărcare în stare de pauză</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Adaugă</translation>
+        <translation type="obsolete">Adaugă</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Anulare</translation>
+        <translation type="obsolete">Anulare</translation>
     </message>
     <message>
         <source>Normal</source>
-        <translation type="unfinished">Normal</translation>
+        <translation type="obsolete">Normal</translation>
     </message>
     <message>
         <source>High</source>
-        <translation type="unfinished">Înalt</translation>
+        <translation type="obsolete">Înalt</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation type="unfinished">Maximal</translation>
+        <translation type="obsolete">Maximal</translation>
     </message>
     <message>
         <source>Torrent size:</source>
-        <translation>Dimensiunea torrentului:</translation>
+        <translation type="obsolete">Dimensiunea torrentului:</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation>Necunoscut</translation>
+        <translation type="obsolete">Necunoscut</translation>
     </message>
     <message>
         <source>Free disk space:</source>
-        <translation>Spațiu liber:</translation>
+        <translation type="obsolete">Spațiu liber:</translation>
     </message>
     <message>
         <source>Download in sequential order (slower but good for previewing)</source>
-        <translation>Descarcă în ordine secvențială (încet dar bine pentru preview)</translation>
+        <translation type="obsolete">Descarcă în ordine secvențială (încet dar bine pentru preview)</translation>
     </message>
     <message>
         <source>Skip file checking and start seeding immediately</source>
-        <translation>Nu verifica integritatea, începe sedarea imediat</translation>
+        <translation type="obsolete">Nu verifica integritatea, începe sedarea imediat</translation>
     </message>
     <message>
         <source>Label:</source>
-        <translation>Etichetă:</translation>
-    </message>
-    <message>
-        <source>Select All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select None</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Do not download</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set as default save path</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Etichetă:</translation>
     </message>
 </context>
 <context>
@@ -4834,6 +4981,13 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
 </context>
 <context>
+    <name>fsutils</name>
+    <message>
+        <source>Downloads</source>
+        <translation type="unfinished">Descărcări</translation>
+    </message>
+</context>
+<context>
     <name>misc</name>
     <message>
         <source>B</source>
@@ -4862,7 +5016,7 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
     <message>
         <source>Unknown</source>
-        <translation>Necunoscut</translation>
+        <translation type="obsolete">Necunoscut</translation>
     </message>
     <message>
         <source>Unknown</source>
@@ -4895,7 +5049,52 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
     <message>
         <source>Downloads</source>
-        <translation type="unfinished">Descărcări</translation>
+        <translation type="obsolete">Descărcări</translation>
+    </message>
+    <message>
+        <source>/s</source>
+        <comment>per second</comment>
+        <translation type="unfinished">/s</translation>
+    </message>
+    <message>
+        <source>Working</source>
+        <translation type="unfinished">Lucrează</translation>
+    </message>
+    <message>
+        <source>Updating...</source>
+        <translation type="unfinished">Reînnoire...</translation>
+    </message>
+    <message>
+        <source>Not working</source>
+        <translation type="unfinished">Nu lucrează</translation>
+    </message>
+    <message>
+        <source>Not contacted yet</source>
+        <translation type="unfinished">Nu a fost contactat</translation>
+    </message>
+    <message>
+        <source>this session</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Seeded for %1</source>
+        <comment>e.g. Seeded for 3m10s</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 max</source>
+        <comment>e.g. 10 max</comment>
+        <translation type="unfinished">%1 max</translation>
+    </message>
+    <message>
+        <source>D: %1/s - T: %2</source>
+        <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
+        <translation type="unfinished">D: %1/s - T: %2</translation>
+    </message>
+    <message>
+        <source>U: %1/s - T: %2</source>
+        <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
+        <translation type="unfinished">U: %1/s - T: %2</translation>
     </message>
 </context>
 <context>
@@ -4949,11 +5148,6 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Successfuly parsed the provided IP filter: %1 rules were applied.</source>
-        <comment>%1 is a number</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Successfully refreshed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4979,6 +5173,11 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     </message>
     <message>
         <source>SSL Key (*.key *.pem)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Successfully parsed the provided IP filter: %1 rules were applied.</source>
+        <comment>%1 is a number</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5078,101 +5277,101 @@ Numai acele adăugate de dvs. pot fi dezinstalate.
     <name>torrentAdditionDialog</name>
     <message>
         <source>Unable to decode torrent file:</source>
-        <translation>Nu pot decoda fişierul torrent:</translation>
+        <translation type="obsolete">Nu pot decoda fişierul torrent:</translation>
     </message>
     <message>
         <source>Choose save path</source>
-        <translation>Alegeţi calea de salvare</translation>
+        <translation type="obsolete">Alegeţi calea de salvare</translation>
     </message>
     <message>
         <source>Empty save path</source>
-        <translation>Calea de salvare vidă</translation>
+        <translation type="obsolete">Calea de salvare vidă</translation>
     </message>
     <message>
         <source>Please enter a save path</source>
-        <translation>Vă rugăm să introduceţi calea de salvare</translation>
+        <translation type="obsolete">Vă rugăm să introduceţi calea de salvare</translation>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation>Salvează calea care crează erori</translation>
+        <translation type="obsolete">Salvează calea care crează erori</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation>Nu pot crea calea de salvare</translation>
+        <translation type="obsolete">Nu pot crea calea de salvare</translation>
     </message>
     <message>
         <source>Invalid file selection</source>
-        <translation>Selecţia fişierului invalidă</translation>
+        <translation type="obsolete">Selecţia fişierului invalidă</translation>
     </message>
     <message>
         <source>You must select at least one file in the torrent</source>
-        <translation>Trebuie să selectaţi cel puţin un fişier din torrent</translation>
+        <translation type="obsolete">Trebuie să selectaţi cel puţin un fişier din torrent</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation type="unfinished">Prioritate</translation>
+        <translation type="obsolete">Prioritate</translation>
     </message>
     <message>
         <source>(%1 left after torrent download)</source>
         <comment>e.g. (100MiB left after torrent download)</comment>
-        <translation>(%1 rămas după descărcare torrent-ului)</translation>
+        <translation type="obsolete">(%1 rămas după descărcare torrent-ului)</translation>
     </message>
     <message>
         <source>(%1 more are required to download)</source>
         <comment>e.g. (100MiB more are required to download)</comment>
-        <translation>(%1 mai mult este necesar pentru a descărca)</translation>
+        <translation type="obsolete">(%1 mai mult este necesar pentru a descărca)</translation>
     </message>
     <message>
         <source>Seeding mode error</source>
-        <translation>Eroare în modul de sedare</translation>
+        <translation type="obsolete">Eroare în modul de sedare</translation>
     </message>
     <message>
         <source>You chose to skip file checking. However, local files do not seem to exist in the current destionation folder. Please disable this feature or update the save path.</source>
-        <translation>You chose to skip file checking. However, local files do not seem to exist in the current destionation folder. Please disable this feature or update the save path.</translation>
+        <translation type="obsolete">You chose to skip file checking. However, local files do not seem to exist in the current destionation folder. Please disable this feature or update the save path.</translation>
     </message>
     <message>
         <source>Rename...</source>
-        <translation>Redenumește...</translation>
+        <translation type="obsolete">Redenumește...</translation>
     </message>
     <message>
         <source>New name:</source>
-        <translation>Nume nou:</translation>
+        <translation type="obsolete">Nume nou:</translation>
     </message>
     <message>
         <source>The file could not be renamed</source>
-        <translation>Fișierul  nu poate fi redenumit</translation>
+        <translation type="obsolete">Fișierul  nu poate fi redenumit</translation>
     </message>
     <message>
         <source>This name is already in use in this folder. Please use a different name.</source>
-        <translation>This name is already in use in this folder. Please use a different name.</translation>
+        <translation type="obsolete">This name is already in use in this folder. Please use a different name.</translation>
     </message>
     <message>
         <source>The folder could not be renamed</source>
-        <translation>The folder could not be renamed</translation>
+        <translation type="obsolete">The folder could not be renamed</translation>
     </message>
     <message>
         <source>Rename the file</source>
-        <translation>Rename the file</translation>
+        <translation type="obsolete">Rename the file</translation>
     </message>
     <message>
         <source>Unable to decode magnet link:</source>
-        <translation>Unable to decode magnet link:</translation>
+        <translation type="obsolete">Unable to decode magnet link:</translation>
     </message>
     <message>
         <source>Magnet Link</source>
-        <translation>Link-ul Magnet</translation>
+        <translation type="obsolete">Link-ul Magnet</translation>
     </message>
     <message>
         <source>Invalid label name</source>
-        <translation>Numele este invalid</translation>
+        <translation type="obsolete">Numele este invalid</translation>
     </message>
     <message>
         <source>Please don&apos;t use any special characters in the label name.</source>
-        <translation>Please don&apos;t use any special characters in the label name.</translation>
+        <translation type="obsolete">Please don&apos;t use any special characters in the label name.</translation>
     </message>
     <message>
         <source>This file name contains forbidden characters, please choose a different one.</source>
-        <translation>This file name contains forbidden characters, please choose a different one.</translation>
+        <translation type="obsolete">This file name contains forbidden characters, please choose a different one.</translation>
     </message>
 </context>
 </TS>

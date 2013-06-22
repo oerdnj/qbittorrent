@@ -39,6 +39,7 @@
 PropTabBar::PropTabBar(QWidget *parent) :
   QHBoxLayout(parent), m_currentIndex(-1)
 {
+  setSpacing(2);
   m_btnGroup = new QButtonGroup(this);
   // General tab
   QPushButton *main_infos_button = new QPushButton(IconProvider::instance()->getIcon("document-properties"), tr("General"), parent);
@@ -66,7 +67,7 @@ PropTabBar::PropTabBar(QWidget *parent) :
   // SIGNAL/SLOT
   connect(m_btnGroup, SIGNAL(buttonClicked(int)), SLOT(setCurrentIndex(int)));
   // Disable buttons focus
-  foreach(QAbstractButton *btn, m_btnGroup->buttons()) {
+  foreach (QAbstractButton *btn, m_btnGroup->buttons()) {
     btn->setFocusPolicy(Qt::NoFocus);
   }
 }
@@ -82,7 +83,7 @@ int PropTabBar::currentIndex() const
 
 void PropTabBar::setCurrentIndex(int index)
 {
-  if(index >= m_btnGroup->buttons().size())
+  if (index >= m_btnGroup->buttons().size())
     index = 0;
   // If asked to hide or if the currently selected tab is clicked
   if (index < 0 || m_currentIndex == index) {

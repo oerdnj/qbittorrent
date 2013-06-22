@@ -122,132 +122,320 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>AddNewTorrentDialog</name>
+    <message>
+        <location filename="../addnewtorrentdialog.ui" line="26"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.ui" line="32"/>
+        <source>Save as</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.ui" line="48"/>
+        <source>Set as default save path</source>
+        <translation type="unfinished">ნაგილისმხევ შესანახ მდებარეობად დაყენება</translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.ui" line="58"/>
+        <source>Never show again</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.ui" line="75"/>
+        <source>Torrent settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.ui" line="81"/>
+        <source>Start torrent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.ui" line="93"/>
+        <source>Label:</source>
+        <translation type="unfinished">იარლიყი:</translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.ui" line="112"/>
+        <source>Skip hash check</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.ui" line="122"/>
+        <source>Torrent Information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.ui" line="130"/>
+        <source>Size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.ui" line="144"/>
+        <source>Comment:</source>
+        <translation type="unfinished">კომენტარი:</translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.ui" line="158"/>
+        <source>Date:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.ui" line="220"/>
+        <source>Normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.ui" line="225"/>
+        <source>High</source>
+        <translation type="unfinished">მაღალი</translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.ui" line="230"/>
+        <source>Maximum</source>
+        <translation type="unfinished">მაქსიმალური</translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.ui" line="235"/>
+        <source>Do not download</source>
+        <translation type="unfinished">არ ჩამოიტვირთოს</translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.cpp" line="71"/>
+        <source>Other...</source>
+        <comment>Other save path...</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.cpp" line="169"/>
+        <source>I/O Error</source>
+        <translation type="unfinished">I/O შეცდომა</translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.cpp" line="169"/>
+        <source>The torrent file does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.cpp" line="177"/>
+        <source>Invalid torrent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.cpp" line="177"/>
+        <source>Failed to load the torrent: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.cpp" line="187"/>
+        <source>Not available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.cpp" line="246"/>
+        <source>Invalid magnet link</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.cpp" line="246"/>
+        <source>This magnet link was not recognized</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.cpp" line="252"/>
+        <source>Magnet link</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.cpp" line="318"/>
+        <source>Disk space: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.cpp" line="336"/>
+        <location filename="../addnewtorrentdialog.cpp" line="343"/>
+        <location filename="../addnewtorrentdialog.cpp" line="345"/>
+        <source>Choose save path</source>
+        <translation type="unfinished">აირჩიეთ შესანახი მდებარეობა</translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.cpp" line="395"/>
+        <source>Rename the file</source>
+        <translation type="unfinished">ფაილის გადარქმევა</translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.cpp" line="396"/>
+        <source>New name:</source>
+        <translation type="unfinished">ახალი სახელი:</translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.cpp" line="400"/>
+        <location filename="../addnewtorrentdialog.cpp" line="426"/>
+        <source>The file could not be renamed</source>
+        <translation type="unfinished">ფაილის გადარქმევა ვერ მოხერხდა</translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.cpp" line="401"/>
+        <source>This file name contains forbidden characters, please choose a different one.</source>
+        <translation type="unfinished">ფაილის სახელი შეიცავს აკრძალულ სიმბოლოებს, გთხოვთ აირჩიეთ სხვა სახელი.</translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.cpp" line="427"/>
+        <location filename="../addnewtorrentdialog.cpp" line="462"/>
+        <source>This name is already in use in this folder. Please use a different name.</source>
+        <translation type="unfinished">ამ საქაღალდეში ეს სახელი უკვე გამოიყენება. გთხოვთ აირჩიეთ სხვა სახელი.</translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.cpp" line="461"/>
+        <source>The folder could not be renamed</source>
+        <translation type="unfinished">საქაღალდის გადარქმევა ვერ მოხერხდა</translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.cpp" line="520"/>
+        <source>Rename...</source>
+        <translation type="unfinished">გადარქმევა...</translation>
+    </message>
+    <message>
+        <location filename="../addnewtorrentdialog.cpp" line="524"/>
+        <source>Priority</source>
+        <translation type="unfinished">პრიორიტეტი</translation>
+    </message>
+</context>
+<context>
     <name>AdvancedSettings</name>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="169"/>
+        <location filename="../preferences/advancedsettings.h" line="172"/>
         <source>Disk write cache size</source>
         <translation>დისკზე ჩაწერილი კეშის ზომა</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="168"/>
+        <location filename="../preferences/advancedsettings.h" line="161"/>
         <source> MiB</source>
         <translation> მიბ</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="174"/>
+        <location filename="../preferences/advancedsettings.h" line="177"/>
         <source>Outgoing ports (Min) [0: Disabled]</source>
         <translation>გამავალი პორტები (მინ) [0: გამორთული]</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="179"/>
+        <location filename="../preferences/advancedsettings.h" line="182"/>
         <source>Outgoing ports (Max) [0: Disabled]</source>
         <translation>გამავალი პორტები (მაქს) [0: გამორთული]</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="185"/>
+        <location filename="../preferences/advancedsettings.h" line="188"/>
         <source>Recheck torrents on completion</source>
         <translation>ტორენტების გადამოწმება დასრულებისას</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="191"/>
+        <location filename="../preferences/advancedsettings.h" line="194"/>
         <source>Transfer list refresh interval</source>
         <translation>ტორენტების სიის განახლების ინტერვალი</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="190"/>
+        <location filename="../preferences/advancedsettings.h" line="193"/>
         <source> ms</source>
         <comment> milliseconds</comment>
         <translation> მწ</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="56"/>
+        <location filename="../preferences/advancedsettings.h" line="52"/>
         <source>Setting</source>
         <translation>პარამეტრი</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="56"/>
+        <location filename="../preferences/advancedsettings.h" line="52"/>
         <source>Value</source>
         <comment>Value set for this setting</comment>
         <translation>მნიშვნელობა</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="194"/>
+        <location filename="../preferences/advancedsettings.h" line="159"/>
+        <source> (auto)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences/advancedsettings.h" line="197"/>
         <source>Resolve peer countries (GeoIP)</source>
         <translation>პირების ქვეყნების დადგენა (GeoIP)</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="197"/>
+        <location filename="../preferences/advancedsettings.h" line="200"/>
         <source>Resolve peer host names</source>
         <translation>პირების ჰოსტის სახელის დადგენა</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="202"/>
+        <location filename="../preferences/advancedsettings.h" line="205"/>
         <source>Maximum number of half-open connections [0: Disabled]</source>
         <translation>ნახევრად-გახსნილი კავშირების მაქსიმალური რაოდენობა [0: გამორთული]</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="209"/>
+        <location filename="../preferences/advancedsettings.h" line="208"/>
         <source>Strict super seeding</source>
         <translation>სუპერ სიდირების რეჟიმი</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="221"/>
+        <location filename="../preferences/advancedsettings.h" line="228"/>
         <source>Network Interface (requires restart)</source>
         <translation>ქსელური ინტერფეისი (საჭიროებს გადატვირთვას)</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="249"/>
+        <location filename="../preferences/advancedsettings.h" line="256"/>
         <source>Exchange trackers with other peers</source>
         <translation>ტრეკერების გაცვლა სხვა პირებთან</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="253"/>
+        <location filename="../preferences/advancedsettings.h" line="259"/>
         <source>Always announce to all trackers</source>
         <translation>ყოველთვის მოხდეს ყველა ტრეკერის შეტყობინება</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="211"/>
+        <location filename="../preferences/advancedsettings.h" line="210"/>
         <source>Any interface</source>
         <comment>i.e. Any network interface</comment>
         <translation>ნებისმიერი ინტერფეისი</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="224"/>
+        <location filename="../preferences/advancedsettings.h" line="231"/>
         <source>IP Address to report to trackers (requires restart)</source>
         <translation>ტრეკერთან დასაკავშირებელი IP მისამართი (საჭიროებს გადატვირთვას)</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="227"/>
+        <location filename="../preferences/advancedsettings.h" line="234"/>
         <source>Display program on-screen notifications</source>
         <translation>პროგრამის ეკრანული შეტყობინებების ჩვენება</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="230"/>
+        <location filename="../preferences/advancedsettings.h" line="237"/>
         <source>Enable embedded tracker</source>
         <translation>ჩაშენებული ტრეკერის ჩართვა</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="235"/>
+        <location filename="../preferences/advancedsettings.h" line="242"/>
         <source>Embedded tracker port</source>
         <translation>ჩაშენებული  ტრეკერის პორტი</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="238"/>
+        <location filename="../preferences/advancedsettings.h" line="245"/>
         <source>Check for software updates</source>
         <translation>პროგრამის განახლებების შემოწმება</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="242"/>
+        <location filename="../preferences/advancedsettings.h" line="249"/>
         <source>Use system icon theme</source>
         <translation>სისტემის ხატულების თემის გამოყენება</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="246"/>
+        <location filename="../preferences/advancedsettings.h" line="253"/>
         <source>Confirm torrent deletion</source>
         <translation>დასტური ტორენტის წაშლაზე</translation>
     </message>
     <message>
-        <location filename="../preferences/advancedsettings.h" line="182"/>
+        <location filename="../preferences/advancedsettings.h" line="185"/>
         <source>Ignore transfer limits on local network</source>
         <translation>ლოკალურ კავშირზე ტრასნფერების ლიმიტის დაიგნორება</translation>
     </message>
@@ -330,139 +518,139 @@ p, li { white-space: pre-wrap; }
         <translation>შესატყვისი RSS სტატიები</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="304"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="305"/>
         <source>New rule name</source>
         <translation>ახალი წესის სახელი</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="304"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="305"/>
         <source>Please type the name of the new download rule.</source>
-        <translation>გთხოვთ ჩაწერეთ ჩამოტვირთვის ახალი წესის სახელი.</translation>
+        <translation type="unfinished">გთხოვთ ჩაწერეთ ჩამოტვირთვის ახალი წესის სახელი.</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="308"/>
-        <location filename="../rss/automatedrssdownloader.cpp" line="423"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="309"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="424"/>
         <source>Rule name conflict</source>
         <translation>წესის სახელის კონფლიქტი</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="308"/>
-        <location filename="../rss/automatedrssdownloader.cpp" line="423"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="309"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="424"/>
         <source>A rule with this name already exists, please choose another name.</source>
         <translation>წესი იგივე სახელით უკვე არსებობს, გთხოვთ აირჩიეთ სხვა სახელი.</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="326"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="327"/>
         <source>Are you sure you want to remove the download rule named %1?</source>
         <translation>დარწმუნებული ხართ რომ ჩამოტვირტვის წესის - %1 - წაშლა გსურთ?</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="328"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="329"/>
         <source>Are you sure you want to remove the selected download rules?</source>
         <translation>დარწმუნებული ხართ რომ არჩეული ჩამოტვირთვის წესების წაშლა გსურთ?</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="329"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="330"/>
         <source>Rule deletion confirmation</source>
         <translation>წესის წაშლის დასტური</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="345"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="346"/>
         <source>Destination directory</source>
         <translation>დანიშნულების მდებარეობა</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="353"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="354"/>
         <source>Invalid action</source>
         <translation>არასწორი მოქმედება</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="353"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="354"/>
         <source>The list is empty, there is nothing to export.</source>
         <translation>სია ცარიელია, გამოსატანი არაფერია.</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="357"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="358"/>
         <source>Where would you like to save the list?</source>
         <translation>სად გსურთ სიის შენახვა?</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="357"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="358"/>
         <source>Rules list (*.rssrules)</source>
         <translation>წესების საი (*.rssrules)</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="362"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="363"/>
         <source>I/O Error</source>
         <translation>I/O შეცდომა</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="362"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="363"/>
         <source>Failed to create the destination file</source>
         <translation>დანიშნულების ფაილის შექმნა ვერ მოხერხდა</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="370"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="371"/>
         <source>Please point to the RSS download rules file</source>
         <translation>გთხოვთ მიუთითეთ RSS ჩამოტვირთვის წესის ფაილი</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="370"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="371"/>
         <source>Rules list (*.rssrules *.filters)</source>
         <translation>წესების სია (*.rssrules *.filters)</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="374"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="375"/>
         <source>Import Error</source>
         <translation>შემოტანის შეცდომა</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="374"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="375"/>
         <source>Failed to import the selected rules file</source>
         <translation>არჩეული წესის ფაილი შემოტანა ჩაიშალა</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="385"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="386"/>
         <source>Add new rule...</source>
-        <translation>ახალი წესის დამატება...</translation>
+        <translation type="unfinished">ახალი წესის დამატება...</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="391"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="392"/>
         <source>Delete rule</source>
         <translation>წესის წაშლა</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="393"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="394"/>
         <source>Rename rule...</source>
-        <translation>წესის გადარქმევა...</translation>
+        <translation type="unfinished">წესის გადარქმევა...</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="395"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="396"/>
         <source>Delete selected rules</source>
         <translation>არჩეული წესების წაშლა</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="419"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="420"/>
         <source>Rule renaming</source>
         <translation>წესის გადარქმევა</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="419"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="420"/>
         <source>Please type the new rule name</source>
         <translation>გთხოვთ ჩაწერეთ ახალი წესის სახელი</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="520"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="524"/>
         <source>Regex mode: use Perl-like regular expressions</source>
         <translation>Regex რეჟიმის გამოყენება: გამოიყენეთ Perl-ის მსგავსი რეგულარული გამოსახულებები</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="524"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="528"/>
         <source>Wildcard mode: you can use&lt;ul&gt;&lt;li&gt;? to match any single character&lt;/li&gt;&lt;li&gt;* to match zero or more of any characters&lt;/li&gt;&lt;li&gt;Whitespaces count as AND operators&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>ჩანაცვლების ნიშნის რეჟიმი: თქვენ შეგიძლიათ გამოიყენოთ &lt;ul&gt;&lt;li&gt;? რათა დაამთხვიოთ ნებისმიერ ერთ სიმბოლოს&lt;/li&gt;&lt;li&gt;* რათა დაამთხვიოთ ნულს ან მეტ ნებისმიერ სიმბოლოს&lt;/li&gt;&lt;li&gt;ცარიელი ადგილი ითვლება როგორც AND ოპერატორი&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
-        <location filename="../rss/automatedrssdownloader.cpp" line="526"/>
+        <location filename="../rss/automatedrssdownloader.cpp" line="530"/>
         <source>Wildcard mode: you can use&lt;ul&gt;&lt;li&gt;? to match any single character&lt;/li&gt;&lt;li&gt;* to match zero or more of any characters&lt;/li&gt;&lt;li&gt;| is used as OR operator&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>ჩანაცვლების ნიშნის რეჟიმი: თქვენ შეგიძლიათ გამოიყენოთ &lt;ul&gt;&lt;li&gt;? რათა დაამთხვიოთ ნებისმიერ ერთ სიმბოლოს&lt;/li&gt;&lt;li&gt;* რათა დაამთხვიოთ ნულს ან მეტ ნებისმიერ სიმბოლოს&lt;/li&gt;&lt;li&gt;| გამოიყენება როგორც OR ოპერატორი&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
@@ -497,9 +685,13 @@ You should get this information from your Web browser preferences.</source>
 <context>
     <name>DNSUpdater</name>
     <message>
-        <location filename="../dnsupdater.cpp" line="178"/>
         <source>Your dynamic DNS was successfuly updated.</source>
-        <translation>თქვენი დინამიკური DNS წარმატებით განახლდა.</translation>
+        <translation type="obsolete">თქვენი დინამიკური DNS წარმატებით განახლდა.</translation>
+    </message>
+    <message>
+        <location filename="../dnsupdater.cpp" line="178"/>
+        <source>Your dynamic DNS was successfully updated.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dnsupdater.cpp" line="182"/>
@@ -550,118 +742,118 @@ You should get this information from your Web browser preferences.</source>
 <context>
     <name>DownloadThread</name>
     <message>
-        <location filename="../downloadthread.cpp" line="102"/>
-        <location filename="../downloadthread.cpp" line="106"/>
+        <location filename="../downloadthread.cpp" line="101"/>
+        <location filename="../downloadthread.cpp" line="105"/>
         <source>I/O Error</source>
         <translation>I/O შეცდომა</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="213"/>
+        <location filename="../downloadthread.cpp" line="194"/>
         <source>The remote host name was not found (invalid hostname)</source>
         <translation>დისტანციური ჰოსტის სახელი ვერ მოიძებნა (ჰოსტის სახელი არასწორია)</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="215"/>
+        <location filename="../downloadthread.cpp" line="196"/>
         <source>The operation was canceled</source>
         <translation>ოპერაცია გაუქმდა</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="217"/>
+        <location filename="../downloadthread.cpp" line="198"/>
         <source>The remote server closed the connection prematurely, before the entire reply was received and processed</source>
         <translation>სრული პასუხის მიღებმდე და დამუშავებამდე დისტანციურმა სერვერმა კავშირი უეცრად დახურა</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="219"/>
+        <location filename="../downloadthread.cpp" line="200"/>
         <source>The connection to the remote server timed out</source>
         <translation>დინსტანციურ სერვერთან დაკავშირებად ვადა გაუვიდა</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="221"/>
+        <location filename="../downloadthread.cpp" line="202"/>
         <source>SSL/TLS handshake failed</source>
         <translation>SSL/TLS ხელის ჩამორთმევა ჩაიშალა</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="223"/>
+        <location filename="../downloadthread.cpp" line="204"/>
         <source>The remote server refused the connection</source>
         <translation>დსიტანციურმა სერვერმა კავშირი უარყო</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="225"/>
+        <location filename="../downloadthread.cpp" line="206"/>
         <source>The connection to the proxy server was refused</source>
         <translation>პროქსი სერვერთან კავშირი უარყოფილი იქნა</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="227"/>
+        <location filename="../downloadthread.cpp" line="208"/>
         <source>The proxy server closed the connection prematurely</source>
         <translation>პროქსი სერვერმა კავშირი უეცრად დახურა</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="229"/>
+        <location filename="../downloadthread.cpp" line="210"/>
         <source>The proxy host name was not found</source>
         <translation>პროქსის ჰოსტის სახელი ვერ მოიძებნა</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="231"/>
+        <location filename="../downloadthread.cpp" line="212"/>
         <source>The connection to the proxy timed out or the proxy did not reply in time to the request sent</source>
         <translation>პროქსისთან კავშირს ვადა გაუვიდა ან პროქსიმ გაგზავნილი მოთხოვნის პასუხი არ დააბრუნა საჭირო დროში</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="233"/>
+        <location filename="../downloadthread.cpp" line="214"/>
         <source>The proxy requires authentication in order to honour the request but did not accept any credentials offered</source>
         <translation>მოთხოვნის მისაღებად პროქსი მოითხოვს ავთენტიფიკაციას მაგრამ მან არ მიიღო შეთავაზებული მონაცემები</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="235"/>
+        <location filename="../downloadthread.cpp" line="216"/>
         <source>The access to the remote content was denied (401)</source>
         <translation>დისტანციურ შიგთავსზე წვდომა უარყოფილ იქნა (401)</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="237"/>
+        <location filename="../downloadthread.cpp" line="218"/>
         <source>The operation requested on the remote content is not permitted</source>
         <translation>დისტანციურ შიგთავსზე მოთხოვნილი ოპერაცია დაუშვებელია</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="239"/>
+        <location filename="../downloadthread.cpp" line="220"/>
         <source>The remote content was not found at the server (404)</source>
         <translation>დისტანციური შიგთავსი ვერ მოიძებნა სერვერზე (404)</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="241"/>
+        <location filename="../downloadthread.cpp" line="222"/>
         <source>The remote server requires authentication to serve the content but the credentials provided were not accepted</source>
         <translation>შიგთავსის მოსამსახურებლად დისტანციური სერვერი მოითხოვს ავთენტიფიკაციას მაგრამ შეტანილი მონაცემები არ იქნა მიღებული</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="243"/>
+        <location filename="../downloadthread.cpp" line="224"/>
         <source>The Network Access API cannot honor the request because the protocol is not known</source>
         <translation>ქსელის წვდომის API-ს არ შეუძლია მოთხოვნის მიღება, იმის გამო რომ პროტოკოლი უცნობია</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="245"/>
+        <location filename="../downloadthread.cpp" line="226"/>
         <source>The requested operation is invalid for this protocol</source>
         <translation>მოთხოვნილი ოპერაცია არასწორია ამ პროტოკოლისთვის</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="247"/>
+        <location filename="../downloadthread.cpp" line="228"/>
         <source>An unknown network-related error was detected</source>
         <translation>დაფიქსირდა ქსელთან დაკავშირებული უცნობი შეცდომა</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="249"/>
+        <location filename="../downloadthread.cpp" line="230"/>
         <source>An unknown proxy-related error was detected</source>
         <translation>დაფიქსირდა პროქსისთან დაკავშირებული უცნობი შეცდომა</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="251"/>
+        <location filename="../downloadthread.cpp" line="232"/>
         <source>An unknown error related to the remote content was detected</source>
         <translation>დაფიქსირდა დისტანციურ შიგთავსთან დაკავშირებული უცნობი შეცდომა</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="253"/>
+        <location filename="../downloadthread.cpp" line="234"/>
         <source>A breakdown in protocol was detected</source>
         <translation>პროტოკოლში დაფიქსირდა ჩაშლა</translation>
     </message>
     <message>
-        <location filename="../downloadthread.cpp" line="255"/>
+        <location filename="../downloadthread.cpp" line="236"/>
         <source>Unknown error</source>
         <translation>უცნობი შეცდომა</translation>
     </message>
@@ -669,59 +861,44 @@ You should get this information from your Web browser preferences.</source>
 <context>
     <name>EventManager</name>
     <message>
-        <location filename="../webui/eventmanager.cpp" line="73"/>
-        <location filename="../webui/eventmanager.cpp" line="87"/>
         <source>Working</source>
-        <translation>მუშაობს</translation>
+        <translation type="obsolete">მუშაობს</translation>
     </message>
     <message>
-        <location filename="../webui/eventmanager.cpp" line="76"/>
         <source>Updating...</source>
-        <translation>ნახლდება...</translation>
+        <translation type="obsolete">ნახლდება...</translation>
     </message>
     <message>
-        <location filename="../webui/eventmanager.cpp" line="79"/>
-        <location filename="../webui/eventmanager.cpp" line="90"/>
         <source>Not working</source>
-        <translation>არ მუშაობს</translation>
+        <translation type="obsolete">არ მუშაობს</translation>
     </message>
     <message>
-        <location filename="../webui/eventmanager.cpp" line="81"/>
-        <location filename="../webui/eventmanager.cpp" line="92"/>
         <source>Not contacted yet</source>
-        <translation>ჯერ არ დაკავშირებულა</translation>
+        <translation type="obsolete">ჯერ არ დაკავშირებულა</translation>
     </message>
     <message>
-        <location filename="../webui/eventmanager.cpp" line="442"/>
-        <location filename="../webui/eventmanager.cpp" line="443"/>
         <source>this session</source>
-        <translation>ეს სესია</translation>
+        <translation type="obsolete">ეს სესია</translation>
     </message>
     <message>
-        <location filename="../webui/eventmanager.cpp" line="447"/>
-        <location filename="../webui/eventmanager.cpp" line="451"/>
         <source>/s</source>
         <comment>/second (i.e. per second)</comment>
-        <translation>/წ</translation>
+        <translation type="obsolete">/წ</translation>
     </message>
     <message>
-        <location filename="../webui/eventmanager.cpp" line="454"/>
         <source>Seeded for %1</source>
         <comment>e.g. Seeded for 3m10s</comment>
-        <translation>სიდირდება %1</translation>
+        <translation type="obsolete">სიდირდება %1</translation>
     </message>
     <message>
-        <location filename="../webui/eventmanager.cpp" line="457"/>
         <source>%1 max</source>
         <comment>e.g. 10 max</comment>
-        <translation>%1 მაქს</translation>
+        <translation type="obsolete">%1 მაქს</translation>
     </message>
     <message>
-        <location filename="../webui/eventmanager.cpp" line="536"/>
-        <location filename="../webui/eventmanager.cpp" line="545"/>
         <source>%1/s</source>
         <comment>e.g. 120 KiB/s</comment>
-        <translation>%1/წ</translation>
+        <translation type="obsolete">%1/წ</translation>
     </message>
 </context>
 <context>
@@ -781,163 +958,161 @@ You should get this information from your Web browser preferences.</source>
 <context>
     <name>HttpConnection</name>
     <message>
-        <location filename="../webui/httpconnection.cpp" line="188"/>
+        <location filename="../webui/httpconnection.cpp" line="190"/>
         <source>Your IP address has been banned after too many failed authentication attempts.</source>
         <translation>თქვენი IP მისამართი დაიბლოკა ძალიან ბევრი უშედეგო ავთენტიფიკაციის მცდელობის გამო.</translation>
     </message>
     <message>
-        <location filename="../webui/httpconnection.cpp" line="388"/>
         <source>D: %1/s - T: %2</source>
         <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
-        <translation>ჩს: %1/წ - ტ: %2</translation>
+        <translation type="obsolete">ჩს: %1/წ - ტ: %2</translation>
     </message>
     <message>
-        <location filename="../webui/httpconnection.cpp" line="389"/>
         <source>U: %1/s - T: %2</source>
         <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
-        <translation>ას %1/წ - ტ: %2</translation>
+        <translation type="obsolete">ას %1/წ - ტ: %2</translation>
     </message>
 </context>
 <context>
     <name>HttpServer</name>
     <message>
-        <location filename="../webui/httpserver.cpp" line="130"/>
+        <location filename="../webui/httpserver.cpp" line="110"/>
         <source>File</source>
         <translation>ფაილი</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="131"/>
+        <location filename="../webui/httpserver.cpp" line="111"/>
         <source>Edit</source>
         <translation>რედაქტირება</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="132"/>
+        <location filename="../webui/httpserver.cpp" line="112"/>
         <source>Help</source>
         <translation>დახმარება</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="133"/>
+        <location filename="../webui/httpserver.cpp" line="113"/>
         <source>Download Torrents from their URL or Magnet link</source>
         <translation>ჩამოტვირთეთ ტორენტები ბმულებიდან ან მაგნიტური ბმულებიდან</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="134"/>
+        <location filename="../webui/httpserver.cpp" line="114"/>
         <source>Only one link per line</source>
         <translation>მხოლოდ ერთი ბმული თითო ხაზზე</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="135"/>
+        <location filename="../webui/httpserver.cpp" line="115"/>
         <source>Download local torrent</source>
         <translation>ლოკალური ტორენტის ჩამოტვირთვა</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="136"/>
+        <location filename="../webui/httpserver.cpp" line="116"/>
         <source>Torrent files were correctly added to download list.</source>
         <translation>ტორენტ ფაილები სწორად დაემატა ჩამოტვირთვის სიას.</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="137"/>
+        <location filename="../webui/httpserver.cpp" line="117"/>
         <source>Point to torrent file</source>
         <translation>მიუთითეთ ტორენტ ფაილი</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="138"/>
+        <location filename="../webui/httpserver.cpp" line="118"/>
         <source>Download</source>
         <translation>ჩამოტვირთვა</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="139"/>
+        <location filename="../webui/httpserver.cpp" line="119"/>
         <source>Are you sure you want to delete the selected torrents from the transfer list and hard disk?</source>
         <translation>დარწმუნებული ხართ რომ ტრანსფერების სიიდან და მყარი დისკიდან არჩეული ტორენტების წაშლა გსურთ?</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="140"/>
+        <location filename="../webui/httpserver.cpp" line="120"/>
         <source>Download rate limit must be greater than 0 or disabled.</source>
         <translation>ჩამოტვირთვის შეფარდების ლიმიტი უნდა იყოს 0-ზე მაღალი ან გამორთული.</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="141"/>
+        <location filename="../webui/httpserver.cpp" line="121"/>
         <source>Upload rate limit must be greater than 0 or disabled.</source>
         <translation>ატვირთვის შეფარდების ლიმიტი უნდა იყოს 0-ზე მაღალი ან გამორთული.</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="142"/>
+        <location filename="../webui/httpserver.cpp" line="122"/>
         <source>Maximum number of connections limit must be greater than 0 or disabled.</source>
         <translation>მაქსიმალური კავშირების რაოდენობის ლიმიტი უნდა იყოს 0-ზე მაღალი ან გამორთული.</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="143"/>
+        <location filename="../webui/httpserver.cpp" line="123"/>
         <source>Maximum number of connections per torrent limit must be greater than 0 or disabled.</source>
         <translation>ერთი ტორენტის მაქსიმალური კავშირების რაოდენობის ლიმიტი უნდა იყოს 0-ზე მაღალი ან გამორთული.</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="144"/>
+        <location filename="../webui/httpserver.cpp" line="124"/>
         <source>Maximum number of upload slots per torrent limit must be greater than 0 or disabled.</source>
         <translation>ერთი ტორენტის ატვირთვის სლოტების მაქსიმალური რაოდენობის ლიმიტი უნდა იყოს 0-ზე მაღალი ან გამორთული.</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="145"/>
+        <location filename="../webui/httpserver.cpp" line="125"/>
         <source>Unable to save program preferences, qBittorrent is probably unreachable.</source>
         <translation>პროგრამის პარამეტრების დამახსოვრეაბ ვერ მოხერხდა, სავარაუდოდ qBittorrent მიუწვდომელია.</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="146"/>
+        <location filename="../webui/httpserver.cpp" line="126"/>
         <source>Language</source>
         <translation>ენა</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="147"/>
+        <location filename="../webui/httpserver.cpp" line="127"/>
         <source>Downloaded</source>
         <comment>Is the file downloaded or not?</comment>
         <translation>ჩამოტვირთული</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="148"/>
+        <location filename="../webui/httpserver.cpp" line="128"/>
         <source>The port used for incoming connections must be greater than 1024 and less than 65535.</source>
         <translation>შემომავალი კავშირებისთვის გამოყენებული პორტი უნდა იყოს 1024-ზე მაღალი და 65535 დაბალი.</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="149"/>
+        <location filename="../webui/httpserver.cpp" line="129"/>
         <source>The port used for the Web UI must be greater than 1024 and less than 65535.</source>
         <translation>ვებ ინტერფეისისთვის გამოყენებული პორტი უნდა იყოს 1024-ზე მაღალი და 65535-ზე დაბალი.</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="150"/>
+        <location filename="../webui/httpserver.cpp" line="130"/>
         <source>The Web UI username must be at least 3 characters long.</source>
         <translation>ვებ ინტერფეისის მომხმარებლის სახელი უნდა იყოს მინუმუმ 3 სიმბოლო.</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="151"/>
+        <location filename="../webui/httpserver.cpp" line="131"/>
         <source>The Web UI password must be at least 3 characters long.</source>
         <translation>ვებ ინტერფეისის პაროლი უნდა იყოს მინუმუმ 3 სიმბოლო.</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="152"/>
+        <location filename="../webui/httpserver.cpp" line="132"/>
         <source>Save</source>
         <translation>დამახსოვრება</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="153"/>
+        <location filename="../webui/httpserver.cpp" line="133"/>
         <source>qBittorrent client is not reachable</source>
         <translation>qBittorrent-ის კლიენტი მიუწვდომელია</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="154"/>
+        <location filename="../webui/httpserver.cpp" line="134"/>
         <source>HTTP Server</source>
         <translation>HTTP სერვერი</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="155"/>
+        <location filename="../webui/httpserver.cpp" line="135"/>
         <source>The following parameters are supported:</source>
         <translation>მხარდაჭერილია შემდეგი პარამეტრები:</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="156"/>
+        <location filename="../webui/httpserver.cpp" line="136"/>
         <source>Torrent path</source>
         <translation>ტორენტის მდებარეობა</translation>
     </message>
     <message>
-        <location filename="../webui/httpserver.cpp" line="157"/>
+        <location filename="../webui/httpserver.cpp" line="137"/>
         <source>Torrent name</source>
         <translation>ტორენტის სახელი</translation>
     </message>
@@ -945,13 +1120,13 @@ You should get this information from your Web browser preferences.</source>
 <context>
     <name>LegalNotice</name>
     <message>
-        <location filename="../main.cpp" line="93"/>
+        <location filename="../main.cpp" line="97"/>
         <source>Legal Notice</source>
         <translation>ლეგალური შეტყობინება</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="94"/>
-        <location filename="../main.cpp" line="105"/>
+        <location filename="../main.cpp" line="98"/>
+        <location filename="../main.cpp" line="109"/>
         <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.
 
 No further notices will be issued.</source>
@@ -960,22 +1135,22 @@ No further notices will be issued.</source>
 ეს არის საბოლოო შეტყობინება.</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="95"/>
+        <location filename="../main.cpp" line="99"/>
         <source>Press %1 key to accept and continue...</source>
         <translation>დააწკაპუნეთ %1 ღილაკზე რათა დაეთანხმოთ და განაგრძოთ...</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="106"/>
+        <location filename="../main.cpp" line="110"/>
         <source>Legal notice</source>
         <translation>ლეგალური შეტყობინება</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="107"/>
+        <location filename="../main.cpp" line="111"/>
         <source>Cancel</source>
         <translation>გაუქმება</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="108"/>
+        <location filename="../main.cpp" line="112"/>
         <source>I Agree</source>
         <translation>ვეთანხმები</translation>
     </message>
@@ -1177,8 +1352,7 @@ No further notices will be issued.</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="370"/>
-        <location filename="../mainwindow.cpp" line="717"/>
-        <location filename="../mainwindow.cpp" line="1217"/>
+        <location filename="../mainwindow.cpp" line="1220"/>
         <source>Show</source>
         <translation>ჩვენება</translation>
     </message>
@@ -1220,7 +1394,7 @@ No further notices will be issued.</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="333"/>
-        <location filename="../mainwindow.cpp" line="1354"/>
+        <location filename="../mainwindow.cpp" line="1365"/>
         <source>Execution Log</source>
         <translation>გაშვების ჟურნალი</translation>
     </message>
@@ -1236,96 +1410,96 @@ No further notices will be issued.</source>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="103"/>
-        <location filename="../mainwindow.cpp" line="1273"/>
+        <location filename="../mainwindow.cpp" line="1284"/>
         <source>qBittorrent %1</source>
         <comment>e.g: qBittorrent v0.x</comment>
         <translation>qBittorrent %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="140"/>
+        <location filename="../mainwindow.cpp" line="146"/>
         <source>Set the password...</source>
         <translation>პაროლის დაყენება...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="174"/>
+        <location filename="../mainwindow.cpp" line="181"/>
         <source>Transfers</source>
         <translation>ტრანსფერები</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="289"/>
+        <location filename="../mainwindow.cpp" line="300"/>
         <source>Torrent file association</source>
         <translation>ტორენტ ფაილებთან ასოციაცია</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="290"/>
+        <location filename="../mainwindow.cpp" line="301"/>
         <source>qBittorrent is not the default application to open torrent files or Magnet links.
 Do you want to associate qBittorrent to torrent files and Magnet links?</source>
         <translation>qBittorrent არ არის ტორენტ ფაილების და მაგნიტური ბმულების გასახსნელად ნაგულისხმევი პროგრამა .
 გსურთ qBittorrent-ის ასოცირება ტორენტ ფაილებთან და მაგნიტურ ბმულებთან?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="391"/>
-        <location filename="../mainwindow.cpp" line="411"/>
-        <location filename="../mainwindow.cpp" line="669"/>
+        <location filename="../mainwindow.cpp" line="402"/>
+        <location filename="../mainwindow.cpp" line="422"/>
+        <location filename="../mainwindow.cpp" line="687"/>
         <source>UI lock password</source>
         <translation>ინტერფეისის ჩაკეტვის პაროლი</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="391"/>
-        <location filename="../mainwindow.cpp" line="411"/>
-        <location filename="../mainwindow.cpp" line="669"/>
+        <location filename="../mainwindow.cpp" line="402"/>
+        <location filename="../mainwindow.cpp" line="422"/>
+        <location filename="../mainwindow.cpp" line="687"/>
         <source>Please type the UI lock password:</source>
         <translation>გთხოვთ შეიყვანეთ ინტერფეისის ჩაკეტვის პაროლი:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="395"/>
+        <location filename="../mainwindow.cpp" line="406"/>
         <source>The password should contain at least 3 characters</source>
         <translation>პაროლი უნდა შეიცავდეს მინიმუმ 3 სიმბოლოს</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="401"/>
+        <location filename="../mainwindow.cpp" line="412"/>
         <source>Password update</source>
         <translation>პაროლის განახლება</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="401"/>
+        <location filename="../mainwindow.cpp" line="412"/>
         <source>The UI lock password has been successfully updated</source>
         <translation>ინტერფეისის ჩაკეტვის პაროლი წარმატებით განახლდა</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="427"/>
+        <location filename="../mainwindow.cpp" line="438"/>
         <source>RSS</source>
         <translation>RSS</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="442"/>
+        <location filename="../mainwindow.cpp" line="453"/>
         <source>Search</source>
         <translation>ძებნა</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="452"/>
+        <location filename="../mainwindow.cpp" line="463"/>
         <source>Transfers (%1)</source>
         <translation>ტრანსფერები (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="523"/>
+        <location filename="../mainwindow.cpp" line="534"/>
         <source>Download completion</source>
         <translation>ჩამოტვირთვის დასრულება</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="523"/>
+        <location filename="../mainwindow.cpp" line="534"/>
         <source>%1 has finished downloading.</source>
         <comment>e.g: xxx.avi has finished downloading.</comment>
         <translation>%1-ის ჩამოტვირთვა დასრულდა.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="529"/>
+        <location filename="../mainwindow.cpp" line="540"/>
         <source>I/O Error</source>
         <comment>i.e: Input/Output Error</comment>
         <translation>I/O შეცდომა</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="529"/>
+        <location filename="../mainwindow.cpp" line="540"/>
         <source>An I/O error occured for torrent %1.
  Reason: %2</source>
         <comment>e.g: An error occured for torrent xxx.avi.
@@ -1334,169 +1508,168 @@ Do you want to associate qBittorrent to torrent files and Magnet links?</source>
 მიზეზი: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="536"/>
+        <location filename="../mainwindow.cpp" line="547"/>
         <source>Alt+1</source>
         <comment>shortcut to switch to first tab</comment>
         <translation>Alt+1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="538"/>
+        <location filename="../mainwindow.cpp" line="549"/>
         <source>Alt+2</source>
         <comment>shortcut to switch to third tab</comment>
         <translation>Alt+2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="540"/>
+        <location filename="../mainwindow.cpp" line="551"/>
         <source>Ctrl+F</source>
         <comment>shortcut to switch to search tab</comment>
         <translation>Ctrl+F</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="542"/>
+        <location filename="../mainwindow.cpp" line="553"/>
         <source>Alt+3</source>
         <comment>shortcut to switch to fourth tab</comment>
         <translation>Alt+3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="590"/>
+        <location filename="../mainwindow.cpp" line="601"/>
         <source>Recursive download confirmation</source>
         <translation>რეკურსიული ჩამოტვირთვის დასტური</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="590"/>
+        <location filename="../mainwindow.cpp" line="601"/>
         <source>The torrent %1 contains torrent files, do you want to proceed with their download?</source>
         <translation>%1 ტორენტი შეიცავს ტორენტ ფაილებს, გსურთ ჩამოტვირთვის დაწყება?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="591"/>
-        <location filename="../mainwindow.cpp" line="763"/>
+        <location filename="../mainwindow.cpp" line="602"/>
+        <location filename="../mainwindow.cpp" line="776"/>
         <source>Yes</source>
         <translation>დიახ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="592"/>
-        <location filename="../mainwindow.cpp" line="762"/>
+        <location filename="../mainwindow.cpp" line="603"/>
+        <location filename="../mainwindow.cpp" line="775"/>
         <source>No</source>
         <translation>არა</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="593"/>
+        <location filename="../mainwindow.cpp" line="604"/>
         <source>Never</source>
         <translation>არასოდეს</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="607"/>
+        <location filename="../mainwindow.cpp" line="618"/>
         <source>Url download error</source>
         <translation>ბმულის ჩამოტვირთვის შეცდომა</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="607"/>
+        <location filename="../mainwindow.cpp" line="618"/>
         <source>Couldn&apos;t download file at url: %1, reason: %2.</source>
         <translation>ვერ მოხერხდა ფაილის ჩამოტვირთვა ბმულიდან: %1, მიზეზი: %2.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="618"/>
+        <location filename="../mainwindow.cpp" line="629"/>
         <source>Global Upload Speed Limit</source>
         <translation>ატვირთვის სიჩქარის საერთო ლიმიტი</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="637"/>
+        <location filename="../mainwindow.cpp" line="648"/>
         <source>Global Download Speed Limit</source>
         <translation>ჩამოტვირთვის სიჩქარის საერთო ლიმიტი</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1128"/>
+        <location filename="../mainwindow.cpp" line="1137"/>
         <source>[D: %1/s, U: %2/s] qBittorrent %3</source>
         <comment>D = Download; U = Upload; %3 is qBittorrent version</comment>
         <translation>[ჩ: %1/s, ა: %2/s] qBittorrent %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="395"/>
-        <location filename="../mainwindow.cpp" line="682"/>
+        <location filename="../mainwindow.cpp" line="406"/>
+        <location filename="../mainwindow.cpp" line="700"/>
         <source>Invalid password</source>
         <translation>პაროლი არასწორია</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="682"/>
+        <location filename="../mainwindow.cpp" line="700"/>
         <source>The password is invalid</source>
         <translation>პაროლი არასწორია</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="717"/>
-        <location filename="../mainwindow.cpp" line="1217"/>
+        <location filename="../mainwindow.cpp" line="1220"/>
         <source>Hide</source>
         <translation>დამალვა</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="759"/>
+        <location filename="../mainwindow.cpp" line="772"/>
         <source>Exiting qBittorrent</source>
         <translation>qBittorrent-იდან გამოსვლა</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="760"/>
+        <location filename="../mainwindow.cpp" line="773"/>
         <source>Some files are currently transferring.
 Are you sure you want to quit qBittorrent?</source>
         <translation>ზოგიერთი ფაილი კვლავ ტრანსფერზეა.
 დარწმუნებული ხართ რომ qBittorrent-იდან გამოსვლა გსურთ?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="764"/>
+        <location filename="../mainwindow.cpp" line="777"/>
         <source>Always</source>
         <translation>ყოველთვის</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="922"/>
+        <location filename="../mainwindow.cpp" line="929"/>
         <source>Open Torrent Files</source>
         <translation>ტორენტ ფაილის გახსნა</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="923"/>
+        <location filename="../mainwindow.cpp" line="930"/>
         <source>Torrent Files</source>
         <translation>ტორენტ ფაილები</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1002"/>
+        <location filename="../mainwindow.cpp" line="1011"/>
         <source>Options were saved successfully.</source>
         <translation>პარამეტრები წარმატბით დამახსოვრდა.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1111"/>
+        <location filename="../mainwindow.cpp" line="1120"/>
         <source>qBittorrent</source>
         <translation>qBittorrent</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1114"/>
-        <location filename="../mainwindow.cpp" line="1121"/>
+        <location filename="../mainwindow.cpp" line="1123"/>
+        <location filename="../mainwindow.cpp" line="1130"/>
         <source>DL speed: %1 KiB/s</source>
         <comment>e.g: Download speed: 10 KiB/s</comment>
         <translation>ჩმ სიჩქარე %1 კბ/წმ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1117"/>
-        <location filename="../mainwindow.cpp" line="1123"/>
+        <location filename="../mainwindow.cpp" line="1126"/>
+        <location filename="../mainwindow.cpp" line="1132"/>
         <source>UP speed: %1 KiB/s</source>
         <comment>e.g: Upload speed: 10 KiB/s</comment>
         <translation>ატ სიჩქარე: %1 კბ/წმ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1311"/>
+        <location filename="../mainwindow.cpp" line="1322"/>
         <source>A newer version is available</source>
         <translation>ხელმისაწვდომია ახალი ვერსია</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1312"/>
+        <location filename="../mainwindow.cpp" line="1323"/>
         <source>A newer version of qBittorrent is available on Sourceforge.
 Would you like to update qBittorrent to version %1?</source>
         <translation>qBittorrent-ის ახალი ვერსია ხელმისაწვდომია Sourceforge-ზე.
 გსურთ qBittorrent-ის განახლება %1 ვერსიაზე?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1327"/>
+        <location filename="../mainwindow.cpp" line="1338"/>
         <source>Impossible to update qBittorrent</source>
         <translation>qBittorrent-ის განახლება შეუძლებელია</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1327"/>
+        <location filename="../mainwindow.cpp" line="1338"/>
         <source>qBittorrent failed to update, reason: %1</source>
         <translation>qBittorrent-ის განახლება ჩაიშალა, მიზეზი: %1</translation>
     </message>
@@ -1526,124 +1699,124 @@ Would you like to update qBittorrent to version %1?</source>
 <context>
     <name>PeerListWidget</name>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="61"/>
+        <location filename="../properties/peerlistwidget.cpp" line="63"/>
         <source>IP</source>
         <translation>IP</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="62"/>
+        <location filename="../properties/peerlistwidget.cpp" line="64"/>
         <source>Connection</source>
         <translation>კავშირი</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="63"/>
+        <location filename="../properties/peerlistwidget.cpp" line="65"/>
         <source>Client</source>
         <comment>i.e.: Client application</comment>
         <translation>კლიენტი</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="64"/>
+        <location filename="../properties/peerlistwidget.cpp" line="66"/>
         <source>Progress</source>
         <comment>i.e: % downloaded</comment>
         <translation>პროგრესი</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="65"/>
+        <location filename="../properties/peerlistwidget.cpp" line="67"/>
         <source>Down Speed</source>
         <comment>i.e: Download speed</comment>
         <translation>ჩამოტვირთვის სიჩქარე</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="66"/>
+        <location filename="../properties/peerlistwidget.cpp" line="68"/>
         <source>Up Speed</source>
         <comment>i.e: Upload speed</comment>
         <translation>ატვირთვის სიჩქარე</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="67"/>
+        <location filename="../properties/peerlistwidget.cpp" line="69"/>
         <source>Downloaded</source>
         <comment>i.e: total data downloaded</comment>
         <translation>ჩამოტვირთული</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="68"/>
+        <location filename="../properties/peerlistwidget.cpp" line="70"/>
         <source>Uploaded</source>
         <comment>i.e: total data uploaded</comment>
         <translation>ატვირთული</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="139"/>
+        <location filename="../properties/peerlistwidget.cpp" line="141"/>
         <source>Add a new peer...</source>
         <translation>ახალი პირის დამატება...</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="148"/>
+        <location filename="../properties/peerlistwidget.cpp" line="150"/>
         <source>Copy IP</source>
         <translation>IP-ის კოპირება</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="150"/>
+        <location filename="../properties/peerlistwidget.cpp" line="152"/>
         <source>Limit download rate...</source>
         <translation>ჩამოტვირთვის შეფარდების ლიმიტი...</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="151"/>
+        <location filename="../properties/peerlistwidget.cpp" line="153"/>
         <source>Limit upload rate...</source>
         <translation>ატვირთვის შეფარდების ლიმიტი...</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="153"/>
+        <location filename="../properties/peerlistwidget.cpp" line="155"/>
         <source>Ban peer permanently</source>
         <translation>პირის დაბლოკვა სამუდამოდ</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="164"/>
         <location filename="../properties/peerlistwidget.cpp" line="166"/>
+        <location filename="../properties/peerlistwidget.cpp" line="168"/>
         <source>Peer addition</source>
         <translation>პირის დამატება</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="164"/>
+        <location filename="../properties/peerlistwidget.cpp" line="166"/>
         <source>The peer was added to this torrent.</source>
         <translation>პირი დაემატა ამ ტორენტს.</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="166"/>
+        <location filename="../properties/peerlistwidget.cpp" line="168"/>
         <source>The peer could not be added to this torrent.</source>
         <translation>ამ ტორენტზე პირის დამატება ვერ მოხერხდა.</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="196"/>
+        <location filename="../properties/peerlistwidget.cpp" line="199"/>
         <source>Are you sure? -- qBittorrent</source>
         <translation>დარწმუნებული ხართ? -- qBittorrent</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="196"/>
+        <location filename="../properties/peerlistwidget.cpp" line="199"/>
         <source>Are you sure you want to ban permanently the selected peers?</source>
         <translation>დარწმუნებული ხართ რომ არჩეული პირების სამუდამოდ წაშლა გსურთ?</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="197"/>
+        <location filename="../properties/peerlistwidget.cpp" line="200"/>
         <source>&amp;Yes</source>
         <translation>&amp;დიახ</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="197"/>
+        <location filename="../properties/peerlistwidget.cpp" line="200"/>
         <source>&amp;No</source>
         <translation>&amp;არა</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="202"/>
+        <location filename="../properties/peerlistwidget.cpp" line="207"/>
         <source>Manually banning peer %1...</source>
         <translation> %1 პირის ხელით დაბლოკვა...</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="221"/>
+        <location filename="../properties/peerlistwidget.cpp" line="231"/>
         <source>Upload rate limiting</source>
         <translation>ატვირთვის შეფარდების ლიმიტირება</translation>
     </message>
     <message>
-        <location filename="../properties/peerlistwidget.cpp" line="249"/>
+        <location filename="../properties/peerlistwidget.cpp" line="265"/>
         <source>Download rate limiting</source>
         <translation>ჩამოტვირთვის შეფარდების ლიმიტირება</translation>
     </message>
@@ -1687,29 +1860,29 @@ Would you like to update qBittorrent to version %1?</source>
         <translation>ალტერნატიული ფერების გამოყენება რიგებისთვის</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="306"/>
-        <location filename="../preferences/options.ui" line="332"/>
+        <location filename="../preferences/options.ui" line="300"/>
+        <location filename="../preferences/options.ui" line="326"/>
         <source>Start / Stop Torrent</source>
         <translation>ტორენტის დაწყება / შეჩერება</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="316"/>
-        <location filename="../preferences/options.ui" line="342"/>
+        <location filename="../preferences/options.ui" line="310"/>
+        <location filename="../preferences/options.ui" line="336"/>
         <source>No action</source>
         <translation>მოქმედების გარეშე</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="687"/>
+        <location filename="../preferences/options.ui" line="681"/>
         <source>Append .!qB extension to incomplete files</source>
         <translation>დაუსრულებელი ფაილებისთვის .!qB გაფართოების მინიჭება</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="790"/>
+        <location filename="../preferences/options.ui" line="784"/>
         <source>Copy .torrent files to:</source>
         <translation>ტორენტ ფაილების კოპირება:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="946"/>
+        <location filename="../preferences/options.ui" line="940"/>
         <source>The following parameters are supported:
 &lt;ul&gt;
 &lt;li&gt;%f: Torrent path&lt;/li&gt;
@@ -1722,82 +1895,87 @@ Would you like to update qBittorrent to version %1?</source>
 &lt;/ul&gt;</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1053"/>
+        <location filename="../preferences/options.ui" line="1047"/>
         <source>Connections Limits</source>
         <translation>კავშირების ლიმიტი</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1173"/>
+        <location filename="../preferences/options.ui" line="1167"/>
         <source>Proxy Server</source>
         <translation>პროქსი სერვერი</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1430"/>
+        <location filename="../preferences/options.ui" line="1424"/>
         <source>Global Rate Limits</source>
         <translation>შეფარდების საერთო ლიმიტი</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1548"/>
+        <location filename="../preferences/options.ui" line="1542"/>
         <source>Apply rate limit to uTP connections</source>
         <translation>შეგარდების ლიმიტის მორგება uTP კავშირებზე</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1555"/>
+        <location filename="../preferences/options.ui" line="1549"/>
         <source>Apply rate limit to transport overhead</source>
         <translation>შეფარდების ლიმიტის მორგება ზედა ტრანსფერებზე</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1568"/>
+        <location filename="../preferences/options.ui" line="1562"/>
         <source>Alternative Global Rate Limits</source>
         <translation>შეფარდების ალტერნატიული საერთო ლიმიტი</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1674"/>
+        <location filename="../preferences/options.ui" line="1668"/>
         <source>Schedule the use of alternative rate limits</source>
         <translation>შეფარდების ალტერნატიული ლიმიტის გამოყენების გრაფიკი</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1934"/>
+        <location filename="../preferences/options.ui" line="1928"/>
         <source>Enable Local Peer Discovery to find more peers</source>
         <translation>ლოკალური პირების აღმოჩენის მხარდაჭერის ჩართვა მეტი პირების საპოვნად</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1946"/>
+        <location filename="../preferences/options.ui" line="1940"/>
         <source>Encryption mode:</source>
         <translation>დაშიფვრის რეჟიმი:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1954"/>
+        <location filename="../preferences/options.ui" line="1948"/>
         <source>Prefer encryption</source>
         <translation>დაშიფრვის მჯობინება</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1959"/>
+        <location filename="../preferences/options.ui" line="1953"/>
         <source>Require encryption</source>
         <translation>დაშიფვრის მოთხოვნა</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1964"/>
+        <location filename="../preferences/options.ui" line="1958"/>
         <source>Disable encryption</source>
         <translation>დაშიფვრის გამორთვა</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2036"/>
+        <location filename="../preferences/options.ui" line="1990"/>
+        <source> (&lt;a href=&quot;http://github.com/qbittorrent/qBittorrent/wiki/Anonymous-Mode&quot;&gt;More information&lt;/a&gt;)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferences/options.ui" line="2033"/>
         <source>Maximum active downloads:</source>
         <translation>მაქსიმალური აქტიური ჩამოტვირთვები:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2056"/>
+        <location filename="../preferences/options.ui" line="2053"/>
         <source>Maximum active uploads:</source>
         <translation>მაქსიმალური აქტიური ატვირთვები:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2076"/>
+        <location filename="../preferences/options.ui" line="2073"/>
         <source>Maximum active torrents:</source>
         <translation>მაქსიმალური აქტიური ტორენტები:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="532"/>
+        <location filename="../preferences/options.ui" line="526"/>
         <source>When adding a torrent</source>
         <translation>ტორენტის დამატებისას</translation>
     </message>
@@ -1813,109 +1991,109 @@ Would you like to update qBittorrent to version %1?</source>
         <translation>ენა</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="541"/>
+        <location filename="../preferences/options.ui" line="535"/>
         <source>Display torrent content and some options</source>
         <translation>ტორენტის შიგთავსის და რამდენიმე პარამეტრის ჩვენება</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="996"/>
+        <location filename="../preferences/options.ui" line="990"/>
         <source>Port used for incoming connections:</source>
         <translation>შემომავალი კავშირებისთვის გამოყენებული პორტი:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1016"/>
+        <location filename="../preferences/options.ui" line="1010"/>
         <source>Random</source>
         <translation>შემთხვევითი</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1059"/>
+        <location filename="../preferences/options.ui" line="1053"/>
         <source>Global maximum number of connections:</source>
         <translation>კავშირების საერთო მაქსიმალური რაოდენობა:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1085"/>
+        <location filename="../preferences/options.ui" line="1079"/>
         <source>Maximum number of connections per torrent:</source>
         <translation>კავშირების მაქსიმალური რაოდენობა ერთ ტორენტზე:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1108"/>
+        <location filename="../preferences/options.ui" line="1102"/>
         <source>Maximum number of upload slots per torrent:</source>
         <translation>ატვირთვის სლოტების მაქსიმალური რაოდენობა ერთ ტორენტზე:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1448"/>
-        <location filename="../preferences/options.ui" line="1603"/>
+        <location filename="../preferences/options.ui" line="1442"/>
+        <location filename="../preferences/options.ui" line="1597"/>
         <source>Upload:</source>
         <translation>ატვირთვა:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1484"/>
-        <location filename="../preferences/options.ui" line="1630"/>
+        <location filename="../preferences/options.ui" line="1478"/>
+        <location filename="../preferences/options.ui" line="1624"/>
         <source>Download:</source>
         <translation>ჩამოტვირთვა:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1477"/>
-        <location filename="../preferences/options.ui" line="1510"/>
-        <location filename="../preferences/options.ui" line="1623"/>
-        <location filename="../preferences/options.ui" line="1650"/>
+        <location filename="../preferences/options.ui" line="1471"/>
+        <location filename="../preferences/options.ui" line="1504"/>
+        <location filename="../preferences/options.ui" line="1617"/>
+        <location filename="../preferences/options.ui" line="1644"/>
         <source>KiB/s</source>
         <translation>კბ/წმ</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="757"/>
+        <location filename="../preferences/options.ui" line="751"/>
         <source>Remove folder</source>
         <translation>საქაღალდის წაშლა</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1715"/>
+        <location filename="../preferences/options.ui" line="1709"/>
         <source>to</source>
         <extracomment>time1 to time2</extracomment>
         <translation>მდე</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1767"/>
+        <location filename="../preferences/options.ui" line="1761"/>
         <source>Every day</source>
         <translation>ყოველდღე</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1772"/>
+        <location filename="../preferences/options.ui" line="1766"/>
         <source>Week days</source>
         <translation>კვირის დღეები</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1777"/>
+        <location filename="../preferences/options.ui" line="1771"/>
         <source>Week ends</source>
         <translation>კვირის დასასრული</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1877"/>
+        <location filename="../preferences/options.ui" line="1871"/>
         <source>DHT port:</source>
         <translation>DHT პორტი:</translation>
     </message>
     <message utf8="true">
-        <location filename="../preferences/options.ui" line="1918"/>
+        <location filename="../preferences/options.ui" line="1912"/>
         <source>Exchange peers with compatible Bittorrent clients (µTorrent, Vuze, ...)</source>
         <translation>პირების გაცვლა თავსებად Bittorrent კლიენტებთან (µTorrent, Vuze, ...)</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1215"/>
+        <location filename="../preferences/options.ui" line="1209"/>
         <source>Host:</source>
         <translation>ჰოსტი:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1194"/>
+        <location filename="../preferences/options.ui" line="1188"/>
         <source>SOCKS4</source>
         <translation>SOCKS4</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1181"/>
+        <location filename="../preferences/options.ui" line="1175"/>
         <source>Type:</source>
         <translation>ტიპი:</translation>
     </message>
     <message>
         <location filename="../preferences/options.ui" line="20"/>
-        <location filename="../preferences/options.ui" line="1532"/>
+        <location filename="../preferences/options.ui" line="1526"/>
         <source>Options</source>
         <translation>პარამეტრები</translation>
     </message>
@@ -1925,69 +2103,69 @@ Would you like to update qBittorrent to version %1?</source>
         <translation>ორჯერ დაწკაპუნების მოქმედება</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="289"/>
+        <location filename="../preferences/options.ui" line="283"/>
         <source>Downloading torrents:</source>
         <translation>მიმდინარე ტორენტები:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="311"/>
-        <location filename="../preferences/options.ui" line="337"/>
+        <location filename="../preferences/options.ui" line="305"/>
+        <location filename="../preferences/options.ui" line="331"/>
         <source>Open destination folder</source>
         <translation>დანიშნულების საქაღალდის გახსნა</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="324"/>
+        <location filename="../preferences/options.ui" line="318"/>
         <source>Completed torrents:</source>
         <translation>დასრულებული ტორენტები:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="356"/>
+        <location filename="../preferences/options.ui" line="350"/>
         <source>Desktop</source>
         <translation>სამუშაო მაგიდა</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="362"/>
+        <location filename="../preferences/options.ui" line="356"/>
         <source>Show splash screen on start up</source>
         <translation>მისალმების ფანჯრის ჩვენება ჩართვისას</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="372"/>
+        <location filename="../preferences/options.ui" line="366"/>
         <source>Start qBittorrent minimized</source>
         <translation>ჩაირთოს qBittorrent ჩაკეცილი</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="398"/>
+        <location filename="../preferences/options.ui" line="392"/>
         <source>Minimize qBittorrent to notification area</source>
         <translation>ჩაიკეცოს qBittorrent სისტმურ არეში</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="408"/>
+        <location filename="../preferences/options.ui" line="402"/>
         <source>Close qBittorrent to notification area</source>
         <comment>i.e: The systray tray icon will still be visible when closing the main window.</comment>
         <translation>დაიხუროს qBittorrent სისტემურ არეში</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="417"/>
+        <location filename="../preferences/options.ui" line="411"/>
         <source>Tray icon style:</source>
         <translation>სისტემური არის ხატულის სტილი:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="425"/>
+        <location filename="../preferences/options.ui" line="419"/>
         <source>Normal</source>
         <translation>ნორმალური</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="430"/>
+        <location filename="../preferences/options.ui" line="424"/>
         <source>Monochrome (Dark theme)</source>
         <translation>მონოქრომი (ბნელი თემა)</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="435"/>
+        <location filename="../preferences/options.ui" line="429"/>
         <source>Monochrome (Light theme)</source>
         <translation>მონოქრომი (ღია თემა)</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="379"/>
+        <location filename="../preferences/options.ui" line="373"/>
         <source>Ask for program exit confirmation</source>
         <translation>პროგრამის გამოსვლის დადასტურება</translation>
     </message>
@@ -2002,269 +2180,268 @@ Would you like to update qBittorrent to version %1?</source>
         <translation>ტრასნფერების სია</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="389"/>
+        <location filename="../preferences/options.ui" line="383"/>
         <source>Show qBittorrent in notification area</source>
         <translation>qBittorrent-ის ჩვენება სისტემურ არეში</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="445"/>
+        <location filename="../preferences/options.ui" line="442"/>
         <source>File association</source>
         <translation>ფაილებთან ასოცირება</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="451"/>
+        <location filename="../preferences/options.ui" line="448"/>
         <source>Use qBittorrent for .torrent files</source>
         <translation>qBittorrent-ის გამოყენება ტორენტ ფაილებისთვის</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="458"/>
+        <location filename="../preferences/options.ui" line="455"/>
         <source>Use qBittorrent for magnet links</source>
         <translation>qBittorrent-ის გამოყენება მაგნიტური ბმულებისთვის</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="474"/>
+        <location filename="../preferences/options.ui" line="468"/>
         <source>Power Management</source>
         <translation>ელკვების მართვა</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="480"/>
+        <location filename="../preferences/options.ui" line="474"/>
         <source>Inhibit system sleep when torrents are active</source>
         <translation>სისტემის ჩაძინების შეჩერება, ტორენტების აქტვივობისას</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="551"/>
+        <location filename="../preferences/options.ui" line="545"/>
         <source>Do not start the download automatically</source>
         <comment>The torrent will be added to download list in pause state</comment>
         <translation>არ დაიწყოს ჩამოტვირთვა ავტომატურად</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="567"/>
+        <location filename="../preferences/options.ui" line="561"/>
         <source>Hard Disk</source>
         <translation>მყარი დისკი</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="576"/>
+        <location filename="../preferences/options.ui" line="570"/>
         <source>Save files to location:</source>
         <translation>ფაილების შენახვა მდებარეობაში:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="624"/>
+        <location filename="../preferences/options.ui" line="618"/>
         <source>Append the label of the torrent to the save path</source>
         <translation>ტორენტის იარლიყის მიკვრა შესანახ მდებარეობაზე</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="634"/>
+        <location filename="../preferences/options.ui" line="628"/>
         <source>Pre-allocate disk space for all files</source>
         <translation>დისკის ადგილის წინასწარ გამოყოფა ყველა ფაილისთვის</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="641"/>
+        <location filename="../preferences/options.ui" line="635"/>
         <source>Keep incomplete torrents in:</source>
         <translation>შეინახოს დაუსრულებელი ტორენტები აქ:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="694"/>
+        <location filename="../preferences/options.ui" line="688"/>
         <source>Automatically add torrents from:</source>
         <translation>ტორენტები ავტომატურად დაემატოს აქედან:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="747"/>
+        <location filename="../preferences/options.ui" line="741"/>
         <source>Add folder...</source>
         <translation>საქაღალდის დამატება...</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="846"/>
+        <location filename="../preferences/options.ui" line="840"/>
         <source>Email notification upon download completion</source>
         <translation>ელ-ფოსტით შეტყობინება ჩამოტვირთვის დასრულებისას</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="860"/>
+        <location filename="../preferences/options.ui" line="854"/>
         <source>Destination email:</source>
         <translation>დანიშნულების ელ-ფოსტა:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="870"/>
+        <location filename="../preferences/options.ui" line="864"/>
         <source>SMTP server:</source>
         <translation>SMTP სერვერი:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="919"/>
+        <location filename="../preferences/options.ui" line="913"/>
         <source>This server requires a secure connection (SSL)</source>
         <translation>სერვერი მოითხოვს დაცულ კავშირს (SSL)</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="931"/>
+        <location filename="../preferences/options.ui" line="925"/>
         <source>Run an external program on torrent completion</source>
         <translation>გარე პროგრამის ჩართვა ტორენტის დასრულებისას</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="988"/>
+        <location filename="../preferences/options.ui" line="982"/>
         <source>Listening Port</source>
         <translation>მოსამსენი პორტი</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1038"/>
+        <location filename="../preferences/options.ui" line="1032"/>
         <source>Use UPnP / NAT-PMP port forwarding from my router</source>
         <translation>UPnP / NAT-PMP-ს გამოყენება ჩემი როუტერიდან პორტის გადამისამართებისთვის</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1269"/>
+        <location filename="../preferences/options.ui" line="1263"/>
         <source>Otherwise, the proxy server is only used for tracker connections</source>
         <translation>სხვა შემთხვევაში პროქსი სერვერი გამოიყენება მხოლოდ ტრეკერის კავშირებისთვის</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1272"/>
+        <location filename="../preferences/options.ui" line="1266"/>
         <source>Use proxy for peer connections</source>
         <translation>პროქსის გამოყენება პირებთან კავშირებისთვის</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1344"/>
+        <location filename="../preferences/options.ui" line="1338"/>
         <source>IP Filtering</source>
         <translation>IP-ის გაფილტრვა</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1385"/>
+        <location filename="../preferences/options.ui" line="1379"/>
         <source>Reload the filter</source>
         <translation>ფილტრის გადატვირთვა</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1538"/>
+        <location filename="../preferences/options.ui" line="1532"/>
         <source>Enable bandwidth management (uTP)</source>
         <translation>გამტარუნარიანობის მართვის ჩართვა (uTP)</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1691"/>
+        <location filename="../preferences/options.ui" line="1685"/>
         <source>from</source>
         <extracomment>from (time1 to time2)</extracomment>
         <translation>დან</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1759"/>
+        <location filename="../preferences/options.ui" line="1753"/>
         <source>When:</source>
         <translation>როდის:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1842"/>
+        <location filename="../preferences/options.ui" line="1836"/>
         <source>Privacy</source>
         <translation>კონფიდენციალურობა</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1848"/>
+        <location filename="../preferences/options.ui" line="1842"/>
         <source>Enable DHT (decentralized network) to find more peers</source>
         <translation>დეცენტრალიზებული ქსელის (DHT) ჩართვა მეტი პირის მოსაძიებლად</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1857"/>
+        <location filename="../preferences/options.ui" line="1851"/>
         <source>Use a different port for DHT and BitTorrent</source>
         <translation>სხვადასხვა პორტის გამოყენება DHT-სა და BitTorrent-ისთვის</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1921"/>
+        <location filename="../preferences/options.ui" line="1915"/>
         <source>Enable Peer Exchange (PeX) to find more peers</source>
         <translation>პირების გაცვლის ჩართვა (PeX) მეტი პირის მოსაძიებლად</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1931"/>
+        <location filename="../preferences/options.ui" line="1925"/>
         <source>Look for peers on your local network</source>
         <translation>პირების ძებნა თქვენს ლოკალურ ქსელში</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1989"/>
+        <location filename="../preferences/options.ui" line="1983"/>
         <source>Enable anonymous mode</source>
         <translation>ანონიმური რეჟიმის ჩართვა</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1996"/>
         <source> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;More information&lt;/a&gt;)</source>
-        <translation> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;მეტი ინფორმაცია&lt;/a&gt;)</translation>
+        <translation type="obsolete"> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;მეტი ინფორმაცია&lt;/a&gt;)</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2135"/>
+        <location filename="../preferences/options.ui" line="2132"/>
         <source>Do not count slow torrents in these limits</source>
         <translation>ამ ლიმიტებში არ ჩაითვალოს ნელი ტორენტები</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2156"/>
+        <location filename="../preferences/options.ui" line="2153"/>
         <source>Seed torrents until their ratio reaches</source>
         <translation>ტორენტების სიდირება მანამ სანამ მათი შეფარდება მიაღწევს</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2188"/>
+        <location filename="../preferences/options.ui" line="2185"/>
         <source>then</source>
         <translation>შემდეგ კი</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2199"/>
+        <location filename="../preferences/options.ui" line="2196"/>
         <source>Pause them</source>
         <translation>მათი დაპაუზება</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2204"/>
+        <location filename="../preferences/options.ui" line="2201"/>
         <source>Remove them</source>
         <translation>მათი წაშლა</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2302"/>
+        <location filename="../preferences/options.ui" line="2299"/>
         <source>Use UPnP / NAT-PMP to forward the port from my router</source>
         <translation>UPnP / NAT-PMP-ს გამოყენება პორტის გადამისამართებისთვის ჩემი როუტერიდან</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2312"/>
+        <location filename="../preferences/options.ui" line="2309"/>
         <source>Use HTTPS instead of HTTP</source>
         <translation>HTTP-ს ნაცვლად HTTPS-ს გამოყენება</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2355"/>
+        <location filename="../preferences/options.ui" line="2352"/>
         <source>Import SSL Certificate</source>
         <translation>SSL სერთიფიკატის შემოტანა</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2408"/>
+        <location filename="../preferences/options.ui" line="2405"/>
         <source>Import SSL Key</source>
         <translation>SSL გასაღების შემოტანა</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2343"/>
+        <location filename="../preferences/options.ui" line="2340"/>
         <source>Certificate:</source>
         <translation>სერთიფიკატი:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2396"/>
+        <location filename="../preferences/options.ui" line="2393"/>
         <source>Key:</source>
         <translation>გასაღები:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2430"/>
-        <source>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</source>
-        <translation>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;ინფორმაცია სერთიფიკატების შესახებ&lt;/a&gt;</translation>
+        <location filename="../preferences/options.ui" line="2427"/>
+        <source>&lt;a href=http://httpd.apache.org/docs/2.2/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</source>
+        <translation>&lt;a href=http://httpd.apache.org/docs/2.2/ssl/ssl_faq.html#aboutcerts&gt;ინფორმაცია სერთიფიკატების შესახებ&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2475"/>
+        <location filename="../preferences/options.ui" line="2472"/>
         <source>Bypass authentication for localhost</source>
         <translation>ლოკალჰოსტისთვის ავთენტიფიკაციის გვერდის ავლა</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2499"/>
+        <location filename="../preferences/options.ui" line="2496"/>
         <source>Update my dynamic domain name</source>
         <translation>ჩემი დინამიკური დომეინის სახელის განახლება</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2511"/>
+        <location filename="../preferences/options.ui" line="2508"/>
         <source>Service:</source>
         <translation>მომსახურება:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2534"/>
+        <location filename="../preferences/options.ui" line="2531"/>
         <source>Register</source>
         <translation>რეგისტრაცია</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2543"/>
+        <location filename="../preferences/options.ui" line="2540"/>
         <source>Domain name:</source>
         <translation>დომეინის სახელი:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1189"/>
+        <location filename="../preferences/options.ui" line="1183"/>
         <source>(None)</source>
         <translation>(არცერთი)</translation>
     </message>
@@ -2274,61 +2451,61 @@ Would you like to update qBittorrent to version %1?</source>
         <translation>BitTorrent</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1204"/>
+        <location filename="../preferences/options.ui" line="1198"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1241"/>
-        <location filename="../preferences/options.ui" line="2267"/>
+        <location filename="../preferences/options.ui" line="1235"/>
+        <location filename="../preferences/options.ui" line="2264"/>
         <source>Port:</source>
         <translation>პორტი:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="880"/>
-        <location filename="../preferences/options.ui" line="1282"/>
-        <location filename="../preferences/options.ui" line="2443"/>
+        <location filename="../preferences/options.ui" line="874"/>
+        <location filename="../preferences/options.ui" line="1276"/>
+        <location filename="../preferences/options.ui" line="2440"/>
         <source>Authentication</source>
         <translation>ავთენტიფიკაცია</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="892"/>
-        <location filename="../preferences/options.ui" line="1296"/>
-        <location filename="../preferences/options.ui" line="2482"/>
-        <location filename="../preferences/options.ui" line="2557"/>
+        <location filename="../preferences/options.ui" line="886"/>
+        <location filename="../preferences/options.ui" line="1290"/>
+        <location filename="../preferences/options.ui" line="2479"/>
+        <location filename="../preferences/options.ui" line="2554"/>
         <source>Username:</source>
         <translation>მომხმარებლის სახელი:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="902"/>
-        <location filename="../preferences/options.ui" line="1316"/>
-        <location filename="../preferences/options.ui" line="2489"/>
-        <location filename="../preferences/options.ui" line="2571"/>
+        <location filename="../preferences/options.ui" line="896"/>
+        <location filename="../preferences/options.ui" line="1310"/>
+        <location filename="../preferences/options.ui" line="2486"/>
+        <location filename="../preferences/options.ui" line="2568"/>
         <source>Password:</source>
         <translation>პაროლი:</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2021"/>
+        <location filename="../preferences/options.ui" line="2018"/>
         <source>Torrent Queueing</source>
         <translation>ტორენტი რიგში დგომა</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2145"/>
+        <location filename="../preferences/options.ui" line="2142"/>
         <source>Share Ratio Limiting</source>
         <translation>გაზიარების შეფარდების ლიმიტი</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="2253"/>
+        <location filename="../preferences/options.ui" line="2250"/>
         <source>Enable Web User Interface (Remote control)</source>
         <translation>ვებ ინტერფეისის ჩართვა (დისტანციური კონტროლი)</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1199"/>
+        <location filename="../preferences/options.ui" line="1193"/>
         <source>SOCKS5</source>
         <translation>SOCKS5</translation>
     </message>
     <message>
-        <location filename="../preferences/options.ui" line="1356"/>
+        <location filename="../preferences/options.ui" line="1350"/>
         <source>Filter path (.dat, .p2p, .p2b):</source>
         <translation>ფილტრის მდებარეობა (.dat, .p2p, .p2b):</translation>
     </message>
@@ -2352,15 +2529,15 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <location filename="../previewselect.cpp" line="75"/>
-        <location filename="../previewselect.cpp" line="110"/>
-        <location filename="../previewselect.cpp" line="116"/>
+        <location filename="../previewselect.cpp" line="109"/>
+        <location filename="../previewselect.cpp" line="115"/>
         <source>Preview impossible</source>
         <translation>გადახედვა შეუძლებელია</translation>
     </message>
     <message>
         <location filename="../previewselect.cpp" line="75"/>
-        <location filename="../previewselect.cpp" line="110"/>
-        <location filename="../previewselect.cpp" line="116"/>
+        <location filename="../previewselect.cpp" line="109"/>
+        <location filename="../previewselect.cpp" line="115"/>
         <source>Sorry, we can&apos;t preview this file</source>
         <translation>ბოდიში, ჩვენ არ შეგვიძლია ამ ფაილის გადახედვა</translation>
     </message>
@@ -2403,27 +2580,27 @@ Would you like to update qBittorrent to version %1?</source>
 <context>
     <name>PropTabBar</name>
     <message>
-        <location filename="../properties/proptabbar.cpp" line="44"/>
+        <location filename="../properties/proptabbar.cpp" line="45"/>
         <source>General</source>
         <translation>ზოგადი</translation>
     </message>
     <message>
-        <location filename="../properties/proptabbar.cpp" line="49"/>
+        <location filename="../properties/proptabbar.cpp" line="50"/>
         <source>Trackers</source>
         <translation>ტრეკერები</translation>
     </message>
     <message>
-        <location filename="../properties/proptabbar.cpp" line="53"/>
+        <location filename="../properties/proptabbar.cpp" line="54"/>
         <source>Peers</source>
         <translation>პირები</translation>
     </message>
     <message>
-        <location filename="../properties/proptabbar.cpp" line="57"/>
+        <location filename="../properties/proptabbar.cpp" line="58"/>
         <source>HTTP Sources</source>
         <translation>HTTP წყაროები</translation>
     </message>
     <message>
-        <location filename="../properties/proptabbar.cpp" line="61"/>
+        <location filename="../properties/proptabbar.cpp" line="62"/>
         <source>Content</source>
         <translation>შიგთავსი</translation>
     </message>
@@ -2436,7 +2613,7 @@ Would you like to update qBittorrent to version %1?</source>
         <translation>შესანახი მდებარეობა:</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.ui" line="454"/>
+        <location filename="../properties/propertieswidget.ui" line="438"/>
         <source>Torrent hash:</source>
         <translation>ტორენტის ჰეში:</translation>
     </message>
@@ -2503,503 +2680,509 @@ Would you like to update qBittorrent to version %1?</source>
         <translation>ინფორმაცია</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.ui" line="408"/>
+        <location filename="../properties/propertieswidget.ui" line="392"/>
         <source>Created on:</source>
         <translation>შექმნილია:</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.ui" line="497"/>
+        <location filename="../properties/propertieswidget.ui" line="481"/>
         <source>Pieces size:</source>
         <translation>ნაწილის ზომა:</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.ui" line="540"/>
+        <location filename="../properties/propertieswidget.ui" line="524"/>
         <source>Comment:</source>
         <translation>კომენტარი:</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.ui" line="749"/>
+        <location filename="../properties/propertieswidget.ui" line="717"/>
         <source>Torrent content:</source>
         <translation>ტორენტის შიგთავსი:</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.ui" line="802"/>
+        <location filename="../properties/propertieswidget.ui" line="770"/>
         <source>Select All</source>
         <translation>ყველას არჩევა</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.ui" line="809"/>
+        <location filename="../properties/propertieswidget.ui" line="777"/>
         <source>Select None</source>
         <translation>არჩევის მოხსნა</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.ui" line="842"/>
+        <location filename="../properties/propertieswidget.ui" line="810"/>
         <source>Normal</source>
         <translation>ჩვეულებრივი</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.ui" line="847"/>
+        <location filename="../properties/propertieswidget.ui" line="815"/>
         <source>High</source>
         <translation>მაღალი</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.ui" line="852"/>
+        <location filename="../properties/propertieswidget.ui" line="820"/>
         <source>Maximum</source>
         <translation>მაქსიმალური</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.ui" line="857"/>
-        <location filename="../properties/propertieswidget.ui" line="860"/>
+        <location filename="../properties/propertieswidget.ui" line="825"/>
+        <location filename="../properties/propertieswidget.ui" line="828"/>
         <source>Do not download</source>
         <translation>არ ჩამოიტვირთოს</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.cpp" line="324"/>
-        <location filename="../properties/propertieswidget.cpp" line="325"/>
+        <location filename="../properties/propertieswidget.cpp" line="322"/>
+        <location filename="../properties/propertieswidget.cpp" line="323"/>
         <source>this session</source>
         <translation>ეს სესია</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.cpp" line="329"/>
-        <location filename="../properties/propertieswidget.cpp" line="333"/>
+        <location filename="../properties/propertieswidget.cpp" line="327"/>
+        <location filename="../properties/propertieswidget.cpp" line="331"/>
         <source>/s</source>
         <comment>/second (i.e. per second)</comment>
         <translation>/წ</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.cpp" line="336"/>
+        <location filename="../properties/propertieswidget.cpp" line="334"/>
         <source>Seeded for %1</source>
         <comment>e.g. Seeded for 3m10s</comment>
         <translation>სიდირდება %1</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.cpp" line="340"/>
+        <location filename="../properties/propertieswidget.cpp" line="338"/>
         <source>%1 max</source>
         <comment>e.g. 10 max</comment>
         <translation>%1 მაქს</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.cpp" line="430"/>
-        <location filename="../properties/propertieswidget.cpp" line="452"/>
+        <location filename="../properties/propertieswidget.cpp" line="431"/>
+        <location filename="../properties/propertieswidget.cpp" line="451"/>
         <source>I/O Error</source>
         <translation>I/O შეცდომა</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.cpp" line="430"/>
+        <location filename="../properties/propertieswidget.cpp" line="431"/>
         <source>This file does not exist yet.</source>
         <translation>ეს ფაილი ჯერ არ არსებობს.</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.cpp" line="452"/>
+        <location filename="../properties/propertieswidget.cpp" line="451"/>
         <source>This folder does not exist yet.</source>
         <translation>ეს საქაღალდე ჯერ არ არსებობს.</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.cpp" line="462"/>
+        <location filename="../properties/propertieswidget.cpp" line="461"/>
         <source>Rename...</source>
         <translation>გადარქმევა...</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.cpp" line="471"/>
+        <location filename="../properties/propertieswidget.cpp" line="470"/>
         <source>Priority</source>
         <translation>პრიორიტეტი</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.cpp" line="513"/>
+        <location filename="../properties/propertieswidget.cpp" line="512"/>
         <source>Rename the file</source>
         <translation>ფაილის გადარქმევა</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.cpp" line="514"/>
+        <location filename="../properties/propertieswidget.cpp" line="513"/>
         <source>New name:</source>
         <translation>ახალი სახელი:</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.cpp" line="518"/>
-        <location filename="../properties/propertieswidget.cpp" line="549"/>
+        <location filename="../properties/propertieswidget.cpp" line="517"/>
+        <location filename="../properties/propertieswidget.cpp" line="548"/>
         <source>The file could not be renamed</source>
         <translation>ფაილის გადარქმევა ვერ მოხერხდა</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.cpp" line="519"/>
+        <location filename="../properties/propertieswidget.cpp" line="518"/>
         <source>This file name contains forbidden characters, please choose a different one.</source>
         <translation>ფაილის სახელი შეიცავს აკრძალულ სიმბოლოებს, გთხოვთ აირჩიეთ სხვა სახელი.</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.cpp" line="550"/>
-        <location filename="../properties/propertieswidget.cpp" line="588"/>
+        <location filename="../properties/propertieswidget.cpp" line="549"/>
+        <location filename="../properties/propertieswidget.cpp" line="587"/>
         <source>This name is already in use in this folder. Please use a different name.</source>
         <translation>ამ საქაღალდეში ეს სახელი უკვე გამოიყენება. გთხოვთ აირჩიეთ სხვა სახელი.</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.cpp" line="587"/>
+        <location filename="../properties/propertieswidget.cpp" line="586"/>
         <source>The folder could not be renamed</source>
         <translation>საქაღალდის გადარქმევა ვერ მოხერხდა</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.cpp" line="626"/>
+        <location filename="../properties/propertieswidget.cpp" line="625"/>
         <source>New url seed</source>
         <comment>New HTTP source</comment>
         <translation>ახალი სიდის ბმული</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.cpp" line="627"/>
+        <location filename="../properties/propertieswidget.cpp" line="626"/>
         <source>New url seed:</source>
         <translation>ახალი სიდის ბმული:</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.cpp" line="632"/>
+        <location filename="../properties/propertieswidget.cpp" line="631"/>
         <source>qBittorrent</source>
         <translation>qBittorrent</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.cpp" line="633"/>
+        <location filename="../properties/propertieswidget.cpp" line="632"/>
         <source>This url seed is already in the list.</source>
         <translation>ეს ბმული უკვე სიაშია.</translation>
     </message>
     <message>
-        <location filename="../properties/propertieswidget.cpp" line="675"/>
-        <location filename="../properties/propertieswidget.cpp" line="678"/>
         <source>Choose save path</source>
-        <translation>აირჩიეთ შესანახი მდებარეობა</translation>
+        <translation type="obsolete">აირჩიეთ შესანახი მდებარეობა</translation>
     </message>
 </context>
 <context>
     <name>QBtSession</name>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="291"/>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="297"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="233"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="239"/>
         <source>%1 reached the maximum ratio you set.</source>
         <translation>%1-მა მიაღწია თქვენს მიერ დაყენებულ მაქს. შეფარდებას.</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="292"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="234"/>
         <source>Removing torrent %1...</source>
         <translation>ტორენტის წაშლა %1...</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="298"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="240"/>
         <source>Pausing torrent %1...</source>
         <translation>ტორენტის დაპაუზება %1...</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="352"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="290"/>
         <source>qBittorrent is bound to port: TCP/%1</source>
         <comment>e.g: qBittorrent is bound to port: 6881</comment>
         <translation>qBittorrent მიბმულია პორტზე: TCP/%1</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="449"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="386"/>
         <source>HTTP user agent is %1</source>
         <translation>HTTP მომხმარებლის აგენტი არის %1</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="478"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="410"/>
         <source>Anonymous mode [ON]</source>
         <translation>ანონიმური რეჟიმი [ჩართულია]</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="510"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="412"/>
+        <source>Anonymous mode [OFF]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="444"/>
         <source>Reporting IP address %1 to trackers...</source>
         <translation>IP მისამართის %1 შეტყობინება ტრეკერებისთვის...</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="564"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="496"/>
         <source>DHT support [ON], port: UDP/%1</source>
         <translation>DHT მხარდაჭერა [ჩართულია], პორტი: UDP/%1</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="566"/>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="570"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="498"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="502"/>
         <source>DHT support [OFF]</source>
         <translation>DHT მხარდაჭერა [გამორთულია]</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="574"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="506"/>
         <source>PeX support [ON]</source>
         <translation>PeX მხარდაჭერა [ჩართულია]</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="576"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="508"/>
         <source>PeX support [OFF]</source>
         <translation>PeX მხარდაჭერა [გამორთულია]</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="579"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="511"/>
         <source>Restart is required to toggle PeX support</source>
         <translation>PeX მხარდაჭერის გადასართველად საჭიროა გადატვირთვა</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="587"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="519"/>
         <source>Local Peer Discovery support [OFF]</source>
         <translation>ლოკალური პირების აღმოჩენის მხარდაჭერა [გამორთულია]</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="599"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="531"/>
         <source>Encryption support [ON]</source>
         <translation>დაშიფვრის მხარდაჭერა [ჩართულია]</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="604"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="536"/>
         <source>Encryption support [FORCED]</source>
         <translation>დაშიფვრის მხარდაჭერა [იძულებითი]</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="609"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="541"/>
         <source>Encryption support [OFF]</source>
         <translation>დაშიფვრის მხარდაჭერა [გამორთულია]</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="670"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="602"/>
         <source>Embedded Tracker [ON]</source>
         <translation>ჩადგმული ტრეკერი [ჩართულია]</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="672"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="604"/>
         <source>Failed to start the embedded tracker!</source>
         <translation>ჩადგმული ტრეკერის დაწყება ჩაიშალა!</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="675"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="607"/>
         <source>Embedded Tracker [OFF]</source>
         <translation>ჩადგმული ტრეკერი [გამორთულია]</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="729"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="661"/>
         <source>The Web UI is listening on port %1</source>
         <translation>ვებ ინტერფეისი უსმენს %1 პორტს</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="731"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="663"/>
         <source>Web User Interface Error - Unable to bind Web UI to port %1</source>
         <translation>ვებ ინტერფეისის შეცდომა - ვერ მოხერხდა ვებ ინტერფეისის მიბმა %1 პორტზე</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="868"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="804"/>
         <source>&apos;%1&apos; was removed from transfer list and hard disk.</source>
         <comment>&apos;xxx.avi&apos; was removed...</comment>
         <translation>&apos;%1&apos; წაიშალა ტრანსფერების სიიდან და მყარი დისკიდან.</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="870"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="806"/>
         <source>&apos;%1&apos; was removed from transfer list.</source>
         <comment>&apos;xxx.avi&apos; was removed...</comment>
         <translation>&apos;%1&apos; წაიშალა ტრანსფერების სიიდან.</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="952"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="898"/>
         <source>&apos;%1&apos; is not a valid magnet URI.</source>
         <translation>&apos;%1&apos; არ არის სწორი მაგნიტური ბმული.</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="968"/>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1091"/>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1096"/>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1098"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="914"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="1047"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="1052"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="1054"/>
         <source>&apos;%1&apos; is already in download list.</source>
         <comment>e.g: &apos;xxx.avi&apos; is already in download list.</comment>
         <translation>&apos;%1&apos; უკვე არის ტრანსფერების სიაში.</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1242"/>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1250"/>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1255"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="1179"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="1184"/>
         <source>&apos;%1&apos; resumed. (fast resume)</source>
         <comment>&apos;/home/y/xxx.torrent&apos; was resumed. (fast resume)</comment>
         <translation>&apos;%1&apos; გაგრძელდა. (სწრაფი გაგრძელება)</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2325"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2267"/>
         <source>The computer will now go to sleep mode unless you cancel within the next 15 seconds...</source>
         <translation>კომპიუტერი ახლა გადავა ძილის რეჟიმში, თქვენ ამის გასაუქმებლად გაქვთ 15 წამი...</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2327"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2269"/>
         <source>The computer will now be switched off unless you cancel within the next 15 seconds...</source>
         <translation>კომპიუტერი ახლა გამოირთვება, თქვენ ამის გასაუქმებლად გაქვთ 15 წამი...</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2329"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2271"/>
         <source>qBittorrent will now exit unless you cancel within the next 15 seconds...</source>
         <translation>qBittorrent ახლა გამოვა, თქვენ ამის გასუქმებლად გაქვთ 15 წამი...</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2943"/>
-        <source>Successfuly parsed the provided IP filter: %1 rules were applied.</source>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2816"/>
+        <source>Successfully parsed the provided IP filter: %1 rules were applied.</source>
         <comment>%1 is a number</comment>
-        <translation>მოწოდებული IP ფილტრი წარმატებით გაანალიზდა: მიღებული იქნა %1 წესი.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2949"/>
+        <source>Successfuly parsed the provided IP filter: %1 rules were applied.</source>
+        <comment>%1 is a number</comment>
+        <translation type="obsolete">მოწოდებული IP ფილტრი წარმატებით გაანალიზდა: მიღებული იქნა %1 წესი.</translation>
+    </message>
+    <message>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2822"/>
         <source>Error: Failed to parse the provided IP filter.</source>
         <translation>შეცდომა: მოწოდებული IP ფილტრის ანალიზი ჩაიშალა.</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1024"/>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1244"/>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1252"/>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1257"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="979"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="1181"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="1186"/>
         <source>&apos;%1&apos; added to download list.</source>
         <comment>&apos;/home/y/xxx.torrent&apos; was added to download list.</comment>
         <translation>&apos;%1&apos; დაემატა ტრანსფერების სიას.</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="440"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="377"/>
         <source>UPnP / NAT-PMP support [ON]</source>
         <translation>UPnP / NAT-PMP მხარდაჭერა [ჩართულია]</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="443"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="380"/>
         <source>UPnP / NAT-PMP support [OFF]</source>
         <translation>UPnP / NAT-PMP მხარდაჭერა [გამორთულია]</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="584"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="516"/>
         <source>Local Peer Discovery support [ON]</source>
         <translation>ლოკალური პირების აღმოჩენის მხარდაჭერა [ჩართულია]</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1059"/>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1067"/>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1069"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="1015"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="1023"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="1025"/>
         <source>Unable to decode torrent file: &apos;%1&apos;</source>
         <comment>e.g: Unable to decode torrent file: &apos;/home/y/xxx.torrent&apos;</comment>
         <translation>ტორენტ ფაილის დეკოდირება ვერ მოხერხდა: &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1073"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="1029"/>
         <source>This file is either corrupted or this isn&apos;t a torrent.</source>
         <translation>ეს ფაილი ან დაზიანებულია ან ის არ არის ტორენტი.</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1113"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="1070"/>
         <source>Error: The torrent %1 does not contain any file.</source>
         <translation>შეცდომა: ტორენტი %1 არ შეიცავს არანაირ ფაილს.</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1403"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="1320"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="1348"/>
         <source>Note: new trackers were added to the existing torrent.</source>
         <translation>შენიშვნა:არსებულ ტორენტს დაემატა ახალი ტრეკერები.</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1429"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="1378"/>
         <source>Note: new URL seeds were added to the existing torrent.</source>
         <translation>შენიშვნა: არსებულ ტორენტს დაემატა ახალი სიდერების ბმულები.</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1790"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="1720"/>
         <source>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;was blocked due to your IP filter&lt;/i&gt;</source>
         <comment>x.y.z.w was blocked</comment>
         <translation>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;დაიბლოკა თქვენი IP ფილტრის მიხედვით&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1792"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="1722"/>
         <source>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;was banned due to corrupt pieces&lt;/i&gt;</source>
         <comment>x.y.z.w was banned</comment>
         <translation>&lt;font color=&apos;red&apos;&gt;%1&lt;/font&gt; &lt;i&gt;დაიბლოკა დაზიანებული ნაწილების გამო&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1970"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="1918"/>
         <source>The network interface defined is invalid: %1</source>
         <translation>განსაზღვრული ქსელის ინტერფეისი არასწორია: %1</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1971"/>
         <source>Trying any other network interface available instead.</source>
-        <translation>ნებისმიერი სხვა ქსელის ინტერფეისის ცდა.</translation>
+        <translation type="obsolete">ნებისმიერი სხვა ქსელის ინტერფეისის ცდა.</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1994"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="1936"/>
         <source>Listening on IP address %1 on network interface %2...</source>
         <translation>%1 IP მისამართის მოსმენა %2 ქსელის ინტერფეისზე...</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="1997"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="1939"/>
         <source>Failed to listen on network interface %1</source>
         <translation>ქსელის ინტერფეისის მოსმენა ჩაიშალა %1</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2178"/>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2180"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2120"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2122"/>
         <source>Recursive download of file %1 embedded in torrent %2</source>
         <comment>Recursive download of test.torrent embedded in torrent test2</comment>
         <translation> %2 ტორენტში ჩადგმული %1 ფაილის რეკურსიული ჩამოტვირთვა ჩაიშალა</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2275"/>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2277"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2217"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2219"/>
         <source>Unable to decode %1 torrent file.</source>
         <translation>%1 ტორენტ ფაილის გაშიფვრა ვერ მოხერხდა.</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2225"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2167"/>
         <source>Torrent name: %1</source>
         <translation>ტორენტის სახელი: %1</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2226"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2168"/>
         <source>Torrent size: %1</source>
         <translation>ტორენტის ზომა: %1</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2227"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2169"/>
         <source>Save path: %1</source>
         <translation>შესანახი მდებარეობა: %1</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2228"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2170"/>
         <source>The torrent was downloaded in %1.</source>
         <comment>The torrent was downloaded in 1 hour and 20 seconds</comment>
         <translation>ტორენტის ჩამოტვირთვის დრო არის %1.</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2229"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2171"/>
         <source>Thank you for using qBittorrent.</source>
         <translation>მადლობას გიხდით qBittorrent-ის გამოყენებისთვის.</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2232"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2174"/>
         <source>[qBittorrent] %1 has finished downloading</source>
         <translation>[qBittorrent] %1 -ის ჩამოტვირთვა დასრულდა</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2496"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2406"/>
         <source>An I/O error occured, &apos;%1&apos; paused.</source>
         <translation>დაფიქსირდა I/O შეცდომა, &apos;%1 დაპაუზდა.</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2497"/>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2627"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2407"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2518"/>
         <source>Reason: %1</source>
         <translation>მიზეზი: %1</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2586"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2482"/>
         <source>UPnP/NAT-PMP: Port mapping failure, message: %1</source>
         <translation>UPnP/NAT-PMP: პორტის განლაგება ჩაიშალა, შეტყობინება: %1</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2591"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2487"/>
         <source>UPnP/NAT-PMP: Port mapping successful, message: %1</source>
         <translation>UPnP/NAT-PMP: პორტის განლაგება წარმატებით დასრულდა, შეტყობინება: %1</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2622"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2513"/>
         <source>File sizes mismatch for torrent %1, pausing it.</source>
         <translation>%1 ტორენტის ფაილის ზომები არ , მოხდება მისი დაპაუზება.</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2626"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2517"/>
         <source>Fast resume data was rejected for torrent %1, checking again...</source>
         <translation>სწრაფი გაგრძელებების მონაცემები უარყოფილი იქნა %1 ტორენტის მიერ, მოწმედება ხელახლა...</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2632"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2523"/>
         <source>Url seed lookup failed for url: %1, message: %2</source>
         <translation>სიდის ბმულით მოძებნა ჩაიშალა ბმულისთვის: %1, შეტყობინება: %2</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/qbtsession.cpp" line="2761"/>
+        <location filename="../qtlibtorrent/qbtsession.cpp" line="2646"/>
         <source>Downloading &apos;%1&apos;, please wait...</source>
         <comment>e.g: Downloading &apos;xxx.torrent&apos;, please wait...</comment>
         <translation>&apos;%1 იტვირთება, გთხოვთ დაელოდეთ...</translation>
@@ -3119,111 +3302,111 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>RSSImp</name>
     <message>
-        <location filename="../rss/rss_imp.cpp" line="203"/>
+        <location filename="../rss/rss_imp.cpp" line="204"/>
         <source>Please type a rss stream url</source>
         <translation>გთხოვთ შეიყვანეთ RSS არხის ბმული</translation>
     </message>
     <message>
-        <location filename="../rss/rss_imp.cpp" line="203"/>
+        <location filename="../rss/rss_imp.cpp" line="204"/>
         <source>Stream URL:</source>
         <translation>არხის ბმული:</translation>
     </message>
     <message>
-        <location filename="../rss/rss_imp.cpp" line="237"/>
-        <location filename="../rss/rss_imp.cpp" line="241"/>
+        <location filename="../rss/rss_imp.cpp" line="238"/>
+        <location filename="../rss/rss_imp.cpp" line="242"/>
         <source>Are you sure? -- qBittorrent</source>
         <translation>დარწმუნებული ხართ? -- qBittorrent</translation>
     </message>
     <message>
-        <location filename="../rss/rss_imp.cpp" line="238"/>
-        <location filename="../rss/rss_imp.cpp" line="242"/>
+        <location filename="../rss/rss_imp.cpp" line="239"/>
+        <location filename="../rss/rss_imp.cpp" line="243"/>
         <source>&amp;Yes</source>
         <translation>&amp;დიახ</translation>
     </message>
     <message>
-        <location filename="../rss/rss_imp.cpp" line="238"/>
-        <location filename="../rss/rss_imp.cpp" line="242"/>
+        <location filename="../rss/rss_imp.cpp" line="239"/>
+        <location filename="../rss/rss_imp.cpp" line="243"/>
         <source>&amp;No</source>
         <translation>&amp;არა</translation>
     </message>
     <message>
-        <location filename="../rss/rss_imp.cpp" line="149"/>
+        <location filename="../rss/rss_imp.cpp" line="150"/>
         <source>Please choose a folder name</source>
         <translation>გთხოვთ აირჩიეთ საქაღალდის სახელი</translation>
     </message>
     <message>
-        <location filename="../rss/rss_imp.cpp" line="149"/>
+        <location filename="../rss/rss_imp.cpp" line="150"/>
         <source>Folder name:</source>
         <translation>საქაღალდის სახელი:</translation>
     </message>
     <message>
-        <location filename="../rss/rss_imp.cpp" line="149"/>
+        <location filename="../rss/rss_imp.cpp" line="150"/>
         <source>New folder</source>
         <translation>ახალი საქაღალდე</translation>
     </message>
     <message>
-        <location filename="../rss/rss_imp.cpp" line="170"/>
+        <location filename="../rss/rss_imp.cpp" line="171"/>
         <source>Overwrite attempt</source>
         <translation>გადაწერის მცდელობა</translation>
     </message>
     <message>
-        <location filename="../rss/rss_imp.cpp" line="171"/>
+        <location filename="../rss/rss_imp.cpp" line="172"/>
         <source>You cannot overwrite %1 item.</source>
         <comment>You cannot overwrite myFolder item.</comment>
         <translation>თქვენ არ შეგიძლიათ %1 ელემენტზე გადაწერა.</translation>
     </message>
     <message>
-        <location filename="../rss/rss_imp.cpp" line="208"/>
+        <location filename="../rss/rss_imp.cpp" line="209"/>
         <source>qBittorrent</source>
         <translation>qBittorrent</translation>
     </message>
     <message>
-        <location filename="../rss/rss_imp.cpp" line="209"/>
+        <location filename="../rss/rss_imp.cpp" line="210"/>
         <source>This rss feed is already in the list.</source>
         <translation>ეს RSS არხი უკვე სიაშია.</translation>
     </message>
     <message>
-        <location filename="../rss/rss_imp.cpp" line="237"/>
+        <location filename="../rss/rss_imp.cpp" line="238"/>
         <source>Are you sure you want to delete these elements from the list?</source>
         <translation>დარწმუნებული ხართ რომ სიიდან ამ ელემენტების წაშლა გსურთ?</translation>
     </message>
     <message>
-        <location filename="../rss/rss_imp.cpp" line="241"/>
+        <location filename="../rss/rss_imp.cpp" line="242"/>
         <source>Are you sure you want to delete this element from the list?</source>
         <translation>დარწმუნებული ხართ რომ სიიდან ამ ელემენტის წაშლა გსურთ?</translation>
     </message>
     <message>
-        <location filename="../rss/rss_imp.cpp" line="357"/>
+        <location filename="../rss/rss_imp.cpp" line="371"/>
         <source>Please choose a new name for this RSS feed</source>
         <translation>გთხოვთ აირჩიეთ ახალი სახელი ამ RSS არხისთვის</translation>
     </message>
     <message>
-        <location filename="../rss/rss_imp.cpp" line="357"/>
+        <location filename="../rss/rss_imp.cpp" line="371"/>
         <source>New feed name:</source>
         <translation>არხის ახალი სახელი:</translation>
     </message>
     <message>
-        <location filename="../rss/rss_imp.cpp" line="361"/>
+        <location filename="../rss/rss_imp.cpp" line="375"/>
         <source>Name already in use</source>
         <translation>სახელი უკვე გამოიყენება</translation>
     </message>
     <message>
-        <location filename="../rss/rss_imp.cpp" line="361"/>
+        <location filename="../rss/rss_imp.cpp" line="375"/>
         <source>This name is already used by another item, please choose another one.</source>
         <translation>ეს სახელი უკვე გამოიყენება სხვა ელემენტის მიერ, გთხოვთ აირჩიეთ სხვა სახელი.</translation>
     </message>
     <message>
-        <location filename="../rss/rss_imp.cpp" line="514"/>
+        <location filename="../rss/rss_imp.cpp" line="530"/>
         <source>Date: </source>
         <translation>თარიღი:</translation>
     </message>
     <message>
-        <location filename="../rss/rss_imp.cpp" line="517"/>
+        <location filename="../rss/rss_imp.cpp" line="533"/>
         <source>Author: </source>
         <translation>ავტორი:</translation>
     </message>
     <message>
-        <location filename="../rss/rss_imp.cpp" line="563"/>
+        <location filename="../rss/rss_imp.cpp" line="579"/>
         <source>Unread</source>
         <translation>წაუკითხავი</translation>
     </message>
@@ -3231,7 +3414,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>RssFeed</name>
     <message>
-        <location filename="../rss/rssfeed.cpp" line="316"/>
+        <location filename="../rss/rssfeed.cpp" line="331"/>
         <source>Automatically downloading %1 torrent from %2 RSS feed...</source>
         <translation>%1 ტორენტის ავტომატურად ჩამოტვირთვა %2 RSS არხიდან...</translation>
     </message>
@@ -3275,47 +3458,47 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>SearchCategories</name>
     <message>
-        <location filename="../searchengine/supportedengines.h" line="51"/>
+        <location filename="../searchengine/supportedengines.h" line="52"/>
         <source>All categories</source>
         <translation>ყველა კატეგორია</translation>
     </message>
     <message>
-        <location filename="../searchengine/supportedengines.h" line="52"/>
+        <location filename="../searchengine/supportedengines.h" line="53"/>
         <source>Movies</source>
         <translation>ფილმები</translation>
     </message>
     <message>
-        <location filename="../searchengine/supportedengines.h" line="53"/>
+        <location filename="../searchengine/supportedengines.h" line="54"/>
         <source>TV shows</source>
         <translation>სერიალები</translation>
     </message>
     <message>
-        <location filename="../searchengine/supportedengines.h" line="54"/>
+        <location filename="../searchengine/supportedengines.h" line="55"/>
         <source>Music</source>
         <translation>მუსიკა</translation>
     </message>
     <message>
-        <location filename="../searchengine/supportedengines.h" line="55"/>
+        <location filename="../searchengine/supportedengines.h" line="56"/>
         <source>Games</source>
         <translation>თამაშები</translation>
     </message>
     <message>
-        <location filename="../searchengine/supportedengines.h" line="56"/>
+        <location filename="../searchengine/supportedengines.h" line="57"/>
         <source>Anime</source>
         <translation>ანიმე</translation>
     </message>
     <message>
-        <location filename="../searchengine/supportedengines.h" line="57"/>
+        <location filename="../searchengine/supportedengines.h" line="58"/>
         <source>Software</source>
         <translation>პროგრამა</translation>
     </message>
     <message>
-        <location filename="../searchengine/supportedengines.h" line="58"/>
+        <location filename="../searchengine/supportedengines.h" line="59"/>
         <source>Pictures</source>
         <translation>სურათები</translation>
     </message>
     <message>
-        <location filename="../searchengine/supportedengines.h" line="59"/>
+        <location filename="../searchengine/supportedengines.h" line="60"/>
         <source>Books</source>
         <translation>წიგნები</translation>
     </message>
@@ -3323,128 +3506,121 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>SearchEngine</name>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="212"/>
         <source>Cut</source>
-        <translation>ამოჭრა</translation>
+        <translation type="obsolete">ამოჭრა</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="213"/>
         <source>Copy</source>
-        <translation>კოპირება</translation>
+        <translation type="obsolete">კოპირება</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="214"/>
         <source>Paste</source>
-        <translation>ჩასმა</translation>
+        <translation type="obsolete">ჩასმა</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="215"/>
         <source>Clear field</source>
-        <translation>ველის გასუფთავება</translation>
+        <translation type="obsolete">ველის გასუფთავება</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="216"/>
         <source>Clear completion history</source>
-        <translation>დასრულების ისტორიის გასუფთავება</translation>
+        <translation type="obsolete">დასრულების ისტორიის გასუფთავება</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="235"/>
         <source>Confirmation</source>
-        <translation>დასტური</translation>
+        <translation type="obsolete">დასტური</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="235"/>
         <source>Are you sure you want to clear the history?</source>
-        <translation>დარწმუნებული ხართ რომ ისტორიის გასუფთავება გსურთ?</translation>
+        <translation type="obsolete">დარწმუნებული ხართ რომ ისტორიის გასუფთავება გსურთ?</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="289"/>
-        <location filename="../searchengine/searchengine.cpp" line="319"/>
-        <location filename="../searchengine/searchengine.cpp" line="320"/>
+        <location filename="../searchengine/searchengine.cpp" line="221"/>
+        <location filename="../searchengine/searchengine.cpp" line="251"/>
+        <location filename="../searchengine/searchengine.cpp" line="252"/>
         <source>Search</source>
         <translation>ძებნა</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="300"/>
+        <location filename="../searchengine/searchengine.cpp" line="232"/>
         <source>Missing Python Interpreter</source>
         <translation>Python Interpreter არ აყენია</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="301"/>
+        <location filename="../searchengine/searchengine.cpp" line="233"/>
         <source>Python 2.x is required to use the search engine but it does not seem to be installed.
 Do you want to install it now?</source>
         <translation>საძიებო სისტემების გამოსაყენებლად საჭიროა Python 2.x-ის დაინსტალირება.
 გსურთ ახლავე დაინსტალირება?</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="331"/>
+        <location filename="../searchengine/searchengine.cpp" line="263"/>
         <source>Empty search pattern</source>
         <translation>ცარიელი საძიებო შაბლონი</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="331"/>
+        <location filename="../searchengine/searchengine.cpp" line="263"/>
         <source>Please type a search pattern first</source>
         <translation>გთხოვთ პირველ რიგში შეიყვანეთ საძიებო შაბლონი</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="369"/>
-        <location filename="../searchengine/searchengine.cpp" line="465"/>
+        <location filename="../searchengine/searchengine.cpp" line="288"/>
+        <location filename="../searchengine/searchengine.cpp" line="377"/>
         <source>Results</source>
         <translation>შედეგები</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="444"/>
+        <location filename="../searchengine/searchengine.cpp" line="356"/>
         <source>Searching...</source>
         <translation>ძებნა...</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="594"/>
+        <location filename="../searchengine/searchengine.cpp" line="492"/>
         <source>Search Engine</source>
         <translation>საძიებო სისტემა</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="594"/>
-        <location filename="../searchengine/searchengine.cpp" line="609"/>
+        <location filename="../searchengine/searchengine.cpp" line="492"/>
+        <location filename="../searchengine/searchengine.cpp" line="507"/>
         <source>Search has finished</source>
         <translation>ძებნა დასრულდა</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="600"/>
+        <location filename="../searchengine/searchengine.cpp" line="498"/>
         <source>An error occured during search...</source>
         <translation>ძებნისას დაფიქსირდა შეცდომა...</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="598"/>
-        <location filename="../searchengine/searchengine.cpp" line="604"/>
+        <location filename="../searchengine/searchengine.cpp" line="496"/>
+        <location filename="../searchengine/searchengine.cpp" line="502"/>
         <source>Search aborted</source>
         <translation>ძებნა გაუქმდა</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="177"/>
+        <location filename="../searchengine/searchengine.cpp" line="172"/>
         <source>Download error</source>
         <translation>ჩამოტვირთვის შეცდომა</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="177"/>
+        <location filename="../searchengine/searchengine.cpp" line="172"/>
         <source>Python setup could not be downloaded, reason: %1.
 Please install it manually.</source>
         <translation>Python-ის ჩამოტვირთვა ვერ მოხერხდა, მიზეზი: %1.
 გთხოვთ ხელით დააყენეთ ის.</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="607"/>
+        <location filename="../searchengine/searchengine.cpp" line="505"/>
         <source>Search returned no results</source>
         <translation>ძებნა უშედეგოა</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="614"/>
+        <location filename="../searchengine/searchengine.cpp" line="512"/>
         <source>Results</source>
         <comment>i.e: Search results</comment>
         <translation>შედეგები</translation>
     </message>
     <message>
-        <location filename="../searchengine/searchengine.cpp" line="650"/>
-        <location filename="../searchengine/searchengine.cpp" line="656"/>
+        <location filename="../searchengine/searchengine.cpp" line="548"/>
+        <location filename="../searchengine/searchengine.cpp" line="554"/>
         <source>Unknown</source>
         <translation>უცნობია</translation>
     </message>
@@ -3572,56 +3748,79 @@ Please install it manually.</source>
     </message>
 </context>
 <context>
+    <name>TorrentContentModel</name>
+    <message>
+        <location filename="../torrentcontentmodel.cpp" line="39"/>
+        <source>Name</source>
+        <translation type="unfinished">სახელი</translation>
+    </message>
+    <message>
+        <location filename="../torrentcontentmodel.cpp" line="39"/>
+        <source>Size</source>
+        <translation type="unfinished">ზომა</translation>
+    </message>
+    <message>
+        <location filename="../torrentcontentmodel.cpp" line="40"/>
+        <source>Progress</source>
+        <translation type="unfinished">პროგრესი</translation>
+    </message>
+    <message>
+        <location filename="../torrentcontentmodel.cpp" line="40"/>
+        <source>Priority</source>
+        <translation type="unfinished">პრიორიტეტი</translation>
+    </message>
+</context>
+<context>
     <name>TorrentCreatorDlg</name>
     <message>
-        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="73"/>
+        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="74"/>
         <source>Select a folder to add to the torrent</source>
         <translation>აირჩეით ტორენტში დასამატებელი საქაღალდე</translation>
     </message>
     <message>
-        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="89"/>
+        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="90"/>
         <source>Select a file to add to the torrent</source>
         <translation>აირჩეით ტორენტში დასამატებელი ფაილი</translation>
     </message>
     <message>
-        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="112"/>
+        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="113"/>
         <source>No input path set</source>
         <translation>შესატანი მდებარეობა არ მითითებულა</translation>
     </message>
     <message>
-        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="112"/>
+        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="113"/>
         <source>Please type an input path first</source>
         <translation>გთხოვთ ჯერ მიუთითეთ შესატანი მდებარეობა</translation>
     </message>
     <message>
-        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="122"/>
+        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="123"/>
         <source>Select destination torrent file</source>
         <translation>აირჩიეთ დანიშნულების ტორენტ ფაილი</translation>
     </message>
     <message>
-        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="122"/>
+        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="123"/>
         <source>Torrent Files</source>
         <translation>ტორენტ ფაილები</translation>
     </message>
     <message>
-        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="149"/>
-        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="165"/>
-        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="180"/>
+        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="150"/>
+        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="164"/>
+        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="174"/>
         <source>Torrent creation</source>
         <translation>ტორენტის შექმნა</translation>
     </message>
     <message>
-        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="149"/>
+        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="150"/>
         <source>Torrent creation was unsuccessful, reason: %1</source>
         <translation>ტორენტის შექმნა წარუმატებლად დასრულდა, მიზეზი: %1</translation>
     </message>
     <message>
-        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="165"/>
+        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="164"/>
         <source>Created torrent file is invalid. It won&apos;t be added to download list.</source>
         <translation>შექმნილი ტორენტ ფაილი არასწორი. მისი ჩამოტვირთვების სიაში დამატება ვერ მოხერხდა.</translation>
     </message>
     <message>
-        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="180"/>
+        <location filename="../torrentcreator/torrentcreatordlg.cpp" line="174"/>
         <source>Torrent was created successfully:</source>
         <translation>ტორენტი წარმატებით შეიქმნა:</translation>
     </message>
@@ -3629,24 +3828,20 @@ Please install it manually.</source>
 <context>
     <name>TorrentFilesModel</name>
     <message>
-        <location filename="../torrentfilesmodel.h" line="347"/>
         <source>Name</source>
-        <translation>სახელი</translation>
+        <translation type="obsolete">სახელი</translation>
     </message>
     <message>
-        <location filename="../torrentfilesmodel.h" line="347"/>
         <source>Size</source>
-        <translation>ზომა</translation>
+        <translation type="obsolete">ზომა</translation>
     </message>
     <message>
-        <location filename="../torrentfilesmodel.h" line="347"/>
         <source>Progress</source>
-        <translation>პროგრესი</translation>
+        <translation type="obsolete">პროგრესი</translation>
     </message>
     <message>
-        <location filename="../torrentfilesmodel.h" line="347"/>
         <source>Priority</source>
-        <translation>პრიორიტეტი</translation>
+        <translation type="obsolete">პრიორიტეტი</translation>
     </message>
 </context>
 <context>
@@ -3688,39 +3883,39 @@ Please install it manually.</source>
         <translation>შემოტანა</translation>
     </message>
     <message>
-        <location filename="../torrentimportdlg.cpp" line="70"/>
+        <location filename="../torrentimportdlg.cpp" line="68"/>
         <source>Torrent file to import</source>
         <translation>შემოსატანი ტორენტ ფაილი</translation>
     </message>
     <message>
-        <location filename="../torrentimportdlg.cpp" line="70"/>
+        <location filename="../torrentimportdlg.cpp" line="68"/>
         <source>Torrent files (*.torrent)</source>
         <translation>ტორენტის ფაილები (*.torrent)</translation>
     </message>
     <message>
-        <location filename="../torrentimportdlg.cpp" line="95"/>
+        <location filename="../torrentimportdlg.cpp" line="93"/>
         <source>%1 Files</source>
         <comment>%1 is a file extension (e.g. PDF)</comment>
         <translation>%1 ფაილები</translation>
     </message>
     <message>
-        <location filename="../torrentimportdlg.cpp" line="97"/>
+        <location filename="../torrentimportdlg.cpp" line="95"/>
         <source>Please provide the location of %1</source>
         <comment>%1 is a file name</comment>
         <translation>გთხოვთ მიუთითეთ %1-ის მდებარეობა</translation>
     </message>
     <message>
-        <location filename="../torrentimportdlg.cpp" line="134"/>
+        <location filename="../torrentimportdlg.cpp" line="130"/>
         <source>Please point to the location of the torrent: %1</source>
         <translation>გთხოვთ მიუთითეთ ტორენტის მდებარეობა: %1</translation>
     </message>
     <message>
-        <location filename="../torrentimportdlg.cpp" line="242"/>
+        <location filename="../torrentimportdlg.cpp" line="235"/>
         <source>Invalid torrent file</source>
         <translation>არასწორი ტორენტ ფაილი</translation>
     </message>
     <message>
-        <location filename="../torrentimportdlg.cpp" line="242"/>
+        <location filename="../torrentimportdlg.cpp" line="235"/>
         <source>This is not a valid torrent file.</source>
         <translation>ეს არ არის სწორი ტორენტ ფაილი.</translation>
     </message>
@@ -3728,113 +3923,113 @@ Please install it manually.</source>
 <context>
     <name>TorrentModel</name>
     <message>
-        <location filename="../qtlibtorrent/torrentmodel.cpp" line="239"/>
+        <location filename="../qtlibtorrent/torrentmodel.cpp" line="246"/>
         <source>Name</source>
         <comment>i.e: torrent name</comment>
         <translation>სახელი</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/torrentmodel.cpp" line="241"/>
+        <location filename="../qtlibtorrent/torrentmodel.cpp" line="248"/>
         <source>Size</source>
         <comment>i.e: torrent size</comment>
         <translation>ზომა</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/torrentmodel.cpp" line="242"/>
+        <location filename="../qtlibtorrent/torrentmodel.cpp" line="249"/>
         <source>Done</source>
         <comment>% Done</comment>
         <translation>დასრულდა</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/torrentmodel.cpp" line="243"/>
+        <location filename="../qtlibtorrent/torrentmodel.cpp" line="250"/>
         <source>Status</source>
         <comment>Torrent status (e.g. downloading, seeding, paused)</comment>
         <translation>სტატუსი</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/torrentmodel.cpp" line="244"/>
+        <location filename="../qtlibtorrent/torrentmodel.cpp" line="251"/>
         <source>Seeds</source>
         <comment>i.e. full sources (often untranslated)</comment>
         <translation>სიდერები</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/torrentmodel.cpp" line="245"/>
+        <location filename="../qtlibtorrent/torrentmodel.cpp" line="252"/>
         <source>Peers</source>
         <comment>i.e. partial sources (often untranslated)</comment>
         <translation>პირები</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/torrentmodel.cpp" line="246"/>
+        <location filename="../qtlibtorrent/torrentmodel.cpp" line="253"/>
         <source>Down Speed</source>
         <comment>i.e: Download speed</comment>
         <translation>ჩამოტვირთვის სიჩქარე</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/torrentmodel.cpp" line="247"/>
+        <location filename="../qtlibtorrent/torrentmodel.cpp" line="254"/>
         <source>Up Speed</source>
         <comment>i.e: Upload speed</comment>
         <translation>ატვირთვის სიჩქარე</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/torrentmodel.cpp" line="248"/>
+        <location filename="../qtlibtorrent/torrentmodel.cpp" line="255"/>
         <source>Ratio</source>
         <comment>Share ratio</comment>
         <translation>შეფარდება</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/torrentmodel.cpp" line="249"/>
+        <location filename="../qtlibtorrent/torrentmodel.cpp" line="256"/>
         <source>ETA</source>
         <comment>i.e: Estimated Time of Arrival / Time left</comment>
         <translation>დარჩენილი დრო</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/torrentmodel.cpp" line="250"/>
+        <location filename="../qtlibtorrent/torrentmodel.cpp" line="257"/>
         <source>Label</source>
         <translation>იარლიყი</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/torrentmodel.cpp" line="251"/>
+        <location filename="../qtlibtorrent/torrentmodel.cpp" line="258"/>
         <source>Added On</source>
         <comment>Torrent was added to transfer list on 01/01/2010 08:00</comment>
         <translation>დამატების თარიღი</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/torrentmodel.cpp" line="252"/>
+        <location filename="../qtlibtorrent/torrentmodel.cpp" line="259"/>
         <source>Completed On</source>
         <comment>Torrent was completed on 01/01/2010 08:00</comment>
         <translation>დასრულების თარიღი</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/torrentmodel.cpp" line="253"/>
+        <location filename="../qtlibtorrent/torrentmodel.cpp" line="260"/>
         <source>Tracker</source>
         <translation>ტრეკერი</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/torrentmodel.cpp" line="254"/>
+        <location filename="../qtlibtorrent/torrentmodel.cpp" line="261"/>
         <source>Down Limit</source>
         <comment>i.e: Download limit</comment>
         <translation>ჩამოტვირთვის ლიმიტი</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/torrentmodel.cpp" line="255"/>
+        <location filename="../qtlibtorrent/torrentmodel.cpp" line="262"/>
         <source>Up Limit</source>
         <comment>i.e: Upload limit</comment>
         <translation>ატვირთვის ლიმიტი</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/torrentmodel.cpp" line="256"/>
+        <location filename="../qtlibtorrent/torrentmodel.cpp" line="263"/>
         <source>Amount downloaded</source>
         <comment>Amount of data downloaded (e.g. in MB)</comment>
         <translation>ჩამოტვირთულის მოცულობა</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/torrentmodel.cpp" line="257"/>
+        <location filename="../qtlibtorrent/torrentmodel.cpp" line="264"/>
         <source>Amount left</source>
         <comment>Amount of data left to download (e.g. in MB)</comment>
         <translation>დარჩენილის მოცულობა</translation>
     </message>
     <message>
-        <location filename="../qtlibtorrent/torrentmodel.cpp" line="258"/>
+        <location filename="../qtlibtorrent/torrentmodel.cpp" line="265"/>
         <source>Time Active</source>
         <comment>Time (duration) the torrent is active (not paused)</comment>
         <translation>აქტიურობის დრო</translation>
@@ -3878,57 +4073,53 @@ Please install it manually.</source>
         <translation>[LSD]</translation>
     </message>
     <message>
-        <location filename="../properties/trackerlist.cpp" line="205"/>
-        <location filename="../properties/trackerlist.cpp" line="215"/>
-        <location filename="../properties/trackerlist.cpp" line="221"/>
-        <location filename="../properties/trackerlist.cpp" line="252"/>
-        <location filename="../properties/trackerlist.cpp" line="270"/>
+        <location filename="../properties/trackerlist.cpp" line="191"/>
+        <location filename="../properties/trackerlist.cpp" line="201"/>
+        <location filename="../properties/trackerlist.cpp" line="207"/>
+        <location filename="../properties/trackerlist.cpp" line="257"/>
         <source>Working</source>
         <translation>მუშაობს</translation>
     </message>
     <message>
-        <location filename="../properties/trackerlist.cpp" line="207"/>
-        <location filename="../properties/trackerlist.cpp" line="217"/>
-        <location filename="../properties/trackerlist.cpp" line="223"/>
+        <location filename="../properties/trackerlist.cpp" line="193"/>
+        <location filename="../properties/trackerlist.cpp" line="203"/>
+        <location filename="../properties/trackerlist.cpp" line="209"/>
         <source>Disabled</source>
         <translation>გამორთულია</translation>
     </message>
     <message>
-        <location filename="../properties/trackerlist.cpp" line="211"/>
+        <location filename="../properties/trackerlist.cpp" line="196"/>
         <source>This torrent is private</source>
         <translation>ეს პირადი ტორენტია</translation>
     </message>
     <message>
-        <location filename="../properties/trackerlist.cpp" line="256"/>
+        <location filename="../properties/trackerlist.cpp" line="261"/>
         <source>Updating...</source>
         <translation>ნახლდება...</translation>
     </message>
     <message>
-        <location filename="../properties/trackerlist.cpp" line="260"/>
-        <location filename="../properties/trackerlist.cpp" line="274"/>
+        <location filename="../properties/trackerlist.cpp" line="265"/>
         <source>Not working</source>
         <translation>არ მუშაობს</translation>
     </message>
     <message>
-        <location filename="../properties/trackerlist.cpp" line="263"/>
-        <location filename="../properties/trackerlist.cpp" line="277"/>
+        <location filename="../properties/trackerlist.cpp" line="268"/>
         <source>Not contacted yet</source>
         <translation>ჯერ არ დაკავშირებულა</translation>
     </message>
     <message>
-        <location filename="../properties/trackerlist.cpp" line="345"/>
+        <location filename="../properties/trackerlist.cpp" line="338"/>
         <source>Add a new tracker...</source>
         <translation>ახალი ტრეკერის დამატება...</translation>
     </message>
     <message>
-        <location filename="../properties/trackerlist.cpp" line="348"/>
+        <location filename="../properties/trackerlist.cpp" line="341"/>
         <source>Remove tracker</source>
         <translation>ტრეკერის წაშლა</translation>
     </message>
     <message>
-        <location filename="../properties/trackerlist.cpp" line="351"/>
         <source>Force reannounce</source>
-        <translation>ხელახლა გამოცხადების იძულება</translation>
+        <translation type="obsolete">ხელახლა გამოცხადების იძულება</translation>
     </message>
 </context>
 <context>
@@ -3949,32 +4140,32 @@ Please install it manually.</source>
         <translation>µTorrent-თან თავსებადი სიის ბმული:</translation>
     </message>
     <message>
-        <location filename="../properties/trackersadditiondlg.h" line="81"/>
+        <location filename="../properties/trackersadditiondlg.h" line="78"/>
         <source>I/O Error</source>
         <translation>I/O შეცდომა</translation>
     </message>
     <message>
-        <location filename="../properties/trackersadditiondlg.h" line="81"/>
+        <location filename="../properties/trackersadditiondlg.h" line="78"/>
         <source>Error while trying to open the downloaded file.</source>
         <translation>ჩამოტვირთული გაილის გახსნისას დაფიქსირდა შეცდომა.</translation>
     </message>
     <message>
-        <location filename="../properties/trackersadditiondlg.h" line="123"/>
+        <location filename="../properties/trackersadditiondlg.h" line="122"/>
         <source>No change</source>
         <translation>ცვლილება არ არის</translation>
     </message>
     <message>
-        <location filename="../properties/trackersadditiondlg.h" line="123"/>
+        <location filename="../properties/trackersadditiondlg.h" line="122"/>
         <source>No additional trackers were found.</source>
         <translation>დამატებითი ტრეკერები ვერ მოიძებნა.</translation>
     </message>
     <message>
-        <location filename="../properties/trackersadditiondlg.h" line="132"/>
+        <location filename="../properties/trackersadditiondlg.h" line="131"/>
         <source>Download error</source>
         <translation>ჩამოტვირთვის შეცდომა</translation>
     </message>
     <message>
-        <location filename="../properties/trackersadditiondlg.h" line="132"/>
+        <location filename="../properties/trackersadditiondlg.h" line="131"/>
         <source>The trackers list could not be downloaded, reason: %1</source>
         <translation>ტრეკერების სიის ჩამოტვირთვა ვერ მოხერხდა, მიზეზი: %1</translation>
     </message>
@@ -4037,95 +4228,105 @@ Please install it manually.</source>
 <context>
     <name>TransferListFiltersWidget</name>
     <message>
-        <location filename="../transferlistfilterswidget.h" line="205"/>
-        <location filename="../transferlistfilterswidget.h" line="287"/>
+        <location filename="../transferlistfilterswidget.h" line="206"/>
+        <source>Torrents</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../transferlistfilterswidget.h" line="212"/>
+        <source>Labels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../transferlistfilterswidget.h" line="226"/>
+        <location filename="../transferlistfilterswidget.h" line="308"/>
         <source>All</source>
         <translation>ყველა</translation>
     </message>
     <message>
-        <location filename="../transferlistfilterswidget.h" line="208"/>
-        <location filename="../transferlistfilterswidget.h" line="288"/>
+        <location filename="../transferlistfilterswidget.h" line="229"/>
+        <location filename="../transferlistfilterswidget.h" line="309"/>
         <source>Downloading</source>
         <translation>იტვირთება</translation>
     </message>
     <message>
-        <location filename="../transferlistfilterswidget.h" line="211"/>
-        <location filename="../transferlistfilterswidget.h" line="289"/>
+        <location filename="../transferlistfilterswidget.h" line="232"/>
+        <location filename="../transferlistfilterswidget.h" line="310"/>
         <source>Completed</source>
         <translation>დასრულებული</translation>
     </message>
     <message>
-        <location filename="../transferlistfilterswidget.h" line="214"/>
-        <location filename="../transferlistfilterswidget.h" line="290"/>
+        <location filename="../transferlistfilterswidget.h" line="235"/>
+        <location filename="../transferlistfilterswidget.h" line="311"/>
         <source>Paused</source>
         <translation>დაპაუზებული</translation>
     </message>
     <message>
-        <location filename="../transferlistfilterswidget.h" line="217"/>
-        <location filename="../transferlistfilterswidget.h" line="291"/>
+        <location filename="../transferlistfilterswidget.h" line="238"/>
+        <location filename="../transferlistfilterswidget.h" line="312"/>
         <source>Active</source>
         <translation>აქტიური</translation>
     </message>
     <message>
-        <location filename="../transferlistfilterswidget.h" line="220"/>
-        <location filename="../transferlistfilterswidget.h" line="292"/>
+        <location filename="../transferlistfilterswidget.h" line="241"/>
+        <location filename="../transferlistfilterswidget.h" line="313"/>
         <source>Inactive</source>
         <translation>უმოქმედო</translation>
     </message>
     <message>
-        <location filename="../transferlistfilterswidget.h" line="234"/>
-        <location filename="../transferlistfilterswidget.h" line="469"/>
+        <location filename="../transferlistfilterswidget.h" line="255"/>
+        <location filename="../transferlistfilterswidget.h" line="492"/>
         <source>All labels</source>
         <translation>ყველა იარლიყი</translation>
     </message>
     <message>
-        <location filename="../transferlistfilterswidget.h" line="237"/>
-        <location filename="../transferlistfilterswidget.h" line="470"/>
+        <location filename="../transferlistfilterswidget.h" line="258"/>
+        <location filename="../transferlistfilterswidget.h" line="493"/>
         <source>Unlabeled</source>
         <translation>უიარლიყო</translation>
     </message>
     <message>
-        <location filename="../transferlistfilterswidget.h" line="319"/>
+        <location filename="../transferlistfilterswidget.h" line="340"/>
         <source>Remove label</source>
         <translation>იარლიყის წაშლა</translation>
     </message>
     <message>
-        <location filename="../transferlistfilterswidget.h" line="320"/>
+        <location filename="../transferlistfilterswidget.h" line="341"/>
         <source>Add label...</source>
         <translation>იარლიყის დამატება...</translation>
     </message>
     <message>
-        <location filename="../transferlistfilterswidget.h" line="322"/>
+        <location filename="../transferlistfilterswidget.h" line="343"/>
         <source>Resume torrents</source>
         <translation>ტორენტების გაგრძელება</translation>
     </message>
     <message>
-        <location filename="../transferlistfilterswidget.h" line="323"/>
+        <location filename="../transferlistfilterswidget.h" line="344"/>
         <source>Pause torrents</source>
         <translation>ტორენტის დაპაუზება</translation>
     </message>
     <message>
-        <location filename="../transferlistfilterswidget.h" line="324"/>
+        <location filename="../transferlistfilterswidget.h" line="345"/>
         <source>Delete torrents</source>
         <translation>ტორენტების წაშლა</translation>
     </message>
     <message>
-        <location filename="../transferlistfilterswidget.h" line="350"/>
+        <location filename="../transferlistfilterswidget.h" line="371"/>
         <source>New Label</source>
         <translation>ახალი იარლიყი</translation>
     </message>
     <message>
-        <location filename="../transferlistfilterswidget.h" line="350"/>
+        <location filename="../transferlistfilterswidget.h" line="371"/>
         <source>Label:</source>
         <translation>იარლიყი:</translation>
     </message>
     <message>
-        <location filename="../transferlistfilterswidget.h" line="355"/>
+        <location filename="../transferlistfilterswidget.h" line="376"/>
         <source>Invalid label name</source>
         <translation>იარლიყის სახელი არასწორია</translation>
     </message>
     <message>
-        <location filename="../transferlistfilterswidget.h" line="355"/>
+        <location filename="../transferlistfilterswidget.h" line="376"/>
         <source>Please don&apos;t use any special characters in the label name.</source>
         <translation>გთხოვთ იარლიყის სახელში არ გამოიყენოთ სპეციალური სიმბოლოები.</translation>
     </message>
@@ -4133,149 +4334,149 @@ Please install it manually.</source>
 <context>
     <name>TransferListWidget</name>
     <message>
-        <location filename="../transferlistwidget.cpp" line="525"/>
+        <location filename="../transferlistwidget.cpp" line="529"/>
         <source>Column visibility</source>
         <translation>სვეტის ხილვადობა</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="767"/>
+        <location filename="../transferlistwidget.cpp" line="763"/>
         <source>Label</source>
         <translation>იარლიყი</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="228"/>
+        <location filename="../transferlistwidget.cpp" line="232"/>
         <source>Choose save path</source>
         <translation>აირჩიეთ შესანახი მდებარეობა</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="450"/>
+        <location filename="../transferlistwidget.cpp" line="454"/>
         <source>Torrent Download Speed Limiting</source>
         <translation>ტორენტის ჩამოტვირთვის სიჩქარის ლიმიტირება</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="483"/>
+        <location filename="../transferlistwidget.cpp" line="487"/>
         <source>Torrent Upload Speed Limiting</source>
         <translation>ტორენტის ატვირთვის სიჩქარის ლიმიტირება</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="590"/>
+        <location filename="../transferlistwidget.cpp" line="592"/>
         <source>New Label</source>
         <translation>ახალი იარლიყი</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="590"/>
+        <location filename="../transferlistwidget.cpp" line="592"/>
         <source>Label:</source>
         <translation>იარლიყი:</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="595"/>
+        <location filename="../transferlistwidget.cpp" line="597"/>
         <source>Invalid label name</source>
         <translation>იარლიყის სახელი არასწორია</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="595"/>
+        <location filename="../transferlistwidget.cpp" line="597"/>
         <source>Please don&apos;t use any special characters in the label name.</source>
         <translation>გთხოვთ იარლიყის სახელში არ გამოიყენოთ სპეციალური სიმბოლოები.</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="611"/>
+        <location filename="../transferlistwidget.cpp" line="613"/>
         <source>Rename</source>
         <translation>გადარქმევა</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="611"/>
+        <location filename="../transferlistwidget.cpp" line="613"/>
         <source>New name:</source>
         <translation>ახალი სახელი:</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="645"/>
+        <location filename="../transferlistwidget.cpp" line="647"/>
         <source>Resume</source>
         <comment>Resume/start the torrent</comment>
         <translation>გაგრძელება</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="647"/>
+        <location filename="../transferlistwidget.cpp" line="649"/>
         <source>Pause</source>
         <comment>Pause the torrent</comment>
         <translation>დაპაუზება</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="649"/>
+        <location filename="../transferlistwidget.cpp" line="651"/>
         <source>Delete</source>
         <comment>Delete the torrent</comment>
         <translation>წაშლა</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="651"/>
+        <location filename="../transferlistwidget.cpp" line="653"/>
         <source>Preview file...</source>
         <translation>გაილის გადახედვა...</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="653"/>
+        <location filename="../transferlistwidget.cpp" line="655"/>
         <source>Limit share ratio...</source>
         <translation>გაზიარების შეფარდების ლიმიტი...</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="655"/>
+        <location filename="../transferlistwidget.cpp" line="657"/>
         <source>Limit upload rate...</source>
         <translation>ატვირთვის შეფარდების ლიმიტი...</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="657"/>
+        <location filename="../transferlistwidget.cpp" line="659"/>
         <source>Limit download rate...</source>
         <translation>ჩამოტვირთვის შეფარდების ლიმიტი...</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="659"/>
+        <location filename="../transferlistwidget.cpp" line="661"/>
         <source>Open destination folder</source>
         <translation>დანიშნულების საქაღალდის გახსნა</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="661"/>
+        <location filename="../transferlistwidget.cpp" line="663"/>
         <source>Move up</source>
         <comment>i.e. move up in the queue</comment>
         <translation>მაღლა ატანა</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="663"/>
+        <location filename="../transferlistwidget.cpp" line="665"/>
         <source>Move down</source>
         <comment>i.e. Move down in the queue</comment>
         <translation>დაბლა ჩატანა</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="665"/>
+        <location filename="../transferlistwidget.cpp" line="667"/>
         <source>Move to top</source>
         <comment>i.e. Move to top of the queue</comment>
         <translation>თავში გადატანა</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="667"/>
+        <location filename="../transferlistwidget.cpp" line="669"/>
         <source>Move to bottom</source>
         <comment>i.e. Move to bottom of the queue</comment>
         <translation>ბოლოში გადატანა</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="669"/>
+        <location filename="../transferlistwidget.cpp" line="671"/>
         <source>Set location...</source>
         <translation>მდებაროების დაყენება...</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="812"/>
+        <location filename="../transferlistwidget.cpp" line="806"/>
         <source>Priority</source>
         <translation>პრიორიტეტი</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="671"/>
+        <location filename="../transferlistwidget.cpp" line="673"/>
         <source>Force recheck</source>
         <translation>ხელახლა შემოწმების იძულება</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="673"/>
+        <location filename="../transferlistwidget.cpp" line="675"/>
         <source>Copy magnet link</source>
         <translation>მაგნიტური ბმულის კოპირება</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="676"/>
+        <location filename="../transferlistwidget.cpp" line="677"/>
         <source>Super seeding mode</source>
         <translation>სუპერ სიდირების რეჟიმი</translation>
     </message>
@@ -4295,13 +4496,13 @@ Please install it manually.</source>
         <translation>პირველ რიგში ჩამოიტვირთოს პირველი და ბოლო ნაწილი</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="768"/>
+        <location filename="../transferlistwidget.cpp" line="764"/>
         <source>New...</source>
         <comment>New label...</comment>
         <translation>ახალი...</translation>
     </message>
     <message>
-        <location filename="../transferlistwidget.cpp" line="769"/>
+        <location filename="../transferlistwidget.cpp" line="765"/>
         <source>Reset</source>
         <comment>Reset label</comment>
         <translation>ჩამოყრა</translation>
@@ -4340,32 +4541,32 @@ Please install it manually.</source>
 <context>
     <name>UsageDisplay</name>
     <message>
-        <location filename="../main.cpp" line="73"/>
+        <location filename="../main.cpp" line="77"/>
         <source>Usage:</source>
         <translation>გამოყენება:</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="74"/>
+        <location filename="../main.cpp" line="78"/>
         <source>displays program version</source>
         <translation>აჩვენებს პროგრამის ვერსიას</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="76"/>
+        <location filename="../main.cpp" line="80"/>
         <source>disable splash screen</source>
         <translation>მისალმების ფანჯრის გამორთვა</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="78"/>
+        <location filename="../main.cpp" line="82"/>
         <source>displays this help message</source>
         <translation>აჩვენებს დახმარების ამ შეტყობინებას</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="79"/>
+        <location filename="../main.cpp" line="83"/>
         <source>changes the webui port (current: %1)</source>
         <translation>ცვლის ვებ ინტერფეისის პორტს (მიმდინარე: %1)</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="80"/>
+        <location filename="../main.cpp" line="84"/>
         <source>[files or urls]: downloads the torrents passed by the user (optional)</source>
         <translation>[ფაილები ან ბმულები]: ჩამოიტვირთება მოხმარებლის მიერ გადაცემული ტორენტები (დამატებითი)</translation>
     </message>
@@ -4383,7 +4584,7 @@ Please install it manually.</source>
         <translation>მინდა მადლობა გადავუხადო შემდეგ ადამიანებს რომლებმაც qBittorrent-ის თარგმნაში მიიღო მონაწილეობა:</translation>
     </message>
     <message>
-        <location filename="../about_imp.h" line="99"/>
+        <location filename="../about_imp.h" line="100"/>
         <source>Please contact me if you would like to translate qBittorrent into your own language.</source>
         <translation>გთხოვთ დამიკავშირდით თუ qBittorrent-ის თქვენს ენაზე გადათარგმნა გსურთ.</translation>
     </message>
@@ -4409,106 +4610,84 @@ Please install it manually.</source>
 <context>
     <name>addTorrentDialog</name>
     <message>
-        <location filename="../torrentadditiondlg.ui" line="14"/>
         <source>Torrent addition dialog</source>
-        <translation>ტორენტის დამატების დიალოგი</translation>
+        <translation type="obsolete">ტორენტის დამატების დიალოგი</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.ui" line="36"/>
         <source>Save path:</source>
-        <translation>შესანახი მდებარეობა:</translation>
+        <translation type="obsolete">შესანახი მდებარეობა:</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.ui" line="58"/>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="obsolete">...</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.ui" line="67"/>
         <source>Set as default save path</source>
-        <translation>ნაგილისმხევ შესანახ მდებარეობად დაყენება</translation>
+        <translation type="obsolete">ნაგილისმხევ შესანახ მდებარეობად დაყენება</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.ui" line="78"/>
         <source>Torrent size:</source>
-        <translation>ტორენტის ზომა:</translation>
+        <translation type="obsolete">ტორენტის ზომა:</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.ui" line="85"/>
-        <location filename="../torrentadditiondlg.ui" line="116"/>
         <source>Unknown</source>
-        <translation>უცნობია</translation>
+        <translation type="obsolete">უცნობია</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.ui" line="109"/>
         <source>Free disk space:</source>
-        <translation>თავისუფალი ადგილი დისკზე:</translation>
+        <translation type="obsolete">თავისუფალი ადგილი დისკზე:</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.ui" line="147"/>
         <source>Label:</source>
-        <translation>იარლიყი:</translation>
+        <translation type="obsolete">იარლიყი:</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.ui" line="193"/>
         <source>Torrent content:</source>
-        <translation>ტორენტის შიგთავსი:</translation>
+        <translation type="obsolete">ტორენტის შიგთავსი:</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.ui" line="246"/>
         <source>Select All</source>
-        <translation>ყველას არჩევა</translation>
+        <translation type="obsolete">ყველას არჩევა</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.ui" line="253"/>
         <source>Select None</source>
-        <translation>არჩევის მოხსნა</translation>
+        <translation type="obsolete">არჩევის მოხსნა</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.ui" line="275"/>
         <source>Download in sequential order (slower but good for previewing)</source>
-        <translation>თანმიმდევრობით ჩამოტვირთვა (ნელია მაგრამ გადახედვისთვის კარგია)</translation>
+        <translation type="obsolete">თანმიმდევრობით ჩამოტვირთვა (ნელია მაგრამ გადახედვისთვის კარგია)</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.ui" line="282"/>
         <source>Skip file checking and start seeding immediately</source>
-        <translation>მონაცემების შემოწმების გამოტოვება და სიდირების დაწყება მყისიერად</translation>
+        <translation type="obsolete">მონაცემების შემოწმების გამოტოვება და სიდირების დაწყება მყისიერად</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.ui" line="289"/>
         <source>Add to download list in paused state</source>
-        <translation>ტორენტის დამატება დაპუზებულ მდგომარეობაში</translation>
+        <translation type="obsolete">ტორენტის დამატება დაპუზებულ მდგომარეობაში</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.ui" line="311"/>
         <source>Add</source>
-        <translation>დამატება</translation>
+        <translation type="obsolete">დამატება</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.ui" line="318"/>
         <source>Cancel</source>
-        <translation>გაუქმება</translation>
+        <translation type="obsolete">გაუქმება</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.ui" line="340"/>
         <source>Normal</source>
-        <translation>ჩვეულებრივი</translation>
+        <translation type="obsolete">ჩვეულებრივი</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.ui" line="345"/>
         <source>High</source>
-        <translation>მაღალი</translation>
+        <translation type="obsolete">მაღალი</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.ui" line="350"/>
         <source>Maximum</source>
-        <translation>მაქსიმალური</translation>
+        <translation type="obsolete">მაქსიმალური</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.ui" line="355"/>
-        <location filename="../torrentadditiondlg.ui" line="358"/>
         <source>Do not download</source>
-        <translation>არ ჩამოიტვირთოს</translation>
+        <translation type="obsolete">არ ჩამოიტვირთოს</translation>
     </message>
 </context>
 <context>
@@ -4786,12 +4965,12 @@ Please install it manually.</source>
 <context>
     <name>engineSelectDlg</name>
     <message>
-        <location filename="../searchengine/engineselectdlg.cpp" line="174"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="175"/>
         <source>Uninstall warning</source>
         <translation>დეინსტალაციის გაფრთხილება</translation>
     </message>
     <message>
-        <location filename="../searchengine/engineselectdlg.cpp" line="174"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="175"/>
         <source>Some plugins could not be uninstalled because they are included in qBittorrent.
  Only the ones you added yourself can be uninstalled.
 However, those plugins were disabled.</source>
@@ -4800,319 +4979,381 @@ However, those plugins were disabled.</source>
 თუმცა ჩადგმული მოდულები გამოირთო.</translation>
     </message>
     <message>
-        <location filename="../searchengine/engineselectdlg.cpp" line="176"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="177"/>
         <source>Uninstall success</source>
         <translation>დეინსტალაცია წარმატებულია</translation>
     </message>
     <message>
-        <location filename="../searchengine/engineselectdlg.cpp" line="340"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="341"/>
         <source>Select search plugins</source>
         <translation>აირჩიეთ საძიებო მოდულები</translation>
     </message>
     <message>
-        <location filename="../searchengine/engineselectdlg.cpp" line="341"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="342"/>
         <source>qBittorrent search plugins</source>
         <translation>qBittorrent-ის საძიებო მოდულები</translation>
     </message>
     <message>
-        <location filename="../searchengine/engineselectdlg.cpp" line="237"/>
-        <location filename="../searchengine/engineselectdlg.cpp" line="262"/>
-        <location filename="../searchengine/engineselectdlg.cpp" line="267"/>
-        <location filename="../searchengine/engineselectdlg.cpp" line="276"/>
-        <location filename="../searchengine/engineselectdlg.cpp" line="279"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="238"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="263"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="268"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="277"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="280"/>
         <source>Search plugin install</source>
         <translation>საძიებო მოდულის ინსტალაცია</translation>
     </message>
     <message>
-        <location filename="../searchengine/engineselectdlg.cpp" line="117"/>
-        <location filename="../searchengine/engineselectdlg.cpp" line="188"/>
-        <location filename="../searchengine/engineselectdlg.cpp" line="299"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="118"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="189"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="300"/>
         <source>Yes</source>
         <translation>დიახ</translation>
     </message>
     <message>
-        <location filename="../searchengine/engineselectdlg.cpp" line="120"/>
-        <location filename="../searchengine/engineselectdlg.cpp" line="154"/>
-        <location filename="../searchengine/engineselectdlg.cpp" line="191"/>
-        <location filename="../searchengine/engineselectdlg.cpp" line="302"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="121"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="155"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="192"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="303"/>
         <source>No</source>
         <translation>არა</translation>
     </message>
     <message>
-        <location filename="../searchengine/engineselectdlg.cpp" line="237"/>
-        <location filename="../searchengine/engineselectdlg.cpp" line="262"/>
-        <location filename="../searchengine/engineselectdlg.cpp" line="267"/>
-        <location filename="../searchengine/engineselectdlg.cpp" line="276"/>
-        <location filename="../searchengine/engineselectdlg.cpp" line="279"/>
-        <location filename="../searchengine/engineselectdlg.cpp" line="393"/>
-        <location filename="../searchengine/engineselectdlg.cpp" line="426"/>
-        <location filename="../searchengine/engineselectdlg.cpp" line="447"/>
-        <location filename="../searchengine/engineselectdlg.cpp" line="454"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="238"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="263"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="268"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="277"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="280"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="394"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="427"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="448"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="455"/>
         <source>qBittorrent</source>
         <translation>qBittorrent</translation>
     </message>
     <message>
-        <location filename="../searchengine/engineselectdlg.cpp" line="237"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="238"/>
         <source>A more recent version of %1 search engine plugin is already installed.</source>
         <comment>%1 is the name of the search engine</comment>
         <translation>%1 საძიებო სისტემის უფრო ახალი ვერსია უკვე დაინსტალირებულია.</translation>
     </message>
     <message>
-        <location filename="../searchengine/engineselectdlg.cpp" line="393"/>
-        <location filename="../searchengine/engineselectdlg.cpp" line="426"/>
-        <location filename="../searchengine/engineselectdlg.cpp" line="447"/>
-        <location filename="../searchengine/engineselectdlg.cpp" line="454"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="394"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="427"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="448"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="455"/>
         <source>Search plugin update</source>
         <translation>საძიებო მოდულის განახლება</translation>
     </message>
     <message>
-        <location filename="../searchengine/engineselectdlg.cpp" line="426"/>
-        <location filename="../searchengine/engineselectdlg.cpp" line="447"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="427"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="448"/>
         <source>Sorry, update server is temporarily unavailable.</source>
         <translation>ბოდიში, განახლების სერვერი დროებით მიუწვდომელია.</translation>
     </message>
     <message>
-        <location filename="../searchengine/engineselectdlg.cpp" line="393"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="394"/>
         <source>All your plugins are already up to date.</source>
         <translation>ყველა თქვენი მოდული უკვე განახლებულია.</translation>
     </message>
     <message>
-        <location filename="../searchengine/engineselectdlg.cpp" line="262"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="263"/>
         <source>%1 search engine plugin could not be updated, keeping old version.</source>
         <comment>%1 is the name of the search engine</comment>
         <translation>%1 საძიებო სისტემის მოდულის განახლება ვერ მოხერხდა, ინახება ძველი ვერსია.</translation>
     </message>
     <message>
-        <location filename="../searchengine/engineselectdlg.cpp" line="267"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="268"/>
         <source>%1 search engine plugin could not be installed.</source>
         <comment>%1 is the name of the search engine</comment>
         <translation>%1 საძიებო სისტემის მოდულის განახლება ვერ მოხერხდა.</translation>
     </message>
     <message>
-        <location filename="../searchengine/engineselectdlg.cpp" line="176"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="177"/>
         <source>All selected plugins were uninstalled successfully</source>
         <translation>ყველა მონიშნული მოდული წარმატებით წაიშალა</translation>
     </message>
     <message>
-        <location filename="../searchengine/engineselectdlg.cpp" line="276"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="277"/>
         <source>%1 search engine plugin was successfully updated.</source>
         <comment>%1 is the name of the search engine</comment>
         <translation>%1 საძიებო სისტემის მოდული წარმატებით განახლდა.</translation>
     </message>
     <message>
-        <location filename="../searchengine/engineselectdlg.cpp" line="279"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="280"/>
         <source>%1 search engine plugin was successfully installed.</source>
         <comment>%1 is the name of the search engine</comment>
         <translation>%1 საძიებო სისტემის მოდული წარმატებით დაინსტალირდა.</translation>
     </message>
     <message>
-        <location filename="../searchengine/engineselectdlg.cpp" line="454"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="455"/>
         <source>Sorry, %1 search plugin install failed.</source>
         <comment>%1 is the name of the search engine</comment>
         <translation>ბოდიში, %1 საძიებო მოდულის ინსტალაცია ჩაიშალა.</translation>
     </message>
     <message>
-        <location filename="../searchengine/engineselectdlg.cpp" line="329"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="330"/>
         <source>New search engine plugin URL</source>
         <translation>ახალი საძიებო სისტემის მობულის ბმული</translation>
     </message>
     <message>
-        <location filename="../searchengine/engineselectdlg.cpp" line="330"/>
+        <location filename="../searchengine/engineselectdlg.cpp" line="331"/>
         <source>URL:</source>
         <translation>ბმული:</translation>
     </message>
 </context>
 <context>
+    <name>fsutils</name>
+    <message>
+        <location filename="../fs_utils.cpp" line="430"/>
+        <location filename="../fs_utils.cpp" line="461"/>
+        <location filename="../fs_utils.cpp" line="473"/>
+        <source>Downloads</source>
+        <translation type="unfinished">ჩამოტვირთვები</translation>
+    </message>
+</context>
+<context>
     <name>misc</name>
     <message>
-        <location filename="../misc.cpp" line="91"/>
+        <location filename="../misc.cpp" line="73"/>
         <source>B</source>
         <comment>bytes</comment>
         <translation>ბ</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="92"/>
+        <location filename="../misc.cpp" line="74"/>
         <source>KiB</source>
         <comment>kibibytes (1024 bytes)</comment>
         <translation>კბ</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="93"/>
+        <location filename="../misc.cpp" line="75"/>
         <source>MiB</source>
         <comment>mebibytes (1024 kibibytes)</comment>
         <translation>მბ</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="94"/>
+        <location filename="../misc.cpp" line="76"/>
         <source>GiB</source>
         <comment>gibibytes (1024 mibibytes)</comment>
         <translation>გბ</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="95"/>
+        <location filename="../misc.cpp" line="77"/>
         <source>TiB</source>
         <comment>tebibytes (1024 gibibytes)</comment>
         <translation>ტბ</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="168"/>
-        <location filename="../misc.cpp" line="196"/>
-        <location filename="../misc.cpp" line="208"/>
-        <source>Downloads</source>
-        <translation>ჩამოტვირთვები</translation>
+        <location filename="../misc.cpp" line="246"/>
+        <source>/s</source>
+        <comment>per second</comment>
+        <translation type="unfinished">/წ</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="837"/>
+        <source>Downloads</source>
+        <translation type="obsolete">ჩამოტვირთვები</translation>
+    </message>
+    <message>
+        <location filename="../misc.cpp" line="391"/>
         <source>%1h %2m</source>
         <comment>e.g: 3hours 5minutes</comment>
         <translation>%1ს %2წთ</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="842"/>
+        <location filename="../misc.cpp" line="396"/>
         <source>%1d %2h</source>
         <comment>e.g: 2days 10hours</comment>
         <translation>%1დ %2ს</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="665"/>
+        <location filename="../misc.cpp" line="236"/>
         <source>Unknown</source>
         <comment>Unknown (size)</comment>
         <translation>უცნობია</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="362"/>
+        <location filename="../misc.cpp" line="178"/>
         <source>qBittorrent will shutdown the computer now because all downloads are complete.</source>
         <translation>იმის გამო რომ ყველა ჩამოტვირთვა დასრულდა, ახლა qBittorrent გამორთავს კომპიტერს.</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="777"/>
-        <location filename="../misc.cpp" line="782"/>
-        <location filename="../misc.cpp" line="786"/>
-        <location filename="../misc.cpp" line="789"/>
-        <location filename="../misc.cpp" line="794"/>
-        <location filename="../misc.cpp" line="797"/>
         <source>Unknown</source>
-        <translation>უცნობია</translation>
+        <translation type="obsolete">უცნობია</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="828"/>
+        <location filename="../misc.cpp" line="382"/>
         <source>&lt; 1m</source>
         <comment>&lt; 1 minute</comment>
         <translation>&lt; 1წთ</translation>
     </message>
     <message>
-        <location filename="../misc.cpp" line="832"/>
+        <location filename="../misc.cpp" line="386"/>
         <source>%1m</source>
         <comment>e.g: 10minutes</comment>
         <translation>%1წთ</translation>
+    </message>
+    <message>
+        <location filename="../webui/btjson.cpp" line="241"/>
+        <source>Working</source>
+        <translation type="unfinished">მუშაობს</translation>
+    </message>
+    <message>
+        <location filename="../webui/btjson.cpp" line="244"/>
+        <source>Updating...</source>
+        <translation type="unfinished">ნახლდება...</translation>
+    </message>
+    <message>
+        <location filename="../webui/btjson.cpp" line="246"/>
+        <source>Not working</source>
+        <translation type="unfinished">არ მუშაობს</translation>
+    </message>
+    <message>
+        <location filename="../webui/btjson.cpp" line="246"/>
+        <source>Not contacted yet</source>
+        <translation type="unfinished">ჯერ არ დაკავშირებულა</translation>
+    </message>
+    <message>
+        <location filename="../webui/btjson.cpp" line="298"/>
+        <location filename="../webui/btjson.cpp" line="299"/>
+        <source>this session</source>
+        <translation type="unfinished">ეს სესია</translation>
+    </message>
+    <message>
+        <location filename="../webui/btjson.cpp" line="310"/>
+        <source>Seeded for %1</source>
+        <comment>e.g. Seeded for 3m10s</comment>
+        <translation type="unfinished">სიდირდება %1</translation>
+    </message>
+    <message>
+        <location filename="../webui/btjson.cpp" line="312"/>
+        <source>%1 max</source>
+        <comment>e.g. 10 max</comment>
+        <translation type="unfinished">%1 მაქს</translation>
+    </message>
+    <message>
+        <location filename="../webui/btjson.cpp" line="380"/>
+        <source>D: %1/s - T: %2</source>
+        <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
+        <translation type="unfinished">ჩს: %1/წ - ტ: %2</translation>
+    </message>
+    <message>
+        <location filename="../webui/btjson.cpp" line="381"/>
+        <source>U: %1/s - T: %2</source>
+        <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
+        <translation type="unfinished">ას %1/წ - ტ: %2</translation>
     </message>
 </context>
 <context>
     <name>options_imp</name>
     <message>
-        <location filename="../preferences/options_imp.cpp" line="1094"/>
-        <location filename="../preferences/options_imp.cpp" line="1096"/>
+        <location filename="../preferences/options_imp.cpp" line="1085"/>
+        <location filename="../preferences/options_imp.cpp" line="1087"/>
         <source>Choose export directory</source>
         <translation>აირჩიეთ გასატანი მდებარეობა</translation>
     </message>
     <message>
-        <location filename="../preferences/options_imp.cpp" line="1129"/>
-        <location filename="../preferences/options_imp.cpp" line="1131"/>
-        <location filename="../preferences/options_imp.cpp" line="1146"/>
-        <location filename="../preferences/options_imp.cpp" line="1148"/>
+        <location filename="../preferences/options_imp.cpp" line="1120"/>
+        <location filename="../preferences/options_imp.cpp" line="1122"/>
+        <location filename="../preferences/options_imp.cpp" line="1137"/>
+        <location filename="../preferences/options_imp.cpp" line="1139"/>
         <source>Choose a save directory</source>
         <translation>აირჩიეთ შესანახი მდებარეობა</translation>
     </message>
     <message>
-        <location filename="../preferences/options_imp.cpp" line="1111"/>
-        <location filename="../preferences/options_imp.cpp" line="1113"/>
+        <location filename="../preferences/options_imp.cpp" line="1102"/>
+        <location filename="../preferences/options_imp.cpp" line="1104"/>
         <source>Choose an ip filter file</source>
         <translation>აირჩიეთ ip ფილტრის ფაილი</translation>
     </message>
     <message>
-        <location filename="../preferences/options_imp.cpp" line="1051"/>
+        <location filename="../preferences/options_imp.cpp" line="1042"/>
         <source>Add directory to scan</source>
         <translation>დასასკანირებელი მდებარეობის დამატება</translation>
     </message>
     <message>
-        <location filename="../preferences/options_imp.cpp" line="1057"/>
+        <location filename="../preferences/options_imp.cpp" line="1048"/>
         <source>Folder is already being watched.</source>
         <translation>საქაღალდე უკვე მეთვალყურეობის ქვეშაა.</translation>
     </message>
     <message>
-        <location filename="../preferences/options_imp.cpp" line="1060"/>
+        <location filename="../preferences/options_imp.cpp" line="1051"/>
         <source>Folder does not exist.</source>
         <translation>საქაღალდე არ არსებობს.</translation>
     </message>
     <message>
-        <location filename="../preferences/options_imp.cpp" line="1063"/>
+        <location filename="../preferences/options_imp.cpp" line="1054"/>
         <source>Folder is not readable.</source>
         <translation>საქაღალდე არ არის წაკითხვადი.</translation>
     </message>
     <message>
-        <location filename="../preferences/options_imp.cpp" line="1071"/>
+        <location filename="../preferences/options_imp.cpp" line="1062"/>
         <source>Failure</source>
         <translation>მარცხი</translation>
     </message>
     <message>
-        <location filename="../preferences/options_imp.cpp" line="1071"/>
+        <location filename="../preferences/options_imp.cpp" line="1062"/>
         <source>Failed to add Scan Folder &apos;%1&apos;: %2</source>
         <translation>დასასკანირებელი საქაღალდის დამატება ჩაიშალა: &apos;%1&apos;: %2</translation>
     </message>
     <message>
-        <location filename="../preferences/options_imp.cpp" line="1111"/>
-        <location filename="../preferences/options_imp.cpp" line="1113"/>
+        <location filename="../preferences/options_imp.cpp" line="1102"/>
+        <location filename="../preferences/options_imp.cpp" line="1104"/>
         <source>Filters</source>
         <translation>ფილტრები</translation>
     </message>
     <message>
-        <location filename="../preferences/options_imp.cpp" line="1191"/>
+        <location filename="../preferences/options_imp.cpp" line="1182"/>
         <source>SSL Certificate (*.crt *.pem)</source>
         <translation>SSL სერთიფიკატი (*.crt *.pem)</translation>
     </message>
     <message>
-        <location filename="../preferences/options_imp.cpp" line="1202"/>
+        <location filename="../preferences/options_imp.cpp" line="1193"/>
         <source>SSL Key (*.key *.pem)</source>
         <translation>SSL გასაღები (*.key *.pem)</translation>
     </message>
     <message>
-        <location filename="../preferences/options_imp.cpp" line="1233"/>
+        <location filename="../preferences/options_imp.cpp" line="1224"/>
         <source>Parsing error</source>
         <translation>ანალიზის შეცდომა</translation>
     </message>
     <message>
-        <location filename="../preferences/options_imp.cpp" line="1233"/>
+        <location filename="../preferences/options_imp.cpp" line="1224"/>
         <source>Failed to parse the provided IP filter</source>
         <translation>მოწოდებული IP ფილტრის ანალიზი ჩაიშალა</translation>
     </message>
     <message>
-        <location filename="../preferences/options_imp.cpp" line="1235"/>
+        <location filename="../preferences/options_imp.cpp" line="1226"/>
         <source>Successfully refreshed</source>
         <translation>წარმატებით განახლდა</translation>
     </message>
     <message>
-        <location filename="../preferences/options_imp.cpp" line="1235"/>
-        <source>Successfuly parsed the provided IP filter: %1 rules were applied.</source>
+        <location filename="../preferences/options_imp.cpp" line="1226"/>
+        <source>Successfully parsed the provided IP filter: %1 rules were applied.</source>
         <comment>%1 is a number</comment>
-        <translation>მოწოდებული IP ფილტრის ანალიზი წარმატებით დასრულდა: მიღებულ იქნა %1 წესი.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferences/options_imp.cpp" line="1305"/>
+        <source>Successfuly parsed the provided IP filter: %1 rules were applied.</source>
+        <comment>%1 is a number</comment>
+        <translation type="obsolete">მოწოდებული IP ფილტრის ანალიზი წარმატებით დასრულდა: მიღებულ იქნა %1 წესი.</translation>
+    </message>
+    <message>
+        <location filename="../preferences/options_imp.cpp" line="1297"/>
         <source>Invalid key</source>
         <translation>არასწორი გასაღები</translation>
     </message>
     <message>
-        <location filename="../preferences/options_imp.cpp" line="1305"/>
+        <location filename="../preferences/options_imp.cpp" line="1297"/>
         <source>This is not a valid SSL key.</source>
         <translation>ეს არ არის სწორი SSL გასაღები.</translation>
     </message>
     <message>
-        <location filename="../preferences/options_imp.cpp" line="1320"/>
+        <location filename="../preferences/options_imp.cpp" line="1312"/>
         <source>Invalid certificate</source>
         <translation>არასწორი სერთიფიკატი</translation>
     </message>
     <message>
-        <location filename="../preferences/options_imp.cpp" line="1320"/>
+        <location filename="../preferences/options_imp.cpp" line="1312"/>
         <source>This is not a valid SSL certificate.</source>
         <translation>ეს არ არის სწორი SSL სერთიფიკატი.</translation>
     </message>
@@ -5172,32 +5413,32 @@ However, those plugins were disabled.</source>
     <name>search_engine</name>
     <message>
         <location filename="../searchengine/search.ui" line="14"/>
-        <location filename="../searchengine/search.ui" line="44"/>
+        <location filename="../searchengine/search.ui" line="31"/>
         <source>Search</source>
         <translation>ძებნა</translation>
     </message>
     <message>
-        <location filename="../searchengine/search.ui" line="67"/>
+        <location filename="../searchengine/search.ui" line="54"/>
         <source>Status:</source>
         <translation>სტატუსი:</translation>
     </message>
     <message>
-        <location filename="../searchengine/search.ui" line="91"/>
+        <location filename="../searchengine/search.ui" line="78"/>
         <source>Stopped</source>
         <translation>შეჩერებულია</translation>
     </message>
     <message>
-        <location filename="../searchengine/search.ui" line="135"/>
+        <location filename="../searchengine/search.ui" line="110"/>
         <source>Download</source>
         <translation>ჩამოტვირთვა</translation>
     </message>
     <message>
-        <location filename="../searchengine/search.ui" line="145"/>
+        <location filename="../searchengine/search.ui" line="120"/>
         <source>Go to description page</source>
         <translation>ახსნის გვერდზე გადასვლა</translation>
     </message>
     <message>
-        <location filename="../searchengine/search.ui" line="165"/>
+        <location filename="../searchengine/search.ui" line="140"/>
         <source>Search engines...</source>
         <translation>საძიებო სისტემები...</translation>
     </message>
@@ -5205,131 +5446,102 @@ However, those plugins were disabled.</source>
 <context>
     <name>torrentAdditionDialog</name>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="211"/>
         <source>Unable to decode magnet link:</source>
-        <translation>მაგნიტური ბმულის გაშიფვრა ვერ მოხერხდა:</translation>
+        <translation type="obsolete">მაგნიტური ბმულის გაშიფვრა ვერ მოხერხდა:</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="217"/>
         <source>Magnet Link</source>
-        <translation>მაგნიტური ბმული</translation>
+        <translation type="obsolete">მაგნიტური ბმული</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="260"/>
-        <location filename="../torrentadditiondlg.cpp" line="263"/>
         <source>Unable to decode torrent file:</source>
-        <translation>ტორენტ ფაილის გაშიფვრა ვერ მოხერხდა:</translation>
+        <translation type="obsolete">ტორენტ ფაილის გაშიფვრა ვერ მოხერხდა:</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="359"/>
         <source>Rename...</source>
-        <translation>გადარქმევა...</translation>
+        <translation type="obsolete">გადარქმევა...</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="363"/>
         <source>Priority</source>
-        <translation>პრიორიტეტი</translation>
+        <translation type="obsolete">პრიორიტეტი</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="403"/>
         <source>Rename the file</source>
-        <translation>ფაილის გადარქმევა</translation>
+        <translation type="obsolete">ფაილის გადარქმევა</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="404"/>
         <source>New name:</source>
-        <translation>ახალი სახელი:</translation>
+        <translation type="obsolete">ახალი სახელი:</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="408"/>
-        <location filename="../torrentadditiondlg.cpp" line="438"/>
         <source>The file could not be renamed</source>
-        <translation>ფაილის გადარქმევა ვერ მოხერხდა</translation>
+        <translation type="obsolete">ფაილის გადარქმევა ვერ მოხერხდა</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="409"/>
         <source>This file name contains forbidden characters, please choose a different one.</source>
-        <translation>ფაილის სახელი შეიცავს აკრძალულ სიმბოლოებს, გთხოვთ აირჩიეთ სხვა სახელი.</translation>
+        <translation type="obsolete">ფაილის სახელი შეიცავს აკრძალულ სიმბოლოებს, გთხოვთ აირჩიეთ სხვა სახელი.</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="439"/>
-        <location filename="../torrentadditiondlg.cpp" line="473"/>
         <source>This name is already in use in this folder. Please use a different name.</source>
-        <translation>ამ საქაღალდეში ეს სახელი უკვე გამოიყენება. გთხოვთ აირჩიეთ სხვა სახელი.</translation>
+        <translation type="obsolete">ამ საქაღალდეში ეს სახელი უკვე გამოიყენება. გთხოვთ აირჩიეთ სხვა სახელი.</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="472"/>
         <source>The folder could not be renamed</source>
-        <translation>საქაღალდის გადარქმევა ვერ მოხერხდა</translation>
+        <translation type="obsolete">საქაღალდის გადარქმევა ვერ მოხერხდა</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="520"/>
         <source>(%1 left after torrent download)</source>
         <comment>e.g. (100MiB left after torrent download)</comment>
-        <translation>(%1 დარჩა ტორენტის ჩამოტვირთვის შემდეგ)</translation>
+        <translation type="obsolete">(%1 დარჩა ტორენტის ჩამოტვირთვის შემდეგ)</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="523"/>
         <source>(%1 more are required to download)</source>
         <comment>e.g. (100MiB more are required to download)</comment>
-        <translation>(ჩამოსატვირთად საჭიროა კიდევ %1)</translation>
+        <translation type="obsolete">(ჩამოსატვირთად საჭიროა კიდევ %1)</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="538"/>
-        <location filename="../torrentadditiondlg.cpp" line="553"/>
-        <location filename="../torrentadditiondlg.cpp" line="555"/>
         <source>Choose save path</source>
-        <translation>აირჩიეთ შესანახი მდებარეობა</translation>
+        <translation type="obsolete">აირჩიეთ შესანახი მდებარეობა</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="609"/>
         <source>Empty save path</source>
-        <translation>ცარიელი შესანახი მდებარეობა</translation>
+        <translation type="obsolete">ცარიელი შესანახი მდებარეობა</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="609"/>
         <source>Please enter a save path</source>
-        <translation>გთხოვთ შეიყვანეთ შესანახი მდებარეობა</translation>
+        <translation type="obsolete">გთხოვთ შეიყვანეთ შესანახი მდებარეობა</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="693"/>
         <source>Save path creation error</source>
-        <translation>შესანახი მდებარეობის შექმნის შეცდომა</translation>
+        <translation type="obsolete">შესანახი მდებარეობის შექმნის შეცდომა</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="693"/>
         <source>Could not create the save path</source>
-        <translation>შესანახი მდებარეობის შექმნა ვერ მოხერხდა</translation>
+        <translation type="obsolete">შესანახი მდებარეობის შექმნა ვერ მოხერხდა</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="630"/>
         <source>Invalid label name</source>
-        <translation>იარლიყის სახელი არასოწრია</translation>
+        <translation type="obsolete">იარლიყის სახელი არასოწრია</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="630"/>
         <source>Please don&apos;t use any special characters in the label name.</source>
-        <translation>გთხოვთ იარლიყის სახელში არ გამოიყენოთ სპეციალური სიმბოლოები.</translation>
+        <translation type="obsolete">გთხოვთ იარლიყის სახელში არ გამოიყენოთ სპეციალური სიმბოლოები.</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="673"/>
         <source>Seeding mode error</source>
-        <translation>სიდირების რეჟიმის შეცდომა</translation>
+        <translation type="obsolete">სიდირების რეჟიმის შეცდომა</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="673"/>
         <source>You chose to skip file checking. However, local files do not seem to exist in the current destionation folder. Please disable this feature or update the save path.</source>
-        <translation>თქვენ აირჩიეთ ფაილის შეცდომის გამოტოვება. თუმცა, ლოკალური ფაილები არ არსებობს დანიშნულების საქაღალდეში. გთხოვთ გამორთეთ ეს ფუნქცია ან განაახლეთ შესანახი მდებარეობა.</translation>
+        <translation type="obsolete">თქვენ აირჩიეთ ფაილის შეცდომის გამოტოვება. თუმცა, ლოკალური ფაილები არ არსებობს დანიშნულების საქაღალდეში. გთხოვთ გამორთეთ ეს ფუნქცია ან განაახლეთ შესანახი მდებარეობა.</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="680"/>
         <source>Invalid file selection</source>
-        <translation>არჩეული ფაილი არასწორია</translation>
+        <translation type="obsolete">არჩეული ფაილი არასწორია</translation>
     </message>
     <message>
-        <location filename="../torrentadditiondlg.cpp" line="680"/>
         <source>You must select at least one file in the torrent</source>
-        <translation>თქვენ უნდა აირჩიოთ მინიმუმ ერთი ფაილი ტორენტიდან</translation>
+        <translation type="obsolete">თქვენ უნდა აირჩიოთ მინიმუმ ერთი ფაილი ტორენტიდან</translation>
     </message>
 </context>
 </TS>

@@ -28,6 +28,10 @@ nox {
   DEFINES += DISABLE_GUI
 } else {
   QT += xml
+  CONFIG(static) {
+    DEFINES += QBT_STATIC_QT
+    QTPLUGIN += qico
+  }
   TARGET = qbittorrent
 }
 QT += network
@@ -95,6 +99,7 @@ include (preferences/preferences.pri)
 }
 
 HEADERS += misc.h \
+           fs_utils.h \
            downloadthread.h \
            stacktrace.h \
            torrentpersistentdata.h \
@@ -109,6 +114,7 @@ SOURCES += main.cpp \
            downloadthread.cpp \
            scannedfoldersmodel.cpp \
            misc.cpp \
+           fs_utils.cpp \
            smtp.cpp \
            dnsupdater.cpp
 
@@ -119,7 +125,9 @@ nox {
               transferlistwidget.h \
               transferlistdelegate.h \
               transferlistfilterswidget.h \
-              torrentfilesmodel.h \
+              torrentcontentmodel.h \
+              torrentcontentmodelitem.h \
+              torrentcontentfiltermodel.h \
               deletionconfirmationdlg.h \
               statusbar.h \
               reverseresolution.h \
@@ -129,7 +137,6 @@ nox {
               previewselect.h \
               previewlistdelegate.h \
               downloadfromurldlg.h \
-              torrentadditiondlg.h \
               trackerlogin.h \
               hidabletabwidget.h \
               sessionapplication.h \
@@ -137,19 +144,23 @@ nox {
               executionlog.h \
               iconprovider.h \
               updownratiodlg.h \
-              loglistwidget.h
+              loglistwidget.h \
+              addnewtorrentdialog.h
 
   SOURCES += mainwindow.cpp \
              ico.cpp \
              transferlistwidget.cpp \
-             torrentadditiondlg.cpp \
+             torrentcontentmodel.cpp \
+             torrentcontentmodelitem.cpp \
+             torrentcontentfiltermodel.cpp \
              sessionapplication.cpp \
              torrentimportdlg.cpp \
              executionlog.cpp \
              previewselect.cpp \
              iconprovider.cpp \
              updownratiodlg.cpp \
-             loglistwidget.cpp
+             loglistwidget.cpp \
+             addnewtorrentdialog.cpp
 
   win32 {
     HEADERS += programupdater.h
@@ -169,12 +180,12 @@ nox {
            preview.ui \
            login.ui \
            downloadfromurldlg.ui \
-           torrentadditiondlg.ui \
            bandwidth_limit.ui \
            updownratiodlg.ui \
            confirmdeletiondlg.ui \
            torrentimportdlg.ui \
-           executionlog.ui
+           executionlog.ui \
+           addnewtorrentdialog.ui
 }
 
 DESTDIR = .
@@ -222,4 +233,5 @@ TRANSLATIONS = $$LANG_PATH/qbittorrent_fr.ts \
                $$LANG_PATH/qbittorrent_lt.ts \
                $$LANG_PATH/qbittorrent_ka.ts \
                $$LANG_PATH/qbittorrent_be.ts \
-               $$LANG_PATH/qbittorrent_eu.ts
+               $$LANG_PATH/qbittorrent_eu.ts \
+               $$LANG_PATH/qbittorrent_he.ts

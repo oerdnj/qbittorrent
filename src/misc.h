@@ -39,11 +39,11 @@
 #include <QStringList>
 #include <QThread>
 #include <ctime>
-#include <boost/date_time/posix_time/posix_time_types.hpp>
-#include <boost/date_time/posix_time/conversion.hpp>
 #include <QPoint>
 #include <QFile>
 #include <QDir>
+#include <QUrl>
+#include <QCoreApplication>
 #ifndef DISABLE_GUI
 #include <QIcon>
 #endif
@@ -51,8 +51,9 @@
 const qlonglong MAX_ETA = 8640000;
 
 /*  Miscellaneaous functions that can be useful */
-class misc : public QObject{
-  Q_OBJECT
+class misc
+{
+  Q_DECLARE_TR_FUNCTIONS(misc)
 
 private:
   misc(); // Forbidden
@@ -75,91 +76,34 @@ public:
   }
 
   static inline QString toQString(const libtorrent::sha1_hash &hash) {
-    std::ostringstream o;
-    o << hash;
-    return QString(o.str().c_str());
-  }
-
-  static void chmod644(const QDir& folder);
-
-  static inline QString removeLastPathPart(QString path) {
-    if(path.isEmpty()) return path;
-    path.replace("\\", "/");
-    QStringList tmp = path.split("/");
-    tmp.removeLast();
-    return tmp.join("/");
-  }
-
-  static inline QString file_extension(const QString &filename) {
-    QString extension;
-    int point_index = filename.lastIndexOf(".");
-    if(point_index >= 0) {
-      extension = filename.mid(point_index+1);
-    }
-    return extension;
+    char out[41];
+    to_hex((char const*)&hash[0], libtorrent::sha1_hash::size, out);
+    return QString(out);
   }
 
 #ifndef DISABLE_GUI
   static void shutdownComputer(bool sleep=false);
 #endif
 
-  static bool safeRemove(QString file_path) {
-    QFile MyFile(file_path);
-    if(!MyFile.exists()) return true;
-    // Make sure the permissions are ok
-    MyFile.setPermissions(MyFile.permissions()|QFile::ReadOwner|QFile::WriteOwner|QFile::ReadUser|QFile::WriteUser);
-    // Actually remove the file
-    return MyFile.remove();
-  }
-
   static QString parseHtmlLinks(const QString &raw_text);
 
-  static bool removeEmptyFolder(const QString &dirpath);
-
-  static quint64 computePathSize(QString path);
-
-  static QString truncateRootFolder(boost::intrusive_ptr<libtorrent::torrent_info> t);
-  static QString truncateRootFolder(libtorrent::torrent_handle h);
-  static QString fixFileNames(QString path);
-
-  static QString updateLabelInSavePath(QString defaultSavePath, QString save_path, const QString &old_label, const QString &new_label);
-
-  static bool sameFiles(const QString &path1, const QString &path2);
   static bool isUrl(const QString &s);
-  static void copyDir(QString src_path, QString dst_path);
-  static QString toValidFileSystemName(QString filename);
-  static bool isValidFileSystemName(QString filename);
-
-  /* Ported from Qt4 to drop dependency on QtGui */
-  static QString QDesktopServicesDataLocation();
-  static QString QDesktopServicesCacheLocation();
-  static QString QDesktopServicesDownloadLocation();
-  /* End of Qt4 code */
 
 #ifndef DISABLE_GUI
   // Get screen center
   static QPoint screenCenter(QWidget *win);
 #endif
   static int pythonVersion();
-  static QString searchEngineLocation();
-  static QString BTBackupLocation();
-  static QString cacheLocation();
-  static long long freeDiskSpaceOnPath(QString path);
   // return best userfriendly storage unit (B, KiB, MiB, GiB, TiB)
   // use Binary prefix standards from IEC 60027-2
   // see http://en.wikipedia.org/wiki/Kilobyte
   // value must be given in bytes
-  static QString friendlyUnit(qreal val);
-  static bool isPreviewable(QString extension);
-  static QString branchPath(QString file_path, bool uses_slashes=false);
-  static QString fileName(QString file_path);
-  static QString magnetUriToName(QString magnet_uri);
-  static QString magnetUriToHash(QString magnet_uri);
+  static QString friendlyUnit(qreal val, bool is_speed = false);
+  static bool isPreviewable(const QString& extension);
+  static QString magnetUriToName(const QString& magnet_uri);
+  static QString magnetUriToHash(const QString& magnet_uri);
+  static QList<QUrl> magnetUriToTrackers(const QString& magnet_uri);
   static QString bcLinkToMagnet(QString bc_link);
-  static QString boostTimeToQString(const boost::optional<boost::posix_time::ptime> &boostDate);
-  static QString time_tToQString(const boost::optional<time_t> &t);
-  // Replace ~ in path
-  static QString expandPath(QString path);
   // Take a number of seconds and return an user-friendly
   // time duration like "1d 2h 10m".
   static QString userFriendlyDuration(qlonglong seconds);
@@ -170,7 +114,11 @@ public:
   static QList<int> intListfromStringList(const QStringList &l);
   static QList<bool> boolListfromStringList(const QStringList &l);
 
-  static bool isValidTorrentFile(const QString &path);
+#if LIBTORRENT_VERSION_MINOR < 16
+  static QString toQString(const boost::posix_time::ptime& boostDate);
+#else
+  static QString toQString(time_t t);
+#endif
 };
 
 //  Trick to get a portable sleep() function

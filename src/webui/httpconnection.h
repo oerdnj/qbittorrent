@@ -55,7 +55,7 @@ public:
 protected slots:
   void write();
   void respond();
-  void respondJson();
+  void respondTorrentsJson();
   void respondGenPropertiesJson(const QString& hash);
   void respondTrackersPropertiesJson(const QString& hash);
   void respondFilesPropertiesJson(const QString& hash);
@@ -88,6 +88,7 @@ private:
   HttpServer *m_httpserver;
   HttpRequestParser m_parser;
   HttpResponseGenerator m_generator;
+  QByteArray m_receivedData;
 };
 
 #endif

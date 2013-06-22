@@ -35,21 +35,21 @@ IconProvider* IconProvider::m_instance = 0;
 
 IconProvider::IconProvider()
 {
-#if defined(Q_WS_X11) && (QT_VERSION >= QT_VERSION_CHECK(4,6,0))
+#if defined(Q_WS_X11)
   m_useSystemTheme = Preferences().useSystemIconTheme();
 #endif
 }
 
 IconProvider * IconProvider::instance()
 {
-  if(!m_instance)
+  if (!m_instance)
     m_instance = new IconProvider;
   return m_instance;
 }
 
 void IconProvider::drop()
 {
-  if(m_instance) {
+  if (m_instance) {
     delete m_instance;
     m_instance = 0;
   }
@@ -57,8 +57,8 @@ void IconProvider::drop()
 
 QIcon IconProvider::getIcon(const QString &iconId)
 {
-#if defined(Q_WS_X11) && (QT_VERSION >= QT_VERSION_CHECK(4,6,0))
-  if(m_useSystemTheme) {
+#if defined(Q_WS_X11)
+  if (m_useSystemTheme) {
     QIcon icon = QIcon::fromTheme(iconId, QIcon(":/Icons/oxygen/"+iconId+".png"));
     icon = generateDifferentSizes(icon);
     return icon;
@@ -67,7 +67,7 @@ QIcon IconProvider::getIcon(const QString &iconId)
   return QIcon(":/Icons/oxygen/"+iconId+".png");
 }
 
-#if defined(Q_WS_X11) && (QT_VERSION >= QT_VERSION_CHECK(4,6,0))
+#if defined(Q_WS_X11)
 void IconProvider::useSystemIconTheme(bool enable)
 {
   m_useSystemTheme = enable;
@@ -77,21 +77,21 @@ void IconProvider::useSystemIconTheme(bool enable)
 // It scales the icon from the theme if necessary
 // Otherwise, the UI looks broken if the icon is not available
 // in the correct size.
-QIcon IconProvider::generateDifferentSizes(const QIcon &icon)
+QIcon IconProvider::generateDifferentSizes(const QIcon& icon)
 {
   QIcon new_icon;
   QList<QSize> required_sizes;
   required_sizes << QSize(16, 16) << QSize(24, 24);
   QList<QIcon::Mode> modes;
   modes << QIcon::Normal << QIcon::Active << QIcon::Selected << QIcon::Disabled;
-  foreach(const QSize& size, required_sizes) {
-    foreach(QIcon::Mode mode, modes) {
+  foreach (const QSize& size, required_sizes) {
+    foreach (QIcon::Mode mode, modes) {
       QPixmap pixoff = icon.pixmap(size, mode, QIcon::Off);
-      if(pixoff.height() > size.height())
+      if (pixoff.height() > size.height())
         pixoff = pixoff.scaled(size, Qt::KeepAspectRatio,  Qt::SmoothTransformation);
       new_icon.addPixmap(pixoff, mode, QIcon::Off);
       QPixmap pixon = icon.pixmap(size, mode, QIcon::On);
-      if(pixon.height() > size.height())
+      if (pixon.height() > size.height())
         pixon = pixoff.scaled(size, Qt::KeepAspectRatio,  Qt::SmoothTransformation);
       new_icon.addPixmap(pixon, mode, QIcon::On);
     }
@@ -100,14 +100,14 @@ QIcon IconProvider::generateDifferentSizes(const QIcon &icon)
 }
 #endif
 
-QString IconProvider::getIconPath(const QString &iconId)
+QString IconProvider::getIconPath(const QString& iconId)
 {
-#if defined(Q_WS_X11) && (QT_VERSION >= QT_VERSION_CHECK(4,6,0))
-  if(m_useSystemTheme) {
+#if defined(Q_WS_X11)
+  if (m_useSystemTheme) {
     QString path = QDir::temp().absoluteFilePath(iconId+".png");
-    if(!QFile::exists(path)) {
+    if (!QFile::exists(path)) {
       const QIcon icon = QIcon::fromTheme(iconId);
-      if(icon.isNull()) return ":/Icons/oxygen/"+iconId+".png";
+      if (icon.isNull()) return ":/Icons/oxygen/"+iconId+".png";
       QPixmap px = icon.pixmap(32);
       px.save(path);
     }

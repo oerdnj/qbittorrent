@@ -42,6 +42,7 @@
 #include <QStandardItemModel>
 #include <QMessageBox>
 #include <QScrollBar>
+#include <QLabel>
 
 #include "transferlistdelegate.h"
 #include "transferlistwidget.h"
@@ -49,6 +50,7 @@
 #include "qinisettings.h"
 #include "torrentmodel.h"
 #include "iconprovider.h"
+#include "fs_utils.h"
 
 class LabelFiltersList: public QListWidget {
   Q_OBJECT
@@ -62,13 +64,17 @@ public:
     // Accept drop
     setAcceptDrops(true);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+    setStyleSheet("QListWidget { background: transparent; border: 0 }");
+#if defined(Q_WS_MAC)
+    setAttribute(Qt::WA_MacShowFocusRect, false);
+#endif
   }
 
   // Redefine addItem() to make sure the list stays sorted
   void addItem(QListWidgetItem *it) {
     Q_ASSERT(count() >= 2);
-    for(int i=2; i<count(); ++i) {
-      if(item(i)->text().localeAwareCompare(it->text()) >= 0) {
+    for (int i=2; i<count(); ++i) {
+      if (item(i)->text().localeAwareCompare(it->text()) >= 0) {
         insertItem(i, it);
         return;
       }
@@ -87,8 +93,8 @@ public:
 
   int rowFromLabel(QString label) const {
     Q_ASSERT(!label.isEmpty());
-    for(int i=2; i<count(); ++i) {
-      if(label == labelFromRow(i)) return i;
+    for (int i=2; i<count(); ++i) {
+      if (label == labelFromRow(i)) return i;
     }
     return -1;
   }
@@ -98,9 +104,9 @@ signals:
 
 protected:
   void dragMoveEvent(QDragMoveEvent *event) {
-    if(itemAt(event->pos()) && row(itemAt(event->pos())) > 0) {
-      if(itemHover) {
-        if(itemHover != itemAt(event->pos())) {
+    if (itemAt(event->pos()) && row(itemAt(event->pos())) > 0) {
+      if (itemHover) {
+        if (itemHover != itemAt(event->pos())) {
           setItemHover(false);
           itemHover = itemAt(event->pos());
           setItemHover(true);
@@ -111,7 +117,7 @@ protected:
       }
       event->acceptProposedAction();
     } else {
-      if(itemHover)
+      if (itemHover)
         setItemHover(false);
       event->ignore();
     }
@@ -119,7 +125,7 @@ protected:
 
   void dropEvent(QDropEvent *event) {
     qDebug("Drop Event in labels list");
-    if(itemAt(event->pos())) {
+    if (itemAt(event->pos())) {
       emit torrentDropped(row(itemAt(event->pos())));
     }
     event->ignore();
@@ -129,7 +135,7 @@ protected:
   }
 
   void dragLeaveEvent(QDragLeaveEvent*) {
-    if(itemHover)
+    if (itemHover)
       setItemHover(false);
     // Select current item again
     currentItem()->setSelected(true);
@@ -137,7 +143,7 @@ protected:
 
   void setItemHover(bool hover) {
     Q_ASSERT(itemHover);
-    if(hover) {
+    if (hover) {
       itemHover->setData(Qt::DecorationRole, IconProvider::instance()->getIcon("folder-documents.png"));
       itemHover->setSelected(true);
       //setCurrentItem(itemHover);
@@ -158,13 +164,17 @@ public:
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     // Height is fixed (sizeHint().height() is used)
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    setStyleSheet("QListWidget { background: transparent; border: 0 }");
+#if defined(Q_WS_MAC)
+    setAttribute(Qt::WA_MacShowFocusRect, false);
+#endif
   }
 
 protected:
   QSize sizeHint() const {
     QSize size = QListWidget::sizeHint();
     // Height should be exactly the height of the content
-    size.setHeight(contentsSize().height() + 2 * frameWidth());
+    size.setHeight(contentsSize().height() + 2 * frameWidth()+6);
     return size;
   }
 
@@ -190,8 +200,19 @@ public:
     // Construct lists
     vLayout = new QVBoxLayout();
     vLayout->setContentsMargins(0, 4, 0, 4);
+    QFont font;
+    font.setBold(true);
+    font.setCapitalization(QFont::SmallCaps);
+    QLabel *torrentsLabel = new QLabel(tr("Torrents"));
+    torrentsLabel->setIndent(2);
+    torrentsLabel->setFont(font);
+    vLayout->addWidget(torrentsLabel);
     statusFilters = new StatusFiltersWidget(this);
     vLayout->addWidget(statusFilters);
+    QLabel *labelsLabel = new QLabel(tr("Labels"));
+    labelsLabel->setIndent(2);
+    labelsLabel->setFont(font);
+    vLayout->addWidget(labelsLabel);
     labelFilters = new LabelFiltersList(this);
     vLayout->addWidget(labelFilters);
     setLayout(vLayout);
@@ -271,7 +292,7 @@ public:
     QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
     statusFilters->setCurrentRow(settings.value("TransferListFilters/selectedFilterIndex", 0).toInt());
     const QStringList label_list = Preferences().getTorrentLabels();
-    foreach(const QString &label, label_list) {
+    foreach (const QString &label, label_list) {
       customLabels.insert(label, 0);
       qDebug("Creating label QListWidgetItem: %s", qPrintable(label));
       QListWidgetItem *newLabel = new QListWidgetItem();
@@ -294,16 +315,16 @@ protected slots:
 
   void torrentDropped(int row) {
     Q_ASSERT(row > 0);
-    if(row == 1) {
+    if (row == 1) {
       transferList->setSelectionLabel("");
     } else {
       transferList->setSelectionLabel(labelFilters->labelFromRow(row));
     }
   }
 
-  void addLabel(QString label) {
-    label = misc::toValidFileSystemName(label.trimmed());
-    if(label.isEmpty() || customLabels.contains(label)) return;
+  void addLabel(QString& label) {
+    label = fsutils::toValidFileSystemName(label.trimmed());
+    if (label.isEmpty() || customLabels.contains(label)) return;
     QListWidgetItem *newLabel = new QListWidgetItem();
     newLabel->setText(label + " (0)");
     newLabel->setData(Qt::DecorationRole, IconProvider::instance()->getIcon("inode-directory"));
@@ -315,7 +336,7 @@ protected slots:
   void showLabelMenu(QPoint) {
     QMenu labelMenu(labelFilters);
     QAction *removeAct = 0;
-    if(!labelFilters->selectedItems().empty() && labelFilters->row(labelFilters->selectedItems().first()) > 1)
+    if (!labelFilters->selectedItems().empty() && labelFilters->row(labelFilters->selectedItems().first()) > 1)
       removeAct = labelMenu.addAction(IconProvider::instance()->getIcon("list-remove"), tr("Remove label"));
     QAction *addAct = labelMenu.addAction(IconProvider::instance()->getIcon("list-add"), tr("Add label..."));
     labelMenu.addSeparator();
@@ -324,24 +345,24 @@ protected slots:
     QAction *deleteTorrentsAct = labelMenu.addAction(IconProvider::instance()->getIcon("edit-delete"), tr("Delete torrents"));
     QAction *act = 0;
     act = labelMenu.exec(QCursor::pos());
-    if(act) {
-      if(act == removeAct) {
+    if (act) {
+      if (act == removeAct) {
         removeSelectedLabel();
         return;
       }
-      if(act == deleteTorrentsAct) {
+      if (act == deleteTorrentsAct) {
         transferList->deleteVisibleTorrents();
         return;
       }
-      if(act == startAct) {
+      if (act == startAct) {
         transferList->startVisibleTorrents();
         return;
       }
-      if(act == pauseAct) {
+      if (act == pauseAct) {
         transferList->pauseVisibleTorrents();
         return;
       }
-      if(act == addAct) {
+      if (act == addAct) {
         bool ok;
         QString label = "";
         bool invalid;
@@ -349,7 +370,7 @@ protected slots:
           invalid = false;
           label = QInputDialog::getText(this, tr("New Label"), tr("Label:"), QLineEdit::Normal, label, &ok);
           if (ok && !label.isEmpty()) {
-            if(misc::isValidFileSystemName(label)) {
+            if (fsutils::isValidFileSystemName(label)) {
               addLabel(label);
             } else {
               QMessageBox::warning(this, tr("Invalid label name"), tr("Please don't use any special characters in the label name."));
@@ -395,8 +416,8 @@ protected slots:
   void torrentChangedLabel(TorrentModelItem *torrentItem, QString old_label, QString new_label) {
     Q_UNUSED(torrentItem);
     qDebug("Torrent label changed from %s to %s", qPrintable(old_label), qPrintable(new_label));
-    if(!old_label.isEmpty()) {
-      if(customLabels.contains(old_label)) {
+    if (!old_label.isEmpty()) {
+      if (customLabels.contains(old_label)) {
         const int new_count = customLabels.value(old_label, 0) - 1;
         Q_ASSERT(new_count >= 0);
         customLabels.insert(old_label, new_count);
@@ -406,8 +427,8 @@ protected slots:
       }
       --nb_labeled;
     }
-    if(!new_label.isEmpty()) {
-      if(!customLabels.contains(new_label))
+    if (!new_label.isEmpty()) {
+      if (!customLabels.contains(new_label))
         addLabel(new_label);
       const int new_count = customLabels.value(new_label, 0) + 1;
       Q_ASSERT(new_count >= 1);
@@ -423,9 +444,11 @@ protected slots:
   void handleNewTorrent(TorrentModelItem* torrentItem) {
     QString label = torrentItem->data(TorrentModelItem::TR_LABEL).toString();
     qDebug("New torrent was added with label: %s", qPrintable(label));
-    if(!label.isEmpty()) {
-      if(!customLabels.contains(label)) {
+    if (!label.isEmpty()) {
+      if (!customLabels.contains(label)) {
         addLabel(label);
+        // addLabel may have changed the label, update the model accordingly.
+        torrentItem->setData(TorrentModelItem::TR_LABEL, label);
       }
       // Update label counter
       Q_ASSERT(customLabels.contains(label));
@@ -448,7 +471,7 @@ protected slots:
   void torrentAboutToBeDeleted(TorrentModelItem* torrentItem) {
     Q_ASSERT(torrentItem);
     QString label = torrentItem->data(TorrentModelItem::TR_LABEL).toString();
-    if(!label.isEmpty()) {
+    if (!label.isEmpty()) {
       // Update label counter
       const int new_count = customLabels.value(label, 0) - 1;
       customLabels.insert(label, new_count);

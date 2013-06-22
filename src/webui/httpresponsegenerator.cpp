@@ -33,33 +33,34 @@
 
 void HttpResponseGenerator::setMessage(const QByteArray& message)
 {
-	HttpResponseGenerator::message = message;
-	setContentLength(message.size());
+  m_message = message;
+  setContentLength(message.size());
 }
 
-void HttpResponseGenerator::setMessage(const QString& message) {
+void HttpResponseGenerator::setMessage(const QString& message)
+{
   setMessage(message.toUtf8());
 }
 
 void HttpResponseGenerator::setContentTypeByExt(const QString& ext) {
-  if(ext == "css") {
+  if (ext == "css") {
 		setContentType("text/css");
 		return;
 	}
-  if(ext == "gif") {
+  if (ext == "gif") {
 		setContentType("image/gif");
 		return;
 	}
-	if(ext == "htm" || ext == "html")	{
+	if (ext == "htm" || ext == "html")	{
 		setContentType("text/html");
 		return;
 	}
-	if(ext == "js")	{
+	if (ext == "js")	{
 		setContentType("text/javascript");
 		return;
 	}
-  if(ext == "png") {
-		setContentType("image/x-png");
+  if (ext == "png") {
+		setContentType("image/png");
 		return;
 	}
 }

@@ -40,7 +40,7 @@
 #include <QFile>
 
 #include "torrentcreatorthread.h"
-#include "misc.h"
+#include "fs_utils.h"
 
 #if LIBTORRENT_VERSION_MINOR < 16
 #include <boost/filesystem/operations.hpp>
@@ -48,6 +48,8 @@
 #include <boost/filesystem/fstream.hpp>
 #endif
 #include <boost/bind.hpp>
+#include <iostream>
+#include <fstream>
 
 using namespace libtorrent;
 #if LIBTORRENT_VERSION_MINOR < 16
@@ -75,8 +77,8 @@ void TorrentCreatorThread::create(QString _input_path, QString _save_path, QStri
 {
   input_path = _input_path;
   save_path = _save_path;
-  if(QFile(save_path).exists())
-    misc::safeRemove(save_path);
+  if (QFile(save_path).exists())
+    fsutils::forceRemove(save_path);
   trackers = _trackers;
   url_seeds = _url_seeds;
   comment = _comment;
@@ -89,7 +91,7 @@ void TorrentCreatorThread::create(QString _input_path, QString _save_path, QStri
   start();
 }
 
-void sendProgressUpdateSignal(int i, int num, TorrentCreatorThread *parent){
+void sendProgressUpdateSignal(int i, int num, TorrentCreatorThread *parent) {
   parent->sendProgressSignal((int)(i*100./(float)num));
 }
 
@@ -104,19 +106,19 @@ void TorrentCreatorThread::run() {
     file_storage fs;
     // Adding files to the torrent
     libtorrent::add_files(fs, input_path.toUtf8().constData(), file_filter);
-    if(abort) return;
+    if (abort) return;
     create_torrent t(fs, piece_size);
 
     // Add url seeds
-    foreach(const QString &seed, url_seeds){
+    foreach (const QString &seed, url_seeds) {
       t.add_url_seed(seed.trimmed().toStdString());
     }
-    foreach(const QString &tracker, trackers) {
+    foreach (const QString &tracker, trackers) {
       t.add_tracker(tracker.trimmed().toStdString());
     }
-    if(abort) return;
+    if (abort) return;
     // calculate the hash for all pieces
-    const QString parent_path = misc::branchPath(input_path);
+    const QString parent_path = fsutils::branchPath(input_path);
     set_piece_hashes(t, parent_path.toUtf8().constData(), boost::bind<void>(&sendProgressUpdateSignal, _1, t.num_pieces(), this));
     // Set qBittorrent as creator and add user comment to
     // torrent_info structure
@@ -124,21 +126,25 @@ void TorrentCreatorThread::run() {
     t.set_comment(comment.toUtf8().constData());
     // Is private ?
     t.set_priv(is_private);
-    if(abort) return;
+    if (abort) return;
     // create the torrent and print it to out
     qDebug("Saving to %s", qPrintable(save_path));
-    std::vector<char> torrent;
-    bencode(back_inserter(torrent), t.generate());
-    QFile outfile(save_path);
-    if(!torrent.empty() && outfile.open(QIODevice::WriteOnly)) {
-      outfile.write(&torrent[0], torrent.size());
-      outfile.close();
-      emit updateProgress(100);
-      emit creationSuccess(save_path, parent_path);
-    } else {
+#ifdef _MSC_VER
+    wchar_t *wsave_path = new wchar_t[save_path.length()+1];
+    int len = save_path.toWCharArray(wsave_path);
+    wsave_path[len] = '\0';
+    std::ofstream outfile(wsave_path, std::ios_base::out|std::ios_base::binary);
+    delete[] wsave_path;
+#else
+    std::ofstream outfile(save_path.toLocal8Bit().constData(), std::ios_base::out|std::ios_base::binary);
+#endif
+    if (outfile.fail())
       throw std::exception();
-    }
-  } catch (std::exception& e){
+    bencode(std::ostream_iterator<char>(outfile), t.generate());
+    outfile.close();
+    emit updateProgress(100);
+    emit creationSuccess(save_path, parent_path);
+  } catch (std::exception& e) {
     emit creationFailure(QString::fromLocal8Bit(e.what()));
   }
 }
