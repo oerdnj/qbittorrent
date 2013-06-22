@@ -12,8 +12,8 @@ override_dh_auto_configure:
 	mkdir -p build-gui && cd build-gui && ../configure --prefix=/usr
 
 override_dh_auto_build:
-	mv -f build-nox/conf.pri . && dh_auto_build --builddirectory build-nox
-	mv -f build-gui/conf.pri . && dh_auto_build --builddirectory build-gui
+	dh_auto_build --builddirectory build-nox
+	dh_auto_build --builddirectory build-gui
 
 override_dh_auto_install:
 	sed -i '/STRIP/d' build-nox/src/Makefile
