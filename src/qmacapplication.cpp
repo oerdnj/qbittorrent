@@ -34,9 +34,19 @@
 #include "qmacapplication.h"
 
 QMacApplication::QMacApplication(QString appid, int &argc, char** argv) :
-    QtSingleApplication(appid, argc, argv)
+  QtSingleApplication(appid, argc, argv),
+  m_readyToProcessEvents(false)
 {
   qDebug("Constructing a QMacApplication to receive file open events");
+}
+
+void QMacApplication::setReadyToProcessEvents()
+{
+  m_readyToProcessEvents = true;
+  if (!m_torrentsQueue.isEmpty()) {
+    emit newFileOpenMacEvent(m_torrentsQueue.join("|"));
+    m_torrentsQueue.clear();
+  }
 }
 
 bool QMacApplication::event(QEvent * ev) {
@@ -44,12 +54,15 @@ bool QMacApplication::event(QEvent * ev) {
   case QEvent::FileOpen:
     {
       QString path = static_cast<QFileOpenEvent *>(ev)->file();
-      if(path.isEmpty()) {
+      if (path.isEmpty()) {
         // Get the url instead
         path = static_cast<QFileOpenEvent *>(ev)->url().toString();
       }
       qDebug("Received a mac file open event: %s", qPrintable(path));
-      emit newFileOpenMacEvent(path);
+      if (m_readyToProcessEvents)
+        emit newFileOpenMacEvent(path);
+      else
+        m_torrentsQueue.append(path);
       return true;
     }
   default:

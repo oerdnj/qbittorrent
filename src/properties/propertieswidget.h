@@ -37,7 +37,7 @@
 
 
 class TransferListWidget;
-class TorrentFilesFilterModel;
+class TorrentContentFilterModel;
 class PropListDelegate;
 class torrent_file;
 class PeerListWidget;
@@ -79,7 +79,6 @@ protected slots:
   void askWebSeed();
   void deleteSelectedUrlSeeds();
   void displayFilesListMenu(const QPoint& pos);
-  void on_changeSavePathButton_clicked();
   void filteredFilesChanged();
   void showPiecesDownloaded(bool show);
   void showPiecesAvailability(bool show);
@@ -101,7 +100,7 @@ private:
   QTorrentHandle h;
   QTimer *refreshTimer;
   SlideState state;
-  TorrentFilesFilterModel *PropListModel;
+  TorrentContentFilterModel *PropListModel;
   PropListDelegate *PropDelegate;
   PeerListWidget *peersList;
   TrackerList *trackerList;

@@ -45,7 +45,7 @@ class about : public QDialog, private Ui::AboutDlg{
       qDebug("Deleting about dlg");
     }
 
-    about(QWidget *parent): QDialog(parent){
+    about(QWidget *parent): QDialog(parent) {
       setupUi(this);
       setAttribute(Qt::WA_DeleteOnClose);
       // Set icons
@@ -80,8 +80,9 @@ class about : public QDialog, private Ui::AboutDlg{
           <li><u>Georgian:</u> Beqa Arabuli (arabulibeqa@yahoo.com)</li>\
           <li><u>German:</u> Niels Hoffmann (zentralmaschine@users.sourceforge.net)</li>\
           <li><u>Greek:</u> Tsvetan Bankov (emerge_life@users.sourceforge.net)</li>\
+          <li><u>Hebrew:</u> David Deutsch (d.deffo@gmail.com)</li>\
           <li><u>Hungarian:</u> Majoros Péter (majoros.peterj@gmail.com)</li>\
-          <li><u>Italian:</u> Matteo Sechi (bu17714@gmail.com)</li>\
+          <li><u>Italian:</u> bovirus (bovirus@live.it) and Matteo Sechi (bu17714@gmail.com)</li>\
           <li><u>Japanese:</u> Masato Hashimoto (cabezon.hashimoto@gmail.com)</li>\
           <li><u>Korean:</u> Jin Woo Sin (jin828sin@users.sourceforge.net)</li>\
           <li><u>Lithuanian:</u> Naglis Jonaitis (njonaitis@gmail.com)</li>\
@@ -95,13 +96,13 @@ class about : public QDialog, private Ui::AboutDlg{
           <li><u>Spanish:</u> Francisco Luque Contreras (frannoe@ya.com)</li>\
           <li><u>Swedish:</u> Daniel Nylander (po@danielnylander.se)</li>\
           <li><u>Turkish:</u> Hasan YILMAZ (iletisim@hedefturkce.com) and Erdem Bingöl (erdem84@gmail.com)</li>\
-          <li><u>Ukrainian:</u> Andrey Shpachenko (masterfix@users.sourceforge.net) and Oleh Prypin (blaxpirit@gmail.com)</li></ul>");
+          <li><u>Ukrainian:</u> Oleh Prypin (blaxpirit@gmail.com)</li></ul>");
       trans_txt += "<p>"+tr("Please contact me if you would like to translate qBittorrent into your own language.")+"</p>";
       te_translation->setHtml(trans_txt);
       // License
       te_license->append(QString::fromUtf8("<a name='top'></a>"));
       QFile licensefile(":/gpl.html");
-      if(licensefile.open(QIODevice::ReadOnly|QIODevice::Text)) {
+      if (licensefile.open(QIODevice::ReadOnly|QIODevice::Text)) {
         te_license->setHtml(licensefile.readAll());
         licensefile.close();
       }

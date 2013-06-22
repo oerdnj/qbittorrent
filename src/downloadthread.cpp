@@ -32,7 +32,6 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkProxy>
-#include <QNetworkCookie>
 #include <QNetworkCookieJar>
 
 #include "downloadthread.h"
@@ -51,11 +50,61 @@ DownloadThread::DownloadThread(QObject* parent) : QObject(parent) {
 #endif
 }
 
+QByteArray DownloadThread::gUncompress(Bytef *inData, size_t len) {
+  if (len <= 4) {
+    qWarning("gUncompress: Input data is truncated");
+    return QByteArray();
+  }
+
+  QByteArray result;
+  z_stream strm;
+  static const int CHUNK_SIZE = 1024;
+  char out[CHUNK_SIZE];
+
+  /* allocate inflate state */
+  strm.zalloc = Z_NULL;
+  strm.zfree = Z_NULL;
+  strm.opaque = Z_NULL;
+  strm.avail_in = len;
+  strm.next_in = inData;
+
+  const int windowBits = 15;
+  const int ENABLE_ZLIB_GZIP = 32;
+
+  int ret = inflateInit2(&strm, windowBits|ENABLE_ZLIB_GZIP); // gzip decoding
+  if (ret != Z_OK)
+    return QByteArray();
+
+  // run inflate()
+  do {
+    strm.avail_out = CHUNK_SIZE;
+    strm.next_out = reinterpret_cast<unsigned char*>(out);
+
+    ret = inflate(&strm, Z_NO_FLUSH);
+    Q_ASSERT(ret != Z_STREAM_ERROR); // state not clobbered
+
+    switch (ret) {
+    case Z_NEED_DICT:
+    case Z_DATA_ERROR:
+    case Z_MEM_ERROR:
+      (void) inflateEnd(&strm);
+
+      return QByteArray();
+    }
+
+    result.append(out, CHUNK_SIZE - strm.avail_out);
+  } while (!strm.avail_out);
+
+  // clean up and return
+  inflateEnd(&strm);
+  return result;
+}
+
 void DownloadThread::processDlFinished(QNetworkReply* reply) {
   QString url = reply->url().toString();
   qDebug("Download finished: %s", qPrintable(url));
   // Check if the request was successful
-  if(reply->error() != QNetworkReply::NoError) {
+  if (reply->error() != QNetworkReply::NoError) {
     // Failure
     qDebug("Download failure (%s), reason: %s", qPrintable(url), qPrintable(errorCodeToString(reply->error())));
     emit downloadFailure(url, errorCodeToString(reply->error()));
@@ -64,7 +113,7 @@ void DownloadThread::processDlFinished(QNetworkReply* reply) {
   }
   // Check if the server ask us to redirect somewhere lese
   const QVariant redirection = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
-  if(redirection.isValid()) {
+  if (redirection.isValid()) {
     // We should redirect
     QUrl newUrl = redirection.toUrl();
     // Resolve relative urls
@@ -73,12 +122,13 @@ void DownloadThread::processDlFinished(QNetworkReply* reply) {
     const QString newUrlString = newUrl.toString();
     qDebug("Redirecting from %s to %s", qPrintable(url), qPrintable(newUrlString));
     m_redirectMapping.insert(newUrlString, url);
-    downloadUrl(newUrlString);
+    // redirecting with first cookies
+    downloadUrl(newUrlString, m_networkManager.cookieJar()->cookiesForUrl(url));
     reply->deleteLater();
     return;
   }
   // Checking if it was redirected, restoring initial URL
-  if(m_redirectMapping.contains(url)) {
+  if (m_redirectMapping.contains(url)) {
     url = m_redirectMapping.take(url);
   }
   // Success
@@ -87,9 +137,13 @@ void DownloadThread::processDlFinished(QNetworkReply* reply) {
   if (tmpfile->open()) {
     QString filePath = tmpfile->fileName();
     qDebug("Temporary filename is: %s", qPrintable(filePath));
-    if(reply->isOpen() || reply->open(QIODevice::ReadOnly)) {
-      // TODO: Support GZIP compression
-      tmpfile->write(reply->readAll());
+    if (reply->isOpen() || reply->open(QIODevice::ReadOnly)) {
+      QByteArray replyData = reply->readAll();
+      if (reply->rawHeader("Content-Encoding") == "gzip") {
+        // uncompress gzip reply
+        replyData = gUncompress(reinterpret_cast<unsigned char*>(replyData.data()), replyData.length());
+      }
+      tmpfile->write(replyData);
       tmpfile->close();
       // XXX: tmpfile needs to be deleted on Windows before using the file
       // or it will complain that the file is used by another process.
@@ -109,39 +163,21 @@ void DownloadThread::processDlFinished(QNetworkReply* reply) {
   reply->deleteLater();
 }
 
-#ifndef DISABLE_GUI
-void DownloadThread::loadCookies(const QString &host_name, QString url) {
-  const QList<QByteArray> raw_cookies = RssSettings().getHostNameCookies(host_name);
-  QNetworkCookieJar *cookie_jar = m_networkManager.cookieJar();
-  QList<QNetworkCookie> cookies;
-  qDebug("Loading cookies for host name: %s", qPrintable(host_name));
-  foreach(const QByteArray& raw_cookie, raw_cookies) {
-    QList<QByteArray> cookie_parts = raw_cookie.split('=');
-    if(cookie_parts.size() == 2) {
-      qDebug("Loading cookie: %s", raw_cookie.constData());
-      cookies << QNetworkCookie(cookie_parts.first(), cookie_parts.last());
-    }
-  }
-  cookie_jar->setCookiesFromUrl(cookies, url);
-  m_networkManager.setCookieJar(cookie_jar);
-}
-#endif
-
-void DownloadThread::downloadTorrentUrl(const QString &url) {
+void DownloadThread::downloadTorrentUrl(const QString &url, const QList<QNetworkCookie>& cookies)
+{
   // Process request
-  QNetworkReply *reply = downloadUrl(url);
+  QNetworkReply *reply = downloadUrl(url, cookies);
   connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(checkDownloadSize(qint64,qint64)));
 }
 
-QNetworkReply* DownloadThread::downloadUrl(const QString &url){
+QNetworkReply* DownloadThread::downloadUrl(const QString &url, const QList<QNetworkCookie>& cookies) {
   // Update proxy settings
   applyProxySettings();
-#ifndef DISABLE_GUI
-  // Load cookies
-  QString host_name = QUrl::fromEncoded(url.toUtf8()).host();
-  if(!host_name.isEmpty())
-    loadCookies(host_name, url);
-#endif
+  // Set cookies
+  if (!cookies.empty()) {
+    qDebug("Setting %d cookies for url: %s", cookies.size(), qPrintable(url));
+    m_networkManager.cookieJar()->setCookiesFromUrl(cookies, url);
+  }
   // Process download request
   qDebug("url is %s", qPrintable(url));
   const QUrl qurl = QUrl::fromEncoded(url.toUtf8());
@@ -151,19 +187,21 @@ QNetworkReply* DownloadThread::downloadUrl(const QString &url){
   request.setRawHeader("User-Agent", "Mozilla/5.0 (X11; U; Linux i686 (x86_64); en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5");
   qDebug("Downloading %s...", request.url().toEncoded().data());
   qDebug("%d cookies for this URL", m_networkManager.cookieJar()->cookiesForUrl(url).size());
-  for(int i=0; i<m_networkManager.cookieJar()->cookiesForUrl(url).size(); ++i) {
+  for (int i=0; i<m_networkManager.cookieJar()->cookiesForUrl(url).size(); ++i) {
     qDebug("%s=%s", m_networkManager.cookieJar()->cookiesForUrl(url).at(i).name().data(), m_networkManager.cookieJar()->cookiesForUrl(url).at(i).value().data());
     qDebug("Domain: %s, Path: %s", qPrintable(m_networkManager.cookieJar()->cookiesForUrl(url).at(i).domain()), qPrintable(m_networkManager.cookieJar()->cookiesForUrl(url).at(i).path()));
   }
+  // accept gzip
+  request.setRawHeader("Accept-Encoding", "gzip");
   return m_networkManager.get(request);
 }
 
 void DownloadThread::checkDownloadSize(qint64 bytesReceived, qint64 bytesTotal) {
   QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
-  if(!reply) return;
-  if(bytesTotal > 0) {
+  if (!reply) return;
+  if (bytesTotal > 0) {
     // Total number of bytes is available
-    if(bytesTotal > 1048576) {
+    if (bytesTotal > 1048576) {
       // More than 1MB, this is probably not a torrent file, aborting...
       reply->abort();
       reply->deleteLater();
@@ -171,7 +209,7 @@ void DownloadThread::checkDownloadSize(qint64 bytesReceived, qint64 bytesTotal) 
       disconnect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(checkDownloadSize(qint64,qint64)));
     }
   } else {
-    if(bytesReceived  > 1048576) {
+    if (bytesReceived  > 1048576) {
       // More than 1MB, this is probably not a torrent file, aborting...
       reply->abort();
       reply->deleteLater();
@@ -182,13 +220,13 @@ void DownloadThread::checkDownloadSize(qint64 bytesReceived, qint64 bytesTotal) 
 void DownloadThread::applyProxySettings() {
   QNetworkProxy proxy;
   const Preferences pref;
-  if(pref.isProxyEnabled()) {
+  if (pref.isProxyEnabled()) {
     // Proxy enabled
     proxy.setHostName(pref.getProxyIp());
     proxy.setPort(pref.getProxyPort());
     // Default proxy type is HTTP, we must change if it is SOCKS5
     const int proxy_type = pref.getProxyType();
-    if(proxy_type == Proxy::SOCKS5 || proxy_type == Proxy::SOCKS5_PW) {
+    if (proxy_type == Proxy::SOCKS5 || proxy_type == Proxy::SOCKS5_PW) {
       qDebug() << Q_FUNC_INFO << "using SOCKS proxy";
       proxy.setType(QNetworkProxy::Socks5Proxy);
     } else {
@@ -196,7 +234,7 @@ void DownloadThread::applyProxySettings() {
       proxy.setType(QNetworkProxy::HttpProxy);
     }
     // Authentication?
-    if(pref.isProxyAuthEnabled()) {
+    if (pref.isProxyAuthEnabled()) {
       qDebug("Proxy requires authentication, authenticating");
       proxy.setUser(pref.getProxyUsername());
       proxy.setPassword(pref.getProxyPassword());
@@ -208,7 +246,7 @@ void DownloadThread::applyProxySettings() {
 }
 
 QString DownloadThread::errorCodeToString(QNetworkReply::NetworkError status) {
-  switch(status){
+  switch(status) {
   case QNetworkReply::HostNotFoundError:
     return tr("The remote host name was not found (invalid hostname)");
   case QNetworkReply::OperationCanceledError:

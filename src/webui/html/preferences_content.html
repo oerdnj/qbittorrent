@@ -196,7 +196,7 @@
 
 <fieldset class="settings">
   <legend>_(Torrent Queueing)</legend>
-  <input type="checkbox" id="queueing_checkbox" onclick="updateQueuingSystem();"/>
+  <input type="checkbox" id="queueing_checkbox" onclick="updateQueueingSystem();"/>
   <label for="queueing_checkbox">_(Torrent Queueing)</label><br/>
   <div class="formRow">
   <label for="max_active_dl_value" style="margin-left: 20px;" class="leftLabelLarge">_(Maximum active downloads:)</label>
@@ -277,6 +277,7 @@
       <option value="it_IT">Italiano</option>
       <option value="nl_NL">Nederlands</option>
       <option value="es_ES">Español</option>
+      <option value="eu_ES">Euskara</option>
       <option value="ca_ES">Català</option>
       <option value="gl_ES">Galego</option>
       <option value="pt_PT">Português</option>
@@ -286,6 +287,7 @@
       <option value="lt_LT">Lietuvių</option>
       <option value="sk_SK">Slovenčina</option>
       <option value="sr_CS">Српски</option>
+      <option value="he_IL">עברית</option>
       <option value="hy_AM">Հայերեն</option>
       <option value="ka_GE">ქართული</option>
       <option value="ro_RO">Română</option>
@@ -319,7 +321,7 @@
   <label for="ssl_cert_textarea" style="margin-left: 20px;" class="leftLabelSmall">_(Certificate:)</label>
   <textarea id="ssl_cert_textarea" rows="5" cols="70"></textarea>
   </div>
-  <div style="padding-left: 10px;"><a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts>Information about certificates</a></div>
+  <div style="padding-left: 10px;"><a href=http://httpd.apache.org/docs/2.2/ssl/ssl_faq.html#aboutcerts>Information about certificates</a></div>
 </fieldset>
 
 <fieldset class="settings">
@@ -1043,7 +1045,7 @@ applyPreferences = function() {
   // Send it to qBT
   var json_str = JSON.encode(settings);
 
-  new Request({url: '/command/setPreferences',
+  new Request({url: 'command/setPreferences',
 			    method: 'post',
 			    data: {'json': json_str,
                                    },

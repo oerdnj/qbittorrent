@@ -17,13 +17,11 @@ enum AdvSettingsRows {DISK_CACHE, OUTGOING_PORT_MIN, OUTGOING_PORT_MAX, IGNORE_L
                     #if defined(Q_WS_WIN) || defined(Q_WS_MAC)
                       UPDATE_CHECK,
                     #endif
-                    #if defined(Q_WS_X11) && (QT_VERSION >= QT_VERSION_CHECK(4,6,0))
+                    #if defined(Q_WS_X11)
                       USE_ICON_THEME,
                     #endif
                       CONFIRM_DELETE_TORRENT, TRACKER_EXCHANGE,
-                    #if LIBTORRENT_VERSION_MINOR > 14
                       ANNOUNCE_ALL_TRACKERS,
-                    #endif
                       ROW_COUNT};
 
 class AdvancedSettings: public QTableWidget {
@@ -38,12 +36,10 @@ private:
 #if defined(Q_WS_WIN) || defined(Q_WS_MAC)
   QCheckBox cb_update_check;
 #endif
-#if defined(Q_WS_X11) && (QT_VERSION >= QT_VERSION_CHECK(4,6,0))
+#if defined(Q_WS_X11)
   QCheckBox cb_use_icon_theme;
 #endif
-#if LIBTORRENT_VERSION_MINOR > 14
-   QCheckBox cb_announce_all_trackers;
-#endif
+  QCheckBox cb_announce_all_trackers;
   QLineEdit txt_network_address;
 
 public:
@@ -59,6 +55,8 @@ public:
     horizontalHeader()->setStretchLastSection(true);
     verticalHeader()->setVisible(false);
     setRowCount(ROW_COUNT);
+    // Signals
+    connect(&spin_cache, SIGNAL(valueChanged(int)), SLOT(updateCacheSpinSuffix(int)));
     // Load settings
     loadAdvancedSettings();
   }
@@ -85,20 +83,20 @@ public slots:
     pref.resolvePeerHostNames(cb_resolve_hosts.isChecked());
     // Max Half-Open connections
     pref.setMaxHalfOpenConnections(spin_maxhalfopen.value());
-#if LIBTORRENT_VERSION_MINOR > 14
     // Super seeding
     pref.enableSuperSeeding(cb_super_seeding.isChecked());
-#endif
     // Network interface
-    if(combo_iface.currentIndex() == 0) {
+    if (combo_iface.currentIndex() == 0) {
       // All interfaces (default)
       pref.setNetworkInterface(QString::null);
+      pref.setNetworkInterfaceName(QString::null);
     } else {
-      pref.setNetworkInterface(combo_iface.currentText());
+      pref.setNetworkInterface(combo_iface.itemData(combo_iface.currentIndex()).toString());
+      pref.setNetworkInterfaceName(combo_iface.currentText());
     }
     // Network address
     QHostAddress addr(txt_network_address.text().trimmed());
-    if(addr.isNull())
+    if (addr.isNull())
       pref.setNetworkAddress("");
     else
       pref.setNetworkAddress(addr.toString());
@@ -111,15 +109,13 @@ public slots:
     pref.setUpdateCheckEnabled(cb_update_check.isChecked());
 #endif
     // Icon theme
-#if defined(Q_WS_X11) && (QT_VERSION >= QT_VERSION_CHECK(4,6,0))
+#if defined(Q_WS_X11)
     pref.useSystemIconTheme(cb_use_icon_theme.isChecked());
 #endif
     pref.setConfirmTorrentDeletion(cb_confirm_torrent_deletion.isChecked());
     // Tracker exchange
     pref.setTrackerExchangeEnabled(cb_enable_tracker_ext.isChecked());
-#if LIBTORRENT_VERSION_MINOR > 14
     pref.setAnnounceToAllTrackers(cb_announce_all_trackers.isChecked());
-#endif
   }
 
 signals:
@@ -159,13 +155,22 @@ private:
   }
 
 private slots:
-  void loadAdvancedSettings() {
+  void updateCacheSpinSuffix(int value)
+  {
+    if (value <= 0)
+      spin_cache.setSuffix(tr(" (auto)"));
+    else
+      spin_cache.setSuffix(tr(" MiB"));
+  }
+
+  void loadAdvancedSettings()
+  {
     const Preferences pref;
     // Disk write cache
-    spin_cache.setMinimum(1);
-    spin_cache.setMaximum(200);
+    spin_cache.setMinimum(0);
+    spin_cache.setMaximum(2048);
     spin_cache.setValue(pref.diskCacheSize());
-    spin_cache.setSuffix(tr(" MiB"));
+    updateCacheSpinSuffix(spin_cache.value());
     setRow(DISK_CACHE, tr("Disk write cache size"), &spin_cache);
     // Outgoing port Min
     outgoing_ports_min.setMinimum(0);
@@ -201,22 +206,26 @@ private slots:
     spin_maxhalfopen.setValue(pref.getMaxHalfOpenConnections());
     setRow(MAX_HALF_OPEN, tr("Maximum number of half-open connections [0: Disabled]"), &spin_maxhalfopen);
     // Super seeding
-#if LIBTORRENT_VERSION_MINOR > 14
     cb_super_seeding.setChecked(pref.isSuperSeedingEnabled());
-#else
-    cb_super_seeding.setEnabled(false);
-#endif
     setRow(SUPER_SEEDING, tr("Strict super seeding"), &cb_super_seeding);
     // Network interface
     combo_iface.addItem(tr("Any interface", "i.e. Any network interface"));
     const QString current_iface = pref.getNetworkInterface();
+    bool interface_exists = current_iface.isEmpty();
     int i = 1;
-    foreach(const QNetworkInterface& iface, QNetworkInterface::allInterfaces()) {
-      if(iface.flags() & QNetworkInterface::IsLoopBack) continue;
-      combo_iface.addItem(iface.name());
-      if(!current_iface.isEmpty() && iface.name() == current_iface)
+    foreach (const QNetworkInterface& iface, QNetworkInterface::allInterfaces()) {
+      if (iface.flags() & QNetworkInterface::IsLoopBack) continue;
+      combo_iface.addItem(iface.humanReadableName(),iface.name());
+      if (!current_iface.isEmpty() && iface.name() == current_iface) {
         combo_iface.setCurrentIndex(i);
+        interface_exists = true;
+      }
       ++i;
+    }
+    // Saved interface does not exist, show it anyway
+    if (!interface_exists) {
+      combo_iface.addItem(pref.getNetworkInterfaceName(),current_iface);
+      combo_iface.setCurrentIndex(i);
     }
     setRow(NETWORK_IFACE, tr("Network Interface (requires restart)"), &combo_iface);
     // Network address
@@ -237,7 +246,7 @@ private slots:
     cb_update_check.setChecked(pref.isUpdateCheckEnabled());
     setRow(UPDATE_CHECK, tr("Check for software updates"), &cb_update_check);
 #endif
-#if defined(Q_WS_X11) && (QT_VERSION >= QT_VERSION_CHECK(4,6,0))
+#if defined(Q_WS_X11)
     cb_use_icon_theme.setChecked(pref.useSystemIconTheme());
     setRow(USE_ICON_THEME, tr("Use system icon theme"), &cb_use_icon_theme);
 #endif
@@ -247,11 +256,9 @@ private slots:
     // Tracker exchange
     cb_enable_tracker_ext.setChecked(pref.trackerExchangeEnabled());
     setRow(TRACKER_EXCHANGE, tr("Exchange trackers with other peers"), &cb_enable_tracker_ext);
-#if LIBTORRENT_VERSION_MINOR > 14
     // Announce to all trackers
     cb_announce_all_trackers.setChecked(pref.announceToAllTrackers());
     setRow(ANNOUNCE_ALL_TRACKERS, tr("Always announce to all trackers"), &cb_announce_all_trackers);
-#endif
   }
 
 };

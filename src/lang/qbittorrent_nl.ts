@@ -115,7 +115,157 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;An advanced BitTorrent client programmed in C++, based on Qt4 toolkit and libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2012 Christophe Dumez&lt;br /&gt;&lt;br /&gt;Home Page: &lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Bug Tracker: &lt;a href=&quot;http://bugs.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://bugs.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;br /&gt;Forum: &lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;IRC:  #qbittorrent on Freenode&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Een geavanceerde BitTorrent client geprogrammeerd in C++, gebaseerd op Qt4 toolkit en libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2012 Christophe Dumez&lt;br /&gt;&lt;br /&gt;Home Page: &lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Bug Tracker: &lt;a href=&quot;http://bugs.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://bugs.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;br /&gt;Forum: &lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;IRC:  #qbittorrent on Freenode&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>AddNewTorrentDialog</name>
+    <message>
+        <source>Dialog</source>
+        <translation>Venster</translation>
+    </message>
+    <message>
+        <source>Save as</source>
+        <translation>Opslaan als</translation>
+    </message>
+    <message>
+        <source>Set as default save path</source>
+        <translation>Stel in als standaard pad om op te slaan</translation>
+    </message>
+    <message>
+        <source>Never show again</source>
+        <translation>Niet opnieuw tonen</translation>
+    </message>
+    <message>
+        <source>Torrent settings</source>
+        <translation>Torrentinstellingen</translation>
+    </message>
+    <message>
+        <source>Start torrent</source>
+        <translation>Start torrent</translation>
+    </message>
+    <message>
+        <source>Label:</source>
+        <translation>Label:</translation>
+    </message>
+    <message>
+        <source>Skip hash check</source>
+        <translation>Sla hash check over</translation>
+    </message>
+    <message>
+        <source>Torrent Information</source>
+        <translation>Torrent Informatie</translation>
+    </message>
+    <message>
+        <source>Size:</source>
+        <translation>Grootte:</translation>
+    </message>
+    <message>
+        <source>Comment:</source>
+        <translation>Opmerkingen:</translation>
+    </message>
+    <message>
+        <source>Date:</source>
+        <translation>Datum:</translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation>Normaal</translation>
+    </message>
+    <message>
+        <source>High</source>
+        <translation>Hoog</translation>
+    </message>
+    <message>
+        <source>Maximum</source>
+        <translation>Maximum</translation>
+    </message>
+    <message>
+        <source>Do not download</source>
+        <translation>Niet downloaden</translation>
+    </message>
+    <message>
+        <source>Other...</source>
+        <comment>Other save path...</comment>
+        <translation>Andere...</translation>
+    </message>
+    <message>
+        <source>I/O Error</source>
+        <translation>I/O Fout</translation>
+    </message>
+    <message>
+        <source>The torrent file does not exist.</source>
+        <translation>Het torrent-bestand bestaat niet.</translation>
+    </message>
+    <message>
+        <source>Invalid torrent</source>
+        <translation>Ongeldige torrent</translation>
+    </message>
+    <message>
+        <source>Not available</source>
+        <translation>Niet beschikbaar</translation>
+    </message>
+    <message>
+        <source>Invalid magnet link</source>
+        <translation>Ongeldige magnet link</translation>
+    </message>
+    <message>
+        <source>This magnet link was not recognized</source>
+        <translation>Deze magnet link werd niet herkend</translation>
+    </message>
+    <message>
+        <source>Magnet link</source>
+        <translation>Magnet link</translation>
+    </message>
+    <message>
+        <source>Disk space: %1</source>
+        <translation>Schijf grootte: %1</translation>
+    </message>
+    <message>
+        <source>Choose save path</source>
+        <translation>Kies opslag pad</translation>
+    </message>
+    <message>
+        <source>Rename the file</source>
+        <translation>Hernoem het bestand</translation>
+    </message>
+    <message>
+        <source>New name:</source>
+        <translation>Nieuwe naam:</translation>
+    </message>
+    <message>
+        <source>The file could not be renamed</source>
+        <translation>Dit bestand kon niet hernoemd worden</translation>
+    </message>
+    <message>
+        <source>This file name contains forbidden characters, please choose a different one.</source>
+        <translation>Deze bestandsnaam bevat verboden karakters, gelieve een andere te kiezen.</translation>
+    </message>
+    <message>
+        <source>This name is already in use in this folder. Please use a different name.</source>
+        <translation>Deze baan bestaat reeds in deze map. Gelieve een andere naam te gebruiken.</translation>
+    </message>
+    <message>
+        <source>The folder could not be renamed</source>
+        <translation>Deze map kon niet hernoemd worden</translation>
+    </message>
+    <message>
+        <source>Rename...</source>
+        <translation>Hernoem...</translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation>Prioriteit</translation>
+    </message>
+    <message>
+        <source>Failed to load the torrent: %1</source>
+        <translation>Gefaald bij het laden van torrent: %1</translation>
     </message>
 </context>
 <context>
@@ -238,6 +388,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Always announce to all trackers</source>
         <translation>Kondig altijd aan naar alle trackers</translation>
+    </message>
+    <message>
+        <source> (auto)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -577,7 +731,7 @@ U zou informatie moeten krijgen van u Webbrowser voorkeuren.</translation>
     <name>DNSUpdater</name>
     <message>
         <source>Your dynamic DNS was successfuly updated.</source>
-        <translation>U dynamisch DNS werd succesvol geüpdate.</translation>
+        <translation type="obsolete">U dynamisch DNS werd succesvol geüpdate.</translation>
     </message>
     <message>
         <source>Dynamic DNS error: The service is temporarily unavailable, it will be retried in 30 minutes.</source>
@@ -614,6 +768,10 @@ U zou informatie moeten krijgen van u Webbrowser voorkeuren.</translation>
     <message>
         <source>Dynamic DNS error: supplied password is too short.</source>
         <translation>Dynamische DNS error: opgegegeven wachtwoord is te kort.</translation>
+    </message>
+    <message>
+        <source>Your dynamic DNS was successfully updated.</source>
+        <translation>U dynamisch DNS werd succesvol geupdate.</translation>
     </message>
 </context>
 <context>
@@ -716,42 +874,42 @@ U zou informatie moeten krijgen van u Webbrowser voorkeuren.</translation>
     <message>
         <source>%1/s</source>
         <comment>e.g. 120 KiB/s</comment>
-        <translation>%1/s</translation>
+        <translation type="obsolete">%1/s</translation>
     </message>
     <message>
         <source>Working</source>
-        <translation>Bezig</translation>
+        <translation type="obsolete">Bezig</translation>
     </message>
     <message>
         <source>Updating...</source>
-        <translation>Updating...</translation>
+        <translation type="obsolete">Updating...</translation>
     </message>
     <message>
         <source>Not working</source>
-        <translation>Niet bezig</translation>
+        <translation type="obsolete">Niet bezig</translation>
     </message>
     <message>
         <source>Not contacted yet</source>
-        <translation>Nog niet gecontacteerd</translation>
+        <translation type="obsolete">Nog niet gecontacteerd</translation>
     </message>
     <message>
         <source>this session</source>
-        <translation>Deze sessie</translation>
+        <translation type="obsolete">Deze sessie</translation>
     </message>
     <message>
         <source>/s</source>
         <comment>/second (i.e. per second)</comment>
-        <translation>/s</translation>
+        <translation type="obsolete">/s</translation>
     </message>
     <message>
         <source>Seeded for %1</source>
         <comment>e.g. Seeded for 3m10s</comment>
-        <translation>Geseed voor %1</translation>
+        <translation type="obsolete">Geseed voor %1</translation>
     </message>
     <message>
         <source>%1 max</source>
         <comment>e.g. 10 max</comment>
-        <translation>%1 max</translation>
+        <translation type="obsolete">%1 max</translation>
     </message>
 </context>
 <context>
@@ -1333,12 +1491,12 @@ Wil u qBittorrent updaten naar versie %1?</translation>
     <message>
         <source>D: %1/s - T: %2</source>
         <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
-        <translation>D: %1/s - O: %2</translation>
+        <translation type="obsolete">D: %1/s - O: %2</translation>
     </message>
     <message>
         <source>U: %1/s - T: %2</source>
         <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
-        <translation>U: %1/s - O: %2</translation>
+        <translation type="obsolete">U: %1/s - O: %2</translation>
     </message>
 </context>
 <context>
@@ -2708,8 +2866,8 @@ Wil u qBittorrent updaten naar versie %1?</translation>
         <translation>Key:</translation>
     </message>
     <message>
-        <source>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</source>
-        <translation>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Informatie over certificaten&lt;/a&gt;</translation>
+        <source>&lt;a href=http://httpd.apache.org/docs/2.2/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</source>
+        <translation>&lt;a href=http://httpd.apache.org/docs/2.2/ssl/ssl_faq.html#aboutcerts&gt;Informatie over certificaten&lt;/a&gt;</translation>
     </message>
     <message>
         <source>File association</source>
@@ -2733,7 +2891,11 @@ Wil u qBittorrent updaten naar versie %1?</translation>
     </message>
     <message>
         <source> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;More information&lt;/a&gt;)</source>
-        <translation> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;Meer informatie&lt;/a&gt;)</translation>
+        <translation type="obsolete"> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;Meer informatie&lt;/a&gt;)</translation>
+    </message>
+    <message>
+        <source> (&lt;a href=&quot;http://github.com/qbittorrent/qBittorrent/wiki/Anonymous-Mode&quot;&gt;More information&lt;/a&gt;)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2878,7 +3040,7 @@ Wil u qBittorrent updaten naar versie %1?</translation>
     </message>
     <message>
         <source>Choose save path</source>
-        <translation>Kies opslag pad</translation>
+        <translation type="obsolete">Kies opslag pad</translation>
     </message>
     <message>
         <source>Save path creation error</source>
@@ -3269,7 +3431,7 @@ Wil u qBittorrent updaten naar versie %1?</translation>
     </message>
     <message>
         <source>Trying any other network interface available instead.</source>
-        <translation>Probeer een andere beeschikbaar netwerkinterface in de plaats.</translation>
+        <translation type="obsolete">Probeer een andere beeschikbaar netwerkinterface in de plaats.</translation>
     </message>
     <message>
         <source>Listening on IP address %1 on network interface %2...</source>
@@ -3294,7 +3456,7 @@ Wil u qBittorrent updaten naar versie %1?</translation>
     <message>
         <source>Successfuly parsed the provided IP filter: %1 rules were applied.</source>
         <comment>%1 is a number</comment>
-        <translation>De opgegeven IP filter werd succesvol ontleed: %1 regels werden toegepast.</translation>
+        <translation type="obsolete">De opgegeven IP filter werd succesvol ontleed: %1 regels werden toegepast.</translation>
     </message>
     <message>
         <source>Error: Failed to parse the provided IP filter.</source>
@@ -3319,6 +3481,15 @@ Wil u qBittorrent updaten naar versie %1?</translation>
     <message>
         <source>Anonymous mode [ON]</source>
         <translation>Anonieme modues [AAN]</translation>
+    </message>
+    <message>
+        <source>Successfully parsed the provided IP filter: %1 rules were applied.</source>
+        <comment>%1 is a number</comment>
+        <translation>De meegegeven IP filter werd succesvol verwerkt: %1 regels werden toegepast.</translation>
+    </message>
+    <message>
+        <source>Anonymous mode [OFF]</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3633,23 +3804,23 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Cut</source>
-        <translation>Knippen</translation>
+        <translation type="obsolete">Knippen</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiëren</translation>
+        <translation type="obsolete">Kopiëren</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>Plakken</translation>
+        <translation type="obsolete">Plakken</translation>
     </message>
     <message>
         <source>Clear field</source>
-        <translation>Veld wissen</translation>
+        <translation type="obsolete">Veld wissen</translation>
     </message>
     <message>
         <source>Clear completion history</source>
-        <translation>Wis aanvulgeschiedenis</translation>
+        <translation type="obsolete">Wis aanvulgeschiedenis</translation>
     </message>
     <message>
         <source>Search Engine</source>
@@ -3706,11 +3877,11 @@ Wilt u het nu installeren?</translation>
     </message>
     <message>
         <source>Confirmation</source>
-        <translation>Bevestiging</translation>
+        <translation type="obsolete">Bevestiging</translation>
     </message>
     <message>
         <source>Are you sure you want to clear the history?</source>
-        <translation>Bent u zeker dat u de geschiedenis wilt wissen?</translation>
+        <translation type="obsolete">Bent u zeker dat u de geschiedenis wilt wissen?</translation>
     </message>
 </context>
 <context>
@@ -3839,6 +4010,25 @@ Wilt u het nu installeren?</translation>
     </message>
 </context>
 <context>
+    <name>TorrentContentModel</name>
+    <message>
+        <source>Name</source>
+        <translation>Naam</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Grootte</translation>
+    </message>
+    <message>
+        <source>Progress</source>
+        <translation>Voortgang</translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation>Prioriteit</translation>
+    </message>
+</context>
+<context>
     <name>TorrentCreatorDlg</name>
     <message>
         <source>Select a folder to add to the torrent</source>
@@ -3902,19 +4092,19 @@ Wilt u het nu installeren?</translation>
     <name>TorrentFilesModel</name>
     <message>
         <source>Name</source>
-        <translation>Naam</translation>
+        <translation type="obsolete">Naam</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation>Grootte</translation>
+        <translation type="obsolete">Grootte</translation>
     </message>
     <message>
         <source>Progress</source>
-        <translation>Voortgang</translation>
+        <translation type="obsolete">Voortgang</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation>Prioriteit</translation>
+        <translation type="obsolete">Prioriteit</translation>
     </message>
 </context>
 <context>
@@ -4138,7 +4328,7 @@ Wilt u het nu installeren?</translation>
     </message>
     <message>
         <source>Force reannounce</source>
-        <translation>Forceer heraankondiging</translation>
+        <translation type="obsolete">Forceer heraankondiging</translation>
     </message>
 </context>
 <context>
@@ -4295,6 +4485,14 @@ Wilt u het nu installeren?</translation>
     <message>
         <source>Delete torrents</source>
         <translation>Verwijder torrents</translation>
+    </message>
+    <message>
+        <source>Torrents</source>
+        <translation>Torrents</translation>
+    </message>
+    <message>
+        <source>Labels</source>
+        <translation>Labels</translation>
     </message>
 </context>
 <context>
@@ -4563,83 +4761,83 @@ Wilt u het nu installeren?</translation>
     <name>addTorrentDialog</name>
     <message>
         <source>Torrent addition dialog</source>
-        <translation>Torrent toevoegen dialoog</translation>
+        <translation type="obsolete">Torrent toevoegen dialoog</translation>
     </message>
     <message>
         <source>Save path:</source>
-        <translation>Opslag pad:</translation>
+        <translation type="obsolete">Opslag pad:</translation>
     </message>
     <message>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="obsolete">...</translation>
     </message>
     <message>
         <source>Torrent size:</source>
-        <translation>Torrent grootte:</translation>
+        <translation type="obsolete">Torrent grootte:</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation>Onbekend</translation>
+        <translation type="obsolete">Onbekend</translation>
     </message>
     <message>
         <source>Free disk space:</source>
-        <translation>Vrije schijfruimte:</translation>
+        <translation type="obsolete">Vrije schijfruimte:</translation>
     </message>
     <message>
         <source>Torrent content:</source>
-        <translation>Torrent inhoud:</translation>
+        <translation type="obsolete">Torrent inhoud:</translation>
     </message>
     <message>
         <source>Download in sequential order (slower but good for previewing)</source>
-        <translation>Download in sequentiële volgorde (langzamer maar goed om voorbeeld weer te geven)</translation>
+        <translation type="obsolete">Download in sequentiële volgorde (langzamer maar goed om voorbeeld weer te geven)</translation>
     </message>
     <message>
         <source>Add to download list in paused state</source>
-        <translation>Aan download lijst toevoegen in pauze stand</translation>
+        <translation type="obsolete">Aan download lijst toevoegen in pauze stand</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Toevoegen</translation>
+        <translation type="obsolete">Toevoegen</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Annuleren</translation>
+        <translation type="obsolete">Annuleren</translation>
     </message>
     <message>
         <source>Normal</source>
-        <translation>Normaal</translation>
+        <translation type="obsolete">Normaal</translation>
     </message>
     <message>
         <source>High</source>
-        <translation>Hoog</translation>
+        <translation type="obsolete">Hoog</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation>Maximum</translation>
+        <translation type="obsolete">Maximum</translation>
     </message>
     <message>
         <source>Skip file checking and start seeding immediately</source>
-        <translation>Sla het controleren van het bestand over en start onmiddellijk met het seeden</translation>
+        <translation type="obsolete">Sla het controleren van het bestand over en start onmiddellijk met het seeden</translation>
     </message>
     <message>
         <source>Label:</source>
-        <translation>Label:</translation>
+        <translation type="obsolete">Label:</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Selecteer alles</translation>
+        <translation type="obsolete">Selecteer alles</translation>
     </message>
     <message>
         <source>Select None</source>
-        <translation>Selecteer geen</translation>
+        <translation type="obsolete">Selecteer geen</translation>
     </message>
     <message>
         <source>Do not download</source>
-        <translation>Download niet</translation>
+        <translation type="obsolete">Download niet</translation>
     </message>
     <message>
         <source>Set as default save path</source>
-        <translation>Stel in als standaard pad om op te slaan</translation>
+        <translation type="obsolete">Stel in als standaard pad om op te slaan</translation>
     </message>
 </context>
 <context>
@@ -5142,6 +5340,13 @@ De plugins zijn uitgeschakeld.</translation>
     </message>
 </context>
 <context>
+    <name>fsutils</name>
+    <message>
+        <source>Downloads</source>
+        <translation>Downloads</translation>
+    </message>
+</context>
+<context>
     <name>misc</name>
     <message>
         <source>B</source>
@@ -5170,7 +5375,7 @@ De plugins zijn uitgeschakeld.</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation>Onbekend</translation>
+        <translation type="obsolete">Onbekend</translation>
     </message>
     <message>
         <source>Unknown</source>
@@ -5203,7 +5408,52 @@ De plugins zijn uitgeschakeld.</translation>
     </message>
     <message>
         <source>Downloads</source>
-        <translation type="unfinished">Downloads</translation>
+        <translation type="obsolete">Downloads</translation>
+    </message>
+    <message>
+        <source>/s</source>
+        <comment>per second</comment>
+        <translation>/s</translation>
+    </message>
+    <message>
+        <source>Working</source>
+        <translation>Bezig</translation>
+    </message>
+    <message>
+        <source>Updating...</source>
+        <translation>Updating...</translation>
+    </message>
+    <message>
+        <source>Not working</source>
+        <translation>Niet bezig</translation>
+    </message>
+    <message>
+        <source>Not contacted yet</source>
+        <translation>Nog niet gecontacteerd</translation>
+    </message>
+    <message>
+        <source>this session</source>
+        <translation>Deze sessie</translation>
+    </message>
+    <message>
+        <source>Seeded for %1</source>
+        <comment>e.g. Seeded for 3m10s</comment>
+        <translation>Geseed voor %1</translation>
+    </message>
+    <message>
+        <source>%1 max</source>
+        <comment>e.g. 10 max</comment>
+        <translation>%1 max</translation>
+    </message>
+    <message>
+        <source>D: %1/s - T: %2</source>
+        <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
+        <translation>D: %1/s - O: %2</translation>
+    </message>
+    <message>
+        <source>U: %1/s - T: %2</source>
+        <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
+        <translation>U: %1/s - O: %2</translation>
     </message>
 </context>
 <context>
@@ -5263,7 +5513,7 @@ De plugins zijn uitgeschakeld.</translation>
     <message>
         <source>Successfuly parsed the provided IP filter: %1 rules were applied.</source>
         <comment>%1 is a number</comment>
-        <translation>De opgegeven IP filter werd succesvol ontleed: %1 regels werden toegepast.</translation>
+        <translation type="obsolete">De opgegeven IP filter werd succesvol ontleed: %1 regels werden toegepast.</translation>
     </message>
     <message>
         <source>Successfully refreshed</source>
@@ -5292,6 +5542,11 @@ De plugins zijn uitgeschakeld.</translation>
     <message>
         <source>This is not a valid SSL certificate.</source>
         <translation>Dit is geen geldig SSL certificaat.</translation>
+    </message>
+    <message>
+        <source>Successfully parsed the provided IP filter: %1 rules were applied.</source>
+        <comment>%1 is a number</comment>
+        <translation>The meegegeven IP filter werd succesvol verwerkt: %1 regels werden toegepast.</translation>
     </message>
 </context>
 <context>
@@ -5391,101 +5646,97 @@ selecteer alstublieft een er van:</translation>
     <name>torrentAdditionDialog</name>
     <message>
         <source>Unable to decode torrent file:</source>
-        <translation>Torrentfile kan niet gedecodeerd worden:</translation>
+        <translation type="obsolete">Torrentfile kan niet gedecodeerd worden:</translation>
     </message>
     <message>
         <source>Choose save path</source>
-        <translation>Kies opslag pad</translation>
+        <translation type="obsolete">Kies opslag pad</translation>
     </message>
     <message>
         <source>(%1 left after torrent download)</source>
         <comment>e.g. (100MiB left after torrent download)</comment>
-        <translation>(%1 over na torrent download)</translation>
+        <translation type="obsolete">(%1 over na torrent download)</translation>
     </message>
     <message>
         <source>(%1 more are required to download)</source>
         <comment>e.g. (100MiB more are required to download)</comment>
-        <translation>(%1 extra is nodig om te downloaden)</translation>
+        <translation type="obsolete">(%1 extra is nodig om te downloaden)</translation>
     </message>
     <message>
         <source>Empty save path</source>
-        <translation>Leeg opslag pad</translation>
+        <translation type="obsolete">Leeg opslag pad</translation>
     </message>
     <message>
         <source>Please enter a save path</source>
-        <translation>Geef alstublieft een opslag pad</translation>
+        <translation type="obsolete">Geef alstublieft een opslag pad</translation>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation>Opslag pad aanmaak fout</translation>
+        <translation type="obsolete">Opslag pad aanmaak fout</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation>Kon het opslag pad niet aanmaken</translation>
+        <translation type="obsolete">Kon het opslag pad niet aanmaken</translation>
     </message>
     <message>
         <source>Invalid file selection</source>
-        <translation>Ongeldige bestand selectie</translation>
+        <translation type="obsolete">Ongeldige bestand selectie</translation>
     </message>
     <message>
         <source>You must select at least one file in the torrent</source>
-        <translation>U moet tenminste een bestand in de torrent selecteren</translation>
+        <translation type="obsolete">U moet tenminste een bestand in de torrent selecteren</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation>Prioriteit</translation>
+        <translation type="obsolete">Prioriteit</translation>
     </message>
     <message>
         <source>Seeding mode error</source>
-        <translation>Seeding modus fout</translation>
+        <translation type="obsolete">Seeding modus fout</translation>
     </message>
     <message>
         <source>You chose to skip file checking. However, local files do not seem to exist in the current destionation folder. Please disable this feature or update the save path.</source>
-        <translation>U kiest ervoor om bestandscontrole over te slaan. Alhoewel, lokale bestanden blijken niet te bestaan in de huidige bestemmingsmap. Gelieve deze feature uit te schakelen of update het opslagpad.</translation>
+        <translation type="obsolete">U kiest ervoor om bestandscontrole over te slaan. Alhoewel, lokale bestanden blijken niet te bestaan in de huidige bestemmingsmap. Gelieve deze feature uit te schakelen of update het opslagpad.</translation>
     </message>
     <message>
         <source>Rename...</source>
-        <translation>Hernoemen...</translation>
+        <translation type="obsolete">Hernoemen...</translation>
     </message>
     <message>
         <source>New name:</source>
-        <translation>Nieuwe naam:</translation>
+        <translation type="obsolete">Nieuwe naam:</translation>
     </message>
     <message>
         <source>The file could not be renamed</source>
-        <translation>Dit bestand kon niet hernoemd worden</translation>
+        <translation type="obsolete">Dit bestand kon niet hernoemd worden</translation>
     </message>
     <message>
         <source>This name is already in use in this folder. Please use a different name.</source>
-        <translation>Deze naam bestaat reeds in deze map. Gelieve een andere naam te gebruiken.</translation>
+        <translation type="obsolete">Deze naam bestaat reeds in deze map. Gelieve een andere naam te gebruiken.</translation>
     </message>
     <message>
         <source>The folder could not be renamed</source>
-        <translation>Deze map kon niet hernoemd worden</translation>
+        <translation type="obsolete">Deze map kon niet hernoemd worden</translation>
     </message>
     <message>
         <source>Rename the file</source>
-        <translation>Hernoem het bestand</translation>
-    </message>
-    <message>
-        <source>Unable to decode magnet link:</source>
-        <translation></translation>
+        <translation type="obsolete">Hernoem het bestand</translation>
     </message>
     <message>
         <source>Magnet Link</source>
-        <translation>Magnetlink</translation>
+        <translation type="obsolete">Magnetlink</translation>
     </message>
     <message>
         <source>Invalid label name</source>
-        <translation>Ongeldige labelnaam</translation>
+        <translation type="obsolete">Ongeldige labelnaam</translation>
     </message>
     <message>
         <source>Please don&apos;t use any special characters in the label name.</source>
-        <translation>Gelieve geen speciale characters te gebruiken in de labelnaam.</translation>
+        <translation type="obsolete">Gelieve geen speciale characters te gebruiken in de labelnaam.</translation>
     </message>
     <message>
         <source>This file name contains forbidden characters, please choose a different one.</source>
-        <translation>Deze bestandsnaam bevat verboden character, gelieve een andere te kiezen.</translation>
+        <translation type="obsolete">Deze bestandsnaam bevat verboden character, gelieve een andere te kiezen.</translation>
     </message>
 </context>
 </TS>

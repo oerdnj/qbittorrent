@@ -58,18 +58,16 @@ class HttpServer : public QTcpServer {
   Q_DISABLE_COPY(HttpServer)
 
 public:
-  HttpServer(int msec, QObject* parent = 0);
+  HttpServer(QObject* parent = 0);
   ~HttpServer();
   void setAuthorization(const QString& username, const QString& password_sha1);
   bool isAuthorized(const QByteArray& auth, const QString& method) const;
   void setlocalAuthEnabled(bool enabled);
   bool isLocalAuthEnabled() const;
-  EventManager *eventManager() const;
   QString generateNonce() const;
   int NbFailedAttemptsForIp(const QString& ip) const;
   void increaseNbFailedAttemptsForIp(const QString& ip);
   void resetNbFailedAttemptsForIp(const QString& ip);
-  bool isTranslationNeeded();
 
 #ifndef QT_NO_OPENSSL
   void enableHttps(const QSslCertificate &certificate, const QSslKey &key);
@@ -80,9 +78,7 @@ private:
   void incomingConnection(int socketDescriptor);
 
 private slots:
-  void onTimer();
   void UnbanTimerEvent();
-  void onLocaleChanged(const QString &locale);
 
 private:
   void handleNewConnection(QTcpSocket *socket);
@@ -90,11 +86,8 @@ private:
 private:
   QByteArray m_username;
   QByteArray m_passwordSha1;
-  EventManager *m_eventManager;
-  QTimer m_timer;
   QHash<QString, int> m_clientFailedAttempts;
   bool m_localAuthEnabled;
-  bool m_needsTranslation;
 #ifndef QT_NO_OPENSSL
   bool m_https;
   QSslCertificate m_certificate;

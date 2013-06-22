@@ -37,27 +37,28 @@
 using namespace libtorrent;
 
 TorrentModelItem::TorrentModelItem(const QTorrentHandle &h)
+  : m_torrent(h)
+  , m_addedTime(TorrentPersistentData::getAddedDate(h.hash()))
+  , m_seedTime(TorrentPersistentData::getSeedDate(h.hash()))
+  , m_label(TorrentPersistentData::getLabel(h.hash()))
+  , m_name(TorrentPersistentData::getName(h.hash()))
+  , m_hash(h.hash())
 {
-  m_torrent = h;
-  m_hash = h.hash();
-  m_name = TorrentPersistentData::getName(h.hash());
-  if(m_name.isEmpty()) m_name = h.name();
-  m_addedTime = TorrentPersistentData::getAddedDate(h.hash());
-  m_seedTime = TorrentPersistentData::getSeedDate(h.hash());
-  m_label = TorrentPersistentData::getLabel(h.hash());
+  if (m_name.isEmpty())
+    m_name = h.name();
 }
 
 TorrentModelItem::State TorrentModelItem::state() const
 {
   try {
     // Pause or Queued
-    if(m_torrent.is_paused()) {
+    if (m_torrent.is_paused()) {
       m_icon = QIcon(":/Icons/skin/paused.png");
       m_fgColor = QColor("red");
       return m_torrent.is_seed() ? STATE_PAUSED_UP : STATE_PAUSED_DL;
     }
-    if(m_torrent.is_queued()) {
-      if(m_torrent.state() != torrent_status::queued_for_checking
+    if (m_torrent.is_queued()) {
+      if (m_torrent.state() != torrent_status::queued_for_checking
           && m_torrent.state() != torrent_status::checking_resume_data
           && m_torrent.state() != torrent_status::checking_files) {
         m_icon = QIcon(":/Icons/skin/queued.png");
@@ -70,7 +71,7 @@ TorrentModelItem::State TorrentModelItem::state() const
     case torrent_status::allocating:
     case torrent_status::downloading_metadata:
     case torrent_status::downloading: {
-      if(m_torrent.download_payload_rate() > 0) {
+      if (m_torrent.download_payload_rate() > 0) {
         m_icon = QIcon(":/Icons/skin/downloading.png");
         m_fgColor = QColor("green");
         return STATE_DOWNLOADING;
@@ -82,7 +83,7 @@ TorrentModelItem::State TorrentModelItem::state() const
     }
     case torrent_status::finished:
     case torrent_status::seeding:
-      if(m_torrent.upload_payload_rate() > 0) {
+      if (m_torrent.upload_payload_rate() > 0) {
         m_icon = QIcon(":/Icons/skin/uploading.png");
         m_fgColor = QColor("orange");
         return STATE_SEEDING;
@@ -112,8 +113,8 @@ TorrentModelItem::State TorrentModelItem::state() const
 bool TorrentModelItem::setData(int column, const QVariant &value, int role)
 {
   qDebug() << Q_FUNC_INFO << column << value;
-  if(role != Qt::DisplayRole) return false;
-  // Label and Name columns can be edited
+  if (role != Qt::DisplayRole) return false;
+  // Label, seed date and Name columns can be edited
   switch(column) {
   case TR_NAME:
     m_name = value.toString();
@@ -121,13 +122,17 @@ bool TorrentModelItem::setData(int column, const QVariant &value, int role)
     return true;
   case TR_LABEL: {
     QString new_label = value.toString();
-    if(m_label != new_label) {
+    if (m_label != new_label) {
       QString old_label = m_label;
       m_label = new_label;
       TorrentPersistentData::saveLabel(m_torrent.hash(), new_label);
       emit labelChanged(old_label, new_label);
     }
     return true;
+  }
+  case TR_SEED_DATE: {
+      m_seedTime = value.toDateTime();
+      return true;
   }
   default:
     break;
@@ -137,13 +142,13 @@ bool TorrentModelItem::setData(int column, const QVariant &value, int role)
 
 QVariant TorrentModelItem::data(int column, int role) const
 {
-  if(role == Qt::DecorationRole && column == TR_NAME) {
+  if (role == Qt::DecorationRole && column == TR_NAME) {
     return m_icon;
   }
-  if(role == Qt::ForegroundRole) {
+  if (role == Qt::ForegroundRole) {
     return m_fgColor;
   }
-  if(role != Qt::DisplayRole && role != Qt::UserRole) return QVariant();
+  if (role != Qt::DisplayRole && role != Qt::UserRole) return QVariant();
   switch(column) {
   case TR_NAME:
     return m_name.isEmpty()? m_torrent.name() : m_name;
@@ -167,7 +172,7 @@ QVariant TorrentModelItem::data(int column, int role) const
     return m_torrent.upload_payload_rate();
   case TR_ETA: {
     // XXX: Is this correct?
-    if(m_torrent.is_seed() || m_torrent.is_paused() || m_torrent.is_queued()) return MAX_ETA;
+    if (m_torrent.is_seed() || m_torrent.is_paused() || m_torrent.is_queued()) return MAX_ETA;
     return QBtSession::instance()->getETA(m_torrent.hash());
   }
   case TR_RATIO:
@@ -205,8 +210,10 @@ TorrentModel::TorrentModel(QObject *parent) :
 void TorrentModel::populate() {
   // Load the torrents
   std::vector<torrent_handle> torrents = QBtSession::instance()->getSession()->get_torrents();
-  std::vector<torrent_handle>::const_iterator it;
-  for(it = torrents.begin(); it != torrents.end(); it++) {
+  
+  std::vector<torrent_handle>::const_iterator it = torrents.begin();
+  std::vector<torrent_handle>::const_iterator itend = torrents.end();
+  for ( ; it != itend; ++it) {
     addTorrent(QTorrentHandle(*it));
   }
   // Refresh timer
@@ -216,7 +223,7 @@ void TorrentModel::populate() {
   connect(QBtSession::instance(), SIGNAL(addedTorrent(QTorrentHandle)), SLOT(addTorrent(QTorrentHandle)));
   connect(QBtSession::instance(), SIGNAL(torrentAboutToBeRemoved(QTorrentHandle)), SLOT(handleTorrentAboutToBeRemoved(QTorrentHandle)));
   connect(QBtSession::instance(), SIGNAL(deletedTorrent(QString)), SLOT(removeTorrent(QString)));
-  connect(QBtSession::instance(), SIGNAL(finishedTorrent(QTorrentHandle)), SLOT(handleTorrentUpdate(QTorrentHandle)));
+  connect(QBtSession::instance(), SIGNAL(finishedTorrent(QTorrentHandle)), SLOT(handleFinishedTorrent(QTorrentHandle)));
   connect(QBtSession::instance(), SIGNAL(metadataReceived(QTorrentHandle)), SLOT(handleTorrentUpdate(QTorrentHandle)));
   connect(QBtSession::instance(), SIGNAL(resumedTorrent(QTorrentHandle)), SLOT(handleTorrentUpdate(QTorrentHandle)));
   connect(QBtSession::instance(), SIGNAL(pausedTorrent(QTorrentHandle)), SLOT(handleTorrentUpdate(QTorrentHandle)));
@@ -234,7 +241,7 @@ QVariant TorrentModel::headerData(int section, Qt::Orientation orientation,
                                   int role) const
 {
   if (orientation == Qt::Horizontal) {
-    if(role == Qt::DisplayRole) {
+    if (role == Qt::DisplayRole) {
       switch(section) {
       case TorrentModelItem::TR_NAME: return tr("Name", "i.e: torrent name");
       case TorrentModelItem::TR_PRIORITY: return "#";
@@ -260,7 +267,7 @@ QVariant TorrentModel::headerData(int section, Qt::Orientation orientation,
         return QVariant();
       }
     }
-    if(role == Qt::TextAlignmentRole) {
+    if (role == Qt::TextAlignmentRole) {
       switch(section) {
       case TorrentModelItem::TR_PRIORITY:
       case TorrentModelItem::TR_SIZE:
@@ -287,9 +294,9 @@ QVariant TorrentModel::headerData(int section, Qt::Orientation orientation,
 
 QVariant TorrentModel::data(const QModelIndex &index, int role) const
 {
-  if(!index.isValid()) return QVariant();
+  if (!index.isValid()) return QVariant();
   try {
-    if(index.row() >= 0 && index.row() < rowCount() && index.column() >= 0 && index.column() < columnCount())
+    if (index.row() >= 0 && index.row() < rowCount() && index.column() >= 0 && index.column() < columnCount())
       return m_torrents[index.row()]->data(index.column(), role);
   } catch(invalid_handle&) {}
   return QVariant();
@@ -298,12 +305,12 @@ QVariant TorrentModel::data(const QModelIndex &index, int role) const
 bool TorrentModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
   qDebug() << Q_FUNC_INFO << value;
-  if(!index.isValid() || role != Qt::DisplayRole) return false;
+  if (!index.isValid() || role != Qt::DisplayRole) return false;
   qDebug("Index is valid and role is DisplayRole");
   try {
-    if(index.row() >= 0 && index.row() < rowCount() && index.column() >= 0 && index.column() < columnCount()) {
+    if (index.row() >= 0 && index.row() < rowCount() && index.column() >= 0 && index.column() < columnCount()) {
       bool change = m_torrents[index.row()]->setData(index.column(), value, role);
-      if(change)
+      if (change)
         notifyTorrentChanged(index.row());
       return change;
     }
@@ -313,10 +320,12 @@ bool TorrentModel::setData(const QModelIndex &index, const QVariant &value, int 
 
 int TorrentModel::torrentRow(const QString &hash) const
 {
-  QList<TorrentModelItem*>::const_iterator it;
   int row = 0;
-  for(it = m_torrents.constBegin(); it != m_torrents.constEnd(); it++) {
-    if((*it)->hash() == hash) return row;
+
+  QList<TorrentModelItem*>::const_iterator it = m_torrents.constBegin();
+  QList<TorrentModelItem*>::const_iterator itend = m_torrents.constEnd();
+  for ( ; it != itend; ++it) {
+    if ((*it)->hash() == hash) return row;
     ++row;
   }
   return -1;
@@ -324,7 +333,7 @@ int TorrentModel::torrentRow(const QString &hash) const
 
 void TorrentModel::addTorrent(const QTorrentHandle &h)
 {
-  if(torrentRow(h.hash()) < 0) {
+  if (torrentRow(h.hash()) < 0) {
     beginInsertTorrent(m_torrents.size());
     TorrentModelItem *item = new TorrentModelItem(h);
     connect(item, SIGNAL(labelChanged(QString,QString)), SLOT(handleTorrentLabelChange(QString,QString)));
@@ -338,7 +347,7 @@ void TorrentModel::removeTorrent(const QString &hash)
 {
   const int row = torrentRow(hash);
   qDebug() << Q_FUNC_INFO << hash << row;
-  if(row >= 0) {
+  if (row >= 0) {
     beginRemoveTorrent(row);
     m_torrents.removeAt(row);
     endRemoveTorrent();
@@ -368,9 +377,20 @@ void TorrentModel::endRemoveTorrent()
 void TorrentModel::handleTorrentUpdate(const QTorrentHandle &h)
 {
   const int row = torrentRow(h.hash());
-  if(row >= 0) {
+  if (row >= 0) {
     notifyTorrentChanged(row);
   }
+}
+
+void TorrentModel::handleFinishedTorrent(const QTorrentHandle& h)
+{
+  const int row = torrentRow(h.hash());
+  if (row < 0)
+    return;
+
+  // Update completion date
+  m_torrents[row]->setData(TorrentModelItem::TR_SEED_DATE, QDateTime::currentDateTime(), Qt::DisplayRole);
+  notifyTorrentChanged(row);
 }
 
 void TorrentModel::notifyTorrentChanged(int row)
@@ -380,7 +400,7 @@ void TorrentModel::notifyTorrentChanged(int row)
 
 void TorrentModel::setRefreshInterval(int refreshInterval)
 {
-  if(m_refreshInterval != refreshInterval) {
+  if (m_refreshInterval != refreshInterval) {
     m_refreshInterval = refreshInterval;
     m_refreshTimer.stop();
     m_refreshTimer.start(m_refreshInterval);
@@ -395,8 +415,10 @@ void TorrentModel::forceModelRefresh()
 TorrentStatusReport TorrentModel::getTorrentStatusReport() const
 {
   TorrentStatusReport report;
-  QList<TorrentModelItem*>::const_iterator it;
-  for(it = m_torrents.constBegin(); it != m_torrents.constEnd(); it++) {
+
+  QList<TorrentModelItem*>::const_iterator it = m_torrents.constBegin();
+  QList<TorrentModelItem*>::const_iterator itend = m_torrents.constEnd();
+  for ( ; it != itend; ++it) {
     switch((*it)->data(TorrentModelItem::TR_STATUS).toInt()) {
     case TorrentModelItem::STATE_DOWNLOADING:
       ++report.nb_active;
@@ -446,7 +468,7 @@ void TorrentModel::handleTorrentLabelChange(QString previous, QString current)
 
 QString TorrentModel::torrentHash(int row) const
 {
-  if(row >= 0 && row < rowCount())
+  if (row >= 0 && row < rowCount())
     return m_torrents.at(row)->hash();
   return QString();
 }
@@ -454,7 +476,7 @@ QString TorrentModel::torrentHash(int row) const
 void TorrentModel::handleTorrentAboutToBeRemoved(const QTorrentHandle &h)
 {
   const int row = torrentRow(h.hash());
-  if(row >= 0) {
+  if (row >= 0) {
     emit torrentAboutToBeRemoved(m_torrents.at(row));
   }
 }

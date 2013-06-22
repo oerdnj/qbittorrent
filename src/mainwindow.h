@@ -70,7 +70,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow{
 
 public:
   // Construct / Destruct
-  MainWindow(QWidget *parent=0, QStringList torrentCmdLine=QStringList());
+  MainWindow(QWidget *parent=0, const QStringList& torrentCmdLine = QStringList());
   ~MainWindow();
   // Methods
   QWidget* getCurrentTabWidget() const;
@@ -111,6 +111,7 @@ protected slots:
   void notifyOfUpdate(QString);
   void showConnectionSettings();
   void minimizeWindow();
+  void updateTrayIconMenu();
   // Keyboard shortcuts
   void createKeyboardShortcuts();
   void displayTransferTab() const;
@@ -128,6 +129,7 @@ protected slots:
   void addTorrent(QString path);
   void addUnauthenticatedTracker(const QPair<QTorrentHandle,QString> &tracker);
   void processDownloadedFiles(QString path, QString url);
+  void processNewMagnetLink(const QString& link);
   void finishedTorrent(const QTorrentHandle& h) const;
   void askRecursiveTorrentDownloadConfirmation(const QTorrentHandle &h);
   // Options slots

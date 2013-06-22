@@ -36,36 +36,20 @@
 #include "rsssettings.h"
 #include "qinisettings.h"
 
-RssDownloadRuleList* RssDownloadRuleList::m_instance = 0;
-
-RssDownloadRuleList::RssDownloadRuleList(){
+RssDownloadRuleList::RssDownloadRuleList()
+{
   loadRulesFromStorage();
 }
 
-RssDownloadRuleList* RssDownloadRuleList::instance()
-{
-  if(!m_instance)
-    m_instance = new RssDownloadRuleList;
-  return m_instance;
-}
-
-void RssDownloadRuleList::drop()
-{
-  if(m_instance) {
-    delete m_instance;
-    m_instance = 0;
-  }
-}
-
-RssDownloadRule RssDownloadRuleList::findMatchingRule(const QString &feed_url, const QString &article_title) const
+RssDownloadRulePtr RssDownloadRuleList::findMatchingRule(const QString &feed_url, const QString &article_title) const
 {
   Q_ASSERT(RssSettings().isRssDownloadingEnabled());
-  const QStringList rule_names = m_feedRules.value(feed_url);
-  foreach(const QString &rule_name, rule_names) {
-    const RssDownloadRule &rule = m_rules[rule_name];
-    if(rule.isEnabled() && rule.matches(article_title)) return rule;
+  QStringList rule_names = m_feedRules.value(feed_url);
+  foreach (const QString &rule_name, rule_names) {
+    RssDownloadRulePtr rule = m_rules[rule_name];
+    if (rule->isEnabled() && rule->matches(article_title)) return rule;
   }
-  return RssDownloadRule();
+  return RssDownloadRulePtr();
 }
 
 void RssDownloadRuleList::saveRulesToStorage()
@@ -77,70 +61,41 @@ void RssDownloadRuleList::saveRulesToStorage()
 void RssDownloadRuleList::loadRulesFromStorage()
 {
   QIniSettings qBTRSS("qBittorrent", "qBittorrent-rss");
-  if(qBTRSS.contains("feed_filters")) {
-    importFeedsInOldFormat(qBTRSS.value("feed_filters").toHash());
-    // Remove outdated rules
-    qBTRSS.remove("feed_filters");
-    // Save to new format
-    saveRulesToStorage();
-    return;
-  }
-  // Load from new format
   loadRulesFromVariantHash(qBTRSS.value("download_rules").toHash());
-}
-
-void RssDownloadRuleList::importFeedsInOldFormat(const QHash<QString, QVariant> &rules)
-{
-  foreach(const QString &feed_url, rules.keys()) {
-    importFeedRulesInOldFormat(feed_url, rules.value(feed_url).toHash());
-  }
-}
-
-void RssDownloadRuleList::importFeedRulesInOldFormat(const QString &feed_url, const QHash<QString, QVariant> &rules)
-{
-  foreach(const QString &rule_name, rules.keys()) {
-    RssDownloadRule rule = RssDownloadRule::fromOldFormat(rules.value(rule_name).toHash(), feed_url, rule_name);
-    if(!rule.isValid()) continue;
-    // Check for rule name clash
-    while(m_rules.contains(rule.name())) {
-      rule.setName(rule.name()+"_");
-    }
-    // Add the rule to the list
-    saveRule(rule);
-  }
 }
 
 QVariantHash RssDownloadRuleList::toVariantHash() const
 {
   QVariantHash ret;
-  foreach(const RssDownloadRule &rule, m_rules.values()) {
-    ret.insert(rule.name(), rule.toVariantHash());
+  foreach (const RssDownloadRulePtr &rule, m_rules.values()) {
+    ret.insert(rule->name(), rule->toVariantHash());
   }
   return ret;
 }
 
 void RssDownloadRuleList::loadRulesFromVariantHash(const QVariantHash &h)
 {
-  foreach(const QVariant& v, h.values()) {
-    RssDownloadRule rule = RssDownloadRule::fromNewFormat(v.toHash());
-    if(!rule.name().isEmpty()) {
+  QVariantHash::ConstIterator it = h.begin();
+  QVariantHash::ConstIterator itend = h.end();
+  for ( ; it != itend; ++it) {
+    RssDownloadRulePtr rule = RssDownloadRule::fromVariantHash(it.value().toHash());
+    if (rule && !rule->name().isEmpty())
       saveRule(rule);
-    }
   }
 }
 
-void RssDownloadRuleList::saveRule(const RssDownloadRule &rule)
+void RssDownloadRuleList::saveRule(const RssDownloadRulePtr &rule)
 {
-  qDebug() << Q_FUNC_INFO << rule.name();
-  Q_ASSERT(rule.isValid());
-  if(m_rules.contains(rule.name())) {
+  qDebug() << Q_FUNC_INFO << rule->name();
+  Q_ASSERT(rule);
+  if (m_rules.contains(rule->name())) {
     qDebug("This is an update, removing old rule first");
-    removeRule(rule.name());
+    removeRule(rule->name());
   }
-  m_rules.insert(rule.name(), rule);
+  m_rules.insert(rule->name(), rule);
   // Update feedRules hashtable
-  foreach(const QString &feed_url, rule.rssFeeds()) {
-    m_feedRules[feed_url].append(rule.name());
+  foreach (const QString &feed_url, rule->rssFeeds()) {
+    m_feedRules[feed_url].append(rule->name());
   }
   // Save rules
   saveRulesToStorage();
@@ -150,11 +105,11 @@ void RssDownloadRuleList::saveRule(const RssDownloadRule &rule)
 void RssDownloadRuleList::removeRule(const QString &name)
 {
   qDebug() << Q_FUNC_INFO << name;
-  if(!m_rules.contains(name)) return;
-  const RssDownloadRule rule = m_rules.take(name);
+  if (!m_rules.contains(name)) return;
+  RssDownloadRulePtr rule = m_rules.take(name);
   // Update feedRules hashtable
-  foreach(const QString &feed_url, rule.rssFeeds()) {
-    m_feedRules[feed_url].removeOne(rule.name());
+  foreach (const QString &feed_url, rule->rssFeeds()) {
+    m_feedRules[feed_url].removeOne(rule->name());
   }
   // Save rules
   saveRulesToStorage();
@@ -162,19 +117,19 @@ void RssDownloadRuleList::removeRule(const QString &name)
 
 void RssDownloadRuleList::renameRule(const QString &old_name, const QString &new_name)
 {
-  if(!m_rules.contains(old_name)) return;
-  RssDownloadRule rule = m_rules.take(old_name);
-  rule.setName(new_name);
+  if (!m_rules.contains(old_name)) return;
+  RssDownloadRulePtr rule = m_rules.take(old_name);
+  rule->setName(new_name);
   m_rules.insert(new_name, rule);
   // Update feedRules hashtable
-  foreach(const QString &feed_url, rule.rssFeeds()) {
+  foreach (const QString &feed_url, rule->rssFeeds()) {
     m_feedRules[feed_url].replace(m_feedRules[feed_url].indexOf(old_name), new_name);
   }
   // Save rules
   saveRulesToStorage();
 }
 
-const RssDownloadRule RssDownloadRuleList::getRule(const QString &name) const
+RssDownloadRulePtr RssDownloadRuleList::getRule(const QString &name) const
 {
   return m_rules.value(name);
 }
@@ -182,7 +137,7 @@ const RssDownloadRule RssDownloadRuleList::getRule(const QString &name) const
 bool RssDownloadRuleList::serialize(const QString& path)
 {
   QFile f(path);
-  if(f.open(QIODevice::WriteOnly)) {
+  if (f.open(QIODevice::WriteOnly)) {
     QDataStream out(&f);
     out.setVersion(QDataStream::Qt_4_5);
     out << toVariantHash();
@@ -196,32 +151,20 @@ bool RssDownloadRuleList::serialize(const QString& path)
 bool RssDownloadRuleList::unserialize(const QString &path)
 {
   QFile f(path);
-  if(f.open(QIODevice::ReadOnly)) {
+  if (f.open(QIODevice::ReadOnly)) {
     QDataStream in(&f);
-    if(path.endsWith(".filters", Qt::CaseInsensitive)) {
-      // Old format (< 2.5.0)
-      qDebug("Old serialization format detected, processing...");
-      in.setVersion(QDataStream::Qt_4_3);
-      QVariantHash tmp;
-      in >> tmp;
-      f.close();
-      if(tmp.isEmpty()) return false;
-      qDebug("Processing was successful!");
-      // Unfortunately the feed_url is lost
-      importFeedRulesInOldFormat("", tmp);
-    } else {
-      qDebug("New serialization format detected, processing...");
-      in.setVersion(QDataStream::Qt_4_5);
-      QVariantHash tmp;
-      in >> tmp;
-      f.close();
-      if(tmp.isEmpty()) return false;
-      qDebug("Processing was successful!");
-      loadRulesFromVariantHash(tmp);
-    }
+    in.setVersion(QDataStream::Qt_4_5);
+    QVariantHash tmp;
+    in >> tmp;
+    f.close();
+    if (tmp.isEmpty())
+      return false;
+    qDebug("Processing was successful!");
+    loadRulesFromVariantHash(tmp);
     return true;
+  } else {
+    qDebug("Error: could not open file at %s", qPrintable(path));
+    return false;
   }
-  qDebug("Error: could not open file at %s", qPrintable(path));
-  return false;
 }
 

@@ -60,15 +60,15 @@ signals:
   void filteredFilesChanged() const;
 
 public:
-  PropListDelegate(PropertiesWidget* properties=0, QObject *parent=0) : QItemDelegate(parent), properties(properties){
+  PropListDelegate(PropertiesWidget* properties=0, QObject *parent=0) : QItemDelegate(parent), properties(properties) {
   }
 
-  ~PropListDelegate(){}
+  ~PropListDelegate() {}
 
-  void paint(QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index) const{
+  void paint(QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index) const {
     painter->save();
     QStyleOptionViewItemV2 opt = QItemDelegate::setOptions(index, option);
-    switch(index.column()){
+    switch(index.column()) {
     case PCSIZE:
       QItemDelegate::drawBackground(painter, opt, index);
       QItemDelegate::drawDisplay(painter, opt, option.rect, misc::friendlyUnit(index.data().toLongLong()));
@@ -80,7 +80,7 @@ public:
           newopt.rect = opt.rect;
           // We don't want to display 100% unless
           // the torrent is really complete
-          if(progress > 99.94 && progress < 100.)
+          if (progress > 99.94 && progress < 100.)
             progress = 99.9;
           newopt.text = QString(QByteArray::number(progress, 'f', 1))+QString::fromUtf8("%");
           newopt.progress = (int)progress;
@@ -131,7 +131,7 @@ public:
     painter->restore();
   }
 
-  QSize sizeHint(const QStyleOptionViewItem & option, const QModelIndex & index) const{
+  QSize sizeHint(const QStyleOptionViewItem & option, const QModelIndex & index) const {
     QVariant value = index.data(Qt::FontRole);
     QFont fnt = value.isValid() ? qvariant_cast<QFont>(value) : option.font;
     QFontMetrics fontMetrics(fnt);
@@ -158,16 +158,16 @@ public:
   }
 
   QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &/* option */, const QModelIndex &index) const {
-    if(index.column() != PRIORITY) return 0;
-    if(properties) {
+    if (index.column() != PRIORITY) return 0;
+    if (properties) {
       QTorrentHandle h = properties->getCurrentTorrent();
 #if LIBTORRENT_VERSION_MINOR > 15
-      if(!h.is_valid() || !h.has_metadata() || h.status(0x0).is_seeding) return 0;
+      if (!h.is_valid() || !h.has_metadata() || h.status(0x0).is_seeding) return 0;
 #else
-      if(!h.is_valid() || !h.has_metadata() || static_cast<libtorrent::torrent_handle>(h).is_seed()) return 0;
+      if (!h.is_valid() || !h.has_metadata() || static_cast<libtorrent::torrent_handle>(h).is_seed()) return 0;
 #endif
     }
-    if(index.data().toInt() <= 0) {
+    if (index.data().toInt() <= 0) {
       // IGNORED or MIXED
       return 0;
     }

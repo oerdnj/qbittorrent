@@ -44,6 +44,7 @@
 class DownloadThread;
 class SearchEngine;
 class MainWindow;
+class LineEdit;
 
 QT_BEGIN_NAMESPACE
 class QTimer;
@@ -65,17 +66,17 @@ public:
 
   static qreal getPluginVersion(QString filePath) {
     QFile plugin(filePath);
-    if(!plugin.exists()){
+    if (!plugin.exists()) {
       qDebug("%s plugin does not exist, returning 0.0", qPrintable(filePath));
       return 0.0;
     }
-    if(!plugin.open(QIODevice::ReadOnly | QIODevice::Text)){
+    if (!plugin.open(QIODevice::ReadOnly | QIODevice::Text)) {
       return 0.0;
     }
     qreal version = 0.0;
-    while (!plugin.atEnd()){
+    while (!plugin.atEnd()) {
       QByteArray line = plugin.readLine();
-      if(line.startsWith("#VERSION: ")){
+      if (line.startsWith("#VERSION: ")) {
         line = line.split(' ').last().trimmed();
         version = line.toFloat();
         qDebug("plugin %s version: %.2f", qPrintable(filePath), version);
@@ -94,24 +95,16 @@ protected slots:
   // Search slots
   void tab_changed(int);//to prevent the use of the download button when the tab is empty
   void on_search_button_clicked();
-#if QT_VERSION < 0x040500
-  void closeTab_button_clicked();
-#else
   void closeTab(int index);
-#endif
   void appendSearchResult(const QString &line);
   void searchFinished(int exitcode,QProcess::ExitStatus);
   void readSearchOutput();
   void searchStarted();
-  void startSearchHistory();
   void updateNova();
-  void saveSearchHistory();
   void on_enginesButton_clicked();
   void propagateSectionResized(int index, int oldsize , int newsize);
   void saveResultsColumnsWidth();
   void downloadFinished(int exitcode, QProcess::ExitStatus);
-  void displayPatternContextMenu(QPoint);
-  void createCompleter();
   void fillCatCombobox();
   void searchTextEdited(QString);
 #ifdef Q_WS_WIN
@@ -126,20 +119,16 @@ private slots:
 
 private:
   // Search related
+  LineEdit* search_pattern;
   QProcess *searchProcess;
   QList<QProcess*> downloaders;
   bool search_stopped;
   bool no_search_results;
   QByteArray search_result_line_truncated;
   unsigned long nb_search_results;
-  QPointer<QCompleter> searchCompleter;
-  QStringListModel searchHistory;
   SupportedEngines *supported_engines;
   QTimer *searchTimeout;
   QPointer<SearchTab> currentSearchTab;
-#if QT_VERSION < 0x040500
-  QPushButton *closeTab_button;
-#endif
   QList<QPointer<SearchTab> > all_tab; // To store all tabs
   const SearchCategories full_cat_names;
   MainWindow *mp_mainWindow;

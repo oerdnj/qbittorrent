@@ -119,6 +119,150 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>AddNewTorrentDialog</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save as</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as default save path</source>
+        <translation type="unfinished">Установить как путь сохранения по умолчанию</translation>
+    </message>
+    <message>
+        <source>Never show again</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Torrent settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start torrent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Label:</source>
+        <translation type="unfinished">Метка:</translation>
+    </message>
+    <message>
+        <source>Skip hash check</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Torrent Information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Comment:</source>
+        <translation type="unfinished">Комментарий:</translation>
+    </message>
+    <message>
+        <source>Date:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>High</source>
+        <translation type="unfinished">Высокий</translation>
+    </message>
+    <message>
+        <source>Maximum</source>
+        <translation type="unfinished">Максимальный</translation>
+    </message>
+    <message>
+        <source>Do not download</source>
+        <translation type="unfinished">Не загружать</translation>
+    </message>
+    <message>
+        <source>Other...</source>
+        <comment>Other save path...</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>I/O Error</source>
+        <translation type="unfinished">Ошибка ввода/вывода</translation>
+    </message>
+    <message>
+        <source>The torrent file does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid torrent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid magnet link</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This magnet link was not recognized</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Magnet link</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disk space: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose save path</source>
+        <translation type="unfinished">Выберите путь сохранения</translation>
+    </message>
+    <message>
+        <source>Rename the file</source>
+        <translation type="unfinished">Переименовать файл</translation>
+    </message>
+    <message>
+        <source>New name:</source>
+        <translation type="unfinished">Новое имя:</translation>
+    </message>
+    <message>
+        <source>The file could not be renamed</source>
+        <translation type="unfinished">Файл не может быть переименован</translation>
+    </message>
+    <message>
+        <source>This file name contains forbidden characters, please choose a different one.</source>
+        <translation type="unfinished">Имя файла содержит недопустимые символы. Пожалуйста, выберите другое.</translation>
+    </message>
+    <message>
+        <source>This name is already in use in this folder. Please use a different name.</source>
+        <translation type="unfinished">Файл с таким именем уже существует в этой папке. Используйте другое имя.</translation>
+    </message>
+    <message>
+        <source>The folder could not be renamed</source>
+        <translation type="unfinished">Папка не может быть переименована</translation>
+    </message>
+    <message>
+        <source>Rename...</source>
+        <translation type="unfinished">Переименовать...</translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation type="unfinished">Приоритет</translation>
+    </message>
+    <message>
+        <source>Failed to load the torrent: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AdvancedSettings</name>
     <message>
         <source>Property</source>
@@ -243,6 +387,10 @@ p, li { white-space: pre-wrap; }
         <source>Always announce to all trackers</source>
         <translation>Всегда анонсировать на все трекеры</translation>
     </message>
+    <message>
+        <source> (auto)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AutomatedRssDownloader</name>
@@ -312,7 +460,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Please type the name of the new download rule.</source>
-        <translation>Введите имя нового правила скачивания.</translation>
+        <translation type="unfinished">Введите имя нового правила скачивания.</translation>
     </message>
     <message>
         <source>Rule name conflict</source>
@@ -380,7 +528,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Add new rule...</source>
-        <translation>Добавить правило...</translation>
+        <translation type="unfinished">Добавить правило...</translation>
     </message>
     <message>
         <source>Delete rule</source>
@@ -388,7 +536,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Rename rule...</source>
-        <translation>Переименовать правило...</translation>
+        <translation type="unfinished">Переименовать правило...</translation>
     </message>
     <message>
         <source>Delete selected rules</source>
@@ -676,7 +824,7 @@ You should get this information from your Web browser preferences.</source>
     <name>DNSUpdater</name>
     <message>
         <source>Your dynamic DNS was successfuly updated.</source>
-        <translation>Ваш динамический DNS адрес был успешно обновлён.</translation>
+        <translation type="obsolete">Ваш динамический DNS адрес был успешно обновлён.</translation>
     </message>
     <message>
         <source>Dynamic DNS error: The service is temporarily unavailable, it will be retried in 30 minutes.</source>
@@ -713,6 +861,10 @@ You should get this information from your Web browser preferences.</source>
     <message>
         <source>Dynamic DNS error: supplied password is too short.</source>
         <translation>Ошибка Dynamic DNS: предоставленный пароль слишком короткий.</translation>
+    </message>
+    <message>
+        <source>Your dynamic DNS was successfully updated.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -815,42 +967,42 @@ You should get this information from your Web browser preferences.</source>
     <message>
         <source>%1/s</source>
         <comment>e.g. 120 KiB/s</comment>
-        <translation>%1/с</translation>
+        <translation type="obsolete">%1/с</translation>
     </message>
     <message>
         <source>Working</source>
-        <translation>Работает</translation>
+        <translation type="obsolete">Работает</translation>
     </message>
     <message>
         <source>Updating...</source>
-        <translation>Обновляется...</translation>
+        <translation type="obsolete">Обновляется...</translation>
     </message>
     <message>
         <source>Not working</source>
-        <translation>Не работает</translation>
+        <translation type="obsolete">Не работает</translation>
     </message>
     <message>
         <source>Not contacted yet</source>
-        <translation>Не соединился</translation>
+        <translation type="obsolete">Не соединился</translation>
     </message>
     <message>
         <source>this session</source>
-        <translation>эта сессия</translation>
+        <translation type="obsolete">эта сессия</translation>
     </message>
     <message>
         <source>/s</source>
         <comment>/second (i.e. per second)</comment>
-        <translation>/с</translation>
+        <translation type="obsolete">/с</translation>
     </message>
     <message>
         <source>Seeded for %1</source>
         <comment>e.g. Seeded for 3m10s</comment>
-        <translation>Раздается %1</translation>
+        <translation type="obsolete">Раздается %1</translation>
     </message>
     <message>
         <source>%1 max</source>
         <comment>e.g. 10 max</comment>
-        <translation>%1 макс</translation>
+        <translation type="obsolete">%1 макс</translation>
     </message>
 </context>
 <context>
@@ -1550,12 +1702,12 @@ Would you like to update qBittorrent to version %1?</source>
     <message>
         <source>D: %1/s - T: %2</source>
         <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
-        <translation>Скач: %1/с - Перед: %2</translation>
+        <translation type="obsolete">Скач: %1/с - Перед: %2</translation>
     </message>
     <message>
         <source>U: %1/s - T: %2</source>
         <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
-        <translation>Отдача: %1/с - Перед: %2</translation>
+        <translation type="obsolete">Отдача: %1/с - Перед: %2</translation>
     </message>
 </context>
 <context>
@@ -2970,8 +3122,8 @@ Would you like to update qBittorrent to version %1?</source>
         <translation>Ключ:</translation>
     </message>
     <message>
-        <source>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</source>
-        <translation>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Информация о сертификатах&lt;/a&gt;</translation>
+        <source>&lt;a href=http://httpd.apache.org/docs/2.2/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</source>
+        <translation>&lt;a href=http://httpd.apache.org/docs/2.2/ssl/ssl_faq.html#aboutcerts&gt;Информация о сертификатах&lt;/a&gt;</translation>
     </message>
     <message>
         <source>File association</source>
@@ -2995,7 +3147,11 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;More information&lt;/a&gt;)</source>
-        <translation> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;Дополнительная информация&lt;/a&gt;)</translation>
+        <translation type="obsolete"> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;Дополнительная информация&lt;/a&gt;)</translation>
+    </message>
+    <message>
+        <source> (&lt;a href=&quot;http://github.com/qbittorrent/qBittorrent/wiki/Anonymous-Mode&quot;&gt;More information&lt;/a&gt;)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3148,7 +3304,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Choose save path</source>
-        <translation>Выберите путь сохранения</translation>
+        <translation type="obsolete">Выберите путь сохранения</translation>
     </message>
     <message>
         <source>Save path creation error</source>
@@ -3543,7 +3699,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Trying any other network interface available instead.</source>
-        <translation>Пробуем другой достпуный сетевой интерфейс.</translation>
+        <translation type="obsolete">Пробуем другой достпуный сетевой интерфейс.</translation>
     </message>
     <message>
         <source>Listening on IP address %1 on network interface %2...</source>
@@ -3568,7 +3724,7 @@ Would you like to update qBittorrent to version %1?</source>
     <message>
         <source>Successfuly parsed the provided IP filter: %1 rules were applied.</source>
         <comment>%1 is a number</comment>
-        <translation>Успешно прочитан фильтр IP: %1 правил применено.</translation>
+        <translation type="obsolete">Успешно прочитан фильтр IP: %1 правил применено.</translation>
     </message>
     <message>
         <source>Error: Failed to parse the provided IP filter.</source>
@@ -3593,6 +3749,15 @@ Would you like to update qBittorrent to version %1?</source>
     <message>
         <source>Anonymous mode [ON]</source>
         <translation>Анонимный режим [Вкл]</translation>
+    </message>
+    <message>
+        <source>Successfully parsed the provided IP filter: %1 rules were applied.</source>
+        <comment>%1 is a number</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Anonymous mode [OFF]</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3924,23 +4089,23 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Cut</source>
-        <translation>Вырезать</translation>
+        <translation type="obsolete">Вырезать</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Копировать</translation>
+        <translation type="obsolete">Копировать</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>Вставить</translation>
+        <translation type="obsolete">Вставить</translation>
     </message>
     <message>
         <source>Clear field</source>
-        <translation>Очистить поле</translation>
+        <translation type="obsolete">Очистить поле</translation>
     </message>
     <message>
         <source>Clear completion history</source>
-        <translation>Очистить историю</translation>
+        <translation type="obsolete">Очистить историю</translation>
     </message>
     <message>
         <source>Search Engine</source>
@@ -3998,12 +4163,12 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Confirmation</source>
-        <translation>Подтверждение</translation>
+        <translation type="obsolete">Подтверждение</translation>
     </message>
     <message>
         <source>Are you sure you want to clear the history?</source>
         <translatorcomment>Или &apos;журнал&apos;?</translatorcomment>
-        <translation>Вы уверены, что хотите очистить историю?</translation>
+        <translation type="obsolete">Вы уверены, что хотите очистить историю?</translation>
     </message>
 </context>
 <context>
@@ -4132,6 +4297,25 @@ Do you want to install it now?</source>
     </message>
 </context>
 <context>
+    <name>TorrentContentModel</name>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Имя</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation type="unfinished">Размер</translation>
+    </message>
+    <message>
+        <source>Progress</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation type="unfinished">Приоритет</translation>
+    </message>
+</context>
+<context>
     <name>TorrentCreatorDlg</name>
     <message>
         <source>Select a folder to add to the torrent</source>
@@ -4195,19 +4379,19 @@ Do you want to install it now?</source>
     <name>TorrentFilesModel</name>
     <message>
         <source>Name</source>
-        <translation>Имя</translation>
+        <translation type="obsolete">Имя</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation>Размер</translation>
+        <translation type="obsolete">Размер</translation>
     </message>
     <message>
         <source>Progress</source>
-        <translation>Прогресс</translation>
+        <translation type="obsolete">Прогресс</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation>Приоритет</translation>
+        <translation type="obsolete">Приоритет</translation>
     </message>
 </context>
 <context>
@@ -4433,7 +4617,7 @@ Do you want to install it now?</source>
     <message>
         <source>Force reannounce</source>
         <translatorcomment>Коряво &gt;_&lt;</translatorcomment>
-        <translation>Переанонсировать принудительно</translation>
+        <translation type="obsolete">Переанонсировать принудительно</translation>
     </message>
 </context>
 <context>
@@ -4590,6 +4774,14 @@ Do you want to install it now?</source>
     <message>
         <source>Delete torrents</source>
         <translation>Удалить торренты</translation>
+    </message>
+    <message>
+        <source>Torrents</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Labels</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4904,83 +5096,83 @@ Do you want to install it now?</source>
     <name>addTorrentDialog</name>
     <message>
         <source>Torrent addition dialog</source>
-        <translation>Окно добавления torrent-а</translation>
+        <translation type="obsolete">Окно добавления torrent-а</translation>
     </message>
     <message>
         <source>Save path:</source>
-        <translation>Путь сохранения:</translation>
+        <translation type="obsolete">Путь сохранения:</translation>
     </message>
     <message>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="obsolete">...</translation>
     </message>
     <message>
         <source>Torrent content:</source>
-        <translation>Содержимое torrent-а:</translation>
+        <translation type="obsolete">Содержимое torrent-а:</translation>
     </message>
     <message>
         <source>Add to download list in paused state</source>
-        <translation>Добавить в список закачек в приостановленном состоянии</translation>
+        <translation type="obsolete">Добавить в список закачек в приостановленном состоянии</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Добавить</translation>
+        <translation type="obsolete">Добавить</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Отмена</translation>
+        <translation type="obsolete">Отмена</translation>
     </message>
     <message>
         <source>Normal</source>
-        <translation>Обычный</translation>
+        <translation type="obsolete">Обычный</translation>
     </message>
     <message>
         <source>High</source>
-        <translation>Высокий</translation>
+        <translation type="obsolete">Высокий</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation>Максимальный</translation>
+        <translation type="obsolete">Максимальный</translation>
     </message>
     <message>
         <source>Torrent size:</source>
-        <translation>Размер торрента:</translation>
+        <translation type="obsolete">Размер торрента:</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation>Неизвестно</translation>
+        <translation type="obsolete">Неизвестно</translation>
     </message>
     <message>
         <source>Free disk space:</source>
-        <translation>Свободное место на диске:</translation>
+        <translation type="obsolete">Свободное место на диске:</translation>
     </message>
     <message>
         <source>Download in sequential order (slower but good for previewing)</source>
-        <translation>Загружать последовательно (медленнее но удобнее для предпросмотра)</translation>
+        <translation type="obsolete">Загружать последовательно (медленнее но удобнее для предпросмотра)</translation>
     </message>
     <message>
         <source>Skip file checking and start seeding immediately</source>
-        <translation>Пропустить проверку файла и начать раздачу немедленно</translation>
+        <translation type="obsolete">Пропустить проверку файла и начать раздачу немедленно</translation>
     </message>
     <message>
         <source>Label:</source>
-        <translation>Метка:</translation>
+        <translation type="obsolete">Метка:</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Выбрать все</translation>
+        <translation type="obsolete">Выбрать все</translation>
     </message>
     <message>
         <source>Select None</source>
-        <translation>Выбрать ничего</translation>
+        <translation type="obsolete">Выбрать ничего</translation>
     </message>
     <message>
         <source>Do not download</source>
-        <translation>Не загружать</translation>
+        <translation type="obsolete">Не загружать</translation>
     </message>
     <message>
         <source>Set as default save path</source>
-        <translation>Установить как путь сохранения по умолчанию</translation>
+        <translation type="obsolete">Установить как путь сохранения по умолчанию</translation>
     </message>
 </context>
 <context>
@@ -5483,6 +5675,13 @@ However, those plugins were disabled.</source>
     </message>
 </context>
 <context>
+    <name>fsutils</name>
+    <message>
+        <source>Downloads</source>
+        <translation type="unfinished">Загрузки</translation>
+    </message>
+</context>
+<context>
     <name>misc</name>
     <message>
         <source>B</source>
@@ -5511,7 +5710,7 @@ However, those plugins were disabled.</source>
     </message>
     <message>
         <source>Unknown</source>
-        <translation>Неизвестно</translation>
+        <translation type="obsolete">Неизвестно</translation>
     </message>
     <message>
         <source>Unknown</source>
@@ -5544,7 +5743,52 @@ However, those plugins were disabled.</source>
     </message>
     <message>
         <source>Downloads</source>
-        <translation>Загрузки</translation>
+        <translation type="obsolete">Загрузки</translation>
+    </message>
+    <message>
+        <source>/s</source>
+        <comment>per second</comment>
+        <translation type="unfinished">/с</translation>
+    </message>
+    <message>
+        <source>Working</source>
+        <translation type="unfinished">Работает</translation>
+    </message>
+    <message>
+        <source>Updating...</source>
+        <translation type="unfinished">Обновляется...</translation>
+    </message>
+    <message>
+        <source>Not working</source>
+        <translation type="unfinished">Не работает</translation>
+    </message>
+    <message>
+        <source>Not contacted yet</source>
+        <translation type="unfinished">Не соединился</translation>
+    </message>
+    <message>
+        <source>this session</source>
+        <translation type="unfinished">эта сессия</translation>
+    </message>
+    <message>
+        <source>Seeded for %1</source>
+        <comment>e.g. Seeded for 3m10s</comment>
+        <translation type="unfinished">Раздается %1</translation>
+    </message>
+    <message>
+        <source>%1 max</source>
+        <comment>e.g. 10 max</comment>
+        <translation type="unfinished">%1 макс</translation>
+    </message>
+    <message>
+        <source>D: %1/s - T: %2</source>
+        <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
+        <translation type="unfinished">Скач: %1/с - Перед: %2</translation>
+    </message>
+    <message>
+        <source>U: %1/s - T: %2</source>
+        <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
+        <translation type="unfinished">Отдача: %1/с - Перед: %2</translation>
     </message>
 </context>
 <context>
@@ -5604,7 +5848,7 @@ However, those plugins were disabled.</source>
     <message>
         <source>Successfuly parsed the provided IP filter: %1 rules were applied.</source>
         <comment>%1 is a number</comment>
-        <translation>Успешно прочитан данный фильтр IP: %1 правил применено.</translation>
+        <translation type="obsolete">Успешно прочитан данный фильтр IP: %1 правил применено.</translation>
     </message>
     <message>
         <source>Successfully refreshed</source>
@@ -5633,6 +5877,11 @@ However, those plugins were disabled.</source>
     <message>
         <source>This is not a valid SSL certificate.</source>
         <translation>Это не действительный SSL сертификат.</translation>
+    </message>
+    <message>
+        <source>Successfully parsed the provided IP filter: %1 rules were applied.</source>
+        <comment>%1 is a number</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5731,101 +5980,101 @@ However, those plugins were disabled.</source>
     <name>torrentAdditionDialog</name>
     <message>
         <source>Unable to decode torrent file:</source>
-        <translation>Невозможно декодировать torrent файл:</translation>
+        <translation type="obsolete">Невозможно декодировать torrent файл:</translation>
     </message>
     <message>
         <source>Choose save path</source>
-        <translation>Выберите путь сохранения</translation>
+        <translation type="obsolete">Выберите путь сохранения</translation>
     </message>
     <message>
         <source>Empty save path</source>
-        <translation>Очистить путь сохранения</translation>
+        <translation type="obsolete">Очистить путь сохранения</translation>
     </message>
     <message>
         <source>Please enter a save path</source>
-        <translation>Пожалуйста, введите путь сохранения</translation>
+        <translation type="obsolete">Пожалуйста, введите путь сохранения</translation>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation>Ошибка создания пути сохранения</translation>
+        <translation type="obsolete">Ошибка создания пути сохранения</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation>Невозможно создать путь сохранения</translation>
+        <translation type="obsolete">Невозможно создать путь сохранения</translation>
     </message>
     <message>
         <source>Invalid file selection</source>
-        <translation>Неправильное выделение файлов</translation>
+        <translation type="obsolete">Неправильное выделение файлов</translation>
     </message>
     <message>
         <source>You must select at least one file in the torrent</source>
-        <translation>Вы должны выбрать по меньшей мере один файл в torrentе</translation>
+        <translation type="obsolete">Вы должны выбрать по меньшей мере один файл в torrentе</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation>Приоритет</translation>
+        <translation type="obsolete">Приоритет</translation>
     </message>
     <message>
         <source>(%1 left after torrent download)</source>
         <comment>e.g. (100MiB left after torrent download)</comment>
-        <translation>(%1 останется после загрузки торрента)</translation>
+        <translation type="obsolete">(%1 останется после загрузки торрента)</translation>
     </message>
     <message>
         <source>(%1 more are required to download)</source>
         <comment>e.g. (100MiB more are required to download)</comment>
-        <translation>(на %1 больше нужно для загрузки)</translation>
+        <translation type="obsolete">(на %1 больше нужно для загрузки)</translation>
     </message>
     <message>
         <source>Seeding mode error</source>
-        <translation>Ошибка режима раздачи</translation>
+        <translation type="obsolete">Ошибка режима раздачи</translation>
     </message>
     <message>
         <source>You chose to skip file checking. However, local files do not seem to exist in the current destionation folder. Please disable this feature or update the save path.</source>
-        <translation>Вы выбрали пропустить проверку файла. Однако локальные файлы судя по всему не существует в указанной директории. Пожалуйста, отключите это возможность или измените путь сохранения.</translation>
+        <translation type="obsolete">Вы выбрали пропустить проверку файла. Однако локальные файлы судя по всему не существует в указанной директории. Пожалуйста, отключите это возможность или измените путь сохранения.</translation>
     </message>
     <message>
         <source>Rename...</source>
-        <translation>Переименовать...</translation>
+        <translation type="obsolete">Переименовать...</translation>
     </message>
     <message>
         <source>New name:</source>
-        <translation>Новое имя:</translation>
+        <translation type="obsolete">Новое имя:</translation>
     </message>
     <message>
         <source>The file could not be renamed</source>
-        <translation>Файл не может быть переименован</translation>
+        <translation type="obsolete">Файл не может быть переименован</translation>
     </message>
     <message>
         <source>This name is already in use in this folder. Please use a different name.</source>
-        <translation>Файл с таким именем уже существует в этой папке. Используйте другое имя.</translation>
+        <translation type="obsolete">Файл с таким именем уже существует в этой папке. Используйте другое имя.</translation>
     </message>
     <message>
         <source>The folder could not be renamed</source>
-        <translation>Папка не может быть переименована</translation>
+        <translation type="obsolete">Папка не может быть переименована</translation>
     </message>
     <message>
         <source>Rename the file</source>
-        <translation>Переименовать файл</translation>
+        <translation type="obsolete">Переименовать файл</translation>
     </message>
     <message>
         <source>Unable to decode magnet link:</source>
-        <translation>Невозможно декодировать ссылку magnet:</translation>
+        <translation type="obsolete">Невозможно декодировать ссылку magnet:</translation>
     </message>
     <message>
         <source>Magnet Link</source>
-        <translation>Ссылка magnet</translation>
+        <translation type="obsolete">Ссылка magnet</translation>
     </message>
     <message>
         <source>Invalid label name</source>
-        <translation>Неправильное имя метки</translation>
+        <translation type="obsolete">Неправильное имя метки</translation>
     </message>
     <message>
         <source>Please don&apos;t use any special characters in the label name.</source>
-        <translation>Пожалуйста, не используйте специальные символы в имени метки.</translation>
+        <translation type="obsolete">Пожалуйста, не используйте специальные символы в имени метки.</translation>
     </message>
     <message>
         <source>This file name contains forbidden characters, please choose a different one.</source>
-        <translation>Имя файла содержит недопустимые символы. Пожалуйста, выберите другое.</translation>
+        <translation type="obsolete">Имя файла содержит недопустимые символы. Пожалуйста, выберите другое.</translation>
     </message>
 </context>
 </TS>

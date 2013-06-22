@@ -93,7 +93,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>This version of qBittorrent was built against the following libraries:</source>
-        <translation type="unfinished">qBittorrent został zbudowany z użyciem następujących bibliotek:</translation>
+        <translation>qBittorrent został zbudowany z użyciem następujących bibliotek:</translation>
     </message>
     <message>
         <source>Qt:</source>
@@ -115,7 +115,157 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;An advanced BitTorrent client programmed in C++, based on Qt4 toolkit and libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2012 Christophe Dumez&lt;br /&gt;&lt;br /&gt;Home Page: &lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Bug Tracker: &lt;a href=&quot;http://bugs.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://bugs.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;br /&gt;Forum: &lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;IRC:  #qbittorrent on Freenode&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Klient sieci bittorrent napisany w języku C++, wykorzystuje biblioteki Qt4 i libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2012 Christophe Dumez&lt;br /&gt;&lt;br /&gt;Strona domowa: &lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Śledzenie błędów: &lt;a href=&quot;http://bugs.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://bugs.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;br /&gt;Forum: &lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;IRC:  #qbittorrent on Freenode&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>AddNewTorrentDialog</name>
+    <message>
+        <source>Dialog</source>
+        <translation>Okno dialogowe</translation>
+    </message>
+    <message>
+        <source>Save as</source>
+        <translation>Zapisz jako</translation>
+    </message>
+    <message>
+        <source>Set as default save path</source>
+        <translation>Ustaw jako domyślną ścieżkę zapisu</translation>
+    </message>
+    <message>
+        <source>Never show again</source>
+        <translation>Nigdy więcej nie pokazuj</translation>
+    </message>
+    <message>
+        <source>Torrent settings</source>
+        <translation>Ustawienia torrenta</translation>
+    </message>
+    <message>
+        <source>Start torrent</source>
+        <translation type="unfinished">Rozpocznij pobieranie</translation>
+    </message>
+    <message>
+        <source>Label:</source>
+        <translation>Etykieta:</translation>
+    </message>
+    <message>
+        <source>Skip hash check</source>
+        <translation>Pomiń sprawdzanie danych</translation>
+    </message>
+    <message>
+        <source>Torrent Information</source>
+        <translation>Informacje o torrencie</translation>
+    </message>
+    <message>
+        <source>Size:</source>
+        <translation>Rozmiar:</translation>
+    </message>
+    <message>
+        <source>Comment:</source>
+        <translation>Komentarz:</translation>
+    </message>
+    <message>
+        <source>Date:</source>
+        <translation>Data:</translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation>Normalny</translation>
+    </message>
+    <message>
+        <source>High</source>
+        <translation>Wysoki</translation>
+    </message>
+    <message>
+        <source>Maximum</source>
+        <translation>Maksymalny</translation>
+    </message>
+    <message>
+        <source>Do not download</source>
+        <translation>Nie pobieraj</translation>
+    </message>
+    <message>
+        <source>Other...</source>
+        <comment>Other save path...</comment>
+        <translation>Inna...</translation>
+    </message>
+    <message>
+        <source>I/O Error</source>
+        <translation>Błąd We/Wy</translation>
+    </message>
+    <message>
+        <source>The torrent file does not exist.</source>
+        <translation>Plik torrent nie istnieje.</translation>
+    </message>
+    <message>
+        <source>Invalid torrent</source>
+        <translation>Nieprawidłowy torrent</translation>
+    </message>
+    <message>
+        <source>Not available</source>
+        <translation type="unfinished">Niedostępne</translation>
+    </message>
+    <message>
+        <source>Invalid magnet link</source>
+        <translation>Nieprawidłowy odnośnik magnet</translation>
+    </message>
+    <message>
+        <source>This magnet link was not recognized</source>
+        <translation>Odnośnik magnet nie został rozpoznany</translation>
+    </message>
+    <message>
+        <source>Magnet link</source>
+        <translation>Odnośnik magnet</translation>
+    </message>
+    <message>
+        <source>Disk space: %1</source>
+        <translation>Miejsce na dysku: %1</translation>
+    </message>
+    <message>
+        <source>Choose save path</source>
+        <translation>Wybierz ścieżkę zapisu</translation>
+    </message>
+    <message>
+        <source>Rename the file</source>
+        <translation>Zmień nazwę pliku</translation>
+    </message>
+    <message>
+        <source>New name:</source>
+        <translation>Nowa nazwa:</translation>
+    </message>
+    <message>
+        <source>The file could not be renamed</source>
+        <translation>Nie można zmienić nazwy pliku</translation>
+    </message>
+    <message>
+        <source>This file name contains forbidden characters, please choose a different one.</source>
+        <translation>Nazwa pliku zawiera zabronione znaki, proszę wybrać inną nazwę.</translation>
+    </message>
+    <message>
+        <source>This name is already in use in this folder. Please use a different name.</source>
+        <translation>Wybrana nazwa jest już używana w tym katalogu. Proszę wybrać inną nazwę.</translation>
+    </message>
+    <message>
+        <source>The folder could not be renamed</source>
+        <translation>Nie można zmienić nazwy katalogu</translation>
+    </message>
+    <message>
+        <source>Rename...</source>
+        <translation>Zmień nazwę...</translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation>Priorytet</translation>
+    </message>
+    <message>
+        <source>Failed to load the torrent: %1</source>
+        <translation>Nie można wczytać torrenta: %1</translation>
     </message>
 </context>
 <context>
@@ -234,11 +384,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Exchange trackers with other peers</source>
-        <translation type="unfinished">Wymieniaj adresy trackerów z innymi partnerami</translation>
+        <translation>Wymieniaj adresy trackerów z innymi partnerami</translation>
     </message>
     <message>
         <source>Always announce to all trackers</source>
-        <translation type="unfinished">Zawsze ogłaszaj do wszystkich trackerów</translation>
+        <translation>Zawsze ogłaszaj do wszystkich trackerów</translation>
+    </message>
+    <message>
+        <source> (auto)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -309,7 +463,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Please type the name of the new download rule.</source>
-        <translation>Wprowadź nazwę dla tworzonej reguły.</translation>
+        <translation type="unfinished">Wprowadź nazwę dla tworzonej reguły.</translation>
     </message>
     <message>
         <source>Rule name conflict</source>
@@ -378,7 +532,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Add new rule...</source>
-        <translation>Dodaj nową...</translation>
+        <translation type="unfinished">Dodaj nową...</translation>
     </message>
     <message>
         <source>Delete rule</source>
@@ -386,7 +540,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Rename rule...</source>
-        <translation>Zmień nazwę...</translation>
+        <translation type="unfinished">Zmień nazwę...</translation>
     </message>
     <message>
         <source>Delete selected rules</source>
@@ -653,7 +807,7 @@ Informacje te powinny zostać pobrane z ustawień przeglądarki internetowej.</t
     <name>DNSUpdater</name>
     <message>
         <source>Your dynamic DNS was successfuly updated.</source>
-        <translation>Pomyślnie zaktualizowano dynamiczny DNS.</translation>
+        <translation type="obsolete">Pomyślnie zaktualizowano dynamiczny DNS.</translation>
     </message>
     <message>
         <source>Dynamic DNS error: The service is temporarily unavailable, it will be retried in 30 minutes.</source>
@@ -691,6 +845,10 @@ Informacje te powinny zostać pobrane z ustawień przeglądarki internetowej.</t
         <source>Dynamic DNS error: supplied password is too short.</source>
         <translation>Błąd dynamicznego DNS: Podane hasło jest zbyt krótkie.</translation>
     </message>
+    <message>
+        <source>Your dynamic DNS was successfully updated.</source>
+        <translation>Pomyślnie zaktualizowano dynamiczny DNS.</translation>
+    </message>
 </context>
 <context>
     <name>DownloadThread</name>
@@ -700,11 +858,11 @@ Informacje te powinny zostać pobrane z ustawień przeglądarki internetowej.</t
     </message>
     <message>
         <source>The remote host name was not found (invalid hostname)</source>
-        <translation type="unfinished">Nie odnaleziono nazwy zdalnego hosta (nieprawidłowa nazwa hosta)</translation>
+        <translation>Nie odnaleziono nazwy zdalnego hosta (nieprawidłowa nazwa hosta)</translation>
     </message>
     <message>
         <source>The operation was canceled</source>
-        <translation type="unfinished">Operacja została anulowana</translation>
+        <translation>Operacja została anulowana</translation>
     </message>
     <message>
         <source>The remote server closed the connection prematurely, before the entire reply was received and processed</source>
@@ -760,11 +918,11 @@ Informacje te powinny zostać pobrane z ustawień przeglądarki internetowej.</t
     </message>
     <message>
         <source>The Network Access API cannot honor the request because the protocol is not known</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">API dostępu do sieci nie może zaakceptować żądania ponieważ protokół jest nieznany</translation>
     </message>
     <message>
         <source>The requested operation is invalid for this protocol</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Żądana operacja jest nieprawidłowa dla tego protokołu</translation>
     </message>
     <message>
         <source>An unknown network-related error was detected</source>
@@ -792,42 +950,42 @@ Informacje te powinny zostać pobrane z ustawień przeglądarki internetowej.</t
     <message>
         <source>%1/s</source>
         <comment>e.g. 120 KiB/s</comment>
-        <translation>%1/s</translation>
+        <translation type="obsolete">%1/s</translation>
     </message>
     <message>
         <source>Working</source>
-        <translation>Działa</translation>
+        <translation type="obsolete">Działa</translation>
     </message>
     <message>
         <source>Updating...</source>
-        <translation>Aktualizowanie...</translation>
+        <translation type="obsolete">Aktualizowanie...</translation>
     </message>
     <message>
         <source>Not working</source>
-        <translation>Nie działa</translation>
+        <translation type="obsolete">Nie działa</translation>
     </message>
     <message>
         <source>Not contacted yet</source>
-        <translation>Niesprawdzony</translation>
+        <translation type="obsolete">Niesprawdzony</translation>
     </message>
     <message>
         <source>this session</source>
-        <translation>w tej sesji</translation>
+        <translation type="obsolete">w tej sesji</translation>
     </message>
     <message>
         <source>/s</source>
         <comment>/second (i.e. per second)</comment>
-        <translation>/s</translation>
+        <translation type="obsolete">/s</translation>
     </message>
     <message>
         <source>Seeded for %1</source>
         <comment>e.g. Seeded for 3m10s</comment>
-        <translation>Rozsiewany przez %1</translation>
+        <translation type="obsolete">Rozsiewany przez %1</translation>
     </message>
     <message>
         <source>%1 max</source>
         <comment>e.g. 10 max</comment>
-        <translation>max %1</translation>
+        <translation type="obsolete">max %1</translation>
     </message>
 </context>
 <context>
@@ -1504,12 +1662,12 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
     <message>
         <source>D: %1/s - T: %2</source>
         <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
-        <translation>Pobieranie: %1/s - Pobrano: %2</translation>
+        <translation type="obsolete">Pobieranie: %1/s - Pobrano: %2</translation>
     </message>
     <message>
         <source>U: %1/s - T: %2</source>
         <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
-        <translation>Wysyłanie: %1/s - Wysłano: %2</translation>
+        <translation type="obsolete">Wysyłanie: %1/s - Wysłano: %2</translation>
     </message>
 </context>
 <context>
@@ -1532,7 +1690,7 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
     </message>
     <message>
         <source>Download Torrents from their URL or Magnet link</source>
-        <translation>Pobierz pliki torrent z adresu www lub magnet</translation>
+        <translation>Pobierz pliki torrent z odnośnika www lub magnet</translation>
     </message>
     <message>
         <source>Only one link per line</source>
@@ -1617,15 +1775,15 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
     </message>
     <message>
         <source>HTTP Server</source>
-        <translation type="unfinished">Serwer www</translation>
+        <translation>Serwer www</translation>
     </message>
     <message>
         <source>Torrent path</source>
-        <translation type="unfinished">Ścieżka torrenta</translation>
+        <translation>Ścieżka torrenta</translation>
     </message>
     <message>
         <source>Torrent name</source>
-        <translation type="unfinished">Nazwa torrenta</translation>
+        <translation>Nazwa torrenta</translation>
     </message>
     <message>
         <source>The following parameters are supported:</source>
@@ -1674,7 +1832,7 @@ W przyszłości powiadomienie nie będzie wyświetlane.</translation>
     <name>LogListWidget</name>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Kopiuj</translation>
+        <translation>Kopiuj</translation>
     </message>
 </context>
 <context>
@@ -1875,7 +2033,7 @@ W przyszłości powiadomienie nie będzie wyświetlane.</translation>
     <message>
         <source>qBittorrent is not the default application to open torrent files or Magnet links.
 Do you want to associate qBittorrent to torrent files and Magnet links?</source>
-        <translation>qBittorrent nie jest domyślnym programem do obsługi plików torrent i linków Magnet.
+        <translation>qBittorrent nie jest domyślnym programem do obsługi plików torrent i odnośników Magnet.
 Czy powiązać qBittorrent z plikami torrent i linkami Magnet?</translation>
     </message>
     <message>
@@ -2728,7 +2886,7 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
     </message>
     <message>
         <source>Inhibit system sleep when torrents are active</source>
-        <translation type="unfinished">Nie pozwalaj na usypianie systemu gdy są aktywne torrenty</translation>
+        <translation>Nie pozwalaj na usypianie systemu gdy są aktywne torrenty</translation>
     </message>
     <message>
         <source>Bypass authentication for localhost</source>
@@ -2736,7 +2894,7 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
     </message>
     <message>
         <source>Ask for program exit confirmation</source>
-        <translation type="unfinished">Pytaj o potwierdzenie przy wyjściu</translation>
+        <translation>Pytaj o potwierdzenie przy wyjściu</translation>
     </message>
     <message>
         <source>The following parameters are supported:
@@ -2829,11 +2987,11 @@ Czy chcesz zaktualizować program do wersji %1?</translation>
     </message>
     <message>
         <source>Global Rate Limits</source>
-        <translation type="unfinished">Ogólne limity prędkości</translation>
+        <translation>Ogólne limity prędkości</translation>
     </message>
     <message>
         <source>Apply rate limit to uTP connections</source>
-        <translation type="unfinished">Stosuj limity prędkości do połączeń uTP</translation>
+        <translation>Stosuj limity prędkości do połączeń uTP</translation>
     </message>
     <message>
         <source>Apply rate limit to transport overhead</source>
@@ -2844,7 +3002,7 @@ Ignoruj narzuty protokołu TCP/IP w limitach prędkości</translatorcomment>
     </message>
     <message>
         <source>Alternative Global Rate Limits</source>
-        <translation type="unfinished">Alternatywne ogólne limity prędkości</translation>
+        <translation>Alternatywne ogólne limity prędkości</translation>
     </message>
     <message>
         <source>Schedule the use of alternative rate limits</source>
@@ -2887,24 +3045,24 @@ Ignoruj narzuty protokołu TCP/IP w limitach prędkości</translatorcomment>
         <translation>Klucz:</translation>
     </message>
     <message>
-        <source>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</source>
-        <translation>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Informacja na temat certyfikatów&lt;/a&gt;</translation>
+        <source>&lt;a href=http://httpd.apache.org/docs/2.2/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</source>
+        <translation>&lt;a href=http://httpd.apache.org/docs/2.2/ssl/ssl_faq.html#aboutcerts&gt;Informacja na temat certyfikatów&lt;/a&gt;</translation>
     </message>
     <message>
         <source>File association</source>
-        <translation type="unfinished">Skojarzenie plików</translation>
+        <translation>Skojarzenie plików</translation>
     </message>
     <message>
         <source>Use qBittorrent for .torrent files</source>
-        <translation type="unfinished">Używaj qBittorrent z plikami .torrent</translation>
+        <translation>Używaj qBittorrent z plikami .torrent</translation>
     </message>
     <message>
         <source>Use qBittorrent for magnet links</source>
-        <translation type="unfinished">Używaj qBittorrent z adresami magnet</translation>
+        <translation>Używaj qBittorrent z odnośnikami magnet</translation>
     </message>
     <message>
         <source>Do not count slow torrents in these limits</source>
-        <translation type="unfinished">Nie wliczaj wolnych torrentów do tych limitów</translation>
+        <translation>Nie wliczaj wolnych torrentów do tych limitów</translation>
     </message>
     <message>
         <source>Enable anonymous mode</source>
@@ -2912,7 +3070,11 @@ Ignoruj narzuty protokołu TCP/IP w limitach prędkości</translatorcomment>
     </message>
     <message>
         <source> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;More information&lt;/a&gt;)</source>
-        <translation> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;Więcej informacji&lt;/a&gt;)</translation>
+        <translation type="obsolete"> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;Więcej informacji&lt;/a&gt;)</translation>
+    </message>
+    <message>
+        <source> (&lt;a href=&quot;http://github.com/qbittorrent/qBittorrent/wiki/Anonymous-Mode&quot;&gt;More information&lt;/a&gt;)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3065,7 +3227,7 @@ Ignoruj narzuty protokołu TCP/IP w limitach prędkości</translatorcomment>
     </message>
     <message>
         <source>Choose save path</source>
-        <translation>Wybierz katalog docelowy</translation>
+        <translation type="obsolete">Wybierz katalog docelowy</translation>
     </message>
     <message>
         <source>Save path creation error</source>
@@ -3261,7 +3423,7 @@ Ignoruj narzuty protokołu TCP/IP w limitach prędkości</translatorcomment>
     </message>
     <message>
         <source>HTTP user agent is %1</source>
-        <translation type="unfinished">HTTP user agent: %1</translation>
+        <translation>Identyfikator HTTP (UA): %1</translation>
     </message>
     <message>
         <source>Using a disk cache size of %1 MiB</source>
@@ -3339,7 +3501,7 @@ Ignoruj narzuty protokołu TCP/IP w limitach prędkości</translatorcomment>
     </message>
     <message>
         <source>&apos;%1&apos; is not a valid magnet URI.</source>
-        <translation>&apos;%1&apos; jest niepoprawnym adresem magnet.</translation>
+        <translation>&apos;%1&apos; jest niepoprawnym odnośnikiem magnet.</translation>
     </message>
     <message>
         <source>&apos;%1&apos; is already in download list.</source>
@@ -3460,7 +3622,7 @@ Ignoruj narzuty protokołu TCP/IP w limitach prędkości</translatorcomment>
     </message>
     <message>
         <source>Trying any other network interface available instead.</source>
-        <translation>Testowanie innego interfejsu sieciowego.</translation>
+        <translation type="obsolete">Testowanie innego interfejsu sieciowego.</translation>
     </message>
     <message>
         <source>Listening on IP address %1 on network interface %2...</source>
@@ -3485,7 +3647,7 @@ Ignoruj narzuty protokołu TCP/IP w limitach prędkości</translatorcomment>
     <message>
         <source>Successfuly parsed the provided IP filter: %1 rules were applied.</source>
         <comment>%1 is a number</comment>
-        <translation>Pomyślnie przetworzono podany filtr IP: zastosowano %1 reguł.</translation>
+        <translation type="obsolete">Pomyślnie przetworzono podany filtr IP: zastosowano %1 reguł.</translation>
     </message>
     <message>
         <source>Error: Failed to parse the provided IP filter.</source>
@@ -3497,19 +3659,28 @@ Ignoruj narzuty protokołu TCP/IP w limitach prędkości</translatorcomment>
     </message>
     <message>
         <source>The computer will now go to sleep mode unless you cancel within the next 15 seconds...</source>
-        <translation type="unfinished">Komputer zostanie uśpiony jeśli nie anulujesz akcji w ciągu 15 sekund...</translation>
+        <translation>Komputer zostanie uśpiony jeśli nie anulujesz akcji w ciągu 15 sekund...</translation>
     </message>
     <message>
         <source>The computer will now be switched off unless you cancel within the next 15 seconds...</source>
-        <translation type="unfinished">Komputer zostanie wyłączony jeśli nie anulujesz akcji w ciągu 15 sekund...</translation>
+        <translation>Komputer zostanie wyłączony jeśli nie anulujesz akcji w ciągu 15 sekund...</translation>
     </message>
     <message>
         <source>qBittorrent will now exit unless you cancel within the next 15 seconds...</source>
-        <translation type="unfinished">Działanie qBittorrent zostanie zakończone jeśli nie anulujesz akcji w ciągu 15 sekund...</translation>
+        <translation>Działanie qBittorrent zostanie zakończone jeśli nie anulujesz akcji w ciągu 15 sekund...</translation>
     </message>
     <message>
         <source>Anonymous mode [ON]</source>
         <translation>Tryb anonimowy [WŁ]</translation>
+    </message>
+    <message>
+        <source>Successfully parsed the provided IP filter: %1 rules were applied.</source>
+        <comment>%1 is a number</comment>
+        <translation>Pomyślnie przetworzono podany filtr IP: zastosowano %1 reguł.</translation>
+    </message>
+    <message>
+        <source>Anonymous mode [OFF]</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3840,23 +4011,23 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Cut</source>
-        <translation>Wytnij</translation>
+        <translation type="obsolete">Wytnij</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiuj</translation>
+        <translation type="obsolete">Kopiuj</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>Wklej</translation>
+        <translation type="obsolete">Wklej</translation>
     </message>
     <message>
         <source>Clear field</source>
-        <translation>Wyczyść pole</translation>
+        <translation type="obsolete">Wyczyść pole</translation>
     </message>
     <message>
         <source>Clear completion history</source>
-        <translation>Wyczyść historię</translation>
+        <translation type="obsolete">Wyczyść historię</translation>
     </message>
     <message>
         <source>Search Engine</source>
@@ -3913,11 +4084,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Confirmation</source>
-        <translation>Potwierdzenie</translation>
+        <translation type="obsolete">Potwierdzenie</translation>
     </message>
     <message>
         <source>Are you sure you want to clear the history?</source>
-        <translation>Czy na pewno wyczyścić historię?</translation>
+        <translation type="obsolete">Czy na pewno wyczyścić historię?</translation>
     </message>
 </context>
 <context>
@@ -3951,7 +4122,7 @@ Do you want to install it now?</source>
     <name>ShutdownConfirmDlg</name>
     <message>
         <source>Shutdown confirmation</source>
-        <translation type="unfinished">Potwierdzenie zamykania</translation>
+        <translation>Potwierdzenie zamykania</translation>
     </message>
 </context>
 <context>
@@ -4033,16 +4204,35 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Click to switch to alternative speed limits</source>
-        <translation type="unfinished">Kliknij aby przełączyć na alternatywne limity prędkości</translation>
+        <translation>Kliknij aby przełączyć na alternatywne limity prędkości</translation>
     </message>
     <message>
         <source>Click to switch to regular speed limits</source>
-        <translation type="unfinished">Kliknij aby przełączyć na normalne limity prędkości</translation>
+        <translation>Kliknij aby przełączyć na normalne limity prędkości</translation>
     </message>
     <message>
         <source>%1/s</source>
         <comment>Per second</comment>
         <translation>%1/s</translation>
+    </message>
+</context>
+<context>
+    <name>TorrentContentModel</name>
+    <message>
+        <source>Name</source>
+        <translation>Nazwa</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Rozmiar</translation>
+    </message>
+    <message>
+        <source>Progress</source>
+        <translation>Postęp</translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation>Priorytet</translation>
     </message>
 </context>
 <context>
@@ -4109,19 +4299,19 @@ Do you want to install it now?</source>
     <name>TorrentFilesModel</name>
     <message>
         <source>Name</source>
-        <translation>Nazwa</translation>
+        <translation type="obsolete">Nazwa</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation>Rozmiar</translation>
+        <translation type="obsolete">Rozmiar</translation>
     </message>
     <message>
         <source>Progress</source>
-        <translation>Postęp</translation>
+        <translation type="obsolete">Postęp</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation>Priorytet</translation>
+        <translation type="obsolete">Priorytet</translation>
     </message>
 </context>
 <context>
@@ -4347,7 +4537,7 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Force reannounce</source>
-        <translation>Sprawdź tracker</translation>
+        <translation type="obsolete">Sprawdź tracker</translation>
     </message>
 </context>
 <context>
@@ -4505,6 +4695,14 @@ Do you want to install it now?</source>
         <source>Delete torrents</source>
         <translation>Usuń torrenty</translation>
     </message>
+    <message>
+        <source>Torrents</source>
+        <translation>Torrenty</translation>
+    </message>
+    <message>
+        <source>Labels</source>
+        <translation>Etykiety</translation>
+    </message>
 </context>
 <context>
     <name>TransferListWidget</name>
@@ -4527,7 +4725,7 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Copy magnet link</source>
-        <translation>Kopiuj adres magnet</translation>
+        <translation>Kopiuj odnośnik magnet</translation>
     </message>
     <message>
         <source>Down Speed</source>
@@ -4736,23 +4934,24 @@ Do you want to install it now?</source>
     <name>UpDownRatioDlg</name>
     <message>
         <source>Torrent Upload/Download Ratio Limiting</source>
-        <translation type="unfinished">Ograniczanie współczynnika udziału</translation>
+        <translation>Ograniczanie współczynnika udziału</translation>
     </message>
     <message>
         <source>Use global ratio limit</source>
-        <translation type="unfinished">Użyj globalnego limitu</translation>
+        <translation>Użyj globalnego limitu</translation>
     </message>
     <message>
         <source>buttonGroup</source>
+        <translatorcomment>I bet Author forget renaming it :P</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set no ratio limit</source>
-        <translation type="unfinished">Ustaw bez limitu</translation>
+        <translation>Ustaw bez limitu</translation>
     </message>
     <message>
         <source>Set ratio limit to</source>
-        <translation type="unfinished">Ustaw limit na</translation>
+        <translation>Ustaw limit na</translation>
     </message>
 </context>
 <context>
@@ -4816,83 +5015,83 @@ Do you want to install it now?</source>
     <name>addTorrentDialog</name>
     <message>
         <source>Torrent addition dialog</source>
-        <translation>Dodatkowe informacje o pliku torrent</translation>
+        <translation type="obsolete">Dodatkowe informacje o pliku torrent</translation>
     </message>
     <message>
         <source>Save path:</source>
-        <translation>Katalog docelowy:</translation>
+        <translation type="obsolete">Katalog docelowy:</translation>
     </message>
     <message>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="obsolete">...</translation>
     </message>
     <message>
         <source>Torrent size:</source>
-        <translation>Rozmiar torrenta:</translation>
+        <translation type="obsolete">Rozmiar torrenta:</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation>Nieznany</translation>
+        <translation type="obsolete">Nieznany</translation>
     </message>
     <message>
         <source>Free disk space:</source>
-        <translation>Wolne miejsce na dysku:</translation>
+        <translation type="obsolete">Wolne miejsce na dysku:</translation>
     </message>
     <message>
         <source>Torrent content:</source>
-        <translation>Zawartość torrenta:</translation>
+        <translation type="obsolete">Zawartość torrenta:</translation>
     </message>
     <message>
         <source>Download in sequential order (slower but good for previewing)</source>
-        <translation>Pobierz w kolejności sekwencyjnej (wolniejsze ale lepsze przy korzystaniu z opcji podglądu)</translation>
+        <translation type="obsolete">Pobierz w kolejności sekwencyjnej (wolniejsze ale lepsze przy korzystaniu z opcji podglądu)</translation>
     </message>
     <message>
         <source>Add to download list in paused state</source>
-        <translation>Dodaj tylko do listy pobierania (bez rozpoczynania pobierania)</translation>
+        <translation type="obsolete">Dodaj tylko do listy pobierania (bez rozpoczynania pobierania)</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Dodaj</translation>
+        <translation type="obsolete">Dodaj</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Anuluj</translation>
+        <translation type="obsolete">Anuluj</translation>
     </message>
     <message>
         <source>Normal</source>
-        <translation>Normalny</translation>
+        <translation type="obsolete">Normalny</translation>
     </message>
     <message>
         <source>High</source>
-        <translation>Wysoki</translation>
+        <translation type="obsolete">Wysoki</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation>Maksymalny</translation>
+        <translation type="obsolete">Maksymalny</translation>
     </message>
     <message>
         <source>Skip file checking and start seeding immediately</source>
-        <translation>Pomiń sprawdzanie danych i natychmiast rozpocznij wysyłanie</translation>
+        <translation type="obsolete">Pomiń sprawdzanie danych i natychmiast rozpocznij wysyłanie</translation>
     </message>
     <message>
         <source>Label:</source>
-        <translation>Etykieta:</translation>
+        <translation type="obsolete">Etykieta:</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Zaznacz wszystko</translation>
+        <translation type="obsolete">Zaznacz wszystko</translation>
     </message>
     <message>
         <source>Select None</source>
-        <translation>Odznacz wszystko</translation>
+        <translation type="obsolete">Odznacz wszystko</translation>
     </message>
     <message>
         <source>Do not download</source>
-        <translation>Nie pobieraj</translation>
+        <translation type="obsolete">Nie pobieraj</translation>
     </message>
     <message>
         <source>Set as default save path</source>
-        <translation type="unfinished">Ustaw jako domyślną ścieżkę zapisu</translation>
+        <translation type="obsolete">Ustaw jako domyślną ścieżkę zapisu</translation>
     </message>
 </context>
 <context>
@@ -5371,6 +5570,13 @@ Jednak tamte wtyczki były wyłączone.</translation>
     </message>
 </context>
 <context>
+    <name>fsutils</name>
+    <message>
+        <source>Downloads</source>
+        <translation type="unfinished">Pobieranie</translation>
+    </message>
+</context>
+<context>
     <name>misc</name>
     <message>
         <source>B</source>
@@ -5399,7 +5605,7 @@ Jednak tamte wtyczki były wyłączone.</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation>Nieznany</translation>
+        <translation type="obsolete">Nieznany</translation>
     </message>
     <message>
         <source>Unknown</source>
@@ -5432,7 +5638,52 @@ Jednak tamte wtyczki były wyłączone.</translation>
     </message>
     <message>
         <source>Downloads</source>
-        <translation type="unfinished">Pobieranie</translation>
+        <translation type="obsolete">Pobieranie</translation>
+    </message>
+    <message>
+        <source>/s</source>
+        <comment>per second</comment>
+        <translation>/s</translation>
+    </message>
+    <message>
+        <source>Working</source>
+        <translation>Działa</translation>
+    </message>
+    <message>
+        <source>Updating...</source>
+        <translation>Aktualizowanie...</translation>
+    </message>
+    <message>
+        <source>Not working</source>
+        <translation>Nie działa</translation>
+    </message>
+    <message>
+        <source>Not contacted yet</source>
+        <translation>Niesprawdzony</translation>
+    </message>
+    <message>
+        <source>this session</source>
+        <translation>w tej sesji</translation>
+    </message>
+    <message>
+        <source>Seeded for %1</source>
+        <comment>e.g. Seeded for 3m10s</comment>
+        <translation>Wysyłany przez %1</translation>
+    </message>
+    <message>
+        <source>%1 max</source>
+        <comment>e.g. 10 max</comment>
+        <translation>max %1</translation>
+    </message>
+    <message>
+        <source>D: %1/s - T: %2</source>
+        <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
+        <translation>Pobieranie: %1/s - Pobrano: %2</translation>
+    </message>
+    <message>
+        <source>U: %1/s - T: %2</source>
+        <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
+        <translation>Wysyłanie: %1/s - Wysłano: %2</translation>
     </message>
 </context>
 <context>
@@ -5492,7 +5743,7 @@ Jednak tamte wtyczki były wyłączone.</translation>
     <message>
         <source>Successfuly parsed the provided IP filter: %1 rules were applied.</source>
         <comment>%1 is a number</comment>
-        <translation>Pomyślnie przetworzono podany filtr IP: zastosowano %1 reguł.</translation>
+        <translation type="obsolete">Pomyślnie przetworzono podany filtr IP: zastosowano %1 reguł.</translation>
     </message>
     <message>
         <source>Successfully refreshed</source>
@@ -5505,15 +5756,15 @@ Jednak tamte wtyczki były wyłączone.</translation>
     </message>
     <message>
         <source>This is not a valid SSL key.</source>
-        <translation type="unfinished">To nie jest poprawny klucz SSL.</translation>
+        <translation>To nie jest poprawny klucz SSL.</translation>
     </message>
     <message>
         <source>Invalid certificate</source>
-        <translation type="unfinished">Niepoprawny certyfikat</translation>
+        <translation>Niepoprawny certyfikat</translation>
     </message>
     <message>
         <source>This is not a valid SSL certificate.</source>
-        <translation type="unfinished">To nie jest poprawny certyfikat SSL.</translation>
+        <translation>To nie jest poprawny certyfikat SSL.</translation>
     </message>
     <message>
         <source>SSL Certificate (*.crt *.pem)</source>
@@ -5522,6 +5773,11 @@ Jednak tamte wtyczki były wyłączone.</translation>
     <message>
         <source>SSL Key (*.key *.pem)</source>
         <translation>Klucz SSL (*.key *.pem)</translation>
+    </message>
+    <message>
+        <source>Successfully parsed the provided IP filter: %1 rules were applied.</source>
+        <comment>%1 is a number</comment>
+        <translation>Pomyślnie przetworzono podany filtr IP: zastosowano %1 reguł.</translation>
     </message>
 </context>
 <context>
@@ -5620,101 +5876,101 @@ Jednak tamte wtyczki były wyłączone.</translation>
     <name>torrentAdditionDialog</name>
     <message>
         <source>Unable to decode torrent file:</source>
-        <translation>Problem z odkodowaniem pliku torrent:</translation>
+        <translation type="obsolete">Problem z odkodowaniem pliku torrent:</translation>
     </message>
     <message>
         <source>Choose save path</source>
-        <translation>Wybierz katalog docelowy</translation>
+        <translation type="obsolete">Wybierz katalog docelowy</translation>
     </message>
     <message>
         <source>(%1 left after torrent download)</source>
         <comment>e.g. (100MiB left after torrent download)</comment>
-        <translation>(%1 po pobraniu torrenta)</translation>
+        <translation type="obsolete">(%1 po pobraniu torrenta)</translation>
     </message>
     <message>
         <source>(%1 more are required to download)</source>
         <comment>e.g. (100MiB more are required to download)</comment>
-        <translation>(aby pobrać torrenta potrzeba jeszcze %1 wolnego miejsca)</translation>
+        <translation type="obsolete">(aby pobrać torrenta potrzeba jeszcze %1 wolnego miejsca)</translation>
     </message>
     <message>
         <source>Empty save path</source>
-        <translation>Niepoprawny katalog docelowy</translation>
+        <translation type="obsolete">Niepoprawny katalog docelowy</translation>
     </message>
     <message>
         <source>Please enter a save path</source>
-        <translation>Podaj katalog docelowy</translation>
+        <translation type="obsolete">Podaj katalog docelowy</translation>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation>Błąd tworzenia katalogu docelowego</translation>
+        <translation type="obsolete">Błąd tworzenia katalogu docelowego</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation>Nie można założyć katalogu docelowego</translation>
+        <translation type="obsolete">Nie można założyć katalogu docelowego</translation>
     </message>
     <message>
         <source>Invalid file selection</source>
-        <translation>Wybrano niepoprawny plik</translation>
+        <translation type="obsolete">Wybrano niepoprawny plik</translation>
     </message>
     <message>
         <source>You must select at least one file in the torrent</source>
-        <translation>Musisz wybrać przynajmniej jeden plik z pliku torrent</translation>
+        <translation type="obsolete">Musisz wybrać przynajmniej jeden plik z pliku torrent</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation>Priorytet</translation>
+        <translation type="obsolete">Priorytet</translation>
     </message>
     <message>
         <source>Seeding mode error</source>
-        <translation>Błąd trybu rozsiewania</translation>
+        <translation type="obsolete">Błąd trybu rozsiewania</translation>
     </message>
     <message>
         <source>You chose to skip file checking. However, local files do not seem to exist in the current destionation folder. Please disable this feature or update the save path.</source>
-        <translation>Wybrano pomijanie sprawdzania pliku, jednak pliki lokalne prawdopodobnie nie istnieją w aktualnym katalogu pobierań. Należy wyłączyć tą opcję lub zaktualizować katalog zapisu.</translation>
+        <translation type="obsolete">Wybrano pomijanie sprawdzania pliku, jednak pliki lokalne prawdopodobnie nie istnieją w aktualnym katalogu pobierań. Należy wyłączyć tą opcję lub zaktualizować katalog zapisu.</translation>
     </message>
     <message>
         <source>Rename...</source>
-        <translation>Zmień nazwę...</translation>
+        <translation type="obsolete">Zmień nazwę...</translation>
     </message>
     <message>
         <source>New name:</source>
-        <translation>Nowa nazwa:</translation>
+        <translation type="obsolete">Nowa nazwa:</translation>
     </message>
     <message>
         <source>The file could not be renamed</source>
-        <translation>Nie można zmienić nazwy pliku</translation>
+        <translation type="obsolete">Nie można zmienić nazwy pliku</translation>
     </message>
     <message>
         <source>This name is already in use in this folder. Please use a different name.</source>
-        <translation>Wybrana nazwa jest już używana w tym katalogu. Proszę wybrać inną nazwę.</translation>
+        <translation type="obsolete">Wybrana nazwa jest już używana w tym katalogu. Proszę wybrać inną nazwę.</translation>
     </message>
     <message>
         <source>The folder could not be renamed</source>
-        <translation>Nie można zmienić nazwy katalogu</translation>
+        <translation type="obsolete">Nie można zmienić nazwy katalogu</translation>
     </message>
     <message>
         <source>Rename the file</source>
-        <translation>Zmień nazwę pliku</translation>
+        <translation type="obsolete">Zmień nazwę pliku</translation>
     </message>
     <message>
         <source>Unable to decode magnet link:</source>
-        <translation>Nie można odczytać adresu magnet:</translation>
+        <translation type="obsolete">Nie można odczytać adresu magnet:</translation>
     </message>
     <message>
         <source>Magnet Link</source>
-        <translation>Adres magnet</translation>
+        <translation type="obsolete">Adres magnet</translation>
     </message>
     <message>
         <source>Invalid label name</source>
-        <translation>Nieprawidłowa nazwa etykiety</translation>
+        <translation type="obsolete">Nieprawidłowa nazwa etykiety</translation>
     </message>
     <message>
         <source>Please don&apos;t use any special characters in the label name.</source>
-        <translation>Nie należy używać żadnych znaków specjalnych w nazwach etykiet.</translation>
+        <translation type="obsolete">Nie należy używać żadnych znaków specjalnych w nazwach etykiet.</translation>
     </message>
     <message>
         <source>This file name contains forbidden characters, please choose a different one.</source>
-        <translation>Nazwa pliku zawiera zabronione znaki, proszę wybrać inną nazwę.</translation>
+        <translation type="obsolete">Nazwa pliku zawiera zabronione znaki, proszę wybrać inną nazwę.</translation>
     </message>
 </context>
 </TS>

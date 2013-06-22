@@ -115,7 +115,157 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;An advanced BitTorrent client programmed in C++, based on Qt4 toolkit and libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Copyright ©2006-2012 Christophe Dumez&lt;br /&gt;&lt;br /&gt;Home Page: &lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Bug Tracker: &lt;a href=&quot;http://bugs.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://bugs.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;br /&gt;Forum: &lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;IRC:  #qbittorrent on Freenode&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Клієнт BitTorrent, запрограмований на C++, на основі Qt4 та libtorrent-rasterbar. &lt;br /&gt;&lt;br /&gt;Захищено авторським правом ©2006-2012 Крістоф Думез&lt;br /&gt;&lt;br /&gt;Домашня сторінка: &lt;a href=&quot;http://www.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Повідомити про помилку: &lt;a href=&quot;http://bugs.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://bugs.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;br /&gt;Форум: &lt;a href=&quot;http://forum.qbittorrent.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://forum.qbittorrent.org&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;IRC:  #qbittorrent на Freenode&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>AddNewTorrentDialog</name>
+    <message>
+        <source>Dialog</source>
+        <translation>Діалогове вікно</translation>
+    </message>
+    <message>
+        <source>Save as</source>
+        <translation>Зберегти як</translation>
+    </message>
+    <message>
+        <source>Set as default save path</source>
+        <translation>Зробити стандартним шляхом збереження</translation>
+    </message>
+    <message>
+        <source>Never show again</source>
+        <translation>Більше ніколи не показувати</translation>
+    </message>
+    <message>
+        <source>Torrent settings</source>
+        <translation>Налаштування торрента</translation>
+    </message>
+    <message>
+        <source>Start torrent</source>
+        <translation>Запустити торрент</translation>
+    </message>
+    <message>
+        <source>Label:</source>
+        <translation>Мітка:</translation>
+    </message>
+    <message>
+        <source>Skip hash check</source>
+        <translation>Пропустити перевірку хешу</translation>
+    </message>
+    <message>
+        <source>Torrent Information</source>
+        <translation>Інформація про торрент</translation>
+    </message>
+    <message>
+        <source>Size:</source>
+        <translation>Розмір:</translation>
+    </message>
+    <message>
+        <source>Comment:</source>
+        <translation>Коментар:</translation>
+    </message>
+    <message>
+        <source>Date:</source>
+        <translation>Дата:</translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation>Нормальний</translation>
+    </message>
+    <message>
+        <source>High</source>
+        <translation>Високий</translation>
+    </message>
+    <message>
+        <source>Maximum</source>
+        <translation>Максимальний</translation>
+    </message>
+    <message>
+        <source>Do not download</source>
+        <translation>Не завантажувати</translation>
+    </message>
+    <message>
+        <source>Other...</source>
+        <comment>Other save path...</comment>
+        <translation>Інший...</translation>
+    </message>
+    <message>
+        <source>I/O Error</source>
+        <translation>Помилка вводу/виводу</translation>
+    </message>
+    <message>
+        <source>The torrent file does not exist.</source>
+        <translation>Цей файл торрента не існує.</translation>
+    </message>
+    <message>
+        <source>Invalid torrent</source>
+        <translation>Некоректний торрент</translation>
+    </message>
+    <message>
+        <source>Not available</source>
+        <translation>Недоступно</translation>
+    </message>
+    <message>
+        <source>Invalid magnet link</source>
+        <translation>Неправильне магнітне посилання</translation>
+    </message>
+    <message>
+        <source>This magnet link was not recognized</source>
+        <translation>Це магнітне посилання не було розпізнано</translation>
+    </message>
+    <message>
+        <source>Magnet link</source>
+        <translation>Магнітне посилання</translation>
+    </message>
+    <message>
+        <source>Disk space: %1</source>
+        <translation>Місця на диску: %1</translation>
+    </message>
+    <message>
+        <source>Choose save path</source>
+        <translation>Виберіть шлях збереження</translation>
+    </message>
+    <message>
+        <source>Rename the file</source>
+        <translation>Перейменувати файл</translation>
+    </message>
+    <message>
+        <source>New name:</source>
+        <translation>Нова назва:</translation>
+    </message>
+    <message>
+        <source>The file could not be renamed</source>
+        <translation>Файл не вдалося перейменувати</translation>
+    </message>
+    <message>
+        <source>This file name contains forbidden characters, please choose a different one.</source>
+        <translation>Ця назва файлу містить заборонені символи. Будь ласка, виберіть іншу.</translation>
+    </message>
+    <message>
+        <source>This name is already in use in this folder. Please use a different name.</source>
+        <translation>Ця назва вже використовується в даній папці. Будь ласка, виберіть іншу.</translation>
+    </message>
+    <message>
+        <source>The folder could not be renamed</source>
+        <translation>Цю папку не вдалося перейменувати</translation>
+    </message>
+    <message>
+        <source>Rename...</source>
+        <translation>Перейменувати...</translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation>Пріоритет</translation>
+    </message>
+    <message>
+        <source>Failed to load the torrent: %1</source>
+        <translation>Не вдалось завантажити торрент: %1</translation>
     </message>
 </context>
 <context>
@@ -138,15 +288,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Outgoing ports (Min) [0: Disabled]</source>
-        <translation>Вихідні порти (мін.) [0: Вимкнено]</translation>
+        <translation>Вихідні порти (нижня межа) [0: Вимкнено]</translation>
     </message>
     <message>
         <source>Outgoing ports (Max) [0: Disabled]</source>
-        <translation>Вихідні порти (макс.) [0: Вимкнено]</translation>
+        <translation>Вихідні порти (верхня межа) [0: Вимкнено]</translation>
     </message>
     <message>
         <source>Ignore transfer limits on local network</source>
-        <translation>Ігнорувати ліміти швидкості для локальної мережі</translation>
+        <translation>Ігнорувати обмеження швидкості для локальної мережі</translation>
     </message>
     <message>
         <source>Include TCP/IP overhead in transfer limits</source>
@@ -183,7 +333,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Network Interface (requires restart)</source>
-        <translation>Мережевий Інтерфейс (потребує перезапуску)</translation>
+        <translation>Мережевий інтерфейс (потребує перезапуску)</translation>
     </message>
     <message>
         <source>Any interface</source>
@@ -216,7 +366,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Confirm torrent deletion</source>
-        <translation>Підтвердити видалення торрента</translation>
+        <translation>Підтверджувати видалення торрентів</translation>
     </message>
     <message>
         <source>IP Address to report to trackers (requires restart)</source>
@@ -242,6 +392,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Always announce to all trackers</source>
         <translation>Отримувати пірів з усіх трекерів</translation>
+    </message>
+    <message>
+        <source> (auto)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -676,7 +830,7 @@ You should get this information from your Web browser preferences.</source>
     <name>DNSUpdater</name>
     <message>
         <source>Your dynamic DNS was successfuly updated.</source>
-        <translation>Ваш динамічний DNS був успішно оновлений.</translation>
+        <translation type="obsolete">Ваш динамічний DNS був успішно оновлений.</translation>
     </message>
     <message>
         <source>Dynamic DNS error: The service is temporarily unavailable, it will be retried in 30 minutes.</source>
@@ -688,11 +842,11 @@ You should get this information from your Web browser preferences.</source>
     </message>
     <message>
         <source>Dynamic DNS error: Invalid username/password.</source>
-        <translation>Помилка динамічного DNS: Неправильний логін/пароль.</translation>
+        <translation>Помилка динамічного DNS: Неправильний логін або пароль.</translation>
     </message>
     <message>
         <source>Dynamic DNS error: qBittorrent was blacklisted by the service, please report a bug at http://bugs.qbittorrent.org.</source>
-        <translation>Помилка динамічного DNS: qBittorrent додано в чорний список сервісу; будь ласка, повідомте про помилку на http://bugs.qbittorrent.org.</translation>
+        <translation>Помилка динамічного DNS: qBittorrent додано в чорний список сервісу; будь ласка, повідомте про це на http://bugs.qbittorrent.org.</translation>
     </message>
     <message>
         <source>Dynamic DNS error: %1 was returned by the service, please report a bug at http://bugs.qbittorrent.org.</source>
@@ -713,6 +867,10 @@ You should get this information from your Web browser preferences.</source>
     <message>
         <source>Dynamic DNS error: supplied password is too short.</source>
         <translation>Помилка динамічного DNS: наданий пароль закороткий.</translation>
+    </message>
+    <message>
+        <source>Your dynamic DNS was successfully updated.</source>
+        <translation>Ваш динамічний DNS було успішно оновлено.</translation>
     </message>
 </context>
 <context>
@@ -815,42 +973,42 @@ You should get this information from your Web browser preferences.</source>
     <message>
         <source>%1/s</source>
         <comment>e.g. 120 KiB/s</comment>
-        <translation>%1/с</translation>
+        <translation type="obsolete">%1/с</translation>
     </message>
     <message>
         <source>Working</source>
-        <translation>Працюю</translation>
+        <translation type="obsolete">Працюю</translation>
     </message>
     <message>
         <source>Updating...</source>
-        <translation>Оновлюю...</translation>
+        <translation type="obsolete">Оновлюю...</translation>
     </message>
     <message>
         <source>Not working</source>
-        <translation>Не працюю</translation>
+        <translation type="obsolete">Не працюю</translation>
     </message>
     <message>
         <source>Not contacted yet</source>
-        <translation>Ще не було зв&apos;язку з трекером</translation>
+        <translation type="obsolete">Ще не було зв&apos;язку з трекером</translation>
     </message>
     <message>
         <source>this session</source>
-        <translation>Поточна сесія</translation>
+        <translation type="obsolete">Поточна сесія</translation>
     </message>
     <message>
         <source>/s</source>
         <comment>/second (i.e. per second)</comment>
-        <translation>/с</translation>
+        <translation type="obsolete">/с</translation>
     </message>
     <message>
         <source>Seeded for %1</source>
         <comment>e.g. Seeded for 3m10s</comment>
-        <translation>Роздавав %1</translation>
+        <translation type="obsolete">Роздавав %1</translation>
     </message>
     <message>
         <source>%1 max</source>
         <comment>e.g. 10 max</comment>
-        <translation>максимально %1</translation>
+        <translation type="obsolete">максимально %1</translation>
     </message>
 </context>
 <context>
@@ -1516,24 +1674,24 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>This is a security risk, please consider changing your password from program preferences.</source>
-        <translation>Це ризик безпеки, будь ласка, встановіть пароль в налаштуваннях програми.</translation>
+        <translation>Це ризик безпеки, будь ласка, змініть пароль в налаштуваннях програми.</translation>
     </message>
 </context>
 <context>
     <name>HttpConnection</name>
     <message>
         <source>Your IP address has been banned after too many failed authentication attempts.</source>
-        <translation>Вашу IP-адресу було заблоковано, через те, що було здійснено забагато спроб автентифікації.</translation>
+        <translation>Вашу IP-адресу було заблоковано через те, що було здійснено забагато спроб автентифікації.</translation>
     </message>
     <message>
         <source>D: %1/s - T: %2</source>
         <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
-        <translation>Зав.: %1/с (%2)</translation>
+        <translation type="obsolete">Зав.: %1/с (%2)</translation>
     </message>
     <message>
         <source>U: %1/s - T: %2</source>
         <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
-        <translation>Вив.: %1/с (%2)</translation>
+        <translation type="obsolete">Вив.: %1/с (%2)</translation>
     </message>
 </context>
 <context>
@@ -1705,7 +1863,7 @@ No further notices will be issued.</source>
     <name>MainWindow</name>
     <message>
         <source>&amp;Edit</source>
-        <translation>&amp;Редагувати</translation>
+        <translation>&amp;Торренти</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -1725,11 +1883,11 @@ No further notices will be issued.</source>
     </message>
     <message>
         <source>Decrease priority</source>
-        <translation>Зменшити приорітет</translation>
+        <translation>Зменшити пріоритет</translation>
     </message>
     <message>
         <source>Increase priority</source>
-        <translation>Збільшити приорітет</translation>
+        <translation>Збільшити пріоритет</translation>
     </message>
     <message>
         <source>&amp;Tools</source>
@@ -1757,15 +1915,15 @@ No further notices will be issued.</source>
     </message>
     <message>
         <source>Torrent &amp;creator</source>
-        <translation>Створювач &amp;торрентів</translation>
+        <translation>&amp;Створення торрентів</translation>
     </message>
     <message>
         <source>Set upload limit...</source>
-        <translation>Встановити ліміт вивантаження...</translation>
+        <translation>Встановити обмеження вивантаження...</translation>
     </message>
     <message>
         <source>Set download limit...</source>
-        <translation>Встановити ліміт завантаження...</translation>
+        <translation>Встановити обмеження завантаження...</translation>
     </message>
     <message>
         <source>Set global download limit...</source>
@@ -1781,7 +1939,7 @@ No further notices will be issued.</source>
     </message>
     <message>
         <source>Top &amp;tool bar</source>
-        <translation>&amp;Верхня панель</translation>
+        <translation>Верхню &amp;панель</translation>
     </message>
     <message>
         <source>Display top tool bar</source>
@@ -1833,7 +1991,7 @@ No further notices will be issued.</source>
     </message>
     <message>
         <source>Search &amp;engine</source>
-        <translation>По&amp;шуковик</translation>
+        <translation>&amp;Пошуковик</translation>
     </message>
     <message>
         <source>Log viewer</source>
@@ -2516,7 +2674,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>No action</source>
-        <translation>Без дії</translation>
+        <translation>Нічого не робити</translation>
     </message>
     <message>
         <source>Options</source>
@@ -2528,11 +2686,11 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Action on double-click</source>
-        <translation>Дія при подвійному клацанні</translation>
+        <translation>Дія при подвійному клацанні на торрент</translation>
     </message>
     <message>
         <source>Downloading torrents:</source>
-        <translation>Завантажую торренти:</translation>
+        <translation>Якщо завантажується:</translation>
     </message>
     <message>
         <source>Start / Stop</source>
@@ -2574,7 +2732,7 @@ Would you like to update qBittorrent to version %1?</source>
     <message>
         <source>Do not start the download automatically</source>
         <comment>The torrent will be added to download list in pause state</comment>
-        <translation>Не починати заантаження автоматично</translation>
+        <translation>Не починати завантаження автоматично</translation>
     </message>
     <message>
         <source>Save files to location:</source>
@@ -2643,7 +2801,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>then</source>
-        <translation>тоді</translation>
+        <translation>а тоді</translation>
     </message>
     <message>
         <source>Pause them</source>
@@ -2687,7 +2845,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Start / Stop Torrent</source>
-        <translation>Почати / зупинити торрент</translation>
+        <translation>Запустити або зупинити торрент</translation>
     </message>
     <message>
         <source>Use UPnP / NAT-PMP port forwarding from my router</source>
@@ -2699,7 +2857,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Enable DHT (decentralized network) to find more peers</source>
-        <translation>Увімкнути DHT (децентралізовану мережу, щоб знаходити більше пірів</translation>
+        <translation>Увімкнути DHT (децентралізовану мережу), щоб знаходити більше пірів</translation>
     </message>
     <message>
         <source>Use a different port for DHT and BitTorrent</source>
@@ -2755,11 +2913,11 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Bypass authentication for localhost</source>
-        <translation>Обходити автентифікацію для localhost</translation>
+        <translation>Уникати автентифікації для localhost</translation>
     </message>
     <message>
         <source>Ask for program exit confirmation</source>
-        <translation>Вимагати підверрдження виходу з програми</translation>
+        <translation>Вимагати підтвердження виходу з програми</translation>
     </message>
     <message>
         <source>Use monochrome system tray icon (requires restart)</source>
@@ -2783,7 +2941,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Normal</source>
-        <translation>Нормальний</translation>
+        <translation>Звичайний</translation>
     </message>
     <message>
         <source>Monochrome (Dark theme)</source>
@@ -2863,7 +3021,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Apply rate limit to transport overhead</source>
-        <translation>Застосовувати обмеження і до протоколу передачі</translation>
+        <translation>Застосовувати обмеження до протоколу передачі</translation>
     </message>
     <message>
         <source>Alternative Global Rate Limits</source>
@@ -2910,8 +3068,8 @@ Would you like to update qBittorrent to version %1?</source>
         <translation>Ключ:</translation>
     </message>
     <message>
-        <source>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</source>
-        <translation>&lt;a href=http://httpd.apache.org/docs/2.1/ssl/ssl_faq.html#aboutcerts&gt;Інформація про сертифікати&lt;/a&gt;</translation>
+        <source>&lt;a href=http://httpd.apache.org/docs/2.2/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</source>
+        <translation>&lt;a href=http://httpd.apache.org/docs/2.2/ssl/ssl_faq.html#aboutcerts&gt;Інформація про сертифікати&lt;/a&gt;</translation>
     </message>
     <message>
         <source>File association</source>
@@ -2935,7 +3093,11 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;More information&lt;/a&gt;)</source>
-        <translation> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;Більше інформації&lt;/a&gt;)</translation>
+        <translation type="obsolete"> (&lt;a href=&quot;http://sourceforge.net/apps/mediawiki/qbittorrent/index.php?title=Anonymous_mode&quot;&gt;Більше інформації&lt;/a&gt;)</translation>
+    </message>
+    <message>
+        <source> (&lt;a href=&quot;http://github.com/qbittorrent/qBittorrent/wiki/Anonymous-Mode&quot;&gt;More information&lt;/a&gt;)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3088,7 +3250,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Choose save path</source>
-        <translation>Виберіть шлях збереження</translation>
+        <translation type="obsolete">Виберіть шлях збереження</translation>
     </message>
     <message>
         <source>Save path creation error</source>
@@ -3116,11 +3278,11 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>UP limit:</source>
-        <translation>Ліміт вив.:</translation>
+        <translation>Ліміт вивантаження:</translation>
     </message>
     <message>
         <source>DL limit:</source>
-        <translation>Ліміт зав.:</translation>
+        <translation>Ліміт завантаження:</translation>
     </message>
     <message>
         <source>Time elapsed:</source>
@@ -3187,7 +3349,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>This name is already in use in this folder. Please use a different name.</source>
-        <translation>Це ім&apos;я вже використовується в цій папці. Будь ласка, виберіть інше ім&apos;я.</translation>
+        <translation>Ця назва файлу використовується в даній папці. Будь ласка, виберіть іншу назву.</translation>
     </message>
     <message>
         <source>The folder could not be renamed</source>
@@ -3199,7 +3361,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>This file name contains forbidden characters, please choose a different one.</source>
-        <translation>Це ім&apos;я файла містить заборонені символи. Будь ласка, виберіть інше.</translation>
+        <translation>Ця назва файлу містить заборонені символи. Будь ласка, виберіть іншу.</translation>
     </message>
     <message>
         <source>I/O Error</source>
@@ -3244,7 +3406,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Torrent content:</source>
-        <translation>Вміст торренту:</translation>
+        <translation>Вміст торрента:</translation>
     </message>
 </context>
 <context>
@@ -3284,7 +3446,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>HTTP user agent is %1</source>
-        <translation>Браузер користувача: %1</translation>
+        <translation>Назва програми (HTTP): %1</translation>
     </message>
     <message>
         <source>Using a disk cache size of %1 MiB</source>
@@ -3332,7 +3494,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Embedded Tracker [ON]</source>
-        <translation>Вбудований трекер [увімкнено]</translation>
+        <translation>Вбудований трекер [Увімкнено]</translation>
     </message>
     <message>
         <source>Failed to start the embedded tracker!</source>
@@ -3340,7 +3502,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Embedded Tracker [OFF]</source>
-        <translation>Вбудований трекер [вимкнено]</translation>
+        <translation>Вбудований трекер [Вимкнено]</translation>
     </message>
     <message>
         <source>The Web UI is listening on port %1</source>
@@ -3483,7 +3645,7 @@ Would you like to update qBittorrent to version %1?</source>
     </message>
     <message>
         <source>Trying any other network interface available instead.</source>
-        <translation>Пробую на інших доступних мережевих інтерфейсах.</translation>
+        <translation type="obsolete">Пробую на інших доступних мережевих інтерфейсах.</translation>
     </message>
     <message>
         <source>Listening on IP address %1 on network interface %2...</source>
@@ -3508,7 +3670,7 @@ Would you like to update qBittorrent to version %1?</source>
     <message>
         <source>Successfuly parsed the provided IP filter: %1 rules were applied.</source>
         <comment>%1 is a number</comment>
-        <translation>Успішно розібрано даний фільтр IP: було застосовано %1 правил.</translation>
+        <translation type="obsolete">Успішно розібрано даний фільтр IP: було застосовано %1 правил.</translation>
     </message>
     <message>
         <source>Error: Failed to parse the provided IP filter.</source>
@@ -3533,6 +3695,15 @@ Would you like to update qBittorrent to version %1?</source>
     <message>
         <source>Anonymous mode [ON]</source>
         <translation>Анонімний режим [Увімкнено]</translation>
+    </message>
+    <message>
+        <source>Successfully parsed the provided IP filter: %1 rules were applied.</source>
+        <comment>%1 is a number</comment>
+        <translation>Успішно оброблено наданий фільтр IP: застосовано %1 правил.</translation>
+    </message>
+    <message>
+        <source>Anonymous mode [OFF]</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3642,7 +3813,7 @@ p, li { white-space: pre-wrap; }
     <name>RSSImp</name>
     <message>
         <source>Please type a rss stream url</source>
-        <translation>Будь-ласка, введіть url потоку rss</translation>
+        <translation>Будь-ласка, введіть URL потоку RSS</translation>
     </message>
     <message>
         <source>Stream URL:</source>
@@ -3666,7 +3837,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>This rss feed is already in the list.</source>
-        <translation>Цей rss-стрічка вже є в списку.</translation>
+        <translation>Ця подача RSS вже є в списку.</translation>
     </message>
     <message>
         <source>Date: </source>
@@ -3698,19 +3869,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Please choose a new name for this RSS feed</source>
-        <translation>Будь ласка, виберіть нове ім&apos;я для цієї RSS-подачі</translation>
+        <translation>Будь ласка, виберіть нову назву для цієї RSS-подачі</translation>
     </message>
     <message>
         <source>New feed name:</source>
-        <translation>Нове ім&apos;я подачі:</translation>
+        <translation>Нова назва подачі:</translation>
     </message>
     <message>
         <source>Name already in use</source>
-        <translation>Ім&apos;я вже використовується</translation>
+        <translation>Назва вже використовується</translation>
     </message>
     <message>
         <source>This name is already used by another item, please choose another one.</source>
-        <translation>Це ім&apos;я вже використовується. Будь ласка, виберіть інше ім&apos;я.</translation>
+        <translation>Ця назва вже використовується. Будь ласка, виберіть іншу.</translation>
     </message>
     <message>
         <source>Overwrite attempt</source>
@@ -3800,7 +3971,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Download here</source>
-        <translation>Завантажувати сюди</translation>
+        <translation>Завантажувати до</translation>
     </message>
 </context>
 <context>
@@ -3862,23 +4033,23 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Cut</source>
-        <translation>Вирізати</translation>
+        <translation type="obsolete">Вирізати</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Копіювати</translation>
+        <translation type="obsolete">Копіювати</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>Вставити</translation>
+        <translation type="obsolete">Вставити</translation>
     </message>
     <message>
         <source>Clear field</source>
-        <translation>Очистити поле</translation>
+        <translation type="obsolete">Очистити поле</translation>
     </message>
     <message>
         <source>Clear completion history</source>
-        <translation>Очистити історію автозавершення</translation>
+        <translation type="obsolete">Очистити історію автозавершення</translation>
     </message>
     <message>
         <source>Search Engine</source>
@@ -3935,11 +4106,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Confirmation</source>
-        <translation>Підтвердження</translation>
+        <translation type="obsolete">Підтвердження</translation>
     </message>
     <message>
         <source>Are you sure you want to clear the history?</source>
-        <translation>Ви впевнені, що хочете очистити історію?</translation>
+        <translation type="obsolete">Ви впевнені, що хочете очистити історію?</translation>
     </message>
 </context>
 <context>
@@ -3947,7 +4118,7 @@ Do you want to install it now?</source>
     <message>
         <source>Name</source>
         <comment>i.e: file name</comment>
-        <translation>Ім&apos;я</translation>
+        <translation>Назва</translation>
     </message>
     <message>
         <source>Size</source>
@@ -4068,6 +4239,25 @@ Do you want to install it now?</source>
     </message>
 </context>
 <context>
+    <name>TorrentContentModel</name>
+    <message>
+        <source>Name</source>
+        <translation>Назва</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Розмір</translation>
+    </message>
+    <message>
+        <source>Progress</source>
+        <translation>Прогрес</translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation>Пріоритет</translation>
+    </message>
+</context>
+<context>
     <name>TorrentCreatorDlg</name>
     <message>
         <source>Select a folder to add to the torrent</source>
@@ -4112,7 +4302,7 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Torrent creation</source>
-        <translation>Створення торренту</translation>
+        <translation>Створення торрента</translation>
     </message>
     <message>
         <source>Torrent creation was unsuccessful, reason: %1</source>
@@ -4131,19 +4321,19 @@ Do you want to install it now?</source>
     <name>TorrentFilesModel</name>
     <message>
         <source>Name</source>
-        <translation>Ім&apos;я</translation>
+        <translation type="obsolete">Ім&apos;я</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation>Розмір</translation>
+        <translation type="obsolete">Розмір</translation>
     </message>
     <message>
         <source>Progress</source>
-        <translation>Прогрес</translation>
+        <translation type="obsolete">Прогрес</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation>Пріоритет</translation>
+        <translation type="obsolete">Пріоритет</translation>
     </message>
 </context>
 <context>
@@ -4327,11 +4517,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Working</source>
-        <translation>Працюю</translation>
+        <translation>Працює</translation>
     </message>
     <message>
         <source>Disabled</source>
-        <translation>Вимкнено</translation>
+        <translation>Вимкнений</translation>
     </message>
     <message>
         <source>This torrent is private</source>
@@ -4367,7 +4557,7 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Force reannounce</source>
-        <translation>Примусово переанонсувати</translation>
+        <translation type="obsolete">Примусово переанонсувати</translation>
     </message>
 </context>
 <context>
@@ -4417,7 +4607,7 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Paused</source>
-        <translation>Зупинено</translation>
+        <translation>Зупинені</translation>
     </message>
     <message>
         <source>Queued</source>
@@ -4463,7 +4653,7 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Downloading</source>
-        <translation>Завантажую</translation>
+        <translation>Завантажуються</translation>
     </message>
     <message>
         <source>Completed</source>
@@ -4503,7 +4693,7 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Please don&apos;t use any special characters in the label name.</source>
-        <translation>Будь ласка, не використовуйте спеціальні символи в назві мітки.</translation>
+        <translation>Будь ласка, не використовуйте особливі символи в назві мітки.</translation>
     </message>
     <message>
         <source>Paused</source>
@@ -4524,6 +4714,14 @@ Do you want to install it now?</source>
     <message>
         <source>Delete torrents</source>
         <translation>Видалити торренти</translation>
+    </message>
+    <message>
+        <source>Torrents</source>
+        <translation>Торренти</translation>
+    </message>
+    <message>
+        <source>Labels</source>
+        <translation>Мітки</translation>
     </message>
 </context>
 <context>
@@ -4642,7 +4840,7 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>New name:</source>
-        <translation>Нове ім&apos;я:</translation>
+        <translation>Нова назва:</translation>
     </message>
     <message>
         <source>Rename...</source>
@@ -4650,11 +4848,11 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Invalid label name</source>
-        <translation>Неправильне ім&apos;я мітки</translation>
+        <translation>Неправильна назва мітки</translation>
     </message>
     <message>
         <source>Please don&apos;t use any special characters in the label name.</source>
-        <translation>Будь ласка, не використовуйте спеціальних символів в назві мітки.</translation>
+        <translation>Будь ласка, не використовуйте особливі символи в назві мітки.</translation>
     </message>
     <message>
         <source>Added On</source>
@@ -4760,7 +4958,7 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>buttonGroup</source>
-        <translation></translation>
+        <translation>Група кнопок</translation>
     </message>
     <message>
         <source>Set no ratio limit</source>
@@ -4810,7 +5008,7 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Please contact me if you would like to translate qBittorrent into your own language.</source>
-        <translation>Будь-ласка зв&apos;яжітся зі мною, якщо ви бажаєте перекласти qBittorrent на вашу мову.</translation>
+        <translation>Будь-ласка зв&apos;яжіться зі мною, якщо ви бажаєте перекласти qBittorrent на вашу мову.</translation>
     </message>
 </context>
 <context>
@@ -4832,83 +5030,83 @@ Do you want to install it now?</source>
     <name>addTorrentDialog</name>
     <message>
         <source>Torrent addition dialog</source>
-        <translation>Діалог додавання торренту</translation>
+        <translation type="obsolete">Діалог додавання торренту</translation>
     </message>
     <message>
         <source>Save path:</source>
-        <translation>Шлях збереження:</translation>
+        <translation type="obsolete">Шлях збереження:</translation>
     </message>
     <message>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="obsolete">...</translation>
     </message>
     <message>
         <source>Torrent content:</source>
-        <translation>Вміст торренту:</translation>
+        <translation type="obsolete">Вміст торренту:</translation>
     </message>
     <message>
         <source>Add to download list in paused state</source>
-        <translation>Додати до списку завантажень у призупиненому стані</translation>
+        <translation type="obsolete">Додати до списку завантажень у призупиненому стані</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Додати</translation>
+        <translation type="obsolete">Додати</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Відміна</translation>
+        <translation type="obsolete">Відміна</translation>
     </message>
     <message>
         <source>Normal</source>
-        <translation>Нормальний</translation>
+        <translation type="obsolete">Нормальний</translation>
     </message>
     <message>
         <source>High</source>
-        <translation>Високий</translation>
+        <translation type="obsolete">Високий</translation>
     </message>
     <message>
         <source>Maximum</source>
-        <translation>Максимальний</translation>
+        <translation type="obsolete">Максимальний</translation>
     </message>
     <message>
         <source>Torrent size:</source>
-        <translation>Розмір торрента:</translation>
+        <translation type="obsolete">Розмір торрента:</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation>Невідомо</translation>
+        <translation type="obsolete">Невідомо</translation>
     </message>
     <message>
         <source>Free disk space:</source>
-        <translation>Вільне місце на диску:</translation>
+        <translation type="obsolete">Вільне місце на диску:</translation>
     </message>
     <message>
         <source>Download in sequential order (slower but good for previewing)</source>
-        <translation>Завантажувати по порядку (повільніше, але краще для перегляду)</translation>
+        <translation type="obsolete">Завантажувати по порядку (повільніше, але краще для перегляду)</translation>
     </message>
     <message>
         <source>Skip file checking and start seeding immediately</source>
-        <translation>Пропустити перевірку файлів і почати сідування негайно</translation>
+        <translation type="obsolete">Пропустити перевірку файлів і почати сідування негайно</translation>
     </message>
     <message>
         <source>Label:</source>
-        <translation>Мітка:</translation>
+        <translation type="obsolete">Мітка:</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Вибрати все</translation>
+        <translation type="obsolete">Вибрати все</translation>
     </message>
     <message>
         <source>Select None</source>
-        <translation>Зняти виділення</translation>
+        <translation type="obsolete">Зняти виділення</translation>
     </message>
     <message>
         <source>Do not download</source>
-        <translation>Не завантажувати</translation>
+        <translation type="obsolete">Не завантажувати</translation>
     </message>
     <message>
         <source>Set as default save path</source>
-        <translation>Зробити стандартним шляхом збереження</translation>
+        <translation type="obsolete">Зробити стандартним шляхом збереження</translation>
     </message>
 </context>
 <context>
@@ -5274,7 +5472,7 @@ Do you want to install it now?</source>
     </message>
     <message>
         <source>Name</source>
-        <translation>Ім&apos;я</translation>
+        <translation>Назва</translation>
     </message>
     <message>
         <source>Url</source>
@@ -5323,7 +5521,7 @@ Do you want to install it now?</source>
         <source>Some plugins could not be uninstalled because they are included in qBittorrent.
  Only the ones you added yourself can be uninstalled.
 However, those plugins were disabled.</source>
-        <translation>Деякі плагіни не можуть бути видалені, тому що вони є частиною qBittorrent.
+        <translation>Деякі плагіни не вдалось видалити, тому що вони є частиною qBittorrent.
 Можна видалити лише ті плагіни, які ви встановили власноруч.
 Тим не менше, ці плагіни вимкнено.</translation>
     </message>
@@ -5411,6 +5609,13 @@ However, those plugins were disabled.</source>
     </message>
 </context>
 <context>
+    <name>fsutils</name>
+    <message>
+        <source>Downloads</source>
+        <translation>Завантаження</translation>
+    </message>
+</context>
+<context>
     <name>misc</name>
     <message>
         <source>B</source>
@@ -5439,7 +5644,7 @@ However, those plugins were disabled.</source>
     </message>
     <message>
         <source>Unknown</source>
-        <translation>Невідомо</translation>
+        <translation type="obsolete">Невідомо</translation>
     </message>
     <message>
         <source>Unknown</source>
@@ -5472,14 +5677,59 @@ However, those plugins were disabled.</source>
     </message>
     <message>
         <source>Downloads</source>
-        <translation type="unfinished">Завантаження</translation>
+        <translation type="obsolete">Завантаження</translation>
+    </message>
+    <message>
+        <source>/s</source>
+        <comment>per second</comment>
+        <translation>/с</translation>
+    </message>
+    <message>
+        <source>Working</source>
+        <translation>Працює</translation>
+    </message>
+    <message>
+        <source>Updating...</source>
+        <translation>Оновлюю...</translation>
+    </message>
+    <message>
+        <source>Not working</source>
+        <translation>Не працює</translation>
+    </message>
+    <message>
+        <source>Not contacted yet</source>
+        <translation>Ще не зв’язувався</translation>
+    </message>
+    <message>
+        <source>this session</source>
+        <translation>цієї сесії</translation>
+    </message>
+    <message>
+        <source>Seeded for %1</source>
+        <comment>e.g. Seeded for 3m10s</comment>
+        <translation>Роздавав %1</translation>
+    </message>
+    <message>
+        <source>%1 max</source>
+        <comment>e.g. 10 max</comment>
+        <translation>Максимум %1</translation>
+    </message>
+    <message>
+        <source>D: %1/s - T: %2</source>
+        <comment>Download speed: x KiB/s - Transferred: x MiB</comment>
+        <translation>Зав.: %1/с (%2)</translation>
+    </message>
+    <message>
+        <source>U: %1/s - T: %2</source>
+        <comment>Upload speed: x KiB/s - Transferred: x MiB</comment>
+        <translation>Вив.: %1/с (%2)</translation>
     </message>
 </context>
 <context>
     <name>options_imp</name>
     <message>
         <source>Choose a save directory</source>
-        <translation>Виберіть директорію для збереження</translation>
+        <translation>Виберіть папку для збереження</translation>
     </message>
     <message>
         <source>Choose an ip filter file</source>
@@ -5495,7 +5745,7 @@ However, those plugins were disabled.</source>
     </message>
     <message>
         <source>Add directory to scan</source>
-        <translation></translation>
+        <translation>Додати папку спостерігання</translation>
     </message>
     <message>
         <source>Folder is already being watched.</source>
@@ -5532,7 +5782,7 @@ However, those plugins were disabled.</source>
     <message>
         <source>Successfuly parsed the provided IP filter: %1 rules were applied.</source>
         <comment>%1 is a number</comment>
-        <translation>Успішно розібрано даний фільтр IP: було застосовано %1 правил.</translation>
+        <translation type="obsolete">Успішно розібрано даний фільтр IP: було застосовано %1 правил.</translation>
     </message>
     <message>
         <source>Successfully refreshed</source>
@@ -5561,6 +5811,11 @@ However, those plugins were disabled.</source>
     <message>
         <source>SSL Key (*.key *.pem)</source>
         <translation>Ключ SSL (*.key *.pem)</translation>
+    </message>
+    <message>
+        <source>Successfully parsed the provided IP filter: %1 rules were applied.</source>
+        <comment>%1 is a number</comment>
+        <translation>Успішно оброблено наданий фільтр IP: застосовано %1 правил.</translation>
     </message>
 </context>
 <context>
@@ -5652,108 +5907,108 @@ However, those plugins were disabled.</source>
     </message>
     <message>
         <source>Go to description page</source>
-        <translation>Іти до сторінки опису</translation>
+        <translation>Сторінка опису</translation>
     </message>
 </context>
 <context>
     <name>torrentAdditionDialog</name>
     <message>
         <source>Unable to decode torrent file:</source>
-        <translation>Не вдалося розкодувати torrent-файл:</translation>
+        <translation type="obsolete">Не вдалося розкодувати torrent-файл:</translation>
     </message>
     <message>
         <source>Choose save path</source>
-        <translation>Виберіть шлях збереження</translation>
+        <translation type="obsolete">Виберіть шлях збереження</translation>
     </message>
     <message>
         <source>Empty save path</source>
-        <translation>Пустий шлях збереження</translation>
+        <translation type="obsolete">Пустий шлях збереження</translation>
     </message>
     <message>
         <source>Please enter a save path</source>
-        <translation>Будь-ласка, введіть шлях збереження</translation>
+        <translation type="obsolete">Будь-ласка, введіть шлях збереження</translation>
     </message>
     <message>
         <source>Save path creation error</source>
-        <translation>Помилка при створенні шляху збереження</translation>
+        <translation type="obsolete">Помилка при створенні шляху збереження</translation>
     </message>
     <message>
         <source>Could not create the save path</source>
-        <translation>Не вдалося створити шлях збереження</translation>
+        <translation type="obsolete">Не вдалося створити шлях збереження</translation>
     </message>
     <message>
         <source>Invalid file selection</source>
-        <translation>Неправильно вибрано файл</translation>
+        <translation type="obsolete">Неправильно вибрано файл</translation>
     </message>
     <message>
         <source>You must select at least one file in the torrent</source>
-        <translation>Ви повинні вибрати хоча б один файл в торренті</translation>
+        <translation type="obsolete">Ви повинні вибрати хоча б один файл в торренті</translation>
     </message>
     <message>
         <source>Priority</source>
-        <translation>Пріоритет</translation>
+        <translation type="obsolete">Пріоритет</translation>
     </message>
     <message>
         <source>(%1 left after torrent download)</source>
         <comment>e.g. (100MiB left after torrent download)</comment>
-        <translation>(%1 залишиться після завантаження)</translation>
+        <translation type="obsolete">(%1 залишиться після завантаження)</translation>
     </message>
     <message>
         <source>(%1 more are required to download)</source>
         <comment>e.g. (100MiB more are required to download)</comment>
-        <translation>(потрібно ще %1 вільного місця)</translation>
+        <translation type="obsolete">(потрібно ще %1 вільного місця)</translation>
     </message>
     <message>
         <source>Seeding mode error</source>
-        <translation>Помилка режиму сідування</translation>
+        <translation type="obsolete">Помилка режиму сідування</translation>
     </message>
     <message>
         <source>You chose to skip file checking. However, local files do not seem to exist in the current destionation folder. Please disable this feature or update the save path.</source>
-        <translation>Ви вирішили пропустити перевірку файлів. Але, здається, локальні файли не існують в заданій папці. Будь ласка, вимкніть цю можливіть або змініть шлях збереження.</translation>
+        <translation type="obsolete">Ви вирішили пропустити перевірку файлів. Але, здається, локальні файли не існують в заданій папці. Будь ласка, вимкніть цю можливіть або змініть шлях збереження.</translation>
     </message>
     <message>
         <source>Rename...</source>
-        <translation>Перейменувати...</translation>
+        <translation type="obsolete">Перейменувати...</translation>
     </message>
     <message>
         <source>New name:</source>
-        <translation>Нове ім&apos;я:</translation>
+        <translation type="obsolete">Нове ім&apos;я:</translation>
     </message>
     <message>
         <source>The file could not be renamed</source>
-        <translation>Файл не вдалося перейменувати</translation>
+        <translation type="obsolete">Файл не вдалося перейменувати</translation>
     </message>
     <message>
         <source>This name is already in use in this folder. Please use a different name.</source>
-        <translation>Це ім&apos;я вже використовується в цій папці. Виберіть інше ім&apos;я.</translation>
+        <translation type="obsolete">Це ім&apos;я вже використовується в цій папці. Виберіть інше ім&apos;я.</translation>
     </message>
     <message>
         <source>The folder could not be renamed</source>
-        <translation>Папку не вдалося перейменувати</translation>
+        <translation type="obsolete">Папку не вдалося перейменувати</translation>
     </message>
     <message>
         <source>Rename the file</source>
-        <translation>Перейменувати файл</translation>
+        <translation type="obsolete">Перейменувати файл</translation>
     </message>
     <message>
         <source>Unable to decode magnet link:</source>
-        <translation>Не вдалося розкодувати магнітне посилання:</translation>
+        <translation type="obsolete">Не вдалося розкодувати магнітне посилання:</translation>
     </message>
     <message>
         <source>Magnet Link</source>
-        <translation>Магнітне посилання</translation>
+        <translation type="obsolete">Магнітне посилання</translation>
     </message>
     <message>
         <source>Invalid label name</source>
-        <translation>Неправильна назва мітки</translation>
+        <translation type="obsolete">Неправильна назва мітки</translation>
     </message>
     <message>
         <source>Please don&apos;t use any special characters in the label name.</source>
-        <translation>Будь ласка, не використовуйте спеціальних символів в назві мітки.</translation>
+        <translation type="obsolete">Будь ласка, не використовуйте спеціальних символів в назві мітки.</translation>
     </message>
     <message>
         <source>This file name contains forbidden characters, please choose a different one.</source>
-        <translation>Це ім&apos;я файла містить заборонені символи. Будь ласка, виберіть інше.</translation>
+        <translation type="obsolete">Це ім&apos;я файла містить заборонені символи. Будь ласка, виберіть інше.</translation>
     </message>
 </context>
 </TS>

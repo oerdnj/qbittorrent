@@ -46,9 +46,9 @@ public:
   static IconProvider* instance();
   static void drop();
   QIcon getIcon(const QString& iconId);
-  QString getIconPath(const QString &iconId);
+  QString getIconPath(const QString& iconId);
 
-#if defined(Q_WS_X11) && (QT_VERSION >= QT_VERSION_CHECK(4,6,0))
+#if defined(Q_WS_X11)
 public:
   void useSystemIconTheme(bool enable);
 
