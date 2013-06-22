@@ -1,3 +1,14 @@
+qbittorrent (3.0.9-1) experimental; urgency=low
+
+  * New upstream version.
+  * Upload to experimental.
+  * debian/copyright: updated translator names.
+  * debian/control:
+    - bump build-dep on libqt4-dev to >= 4.6.0.
+    - force explicit build-dep on boost1.53.
+
+ -- Cristian Greco <cristian@debian.org>  Sat, 22 Jun 2013 19:40:07 +0200
+
 qbittorrent (2.9.8-1) unstable; urgency=low
 
   * New upstream version.
