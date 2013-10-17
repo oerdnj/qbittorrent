@@ -75,6 +75,10 @@ Q_IMPORT_PLUGIN(qico)
 #include "misc.h"
 #include "preferences.h"
 
+#if defined(Q_OS_WIN) && !defined(QBT_HAS_GETCURRENTPID)
+#error You seem to have updated QtSingleApplication without porting our custom QtSingleApplication::getRunningPid() function. Please see previous version to understate how it works.
+#endif
+
 class UsageDisplay: public QObject {
   Q_OBJECT
 
@@ -84,6 +88,8 @@ public:
     std::cout << '\t' << prg_name << " --version: " << qPrintable(tr("displays program version")) << std::endl;
 #ifndef DISABLE_GUI
     std::cout << '\t' << prg_name << " --no-splash: " << qPrintable(tr("disable splash screen")) << std::endl;
+#else
+    std::cout << '\t' << prg_name << " -d | --daemon: " << qPrintable(tr("run in daemon-mode (background)")) << std::endl;
 #endif
     std::cout << '\t' << prg_name << " --help: " << qPrintable(tr("displays this help message")) << std::endl;
     std::cout << '\t' << prg_name << " --webui-port=x: " << qPrintable(tr("changes the webui port (current: %1)").arg(QString::number(Preferences().getWebUiPort()))) << std::endl;
@@ -96,7 +102,7 @@ class LegalNotice: public QObject {
 
 public:
   static bool userAgreesWithNotice() {
-    QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
+    QIniSettings settings;
     if (settings.value(QString::fromUtf8("LegalNotice/Accepted"), false).toBool()) // Already accepted once
       return true;
 #ifdef DISABLE_GUI
@@ -184,6 +190,17 @@ int main(int argc, char *argv[]) {
   // Create Application
   QString uid = misc::getUserIDString();
 #ifdef DISABLE_GUI
+  bool shouldDaemonize = false;
+  for(int i=1; i<argc; i++) {
+    if(strcmp(argv[i], "-d") == 0 || strcmp(argv[i], "--daemon") == 0) {
+      shouldDaemonize = true;
+      argc--;
+      for(int j=i; j<argc; j++) {
+        argv[j] = argv[j+1];
+      }
+      i--;
+    }
+  }
   QtSingleCoreApplication app("qBittorrent-"+uid, argc, argv);
 #else
   SessionApplication app("qBittorrent-"+uid, argc, argv);
@@ -193,6 +210,13 @@ int main(int argc, char *argv[]) {
   if (app.isRunning()) {
     qDebug("qBittorrent is already running for this user.");
     // Read torrents given on command line
+#ifdef Q_OS_WIN
+    DWORD pid = (DWORD)app.getRunningPid();
+    if (pid > 0) {
+      BOOL b = AllowSetForegroundWindow(pid);
+      qDebug("AllowSetForegroundWindow() returns %s", b ? "TRUE" : "FALSE");
+    }
+#endif
     QStringList torrentCmdLine = app.arguments();
     //Pass program parameters if any
     QString message;
@@ -212,9 +236,15 @@ int main(int argc, char *argv[]) {
     return 0;
   }
 
+  srand(time(0));
   Preferences pref;
 #ifndef DISABLE_GUI
   bool no_splash = false;
+#else
+  if(shouldDaemonize && daemon(1, 0) != 0) {
+    qCritical("Something went wrong while daemonizing, exiting...");
+    return EXIT_FAILURE;
+  }
 #endif
 
   // Load translation

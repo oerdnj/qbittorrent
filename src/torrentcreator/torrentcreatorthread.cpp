@@ -38,11 +38,12 @@
 #include <libtorrent/file_pool.hpp>
 #include <libtorrent/create_torrent.hpp>
 #include <QFile>
+#include <QDir>
 
 #include "torrentcreatorthread.h"
 #include "fs_utils.h"
 
-#if LIBTORRENT_VERSION_MINOR < 16
+#if LIBTORRENT_VERSION_NUM < 001600
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -52,13 +53,13 @@
 #include <fstream>
 
 using namespace libtorrent;
-#if LIBTORRENT_VERSION_MINOR < 16
+#if LIBTORRENT_VERSION_NUM < 001600
 using namespace boost::filesystem;
 #endif
 
 // do not include files and folders whose
 // name starts with a .
-#if LIBTORRENT_VERSION_MINOR >= 16
+#if LIBTORRENT_VERSION_NUM >= 001600
 bool file_filter(std::string const& f)
 {
         if (filename(f)[0] == '.') return false;
@@ -84,7 +85,7 @@ void TorrentCreatorThread::create(QString _input_path, QString _save_path, QStri
   comment = _comment;
   is_private = _is_private;
   piece_size = _piece_size;
-#if LIBTORRENT_VERSION_MINOR < 16
+#if LIBTORRENT_VERSION_NUM < 001600
   path::default_name_check(no_check);
 #endif
   abort = false;
@@ -113,12 +114,22 @@ void TorrentCreatorThread::run() {
     foreach (const QString &seed, url_seeds) {
       t.add_url_seed(seed.trimmed().toStdString());
     }
+    int tier = 0;
+    bool newline = false;
     foreach (const QString &tracker, trackers) {
-      t.add_tracker(tracker.trimmed().toStdString());
+      if (tracker.isEmpty()) {
+        if (newline)
+          continue;
+        ++tier;
+        newline = true;
+        continue;
+      }
+      t.add_tracker(tracker.trimmed().toStdString(), tier);
+      newline = false;
     }
     if (abort) return;
     // calculate the hash for all pieces
-    const QString parent_path = fsutils::branchPath(input_path);
+    const QString parent_path = fsutils::branchPath(input_path) + QDir::separator();
     set_piece_hashes(t, parent_path.toUtf8().constData(), boost::bind<void>(&sendProgressUpdateSignal, _1, t.num_pieces(), this));
     // Set qBittorrent as creator and add user comment to
     // torrent_info structure

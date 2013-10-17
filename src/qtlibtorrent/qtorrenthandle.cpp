@@ -44,7 +44,7 @@
 #include <libtorrent/torrent_info.hpp>
 #include <libtorrent/bencode.hpp>
 #include <libtorrent/entry.hpp>
-#if LIBTORRENT_VERSION_MINOR < 15
+#if LIBTORRENT_VERSION_NUM < 001600
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 #endif
 
@@ -93,7 +93,7 @@ QString QTorrentHandle::name() const {
 }
 
 QString QTorrentHandle::creation_date() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   boost::optional<time_t> t = torrent_handle::get_torrent_info().creation_date();
   return t ? misc::toQString(*t) : "";
 #else
@@ -103,7 +103,7 @@ QString QTorrentHandle::creation_date() const {
 }
 
 QString QTorrentHandle::next_announce() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return misc::userFriendlyDuration(torrent_handle::status(0x0).next_announce.total_seconds());
 #else
   return misc::userFriendlyDuration(torrent_handle::status().next_announce.total_seconds());
@@ -111,7 +111,7 @@ QString QTorrentHandle::next_announce() const {
 }
 
 qlonglong QTorrentHandle::next_announce_s() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(0x0).next_announce.total_seconds();
 #else
   return torrent_handle::status().next_announce.total_seconds();
@@ -119,7 +119,7 @@ qlonglong QTorrentHandle::next_announce_s() const {
 }
 
 float QTorrentHandle::progress() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   torrent_status st = torrent_handle::status(query_accurate_download_counters);
 #else
   torrent_status st = torrent_handle::status();
@@ -134,7 +134,7 @@ float QTorrentHandle::progress() const {
 }
 
 bitfield QTorrentHandle::pieces() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(torrent_handle::query_pieces).pieces;
 #else
   return torrent_handle::status().pieces;
@@ -142,7 +142,7 @@ bitfield QTorrentHandle::pieces() const {
 }
 
 QString QTorrentHandle::current_tracker() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return misc::toQString(torrent_handle::status(0x0).current_tracker);
 #else
   return misc::toQString(torrent_handle::status().current_tracker);
@@ -150,7 +150,7 @@ QString QTorrentHandle::current_tracker() const {
 }
 
 bool QTorrentHandle::is_paused() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   torrent_status st = torrent_handle::status(0x0);
   return st.paused && !st.auto_managed;
 #else
@@ -159,7 +159,7 @@ bool QTorrentHandle::is_paused() const {
 }
 
 bool QTorrentHandle::is_queued() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   torrent_status st = torrent_handle::status(0x0);
   return st.paused && st.auto_managed;
 #else
@@ -185,7 +185,7 @@ bool QTorrentHandle::first_last_piece_first() const {
   // Get int first media file
   int index = 0;
   for (index = 0; index < t.num_files(); ++index) {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
     QString path = misc::toQStringU(t.file_at(index).path);
 #else
     QString path = misc::toQStringU(t.file_at(index).path.string());
@@ -206,7 +206,7 @@ bool QTorrentHandle::first_last_piece_first() const {
 }
 
 size_type QTorrentHandle::total_wanted_done() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(query_accurate_download_counters).total_wanted_done;
 #else
   return torrent_handle::status().total_wanted_done;
@@ -214,7 +214,7 @@ size_type QTorrentHandle::total_wanted_done() const {
 }
 
 size_type QTorrentHandle::total_wanted() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(0x0).total_wanted;
 #else
   return torrent_handle::status().total_wanted;
@@ -222,7 +222,7 @@ size_type QTorrentHandle::total_wanted() const {
 }
 
 qreal QTorrentHandle::download_payload_rate() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(0x0).download_payload_rate;
 #else
   return torrent_handle::status().download_payload_rate;
@@ -230,7 +230,7 @@ qreal QTorrentHandle::download_payload_rate() const {
 }
 
 qreal QTorrentHandle::upload_payload_rate() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(0x0).upload_payload_rate;
 #else
   return torrent_handle::status().upload_payload_rate;
@@ -238,7 +238,7 @@ qreal QTorrentHandle::upload_payload_rate() const {
 }
 
 int QTorrentHandle::num_peers() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(0x0).num_peers;
 #else
   return torrent_handle::status().num_peers;
@@ -246,7 +246,7 @@ int QTorrentHandle::num_peers() const {
 }
 
 int QTorrentHandle::num_seeds() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(0x0).num_seeds;
 #else
   return torrent_handle::status().num_seeds;
@@ -254,7 +254,7 @@ int QTorrentHandle::num_seeds() const {
 }
 
 int QTorrentHandle::num_complete() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(0x0).num_complete;
 #else
   return torrent_handle::status().num_complete;
@@ -262,7 +262,7 @@ int QTorrentHandle::num_complete() const {
 }
 
 int QTorrentHandle::num_incomplete() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(0x0).num_incomplete;
 #else
   return torrent_handle::status().num_incomplete;
@@ -270,11 +270,26 @@ int QTorrentHandle::num_incomplete() const {
 }
 
 QString QTorrentHandle::save_path() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return misc::toQStringU(torrent_handle::save_path()).replace("\\", "/");
 #else
   return misc::toQStringU(torrent_handle::save_path().string()).replace("\\", "/");
 #endif
+}
+
+QString QTorrentHandle::save_path_parsed() const {
+    QString p;
+    if (has_metadata() && num_files() == 1) {
+      p = firstFileSavePath();
+    } else {
+      p = TorrentPersistentData::getSavePath(hash());
+      if (p.isEmpty())
+        p = save_path();
+    }
+#if defined(Q_WS_WIN) || defined(Q_OS_OS2)
+    p.replace("/", "\\");
+#endif
+    return p;
 }
 
 QStringList QTorrentHandle::url_seeds() const {
@@ -296,7 +311,7 @@ QStringList QTorrentHandle::url_seeds() const {
 
 // get the size of the torrent without the filtered files
 size_type QTorrentHandle::actual_size() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(query_accurate_download_counters).total_wanted;
 #else
   return torrent_handle::status().total_wanted;
@@ -318,7 +333,7 @@ int QTorrentHandle::num_files() const {
 
 QString QTorrentHandle::filename_at(unsigned int index) const {
   Q_ASSERT(index < (unsigned int)torrent_handle::get_torrent_info().num_files());
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return fsutils::fileName(filepath_at(index));
 #else
   return misc::toQStringU(torrent_handle::get_torrent_info().file_at(index).path.leaf());
@@ -331,7 +346,7 @@ size_type QTorrentHandle::filesize_at(unsigned int index) const {
 }
 
 QString QTorrentHandle::filepath_at(unsigned int index) const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return misc::toQStringU(torrent_handle::get_torrent_info().file_at(index).path);
 #else
   return misc::toQStringU(torrent_handle::get_torrent_info().file_at(index).path.string());
@@ -339,7 +354,7 @@ QString QTorrentHandle::filepath_at(unsigned int index) const {
 }
 
 QString QTorrentHandle::orig_filepath_at(unsigned int index) const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return misc::toQStringU(torrent_handle::get_torrent_info().orig_files().at(index).path);
 #else
   return misc::toQStringU(torrent_handle::get_torrent_info().orig_files().at(index).path.string());
@@ -347,7 +362,7 @@ QString QTorrentHandle::orig_filepath_at(unsigned int index) const {
 }
 
 torrent_status::state_t QTorrentHandle::state() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(0x0).state;
 #else
   return torrent_handle::status().state;
@@ -363,7 +378,7 @@ QString QTorrentHandle::comment() const {
 }
 
 size_type QTorrentHandle::total_failed_bytes() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(0x0).total_failed_bytes;
 #else
   return torrent_handle::status().total_failed_bytes;
@@ -371,7 +386,7 @@ size_type QTorrentHandle::total_failed_bytes() const {
 }
 
 size_type QTorrentHandle::total_redundant_bytes() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(0x0).total_redundant_bytes;
 #else
   return torrent_handle::status().total_redundant_bytes;
@@ -379,7 +394,7 @@ size_type QTorrentHandle::total_redundant_bytes() const {
 }
 
 bool QTorrentHandle::is_checking() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   torrent_status st = torrent_handle::status(0x0);
 #else
   torrent_status st = torrent_handle::status();
@@ -388,15 +403,15 @@ bool QTorrentHandle::is_checking() const {
 }
 
 size_type QTorrentHandle::total_done() const {
-#if LIBTORRENT_VERSION_MINOR > 15
-  return torrent_handle::status(0x0).total_done;
+#if LIBTORRENT_VERSION_NUM >= 001600
+  return torrent_handle::status(query_accurate_download_counters).total_done;
 #else
   return torrent_handle::status().total_done;
 #endif
 }
 
 size_type QTorrentHandle::all_time_download() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(0x0).all_time_download;
 #else
   return torrent_handle::status().all_time_download;
@@ -404,7 +419,7 @@ size_type QTorrentHandle::all_time_download() const {
 }
 
 size_type QTorrentHandle::all_time_upload() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(0x0).all_time_upload;
 #else
   return torrent_handle::status().all_time_upload;
@@ -412,7 +427,7 @@ size_type QTorrentHandle::all_time_upload() const {
 }
 
 size_type QTorrentHandle::total_payload_download() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(0x0).total_payload_download;
 #else
   return torrent_handle::status().total_payload_download;
@@ -420,7 +435,7 @@ size_type QTorrentHandle::total_payload_download() const {
 }
 
 size_type QTorrentHandle::total_payload_upload() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(0x0).total_payload_upload;
 #else
   return torrent_handle::status().total_payload_upload;
@@ -467,7 +482,7 @@ int QTorrentHandle::queue_position() const {
 }
 
 int QTorrentHandle::num_uploads() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(0x0).num_uploads;
 #else
   return torrent_handle::status().num_uploads;
@@ -485,7 +500,7 @@ bool QTorrentHandle::is_seed() const {
 }
 
 bool QTorrentHandle::is_auto_managed() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   torrent_status status = torrent_handle::status(0x0);
   return status.auto_managed;
 #else
@@ -494,7 +509,7 @@ bool QTorrentHandle::is_auto_managed() const {
 }
 
 bool QTorrentHandle::is_sequential_download() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   torrent_status status = torrent_handle::status(0x0);
   return status.sequential_download;
 #else
@@ -503,7 +518,7 @@ bool QTorrentHandle::is_sequential_download() const {
 }
 
 qlonglong QTorrentHandle::active_time() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(0x0).active_time;
 #else
   return torrent_handle::status().active_time;
@@ -511,7 +526,7 @@ qlonglong QTorrentHandle::active_time() const {
 }
 
 qlonglong QTorrentHandle::seeding_time() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(0x0).seeding_time;
 #else
   return torrent_handle::status().seeding_time;
@@ -519,7 +534,7 @@ qlonglong QTorrentHandle::seeding_time() const {
 }
 
 int QTorrentHandle::num_connections() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(0x0).num_connections;
 #else
   return torrent_handle::status().num_connections;
@@ -527,7 +542,7 @@ int QTorrentHandle::num_connections() const {
 }
 
 int QTorrentHandle::connections_limit() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(0x0).connections_limit;
 #else
   return torrent_handle::status().connections_limit;
@@ -565,7 +580,7 @@ QString QTorrentHandle::root_path() const
 }
 
 bool QTorrentHandle::has_error() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   torrent_status st = torrent_handle::status(0x0);
   return st.paused && !st.error.empty();
 #else
@@ -574,7 +589,7 @@ bool QTorrentHandle::has_error() const {
 }
 
 QString QTorrentHandle::error() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return misc::toQString(torrent_handle::status(0x0).error);
 #else
   return misc::toQString(torrent_handle::status().error);
@@ -594,7 +609,7 @@ void QTorrentHandle::downloading_pieces(bitfield &bf) const {
 }
 
 bool QTorrentHandle::has_metadata() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   return torrent_handle::status(0x0).has_metadata;
 #else
   return torrent_handle::has_metadata();
@@ -602,7 +617,7 @@ bool QTorrentHandle::has_metadata() const {
 }
 
 float QTorrentHandle::distributed_copies() const {
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
 return torrent_handle::status(query_distributed_copies).distributed_copies;
 #else
   return torrent_handle::status().distributed_copies;
@@ -713,22 +728,21 @@ void QTorrentHandle::prioritize_files(const vector<int> &files) const {
   file_progress(progress);
   qDebug() << Q_FUNC_INFO << "Changing files priorities...";
   torrent_handle::prioritize_files(files);
-  qDebug() << Q_FUNC_INFO << "Moving unwanted files to .unwanted folder...";
+  qDebug() << Q_FUNC_INFO << "Moving unwanted files to .unwanted folder and conversely...";
   for (uint i = 0; i < files.size(); ++i) {
     // Move unwanted files to a .unwanted subfolder
-    if (files[i] == 0 && progress[i] < filesize_at(i)) {
-      QString old_path = filepath_at(i);
+    if (files[i] == 0) {
+      QString old_abspath = QDir(save_path()).absoluteFilePath(filepath_at(i));
+      QString parent_abspath = fsutils::branchPath(old_abspath);
       // Make sure the file does not already exists
-      if (QFile::exists(QDir(save_path()).absoluteFilePath(old_path))) {
-        qWarning() << "File" << old_path << "already exists at destination.";
-        qWarning() << "We do not move it to .unwanted folder";
-        continue;
-      }
-      QString old_name = filename_at(i);
-      QString parent_path = fsutils::branchPath(old_path);
-      if (parent_path.isEmpty() || QDir(parent_path).dirName() != ".unwanted") {
-        QString unwanted_abspath = QDir::cleanPath(save_path()+"/"+parent_path+"/.unwanted");
+      if (QDir(parent_abspath).dirName() != ".unwanted") {
+        QString unwanted_abspath = parent_abspath+"/.unwanted";
+        QString new_abspath = unwanted_abspath+"/"+filename_at(i);
         qDebug() << "Unwanted path is" << unwanted_abspath;
+        if (QFile::exists(new_abspath)) {
+          qWarning() << "File" << new_abspath << "already exists at destination.";
+          continue;
+        }
         bool created = QDir().mkpath(unwanted_abspath);
 #ifdef Q_WS_WIN
         qDebug() << "unwanted folder was created:" << created;
@@ -743,13 +757,13 @@ void QTorrentHandle::prioritize_files(const vector<int> &files) const {
 #else
         Q_UNUSED(created);
 #endif
+        QString parent_path = fsutils::branchPath(filepath_at(i));
         if (!parent_path.isEmpty() && !parent_path.endsWith("/"))
           parent_path += "/";
-        rename_file(i, parent_path+".unwanted/"+old_name);
+        rename_file(i, parent_path+".unwanted/"+filename_at(i));
       }
     }
     // Move wanted files back to their original folder
-    qDebug() << Q_FUNC_INFO << "Moving wanted files back from .unwanted folder";
     if (files[i] > 0) {
       QString parent_relpath = fsutils::branchPath(filepath_at(i));
       if (QDir(parent_relpath).dirName() == ".unwanted") {

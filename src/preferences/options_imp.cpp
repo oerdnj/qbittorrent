@@ -30,7 +30,6 @@
 #include <QTextStream>
 #include <QFileDialog>
 #include <QMessageBox>
-#include <QInputDialog>
 #include <QSystemTrayIcon>
 #include <QApplication>
 #include <QDialogButtonBox>
@@ -40,8 +39,6 @@
 #include <QDesktopServices>
 
 #include <libtorrent/version.hpp>
-#include <time.h>
-#include <stdlib.h>
 
 #include "options_imp.h"
 #include "preferences.h"
@@ -122,9 +119,10 @@ options_imp::options_imp(QWidget *parent):
 #endif
 
 #ifndef Q_WS_WIN
+  checkStartup->setVisible(false);
   groupFileAssociation->setVisible(false);
 #endif
-#if LIBTORRENT_VERSION_MINOR < 16
+#if LIBTORRENT_VERSION_NUM < 001600
   checkAnonymousMode->setVisible(false);
   label_anonymous->setVisible(false);
 #endif
@@ -132,6 +130,7 @@ options_imp::options_imp(QWidget *parent):
   // Connect signals / slots
   connect(comboProxyType, SIGNAL(currentIndexChanged(int)),this, SLOT(enableProxy(int)));
   connect(checkAnonymousMode, SIGNAL(toggled(bool)), this, SLOT(toggleAnonymousMode(bool)));
+  connect(checkRandomPort, SIGNAL(toggled(bool)), spinPort, SLOT(setDisabled(bool)));
 
   // Apply button is activated when a value is changed
   // General tab
@@ -141,6 +140,9 @@ options_imp::options_imp(QWidget *parent):
   connect(checkCloseToSystray, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkMinimizeToSysTray, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkStartMinimized, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+#ifdef Q_WS_WIN
+  connect(checkStartup, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+#endif
   connect(checkShowSplash, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkProgramExitConfirm, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkPreventFromSuspend, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
@@ -159,9 +161,12 @@ options_imp::options_imp(QWidget *parent):
   connect(checkAppendqB, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkPreallocateAll, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkAdditionDialog, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+  connect(checkAdditionDialogFront, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkStartPaused, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkExportDir, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+  connect(checkExportDirFin, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(textExportDir, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
+  connect(textExportDirFin, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
   connect(actionTorrentDlOnDblClBox, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApplyButton()));
   connect(actionTorrentFnOnDblClBox, SIGNAL(currentIndexChanged(int)), this, SLOT(enableApplyButton()));
   connect(checkTempFolder, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
@@ -178,6 +183,7 @@ options_imp::options_imp(QWidget *parent):
   connect(autoRun_txt, SIGNAL(textChanged(QString)), this, SLOT(enableApplyButton()));
   // Connection tab
   connect(spinPort, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
+  connect(checkRandomPort, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkUPnP, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkUploadLimit, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkDownloadLimit, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
@@ -195,12 +201,14 @@ options_imp::options_imp(QWidget *parent):
   // Bittorrent tab
   connect(checkMaxConnecs, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkMaxConnecsPerTorrent, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
+  connect(checkMaxUploads, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(checkMaxUploadsPerTorrent, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
   connect(spinMaxConnec, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(spinMaxConnecPerTorrent, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
+  connect(spinMaxUploads, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(spinMaxUploadsPerTorrent, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(checkDHT, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   connect(checkAnonymousMode, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
 #endif
   connect(checkPeX, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
@@ -246,7 +254,7 @@ options_imp::options_imp(QWidget *parent):
   applyButton->setEnabled(false);
   // Tab selection mecanism
   connect(tabSelection, SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)), this, SLOT(changePage(QListWidgetItem *, QListWidgetItem*)));
-#if LIBTORRENT_VERSION_MINOR < 16
+#if LIBTORRENT_VERSION_NUM < 001600
   checkuTP->setVisible(false);
   checkLimituTPConnections->setVisible(false);
 #endif
@@ -294,7 +302,7 @@ void options_imp::changePage(QListWidgetItem *current, QListWidgetItem *previous
 }
 
 void options_imp::loadWindowState() {
-  QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
+  QIniSettings settings;
   resize(settings.value(QString::fromUtf8("Preferences/State/size"), sizeFittingScreen()).toSize());
   QPoint p = settings.value(QString::fromUtf8("Preferences/State/pos"), QPoint()).toPoint();
   if (!p.isNull())
@@ -314,7 +322,7 @@ void options_imp::loadWindowState() {
 }
 
 void options_imp::saveWindowState() const {
-  QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
+  QIniSettings settings;
   settings.setValue(QString::fromUtf8("Preferences/State/size"), size());
   settings.setValue(QString::fromUtf8("Preferences/State/pos"), pos());
   // Splitter size
@@ -370,6 +378,7 @@ void options_imp::saveOptions() {
   pref.setConfirmOnExit(checkProgramExitConfirm->isChecked());
   pref.setPreventFromSuspend(preventFromSuspend());
 #ifdef Q_WS_WIN
+  pref.setStartup(Startup());
   // Windows: file association settings
   Preferences::setTorrentFileAssoc(checkAssociateTorrents->isChecked());
   Preferences::setMagnetLinkAssoc(checkAssociateMagnetLinks->isChecked());
@@ -392,14 +401,18 @@ void options_imp::saveOptions() {
   pref.useIncompleteFilesExtension(checkAppendqB->isChecked());
   pref.preAllocateAllFiles(preAllocateAllFiles());
   pref.useAdditionDialog(useAdditionDialog());
+  pref.AdditionDialogFront(checkAdditionDialogFront->isChecked());
   pref.addTorrentsInPause(addTorrentsInPause());
   ScanFoldersModel::instance()->makePersistent();
   addedScanDirs.clear();
-  QString export_dir = getExportDir();
+  QString export_dir = getTorrentExportDir();
+  QString export_dir_fin = getFinishedTorrentExportDir();
 #if defined(Q_WS_WIN) || defined(Q_OS_OS2)
+  export_dir_fin.replace("\\", "/");
   export_dir.replace("\\", "/");
 #endif
-  pref.setExportDir(export_dir);
+  pref.setTorrentExportDir(export_dir);
+  pref.setFinishedTorrentExportDir(export_dir_fin);
   pref.setMailNotificationEnabled(groupMailNotification->isChecked());
   pref.setMailNotificationEmail(dest_email_txt->text());
   pref.setMailNotificationSMTP(smtp_server_txt->text());
@@ -414,6 +427,7 @@ void options_imp::saveOptions() {
   // End Downloads preferences
   // Connection preferences
   pref.setSessionPort(getPort());
+  pref.setRandomPort(checkRandomPort->isChecked());
   pref.setUPnPEnabled(isUPnPEnabled());
   const QPair<int, int> down_up_limit = getGlobalBandwidthLimits();
   pref.setGlobalDownloadLimit(down_up_limit.first);
@@ -438,6 +452,7 @@ void options_imp::saveOptions() {
   // Bittorrent preferences
   pref.setMaxConnecs(getMaxConnecs());
   pref.setMaxConnecsPerTorrent(getMaxConnecsPerTorrent());
+  pref.setMaxUploads(getMaxUploads());
   pref.setMaxUploadsPerTorrent(getMaxUploadsPerTorrent());
   pref.setDHTEnabled(isDHTEnabled());
   pref.setPeXEnabled(checkPeX->isChecked());
@@ -445,7 +460,7 @@ void options_imp::saveOptions() {
   pref.setDHTPort(getDHTPort());
   pref.setLSDEnabled(isLSDEnabled());
   pref.setEncryptionSetting(getEncryptionSetting());
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   pref.enableAnonymousMode(checkAnonymousMode->isChecked());
 #endif
   pref.setGlobalMaxRatio(getMaxRatio());
@@ -541,6 +556,7 @@ void options_imp::loadOptions() {
   checkProgramExitConfirm->setChecked(pref.confirmOnExit());
   checkPreventFromSuspend->setChecked(pref.preventFromSuspend());
 #ifdef Q_WS_WIN
+  checkStartup->setChecked(pref.Startup());
   // Windows: file association settings
   checkAssociateTorrents->setChecked(Preferences::isTorrentFileAssocSet());
   checkAssociateMagnetLinks->setChecked(Preferences::isMagnetLinkAssocSet());
@@ -567,9 +583,10 @@ void options_imp::loadOptions() {
   checkAppendqB->setChecked(pref.useIncompleteFilesExtension());
   checkPreallocateAll->setChecked(pref.preAllocateAllFiles());
   checkAdditionDialog->setChecked(pref.useAdditionDialog());
+  checkAdditionDialogFront->setChecked(pref.AdditionDialogFront());
   checkStartPaused->setChecked(pref.addTorrentsInPause());
 
-  strValue = pref.getExportDir();
+  strValue = pref.getTorrentExportDir();
   if (strValue.isEmpty()) {
     // Disable
     checkExportDir->setChecked(false);
@@ -580,6 +597,19 @@ void options_imp::loadOptions() {
     strValue.replace("/", "\\");
 #endif
     textExportDir->setText(strValue);
+  }
+
+  strValue = pref.getFinishedTorrentExportDir();
+  if (strValue.isEmpty()) {
+    // Disable
+    checkExportDirFin->setChecked(false);
+  } else {
+    // enable
+    checkExportDirFin->setChecked(true);
+#if defined(Q_WS_WIN) || defined(Q_OS_OS2)
+    strValue.replace("/", "\\");
+#endif
+    textExportDirFin->setText(strValue);
   }
   groupMailNotification->setChecked(pref.isMailNotificationEnabled());
   dest_email_txt->setText(pref.getMailNotificationEmail());
@@ -602,6 +632,8 @@ void options_imp::loadOptions() {
   // Connection preferences
   spinPort->setValue(pref.getSessionPort());
   checkUPnP->setChecked(pref.isUPnPEnabled());
+  checkRandomPort->setChecked(pref.useRandomPort());
+  spinPort->setDisabled(checkRandomPort->isChecked());
   intValue = pref.getGlobalDownloadLimit();
   if (intValue > 0) {
     // Enabled
@@ -686,6 +718,17 @@ void options_imp::loadOptions() {
     checkMaxConnecsPerTorrent->setChecked(false);
     spinMaxConnecPerTorrent->setEnabled(false);
   }
+  intValue = pref.getMaxUploads();
+  if (intValue > 0) {
+    // enable
+    checkMaxUploads->setChecked(true);
+    spinMaxUploads->setEnabled(true);
+    spinMaxUploads->setValue(intValue);
+  } else {
+    // disable
+    checkMaxUploads->setChecked(false);
+    spinMaxUploads->setEnabled(false);
+  }
   intValue = pref.getMaxUploadsPerTorrent();
   if (intValue > 0) {
     // enable
@@ -703,7 +746,7 @@ void options_imp::loadOptions() {
   checkPeX->setChecked(pref.isPeXEnabled());
   checkLSD->setChecked(pref.isLSDEnabled());
   comboEncryption->setCurrentIndex(pref.getEncryptionSetting());
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   checkAnonymousMode->setChecked(pref.isAnonymousModeEnabled());
   /* make sure ui matches options */
   toggleAnonymousMode(checkAnonymousMode->isChecked());
@@ -752,9 +795,7 @@ void options_imp::loadOptions() {
   domainNameTxt->setText(pref.getDynDomainName());
   DNSUsernameTxt->setText(pref.getDynDNSUsername());
   DNSPasswordTxt->setText(pref.getDynDNSPassword());
-  // End Web UI
-  // Random stuff
-  srand(time(0));
+  // End Web UI  
 }
 
 // return min & max ports
@@ -824,7 +865,6 @@ QPair<int,int> options_imp::getGlobalBandwidthLimits() const {
 }
 
 bool options_imp::startMinimized() const {
-  if (checkStartMinimized->isChecked()) return true;
   return checkStartMinimized->isChecked();
 }
 
@@ -882,6 +922,14 @@ int options_imp::getMaxConnecsPerTorrent() const {
   }
 }
 
+int options_imp::getMaxUploads() const {
+  if (!checkMaxUploads->isChecked()) {
+    return -1;
+  }else{
+    return spinMaxUploads->value();
+  }
+}
+
 int options_imp::getMaxUploadsPerTorrent() const {
   if (!checkMaxUploadsPerTorrent->isChecked()) {
     return -1;
@@ -892,6 +940,10 @@ int options_imp::getMaxUploadsPerTorrent() const {
 
 void options_imp::on_buttonBox_accepted() {
   if (applyButton->isEnabled()) {
+    if (!schedTimesOk()) {
+      tabSelection->setCurrentRow(TAB_SPEED);
+      return;
+    }
     saveOptions();
     applyButton->setEnabled(false);
     this->hide();
@@ -903,6 +955,10 @@ void options_imp::on_buttonBox_accepted() {
 
 void options_imp::applySettings(QAbstractButton* button) {
   if (button == applyButton) {
+    if (!schedTimesOk()) {
+      tabSelection->setCurrentRow(TAB_SPEED);
+      return;
+    }
     saveOptions();
     emit status_changed();
   }
@@ -955,6 +1011,12 @@ void options_imp::enableProxy(int index) {
 bool options_imp::isSlashScreenDisabled() const {
   return !checkShowSplash->isChecked();
 }
+
+#ifdef Q_WS_WIN
+bool options_imp::Startup() const {
+  return checkStartup->isChecked();
+}
+#endif
 
 bool options_imp::preventFromSuspend() const {
   return checkPreventFromSuspend->isChecked();
@@ -1018,9 +1080,15 @@ void options_imp::setLocale(const QString &localeStr) {
   comboI18n->setCurrentIndex(index);
 }
 
-QString options_imp::getExportDir() const {
+QString options_imp::getTorrentExportDir() const {
   if (checkExportDir->isChecked())
     return fsutils::expandPath(textExportDir->text());
+  return QString();
+}
+
+QString options_imp::getFinishedTorrentExportDir() const {
+  if (checkExportDirFin->isChecked())
+    return fsutils::expandPath(textExportDirFin->text());
   return QString();
 }
 
@@ -1077,21 +1145,28 @@ void options_imp::handleScanFolderViewSelectionChanged() {
   removeScanFolderButton->setEnabled(!scanFoldersView->selectionModel()->selectedIndexes().isEmpty());
 }
 
-void options_imp::on_browseExportDirButton_clicked() {
-  const QString export_path = fsutils::expandPath(textExportDir->text());
-  QDir exportDir(export_path);
+QString options_imp::askForExportDir(const QString& currentExportPath)
+{
+  QDir currentExportDir(fsutils::expandPath(currentExportPath));
   QString dir;
-  if (!export_path.isEmpty() && exportDir.exists()) {
-    dir = QFileDialog::getExistingDirectory(this, tr("Choose export directory"), exportDir.absolutePath());
+  if (!currentExportPath.isEmpty() && currentExportDir.exists()) {
+    dir = QFileDialog::getExistingDirectory(this, tr("Choose export directory"), currentExportDir.absolutePath());
   } else {
     dir = QFileDialog::getExistingDirectory(this, tr("Choose export directory"), QDir::homePath());
   }
-  if (!dir.isNull()) {
-#if defined(Q_WS_WIN) || defined(Q_OS_OS2)
-    dir.replace("/", "\\");
-#endif
-    textExportDir->setText(dir);
-  }
+  return dir;
+}
+
+void options_imp::on_browseExportDirButton_clicked() {
+  const QString newExportDir = askForExportDir(textExportDir->text());
+  if (!newExportDir.isNull())
+    textExportDir->setText(fsutils::toDisplayPath(newExportDir));
+}
+
+void options_imp::on_browseExportDirFinButton_clicked() {
+  const QString newExportDir = askForExportDir(textExportDirFin->text());
+  if (!newExportDir.isNull())
+    textExportDirFin->setText(fsutils::toDisplayPath(newExportDir));
 }
 
 void options_imp::on_browseFilterButton_clicked() {
@@ -1175,7 +1250,7 @@ QString options_imp::webUiPassword() const
 
 void options_imp::showConnectionTab()
 {
-  tabSelection->setCurrentRow(2);
+  tabSelection->setCurrentRow(TAB_CONNECTION);
 }
 
 void options_imp::on_btnWebUiCrt_clicked() {
@@ -1269,6 +1344,7 @@ QString options_imp::languageToLocalizedString(QLocale::Language language, const
   case QLocale::Georgian: return QString::fromUtf8("ქართული");
   case QLocale::Byelorussian: return QString::fromUtf8("Беларуская");
   case QLocale::Basque: return QString::fromUtf8("Euskara");
+  case QLocale::Vietnamese: return QString::fromUtf8("tiếng Việt");
   case QLocale::Chinese: {
     if (country == "cn")
       return QString::fromUtf8("中文 (简体)");
@@ -1331,4 +1407,20 @@ void options_imp::toggleAnonymousMode(bool enabled)
     checkLSD->setEnabled(true);
     checkUPnP->setEnabled(true);
   }
+}
+
+bool options_imp::schedTimesOk() {
+  QString msg;
+
+  if (schedule_from->time() == schedule_to->time())
+    msg = tr("The start time and the end time can't be the same.");
+  else if (schedule_from->time() > schedule_to->time())
+    msg = tr("The start time can't be after the end time.");
+
+  if (!msg.isEmpty()) {
+    QMessageBox::critical(this, tr("Time Error"), msg);
+    return false;
+  }
+
+  return true;
 }

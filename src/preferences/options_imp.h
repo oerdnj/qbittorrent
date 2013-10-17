@@ -74,6 +74,7 @@ private slots:
   void on_IpFilterRefreshBtn_clicked();
   void handleIPFilterParsed(bool error, int ruleCount);
   void on_browseExportDirButton_clicked();
+  void on_browseExportDirFinButton_clicked();
   void on_browseFilterButton_clicked();
   void on_browseSaveDirButton_clicked();
   void on_browseTempDirButton_clicked();
@@ -100,6 +101,9 @@ private:
   bool startMinimized() const;
   bool isSlashScreenDisabled() const;
   bool preventFromSuspend() const;
+#ifdef Q_WS_WIN
+  bool Startup() const;
+#endif
   // Downloads
   QString getSavePath() const;
   bool isTempPathEnabled() const;
@@ -107,7 +111,9 @@ private:
   bool preAllocateAllFiles() const;
   bool useAdditionDialog() const;
   bool addTorrentsInPause() const;
-  QString getExportDir() const;
+  QString getTorrentExportDir() const;
+  QString getFinishedTorrentExportDir() const;
+  QString askForExportDir(const QString& currentExportPath);
   int getActionOnDblClOnTorrentDl() const;
   int getActionOnDblClOnTorrentFn() const;
   // Connection options
@@ -117,6 +123,7 @@ private:
   // Bittorrent options
   int getMaxConnecs() const;
   int getMaxConnecsPerTorrent() const;
+  int getMaxUploads() const;
   int getMaxUploadsPerTorrent() const;
   bool isDHTEnabled() const;
   bool isDHTPortSameAsBT() const;
@@ -150,6 +157,7 @@ private:
 private:
   void setSslKey(const QByteArray &key, bool interactive = true);
   void setSslCertificate(const QByteArray &cert, bool interactive = true);
+  bool schedTimesOk();
 
 private:
   QButtonGroup choiceLanguage;

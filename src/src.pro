@@ -125,8 +125,11 @@ nox {
               transferlistwidget.h \
               transferlistdelegate.h \
               transferlistfilterswidget.h \
+              transferlistsortmodel.h \
               torrentcontentmodel.h \
               torrentcontentmodelitem.h \
+              torrentcontentmodelfolder.h \
+              torrentcontentmodelfile.h \
               torrentcontentfiltermodel.h \
               deletionconfirmationdlg.h \
               statusbar.h \
@@ -145,13 +148,16 @@ nox {
               iconprovider.h \
               updownratiodlg.h \
               loglistwidget.h \
-              addnewtorrentdialog.h
+              addnewtorrentdialog.h \
+              autoexpandabledialog.h
 
   SOURCES += mainwindow.cpp \
              ico.cpp \
              transferlistwidget.cpp \
              torrentcontentmodel.cpp \
              torrentcontentmodelitem.cpp \
+             torrentcontentmodelfolder.cpp \
+             torrentcontentmodelfile.cpp \
              torrentcontentfiltermodel.cpp \
              sessionapplication.cpp \
              torrentimportdlg.cpp \
@@ -160,7 +166,8 @@ nox {
              iconprovider.cpp \
              updownratiodlg.cpp \
              loglistwidget.cpp \
-             addnewtorrentdialog.cpp
+             addnewtorrentdialog.cpp \
+             autoexpandabledialog.cpp
 
   win32 {
     HEADERS += programupdater.h
@@ -185,7 +192,8 @@ nox {
            confirmdeletiondlg.ui \
            torrentimportdlg.ui \
            executionlog.ui \
-           addnewtorrentdialog.ui
+           addnewtorrentdialog.ui \
+           autoexpandabledialog.ui
 }
 
 DESTDIR = .
@@ -234,4 +242,5 @@ TRANSLATIONS = $$LANG_PATH/qbittorrent_fr.ts \
                $$LANG_PATH/qbittorrent_ka.ts \
                $$LANG_PATH/qbittorrent_be.ts \
                $$LANG_PATH/qbittorrent_eu.ts \
-               $$LANG_PATH/qbittorrent_he.ts
+               $$LANG_PATH/qbittorrent_he.ts \
+               $$LANG_PATH/qbittorrent_vi.ts

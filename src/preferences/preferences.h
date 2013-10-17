@@ -62,18 +62,24 @@ namespace DNS {
 enum Service { DYNDNS, NOIP, NONE = -1 };
 }
 
-class Preferences : public QIniSettings {
+class Preferences : private QIniSettings {
   Q_DISABLE_COPY(Preferences)
 
 public:
-  Preferences() : QIniSettings("qBittorrent", "qBittorrent") {
+  Preferences()
+    : QIniSettings("qBittorrent", "qBittorrent")
+  {
     qDebug() << "Preferences constructor";
   }
 
-public:
-  // General options
+  void sync()
+  {
+    QIniSettings::sync();
+  }
+
+  // General options  
   QString getLocale() const {
-    return value(QString::fromUtf8("Preferences/General/Locale"), "en_GB").toString();
+    return value(QString::fromUtf8("Preferences/General/Locale")).toString();
   }
 
   void setLocale(const QString &locale) {
@@ -118,6 +124,14 @@ public:
 
   void setAlternatingRowColors(bool b) {
     setValue("Preferences/General/AlternatingRowColors", b);
+  }
+
+  bool useRandomPort() const {
+    return value(QString::fromUtf8("Preferences/General/UseRandomPort"), false).toBool();
+  }
+
+  void setRandomPort(bool b) {
+    setValue("Preferences/General/UseRandomPort", b);
   }
 
   bool systrayIntegration() const {
@@ -180,6 +194,24 @@ public:
   void setPreventFromSuspend(bool b) {
     setValue("Preferences/General/PreventFromSuspend", b);
   }
+
+#ifdef Q_WS_WIN
+  bool Startup() const {
+    QSettings settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
+    return settings.contains("qBittorrent");
+  }
+
+  void setStartup(bool b) {
+    QSettings settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
+    if (b) {
+        const QString bin_path = "\""+qApp->applicationFilePath().replace("/", "\\")+"\"";
+        settings.setValue("qBittorrent", bin_path);
+    }
+    else {
+        settings.remove("qBittorrent");
+    }
+  }
+#endif
 
   // Downloads
   QString getSavePath() const {
@@ -250,6 +282,14 @@ public:
     setValue("Preferences/Downloads/NewAdditionDialog", b);
   }
 
+  bool AdditionDialogFront() const {
+    return value(QString::fromUtf8("Preferences/Downloads/NewAdditionDialogFront"), true).toBool();
+  }
+
+  void AdditionDialogFront(bool b) {
+    setValue("Preferences/Downloads/NewAdditionDialogFront", b);
+  }
+
   bool addTorrentsInPause() const {
     return value(QString::fromUtf8("Preferences/Downloads/StartInPause"), false).toBool();
   }
@@ -276,18 +316,33 @@ public:
   }
 
   bool isTorrentExportEnabled() const {
-    return !value(QString::fromUtf8("Preferences/Downloads/TorrentExport"), QString()).toString().isEmpty();
+    return !value(QString::fromUtf8("Preferences/Downloads/TorrentExportDir"), QString()).toString().isEmpty();
   }
 
-  QString getExportDir() const {
-    return value(QString::fromUtf8("Preferences/Downloads/TorrentExport"), QString()).toString();
+  QString getTorrentExportDir() const {
+    return value(QString::fromUtf8("Preferences/Downloads/TorrentExportDir"), QString()).toString();
   }
 
-  void setExportDir(QString path) {
+  void setTorrentExportDir(QString path) {
     path = path.trimmed();
     if (path.isEmpty())
       path = QString();
-    setValue(QString::fromUtf8("Preferences/Downloads/TorrentExport"), path);
+    setValue(QString::fromUtf8("Preferences/Downloads/TorrentExportDir"), path);
+  }
+
+  bool isFinishedTorrentExportEnabled() const {
+    return !value(QString::fromUtf8("Preferences/Downloads/FinishedTorrentExportDir"), QString()).toString().isEmpty();
+  }
+
+  QString getFinishedTorrentExportDir() const {
+    return value(QString::fromUtf8("Preferences/Downloads/FinishedTorrentExportDir"), QString()).toString();
+  }
+
+  void setFinishedTorrentExportDir(QString path) {
+    path = path.trimmed();
+    if (path.isEmpty())
+      path = QString();
+    setValue(QString::fromUtf8("Preferences/Downloads/FinishedTorrentExportDir"), path);
   }
 
   bool isMailNotificationEnabled() const {
@@ -539,6 +594,15 @@ public:
   void setMaxConnecsPerTorrent(int val) {
     if (val <= 0) val = -1;
     setValue(QString::fromUtf8("Preferences/Bittorrent/MaxConnecsPerTorrent"), val);
+  }
+
+  int getMaxUploads() const {
+    return value(QString::fromUtf8("Preferences/Bittorrent/MaxUploads"), 8).toInt();
+  }
+
+  void setMaxUploads(int val) {
+    if (val <= 0) val = -1;
+    setValue(QString::fromUtf8("Preferences/Bittorrent/MaxUploads"), val);
   }
 
   int getMaxUploadsPerTorrent() const {
@@ -912,12 +976,26 @@ public:
   }
 
   uint diskCacheSize() const {
+#if LIBTORRENT_VERSION_NUM >= 001610
+    return value(QString::fromUtf8("Preferences/Downloads/DiskWriteCacheSize"), 0).toUInt();
+#else
     return value(QString::fromUtf8("Preferences/Downloads/DiskWriteCacheSize"), 128).toUInt();
+#endif
   }
 
   void setDiskCacheSize(uint size) {
     setValue(QString::fromUtf8("Preferences/Downloads/DiskWriteCacheSize"), size);
   }
+
+#if LIBTORRENT_VERSION_NUM >= 001610
+  uint diskCacheTTL() const {
+    return value(QString::fromUtf8("Preferences/Downloads/DiskWriteCacheTTL"), 60).toUInt();
+  }
+
+  void setDiskCacheTTL(uint ttl) {
+    setValue(QString::fromUtf8("Preferences/Downloads/DiskWriteCacheTTL"), ttl);
+  }
+#endif
 
   uint outgoingPortsMin() const {
     return value(QString::fromUtf8("Preferences/Advanced/OutgoingPortsMin"), 0).toUInt();
@@ -1002,6 +1080,7 @@ public:
     setValue(QString::fromUtf8("Preferences/Connection/MaxHalfOpenConnec"), value);
   }
 
+
   void setNetworkInterface(const QString& iface) {
     setValue(QString::fromUtf8("Preferences/Connection/Interface"), iface);
   }
@@ -1026,7 +1105,7 @@ public:
     return value(QString::fromUtf8("Preferences/Connection/InetAddress"), QString()).toString();
   }
 
-#if LIBTORRENT_VERSION_MINOR > 15
+#if LIBTORRENT_VERSION_NUM >= 001600
   bool isAnonymousModeEnabled() const {
     return value(QString::fromUtf8("Preferences/Advanced/AnonymousMode"), false).toBool();
   }

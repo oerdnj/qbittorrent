@@ -1,3 +1,4 @@
+﻿Unicode true
 ;Compress the header too
 !packhdr "$%TEMP%\exehead.tmp" 'upx.exe -9 --best --ultra-brute "$%TEMP%\exehead.tmp"'
 
@@ -17,9 +18,9 @@ XPStyle on
 !define CSIDL_APPDATA '0x1A' ;Application Data path
 !define CSIDL_LOCALAPPDATA '0x1C' ;Local Application Data path
 
-!define PROG_VERSION "3.0.3"
+!define PROG_VERSION "3.1.0"
 !define MUI_FINISHPAGE_RUN "$INSTDIR\qbittorrent.exe"
-!define MUI_FINISHPAGE_RUN_TEXT "Launch qBittorrent"
+!define MUI_FINISHPAGE_RUN_TEXT $(launch_qbt)
 
 ; The name of the installer
 Name "qBittorrent ${PROG_VERSION}"
@@ -29,8 +30,8 @@ OutFile "qbittorrent_${PROG_VERSION}_setup.exe"
 
 ;Installer Version Information
 VIAddVersionKey "ProductName" "qBittorrent"
-VIAddVersionKey "CompanyName" "Christophe Dumez"
-VIAddVersionKey "LegalCopyright" "Copyright ©2006-2012 Christophe Dumez"
+VIAddVersionKey "CompanyName" "The qBittorrent project"
+VIAddVersionKey "LegalCopyright" "Copyright ©2006-2013 The qBittorrent project"
 VIAddVersionKey "FileDescription" "qBittorrent - A Bittorrent Client"
 VIAddVersionKey "FileVersion" "${PROG_VERSION}"
 
@@ -79,4 +80,4 @@ RequestExecutionLevel admin
 !insertmacro MUI_UNPAGE_INSTFILES
 
 !insertmacro MUI_RESERVEFILE_LANGDLL
-ReserveFile "${NSISDIR}\Plugins\FindProcDLL.dll"
+ReserveFile "${NSISDIR}\Plugins\x86-unicode\FindProcDLL.dll"

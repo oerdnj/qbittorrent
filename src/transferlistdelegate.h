@@ -33,12 +33,9 @@
 
 #include <QItemDelegate>
 #include <QModelIndex>
-#include <QByteArray>
-#include <QStyleOptionViewItem>
 #include <QStyleOptionViewItemV2>
 #include <QApplication>
 #include <QPainter>
-#include <QDateTime>
 #include "misc.h"
 #include "torrentmodel.h"
 #include "qbtsession.h"
@@ -62,6 +59,7 @@ public:
     painter->save();
     switch(index.column()) {
     case TorrentModelItem::TR_AMOUNT_DOWNLOADED:
+    case TorrentModelItem::TR_AMOUNT_UPLOADED:
     case TorrentModelItem::TR_AMOUNT_LEFT:
     case TorrentModelItem::TR_SIZE:{
         QItemDelegate::drawBackground(painter, opt, index);
@@ -132,10 +130,9 @@ public:
       QItemDelegate::drawBackground(painter, opt, index);
       const qlonglong limit = index.data().toLongLong();
       opt.displayAlignment = Qt::AlignRight;
-      if (limit > 0)
-        QItemDelegate::drawDisplay(painter, opt, opt.rect, QString::number(limit/1024., 'f', 1) + " " + tr("KiB/s", "KiB/second (.i.e per second)"));
-      else
-        QItemDelegate::drawDisplay(painter, opt, opt.rect, QString::fromUtf8("∞"));
+      /* HACK because QString rounds up. Eg QString::number(0.999*100.0, 'f' ,1) == 99.9
+      ** but QString::number(0.9999*100.0, 'f' ,1) == 100.0 */
+      QItemDelegate::drawDisplay(painter, opt, opt.rect, limit > 0 ? QString::number((int)((limit/1024.)*10)/10.0, 'f', 1) + " " + tr("KiB/s", "KiB/second (.i.e per second)") : QString::fromUtf8("∞"));
       break;
     }
     case TorrentModelItem::TR_TIME_ELAPSED: {
@@ -156,10 +153,9 @@ public:
         QItemDelegate::drawBackground(painter, opt, index);
         opt.displayAlignment = Qt::AlignRight;
         const qreal ratio = index.data().toDouble();
-        if (ratio > QBtSession::MAX_RATIO)
-          QItemDelegate::drawDisplay(painter, opt, opt.rect, QString::fromUtf8("∞"));
-        else
-          QItemDelegate::drawDisplay(painter, opt, opt.rect, QString::number(ratio, 'f', 2));
+        /* HACK because QString rounds up. Eg QString::number(0.999*100.0, 'f' ,1) == 99.9
+        ** but QString::number(0.9999*100.0, 'f' ,1) == 100.0 */
+        QItemDelegate::drawDisplay(painter, opt, opt.rect, ratio > QBtSession::MAX_RATIO ? QString::fromUtf8("∞") : QString::number((int)(ratio*100)/100.0, 'f', 2));
         break;
       }
     case TorrentModelItem::TR_PRIORITY: {
@@ -176,13 +172,11 @@ public:
       }
     case TorrentModelItem::TR_PROGRESS:{
         QStyleOptionProgressBarV2 newopt;
-        qreal progress = index.data().toDouble()*100.;
-        // We don't want to display 100% unless
-        // the torrent is really complete
-        if (progress > 99.94 && progress < 100.)
-          progress = 99.9;
+        qreal progress = index.data().toDouble()*100.;        
         newopt.rect = opt.rect;
-        newopt.text = QString::number(progress, 'f', 1)+"%";
+        /* HACK because QString rounds up. Eg QString::number(0.999*100.0, 'f' ,1) == 99.9
+        ** but QString::number(0.9999*100.0, 'f' ,1) == 100.0 */
+        newopt.text = QString::number((int)(progress*10)/10.0, 'f', 1)+"%";
         newopt.progress = (int)progress;
         newopt.maximum = 100;
         newopt.minimum = 0;

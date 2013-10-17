@@ -33,7 +33,6 @@
 #include <QDesktopServices>
 #include <QTimer>
 #include <QClipboard>
-#include <QInputDialog>
 #include <QColor>
 #include <QUrl>
 #include <QMenu>
@@ -61,12 +60,14 @@
 #include "qinisettings.h"
 #include "iconprovider.h"
 #include "fs_utils.h"
+#include "autoexpandabledialog.h"
 
 using namespace libtorrent;
 
 TransferListWidget::TransferListWidget(QWidget *parent, MainWindow *main_window, QBtSession *_BTSession):
   QTreeView(parent), BTSession(_BTSession), main_window(main_window) {
 
+  setUniformRowHeights(true);
   // Load settings
   bool column_loaded = loadSettings();
 
@@ -90,7 +91,7 @@ TransferListWidget::TransferListWidget(QWidget *parent, MainWindow *main_window,
   statusFilterModel->setFilterKeyColumn(TorrentModelItem::TR_STATUS);
   statusFilterModel->setFilterRole(Qt::DisplayRole);
 
-  nameFilterModel = new QSortFilterProxyModel();
+  nameFilterModel = new TransferListSortModel();
   nameFilterModel->setDynamicSortFilter(true);
   nameFilterModel->setSourceModel(statusFilterModel);
   nameFilterModel->setFilterKeyColumn(TorrentModelItem::TR_NAME);
@@ -120,9 +121,18 @@ TransferListWidget::TransferListWidget(QWidget *parent, MainWindow *main_window,
     setColumnHidden(TorrentModelItem::TR_DLLIMIT, true);
     setColumnHidden(TorrentModelItem::TR_TRACKER, true);
     setColumnHidden(TorrentModelItem::TR_AMOUNT_DOWNLOADED, true);
+    setColumnHidden(TorrentModelItem::TR_AMOUNT_UPLOADED, true);
     setColumnHidden(TorrentModelItem::TR_AMOUNT_LEFT, true);
     setColumnHidden(TorrentModelItem::TR_TIME_ELAPSED, true);
+    setColumnHidden(TorrentModelItem::TR_SAVE_PATH, true);
   }
+
+  //When adding/removing columns between versions some may
+  //end up being size 0 when the new version is launched with
+  //a conf file from the previous version.
+  for (unsigned int i=0; i<TorrentModelItem::NB_COLUMNS; i++)
+    if (!columnWidth(i))
+      resizeColumnToContents(i);
 
   setContextMenuPolicy(Qt::CustomContextMenu);
 
@@ -131,6 +141,9 @@ TransferListWidget::TransferListWidget(QWidget *parent, MainWindow *main_window,
   connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(displayListMenu(const QPoint&)));
   header()->setContextMenuPolicy(Qt::CustomContextMenu);
   connect(header(), SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(displayDLHoSMenu(const QPoint&)));
+
+  editHotkey = new QShortcut(QKeySequence("F2"), this, SLOT(renameSelectedTorrent()), 0, Qt::WidgetShortcut);
+  deleteHotkey = new QShortcut(QKeySequence::Delete, this, SLOT(deleteSelectedTorrents()), 0, Qt::WidgetShortcut);
 }
 
 TransferListWidget::~TransferListWidget() {
@@ -143,6 +156,8 @@ TransferListWidget::~TransferListWidget() {
   delete nameFilterModel;
   delete listModel;
   delete listDelegate;
+  delete editHotkey;
+  delete deleteHotkey;
   qDebug() << Q_FUNC_INFO << "EXIT";
 }
 
@@ -184,7 +199,7 @@ inline QModelIndex TransferListWidget::mapFromSource(const QModelIndex &index) c
 
 
 QStringList TransferListWidget::getCustomLabels() const {
-  QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
+  QIniSettings settings;
   return settings.value("TransferListFilters/customLabels", QStringList()).toStringList();
 }
 
@@ -517,6 +532,9 @@ void TransferListWidget::setMaxRatioSelectedTorrents() {
 }
 
 void TransferListWidget::recheckSelectedTorrents() {
+  QMessageBox::StandardButton ret = QMessageBox::question(this, tr("Recheck confirmation"), tr("Are you sure you want to recheck the selected torrent(s)?"), QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes);
+  if (ret != QMessageBox::Yes)
+    return;
   const QStringList hashes = getSelectedTorrentsHashes();
   foreach (const QString &hash, hashes) {
     BTSession->recheckTorrent(hash);
@@ -589,7 +607,7 @@ void TransferListWidget::askNewLabelForSelection() {
   bool invalid;
   do {
     invalid = false;
-    const QString label = QInputDialog::getText(this, tr("New Label"), tr("Label:"), QLineEdit::Normal, "", &ok).trimmed();
+    const QString label = AutoExpandableDialog::getText(this, tr("New Label"), tr("Label:"), QLineEdit::Normal, "", &ok).trimmed();
     if (ok && !label.isEmpty()) {
       if (fsutils::isValidFileSystemName(label)) {
         setSelectionLabel(label);
@@ -605,15 +623,17 @@ void TransferListWidget::renameSelectedTorrent() {
   const QModelIndexList selectedIndexes = selectionModel()->selectedRows();
   if (selectedIndexes.size() != 1) return;
   if (!selectedIndexes.first().isValid()) return;
-  const QString hash = getHashFromRow(mapToSource(selectedIndexes.first()).row());
+  QModelIndex mi = mapToSource(selectedIndexes.first());
+  const QString hash = getHashFromRow(mi.row());
   const QTorrentHandle h = BTSession->getTorrentHandle(hash);
   if (!h.is_valid()) return;
   // Ask for a new Name
   bool ok;
-  const QString name = QInputDialog::getText(this, tr("Rename"), tr("New name:"), QLineEdit::Normal, h.name(), &ok);
+  QString name = AutoExpandableDialog::getText(this, tr("Rename"), tr("New name:"), QLineEdit::Normal, h.name(), &ok);
   if (ok && !name.isEmpty()) {
+    name.replace(QRegExp("\r?\n|\r"), " ");
     // Rename the torrent
-    nameFilterModel->setData(selectedIndexes.first(), name, Qt::DisplayRole);
+    listModel->setData(mi, name, Qt::DisplayRole);
   }
 }
 
@@ -895,13 +915,13 @@ void TransferListWidget::applyStatusFilter(int f) {
 
 void TransferListWidget::saveSettings()
 {
-  QIniSettings settings("qBittorrent", "qBittorrent");
+  QIniSettings settings;
   settings.setValue("TransferList/HeaderState", header()->saveState());
 }
 
 bool TransferListWidget::loadSettings()
 {
-  QIniSettings settings("qBittorrent", "qBittorrent");
+  QIniSettings settings;
   bool ok = header()->restoreState(settings.value("TransferList/HeaderState").toByteArray());
   if (!ok) {
     header()->resizeSection(0, 200); // Default

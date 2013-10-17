@@ -54,9 +54,9 @@ TorrentContentModel* TorrentContentFilterModel::model() const
   return m_model;
 }
 
-TorrentContentModelItem::FileType TorrentContentFilterModel::getType(const QModelIndex& index) const
+TorrentContentModelItem::ItemType TorrentContentFilterModel::itemType(const QModelIndex& index) const
 {
-  return m_model->getType(mapToSource(index));
+  return m_model->itemType(mapToSource(index));
 }
 
 int TorrentContentFilterModel::getFileIndex(const QModelIndex& index) const
@@ -74,11 +74,29 @@ QModelIndex TorrentContentFilterModel::parent(const QModelIndex& child) const
 
 bool TorrentContentFilterModel::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const
 {
-  if (m_model->getType(m_model->index(source_row, 0, source_parent)) == TorrentContentModelItem::FOLDER) {
+  if (m_model->itemType(m_model->index(source_row, 0, source_parent)) == TorrentContentModelItem::FolderType) {
     // always accept folders, since we want to filter their children
     return true;
   }
   return QSortFilterProxyModel::filterAcceptsRow(source_row, source_parent);
+}
+
+bool TorrentContentFilterModel::lessThan(const QModelIndex &left, const QModelIndex &right) const {
+  if (sortColumn() == NAME) {
+    QVariant vL = sourceModel()->data(left);
+    QVariant vR = sourceModel()->data(right);
+    if (!(vL.isValid() && vR.isValid()))
+      return QSortFilterProxyModel::lessThan(left, right);
+    Q_ASSERT(vL.isValid());
+    Q_ASSERT(vR.isValid());
+
+    bool res = false;
+    if (misc::naturalSort(vL.toString(), vR.toString(), res))
+      return res;
+
+    return QSortFilterProxyModel::lessThan(left, right);
+  }
+  return QSortFilterProxyModel::lessThan(left, right);
 }
 
 void TorrentContentFilterModel::selectAll()

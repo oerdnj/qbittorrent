@@ -30,6 +30,7 @@
 
 #include <QDebug>
 
+#include "iconprovider.h"
 #include "rssfolder.h"
 #include "rssarticle.h"
 #include "qbtsession.h"
@@ -83,32 +84,39 @@ RssFeedPtr RssFolder::addStream(RssManager* manager, const QString &url) {
 }
 
 // Refresh All Children
-void RssFolder::refresh() {
+bool RssFolder::refresh() {
   RssFileHash::ConstIterator it = m_children.begin();
   RssFileHash::ConstIterator itend = m_children.end();
+  bool refreshed = false;
   for ( ; it != itend; ++it) {
-    it.value()->refresh();
+    if (it.value()->refresh())
+      refreshed = true;
   }
+  return refreshed;
 }
 
-RssArticleList RssFolder::articleList() const {
+RssArticleList RssFolder::articleListByDateDesc() const {
   RssArticleList news;
 
   RssFileHash::ConstIterator it = m_children.begin();
   RssFileHash::ConstIterator itend = m_children.end();
   for ( ; it != itend; ++it) {
-    news << it.value()->articleList();
+    int n = news.size();
+    news << it.value()->articleListByDateDesc();
+    std::inplace_merge(news.begin(), news.begin() + n, news.end(), rssArticleDateRecentThan);
   }
   return news;
 }
 
-RssArticleList RssFolder::unreadArticleList() const {
+RssArticleList RssFolder::unreadArticleListByDateDesc() const {
   RssArticleList unread_news;
 
   RssFileHash::ConstIterator it = m_children.begin();
   RssFileHash::ConstIterator itend = m_children.end();
   for ( ; it != itend; ++it) {
-    unread_news << it.value()->unreadArticleList();
+    int n = unread_news.size();
+    unread_news << it.value()->unreadArticleListByDateDesc();
+    std::inplace_merge(unread_news.begin(), unread_news.begin() + n, unread_news.end(), rssArticleDateRecentThan);
   }
   return unread_news;
 }
@@ -218,8 +226,14 @@ void RssFolder::saveItemsToDisk()
   }
 }
 
-QString RssFolder::id() const {
+QString RssFolder::id() const
+{
   return m_name;
+}
+
+QIcon RssFolder::icon() const
+{
+  return IconProvider::instance()->getIcon("inode-directory");
 }
 
 bool RssFolder::hasChild(const QString &childId) {
@@ -236,4 +250,13 @@ void RssFolder::renameChildFolder(const QString &old_name, const QString &new_na
 RssFilePtr RssFolder::takeChild(const QString &childId)
 {
   return m_children.take(childId);
+}
+
+void RssFolder::recheckRssItemsForDownload()
+{
+  RssFileHash::ConstIterator it = m_children.begin();
+  RssFileHash::ConstIterator itend = m_children.end();
+  for ( ; it != itend; ++it) {
+    it.value()->recheckRssItemsForDownload();
+  }
 }

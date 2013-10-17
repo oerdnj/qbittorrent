@@ -40,6 +40,7 @@
 #include "rsssettings.h"
 #endif
 #include "qinisettings.h"
+#include <zlib.h>
 
 /** Download Thread **/
 
@@ -57,6 +58,7 @@ QByteArray DownloadThread::gUncompress(Bytef *inData, size_t len) {
   }
 
   QByteArray result;
+
   z_stream strm;
   static const int CHUNK_SIZE = 1024;
   char out[CHUNK_SIZE];
@@ -71,7 +73,7 @@ QByteArray DownloadThread::gUncompress(Bytef *inData, size_t len) {
   const int windowBits = 15;
   const int ENABLE_ZLIB_GZIP = 32;
 
-  int ret = inflateInit2(&strm, windowBits|ENABLE_ZLIB_GZIP); // gzip decoding
+  int ret = inflateInit2(&strm, windowBits|ENABLE_ZLIB_GZIP ); // gzip decoding
   if (ret != Z_OK)
     return QByteArray();
 
@@ -84,12 +86,11 @@ QByteArray DownloadThread::gUncompress(Bytef *inData, size_t len) {
     Q_ASSERT(ret != Z_STREAM_ERROR); // state not clobbered
 
     switch (ret) {
-    case Z_NEED_DICT:
-    case Z_DATA_ERROR:
-    case Z_MEM_ERROR:
-      (void) inflateEnd(&strm);
-
-      return QByteArray();
+      case Z_NEED_DICT:
+      case Z_DATA_ERROR:
+      case Z_MEM_ERROR:
+        (void) inflateEnd(&strm);
+        return QByteArray();
     }
 
     result.append(out, CHUNK_SIZE - strm.avail_out);

@@ -34,6 +34,8 @@
 #include <QHash>
 #include <QAction>
 #include <QColor>
+#include <QDebug>
+#include <QUrl>
 #include <libtorrent/version.hpp>
 #include <libtorrent/peer_info.hpp>
 #include "trackerlist.h"
@@ -43,6 +45,7 @@
 #include "qbtsession.h"
 #include "qinisettings.h"
 #include "misc.h"
+#include "autoexpandabledialog.h"
 
 using namespace libtorrent;
 
@@ -63,20 +66,25 @@ TrackerList::TrackerList(PropertiesWidget *properties): QTreeWidget(), propertie
   header << tr("Peers");
   header << tr("Message");
   setHeaderItem(new QTreeWidgetItem(header));
-  dht_item = new QTreeWidgetItem(QStringList() << "" << "** "+tr("[DHT]")+" **");
+  dht_item = new QTreeWidgetItem(QStringList() << "" << "** [DHT] **");
   insertTopLevelItem(0, dht_item);
   setRowColor(0, QColor("grey"));
-  pex_item = new QTreeWidgetItem(QStringList() << "" << "** "+tr("[PeX]")+" **");
+  pex_item = new QTreeWidgetItem(QStringList() << "" << "** [PeX] **");
   insertTopLevelItem(1, pex_item);
   setRowColor(1, QColor("grey"));
-  lsd_item = new QTreeWidgetItem(QStringList() << "" << "** "+tr("[LSD]")+" **");
+  lsd_item = new QTreeWidgetItem(QStringList() << "" << "** [LSD] **");
   insertTopLevelItem(2, lsd_item);
   setRowColor(2, QColor("grey"));
+  editHotkey = new QShortcut(QKeySequence("F2"), this, SLOT(editSelectedTracker()), 0, Qt::WidgetShortcut);
+  connect(this, SIGNAL(doubleClicked(QModelIndex)), SLOT(editSelectedTracker()));
+  deleteHotkey = new QShortcut(QKeySequence(QKeySequence::Delete), this, SLOT(deleteSelectedTrackers()), 0, Qt::WidgetShortcut);
 
   loadSettings();
 }
 
 TrackerList::~TrackerList() {
+  delete editHotkey;
+  delete deleteHotkey;
   saveSettings();
 }
 
@@ -197,13 +205,13 @@ void TrackerList::loadStickyItems(const QTorrentHandle &h) {
   }
 
   // Load PeX Information
-  if (QBtSession::instance()->isPexEnabled())
+  if (QBtSession::instance()->isPexEnabled() && !h.priv())
     pex_item->setText(COL_STATUS, tr("Working"));
   else
     pex_item->setText(COL_STATUS, tr("Disabled"));
 
   // Load LSD Information
-  if (QBtSession::instance()->isLSDEnabled())
+  if (QBtSession::instance()->isLSDEnabled() && !h.priv())
     lsd_item->setText(COL_STATUS, tr("Working"));
   else
     lsd_item->setText(COL_STATUS, tr("Disabled"));
@@ -297,6 +305,19 @@ void TrackerList::askForTrackers() {
   }
 }
 
+void TrackerList::copyTrackerUrl() {
+    QList<QTreeWidgetItem *> selected_items = getSelectedTrackerItems();
+    if (selected_items.isEmpty()) return;
+    QStringList urls_to_copy;
+    foreach (QTreeWidgetItem *item, selected_items) {
+      QString tracker_url = item->data(COL_URL, Qt::DisplayRole).toString();
+      qDebug() << QString("Copy: ") + tracker_url;
+      urls_to_copy << tracker_url;
+    }
+    QApplication::clipboard()->setText(urls_to_copy.join("\n"));
+}
+
+
 void TrackerList::deleteSelectedTrackers() {
   QTorrentHandle h = properties->getCurrentTorrent();
   if (!h.is_valid()) {
@@ -329,6 +350,58 @@ void TrackerList::deleteSelectedTrackers() {
   loadTrackers();
 }
 
+void TrackerList::editSelectedTracker() {
+  try {
+    QTorrentHandle h = properties->getCurrentTorrent();
+
+    QList<QTreeWidgetItem *> selected_items = getSelectedTrackerItems();
+    if (selected_items.isEmpty())
+      return;
+    // During multi-select only process item selected last
+    QUrl tracker_url = selected_items.last()->text(COL_URL);
+
+    bool ok;
+    QUrl new_tracker_url = AutoExpandableDialog::getText(this, tr("Tracker editing"), tr("Tracker URL:"),
+                                                         QLineEdit::Normal, tracker_url.toString(), &ok).trimmed();
+    if (!ok)
+      return;
+
+    if (!new_tracker_url.isValid()) {
+      QMessageBox::warning(this, tr("Tracker editing failed"), tr("The tracker URL entered is invalid."));
+      return;
+    }
+    if (new_tracker_url == tracker_url)
+      return;
+
+    std::vector<announce_entry> trackers = h.trackers();
+    std::vector<announce_entry>::iterator it = trackers.begin();
+    std::vector<announce_entry>::iterator itend = trackers.end();
+    bool match = false;
+
+    for ( ; it != itend; ++it) {
+      if (new_tracker_url == QUrl(misc::toQString(it->url))) {
+        QMessageBox::warning(this, tr("Tracker editing failed"), tr("The tracker URL already exists."));
+        return;
+      }
+
+      if (tracker_url == QUrl(misc::toQString(it->url)) && !match) {
+        announce_entry new_entry(new_tracker_url.toString().toStdString());
+        new_entry.tier = it->tier;
+        match = true;
+        *it = new_entry;
+      }
+    }
+
+    h.replace_trackers(trackers);
+    h.force_reannounce();
+    h.force_dht_announce();
+  } catch(invalid_handle&) {
+    return;
+  }
+
+  loadTrackers();
+}
+
 void TrackerList::showTrackerListMenu(QPoint) {
   QTorrentHandle h = properties->getCurrentTorrent();
   if (!h.is_valid()) return;
@@ -336,9 +409,13 @@ void TrackerList::showTrackerListMenu(QPoint) {
   QMenu menu;
   // Add actions
   QAction *addAct = menu.addAction(IconProvider::instance()->getIcon("list-add"), tr("Add a new tracker..."));
+  QAction *copyAct = 0;
   QAction *delAct = 0;
+  QAction *editAct = 0;
   if (!getSelectedTrackerItems().isEmpty()) {
     delAct = menu.addAction(IconProvider::instance()->getIcon("list-remove"), tr("Remove tracker"));
+    copyAct = menu.addAction(IconProvider::instance()->getIcon("edit-copy"), tr("Copy tracker url"));
+    editAct = menu.addAction(IconProvider::instance()->getIcon("edit-rename"),tr("Edit selected tracker URL"));
   }
   QAction *act = menu.exec(QCursor::pos());
   if (act == 0) return;
@@ -346,14 +423,22 @@ void TrackerList::showTrackerListMenu(QPoint) {
     askForTrackers();
     return;
   }
+  if (act == copyAct) {
+    copyTrackerUrl();
+    return;
+  }
   if (act == delAct) {
     deleteSelectedTrackers();
+    return;
+  }
+  if (act == editAct) {
+    editSelectedTracker();
     return;
   }
 }
 
 void TrackerList::loadSettings() {
-  QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
+  QIniSettings settings;
   if (!header()->restoreState(settings.value("TorrentProperties/Trackers/TrackerListState").toByteArray())) {
     setColumnWidth(0, 30);
     setColumnWidth(1, 300);
@@ -361,6 +446,6 @@ void TrackerList::loadSettings() {
 }
 
 void TrackerList::saveSettings() const {
-  QIniSettings settings(QString::fromUtf8("qBittorrent"), QString::fromUtf8("qBittorrent"));
+  QIniSettings settings;
   settings.setValue("TorrentProperties/Trackers/TrackerListState", header()->saveState());
 }
