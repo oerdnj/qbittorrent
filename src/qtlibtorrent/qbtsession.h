@@ -61,7 +61,12 @@ class ScanFoldersModel;
 class TorrentSpeedMonitor;
 class DNSUpdater;
 
-const int MAX_LOG_MESSAGES = 100;
+const int MAX_LOG_MESSAGES = 1000;
+
+enum TorrentExportFolder {
+  RegularTorrentExportFolder,
+  FinishedTorrentExportFolder
+};
 
 class QBtSession : public QObject {
   Q_OBJECT
@@ -161,6 +166,8 @@ public slots:
   void addConsoleMessage(QString msg, QColor color=QApplication::palette().color(QPalette::WindowText));
 #endif
   void addPeerBanMessage(QString msg, bool from_ipfilter);
+  void clearConsoleMessages() { consoleMessages.clear(); }
+  void clearPeerBanMessages() { peerBanMessages.clear(); }
   void processDownloadedFile(QString, QString);
   void addMagnetSkipAddDlg(const QString& uri, const QString& save_path = QString(), const QString& label = QString());
   void addMagnetInteractive(const QString& uri);
@@ -168,6 +175,7 @@ public slots:
   void configureSession();
   void banIP(QString ip);
   void recursiveTorrentDownload(const QTorrentHandle &h);
+  void unhideMagnet(const QString &hash);
 
 private:
   QString getSavePath(const QString &hash, bool fromScanDir = false, QString filePath = QString::null);
@@ -177,6 +185,8 @@ private:
   libtorrent::add_torrent_params initializeAddTorrentParams(const QString &hash);
   libtorrent::entry generateFilePriorityResumeData(boost::intrusive_ptr<libtorrent::torrent_info> &t, const std::vector<int> &fp);
   void updateRatioTimer();
+  void recoverPersistentData(const QString &hash, const std::vector<char> &buf);
+  void backupPersistentData(const QString &hash, boost::shared_ptr<libtorrent::entry> data);
 
 private slots:
   void addTorrentsFromScanFolder(QStringList&);
@@ -189,7 +199,7 @@ private slots:
   void cleanUpAutoRunProcess(int);
   void mergeTorrents(QTorrentHandle& h_ex, boost::intrusive_ptr<libtorrent::torrent_info> t);
   void mergeTorrents(QTorrentHandle& h_ex, const QString& magnet_uri);
-  void exportTorrentFile(const QTorrentHandle &h);
+  void exportTorrentFile(const QTorrentHandle &h, TorrentExportFolder folder = RegularTorrentExportFolder);
   void initWebUi();
   void handleIPFilterParsed(int ruleCount);
   void handleIPFilterError();
@@ -205,6 +215,7 @@ signals:
   void trackerError(const QString &hash, QString time, QString msg);
   void trackerAuthenticationRequired(const QTorrentHandle& h);
   void newDownloadedTorrent(QString path, QString url);
+  void newDownloadedTorrentFromRss(QString url);
   void newMagnetLink(const QString& link);
   void updateFileSize(const QString &hash);
   void downloadFromUrlFailure(QString url, QString reason);
@@ -216,7 +227,7 @@ signals:
   void alternativeSpeedsModeChanged(bool alternative);
   void recursiveTorrentDownloadPossible(const QTorrentHandle &h);
   void ipFilterParsed(bool error, int ruleCount);
-  void listenSucceeded();
+  void metadataReceivedHidden(const QTorrentHandle &h);
 
 private:
   // Bittorrent
@@ -247,7 +258,8 @@ private:
   bool PeXEnabled;
   bool queueingEnabled;
   bool appendLabelToSavePath;
-  bool torrentExport;
+  bool m_torrentExportEnabled;
+  bool m_finishedTorrentExportEnabled;
   bool appendqBExtension;
   QString defaultSavePath;
   QString defaultTempPath;

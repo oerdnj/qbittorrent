@@ -1,73 +1,40 @@
-* Sat Mar 16 2013 - Christophe Dumez <chris@qbittorrent.org> - v3.0.9
-    - BUGFIX: Raise qBittorrent windows when another instance is launched
-    - BUGFIX: Show human readable names for network interfaces in preferences (Windows)
-    - BUGFIX: Fix torrent creator bug when saving non-latin path (Windows)
-    - BUGFIX: Enable 'copy magnet uri' for torrents without metadata too
-    - BUGFIX: Fix a few JSON parser issues (Gelmir)
-    - BUGFIX: Add support for gzipped encoded HTTP responses (daimor)
-    - BUGFIX: Fix possibly missing "Add torrent" icon (Driim)
-    - OTHER: Add search plugin for Legit Torrents
-
-* Sun Jan 20 2013 - Christophe Dumez <chris@qbittorrent.org> - v3.0.8
-    - BUGFIX: Fix support for --no-splash command line argument
-    - BUGFIX: Fix compilation error with libtorrent v0.15
-    - BUGFIX: Fix search issues with Python3
-    - BUGFIX: Fix dead link about certificates in program preferences
-
-* Sat Jan 19 2013 - Christophe Dumez <chris@qbittorrent.org> - v3.0.7
-    - BUGFIX: Update max write cache size to 2048MB and set it to automatic by default (closes #148)
-    - BUGFIX: Add m4v to the list of previewable file extensions (closes #216)
-    - BUGFIX: Fix "Couldn't set environment variable..." message on start up (closes #245)
-    - BUGFIX: Use right path separator in torrent addition dialog on Windows
-    - BUGFIX: Fix "Set as default save path" setting (closes #254)
-    - BUGFIX: Reenable disk cache on Windows since the memory issue seems to be gone
-    - BUGFIX: Fixed several search engine plugins and removed the dead ones
-    - BUGFIX: Use https links in search plugins when possible
-    - BUGFIX: Bump Mootools to v1.4.5 (Web UI)
-    - BUGFIX: Require password to exit qBittorrent from tray icon when locked (closes #311)
-    - BUGFIX: Fix possible crash in loadPeers() (closes #222)
-
-* Sun Oct 7 2012 - Christophe Dumez <chris@qbittorrent.org> - v3.0.6
-    - BUGFIX: Fix unicode support for command-line arguments on Windows (closes #139)
-    - BUGFIX: Do not store created torrent in memory before writing it to a file (closes #133)
-    - BUGFIX: No longer fallback to ANY interface if the user-selected interface cannot be found (closes #143)
-    - BUGFIX: Fix timezone parsing in RSS (closes #136)
-    - BUGFIX: Fix cookie support for RSS feeds (closes #119)
-
-* Sun Sep 30 2012 - Christophe Dumez <chris@qbittorrent.org> - v3.0.5
-    - BUGFIX: Disabling systray icon no longer disables file association settings (closes #114)
-    - BUGFIX: Import new trackers from magnet link in case of duplicate torrent (closes #111)
-    - BUGFIX: Fix "Skip hash check" feature in torrent import dialog (closes #128)
-    - BUGFIX: Several Web UI connection fixes
-    - BUGFIX: Add Basque locale to Web UI
-
-* Tue Sep 18 2012 - Christophe Dumez <chris@qbittorrent.org> - v3.0.4
-    - BUGFIX: Fix issue with downloads starting from scratch on startup if temporary
-      directory setting is enabled.
-
-* Sun Sep 16 2012 - Christophe Dumez <chris@qbittorrent.org> - v3.0.3
-    - BUGFIX: Fix issue with temporary directory not being taken into consideration (closes #94)
-    - BUGFIX: Address encoding issues when using search engine on Windows (closes #29)
-    - BUGFIX: Bypass cache when uploading a torrent file in Web UI (closes #68)
-    - BUGFIX: "Completed On" column is not updated until restart (closes #84)
-    - BUGFIX: Fix possible build error on some systems
-    - I18N: Add hebrew translation
-
-* Sat Sep 1 2012 - Christophe Dumez <chris@qbittorrent.org> - v3.0.2
-    - FEATURE: Add "clear" functionality to search field (closes #59)
-    - BUGFIX: Attempt to use qBittorrent icon from theme if available (closes #49)
-    - BUGFIX: Fix crash when a fastresume file is empty (closes #52)
-    - BUGFIX: Fix encoding problem for detected XDG Download folder (closes #53)
-    - BUGFIX: Improve performance when showing torrent content panel (Improves #24)
-    - BUGFIX: Fix label-based filtering of torrents whose label contains special characters
-    - BUGFIX: Fix possible crash due to labels (closes #64)
-
-* Tue Aug 21 2012 - Christophe Dumez <chris@qbittorrent.org> - v3.0.1
-    - BUGFIX: Fix possible crash when adding a tracker to a magnet torrent without metadata (Closes #1034254)
-    - BUGFIX: Remember queue position for torrents without metadata (closes #17)
-    - BUGFIX: Fix crash when using unauthorized characters in label names (closes #19)
-    - BUGFIX: Fix search plugins updating (closes #25)
-    - BUGFIX: Make uTP connections rate limited by default
+* Sat Oct 12 2013 - Christophe Dumez <chris@qbittorrent.org> and sledgehammer999 <sledgehammer999@qbittorrent.org> - v3.1.0
+    - FEATURE: Add command line option to daemonize qbittorrent-nox (ngaro)
+    - FEATURE: Add "Shutdown qBittorrent" button to Web UI (ngaro)
+    - FEATURE: Add setting to copy .torrent files for finished downloads (Driim)
+    - FEATURE: Add option to start qBittorrent on Windows startup (sledgehammer999)
+    - FEATURE: Add context menu to Web seed list (Gelmir)
+    - FEATURE: Add support for tracker tiers / groups to creator (Gelmir)
+    - FEATURE: Allow clearing execution and ban logs (Gelmir)
+    - FEATURE: Add option to use random port on each startup (ireallylikeher)
+    - FEATURE: Expose the cache expiry to the user (Gelmir)
+    - FEATURE: Support Atom feeds (Gelmir)
+    - FEATURE: Add "save path" column (John Peterson)
+    - FEATURE: Add μTorrent-compatible "Flags" column in the peer tab(sledgehammer999)
+    - FEATURE: Load magnet metadata in the background while the "Add New Torrent" Dialog is showing (Gelmir)
+    - FEATURE: Allow to enter only an info-hash for download(sledgehammer999)
+    - FEATURE: Bring the "Add New Torrent" Dialog to the front(glassez)
+    - BUGFIX: Add confirmation dialog for "Force recheck" action (closes #131)
+    - BUGFIX: Greatly improve RSS manager performance (closes #34)
+    - BUGFIX: Ensure that all columns in the tranferlist have a size > 0.
+    - BUGFIX: Don't mark RSS item as read when it failed to download (Gelmir)
+    - BUGFIX: Fix ETA calculation when some files are downloaded and marked afterwards as 'do not download'(sledgehammer999)
+    - BUGFIX: Make the UI show that PEX/DHT/LSD are actually disabled on private torrents(sledgehammer999)
+    - BUGFIX: Scheduler should be much more robust and correct now(sledgehammer999)
+    - BUGFIX: Now qBt won't forget torrent settings after an unclean shutdown(sledgehammer999)
+    - BUGFIX: Text boxes in edit dialogs will fit to text width(Gelmir)
+    - BUGFIX: Enable edit/rename via F2 or double click in various places(Gelmir)
+    - BUGFIX: Allow to edit trackers and copy their urls(Gelmir and Driim)
+    - BUGFIX: Add Uploaded column to main view(Gelmir)
+    - BUGFIX: Calculate ETA for seeding torrents(Gelmir)    
+    - BUGFIX: Add option to ignore global share ratio limits for created torrents(Gelmir)
+    - OTHER: Many RSS bugfixes and improvements all over the place(Gelmir)
+    - OTHER: Generate translations at configure time to reduce tarball size
+    - OTHER: Make peer tab sortable by ip too (Gelmir)
+    - OTHER: Translations moved to Transifex(https://www.transifex.com/projects/p/qbittorrent/)
+    - OTHER: New Translation - Vietnamese (Anh Phan)
+    - PERFORMANCE: Impove drawing speed of tranferlist when there are many torrents(>100)
+    - PERFORMANCE: Impove drawing speed of peers list when there are many peers
 
 * Thu Aug 09 2012 - Christophe Dumez <chris@qbittorrent.org> - v3.0.0
     - FEATURE: Brand new torrent addition dialog

@@ -33,6 +33,7 @@
 
 #include <QHash>
 #include <QSharedPointer>
+#include <QVariantHash>
 #include <QXmlStreamReader>
 #include <QNetworkCookie>
 
@@ -40,66 +41,73 @@
 
 class RssFeed;
 class RssManager;
+class RssDownloadRuleList;
 
 typedef QHash<QString, RssArticlePtr> RssArticleHash;
 typedef QSharedPointer<RssFeed> RssFeedPtr;
 typedef QList<RssFeedPtr> RssFeedList;
 
+bool rssArticleDateRecentThan(const RssArticlePtr& left, const RssArticlePtr& right);
+
 class RssFeed: public QObject, public RssFile {
   Q_OBJECT
 
 public:
-  RssFeed(RssManager* manager, RssFolder* m_parent, const QString &url);
+  RssFeed(RssManager* manager, RssFolder* m_parent, const QString& url);
   virtual ~RssFeed();
   virtual RssFolder* parent() const { return m_parent; }
   virtual void setParent(RssFolder* parent) { m_parent = parent; }
-  void refresh();
+  bool refresh();
   virtual QString id() const { return m_url; }
   virtual void removeAllSettings();
   virtual void saveItemsToDisk();
-  void setLoading(bool val);
   bool isLoading() const;
   QString title() const;
   virtual void rename(const QString &alias);
   virtual QString displayName() const;
   QString url() const;
-  QString icon() const;
+  virtual QIcon icon() const;
   bool hasCustomIcon() const;
   void setIconPath(const QString &pathHierarchy);
   RssArticlePtr getItem(const QString &guid) const;
   uint count() const;
   virtual void markAsRead();
+  void markAsDirty(bool dirty = true);
   virtual uint unreadCount() const;
-  virtual RssArticleList articleList() const;
+  virtual RssArticleList articleListByDateDesc() const;
   const RssArticleHash& articleHash() const { return m_articles; }
-  virtual RssArticleList unreadArticleList() const;
+  virtual RssArticleList unreadArticleListByDateDesc() const;
+  void decrementUnreadCount();
+  void recheckRssItemsForDownload();
 
 private slots:
   void handleFinishedDownload(const QString& url, const QString &file_path);
   void handleDownloadFailure(const QString &url, const QString& error);
+  void handleFeedTitle(const QString& feedUrl, const QString& title);
+  void handleNewArticle(const QString& feedUrl, const QVariantHash& article);
+  void handleFeedParsingFinished(const QString& feedUrl, const QString& error);
+  void handleArticleStateChanged();
 
 private:
-  bool parseRSS(QIODevice* device);
-  void parseRSSChannel(QXmlStreamReader& xml);
-  void removeOldArticles();
-  bool parseXmlFile(const QString &file_path);
-  void downloadMatchingArticleTorrents();
   QString iconUrl() const;
   void loadItemsFromDisk();
+  void addArticle(const RssArticlePtr& article);
+  void downloadArticleTorrentIfMatching(RssDownloadRuleList* rules, const RssArticlePtr& article);
   QList<QNetworkCookie> feedCookies() const;
 
 private:
   RssManager* m_manager;
   RssArticleHash m_articles;
-  RssFolder *m_parent;
+  RssArticleList m_articlesByDate; // Articles sorted by date (more recent first)
+  RssFolder* m_parent;
   QString m_title;
   QString m_url;
   QString m_alias;
   QString m_icon;
   QString m_iconUrl;
-  bool m_read;
-  bool m_refreshed;
-  bool m_downloadFailure;
+  uint m_unreadCount;
+  bool m_dirty;
+  bool m_inErrorState;
   bool m_loading;
 
 };

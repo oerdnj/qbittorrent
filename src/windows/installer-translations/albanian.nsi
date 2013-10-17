@@ -1,4 +1,4 @@
-;Installer strings
+﻿;Installer strings
 
 ;LangString inst_qbt_req ${LANG_ENGLISH} "qBittorrent (required)"
 LangString inst_qbt_req ${LANG_ALBANIAN} "qBittorrent (required)"
@@ -18,6 +18,8 @@ LangString inst_firewallinfo ${LANG_ALBANIAN} "Adding Windows Firewall rule"
 LangString inst_warning ${LANG_ALBANIAN} "qBittorrent is running. Please close the application before installing."
 ;LangString inst_unist ${LANG_ENGLISH} "Uninstalling previous version."
 LangString inst_unist ${LANG_ALBANIAN} "Uninstalling previous version."
+;LangString launch_qbt ${LANG_ENGLISH} "Launch qBittorrent."
+LangString launch_qbt ${LANG_ALBANIAN} "Launch qBittorrent."
 
 
 ;------------------------------------

@@ -1,4 +1,4 @@
-Section "-hidden"
+﻿Section "-hidden"
 
     ;Search if qBittorrent is already installed.
     FindFirst $0 $1 "$INSTDIR\uninst.exe"
@@ -28,6 +28,7 @@ Section $(inst_qbt_req) ;"qBittorrent (required)"
   
   ; Put file there  
   File "qbittorrent.exe"
+  File "qbittorrent.pdb"
   File "qt.conf"
   File /oname=translations\qt_ar.qm "translations\qt_ar.qm"
   File /oname=translations\qt_bg.qm "translations\qt_bg.qm"
@@ -35,7 +36,8 @@ Section $(inst_qbt_req) ;"qBittorrent (required)"
   File /oname=translations\qt_cs.qm "translations\qt_cs.qm"
   File /oname=translations\qt_da.qm "translations\qt_da.qm"
   File /oname=translations\qt_de.qm "translations\qt_de.qm"
-  File /oname=translations\qt_es.qm "translations\qt_es.qm"  
+  File /oname=translations\qt_es.qm "translations\qt_es.qm"
+  File /oname=translations\qt_eu.qm "translations\qt_eu.qm"  
   File /oname=translations\qt_fi.qm "translations\qt_fi.qm"
   File /oname=translations\qt_fr.qm "translations\qt_fr.qm"
   File /oname=translations\qt_gl.qm "translations\qt_gl.qm"
@@ -64,7 +66,7 @@ Section $(inst_qbt_req) ;"qBittorrent (required)"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qbittorrent" "DisplayName" "qBittorrent ${PROG_VERSION}"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qbittorrent" "UninstallString" '"$INSTDIR\uninst.exe"'
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qbittorrent" "DisplayIcon" '"$INSTDIR\qbittorrent.exe",0'
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qbittorrent" "Publisher" "Christophe Dumez"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qbittorrent" "Publisher" "The qBittorrent project"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qbittorrent" "URLInfoAbout" "http://www.qbittorrent.org"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qbittorrent" "DisplayVersion" "${PROG_VERSION}"
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qbittorrent" "NoModify" 1
@@ -120,7 +122,7 @@ SectionEnd
 Section $(inst_firewall)
 
   DetailPrint $(inst_firewallinfo)
-  nsisFirewall::AddAuthorizedApplication "$INSTDIR\qbittorrent.exe" "qBittorrent" 
+  nsisFirewallW::AddAuthorizedApplication "$INSTDIR\qbittorrent.exe" "qBittorrent" 
     
 SectionEnd
 

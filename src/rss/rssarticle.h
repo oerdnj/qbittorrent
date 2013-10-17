@@ -42,31 +42,34 @@ class RssArticle;
 typedef QSharedPointer<RssArticle> RssArticlePtr;
 
 // Item of a rss stream, single information
-class RssArticle {
+class RssArticle : public QObject {
+  Q_OBJECT
 
 public:
-  RssArticle(RssFeed* parent, const QString &guid);
+  RssArticle(RssFeed* parent, const QString& guid);
   // Accessors
   bool hasAttachment() const;
-  QString guid() const;
+  const QString& guid() const;
   RssFeed* parent() const;
-  QString title() const;
-  QString author() const;
-  QString torrentUrl() const;
-  QString link() const;
+  const QString& title() const;
+  const QString& author() const;
+  const QString& torrentUrl() const;
+  const QString& link() const;
   QString description() const;
-  QDateTime date() const;
+  const QDateTime& date() const;
   bool isRead() const;
   // Setters
   void markAsRead();
   // Serialization
   QVariantHash toHash() const;
 
-  friend RssArticlePtr xmlToRssArticle(RssFeed* parent, QXmlStreamReader& xml);
-  friend RssArticlePtr hashToRssArticle(RssFeed* parent, const QVariantHash &hash);
+signals:
+  void articleWasRead();
 
-private:
-  static QDateTime parseDate(const QString &string);
+public slots:
+  void handleTorrentDownloadSuccess(const QString& url);
+
+  friend RssArticlePtr hashToRssArticle(RssFeed* parent, const QVariantHash& hash);
 
 private:
   RssFeed* m_parent;
@@ -80,7 +83,6 @@ private:
   bool m_read;
 };
 
-RssArticlePtr xmlToRssArticle(RssFeed* parent, QXmlStreamReader& xml);
-RssArticlePtr hashToRssArticle(RssFeed* parent, const QVariantHash &hash);
+RssArticlePtr hashToRssArticle(RssFeed* parent, const QVariantHash& hash);
 
 #endif // RSSARTICLE_H

@@ -1,8 +1,9 @@
-Section "un.$(remove_files)" ;"un.Remove files"
+﻿Section "un.$(remove_files)" ;"un.Remove files"
   SectionIn RO
   
 ; Remove files and uninstaller  
   Delete "$INSTDIR\qbittorrent.exe"
+  Delete "$INSTDIR\qbittorrent.pdb"
   Delete "$INSTDIR\qt.conf"  
   Delete "$INSTDIR\translations\qt_ar.qm"
   Delete "$INSTDIR\translations\qt_bg.qm"
@@ -11,6 +12,7 @@ Section "un.$(remove_files)" ;"un.Remove files"
   Delete "$INSTDIR\translations\qt_da.qm"
   Delete "$INSTDIR\translations\qt_de.qm"
   Delete "$INSTDIR\translations\qt_es.qm"
+  Delete "$INSTDIR\translations\qt_eu.qm"
   Delete "$INSTDIR\translations\qt_fa.qm"
   Delete "$INSTDIR\translations\qt_fi.qm"
   Delete "$INSTDIR\translations\qt_fr.qm"
@@ -81,7 +83,7 @@ SectionEnd
 Section "un.$(remove_firewall)" ;
 
   DetailPrint $(remove_firewallinfo)
-  nsisFirewall::RemoveAuthorizedApplication "$INSTDIR\qbittorrent.exe"
+  nsisFirewallW::RemoveAuthorizedApplication "$INSTDIR\qbittorrent.exe"
   
 SectionEnd
 

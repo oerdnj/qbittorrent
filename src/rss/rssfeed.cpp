@@ -35,19 +35,35 @@
 #include "rssfolder.h"
 #include "rsssettings.h"
 #include "rssarticle.h"
+#include "rssparser.h"
 #include "misc.h"
 #include "rssdownloadrulelist.h"
 #include "downloadthread.h"
 #include "fs_utils.h"
 
-RssFeed::RssFeed(RssManager* manager, RssFolder* parent, const QString &url):
-  m_manager(manager), m_parent(parent), m_icon(":/Icons/oxygen/application-rss+xml.png"),
-  m_refreshed(false), m_downloadFailure(false), m_loading(false) {
-  qDebug() << Q_FUNC_INFO << url;
-  m_url = QUrl::fromEncoded(url.toUtf8()).toString();
+bool rssArticleDateRecentThan(const RssArticlePtr& left, const RssArticlePtr& right)
+{
+  return left->date() > right->date();
+}
+
+RssFeed::RssFeed(RssManager* manager, RssFolder* parent, const QString& url):
+  m_manager(manager),
+  m_parent(parent),
+  m_url (QUrl::fromEncoded(url.toUtf8()).toString()),
+  m_icon(":/Icons/oxygen/application-rss+xml.png"),
+  m_unreadCount(0),
+  m_dirty(false),
+  m_inErrorState(false),
+  m_loading(false)
+{
+  qDebug() << Q_FUNC_INFO << m_url;
   // Listen for new RSS downloads
   connect(manager->rssDownloader(), SIGNAL(downloadFinished(QString,QString)), SLOT(handleFinishedDownload(QString,QString)));
   connect(manager->rssDownloader(), SIGNAL(downloadFailure(QString,QString)), SLOT(handleDownloadFailure(QString,QString)));
+  connect(manager->rssParser(), SIGNAL(feedTitle(QString,QString)), SLOT(handleFeedTitle(QString,QString)));
+  connect(manager->rssParser(), SIGNAL(newArticle(QString,QVariantHash)), SLOT(handleNewArticle(QString,QVariantHash)));
+  connect(manager->rssParser(), SIGNAL(feedParsingFinished(QString,QString)), SLOT(handleFeedParsingFinished(QString,QString)));
+
   // Download the RSS Feed icon
   m_iconUrl = iconUrl();
   manager->rssDownloader()->downloadUrl(m_iconUrl);
@@ -56,40 +72,87 @@ RssFeed::RssFeed(RssManager* manager, RssFolder* parent, const QString &url):
   loadItemsFromDisk();
 }
 
-RssFeed::~RssFeed() {
+RssFeed::~RssFeed()
+{
   if (!m_icon.startsWith(":/") && QFile::exists(m_icon))
     fsutils::forceRemove(m_icon);
 }
 
-void RssFeed::saveItemsToDisk() {
+void RssFeed::saveItemsToDisk()
+{
   qDebug() << Q_FUNC_INFO << m_url;
-  if (!m_refreshed)
+  if (!m_dirty)
     return;
+  markAsDirty(false);
+
   QIniSettings qBTRSS("qBittorrent", "qBittorrent-rss");
   QVariantList old_items;
 
-  RssArticleHash::ConstIterator it=m_articles.begin();
-  RssArticleHash::ConstIterator itend=m_articles.end();
+  RssArticleHash::ConstIterator it = m_articles.begin();
+  RssArticleHash::ConstIterator itend = m_articles.end();
   for ( ; it != itend; ++it) {
     old_items << it.value()->toHash();
   }
-  qDebug("Saving %d old items for feed %s", old_items.size(), displayName().toLocal8Bit().data());
+  qDebug("Saving %d old items for feed %s", old_items.size(), qPrintable(displayName()));
   QHash<QString, QVariant> all_old_items = qBTRSS.value("old_items", QHash<QString, QVariant>()).toHash();
   all_old_items[m_url] = old_items;
   qBTRSS.setValue("old_items", all_old_items);
 }
 
-void RssFeed::loadItemsFromDisk() {
+void RssFeed::loadItemsFromDisk()
+{
   QIniSettings qBTRSS("qBittorrent", "qBittorrent-rss");
   QHash<QString, QVariant> all_old_items = qBTRSS.value("old_items", QHash<QString, QVariant>()).toHash();
   const QVariantList old_items = all_old_items.value(m_url, QVariantList()).toList();
-  qDebug("Loading %d old items for feed %s", old_items.size(), displayName().toLocal8Bit().data());
+  qDebug("Loading %d old items for feed %s", old_items.size(), qPrintable(displayName()));
 
-  foreach (const QVariant &var_it, old_items) {
-    QHash<QString, QVariant> item = var_it.toHash();
+  foreach (const QVariant& var_it, old_items) {
+    QVariantHash item = var_it.toHash();
     RssArticlePtr rss_item = hashToRssArticle(this, item);
-    if (rss_item) {
-      m_articles.insert(rss_item->guid(), rss_item);
+    if (rss_item)
+      addArticle(rss_item);
+  }
+}
+
+void RssFeed::addArticle(const RssArticlePtr& article) {
+  int lbIndex = -1;
+  int max_articles = RssSettings().getRSSMaxArticlesPerFeed();
+
+  if (!m_articles.contains(article->guid())) {
+    markAsDirty();
+
+    // Update unreadCount
+    if (!article->isRead())
+      ++m_unreadCount;
+    // Insert in hash table
+    m_articles[article->guid()] = article;
+    // Insertion sort
+    RssArticleList::Iterator lowerBound = qLowerBound(m_articlesByDate.begin(), m_articlesByDate.end(), article, rssArticleDateRecentThan);
+    m_articlesByDate.insert(lowerBound, article);
+    lbIndex = m_articlesByDate.indexOf(article);
+    if (m_articlesByDate.size() > max_articles) {
+      RssArticlePtr oldestArticle = m_articlesByDate.takeLast();
+      m_articles.remove(oldestArticle->guid());
+      // Update unreadCount
+      if (!oldestArticle->isRead())
+        --m_unreadCount;
+    }
+
+    // Check if article was inserted at the end of the list and will break max_articles limit
+    if (RssSettings().isRssDownloadingEnabled()) {
+      if (lbIndex < max_articles && !article->isRead())
+        downloadArticleTorrentIfMatching(m_manager->downloadRules(), article);
+    }
+  }
+  else {
+    // m_articles.contains(article->guid())
+    // Try to download skipped articles
+    if (RssSettings().isRssDownloadingEnabled()) {
+      RssArticlePtr skipped = m_articles.value(article->guid(), RssArticlePtr());
+      if (skipped) {
+        if (!skipped->isRead())
+          downloadArticleTorrentIfMatching(m_manager->downloadRules(), skipped);
+      }
     }
   }
 }
@@ -100,55 +163,58 @@ QList<QNetworkCookie> RssFeed::feedCookies() const
   return RssSettings().getHostNameQNetworkCookies(feed_hostname);
 }
 
-void RssFeed::refresh() {
+bool RssFeed::refresh()
+{
   if (m_loading) {
-    qWarning() << Q_FUNC_INFO << "Feed" << this->displayName() << "is already being refreshed, ignoring request";
-    return;
+    qWarning() << Q_FUNC_INFO << "Feed" << displayName() << "is already being refreshed, ignoring request";
+    return false;
   }
   m_loading = true;
   // Download the RSS again
   m_manager->rssDownloader()->downloadUrl(m_url, feedCookies());
+  return true;
 }
 
-void RssFeed::removeAllSettings() {
+void RssFeed::removeAllSettings()
+{
   qDebug() << "Removing all settings / history for feed: " << m_url;
   QIniSettings qBTRSS("qBittorrent", "qBittorrent-rss");
-  QHash<QString, QVariant> feeds_w_downloader = qBTRSS.value("downloader_on", QHash<QString, QVariant>()).toHash();
+  QVariantHash feeds_w_downloader = qBTRSS.value("downloader_on", QVariantHash()).toHash();
   if (feeds_w_downloader.contains(m_url)) {
     feeds_w_downloader.remove(m_url);
     qBTRSS.setValue("downloader_on", feeds_w_downloader);
   }
-  QHash<QString, QVariant> all_feeds_filters = qBTRSS.value("feed_filters", QHash<QString, QVariant>()).toHash();
+  QVariantHash all_feeds_filters = qBTRSS.value("feed_filters", QVariantHash()).toHash();
   if (all_feeds_filters.contains(m_url)) {
     all_feeds_filters.remove(m_url);
     qBTRSS.setValue("feed_filters", all_feeds_filters);
   }
-  QHash<QString, QVariant> all_old_items = qBTRSS.value("old_items", QHash<QString, QVariant>()).toHash();
+  QVariantHash all_old_items = qBTRSS.value("old_items", QVariantHash()).toHash();
   if (all_old_items.contains(m_url)) {
       all_old_items.remove(m_url);
       qBTRSS.setValue("old_items", all_old_items);
   }
 }
 
-void RssFeed::setLoading(bool val) {
-  m_loading = val;
-}
-
-bool RssFeed::isLoading() const {
+bool RssFeed::isLoading() const
+{
   return m_loading;
 }
 
-QString RssFeed::title() const {
+QString RssFeed::title() const
+{
   return m_title;
 }
 
-void RssFeed::rename(const QString &new_name) {
+void RssFeed::rename(const QString &new_name)
+{
   qDebug() << "Renaming stream to" << new_name;
   m_alias = new_name;
 }
 
 // Return the alias if the stream has one, the url if it has no alias
-QString RssFeed::displayName() const {
+QString RssFeed::displayName() const
+{
   if (!m_alias.isEmpty())
     return m_alias;
   if (!m_title.isEmpty())
@@ -156,244 +222,198 @@ QString RssFeed::displayName() const {
   return m_url;
 }
 
-QString RssFeed::url() const {
+QString RssFeed::url() const
+{
   return m_url;
 }
 
-QString RssFeed::icon() const {
-  if (m_downloadFailure)
-    return ":/Icons/oxygen/unavailable.png";
-  return m_icon;
+QIcon RssFeed::icon() const
+{
+  if (m_inErrorState)
+    return QIcon(":/Icons/oxygen/unavailable.png");
+
+  return QIcon(m_icon);
 }
 
-bool RssFeed::hasCustomIcon() const {
+bool RssFeed::hasCustomIcon() const
+{
   return !m_icon.startsWith(":/");
 }
 
-void RssFeed::setIconPath(const QString &path) {
-  if (path.isEmpty() || !QFile::exists(path)) return;
+void RssFeed::setIconPath(const QString& path)
+{
+  if (path.isEmpty() || !QFile::exists(path))
+    return;
+
   m_icon = path;
 }
 
-RssArticlePtr RssFeed::getItem(const QString &guid) const {
+RssArticlePtr RssFeed::getItem(const QString& guid) const
+{
   return m_articles.value(guid);
 }
 
-uint RssFeed::count() const {
+uint RssFeed::count() const
+{
   return m_articles.size();
 }
 
-void RssFeed::markAsRead() {
-  RssArticleHash::ConstIterator it=m_articles.begin();
-  RssArticleHash::ConstIterator itend=m_articles.end();
-  for ( ; it != itend; ++it) {
-    it.value()->markAsRead();
-  }
-  m_manager->forwardFeedInfosChanged(m_url, displayName(), 0);
-}
-
-uint RssFeed::unreadCount() const {
-  uint nbUnread = 0;
-
-  RssArticleHash::ConstIterator it=m_articles.begin();
-  RssArticleHash::ConstIterator itend=m_articles.end();
-  for ( ; it != itend; ++it) {
-    if (!it.value()->isRead())
-      ++nbUnread;
-  }
-  return nbUnread;
-}
-
-RssArticleList RssFeed::articleList() const {
-  return m_articles.values();
-}
-
-RssArticleList RssFeed::unreadArticleList() const {
-  RssArticleList unread_news;
-
+void RssFeed::markAsRead()
+{
   RssArticleHash::ConstIterator it = m_articles.begin();
   RssArticleHash::ConstIterator itend = m_articles.end();
   for ( ; it != itend; ++it) {
-    if (!it.value()->isRead())
-      unread_news << it.value();
+    it.value()->markAsRead();
+  }
+  m_unreadCount = 0;
+  m_manager->forwardFeedInfosChanged(m_url, displayName(), 0);
+}
+
+void RssFeed::markAsDirty(bool dirty)
+{
+  m_dirty = dirty;
+}
+
+uint RssFeed::unreadCount() const
+{
+  return m_unreadCount;
+}
+
+RssArticleList RssFeed::articleListByDateDesc() const
+{
+  return m_articlesByDate;
+}
+
+RssArticleList RssFeed::unreadArticleListByDateDesc() const
+{
+  RssArticleList unread_news;
+
+  RssArticleList::ConstIterator it = m_articlesByDate.begin();
+  RssArticleList::ConstIterator itend = m_articlesByDate.end();
+  for ( ; it != itend; ++it) {
+    if (!(*it)->isRead())
+      unread_news << *it;
   }
   return unread_news;
 }
 
 // download the icon from the adress
-QString RssFeed::iconUrl() const {
+QString RssFeed::iconUrl() const
+{
   // XXX: This works for most sites but it is not perfect
-  return QString("http://")+QUrl(m_url).host()+QString("/favicon.ico");
-}
-
-void RssFeed::parseRSSChannel(QXmlStreamReader& xml)
-{
-  qDebug() << Q_FUNC_INFO;
-  Q_ASSERT(xml.isStartElement() && xml.name() == "channel");
-
-  while(!xml.atEnd()) {
-    xml.readNext();
-
-    if (xml.isStartElement()) {
-      if (xml.name() == "title") {
-        m_title = xml.readElementText();
-        if (m_alias == url())
-          rename(m_title);
-      }
-      else if (xml.name() == "image") {
-        QString icon_path = xml.attributes().value("url").toString();
-        if (!icon_path.isEmpty()) {
-          m_iconUrl = icon_path;
-          m_manager->rssDownloader()->downloadUrl(m_iconUrl);
-        }
-      }
-      else if (xml.name() == "item") {
-        RssArticlePtr article = xmlToRssArticle(this, xml);
-        qDebug() << "Found RSS Item, valid: " << (article ? "True" : "False");
-        if (article) {
-          QString guid = article->guid();
-          if (m_articles.contains(guid) && m_articles[guid]->isRead())
-            article->markAsRead();
-          m_articles[guid] = article;
-        }
-      }
-    }
-  }
-}
-
-// read and create items from a rss document
-bool RssFeed::parseRSS(QIODevice* device)
-{
-  qDebug("Parsing RSS file...");
-  QXmlStreamReader xml(device);
-
-  bool found_channel = false;
-  while (xml.readNextStartElement()) {
-    if (xml.name() == "rss") {
-      // Find channels
-      while (xml.readNextStartElement()) {
-        if (xml.name() == "channel") {
-          parseRSSChannel(xml);
-          found_channel = true;
-          break;
-        } else {
-          qDebug() << "Skip rss item: " << xml.name();
-          xml.skipCurrentElement();
-        }
-      }
-      break;
-    } else {
-      qDebug() << "Skip root item: " << xml.name();
-      xml.skipCurrentElement();
-    }
-  }
-
-  if (xml.hasError()) {
-    qWarning() << "Error parsing RSS document: " << xml.errorString();
-  }
-
-  if (!found_channel) {
-    qWarning() << m_url << " is not a valid RSS feed";
-    return false;
-  }
-
-  // Make sure we limit the number of articles
-  removeOldArticles();
-
-  // RSS Feed Downloader
-  if (RssSettings().isRssDownloadingEnabled())
-    downloadMatchingArticleTorrents();
-
-  // Save items to disk (for safety)
-  saveItemsToDisk();
-
-  return true;
-}
-
-void RssFeed::downloadMatchingArticleTorrents() {
-  Q_ASSERT(RssSettings().isRssDownloadingEnabled());
-  RssDownloadRuleList *download_rules = m_manager->downloadRules();
-
-  RssArticleHash::ConstIterator it = m_articles.begin();
-  RssArticleHash::ConstIterator itend = m_articles.end();
-  for ( ; it != itend; ++it) {
-    RssArticlePtr article = it.value();
-    // Skip read articles
-    if (article->isRead())
-      continue;
-    // Check if the item should be automatically downloaded
-    RssDownloadRulePtr matching_rule = download_rules->findMatchingRule(m_url, article->title());
-    if (matching_rule) {
-      // Torrent was downloaded, consider article as read
-      article->markAsRead();
-      // Download the torrent
-      QString torrent_url = article->hasAttachment() ? article->torrentUrl() : article->link();
-      QBtSession::instance()->addConsoleMessage(tr("Automatically downloading %1 torrent from %2 RSS feed...").arg(article->title()).arg(displayName()));
-      if (torrent_url.startsWith("magnet:", Qt::CaseInsensitive))
-        QBtSession::instance()->addMagnetSkipAddDlg(torrent_url, matching_rule->savePath(), matching_rule->label());
-      else
-        QBtSession::instance()->downloadUrlAndSkipDialog(torrent_url, matching_rule->savePath(), matching_rule->label(), feedCookies());
-    }
-  }
-}
-
-void RssFeed::removeOldArticles() {
-  const uint max_articles = RssSettings().getRSSMaxArticlesPerFeed();
-  const uint nb_articles = m_articles.size();
-  if (nb_articles > max_articles) {
-    RssArticleList listItems = m_articles.values();
-    RssManager::sortArticleListByDateDesc(listItems);
-    const int excess = nb_articles - max_articles;
-    for (uint i=nb_articles-excess; i<nb_articles; ++i) {
-      m_articles.remove(listItems.at(i)->guid());
-    }
-  }
-}
-
-// existing and opening test after download
-bool RssFeed::parseXmlFile(const QString &file_path) {
-  qDebug("openRss() called");
-  QFile fileRss(file_path);
-  if (!fileRss.open(QIODevice::ReadOnly | QIODevice::Text)) {
-    qDebug("openRss error: open failed, no file or locked, %s", qPrintable(file_path));
-    if (QFile::exists(file_path))
-      fileRss.remove();
-    return false;
-  }
-
-  // start reading the xml
-  bool ret = parseRSS(&fileRss);
-  fileRss.close();
-  if (QFile::exists(file_path))
-    fileRss.remove();
-  return ret;
+  return QString("http://") + QUrl(m_url).host() + QString("/favicon.ico");
 }
 
 // read and store the downloaded rss' informations
-void RssFeed::handleFinishedDownload(const QString& url, const QString &file_path) {
+void RssFeed::handleFinishedDownload(const QString& url, const QString& filePath)
+{
   if (url == m_url) {
     qDebug() << Q_FUNC_INFO << "Successfully downloaded RSS feed at" << url;
-    m_downloadFailure = false;
-    m_loading = false;
     // Parse the download RSS
-    if (parseXmlFile(file_path)) {
-      m_refreshed = true;
-      m_manager->forwardFeedInfosChanged(m_url, displayName(), unreadCount()); // XXX: Ugly
-      qDebug() << Q_FUNC_INFO << "Feed parsed successfully";
-    }
-  }
-  else if (url == m_iconUrl) {
-    m_icon = file_path;
+    m_manager->rssParser()->parseRssFile(m_url, filePath);
+  } else if (url == m_iconUrl) {
+    m_icon = filePath;
     qDebug() << Q_FUNC_INFO << "icon path:" << m_icon;
-    m_manager->forwardFeedIconChanged(m_url, m_icon); // XXX: Ugly
+    m_manager->forwardFeedIconChanged(m_url, m_icon);
   }
 }
 
-void RssFeed::handleDownloadFailure(const QString &url, const QString& error) {
-  if (url != m_url) return;
-  m_downloadFailure = true;
+void RssFeed::handleDownloadFailure(const QString& url, const QString& error)
+{
+  if (url != m_url)
+    return;
+
+  m_inErrorState = true;
   m_loading = false;
-  m_manager->forwardFeedInfosChanged(m_url, displayName(), unreadCount()); // XXX: Ugly
+  m_manager->forwardFeedInfosChanged(m_url, displayName(), m_unreadCount);
   qWarning() << "Failed to download RSS feed at" << url;
   qWarning() << "Reason:" << error;
+}
+
+void RssFeed::handleFeedTitle(const QString& feedUrl, const QString& title)
+{
+  if (feedUrl != m_url)
+    return;
+
+  if (m_title == title)
+    return;
+
+  m_title = title;
+
+  // Notify that we now have something better than a URL to display
+  if (m_alias.isEmpty())
+    m_manager->forwardFeedInfosChanged(feedUrl, title, m_unreadCount);
+}
+
+void RssFeed::downloadArticleTorrentIfMatching(RssDownloadRuleList* rules, const RssArticlePtr& article)
+{
+  Q_ASSERT(RssSettings().isRssDownloadingEnabled());
+  RssDownloadRulePtr matching_rule = rules->findMatchingRule(m_url, article->title());
+  if (!matching_rule)
+    return;
+
+  // Download the torrent
+  const QString& torrent_url = article->torrentUrl();
+  QBtSession::instance()->addConsoleMessage(tr("Automatically downloading %1 torrent from %2 RSS feed...").arg(article->title()).arg(displayName()));
+  if (torrent_url.startsWith("magnet:", Qt::CaseInsensitive))
+    QBtSession::instance()->addMagnetSkipAddDlg(torrent_url, matching_rule->savePath(), matching_rule->label());
+  else {
+    connect(QBtSession::instance(), SIGNAL(newDownloadedTorrentFromRss(QString)), article.data(), SLOT(handleTorrentDownloadSuccess(const QString&)), Qt::UniqueConnection);
+    connect(article.data(), SIGNAL(articleWasRead()), SLOT(handleArticleStateChanged()), Qt::UniqueConnection);
+    QBtSession::instance()->downloadUrlAndSkipDialog(torrent_url, matching_rule->savePath(), matching_rule->label(), feedCookies());
+  }
+}
+
+void RssFeed::recheckRssItemsForDownload()
+{
+  Q_ASSERT(RssSettings().isRssDownloadingEnabled());
+  RssDownloadRuleList* rules = m_manager->downloadRules();
+  foreach (const RssArticlePtr& article, m_articlesByDate) {
+    if (!article->isRead())
+      downloadArticleTorrentIfMatching(rules, article);
+  }
+}
+
+void RssFeed::handleNewArticle(const QString& feedUrl, const QVariantHash& articleData)
+{
+  if (feedUrl != m_url)
+    return;
+
+  RssArticlePtr article = hashToRssArticle(this, articleData);
+  Q_ASSERT(article);
+  addArticle(article);
+
+  m_manager->forwardFeedInfosChanged(m_url, displayName(), m_unreadCount);
+  // FIXME: We should forward the information here but this would seriously decrease
+  // performance with current design.
+  //m_manager->forwardFeedContentChanged(m_url);
+}
+
+void RssFeed::handleFeedParsingFinished(const QString& feedUrl, const QString& error)
+{
+  if (feedUrl != m_url)
+    return;
+
+  if (!error.isEmpty()) {
+    qWarning() << "Failed to parse RSS feed at" << feedUrl;
+    qWarning() << "Reason:" << error;
+  }
+
+  m_loading = false;
+  m_inErrorState = !error.isEmpty();
+
+  m_manager->forwardFeedInfosChanged(m_url, displayName(), m_unreadCount);
+  // XXX: Would not be needed if we did this in handleNewArticle() instead
+  m_manager->forwardFeedContentChanged(m_url);
+
+  saveItemsToDisk();
+}
+
+void RssFeed::handleArticleStateChanged() {
+  m_manager->forwardFeedInfosChanged(m_url, displayName(), m_unreadCount);
+}
+
+void RssFeed::decrementUnreadCount()
+{
+  --m_unreadCount;
 }
