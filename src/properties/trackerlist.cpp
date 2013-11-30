@@ -141,6 +141,7 @@ void TrackerList::moveSelectionUp() {
   h.replace_trackers(trackers);
   // Reannounce
   h.force_reannounce();
+  loadTrackers();
 }
 
 void TrackerList::moveSelectionDown() {
@@ -177,6 +178,7 @@ void TrackerList::moveSelectionDown() {
   h.replace_trackers(trackers);
   // Reannounce
   h.force_reannounce();
+  loadTrackers();
 }
 
 void TrackerList::clear() {
@@ -252,13 +254,13 @@ void TrackerList::loadTrackers() {
     QTreeWidgetItem *item = tracker_items.value(tracker_url, 0);
     if (!item) {
       item = new QTreeWidgetItem();
-      item->setText(COL_TIER, QString::number(it->tier));
       item->setText(COL_URL, tracker_url);
       addTopLevelItem(item);
       tracker_items[tracker_url] = item;
     } else {
       old_trackers_urls.removeOne(tracker_url);
     }
+    item->setText(COL_TIER, QString::number(it->tier));
     TrackerInfos data = trackers_data.value(tracker_url, TrackerInfos(tracker_url));
     QString error_message = data.last_message.trimmed();
     if (it->verified) {
@@ -292,10 +294,11 @@ void TrackerList::askForTrackers() {
   if (!h.is_valid()) return;
   QStringList trackers = TrackersAdditionDlg::askForTrackers(h);
   if (!trackers.empty()) {
-    foreach (const QString& tracker, trackers) {
+    for (int i=0; i<trackers.count(); i++) {
+      const QString& tracker = trackers[i];
       if (tracker.trimmed().isEmpty()) continue;
       announce_entry url(tracker.toStdString());
-      url.tier = 0;
+      url.tier = (topLevelItemCount() - NB_STICKY_ITEM) + i;
       h.add_tracker(url);
     }
     // Reannounce to new trackers
@@ -417,6 +420,8 @@ void TrackerList::showTrackerListMenu(QPoint) {
     copyAct = menu.addAction(IconProvider::instance()->getIcon("edit-copy"), tr("Copy tracker url"));
     editAct = menu.addAction(IconProvider::instance()->getIcon("edit-rename"),tr("Edit selected tracker URL"));
   }
+  menu.addSeparator();
+  QAction *reannounceAct = menu.addAction(IconProvider::instance()->getIcon("view-refresh"), tr("Force reannounce to all trackers"));
   QAction *act = menu.exec(QCursor::pos());
   if (act == 0) return;
   if (act == addAct) {
@@ -429,6 +434,10 @@ void TrackerList::showTrackerListMenu(QPoint) {
   }
   if (act == delAct) {
     deleteSelectedTrackers();
+    return;
+  }
+  if (act == reannounceAct) {
+    properties->getCurrentTorrent().force_reannounce();
     return;
   }
   if (act == editAct) {

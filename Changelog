@@ -1,3 +1,47 @@
+* Mon Nov 20 2013 - sledgehammer999 <sledgehammer999@qbittorrent.org> - v3.1.3
+    - FEATURE: Add a key shortcut to "Add link to torrent..." (Angel Alonso)
+    - BUGFIX: Make all columns and headers use the same text alignment in the transferlist. (sledgehammer999)
+    - BUGFIX: Fix build system for Unix/Linux. (sledgehammer999)
+    - BUGFIX: Case insensitive sort in Peers list. Closes #1066. (sledgehammer999)
+    - BUGFIX: Small optimization of WebUI responses when there isn't a data payload. (sledgehammer999)
+    - BUGFIX: Hide empty folders after filtering. Closes #74. (sledgehammer999)
+    - BUGFIX: Expand folders when filtering files. Closes #1076. (sledgehammer999)
+    - BUGFIX: Updated search plugin's URL (Zach Thibeau)
+    - BUGFIX: Strip some png to fix incorrect sRGB profiles. (Angel Alonso)
+    - BUGFIX: Fixed font issues on OSX Mavericks (Zach Thibeau)
+    - BUGFIX: Improve text in the About dialog (Artem S. Tashkinov)
+    - BUGFIX: Always show a peer IP address as a tool tip (Artem S. Tashkinov)
+    - BUGFIX: Fix inhibit system functionality. Closes #766. (sledgehammer999)
+    - BUGFIX: WebUI: Don't gzip too small payloads. (sledgehammer999)
+    - BUGFIX: Correctly detect if the browser supports gzip compression. (sledgehammer999)
+    - BUGFIX: Fix WebUI link to 'Anonymous mode' explanation. Closes #1093. (sledgehammer999)
+    - BUGFIX: Correctly update tracker tier number in the trackers tab. Closes #1075. (sledgehammer999)
+    - BUGFIX: Speed improvements.(sledgehammer999)
+    - OTHER: Updated translations.
+    
+* Tue Nov 05 2013 - sledgehammer999 <sledgehammer999@qbittorrent.org> - v3.1.2
+    - BUGFIX: Fix WebUI gzip compression. Closes #1037. (sledgehammer999)
+    - BUGFIX: Fix compilation with qt < 4.8.0. Closes #1043. (sledgehammer999)
+    - OTHER: Updated translations.
+
+* Mon Oct 28 2013 - sledgehammer999 <sledgehammer999@qbittorrent.org> - v3.1.1
+    - FEATURE: Show external IP in the log. Closes #968. (sledgehammer999)
+    - FEATURE: Enable gzip compression in the webui. It should be faster now. (sledgehammer999)
+    - FEATURE: Torrents show more states(queued for checking, downloading metadata, allocating, checking resume). (sledgehammer999)
+    - FEATURE: Reenable "force reannounce" to all trackers. (sledgehammer999)
+    - FEATURE: Allow to clear the UI lock password. Closes #973. (sledgehammer999)
+    - FEATURE: New translations: English(Australia) and English(United Kingdom)
+    - BUGFIX: Expose all available translation in the WebUI. Closes #976. (sledgehammer999)
+    - BUGFIX: Copy IP copied wrong data. Closes #970 (sledgehammer999)
+    - BUGFIX: "Preview file..." didn't work on single file torrents. (sledgehammer999)
+    - BUGFIX: Fix and improve the scheduler (Gelmir and sledgehammer999)
+    - BUGFIX: RSS fixes. Closes #960, #998 (Gelmir)
+    - BUGFIX: Fix 'append label to save path' with magnet links. (sledgehammer999)
+    - BUGFIX: Can download up to 10MB .torrent file when a link is provided. Closes #879 (sledgehammer999)
+    - OTHER: Updated translations.
+    - LINUX: Fix missing conf.pri error (leigh123linux)
+    - WINDOWS: Don't remove file associations if they aren't our own. (sledgehammer999)
+
 * Sat Oct 12 2013 - Christophe Dumez <chris@qbittorrent.org> and sledgehammer999 <sledgehammer999@qbittorrent.org> - v3.1.0
     - FEATURE: Add command line option to daemonize qbittorrent-nox (ngaro)
     - FEATURE: Add "Shutdown qBittorrent" button to Web UI (ngaro)

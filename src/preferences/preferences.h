@@ -923,6 +923,10 @@ public:
     setValue("Locking/password", md5_password);
   }
 
+  void clearUILockPassword() {
+    remove("Locking/password");
+  }
+
   QString getUILockPasswordMD5() const {
     return value("Locking/password", QString()).toString();
   }
@@ -1256,7 +1260,7 @@ public:
       settings.setValue("qBittorrent/shell/open/command/Default", command_str);
       settings.setValue("qBittorrent/Content Type/Default", "application/x-bittorrent");
       settings.setValue("qBittorrent/DefaultIcon/Default", icon_str);
-    } else {
+    } else if (isTorrentFileAssocSet()) {
       settings.remove(".torrent/Default");
       settings.remove(".torrent/Content Type");
       settings.remove("qBittorrent/shell/Default");
@@ -1280,7 +1284,7 @@ public:
       settings.setValue("Magnet/DefaultIcon/Default", icon_str);
       settings.setValue("Magnet/shell/Default", "open");
       settings.setValue("Magnet/shell/open/command/Default", command_str);
-    } else {
+    } else if (isMagnetLinkAssocSet()) {
       settings.remove("Magnet/Default");
       settings.remove("Magnet/Content Type");
       settings.remove("Magnet/URL Protocol");

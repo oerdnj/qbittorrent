@@ -69,7 +69,13 @@ TorrentModelItem::State TorrentModelItem::state() const
     // Other states
     switch(m_torrent.state()) {
     case torrent_status::allocating:
+      m_icon = QIcon(":/Icons/skin/stalledDL.png");
+      m_fgColor = QColor("grey");
+      return STATE_ALLOCATING;
     case torrent_status::downloading_metadata:
+      m_icon = QIcon(":/Icons/skin/downloading.png");
+      m_fgColor = QColor("green");
+      return STATE_DOWNLOADING_META;
     case torrent_status::downloading: {
       if (m_torrent.download_payload_rate() > 0) {
         m_icon = QIcon(":/Icons/skin/downloading.png");
@@ -93,7 +99,13 @@ TorrentModelItem::State TorrentModelItem::state() const
         return STATE_STALLED_UP;
       }
     case torrent_status::queued_for_checking:
+      m_icon = QIcon(":/Icons/skin/checking.png");
+      m_fgColor = QColor("grey");
+      return STATE_QUEUED_CHECK;
     case torrent_status::checking_resume_data:
+      m_icon = QIcon(":/Icons/skin/checking.png");
+      m_fgColor = QColor("grey");
+      return STATE_QUEUED_FASTCHECK;
     case torrent_status::checking_files:
       m_icon = QIcon(":/Icons/skin/checking.png");
       m_fgColor = QColor("grey");
@@ -276,27 +288,6 @@ QVariant TorrentModel::headerData(int section, Qt::Orientation orientation,
       case TorrentModelItem::TR_SAVE_PATH: return tr("Save path", "Torrent save path");
       default:
         return QVariant();
-      }
-    }
-    if (role == Qt::TextAlignmentRole) {
-      switch(section) {
-      case TorrentModelItem::TR_PRIORITY:
-      case TorrentModelItem::TR_SIZE:
-      case TorrentModelItem::TR_SEEDS:
-      case TorrentModelItem::TR_PEERS:
-      case TorrentModelItem::TR_DLSPEED:
-      case TorrentModelItem::TR_UPSPEED:
-      case TorrentModelItem::TR_RATIO:
-      case TorrentModelItem::TR_DLLIMIT:
-      case TorrentModelItem::TR_UPLIMIT:
-      case TorrentModelItem::TR_AMOUNT_DOWNLOADED:
-      case TorrentModelItem::TR_AMOUNT_UPLOADED:
-      case TorrentModelItem::TR_AMOUNT_LEFT:
-        return Qt::AlignRight;
-      case TorrentModelItem::TR_PROGRESS:
-        return Qt::AlignHCenter;
-      default:
-        return Qt::AlignLeft;
       }
     }
   }
@@ -491,4 +482,22 @@ void TorrentModel::handleTorrentAboutToBeRemoved(const QTorrentHandle &h)
   if (row >= 0) {
     emit torrentAboutToBeRemoved(m_torrents.at(row));
   }
+}
+
+bool TorrentModel::inhibitSystem()
+{
+  QList<TorrentModelItem*>::const_iterator it = m_torrents.constBegin();
+  QList<TorrentModelItem*>::const_iterator itend = m_torrents.constEnd();
+  for ( ; it != itend; ++it) {
+    switch((*it)->data(TorrentModelItem::TR_STATUS).toInt()) {
+    case TorrentModelItem::STATE_DOWNLOADING:
+    case TorrentModelItem::STATE_STALLED_DL:
+    case TorrentModelItem::STATE_SEEDING:
+    case TorrentModelItem::STATE_STALLED_UP:
+      return true;
+    default:
+      break;
+    }
+  }
+  return false;
 }
