@@ -63,7 +63,6 @@ public:
     case TorrentModelItem::TR_AMOUNT_LEFT:
     case TorrentModelItem::TR_SIZE:{
         QItemDelegate::drawBackground(painter, opt, index);
-        opt.displayAlignment = Qt::AlignRight;
         QItemDelegate::drawDisplay(painter, opt, option.rect, misc::friendlyUnit(index.data().toLongLong()));
         break;
       }
@@ -80,7 +79,6 @@ public:
           display += " ("+QString::number(index.data(Qt::UserRole).toLongLong())+")";
         }
         QItemDelegate::drawBackground(painter, opt, index);
-        opt.displayAlignment = Qt::AlignRight;
         QItemDelegate::drawDisplay(painter, opt, opt.rect, display);
         break;
       }
@@ -90,6 +88,12 @@ public:
         switch(state) {
         case TorrentModelItem::STATE_DOWNLOADING:
           display = tr("Downloading");
+          break;
+        case TorrentModelItem::STATE_DOWNLOADING_META:
+          display = tr("Downloading metadata", "used when loading a magnet link");
+          break;
+        case TorrentModelItem::STATE_ALLOCATING:
+          display = tr("Allocating", "qBittorrent is allocating the files on disk");
           break;
         case TorrentModelItem::STATE_PAUSED_DL:
         case TorrentModelItem::STATE_PAUSED_UP:
@@ -110,6 +114,12 @@ public:
         case TorrentModelItem::STATE_CHECKING_UP:
           display = tr("Checking", "Torrent local data is being checked");
           break;
+        case TorrentModelItem::STATE_QUEUED_CHECK:
+          display = tr("Queued for checking", "i.e. torrent is queued for hash checking");
+          break;
+        case TorrentModelItem::STATE_QUEUED_FASTCHECK:
+          display = tr("Checking resume data", "used when loading the torrents from disk after qbt is launched. It checks the correctness of the .fastresume file. Normally it is completed in a fraction of a second, unless loading many many torrents.");
+          break;
         default:
            display = "";
         }
@@ -121,7 +131,6 @@ public:
     case TorrentModelItem::TR_DLSPEED:{
         QItemDelegate::drawBackground(painter, opt, index);
         const qulonglong speed = index.data().toULongLong();
-        opt.displayAlignment = Qt::AlignRight;
         QItemDelegate::drawDisplay(painter, opt, opt.rect, misc::friendlyUnit(speed)+tr("/s", "/second (.i.e per second)"));
         break;
       }
@@ -129,7 +138,6 @@ public:
     case TorrentModelItem::TR_DLLIMIT:{
       QItemDelegate::drawBackground(painter, opt, index);
       const qlonglong limit = index.data().toLongLong();
-      opt.displayAlignment = Qt::AlignRight;
       /* HACK because QString rounds up. Eg QString::number(0.999*100.0, 'f' ,1) == 99.9
       ** but QString::number(0.9999*100.0, 'f' ,1) == 100.0 */
       QItemDelegate::drawDisplay(painter, opt, opt.rect, limit > 0 ? QString::number((int)((limit/1024.)*10)/10.0, 'f', 1) + " " + tr("KiB/s", "KiB/second (.i.e per second)") : QString::fromUtf8("∞"));
@@ -151,7 +159,6 @@ public:
       break;
     case TorrentModelItem::TR_RATIO:{
         QItemDelegate::drawBackground(painter, opt, index);
-        opt.displayAlignment = Qt::AlignRight;
         const qreal ratio = index.data().toDouble();
         /* HACK because QString rounds up. Eg QString::number(0.999*100.0, 'f' ,1) == 99.9
         ** but QString::number(0.9999*100.0, 'f' ,1) == 100.0 */
@@ -161,11 +168,9 @@ public:
     case TorrentModelItem::TR_PRIORITY: {
         const int priority = index.data().toInt();
         if (priority >= 0) {
-          opt.displayAlignment = Qt::AlignRight;
           QItemDelegate::paint(painter, opt, index);
         } else {
           QItemDelegate::drawBackground(painter, opt, index);
-          opt.displayAlignment = Qt::AlignRight;
           QItemDelegate::drawDisplay(painter, opt, opt.rect, "*");
         }
         break;

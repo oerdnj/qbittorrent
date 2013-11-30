@@ -148,6 +148,8 @@ MainWindow::MainWindow(QWidget *parent, const QStringList& torrentCmdLine) : QMa
   QMenu *lockMenu = new QMenu(this);
   QAction *defineUiLockPasswdAct = lockMenu->addAction(tr("Set the password..."));
   connect(defineUiLockPasswdAct, SIGNAL(triggered()), this, SLOT(defineUILockPassword()));
+  QAction *clearUiLockPasswdAct = lockMenu->addAction(tr("Clear the password"));
+  connect(clearUiLockPasswdAct, SIGNAL(triggered()), this, SLOT(clearUILockPassword()));
   actionLock_qBittorrent->setMenu(lockMenu);
   // Creating Bittorrent session
   connect(QBtSession::instance(), SIGNAL(fullDiskError(QTorrentHandle, QString)), this, SLOT(fullDiskError(QTorrentHandle, QString)));
@@ -412,6 +414,12 @@ void MainWindow::defineUILockPassword() {
   }
 }
 
+void MainWindow::clearUILockPassword() {
+  QMessageBox::StandardButton answer = QMessageBox::question(this, tr("Clear the password"), tr("Are you sure you want to clear the password?"), QMessageBox::Yes|QMessageBox::No, QMessageBox::No);
+  if (answer == QMessageBox::Yes)
+    Preferences().clearUILockPassword();
+}
+
 void MainWindow::on_actionLock_qBittorrent_triggered() {
   Preferences pref;
   // Check if there is a password
@@ -547,6 +555,7 @@ void MainWindow::fullDiskError(const QTorrentHandle& h, QString msg) const {
 void MainWindow::createKeyboardShortcuts() {
   actionCreate_torrent->setShortcut(QKeySequence(QString::fromUtf8("Ctrl+N")));
   actionOpen->setShortcut(QKeySequence(QString::fromUtf8("Ctrl+O")));
+  actionDownload_from_URL->setShortcut(QKeySequence(QString::fromUtf8("Ctrl+Shift+O")));
   actionExit->setShortcut(QKeySequence(QString::fromUtf8("Ctrl+Q")));
   switchTransferShortcut = new QShortcut(QKeySequence("Alt+1"), this);
   connect(switchTransferShortcut, SIGNAL(activated()), this, SLOT(displayTransferTab()));
@@ -1408,11 +1417,7 @@ void MainWindow::on_actionAutoShutdown_system_toggled(bool enabled)
 
 void MainWindow::checkForActiveTorrents()
 {
-  const TorrentStatusReport report = transferList->getSourceModel()->getTorrentStatusReport();
-  if (report.nb_active > 0) // Active torrents are present; prevent system from suspend
-    m_pwr->setActivityState(true);
-  else
-    m_pwr->setActivityState(false);
+  m_pwr->setActivityState(transferList->getSourceModel()->inhibitSystem());
 }
 
 QIcon MainWindow::getSystrayIcon() const

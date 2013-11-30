@@ -356,7 +356,7 @@ void QBtSession::configureSession() {
     }
     bd_scheduler->start();
   } else {
-    if (bd_scheduler) delete bd_scheduler;
+    delete bd_scheduler;
   }
 #ifndef DISABLE_GUI
   // Resolve countries
@@ -491,7 +491,10 @@ void QBtSession::configureSession() {
   sessionSettings.enable_outgoing_utp = pref.isuTPEnabled();
   // uTP rate limiting
   sessionSettings.rate_limit_utp = pref.isuTPRateLimited();
-  sessionSettings.mixed_mode_algorithm = session_settings::peer_proportional;
+  if (sessionSettings.rate_limit_utp)
+    sessionSettings.mixed_mode_algorithm = session_settings::prefer_tcp;
+  else
+    sessionSettings.mixed_mode_algorithm = session_settings::peer_proportional;
   sessionSettings.connection_speed = 20; //default is 10
 #endif
   qDebug() << "Settings SessionSettings";
@@ -708,6 +711,9 @@ void QBtSession::useAlternativeSpeedsLimit(bool alternative) {
   qDebug() << Q_FUNC_INFO << alternative;
   // Save new state to remember it on startup
   Preferences pref;
+  // Stop the scheduler when the user has manually changed the bandwidth mode
+  if (!pref.isSchedulerEnabled())
+    delete bd_scheduler;
   pref.setAltBandwidthEnabled(alternative);
   // Apply settings to the bittorrent session
   int down_limit = alternative ? pref.getAltGlobalDownloadLimit() : pref.getGlobalDownloadLimit();
@@ -2634,6 +2640,10 @@ void QBtSession::readAlerts() {
           }
         }
       }
+      else if (external_ip_alert *p = dynamic_cast<external_ip_alert*>(a.get())) {
+        boost::system::error_code ec;
+        addConsoleMessage(tr("External IP: %1", "e.g. External IP: 192.168.0.1").arg(p->external_address.to_string(ec).c_str()), "blue");
+      }
     } catch (const std::exception& e) {
       qWarning() << "Caught exception in readAlerts(): " << e.what();
     }
@@ -2740,6 +2750,7 @@ void QBtSession::addMagnetSkipAddDlg(const QString& uri, const QString& save_pat
   if (!save_path.isEmpty() || !label.isEmpty())
     savepathLabel_fromurl[uri] = qMakePair(save_path, label);
   addMagnetUri(uri, false);
+  emit newDownloadedTorrentFromRss(uri);
 }
 
 void QBtSession::downloadUrlAndSkipDialog(QString url, QString save_path, QString label, const QList<QNetworkCookie>& cookies) {
@@ -2983,7 +2994,7 @@ void QBtSession::backupPersistentData(const QString &hash, boost::shared_ptr<lib
 void QBtSession::unhideMagnet(const QString &hash) {
   Preferences pref;
   HiddenData::deleteData(hash);
-  QString save_path = TorrentTempData::getSavePath(hash);
+  QString save_path = getSavePath(hash, false); //appends label if necessary
   QTorrentHandle h(getTorrentHandle(hash));
 
   if (!h.is_valid()) {
