@@ -127,6 +127,17 @@ TransferListWidget::TransferListWidget(QWidget *parent, MainWindow *main_window,
     setColumnHidden(TorrentModelItem::TR_SAVE_PATH, true);
   }
 
+  //Ensure that at least one column is visible at all times
+  bool atLeastOne = false;
+  for (unsigned int i=0; i<TorrentModelItem::NB_COLUMNS; i++) {
+    if (!isColumnHidden(i)) {
+      atLeastOne = true;
+      break;
+    }
+  }
+  if (!atLeastOne)
+    setColumnHidden(TorrentModelItem::TR_NAME, false);
+
   //When adding/removing columns between versions some may
   //end up being size 0 when the new version is launched with
   //a conf file from the previous version.
@@ -305,9 +316,10 @@ void TransferListWidget::deleteSelectedTorrents() {
   if (main_window->getCurrentTabWidget() != this) return;
   const QStringList& hashes = getSelectedTorrentsHashes();
   if (hashes.empty()) return;
+  QTorrentHandle torrent = BTSession->getTorrentHandle(hashes[0]);
   bool delete_local_files = false;
   if (Preferences().confirmTorrentDeletion() &&
-      !DeletionConfirmationDlg::askForDeletionConfirmation(&delete_local_files))
+      !DeletionConfirmationDlg::askForDeletionConfirmation(delete_local_files, hashes.size(), torrent.name()))
     return;
   foreach (const QString &hash, hashes) {
     BTSession->deleteTorrent(hash, delete_local_files);
@@ -316,9 +328,10 @@ void TransferListWidget::deleteSelectedTorrents() {
 
 void TransferListWidget::deleteVisibleTorrents() {
   if (nameFilterModel->rowCount() <= 0) return;
+  QTorrentHandle torrent = BTSession->getTorrentHandle(getHashFromRow(0));
   bool delete_local_files = false;
   if (Preferences().confirmTorrentDeletion() &&
-      !DeletionConfirmationDlg::askForDeletionConfirmation(&delete_local_files))
+      !DeletionConfirmationDlg::askForDeletionConfirmation(delete_local_files, nameFilterModel->rowCount(), torrent.name()))
     return;
   QStringList hashes;
   for (int i=0; i<nameFilterModel->rowCount(); ++i) {
@@ -556,11 +569,23 @@ void TransferListWidget::displayDLHoSMenu(const QPoint&) {
     myAct->setChecked(!isColumnHidden(i));
     actions.append(myAct);
   }
+  int visibleCols = 0;
+  for (unsigned int i=0; i<TorrentModelItem::NB_COLUMNS; i++) {
+    if (!isColumnHidden(i))
+      visibleCols++;
+
+    if (visibleCols > 1)
+      break;
+  }
+
   // Call menu
   QAction *act = hideshowColumn.exec(QCursor::pos());
   if (act) {
     int col = actions.indexOf(act);
     Q_ASSERT(col >= 0);
+    Q_ASSERT(visibleCols > 0);
+    if (!isColumnHidden(col) && visibleCols == 1)
+      return;
     qDebug("Toggling column %d visibility", col);
     setColumnHidden(col, !isColumnHidden(col));
     if (!isColumnHidden(col) && columnWidth(col) <= 5)
@@ -663,6 +688,9 @@ void TransferListWidget::removeLabelFromRows(QString label) {
 }
 
 void TransferListWidget::displayListMenu(const QPoint&) {
+  QModelIndexList selectedIndexes = selectionModel()->selectedRows();
+  if (selectedIndexes.size() == 0)
+    return;
   // Create actions
   QAction actionStart(IconProvider::instance()->getIcon("media-playback-start"), tr("Resume", "Resume/start the torrent"), 0);
   connect(&actionStart, SIGNAL(triggered()), this, SLOT(startSelectedTorrents()));
@@ -708,7 +736,6 @@ void TransferListWidget::displayListMenu(const QPoint&) {
   // End of actions
   QMenu listMenu(this);
   // Enable/disable pause/start action given the DL state
-  QModelIndexList selectedIndexes = selectionModel()->selectedRows();
   bool has_pause = false, has_start = false, has_preview = false;
   bool all_same_super_seeding = true;
   bool super_seeding_mode = false;

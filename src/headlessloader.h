@@ -41,6 +41,7 @@ class HeadlessLoader: public QObject {
 
 public:
   HeadlessLoader(const QStringList &torrentCmdLine) {
+    connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(shutdownCleanUp()), Qt::DirectConnection);
     Preferences pref;
     // Enable Web UI
     pref.setWebUiEnabled(true);
@@ -61,11 +62,12 @@ public:
     }
   }
 
-  ~HeadlessLoader() {
+public slots:
+  void shutdownCleanUp() {
+    Preferences().sync();
     QBtSession::drop();
   }
 
-public slots:
   // Call this function to exit qBittorrent headless loader
   // and return to prompt (object will be deleted by main)
   void exit() {
