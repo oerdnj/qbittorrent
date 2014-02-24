@@ -1,3 +1,63 @@
+* Sun Feb 02 2014 - sledgehammer999 <sledgehammer999@qbittorrent.org> - v3.1.8
+    - BUGFIX: Really fix build of v3.1.6
+
+* Sun Feb 02 2014 - sledgehammer999 <sledgehammer999@qbittorrent.org> - v3.1.7
+    - BUGFIX: Fix build of v3.1.6
+
+* Sun Feb 02 2014 - sledgehammer999 <sledgehammer999@qbittorrent.org> - v3.1.6
+    - BUGFIX: Fix 'preview file' regression. Closes #1285. (sledgehammer999)
+    - BUGFIX: Fix peers and seeds sorting in transfer list. (Angel Alonso)
+    - BUGFIX: Fix btdigg search engine. (BTDigg research team)
+    - BUGFIX: Save statistics every 15min and only if there was new traffic. Fixes #1288 and partially #1272. (sledgehammer999)
+    - BUGFIX: Fix share ratio text in the 'general' tab. (sledgehammer999)
+    - BUGFIX: Output a more generic message when blocking IPs and don't use italics in the log. (sledgehammer999)
+    - BUGFIX: Allow 2 decimals when setting the share ratio. Closes #1303. (sledgehammer999)
+    - BUGFIX: Fix extratorrents search plugin. (sledgehammer999)
+    - BUGFIX: Use shorter names for amount columns in main UI (Gelmir)
+    - BUGFIX: Fix overstretched options dialog. Closes #1293. (sledgehammer999)
+    - BUGFIX: Don't show a popup menu when no torrent is selected. (sledgehammer999)
+    - BUGFIX: Launch external programs async and don't block. Closes #1252. (sledgehammer999)
+    - BUGFIX: Don't re-announce to trackers when torrent is paused. Closes #1310. (sledgehammer999)
+    - BUGFIX: Bring dialog boxes in the front when qbt doesn't have focus. (sledgehammer999)
+    - BUGFIX: Correctly resize 'name' column of the content tab. Closes #1360. (sledgehammer999)
+    - BUGFIX: Correctly restore 'name' column width when loading magnet links in the 'Add new torrent dialog'. Closes #1334. (sledgehammer999)
+    - WEBUI: Fix sorting by size in WebUI when non-default locale used. (Vladimir Golovnev)
+    - UI: Reposition statistics menu item. (sledgehammer999)
+    - UI: Convert more accurately decimal numbers to text. (sledgehammer999)
+    - WINDOWS/OSX: Improvements on the behavior of the program updater(closes #1282) (sledgehammer999)
+    - LINUX: Explicitle tell that we don't support freedesktop's startup notify standard. Fixes GNOME issues. Closes #1217. (sledgehammer999)
+    - LINUX: Add our WM_CLASS in the .desktop file so window managers know how to group our windows. (sledgehammer999)
+    - OTHER: Sync translations from Transifex.
+
+* Thu 16 Jan 2014 - sledgehammer999 <sledgehammer999@qbittorrent.org> - v3.1.5
+    - BUGFIX: Fix compilation with Qt 4.7. Closes #1215. (sledgehammer999)
+    - BUGFIX: Third attempt at fixing saving settings on OS shutdown. (sledgehammer999)
+    - BUGFIX: Preview now correctly uses the selected file. Closes #1222 #1182. (sledgehammer999)
+    - BUGFIX: Allow to resize the columns in Add New Torrent dialog. Closes #1207 #676 (sledgehammer999)
+    - BUGFIX: Ensure that at least one column in the tranferlist is always visible. Closes #1165. (sledgehammer999)
+    - BUGFIX: Ensure that the options window will always be placed onscreen. Closes #1226. (sledgehammer999)
+    - BUGFIX: Delete temporary files after they aren't needed. Closes #1188. (sledgehammer999)
+    - BUGFIX: Correctly detect libtorrent version. (sledgehammer999)
+    - BUGFIX: Various code cppcheck fixes (Konstantin Goncharik)
+    - BUGFIX: Remove isohunt search engine and update thepiratebay url (sledgehammer999)
+    - BUGFIX: Fix rss settings corruption when checking regexp and going to other rule. (Gelmir)
+    - BUGFIX: Don't count paused torrents for the autoshutdown. Closes #1280. (sledgehammer999)
+    - LINUX: Fix notifications with xfce4-notifyd.
+    - OSX: Added basic retina support. Closes #1251. (Sébastien Lavoie)
+    - OTHER: Sync translations from Transifex.
+
+* Sun 29 Dec 2013 - sledgehammer999 <sledgehammer999@qbittorrent.org> - v3.1.4
+    - FEATURE: Statistics dialog (Gelmir)
+    - FEATURE: Tooltips explaining each peer's connection flags (sledgehammer999)
+    - FEATURE: Win/Mac Check for program updates every 15min and allow the user to manually check for updates through the help menu. (sledgehammer999)
+    - BUGFIX: Better dialog message for torrent delete confirmation (sledgehammer999)
+    - BUGFIX: Fix resizing grip location. Closes #1146. (sledgehammer999)
+    - BUGFIX: Lock toolbar in place. Closes #1144. (sledgehammer999)
+    - BUGFIX: Second attempt at fixing saving settings on shutdown. (sledgehammer999)
+    - BUGFIX: Sort labels in 'Add new torrent' dialog. Closes #1150 #411. (sledgehammer999)
+    - LINUX: Fix build under Ubuntu 13.10 (sledgehammer999)
+    - LINUX: Make sleep and shutdown functions work on systemd's logind (Faheem Pervez)
+
 * Mon Nov 20 2013 - sledgehammer999 <sledgehammer999@qbittorrent.org> - v3.1.3
     - FEATURE: Add a key shortcut to "Add link to torrent..." (Angel Alonso)
     - BUGFIX: Make all columns and headers use the same text alignment in the transferlist. (sledgehammer999)

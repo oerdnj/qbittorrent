@@ -107,6 +107,8 @@ public:
   inline bool isLSDEnabled() const { return LSDEnabled; }
   inline bool isPexEnabled() const { return PeXEnabled; }
   inline bool isQueueingEnabled() const { return queueingEnabled; }
+  quint64 getAlltimeDL() const;
+  quint64 getAlltimeUL() const;
 
 public slots:
   QTorrentHandle addTorrent(QString path, bool fromScanDir = false, QString from_url = QString(), bool resumed = false);
@@ -195,8 +197,7 @@ private slots:
   void exportTorrentFiles(QString path);
   void saveTempFastResumeData();
   void sendNotificationEmail(const QTorrentHandle &h);
-  void autoRunExternalProgram(const QTorrentHandle &h, bool async=true);
-  void cleanUpAutoRunProcess(int);
+  void autoRunExternalProgram(const QTorrentHandle &h);
   void mergeTorrents(QTorrentHandle& h_ex, boost::intrusive_ptr<libtorrent::torrent_info> t);
   void mergeTorrents(QTorrentHandle& h_ex, const QString& magnet_uri);
   void exportTorrentFile(const QTorrentHandle &h, TorrentExportFolder folder = RegularTorrentExportFolder);

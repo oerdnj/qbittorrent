@@ -30,6 +30,8 @@
 
 #include "misc.h"
 
+#include <cmath>
+
 #include <QUrl>
 #include <QDir>
 #include <QFileInfo>
@@ -38,6 +40,7 @@
 #include <QDebug>
 #include <QProcess>
 #include <QSettings>
+#include <QLocale>
 
 #ifdef DISABLE_GUI
 #include <QCoreApplication>
@@ -82,7 +85,14 @@ void misc::shutdownComputer(bool sleep) {
 #if defined(Q_WS_X11) && defined(QT_DBUS_LIB)
   // Use dbus to power off / suspend the system
   if (sleep) {
-    // Recent systems use UPower
+    // Some recent systems use systemd's logind
+    QDBusInterface login1Iface("org.freedesktop.login1", "/org/freedesktop/login1",
+                               "org.freedesktop.login1.Manager", QDBusConnection::systemBus());
+    if (login1Iface.isValid()) {
+      login1Iface.call("Suspend", false);
+      return;
+    }
+    // Else, other recent systems use UPower
     QDBusInterface upowerIface("org.freedesktop.UPower", "/org/freedesktop/UPower",
                                "org.freedesktop.UPower", QDBusConnection::systemBus());
     if (upowerIface.isValid()) {
@@ -95,7 +105,14 @@ void misc::shutdownComputer(bool sleep) {
                             QDBusConnection::systemBus());
     halIface.call("Suspend", 5);
   } else {
-    // Recent systems use ConsoleKit
+    // Some recent systems use systemd's logind
+    QDBusInterface login1Iface("org.freedesktop.login1", "/org/freedesktop/login1",
+                               "org.freedesktop.login1.Manager", QDBusConnection::systemBus());
+    if (login1Iface.isValid()) {
+      login1Iface.call("PowerOff", false);
+      return;
+    }
+    // Else, other recent systems use ConsoleKit
     QDBusInterface consolekitIface("org.freedesktop.ConsoleKit", "/org/freedesktop/ConsoleKit/Manager",
                                    "org.freedesktop.ConsoleKit.Manager", QDBusConnection::systemBus());
     if (consolekitIface.isValid()) {
@@ -241,9 +258,7 @@ QString misc::friendlyUnit(qreal val, bool is_speed) {
   if (i == 0)
     ret = QString::number((long)val) + " " + QCoreApplication::translate("misc", units[0].source, units[0].comment);
   else
-    /* HACK because QString rounds up. Eg QString::number(0.999*100.0, 'f' ,1) == 99.9
-    ** but QString::number(0.9999*100.0, 'f' ,1) == 100.0 */
-    ret = QString::number((int)(val*10)/10.0, 'f', 1) + " " + QCoreApplication::translate("misc", units[i].source, units[i].comment);
+    ret = accurateDoubleToString(val, 1) + " " + QCoreApplication::translate("misc", units[i].source, units[i].comment);
   if (is_speed)
     ret += QCoreApplication::translate("misc", "/s", "per second");
   return ret;
@@ -504,7 +519,7 @@ QString misc::parseHtmlLinks(const QString &raw_text)
   return result;
 }
 
-#if LIBTORRENT_VERSION_NUM < 001600
+#if LIBTORRENT_VERSION_NUM < 1600
 QString misc::toQString(const boost::posix_time::ptime& boostDate) {
   if (boostDate.is_not_a_date_time()) return "";
   struct std::tm tm;
@@ -573,3 +588,14 @@ bool misc::naturalSort(QString left, QString right, bool &result) { // uses less
   return false;
 }
 #endif
+
+QString misc::accurateDoubleToString(const double &n, const int &precision) {
+  /* HACK because QString rounds up. Eg QString::number(0.999*100.0, 'f' ,1) == 99.9
+  ** but QString::number(0.9999*100.0, 'f' ,1) == 100.0 The problem manifests when
+  ** the number has more digits after the decimal than we want AND the digit after
+  ** our 'wanted' is >= 5. In this case our last digit gets rounded up. So for each
+  ** precision we add an extra 0 behind 1 in the below algorithm. */
+
+  double prec = std::pow(10.0, precision);
+  return QLocale::system().toString(std::floor(n*prec)/prec, 'f', precision);
+}

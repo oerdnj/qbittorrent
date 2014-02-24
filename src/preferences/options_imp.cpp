@@ -122,7 +122,7 @@ options_imp::options_imp(QWidget *parent):
   checkStartup->setVisible(false);
   groupFileAssociation->setVisible(false);
 #endif
-#if LIBTORRENT_VERSION_NUM < 001600
+#if LIBTORRENT_VERSION_NUM < 1600
   checkAnonymousMode->setVisible(false);
   label_anonymous->setVisible(false);
 #endif
@@ -208,7 +208,7 @@ options_imp::options_imp(QWidget *parent):
   connect(spinMaxUploads, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(spinMaxUploadsPerTorrent, SIGNAL(valueChanged(QString)), this, SLOT(enableApplyButton()));
   connect(checkDHT, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
-#if LIBTORRENT_VERSION_NUM >= 001600
+#if LIBTORRENT_VERSION_NUM >= 1600
   connect(checkAnonymousMode, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
 #endif
   connect(checkPeX, SIGNAL(toggled(bool)), this, SLOT(enableApplyButton()));
@@ -254,7 +254,7 @@ options_imp::options_imp(QWidget *parent):
   applyButton->setEnabled(false);
   // Tab selection mecanism
   connect(tabSelection, SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)), this, SLOT(changePage(QListWidgetItem *, QListWidgetItem*)));
-#if LIBTORRENT_VERSION_NUM < 001600
+#if LIBTORRENT_VERSION_NUM < 1600
   checkuTP->setVisible(false);
   checkLimituTPConnections->setVisible(false);
 #endif
@@ -267,7 +267,7 @@ options_imp::options_imp(QWidget *parent):
 
   // Adapt size
   show();
-  loadWindowState();
+  loadWindowState();  
 }
 
 void options_imp::initializeLanguageCombo()
@@ -304,7 +304,8 @@ void options_imp::loadWindowState() {
   QIniSettings settings;
   resize(settings.value(QString::fromUtf8("Preferences/State/size"), sizeFittingScreen()).toSize());
   QPoint p = settings.value(QString::fromUtf8("Preferences/State/pos"), QPoint()).toPoint();
-  if (!p.isNull())
+  QRect scr_rect = qApp->desktop()->screenGeometry();
+  if (!p.isNull() && scr_rect.contains(p))
     move(p);
   // Load slider size
   const QStringList sizes_str = settings.value("Preferences/State/hSplitterSizes", QStringList()).toStringList();
@@ -459,7 +460,7 @@ void options_imp::saveOptions() {
   pref.setDHTPort(getDHTPort());
   pref.setLSDEnabled(isLSDEnabled());
   pref.setEncryptionSetting(getEncryptionSetting());
-#if LIBTORRENT_VERSION_NUM >= 001600
+#if LIBTORRENT_VERSION_NUM >= 1600
   pref.enableAnonymousMode(checkAnonymousMode->isChecked());
 #endif
   pref.setGlobalMaxRatio(getMaxRatio());
@@ -745,7 +746,7 @@ void options_imp::loadOptions() {
   checkPeX->setChecked(pref.isPeXEnabled());
   checkLSD->setChecked(pref.isLSDEnabled());
   comboEncryption->setCurrentIndex(pref.getEncryptionSetting());
-#if LIBTORRENT_VERSION_NUM >= 001600
+#if LIBTORRENT_VERSION_NUM >= 1600
   checkAnonymousMode->setChecked(pref.isAnonymousModeEnabled());
   /* make sure ui matches options */
   toggleAnonymousMode(checkAnonymousMode->isChecked());

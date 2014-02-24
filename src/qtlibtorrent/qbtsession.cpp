@@ -69,12 +69,12 @@
 #include <libtorrent/torrent_info.hpp>
 #include <libtorrent/upnp.hpp>
 #include <libtorrent/natpmp.hpp>
-#if LIBTORRENT_VERSION_NUM < 001600
+#if LIBTORRENT_VERSION_NUM < 1600
 #include <boost/filesystem/exception.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #endif
-#if LIBTORRENT_VERSION_NUM >= 001600
+#if LIBTORRENT_VERSION_NUM >= 1600
 #include "libtorrent/error_code.hpp"
 #endif
 #include <queue>
@@ -120,7 +120,7 @@ QBtSession::QBtSession()
   BigRatioTimer->setInterval(10000);
   connect(BigRatioTimer, SIGNAL(timeout()), SLOT(processBigRatios()));
   Preferences pref;
-#if LIBTORRENT_VERSION_NUM < 001600
+#if LIBTORRENT_VERSION_NUM < 1600
   // To avoid some exceptions
   boost::filesystem::path::default_name_check(boost::filesystem::no_check);
 #endif
@@ -363,7 +363,7 @@ void QBtSession::configureSession() {
   qDebug("Loading country resolution settings");
   const bool new_resolv_countries = pref.resolvePeerCountries();
   if (resolve_countries != new_resolv_countries) {
-    qDebug("in country reoslution settings");
+    qDebug("in country resolution settings");
     resolve_countries = new_resolv_countries;
     if (resolve_countries && !geoipDBLoaded) {
       qDebug("Loading geoip database");
@@ -398,7 +398,7 @@ void QBtSession::configureSession() {
 
   sessionSettings.upnp_ignore_nonrouters = true;
   sessionSettings.use_dht_as_fallback = false;
-#if LIBTORRENT_VERSION_NUM >= 001600
+#if LIBTORRENT_VERSION_NUM >= 1600
   // Disable support for SSL torrents for now
   sessionSettings.ssl_listen = 0;
 #endif
@@ -414,11 +414,11 @@ void QBtSession::configureSession() {
   sessionSettings.auto_scrape_min_interval = 900; // 15 minutes
   int cache_size = pref.diskCacheSize();
   sessionSettings.cache_size = cache_size ? cache_size * 64 : -1;
-#if LIBTORRENT_VERSION_NUM >= 001610
+#if LIBTORRENT_VERSION_NUM >= 1610
   sessionSettings.cache_expiry = pref.diskCacheTTL();
 #endif
   qDebug() << "Using a disk cache size of" << cache_size << "MiB";
-#if LIBTORRENT_VERSION_NUM >= 001600
+#if LIBTORRENT_VERSION_NUM >= 1600
   sessionSettings.anonymous_mode = pref.isAnonymousModeEnabled();
   if (sessionSettings.anonymous_mode) {
     addConsoleMessage(tr("Anonymous mode [ON]"), "blue");
@@ -457,7 +457,7 @@ void QBtSession::configureSession() {
   // IP address to announce to trackers
   QString announce_ip = pref.getNetworkAddress();
   if (!announce_ip.isEmpty()) {
-#if LIBTORRENT_VERSION_NUM >= 001600
+#if LIBTORRENT_VERSION_NUM >= 1600
     sessionSettings.announce_ip = announce_ip.toStdString();
 #else
     boost::system::error_code ec;
@@ -470,7 +470,7 @@ void QBtSession::configureSession() {
   }
   // Super seeding
   sessionSettings.strict_super_seeding = pref.isSuperSeedingEnabled();
-#if LIBTORRENT_VERSION_NUM >= 001600
+#if LIBTORRENT_VERSION_NUM >= 1600
   // * Max Half-open connections
   sessionSettings.half_open_limit = pref.getMaxHalfOpenConnections();
   // * Max connections limit
@@ -485,7 +485,7 @@ void QBtSession::configureSession() {
   // * Global max upload slots
   s->set_max_uploads(pref.getMaxUploads());
 #endif
-#if LIBTORRENT_VERSION_NUM >= 001600
+#if LIBTORRENT_VERSION_NUM >= 1600
   // uTP
   sessionSettings.enable_incoming_utp = pref.isuTPEnabled();
   sessionSettings.enable_outgoing_utp = pref.isuTPEnabled();
@@ -761,8 +761,9 @@ bool QBtSession::hasDownloadingTorrents() const {
   for ( ; torrentIT != torrentITend; ++torrentIT) {
     if (torrentIT->is_valid()) {
       try {
-        const torrent_status::state_t state = torrentIT->status().state;
-        if (state != torrent_status::finished && state != torrent_status::seeding)
+        const torrent_status status = torrentIT->status();
+        if (status.state != torrent_status::finished && status.state != torrent_status::seeding
+            && !status.paused)
           return true;
       } catch(std::exception) {}
     }
@@ -985,7 +986,7 @@ QTorrentHandle QBtSession::addMagnetUri(QString magnet_uri, bool resumed, bool f
   // Adding torrent to Bittorrent session
   try {
     h =  QTorrentHandle(add_magnet_uri(*s, magnet_uri.toStdString(), p));
-  }catch(std::exception e) {
+  }catch(std::exception &e) {
     qDebug("Error: %s", e.what());
   }
   // Check if it worked
@@ -1137,7 +1138,7 @@ QTorrentHandle QBtSession::addTorrent(QString path, bool fromScanDir, QString fr
       qDebug("Successfully loaded fast resume data");
     }
   }
-#if LIBTORRENT_VERSION_NUM < 001600
+#if LIBTORRENT_VERSION_NUM < 1600
   else {
     // Generate fake resume data to make sure unwanted files
     // are not allocated
@@ -1184,7 +1185,7 @@ QTorrentHandle QBtSession::addTorrent(QString path, bool fromScanDir, QString fr
   // Adding torrent to Bittorrent session
   try {
     h =  QTorrentHandle(s->add_torrent(p));
-  }catch(std::exception e) {
+  }catch(std::exception &e) {
     qDebug("Error: %s", e.what());
   }
   // Check if it worked
@@ -1273,7 +1274,7 @@ add_torrent_params QBtSession::initializeAddTorrentParams(const QString &hash) {
     p.storage_mode = storage_mode_sparse;
 
   // Priorities
-/*#if LIBTORRENT_VERSION_NUM >= 001600
+/*#if LIBTORRENT_VERSION_NUM >= 1600
   if (TorrentTempData::hasTempData(hash)) {
     std::vector<int> fp;
     TorrentTempData::getFilesPriority(hash, fp);
@@ -1390,7 +1391,7 @@ void QBtSession::mergeTorrents(QTorrentHandle &h_ex, boost::intrusive_ptr<torren
 
   bool urlseeds_added = false;
   const QStringList old_urlseeds = h_ex.url_seeds();
-#if LIBTORRENT_VERSION_NUM >= 001600
+#if LIBTORRENT_VERSION_NUM >= 1600
   std::vector<web_seed_entry> new_urlseeds = t->web_seeds();
 
   std::vector<web_seed_entry>::iterator it = new_urlseeds.begin();
@@ -1460,7 +1461,7 @@ void QBtSession::exportTorrentFiles(QString path) {
 
 // Set the maximum number of opened connections
 void QBtSession::setMaxConnections(int maxConnec) {
-#if LIBTORRENT_VERSION_NUM >= 001600
+#if LIBTORRENT_VERSION_NUM >= 1600
   Q_UNUSED(maxConnec);
   Q_ASSERT(0); // Should not be used
 #else
@@ -1559,7 +1560,7 @@ void QBtSession::loadSessionState() {
   state_file.read(&in[0], content_size);
   // bdecode
   lazy_entry e;
-#if LIBTORRENT_VERSION_NUM >= 001600
+#if LIBTORRENT_VERSION_NUM >= 1600
   libtorrent::error_code ec;
   lazy_bdecode(&in[0], &in[0] + in.size(), e, ec);
   if (!ec) {
@@ -1598,7 +1599,7 @@ bool QBtSession::enableDHT(bool b) {
         s->add_dht_router(std::make_pair(std::string("dht.aelitis.com"), 6881)); // Vuze
         DHTEnabled = true;
         qDebug("DHT enabled");
-      }catch(std::exception e) {
+      }catch(std::exception &e) {
         qDebug("Could not enable DHT, reason: %s", e.what());
         return false;
       }
@@ -1649,13 +1650,13 @@ void QBtSession::saveTempFastResumeData() {
     QTorrentHandle h = QTorrentHandle(*torrentIT);
     try {
       if (!h.is_valid() || !h.has_metadata() /*|| h.is_seed() || h.is_paused()*/) continue;
-#if LIBTORRENT_VERSION_NUM >= 001600
+#if LIBTORRENT_VERSION_NUM >= 1600
       if (!h.need_save_resume_data()) continue;
 #endif
       if (h.state() == torrent_status::checking_files || h.state() == torrent_status::queued_for_checking || h.has_error()) continue;
       qDebug("Saving fastresume data for %s", qPrintable(h.name()));
       h.save_resume_data();
-    }catch(std::exception e) {}
+    }catch(std::exception &e) {}
   }
 }
 
@@ -1747,7 +1748,7 @@ void QBtSession::addConsoleMessage(QString msg, QColor color) {
   if (consoleMessages.size() > MAX_LOG_MESSAGES) {
     consoleMessages.removeFirst();
   }
-  msg = "<font color='grey'>"+ QDateTime::currentDateTime().toString(QString::fromUtf8("dd/MM/yyyy hh:mm:ss")) + "</font> - <font color='" + color.name() + "'><i>" + msg + "</i></font>";
+  msg = "<font color='grey'>"+ QDateTime::currentDateTime().toString(QString::fromUtf8("dd/MM/yyyy hh:mm:ss")) + "</font> - <font color='" + color.name() + "'>" + msg + "</font>";
   consoleMessages.append(msg);
   emit newConsoleMessage(msg);
 #endif
@@ -1759,9 +1760,9 @@ void QBtSession::addPeerBanMessage(QString ip, bool from_ipfilter) {
   }
   QString msg;
   if (from_ipfilter)
-    msg = "<font color='grey'>" + QDateTime::currentDateTime().toString(QString::fromUtf8("dd/MM/yyyy hh:mm:ss")) + "</font> - " + tr("<font color='red'>%1</font> <i>was blocked due to your IP filter</i>", "x.y.z.w was blocked").arg(ip);
+    msg = "<font color='grey'>" + QDateTime::currentDateTime().toString(QString::fromUtf8("dd/MM/yyyy hh:mm:ss")) + "</font> - " + tr("<font color='red'>%1</font> was blocked", "x.y.z.w was blocked").arg(ip);
   else
-    msg = "<font color='grey'>" + QDateTime::currentDateTime().toString(QString::fromUtf8("dd/MM/yyyy hh:mm:ss")) + "</font> - " + tr("<font color='red'>%1</font> <i>was banned due to corrupt pieces</i>", "x.y.z.w was banned").arg(ip);
+    msg = "<font color='grey'>" + QDateTime::currentDateTime().toString(QString::fromUtf8("dd/MM/yyyy hh:mm:ss")) + "</font> - " + tr("<font color='red'>%1</font> was banned", "x.y.z.w was banned").arg(ip);
   peerBanMessages.append(msg);
   emit newBanMessage(msg);
 }
@@ -1944,13 +1945,13 @@ void QBtSession::setListeningPort(int port) {
   qDebug() << Q_FUNC_INFO << port;
   Preferences pref;
   std::pair<int,int> ports(port, port);
-#if LIBTORRENT_VERSION_NUM >= 001600
+#if LIBTORRENT_VERSION_NUM >= 1600
   libtorrent::error_code ec;
 #endif
   const QString iface_name = pref.getNetworkInterface();
   if (iface_name.isEmpty()) {
     addConsoleMessage(tr("qBittorrent is trying to listen on any interface port: TCP/%1", "e.g: qBittorrent is trying to listen on any interface port: TCP/6881").arg(QString::number(port)), "blue");
-#if LIBTORRENT_VERSION_NUM >= 001600
+#if LIBTORRENT_VERSION_NUM >= 1600
     s->listen_on(ports, ec, 0, session::listen_no_system_port);
 #else
     s->listen_on(ports);
@@ -1968,7 +1969,7 @@ void QBtSession::setListeningPort(int port) {
   qDebug("This network interface has %d IP addresses", network_iface.addressEntries().size());
   foreach (const QNetworkAddressEntry &entry, network_iface.addressEntries()) {
     qDebug("Trying to listen on IP %s (%s)", qPrintable(entry.ip().toString()), qPrintable(iface_name));
-#if LIBTORRENT_VERSION_NUM >= 001600
+#if LIBTORRENT_VERSION_NUM >= 1600
     s->listen_on(ports, ec, entry.ip().toString().toAscii().constData(), session::listen_no_system_port);
     if (!ec) {
 #else
@@ -1986,7 +1987,7 @@ void QBtSession::setListeningPort(int port) {
 void QBtSession::setDownloadRateLimit(long rate) {
   qDebug() << Q_FUNC_INFO << rate;
   Q_ASSERT(rate == -1 || rate >= 0);
-#if LIBTORRENT_VERSION_NUM >= 001600
+#if LIBTORRENT_VERSION_NUM >= 1600
   session_settings settings = s->settings();
   settings.download_rate_limit = rate;
   s->set_settings(settings);
@@ -2000,7 +2001,7 @@ void QBtSession::setDownloadRateLimit(long rate) {
 void QBtSession::setUploadRateLimit(long rate) {
   qDebug() << Q_FUNC_INFO << rate;
   Q_ASSERT(rate == -1 || rate >= 0);
-#if LIBTORRENT_VERSION_NUM >= 001600
+#if LIBTORRENT_VERSION_NUM >= 1600
   session_settings settings = s->settings();
   settings.upload_rate_limit = rate;
   s->set_settings(settings);
@@ -2108,7 +2109,7 @@ void QBtSession::setSessionSettings(const session_settings &sessionSettings) {
 void QBtSession::setProxySettings(proxy_settings proxySettings) {
   qDebug() << Q_FUNC_INFO;
 
-#if LIBTORRENT_VERSION_NUM >= 001600
+#if LIBTORRENT_VERSION_NUM >= 1600
   proxySettings.proxy_peer_connections = Preferences().proxyPeerConnections();
   s->set_proxy(proxySettings);
 #else
@@ -2176,11 +2177,7 @@ void QBtSession::recursiveTorrentDownload(const QTorrentHandle &h) {
   }
 }
 
-void QBtSession::cleanUpAutoRunProcess(int) {
-  sender()->deleteLater();
-}
-
-void QBtSession::autoRunExternalProgram(const QTorrentHandle &h, bool async) {
+void QBtSession::autoRunExternalProgram(const QTorrentHandle &h) {
   if (!h.is_valid()) return;
   QString program = Preferences().getAutoRunProgram().trimmed();
   if (program.isEmpty()) return;
@@ -2193,14 +2190,7 @@ void QBtSession::autoRunExternalProgram(const QTorrentHandle &h, bool async) {
   program.replace("%f", torrent_path);
   // Replace %n by torrent name
   program.replace("%n", h.name());
-  QProcess *process = new QProcess;
-  if (async) {
-    connect(process, SIGNAL(finished(int)), this, SLOT(cleanUpAutoRunProcess(int)));
-    process->start(program);
-  } else {
-    process->execute(program);
-    delete process;
-  }
+  QProcess::startDetached(program);
 }
 
 void QBtSession::sendNotificationEmail(const QTorrentHandle &h) {
@@ -2293,7 +2283,7 @@ void QBtSession::readAlerts() {
   #endif
             // AutoRun program
             if (pref.isAutoRunEnabled())
-              autoRunExternalProgram(h, will_shutdown);
+              autoRunExternalProgram(h);
             // Move .torrent file to another folder
             if (pref.isFinishedTorrentExportEnabled())
                 exportTorrentFile(h, FinishedTorrentExportFolder);
@@ -2791,6 +2781,7 @@ void QBtSession::processDownloadedFile(QString url, QString file_path) {
         h.pause();
     emit newDownloadedTorrentFromRss(url);
   }
+  fsutils::forceRemove(file_path);
 }
 
 // Return current download rate for the BT
@@ -2889,6 +2880,14 @@ qlonglong QBtSession::getETA(const QString &hash) const
   return m_speedMonitor->getETA(hash);
 }
 
+quint64 QBtSession::getAlltimeDL() const {
+  return m_speedMonitor->getAlltimeDL();
+}
+
+quint64 QBtSession::getAlltimeUL() const {
+  return m_speedMonitor->getAlltimeUL();
+}
+
 void QBtSession::handleIPFilterParsed(int ruleCount)
 {
   addConsoleMessage(tr("Successfully parsed the provided IP filter: %1 rules were applied.", "%1 is a number").arg(ruleCount));
@@ -2947,7 +2946,7 @@ void QBtSession::recoverPersistentData(const QString &hash, const std::vector<ch
     return;
 
   libtorrent::lazy_entry fast;
-#if LIBTORRENT_VERSION_NUM < 001600
+#if LIBTORRENT_VERSION_NUM < 1600
   try {
   libtorrent::lazy_bdecode(&(buf.front()), &(buf.back()), fast);
   } catch (std::exception&) {

@@ -106,7 +106,7 @@ MainWindow::MainWindow(QWidget *parent, const QStringList& torrentCmdLine) : QMa
   setWindowTitle(QString("qBittorrent %1").arg(QString::fromUtf8(VERSION)));
   displaySpeedInTitle = pref.speedInTitleBar();
   // Clean exit on log out
-  connect(static_cast<SessionApplication*>(qApp), SIGNAL(sessionIsShuttingDown()), this, SLOT(deleteBTSession()), Qt::DirectConnection);
+  connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(shutdownCleanUp()), Qt::DirectConnection);
   // Setting icons
 #if defined(Q_WS_X11)
   if (Preferences().useSystemIconTheme())
@@ -123,6 +123,7 @@ MainWindow::MainWindow(QWidget *parent, const QStringList& torrentCmdLine) : QMa
   actionSet_global_download_limit->setIcon(QIcon(QString::fromUtf8(":/Icons/skin/download.png")));
   actionCreate_torrent->setIcon(IconProvider::instance()->getIcon("document-edit"));
   actionAbout->setIcon(IconProvider::instance()->getIcon("help-about"));
+  actionStatistics->setIcon(IconProvider::instance()->getIcon("view-statistics"));
   actionBugReport->setIcon(IconProvider::instance()->getIcon("tools-report-bug"));
   actionDecreasePriority->setIcon(IconProvider::instance()->getIcon("go-down"));
   actionDelete->setIcon(IconProvider::instance()->getIcon("list-remove"));
@@ -209,6 +210,15 @@ MainWindow::MainWindow(QWidget *parent, const QStringList& torrentCmdLine) : QMa
   connect(actionDecreasePriority, SIGNAL(triggered()), transferList, SLOT(decreasePrioSelectedTorrents()));
   connect(actionToggleVisibility, SIGNAL(triggered()), this, SLOT(toggleVisibility()));
   connect(actionMinimize, SIGNAL(triggered()), SLOT(minimizeWindow()));
+
+#if defined(Q_WS_WIN) || defined(Q_WS_MAC)
+  programUpdateTimer.setInterval(60*60*1000);
+  programUpdateTimer.setSingleShot(true);
+  connect(&programUpdateTimer, SIGNAL(timeout()), SLOT(checkProgramUpdate()));
+  connect(actionCheck_for_updates, SIGNAL(triggered()), SLOT(checkProgramUpdate()));
+#else
+  actionCheck_for_updates->setVisible(false);
+#endif
 
   m_pwr = new PowerManagement(this);
   preventTimer = new QTimer(this);
@@ -309,14 +319,6 @@ MainWindow::MainWindow(QWidget *parent, const QStringList& torrentCmdLine) : QMa
 #ifdef Q_WS_MAC
   qt_mac_set_dock_menu(getTrayIconMenu());
 #endif
-#if defined(Q_WS_WIN) || defined(Q_WS_MAC)
-  // Check for update
-  if (pref.isUpdateCheckEnabled()) {
-    ProgramUpdater *updater = new ProgramUpdater(this);
-    connect(updater, SIGNAL(updateCheckFinished(bool, QString)), SLOT(handleUpdateCheckFinished(bool, QString)));
-    updater->checkForUpdates();
-  }
-#endif
 
   // Make sure the Window is visible if we don't have a tray icon
   if (!systrayIcon) {
@@ -330,19 +332,15 @@ MainWindow::MainWindow(QWidget *parent, const QStringList& torrentCmdLine) : QMa
   }
 }
 
-void MainWindow::deleteBTSession() {
-  guiUpdater->stop();
-  status_bar->stopTimer();
-  QBtSession::drop();
-  m_pwr->setActivityState(false);
-  // Save window size, columns size
-  writeSettings();
-}
-
-// Destructor
-MainWindow::~MainWindow() {
+void MainWindow::shutdownCleanUp() {
   qDebug("GUI destruction");
   hide();
+  guiUpdater->stop();
+  status_bar->stopTimer();
+  m_pwr->setActivityState(false);
+  QBtSession::drop();
+  // Save window size, columns size
+  writeSettings();
 #ifdef Q_WS_MAC
   // Workaround to avoid bug http://bugreports.qt.nokia.com/browse/QTBUG-7305
   setUnifiedTitleAndToolBarOnMac(false);
@@ -361,6 +359,8 @@ MainWindow::~MainWindow() {
     delete m_executionLog;
   if (aboutDlg)
     delete aboutDlg;
+  if (statsDlg)
+    delete statsDlg;
   if (options)
     delete options;
   if (downloadFromURLDialog)
@@ -373,15 +373,12 @@ MainWindow::~MainWindow() {
   delete properties;
   delete hSplitter;
   delete vSplitter;
-  if (systrayCreator) {
+  if (systrayCreator)
     delete systrayCreator;
-  }
-  if (systrayIcon) {
+  if (systrayIcon)
     delete systrayIcon;
-  }
-  if (myTrayIconMenu) {
+  if (myTrayIconMenu)
     delete myTrayIconMenu;
-  }
   delete tabs;
   // Keyboard shortcuts
   delete switchSearchShortcut;
@@ -389,11 +386,8 @@ MainWindow::~MainWindow() {
   delete switchTransferShortcut;
   delete switchRSSShortcut;
   IconProvider::drop();
-  // Delete QBtSession::instance() object
-  m_pwr->setActivityState(false);
-  qDebug("Deleting QBtSession::instance()");
-  QBtSession::drop();
-  qDebug("Exiting GUI destructor...");
+  Preferences().sync();
+  qDebug("Finished GUI destruction");
 }
 
 void MainWindow::defineUILockPassword() {
@@ -629,7 +623,7 @@ void MainWindow::handleDownloadFromUrlFailure(QString url, QString reason) const
 void MainWindow::on_actionSet_global_upload_limit_triggered() {
   qDebug("actionSet_global_upload_limit_triggered");
   bool ok;
-#if LIBTORRENT_VERSION_NUM >= 001600
+#if LIBTORRENT_VERSION_NUM >= 1600
     int cur_limit = QBtSession::instance()->getSession()->settings().upload_rate_limit;
 #else
     int cur_limit = QBtSession::instance()->getSession()->upload_rate_limit();
@@ -648,7 +642,7 @@ void MainWindow::on_actionSet_global_upload_limit_triggered() {
 void MainWindow::on_actionSet_global_download_limit_triggered() {
   qDebug("actionSet_global_download_limit_triggered");
   bool ok;
-#if LIBTORRENT_VERSION_NUM >= 001600
+#if LIBTORRENT_VERSION_NUM >= 1600
     int cur_limit = QBtSession::instance()->getSession()->settings().download_rate_limit;
 #else
     int cur_limit = QBtSession::instance()->getSession()->download_rate_limit();
@@ -746,6 +740,13 @@ void MainWindow::on_actionAbout_triggered() {
   } else {
     aboutDlg = new about(this);
   }
+}
+
+void MainWindow::on_actionStatistics_triggered() {
+  if (statsDlg)
+    statsDlg->setFocus();
+  else
+    statsDlg = new StatsDialog(this);
 }
 
 void MainWindow::showEvent(QShowEvent *e) {
@@ -1108,6 +1109,13 @@ void MainWindow::loadPreferences(bool configure_session) {
   if (configure_session)
     QBtSession::instance()->configureSession();
 
+#if defined(Q_WS_WIN) || defined(Q_WS_MAC)
+  if (pref.isUpdateCheckEnabled())
+    checkProgramUpdate();
+  else
+    programUpdateTimer.stop();
+#endif
+
   qDebug("GUI settings loaded");
 }
 
@@ -1135,20 +1143,16 @@ void MainWindow::updateGUI() {
     html += "qBittorrent";
     html += "</div>";
     html += "<div style='vertical-align: baseline; height: 18px;'>";
-    /* HACK because QString rounds up. Eg QString::number(0.999*100.0, 'f' ,1) == 99.9
-    ** but QString::number(0.9999*100.0, 'f' ,1) == 100.0 */
-    html += "<img src=':/Icons/skin/download.png'/>&nbsp;"+tr("DL speed: %1 KiB/s", "e.g: Download speed: 10 KiB/s").arg(QString::number((int)((QBtSession::instance()->getPayloadDownloadRate()/1024.)*10)/10.0, 'f', 1));
+    html += "<img src=':/Icons/skin/download.png'/>&nbsp;"+tr("DL speed: %1 KiB/s", "e.g: Download speed: 10 KiB/s").arg(misc::accurateDoubleToString(QBtSession::instance()->getPayloadDownloadRate()/1024., 1));
     html += "</div>";
     html += "<div style='vertical-align: baseline; height: 18px;'>";
-    html += "<img src=':/Icons/skin/seeding.png'/>&nbsp;"+tr("UP speed: %1 KiB/s", "e.g: Upload speed: 10 KiB/s").arg(QString::number((int)((QBtSession::instance()->getPayloadUploadRate()/1024.)*10)/10.0, 'f', 1));
+    html += "<img src=':/Icons/skin/seeding.png'/>&nbsp;"+tr("UP speed: %1 KiB/s", "e.g: Upload speed: 10 KiB/s").arg(misc::accurateDoubleToString(QBtSession::instance()->getPayloadUploadRate()/1024., 1));
     html += "</div>";
 #else
     // OSes such as Windows do not support html here
-    /* HACK because QString rounds up. Eg QString::number(0.999*100.0, 'f' ,1) == 99.9
-    ** but QString::number(0.9999*100.0, 'f' ,1) == 100.0 */
-    QString html =tr("DL speed: %1 KiB/s", "e.g: Download speed: 10 KiB/s").arg(QString::number((int)((QBtSession::instance()->getPayloadDownloadRate()/1024.)*10)/10.0, 'f', 1));
+    QString html =tr("DL speed: %1 KiB/s", "e.g: Download speed: 10 KiB/s").arg(misc::accurateDoubleToString(QBtSession::instance()->getPayloadDownloadRate()/1024., 1));
     html += "\n";
-    html += tr("UP speed: %1 KiB/s", "e.g: Upload speed: 10 KiB/s").arg(QString::number((int)((QBtSession::instance()->getPayloadUploadRate()/1024.)*10)/10.0, 'f', 1));
+    html += tr("UP speed: %1 KiB/s", "e.g: Upload speed: 10 KiB/s").arg(misc::accurateDoubleToString(QBtSession::instance()->getPayloadUploadRate()/1024., 1));
 #endif
     systrayIcon->setToolTip(html); // tray icon
   }
@@ -1163,15 +1167,22 @@ void MainWindow::showNotificationBaloon(QString title, QString msg) const {
   org::freedesktop::Notifications notifications("org.freedesktop.Notifications",
                                                 "/org/freedesktop/Notifications",
                                                 QDBusConnection::sessionBus());
-  if (notifications.isValid()) {
-    QVariantMap hints;
-    hints["desktop-entry"] = "qBittorrent";
-    QDBusPendingReply<uint> reply = notifications.Notify("qBittorrent", 0, "qbittorrent", title,
-                                                         msg, QStringList(), hints, -1);
-    reply.waitForFinished();
-    if (!reply.isError())
-      return;
-  }
+  // Testing for 'notifications.isValid()' isn't helpful here.
+  // If the notification daemon is configured to run 'as needed'
+  // the above check can be false if the daemon wasn't started
+  // by another application. In this case DBus will be able to
+  // start the notification daemon and complete our request. Such
+  // a daemon is xfce4-notifyd, DBus autostarts it and after
+  // some inactivity shuts it down. Other DEs, like GNOME, choose
+  // to start their daemons at the session startup and have it sit
+  // idling for the whole session.
+  QVariantMap hints;
+  hints["desktop-entry"] = "qBittorrent";
+  QDBusPendingReply<uint> reply = notifications.Notify("qBittorrent", 0, "qbittorrent", title,
+                                                       msg, QStringList(), hints, -1);
+  reply.waitForFinished();
+  if (!reply.isError())
+    return;
 #endif
   if (systrayIcon && QSystemTrayIcon::supportsMessages())
     systrayIcon->showMessage(title, msg, QSystemTrayIcon::Information, TIME_TRAY_BALLOON);
@@ -1342,29 +1353,31 @@ void MainWindow::on_actionDownload_from_URL_triggered() {
 
 #if defined(Q_WS_WIN) || defined(Q_WS_MAC)
 
-void MainWindow::handleUpdateCheckFinished(bool update_available, QString new_version)
+void MainWindow::handleUpdateCheckFinished(bool update_available, QString new_version, bool invokedByUser)
 {
+  QMessageBox::StandardButton answer = QMessageBox::Yes;
   if (update_available) {
-    if (QMessageBox::question(this, tr("A newer version is available"),
-                             tr("A newer version of qBittorrent is available on Sourceforge.\nWould you like to update qBittorrent to version %1?").arg(new_version),
-                             QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes) {
+    answer = QMessageBox::question(this, tr("A new version is available"),
+                                   tr("A new version of qBittorrent is available on Sourceforge.\nWould you like to update qBittorrent to version %1?").arg(new_version),
+                                   QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes);
+    if (answer == QMessageBox::Yes) {
       // The user want to update, let's download the update
       ProgramUpdater* updater = dynamic_cast<ProgramUpdater*>(sender());
-      connect(updater, SIGNAL(updateInstallFinished(QString)), SLOT(handleUpdateInstalled(QString)));
       updater->updateProgram();
-      return;
     }
   }
-  sender()->deleteLater();
-}
-
-void MainWindow::handleUpdateInstalled(QString error_msg)
-{
-  if (!error_msg.isEmpty()) {
-    QMessageBox::critical(this, tr("Impossible to update qBittorrent"), tr("qBittorrent failed to update, reason: %1").arg(error_msg));
+  else if (invokedByUser) {
+    QMessageBox::information(this, tr("There isn't a new version available"),
+                             tr("There isn't a new version of qBittorrent available on Sourceforge"));
   }
+  sender()->deleteLater();
+  actionCheck_for_updates->setEnabled(true);
+  actionCheck_for_updates->setText(tr("Check for updates"));
+  actionCheck_for_updates->setToolTip(tr("Check for program updates"));
+  // Don't bother the user again in this session if he chose to ignore the update
+  if (Preferences().isUpdateCheckEnabled() && answer == QMessageBox::Yes)
+    programUpdateTimer.start();
 }
-
 #endif
 
 void MainWindow::on_actionDonate_money_triggered()
@@ -1446,3 +1459,16 @@ QIcon MainWindow::getSystrayIcon() const
   }
   return icon;
 }
+
+#if defined(Q_WS_WIN) || defined(Q_WS_MAC)
+void MainWindow::checkProgramUpdate() {
+  programUpdateTimer.stop(); // If the user had clicked the menu item
+  actionCheck_for_updates->setEnabled(false);
+  actionCheck_for_updates->setText(tr("Checking for updates..."));
+  actionCheck_for_updates->setToolTip(tr("Already checking for program updates in the background"));
+  bool invokedByUser = actionCheck_for_updates == qobject_cast<QAction*>(sender());
+  ProgramUpdater *updater = new ProgramUpdater(this, invokedByUser);
+  connect(updater, SIGNAL(updateCheckFinished(bool, QString, bool)), SLOT(handleUpdateCheckFinished(bool, QString, bool)));
+  updater->checkForUpdates();
+}
+#endif

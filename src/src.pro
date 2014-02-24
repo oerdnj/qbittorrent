@@ -107,7 +107,8 @@ HEADERS += misc.h \
            scannedfoldersmodel.h \
            qinisettings.h \
            smtp.h \
-           dnsupdater.h
+           dnsupdater.h \
+           messageboxraised.h
 
 
 SOURCES += main.cpp \
@@ -116,7 +117,8 @@ SOURCES += main.cpp \
            misc.cpp \
            fs_utils.cpp \
            smtp.cpp \
-           dnsupdater.cpp
+           dnsupdater.cpp \
+           messageboxraised.cpp
 
 nox {
   HEADERS += headlessloader.h
@@ -149,7 +151,8 @@ nox {
               updownratiodlg.h \
               loglistwidget.h \
               addnewtorrentdialog.h \
-              autoexpandabledialog.h
+              autoexpandabledialog.h \
+              statsdialog.h
 
   SOURCES += mainwindow.cpp \
              ico.cpp \
@@ -167,7 +170,8 @@ nox {
              updownratiodlg.cpp \
              loglistwidget.cpp \
              addnewtorrentdialog.cpp \
-             autoexpandabledialog.cpp
+             autoexpandabledialog.cpp \
+             statsdialog.cpp
 
   win32 {
     HEADERS += programupdater.h
@@ -193,7 +197,8 @@ nox {
            torrentimportdlg.ui \
            executionlog.ui \
            addnewtorrentdialog.ui \
-           autoexpandabledialog.ui
+           autoexpandabledialog.ui \
+           statsdialog.ui
 }
 
 DESTDIR = .
