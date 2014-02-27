@@ -1,11 +1,11 @@
-qbittorrent (3.1.8-1) UNRELEASED; urgency=medium
+qbittorrent (3.1.8-1) unstable; urgency=medium
 
-  * New upstream release.
+  * New upstream release (Closes: #740212).
   * Add myself to the Uploaders field.
   * Bump Standards-Version to 3.9.5, no changes needed. 
   * Backport upstream commit fixing nox build.
 
- -- Andrew Starr-Bochicchio <asb@debian.org>  Mon, 24 Feb 2014 14:57:48 -0500
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Thu, 27 Feb 2014 10:57:15 -0500
 
 qbittorrent (3.1.3-1) unstable; urgency=low
 
