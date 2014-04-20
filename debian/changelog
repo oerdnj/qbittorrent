@@ -1,3 +1,9 @@
+qbittorrent (3.1.9-1) UNRELEASED; urgency=medium
+
+  * New upstream release (Closes: #744903).
+
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Sun, 20 Apr 2014 13:06:16 -0400
+
 qbittorrent (3.1.8-2) unstable; urgency=medium
 
   * Explicitly pass path to --with-libboost-lib in order
