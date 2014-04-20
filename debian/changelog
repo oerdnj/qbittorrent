@@ -1,6 +1,7 @@
 qbittorrent (3.1.9-1) UNRELEASED; urgency=medium
 
   * New upstream release (Closes: #744903).
+  * Drop fix-nox-build.patch, applied upstream.
 
  -- Andrew Starr-Bochicchio <asb@debian.org>  Sun, 20 Apr 2014 13:06:16 -0400
 
