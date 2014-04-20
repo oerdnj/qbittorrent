@@ -3,9 +3,11 @@ Origin: vendor
 Forwarded: no
 Author: Cristian Greco <cristian@debian.org>
 
---- a/unixconf.pri
-+++ b/unixconf.pri
-@@ -6,7 +6,8 @@
+Index: qbittorrent/unixconf.pri
+===================================================================
+--- qbittorrent.orig/unixconf.pri	2014-04-20 13:16:24.843946197 -0400
++++ qbittorrent/unixconf.pri	2014-04-20 13:16:24.839946197 -0400
+@@ -14,7 +14,8 @@
    QT += dbus
  }
  
