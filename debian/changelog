@@ -1,3 +1,10 @@
+qbittorrent (3.1.9.2-2) unstable; urgency=medium
+
+  * debian/control: switch to unversioned build-depends for boost libraries.
+    (Closes: #759392)
+
+ -- Cristian Greco <cristian@debian.org>  Tue, 09 Sep 2014 22:28:24 +0200
+
 qbittorrent (3.1.9.2-1) unstable; urgency=medium
 
   * New upstream release (Closes: #744903, #750238).
