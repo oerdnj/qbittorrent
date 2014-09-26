@@ -45,9 +45,17 @@
 #include <QCoreApplication>
 #endif
 
+#ifdef Q_OS_WIN
+#include <ShlObj.h>
+#endif
+
 #include "misc.h"
 #include "fs_utils.h"
 #include "qinisettings.h"
+
+#ifdef Q_OS_WIN
+#include <winreg.h>
+#endif
 
 #define QBT_REALM "Web UI Access"
 enum scheduler_days { EVERY_DAY, WEEK_DAYS, WEEK_ENDS, MON, TUE, WED, THU, FRI, SAT, SUN };
@@ -135,11 +143,7 @@ public:
   }
 
   bool systrayIntegration() const {
-#ifdef Q_WS_MAC
-    return false;
-#else
     return value(QString::fromUtf8("Preferences/General/SystrayEnabled"), true).toBool();
-#endif
   }
 
   void setSystrayIntegration(bool enabled) {
@@ -725,7 +729,7 @@ public:
 
   // Search
   bool isSearchEnabled() const {
-    return value(QString::fromUtf8("Preferences/Search/SearchEnabled"), true).toBool();
+    return value(QString::fromUtf8("Preferences/Search/SearchEnabled"), false).toBool();
   }
 
   void setSearchEnabled(bool enabled) {
@@ -971,6 +975,14 @@ public:
     setValue(QString::fromUtf8("Preferences/Downloads/AutoSuspendOnCompletion"), suspend);
   }
 
+  bool hibernateWhenDownloadsComplete() const {
+    return value(QString::fromUtf8("Preferences/Downloads/AutoHibernateOnCompletion"), false).toBool();
+  }
+
+  void setHibernateWhenDownloadsComplete(bool hibernate) {
+    setValue(QString::fromUtf8("Preferences/Downloads/AutoHibernateOnCompletion"), hibernate);
+  }
+
   bool shutdownqBTWhenDownloadsComplete() const {
     return value(QString::fromUtf8("Preferences/Downloads/AutoShutDownqBTOnCompletion"), false).toBool();
   }
@@ -981,14 +993,40 @@ public:
 
   uint diskCacheSize() const {
 #if LIBTORRENT_VERSION_NUM >= 1610
-    return value(QString::fromUtf8("Preferences/Downloads/DiskWriteCacheSize"), 0).toUInt();
+    uint size = value(QString::fromUtf8("Preferences/Downloads/DiskWriteCacheSize"), 0).toUInt();
+
+    // When build as 32bit binary, set the maximum at less than 2GB to prevent crashes.
+    // These macros may not be available on compilers other than MSVC and GCC
+#if !defined(_M_X64) && !defined(__amd64__)
+    //1800MiB to leave 248MiB room to the rest of program data in RAM
+    if (size > 1800)
+      size = 1800;
+#else
+    // 4GiB
+    if (size > 4*1024)
+      size = 4*1024;
+#endif
+
+    return size;
 #else
     return value(QString::fromUtf8("Preferences/Downloads/DiskWriteCacheSize"), 128).toUInt();
 #endif
   }
 
   void setDiskCacheSize(uint size) {
-    setValue(QString::fromUtf8("Preferences/Downloads/DiskWriteCacheSize"), size);
+    uint size0 = size;
+
+#if !defined(_M_X64) && !defined(__amd64__)
+    //1800MiB to leave 248MiB room to the rest of program data in RAM
+    if (size0 > 1800)
+      size0 = 1800;
+#else
+    // 4GiB
+    if (size0 > 4*1024)
+      size0 = 4*1024;
+#endif
+
+    setValue(QString::fromUtf8("Preferences/Downloads/DiskWriteCacheSize"), size0);
   }
 
 #if LIBTORRENT_VERSION_NUM >= 1610
@@ -1000,6 +1038,14 @@ public:
     setValue(QString::fromUtf8("Preferences/Downloads/DiskWriteCacheTTL"), ttl);
   }
 #endif
+
+  bool osCache() const {
+    return value("Preferences/Advanced/osCache", true).toBool();
+  }
+
+  void setOsCache(bool enable) {
+    setValue("Preferences/Advanced/osCache", enable);
+  }
 
   uint outgoingPortsMin() const {
     return value(QString::fromUtf8("Preferences/Advanced/OutgoingPortsMin"), 0).toUInt();
@@ -1092,7 +1138,15 @@ public:
   QString getNetworkInterface() const {
     return value(QString::fromUtf8("Preferences/Connection/Interface"), QString()).toString();
   }
-  
+
+  bool getListenIPv6() const {
+    return value("Preferences/Connection/InterfaceListenIPv6", false).toBool();
+  }
+
+  void setListenIPv6(bool enable) {
+    setValue("Preferences/Connection/InterfaceListenIPv6", enable);
+  }
+
   void setNetworkInterfaceName(const QString& iface) {
     setValue(QString::fromUtf8("Preferences/Connection/InterfaceName"), iface);
   }
@@ -1173,28 +1227,24 @@ public:
 
 #ifdef Q_WS_WIN
   static QString getPythonPath() {
-    QSettings reg_python("HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore", QIniSettings::NativeFormat);
-    QStringList versions = reg_python.childGroups();
-    qDebug("Python versions nb: %d", versions.size());
-    //versions = versions.filter(QRegExp("2\\..*"));
-    versions.sort();
-    while(!versions.empty()) {
-      const QString version = versions.takeLast();
-      qDebug("Detected possible Python v%s location", qPrintable(version));
-      QString path = reg_python.value(version+"/InstallPath/Default", "").toString().replace("/", "\\");
-      if (!path.isEmpty() && QDir(path).exists("python.exe")) {
-        qDebug("Found python.exe at %s", qPrintable(path));
-        return path;
-      }
-    }
+    QString path = pythonSearchReg(USER);
+    if (path.isEmpty())
+      path = pythonSearchReg(SYSTEM_32BIT);
+    else return path;
+
+    if (path.isEmpty())
+      path = pythonSearchReg(SYSTEM_64BIT);
+    else return path;
+
+    if (!path.isEmpty())
+      return path;
+
     // Fallback: Detect python from default locations
     QStringList supported_versions;
     supported_versions << "32" << "31" << "30" << "27" << "26" << "25";
     foreach (const QString &v, supported_versions) {
-      if (QFile::exists("C:/Python"+v+"/python.exe")) {
-        reg_python.setValue(v[0]+"."+v[1]+"/InstallPath/Default", QString("C:\\Python"+v));
+      if (QFile::exists("C:/Python"+v+"/python.exe"))
         return "C:\\Python"+v;
-      }
     }
     return QString::null;
   }
@@ -1208,91 +1258,66 @@ public:
   }
 
   static bool isTorrentFileAssocSet() {
-    QSettings settings("HKEY_CLASSES_ROOT", QIniSettings::NativeFormat);
-    if (settings.value(".torrent/Default").toString() != "qBittorrent") {
-      qDebug(".torrent != qBittorrent");
-      return false;
+      QSettings settings("HKEY_CURRENT_USER\\Software\\Classes", QSettings::NativeFormat);
+      if (settings.value(".torrent/Default").toString() != "qBittorrent") {
+        qDebug(".torrent != qBittorrent");
+        return false;
+      }
+
+      return true;
     }
-    qDebug("Checking shell command");
-    QString shell_command = settings.value("qBittorrent/shell/open/command/Default", "").toString();
-    qDebug("Shell command is: %s", qPrintable(shell_command));
-    QRegExp exe_reg("\"([^\"]+)\".*");
-    if (exe_reg.indexIn(shell_command) < 0)
-      return false;
-    QString assoc_exe = exe_reg.cap(1);
-    qDebug("exe: %s", qPrintable(assoc_exe));
-    if (assoc_exe.compare(qApp->applicationFilePath().replace("/", "\\"), Qt::CaseInsensitive) != 0)
-      return false;
-    // Icon
-    const QString icon_str = "\""+qApp->applicationFilePath().replace("/", "\\")+"\",1";
-    if (settings.value("qBittorrent/DefaultIcon/Default", icon_str).toString().compare(icon_str, Qt::CaseInsensitive) != 0)
-      return false;
 
-    return true;
-  }
+    static bool isMagnetLinkAssocSet() {
+      QSettings settings("HKEY_CURRENT_USER\\Software\\Classes", QSettings::NativeFormat);
 
-  static bool isMagnetLinkAssocSet() {
-    QSettings settings("HKEY_CLASSES_ROOT", QIniSettings::NativeFormat);
-
-    // Check magnet link assoc
-    QRegExp exe_reg("\"([^\"]+)\".*");
-    QString shell_command = settings.value("Magnet/shell/open/command/Default", "").toString();
-    if (exe_reg.indexIn(shell_command) < 0)
-      return false;
-    QString assoc_exe = exe_reg.cap(1);
-    qDebug("exe: %s", qPrintable(assoc_exe));
-    if (assoc_exe.compare(qApp->applicationFilePath().replace("/", "\\"), Qt::CaseInsensitive) != 0)
-      return false;
-    return true;
-  }
-
-  static void setTorrentFileAssoc(bool set) {
-    QSettings settings("HKEY_CLASSES_ROOT", QSettings::NativeFormat);
-
-    // .Torrent association
-    if (set) {
-      const QString command_str = "\""+qApp->applicationFilePath().replace("/", "\\")+"\" \"%1\"";
-      const QString icon_str = "\""+qApp->applicationFilePath().replace("/", "\\")+"\",1";
-
-      settings.setValue(".torrent/Default", "qBittorrent");
-      settings.setValue(".torrent/Content Type", "application/x-bittorrent");
-      settings.setValue("qBittorrent/shell/Default", "open");
-      settings.setValue("qBittorrent/shell/open/command/Default", command_str);
-      settings.setValue("qBittorrent/Content Type/Default", "application/x-bittorrent");
-      settings.setValue("qBittorrent/DefaultIcon/Default", icon_str);
-    } else if (isTorrentFileAssocSet()) {
-      settings.remove(".torrent/Default");
-      settings.remove(".torrent/Content Type");
-      settings.remove("qBittorrent/shell/Default");
-      settings.remove("qBittorrent/shell/open/command/Default");
-      settings.remove("qBittorrent/Content Type/Default");
-      settings.remove("qBittorrent/DefaultIcon/Default");
+      // Check magnet link assoc
+      QRegExp exe_reg("\"([^\"]+)\".*");
+      QString shell_command = settings.value("magnet/shell/open/command/Default", "").toString();
+      if (exe_reg.indexIn(shell_command) < 0)
+        return false;
+      QString assoc_exe = exe_reg.cap(1);
+      qDebug("exe: %s", qPrintable(assoc_exe));
+      if (assoc_exe.compare(qApp->applicationFilePath(), Qt::CaseInsensitive) != 0)
+        return false;
+      return true;
     }
-  }
 
-  static void setMagnetLinkAssoc(bool set) {
-    QSettings settings("HKEY_CLASSES_ROOT", QSettings::NativeFormat);
+    static void setTorrentFileAssoc(bool set) {
+      QSettings settings("HKEY_CURRENT_USER\\Software\\Classes", QSettings::NativeFormat);
 
-    // Magnet association
-    if (set) {
-      const QString command_str = "\""+qApp->applicationFilePath().replace("/", "\\")+"\" \"%1\"";
-      const QString icon_str = "\""+qApp->applicationFilePath().replace("/", "\\")+"\",1";
+      // .Torrent association
+      if (set) {
+        QString old_progid = settings.value(".torrent/Default").toString();
+        if (!old_progid.isEmpty() && (old_progid != "qBittorrent"))
+          settings.setValue(".torrent/OpenWithProgids/" + old_progid, "");
+        settings.setValue(".torrent/Default", "qBittorrent");
+      } else if (isTorrentFileAssocSet()) {
+        settings.setValue(".torrent/Default", "");
+      }
 
-      settings.setValue("Magnet/Default", "Magnet URI");
-      settings.setValue("Magnet/Content Type", "application/x-magnet");
-      settings.setValue("Magnet/URL Protocol", "");
-      settings.setValue("Magnet/DefaultIcon/Default", icon_str);
-      settings.setValue("Magnet/shell/Default", "open");
-      settings.setValue("Magnet/shell/open/command/Default", command_str);
-    } else if (isMagnetLinkAssocSet()) {
-      settings.remove("Magnet/Default");
-      settings.remove("Magnet/Content Type");
-      settings.remove("Magnet/URL Protocol");
-      settings.remove("Magnet/DefaultIcon/Default");
-      settings.remove("Magnet/shell/Default");
-      settings.remove("Magnet/shell/open/command/Default");
+      SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, 0, 0);
     }
-  }
+
+    static void setMagnetLinkAssoc(bool set) {
+      QSettings settings("HKEY_CURRENT_USER\\Software\\Classes", QSettings::NativeFormat);
+
+      // Magnet association
+      if (set) {
+        const QString command_str = "\""+qApp->applicationFilePath()+"\" \"%1\"";
+        const QString icon_str = "\""+qApp->applicationFilePath()+"\",1";
+
+        settings.setValue("magnet/Default", "URL:Magnet link");
+        settings.setValue("magnet/Content Type", "application/x-magnet");
+        settings.setValue("magnet/URL Protocol", "");
+        settings.setValue("magnet/DefaultIcon/Default", icon_str);
+        settings.setValue("magnet/shell/Default", "open");
+        settings.setValue("magnet/shell/open/command/Default", command_str);
+      } else if (isMagnetLinkAssocSet()) {
+        settings.remove("magnet");
+      }
+
+      SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, 0, 0);
+    }
 #endif
 
   bool isTrackerEnabled() const {
@@ -1333,6 +1358,125 @@ public:
   void setTrayIconStyle(TrayIcon::Style style) {
     setValue(QString::fromUtf8("Preferences/Advanced/TrayIconStyle"), style);
   }
+
+#ifdef Q_OS_WIN
+private:
+  enum REG_SEARCH_TYPE {USER, SYSTEM_32BIT, SYSTEM_64BIT};
+  
+  static QStringList getRegSubkeys(const HKEY &handle) {
+    QStringList keys;
+    DWORD subkeys_count = 0;
+    DWORD max_subkey_len = 0;
+    long res = ::RegQueryInfoKey(handle, NULL, NULL, NULL, &subkeys_count, &max_subkey_len, NULL, NULL, NULL, NULL, NULL, NULL);
+    if (res == ERROR_SUCCESS) {
+      max_subkey_len++; //For null character
+      LPTSTR key_name = new TCHAR[max_subkey_len];
+
+      for (uint i=0; i<subkeys_count; i++) {
+        res = ::RegEnumKeyEx(handle, 0, key_name, &max_subkey_len, NULL, NULL, NULL, NULL);
+        if (res == ERROR_SUCCESS)
+          keys.push_back(QString::fromWCharArray(key_name));
+      }
+      delete[] key_name;
+    }
+
+    return keys;
+  }
+
+  static QString getRegValue(const HKEY &handle, const QString &name = QString()) {
+    QString end_result;
+    DWORD type = 0;
+    DWORD size = 0;
+    DWORD array_size = 0;
+
+    LPTSTR value_name = NULL;
+    if (!name.isEmpty()) {
+      value_name = new TCHAR[name.size()+1];
+      name.toWCharArray(value_name);
+      value_name[name.size()] = '\0';
+    }
+
+    // Discover the size of the value
+    ::RegQueryValueEx(handle, value_name, NULL, &type, NULL, &size);
+    array_size = size / sizeof(TCHAR);
+    if (size % sizeof(TCHAR))
+      array_size++;
+    array_size++; //For null character
+    LPTSTR value = new TCHAR[array_size];
+
+    long res = ::RegQueryValueEx(handle, value_name, NULL, &type, (LPBYTE)value, &size);
+    if (res == ERROR_SUCCESS) {
+      value[array_size] = '\0';
+      end_result = QString::fromWCharArray(value);
+    }
+
+    if (value_name)
+      delete[] value_name;
+    if (value)
+      delete[] value;
+
+    return end_result;
+  }
+
+  static QString pythonSearchReg(const REG_SEARCH_TYPE type) {
+    HKEY key_handle1;
+    long res = 0;
+
+    switch (type) {
+    case USER:
+      res = ::RegOpenKeyEx(HKEY_CURRENT_USER, TEXT("SOFTWARE\\Python\\PythonCore"), 0, KEY_READ, &key_handle1);
+      break;
+    case SYSTEM_32BIT:
+      res = ::RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Python\\PythonCore"), 0, KEY_READ|KEY_WOW64_32KEY, &key_handle1);
+      break;
+    case SYSTEM_64BIT:
+      res = ::RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Python\\PythonCore"), 0, KEY_READ|KEY_WOW64_64KEY, &key_handle1);
+      break;
+    }
+
+    if (res == ERROR_SUCCESS) {
+      QStringList versions = getRegSubkeys(key_handle1);
+      qDebug("Python versions nb: %d", versions.size());
+      versions.sort();
+
+      while(!versions.empty()) {
+        const QString version = versions.takeLast()+"\\InstallPath";
+        HKEY key_handle2;
+        LPTSTR subkey = new TCHAR[version.size()+1];
+        version.toWCharArray(subkey);
+        subkey[version.size()] = '\0';
+
+        switch (type) {
+        case USER:
+          res = ::RegOpenKeyEx(key_handle1, subkey, 0, KEY_READ, &key_handle2);
+          break;
+        case SYSTEM_32BIT:
+          res = ::RegOpenKeyEx(key_handle1, subkey, 0, KEY_READ|KEY_WOW64_32KEY, &key_handle2);
+          break;
+        case SYSTEM_64BIT:
+          res = ::RegOpenKeyEx(key_handle1, subkey, 0, KEY_READ|KEY_WOW64_64KEY, &key_handle2);
+          break;
+        }
+
+        delete[] subkey;
+        if (res == ERROR_SUCCESS) {
+          qDebug("Detected possible Python v%s location", qPrintable(version));
+          QString path = getRegValue(key_handle2);
+          ::RegCloseKey(key_handle2);
+          if (!path.isEmpty() && QDir(path).exists("python.exe")) {
+            qDebug("Found python.exe at %s", qPrintable(path));
+            ::RegCloseKey(key_handle1);
+            return path;
+          }
+        }
+        else
+          ::RegCloseKey(key_handle2);
+      }
+    }
+    ::RegCloseKey(key_handle1);
+    return QString::null;
+  }
+#endif
 };
 
 #endif // PREFERENCES_H

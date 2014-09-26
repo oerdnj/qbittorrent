@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt4 and libtorrent.
- * Copyright (C) 2006-2012  Ishan Arora and Christophe Dumez
+ * Copyright (C) 2014  sledgehammer999
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,20 +25,28 @@
  * but you are not obligated to do so. If you do not wish to do so, delete this
  * exception statement from your version.
  *
- * Contact : chris@qbittorrent.org
+ * Contact : hammered999@gmail.com
  */
 
+#ifndef STATUSSORTFILTERPROXYMODEL_H
+#define STATUSSORTFILTERPROXYMODEL_H
 
-#ifndef JSON_H
-#define JSON_H
+#include <QSortFilterProxyModel>
+#include "torrentfilterenum.h"
 
-#include <QVariant>
+class StatusSortFilterProxyModel : public QSortFilterProxyModel {
+  Q_OBJECT
 
-namespace json {
+public:
+  StatusSortFilterProxyModel(QObject *parent = 0);
+  void setFilterStatus(const TorrentFilter::TorrentFilter &filter);
+  TorrentFilter::TorrentFilter getFilterStatus() const;
 
-  QString toJson(const QVariant& v);
-  QVariantMap fromJson(const QString& json);
+protected:
+  bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
 
-} // namespace json
+private:
+  TorrentFilter::TorrentFilter filter0;
+};
 
-#endif
+#endif // STATUSSORTFILTERPROXYMODEL_H

@@ -85,6 +85,9 @@ void qt_mac_set_dock_menu(QMenu *menu);
 #include "programupdater.h"
 #endif
 #include "powermanagement.h"
+#ifdef Q_OS_WIN
+#include "downloadthread.h"
+#endif
 
 using namespace libtorrent;
 
@@ -98,7 +101,11 @@ using namespace libtorrent;
  *****************************************************/
 
 // Constructor
-MainWindow::MainWindow(QWidget *parent, const QStringList& torrentCmdLine) : QMainWindow(parent), m_posInitialized(false), force_exit(false) {
+MainWindow::MainWindow(QWidget *parent, const QStringList& torrentCmdLine) : QMainWindow(parent), m_posInitialized(false), force_exit(false)
+#ifdef Q_OS_WIN
+, has_python(false)
+#endif
+{
   setupUi(this);
 
   Preferences pref;
@@ -249,9 +256,10 @@ MainWindow::MainWindow(QWidget *parent, const QStringList& torrentCmdLine) : QMa
   actionRSS_Reader->setChecked(RssSettings().isRSSEnabled());
   actionSearch_engine->setChecked(pref.isSearchEnabled());
   actionExecution_Logs->setChecked(pref.isExecutionLogEnabled());
-  displaySearchTab(actionSearch_engine->isChecked());
   displayRSSTab(actionRSS_Reader->isChecked());
   on_actionExecution_Logs_triggered(actionExecution_Logs->isChecked());
+  if (actionSearch_engine->isChecked())
+    QTimer::singleShot(0, this, SLOT(on_actionSearch_engine_triggered()));
 
   // Auto shutdown actions
   QActionGroup * autoShutdownGroup = new QActionGroup(this);
@@ -260,12 +268,15 @@ MainWindow::MainWindow(QWidget *parent, const QStringList& torrentCmdLine) : QMa
   autoShutdownGroup->addAction(actionAutoExit_qBittorrent);
   autoShutdownGroup->addAction(actionAutoShutdown_system);
   autoShutdownGroup->addAction(actionAutoSuspend_system);
+  autoShutdownGroup->addAction(actionAutoHibernate_system);
 #if !defined(Q_WS_X11) || defined(QT_DBUS_LIB)
   actionAutoShutdown_system->setChecked(pref.shutdownWhenDownloadsComplete());
   actionAutoSuspend_system->setChecked(pref.suspendWhenDownloadsComplete());
+  actionAutoHibernate_system->setChecked(pref.hibernateWhenDownloadsComplete());
 #else
   actionAutoShutdown_system->setDisabled(true);
   actionAutoSuspend_system->setDisabled(true);
+  actionAutoHibernate_system->setDisabled(true);
 #endif
   actionAutoExit_qBittorrent->setChecked(pref.shutdownqBTWhenDownloadsComplete());
 
@@ -447,6 +458,7 @@ void MainWindow::displayRSSTab(bool enable) {
 }
 
 void MainWindow::displaySearchTab(bool enable) {
+  Preferences().setSearchEnabled(enable);
   if (enable) {
     // RSS tab
     if (!searchEngine) {
@@ -526,12 +538,12 @@ void MainWindow::balloonClicked() {
         return;
     }
     show();
-    if (isMinimized()) {
+    if (isMinimized())
       showNormal();
-    }
-    raise();
-    activateWindow();
   }
+
+  raise();
+  activateWindow();
 }
 
 // called when a torrent has finished
@@ -898,13 +910,13 @@ void MainWindow::dropEvent(QDropEvent *event) {
     }
     if (file.startsWith("magnet:", Qt::CaseInsensitive)) {
       if (useTorrentAdditionDialog)
-        AddNewTorrentDialog::showMagnet(file);
+        AddNewTorrentDialog::showMagnet(file, this);
       else
         QBtSession::instance()->addMagnetUri(file);
     } else {
       // Local file
       if (useTorrentAdditionDialog)
-        AddNewTorrentDialog::showTorrent(file);
+        AddNewTorrentDialog::showTorrent(file, QString(), this);
       else
         QBtSession::instance()->addTorrent(file);
     }
@@ -938,11 +950,10 @@ void MainWindow::on_actionOpen_triggered() {
                                                               tr("Open Torrent Files"), settings.value(QString::fromUtf8("MainWindowLastDir"), QDir::homePath()).toString(),
                                                               tr("Torrent Files")+QString::fromUtf8(" (*.torrent)"));
   if (!pathsList.empty()) {
-    const bool useTorrentAdditionDialog = pref.useAdditionDialog();
     const uint listSize = pathsList.size();
     for (uint i=0; i<listSize; ++i) {
-      if (useTorrentAdditionDialog)
-        AddNewTorrentDialog::showTorrent(pathsList.at(i));
+      if (pref.useAdditionDialog())
+        AddNewTorrentDialog::showTorrent(pathsList.at(i), QString(), this);
       else
         QBtSession::instance()->addTorrent(pathsList.at(i));
     }
@@ -985,12 +996,12 @@ void MainWindow::processParams(const QStringList& params) {
       }
       if (param.startsWith("magnet:", Qt::CaseInsensitive)) {
         if (useTorrentAdditionDialog)
-          AddNewTorrentDialog::showMagnet(param);
+          AddNewTorrentDialog::showMagnet(param, this);
         else
           QBtSession::instance()->addMagnetUri(param);
       } else {
         if (useTorrentAdditionDialog)
-          AddNewTorrentDialog::showTorrent(param);
+          AddNewTorrentDialog::showTorrent(param, QString(), this);
         else
           QBtSession::instance()->addTorrent(param);
       }
@@ -1005,7 +1016,7 @@ void MainWindow::addTorrent(QString path) {
 void MainWindow::processDownloadedFiles(QString path, QString url) {
   Preferences pref;
   if (pref.useAdditionDialog())
-    AddNewTorrentDialog::showTorrent(path, url);
+    AddNewTorrentDialog::showTorrent(path, url, this);
   else
     QBtSession::instance()->addTorrent(path, false, url);
 }
@@ -1013,7 +1024,7 @@ void MainWindow::processDownloadedFiles(QString path, QString url) {
 void MainWindow::processNewMagnetLink(const QString& link) {
   Preferences pref;
   if (pref.useAdditionDialog())
-    AddNewTorrentDialog::showMagnet(link);
+    AddNewTorrentDialog::showMagnet(link, this);
   else
     QBtSession::instance()->addMagnetUri(link);
 }
@@ -1208,7 +1219,7 @@ void MainWindow::downloadFromURLList(const QStringList& url_list) {
     }
     if (url.startsWith("magnet:", Qt::CaseInsensitive)) {
       if (useTorrentAdditionDialog)
-        AddNewTorrentDialog::showMagnet(url);
+        AddNewTorrentDialog::showMagnet(url, this);
       else
         QBtSession::instance()->addMagnetUri(url);
     }
@@ -1327,7 +1338,34 @@ void MainWindow::on_actionRSS_Reader_triggered() {
 }
 
 void MainWindow::on_actionSearch_engine_triggered() {
-  Preferences().setSearchEnabled(actionSearch_engine->isChecked());
+#ifdef Q_OS_WIN
+  if (!has_python && actionSearch_engine->isChecked()) {
+    bool res = false;
+
+    // Check if python is already in PATH
+    if (misc::pythonVersion())
+      res = true;
+    else
+      res = addPythonPathToEnv();
+
+    if (res)
+      has_python = true;
+    else if (QMessageBox::question(this, tr("Missing Python Interpreter"),
+                                   tr("Python 2.x is required to use the search engine but it does not seem to be installed.\nDo you want to install it now?"),
+                                   QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes) {
+      // Download and Install Python
+      installPython();
+      actionSearch_engine->setChecked(false);
+      Preferences().setSearchEnabled(false);
+      return;
+    }
+    else {
+      actionSearch_engine->setChecked(false);
+      Preferences().setSearchEnabled(false);
+      return;
+    }
+  }
+#endif
   displaySearchTab(actionSearch_engine->isChecked());
 }
 
@@ -1422,6 +1460,11 @@ void MainWindow::on_actionAutoSuspend_system_toggled(bool enabled)
   Preferences().setSuspendWhenDownloadsComplete(enabled);
 }
 
+void MainWindow::on_actionAutoHibernate_system_toggled(bool enabled) {
+  qDebug() << Q_FUNC_INFO << enabled;
+  Preferences().setHibernateWhenDownloadsComplete(enabled);
+}
+
 void MainWindow::on_actionAutoShutdown_system_toggled(bool enabled)
 {
   qDebug() << Q_FUNC_INFO << enabled;
@@ -1470,5 +1513,66 @@ void MainWindow::checkProgramUpdate() {
   ProgramUpdater *updater = new ProgramUpdater(this, invokedByUser);
   connect(updater, SIGNAL(updateCheckFinished(bool, QString, bool)), SLOT(handleUpdateCheckFinished(bool, QString, bool)));
   updater->checkForUpdates();
+}
+#endif
+
+#ifdef Q_OS_WIN
+bool MainWindow::addPythonPathToEnv() {
+  if (has_python)
+    return true;
+  QString python_path = Preferences::getPythonPath();
+  if (!python_path.isEmpty()) {
+    // Add it to PATH envvar
+    QString path_envar = QString::fromLocal8Bit(qgetenv("PATH").constData());
+    if (path_envar.isNull()) {
+      path_envar = "";
+    }
+    path_envar = python_path+";"+path_envar;
+    qDebug("New PATH envvar is: %s", qPrintable(path_envar));
+    qputenv("PATH", path_envar.toLocal8Bit());
+    return true;
+  }
+  return false;
+}
+
+void MainWindow::installPython() {
+  setCursor(QCursor(Qt::WaitCursor));
+  // Download python
+  DownloadThread *pydownloader = new DownloadThread(this);
+  connect(pydownloader, SIGNAL(downloadFinished(QString,QString)), this, SLOT(pythonDownloadSuccess(QString,QString)));
+  connect(pydownloader, SIGNAL(downloadFailure(QString,QString)), this, SLOT(pythonDownloadFailure(QString,QString)));
+  pydownloader->downloadUrl("http://python.org/ftp/python/2.7.3/python-2.7.3.msi");
+}
+
+void MainWindow::pythonDownloadSuccess(QString url, QString file_path) {
+  setCursor(QCursor(Qt::ArrowCursor));
+  Q_UNUSED(url);
+  QFile::rename(file_path, file_path+".msi");
+  QProcess installer;
+  qDebug("Launching Python installer in passive mode...");
+
+  installer.start("msiexec.exe /passive /i "+file_path.replace("/", "\\")+".msi");
+  // Wait for setup to complete
+  installer.waitForFinished();
+
+  qDebug("Installer stdout: %s", installer.readAllStandardOutput().data());
+  qDebug("Installer stderr: %s", installer.readAllStandardError().data());
+  qDebug("Setup should be complete!");
+  // Delete temp file
+  fsutils::forceRemove(file_path);
+  // Reload search engine
+  has_python = addPythonPathToEnv();
+  if (has_python) {
+    actionSearch_engine->setChecked(true);
+    displaySearchTab(true);
+  }
+  sender()->deleteLater();
+}
+
+void MainWindow::pythonDownloadFailure(QString url, QString error) {
+  Q_UNUSED(url);
+  setCursor(QCursor(Qt::ArrowCursor));
+  QMessageBox::warning(this, tr("Download error"), tr("Python setup could not be downloaded, reason: %1.\nPlease install it manually.").arg(error));
+  sender()->deleteLater();
 }
 #endif

@@ -102,14 +102,10 @@ options_imp::options_imp(QWidget *parent):
   // Load options
   loadOptions();
   // Disable systray integration if it is not supported by the system
-#ifndef Q_WS_MAC
   if (!QSystemTrayIcon::isSystemTrayAvailable()) {
-#endif
     checkShowSystray->setChecked(false);
     checkShowSystray->setEnabled(false);
-#ifndef Q_WS_MAC
   }
-#endif
 #if !defined(Q_WS_X11)
   label_trayIconStyle->setVisible(false);
   comboTrayIcon->setVisible(false);
@@ -129,7 +125,6 @@ options_imp::options_imp(QWidget *parent):
 
   // Connect signals / slots
   connect(comboProxyType, SIGNAL(currentIndexChanged(int)),this, SLOT(enableProxy(int)));
-  connect(checkAnonymousMode, SIGNAL(toggled(bool)), this, SLOT(toggleAnonymousMode(bool)));
   connect(checkRandomPort, SIGNAL(toggled(bool)), spinPort, SLOT(setDisabled(bool)));
 
   // Apply button is activated when a value is changed
@@ -748,8 +743,6 @@ void options_imp::loadOptions() {
   comboEncryption->setCurrentIndex(pref.getEncryptionSetting());
 #if LIBTORRENT_VERSION_NUM >= 1600
   checkAnonymousMode->setChecked(pref.isAnonymousModeEnabled());
-  /* make sure ui matches options */
-  toggleAnonymousMode(checkAnonymousMode->isChecked());
 #endif
   // Ratio limit
   floatValue = pref.getGlobalMaxRatio();
@@ -1123,6 +1116,7 @@ void options_imp::on_addScanFolderButton_clicked() {
       break;
     default:
       addedScanDirs << dir;
+      scanFoldersView->resizeColumnsToContents();
       enableApplyButton();
     }
 
@@ -1254,7 +1248,7 @@ void options_imp::showConnectionTab()
 }
 
 void options_imp::on_btnWebUiCrt_clicked() {
-  QString filename = QFileDialog::getOpenFileName(this, QString(), QString(), tr("SSL Certificate (*.crt *.pem)"));
+  QString filename = QFileDialog::getOpenFileName(this, QString(), QString(), tr("SSL Certificate")+QString(" (*.crt *.pem)"));
   if (filename.isNull())
     return;
   QFile file(filename);
@@ -1265,7 +1259,7 @@ void options_imp::on_btnWebUiCrt_clicked() {
 }
 
 void options_imp::on_btnWebUiKey_clicked() {
-  QString filename = QFileDialog::getOpenFileName(this, QString(), QString(), tr("SSL Key (*.key *.pem)"));
+  QString filename = QFileDialog::getOpenFileName(this, QString(), QString(), tr("SSL Key")+QString(" (*.key *.pem)"));
   if (filename.isNull())
     return;
   QFile file(filename);
@@ -1394,25 +1388,6 @@ void options_imp::setSslCertificate(const QByteArray &cert, bool interactive)
       QMessageBox::warning(this, tr("Invalid certificate"), tr("This is not a valid SSL certificate."));
   }
 #endif
-}
-
-void options_imp::toggleAnonymousMode(bool enabled)
-{
-  if (enabled) {
-    // Disable DHT, LSD, UPnP / NAT-PMP
-    checkDHT->setEnabled(false);
-    checkDifferentDHTPort->setEnabled(false);
-    checkDHT->setChecked(false);
-    checkLSD->setEnabled(false);
-    checkLSD->setChecked(false);
-    checkUPnP->setEnabled(false);
-    checkUPnP->setChecked(false);
-  } else {
-    checkDHT->setEnabled(true);
-    checkDifferentDHTPort->setEnabled(true);
-    checkLSD->setEnabled(true);
-    checkUPnP->setEnabled(true);
-  }
 }
 
 bool options_imp::schedTimesOk() {
