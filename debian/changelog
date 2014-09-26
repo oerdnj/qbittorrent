@@ -1,3 +1,9 @@
+qbittorrent (3.1.10-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Cristian Greco <cristian@debian.org>  Fri, 26 Sep 2014 20:50:30 +0200
+
 qbittorrent (3.1.9.2-2) unstable; urgency=medium
 
   * debian/control: switch to unversioned build-depends for boost libraries.
