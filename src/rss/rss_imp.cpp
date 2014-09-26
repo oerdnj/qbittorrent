@@ -340,8 +340,11 @@ void RSSImp::downloadSelectedTorrents()
 {
   QList<QListWidgetItem*> selected_items = listArticles->selectedItems();
   foreach (const QListWidgetItem* item, selected_items) {
-    RssArticlePtr article =  m_feedList->getRSSItemFromUrl(item->data(Article::FeedUrlRole).toString())
-        ->getItem(item->data(Article::IdRole).toString());
+    if (!item) continue;
+    RssFeedPtr feed = m_feedList->getRSSItemFromUrl(item->data(Article::FeedUrlRole).toString());
+    if (!feed) continue;
+    RssArticlePtr article = feed->getItem(item->data(Article::IdRole).toString());
+    if (!article) continue;
 
     QString torrentLink = article->torrentUrl();
     // Check if it is a magnet link
@@ -629,7 +632,6 @@ void RSSImp::updateFeedIcon(const QString& url, const QString& iconPath)
 {
   QTreeWidgetItem* item = m_feedList->getTreeItemFromUrl(url);
   item->setData(0, Qt::DecorationRole, QVariant(QIcon(iconPath)));
-  fsutils::forceRemove(iconPath);
 }
 
 void RSSImp::updateFeedInfos(const QString& url, const QString& display_name, uint nbUnread)

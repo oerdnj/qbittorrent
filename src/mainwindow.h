@@ -152,6 +152,12 @@ protected:
 
 private:
   QIcon getSystrayIcon() const;
+#ifdef Q_OS_WIN
+  bool addPythonPathToEnv();
+  void installPython();
+  void pythonDownloadSuccess(QString url, QString file_path);
+  void pythonDownloadFailure(QString url, QString error);
+#endif
 
 private:
   QFileSystemWatcher *executable_watcher;
@@ -200,6 +206,9 @@ private:
 #if defined(Q_WS_WIN) || defined(Q_WS_MAC)
   QTimer programUpdateTimer;
 #endif
+#ifdef Q_OS_WIN
+  bool has_python;
+#endif
 
 private slots:
     void on_actionSearch_engine_triggered();
@@ -211,6 +220,7 @@ private slots:
     void on_actionExecution_Logs_triggered(bool checked);
     void on_actionAutoExit_qBittorrent_toggled(bool );
     void on_actionAutoSuspend_system_toggled(bool );
+    void on_actionAutoHibernate_system_toggled(bool );
     void on_actionAutoShutdown_system_toggled(bool );
     // Check for active torrents and set preventing from suspend state
     void checkForActiveTorrents();

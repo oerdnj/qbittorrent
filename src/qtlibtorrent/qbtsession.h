@@ -50,6 +50,7 @@
 #include "qtracker.h"
 #include "qtorrenthandle.h"
 #include "trackerinfos.h"
+#include "misc.h"
 
 #define MAX_SAMPLES 20
 
@@ -78,7 +79,6 @@ public:
 private:
   explicit QBtSession();
   static QBtSession* m_instance;
-  enum shutDownAction { NO_SHUTDOWN, SHUTDOWN_COMPUTER, SUSPEND_COMPUTER };
 
 public:
   static QBtSession* instance();
@@ -111,7 +111,7 @@ public:
   quint64 getAlltimeUL() const;
 
 public slots:
-  QTorrentHandle addTorrent(QString path, bool fromScanDir = false, QString from_url = QString(), bool resumed = false);
+  QTorrentHandle addTorrent(QString path, bool fromScanDir = false, QString from_url = QString(), bool resumed = false, bool imported = false);
   QTorrentHandle addMagnetUri(QString magnet_uri, bool resumed=false, bool fromScanDir=false, const QString &filePath=QString());
   void loadSessionState();
   void saveSessionState();
@@ -133,6 +133,7 @@ public slots:
   void disableIPFilter();
   void setQueueingEnabled(bool enable);
   void handleDownloadFailure(QString url, QString reason);
+  void handleMagnetRedirect(const QString &url_new, const QString &url_old);
   void downloadUrlAndSkipDialog(QString url, QString save_path=QString(), QString label=QString(), const QList<QNetworkCookie>& cookies = QList<QNetworkCookie>());
   // Session configuration - Setters
   void setListeningPort(int port);
@@ -171,7 +172,7 @@ public slots:
   void clearConsoleMessages() { consoleMessages.clear(); }
   void clearPeerBanMessages() { peerBanMessages.clear(); }
   void processDownloadedFile(QString, QString);
-  void addMagnetSkipAddDlg(const QString& uri, const QString& save_path = QString(), const QString& label = QString());
+  void addMagnetSkipAddDlg(const QString& uri, const QString& save_path = QString(), const QString& label = QString(), const QString &uri_old = QString());
   void addMagnetInteractive(const QString& uri);
   void downloadFromURLList(const QStringList& urls);
   void configureSession();
@@ -180,7 +181,7 @@ public slots:
   void unhideMagnet(const QString &hash);
 
 private:
-  QString getSavePath(const QString &hash, bool fromScanDir = false, QString filePath = QString::null);
+  QString getSavePath(const QString &hash, bool fromScanDir = false, QString filePath = QString::null, bool imported = false);
   bool loadFastResumeData(const QString &hash, std::vector<char> &buf);
   void loadTorrentSettings(QTorrentHandle &h);
   void loadTorrentTempData(QTorrentHandle &h, QString savePath, bool magnet);

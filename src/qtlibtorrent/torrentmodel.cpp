@@ -216,6 +216,10 @@ QVariant TorrentModelItem::data(int column, int role) const
     return (role == Qt::DisplayRole) ? m_torrent.active_time() : m_torrent.seeding_time();
   case TR_SAVE_PATH:
     return m_torrent.save_path_parsed();
+  case TR_COMPLETED:
+    return static_cast<qlonglong>(m_torrent.total_wanted_done());
+  case TR_RATIO_LIMIT:
+    return QBtSession::instance()->getMaxRatioPerTorrent(m_hash, NULL);
   default:
     return QVariant();
   }
@@ -235,7 +239,10 @@ void TorrentModel::populate() {
   std::vector<torrent_handle>::const_iterator it = torrents.begin();
   std::vector<torrent_handle>::const_iterator itend = torrents.end();
   for ( ; it != itend; ++it) {
-    addTorrent(QTorrentHandle(*it));
+    const QTorrentHandle h(*it);
+    if (HiddenData::hasData(h.hash()))
+      continue;
+    addTorrent(h);
   }
   // Refresh timer
   connect(&m_refreshTimer, SIGNAL(timeout()), SLOT(forceModelRefresh()));
@@ -286,6 +293,8 @@ QVariant TorrentModel::headerData(int section, Qt::Orientation orientation,
       case TorrentModelItem::TR_AMOUNT_LEFT: return tr("Remaining", "Amount of data left to download (e.g. in MB)");
       case TorrentModelItem::TR_TIME_ELAPSED: return tr("Time Active", "Time (duration) the torrent is active (not paused)");
       case TorrentModelItem::TR_SAVE_PATH: return tr("Save path", "Torrent save path");
+      case TorrentModelItem::TR_COMPLETED: return tr("Completed", "Amount of data completed (e.g. in MB)");
+      case TorrentModelItem::TR_RATIO_LIMIT: return tr("Ratio Limit", "Upload share ratio limit");
       default:
         return QVariant();
       }
@@ -427,6 +436,9 @@ TorrentStatusReport TorrentModel::getTorrentStatusReport() const
       ++report.nb_active;
       ++report.nb_downloading;
       break;
+    case TorrentModelItem::STATE_DOWNLOADING_META:
+      ++report.nb_downloading;
+      break;
     case TorrentModelItem::STATE_PAUSED_DL:
       ++report.nb_paused;
     case TorrentModelItem::STATE_STALLED_DL:
@@ -491,6 +503,7 @@ bool TorrentModel::inhibitSystem()
   for ( ; it != itend; ++it) {
     switch((*it)->data(TorrentModelItem::TR_STATUS).toInt()) {
     case TorrentModelItem::STATE_DOWNLOADING:
+    case TorrentModelItem::STATE_DOWNLOADING_META:
     case TorrentModelItem::STATE_STALLED_DL:
     case TorrentModelItem::STATE_SEEDING:
     case TorrentModelItem::STATE_STALLED_UP:
