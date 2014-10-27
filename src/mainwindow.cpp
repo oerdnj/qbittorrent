@@ -101,7 +101,7 @@ using namespace libtorrent;
  *****************************************************/
 
 // Constructor
-MainWindow::MainWindow(QWidget *parent, const QStringList& torrentCmdLine) : QMainWindow(parent), m_posInitialized(false), force_exit(false)
+MainWindow::MainWindow(QWidget *parent, const QStringList& torrentCmdLine) : QMainWindow(parent), m_posInitialized(false), force_exit(false), unlockDlgShowing(false)
 #ifdef Q_OS_WIN
 , has_python(false)
 #endif
@@ -697,8 +697,14 @@ void MainWindow::setTabText(int index, QString text) const {
 }
 
 bool MainWindow::unlockUI() {
+  if (unlockDlgShowing)
+    return false;
+  else
+    unlockDlgShowing = true;
+
   bool ok = false;
   QString clear_password = AutoExpandableDialog::getText(this, tr("UI lock password"), tr("Please type the UI lock password:"), QLineEdit::Password, "", &ok);
+  unlockDlgShowing = false;
   if (!ok) return false;
   Preferences pref;
   QString real_pass_md5 = pref.getUILockPasswordMD5();
@@ -1343,7 +1349,7 @@ void MainWindow::on_actionSearch_engine_triggered() {
     bool res = false;
 
     // Check if python is already in PATH
-    if (misc::pythonVersion())
+    if (misc::pythonVersion() > 0)
       res = true;
     else
       res = addPythonPathToEnv();
