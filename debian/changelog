@@ -1,3 +1,9 @@
+qbittorrent (3.1.11-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Cristian Greco <cristian@debian.org>  Mon, 27 Oct 2014 20:06:46 +0100
+
 qbittorrent (3.1.10-1) unstable; urgency=medium
 
   * New upstream release.
