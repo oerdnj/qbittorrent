@@ -42,6 +42,7 @@
 
 #include "torrentcreatorthread.h"
 #include "fs_utils.h"
+#include "misc.h"
 
 #if LIBTORRENT_VERSION_NUM < 1600
 #include <boost/filesystem/operations.hpp>
@@ -130,7 +131,7 @@ void TorrentCreatorThread::run() {
     if (abort) return;
     // calculate the hash for all pieces
     const QString parent_path = fsutils::branchPath(input_path) + QDir::separator();
-    set_piece_hashes(t, parent_path.toUtf8().constData(), boost::bind<void>(&sendProgressUpdateSignal, _1, t.num_pieces(), this));
+    set_piece_hashes(t, parent_path.toUtf8().constData(), boost::bind(sendProgressUpdateSignal, _1, t.num_pieces(), this));
     // Set qBittorrent as creator and add user comment to
     // torrent_info structure
     t.set_creator(creator_str.toUtf8().constData());
@@ -156,6 +157,6 @@ void TorrentCreatorThread::run() {
     emit updateProgress(100);
     emit creationSuccess(save_path, parent_path);
   } catch (std::exception& e) {
-    emit creationFailure(QString::fromLocal8Bit(e.what()));
+    emit creationFailure(misc::toQStringU(e.what()));
   }
 }
