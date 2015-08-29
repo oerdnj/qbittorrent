@@ -1,13 +1,17 @@
-language:
-  - cpp
+language: cpp
 
 env:
-  # use libtorrent 0.15.10
-  - lt_source=from_dist gui=true
-  - lt_source=from_dist gui=false
-  # use libtorrent 0.16.X from RC_0_16 svn branch
-  - lt_source=from_svn gui=true
-  - lt_source=from_svn gui=false
+  matrix:
+    # Uncomment when Travis upgraded "Ubuntu 12.04 LTS" to a newer version whose repo will have a more up-to-date libtorrent package
+    #- lt_branch=dist   gui=true
+    #- lt_branch=dist   gui=false
+    - lt_branch=RC_0_16 gui=true
+    - lt_branch=RC_0_16 gui=false
+    - lt_branch=RC_1_0  gui=true
+    - lt_branch=RC_1_0  gui=false
+  global:
+    - secure: "OI9CUjj4lTb0HwwIZU5PbECU3hLlAL6KC8KsbwohG8/O3j5fLcnmDsK4Ad9us5cC39sS11Jcd1kDP2qRcCuST/glVNhLkcjKkiQerOfd5nQ/qL4JYfz/1mfP5mdpz9jHKzpLUIG+TXkbSTjP6VVmsb5KPT+3pKEdRFZB+Pu9+J8="
+    - coverity_branch: coverity_scan
 
 branches:
   except:
@@ -17,37 +21,76 @@ branches:
 notifications:
   email:
     on_success: change
-    on_failure: change 
+    on_failure: change
+
+# container-based builds
+sudo: false
+cache:
+  directories:
+    - $HOME/.ccache
+
+addons:
+  coverity_scan:
+    project:
+      name: "qbittorrent/qBittorrent"
+      description: "Build submitted via Travis CI"
+    build_command_prepend: "./bootstrap.sh && ./configure $qbtconf"
+    build_command: make
+    branch_pattern: $coverity_branch
+    notification_email: sledgehammer999@qbittorrent.org
+  apt:
+    packages:
+    # packages list: https://github.com/travis-ci/apt-package-whitelist/blob/master/ubuntu-precise
+    - autoconf
+    - automake
+    - colormake
+    - libssl-dev
+    - libboost-dev
+    - libboost-system-dev
+    - libgeoip-dev
+    - libqt4-dev
+    # Uncomment when Travis upgraded "Ubuntu 12.04 LTS" to a newer version whose repo will have a more up-to-date libtorrent package
+    #- libtorrent-rasterbar6
+    #- libboost-filesystem-dev
 
 before_install:
+  # Only allow specific build for coverity scan, others will stop
+  - if [ "$TRAVIS_BRANCH" = "$coverity_branch" ] && ! [[ "$lt_branch" == "RC_1_0" && "$gui" == "true" ]]; then exit ; fi
+
   - shopt -s expand_aliases
-  - alias sudo="sudo "
-  # Using nprocs/2 sometimes may fail (gcc is killed by system), just use two threads
-  - alias make="colormake -j2 "
+  - if ! [ "$TRAVIS_BRANCH" = "$coverity_branch" ]; then dpkg-query -L ccache && export PATH="/usr/lib/ccache/:$PATH" ; fi
+  - alias make="colormake -j3" # Using nprocs/2 sometimes may fail (gcc is killed by system)
 
+  - libt_path="$HOME/libt_install"
+  - qbt_path="$HOME/qbt_install"
+  - ltconf="$ltconf --prefix="$libt_path" --with-libgeoip=system"
+  - qbtconf="$qbtconf --prefix="$qbt_path" PKG_CONFIG_PATH="$libt_path/lib/pkgconfig":$PKG_CONFIG_PATH"
+
+  # Options for specific branches
+  - if [[ "$lt_branch" == "RC_0_16" ]]; then qbtconf="$qbtconf --with-libtorrent-rasterbar0.16" ; fi
   # Also setup a virtual display for after_success target when gui == true
-  - if ! $gui; then qbtconf="$qbtconf --disable-gui"; else export "DISPLAY=:99.0" && /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16 ; fi
-  - ltconf=" --with-libgeoip=system"
+  - if ! $gui; then qbtconf="$qbtconf --disable-gui" ; else export "DISPLAY=:99.0" && /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16 ; fi
 
-  - echo settings
-  - echo $lt_source
-  - echo $ltconf
+  # Print settings
+  - echo $lt_branch
   - echo $gui
+  - echo $ltconf
   - echo $qbtconf
-
-  - sudo apt-get -qq update
-  # Travis can stall during heavy load if these packages are installed in one step - split the command
-  - sudo apt-get -qq install debhelper qconf colormake libssl-dev libgeoip-dev
-  - sudo apt-get -qq install libboost-dev libboost-filesystem-dev libboost-system-dev
-  - sudo apt-get -qq install libqt4-dev 
+  - ccache -V && ccache --show-stats && ccache --zero-stats
 
 install:
-  - if [[ "$lt_source" == "from_dist" ]]; then sudo apt-get -qq install libtorrent-rasterbar-dev; fi
-  - if [[ "$lt_source" == "from_svn" ]]; then cd .. && svn co svn://svn.code.sf.net/p/libtorrent/code/branches/RC_0_16 ./libtorrent && (cd libtorrent && ./autotool.sh && ./configure $ltconf && sudo make install) && sudo ldconfig /usr/local/lib && cd $TRAVIS_BUILD_DIR ; fi
+  - if ! [ "$lt_branch" == "dist" ]; then cd "$HOME" && pwd && git clone --depth 1 https://github.com/arvidn/libtorrent.git --branch $lt_branch --single-branch ; fi
+  - if ! [ "$lt_branch" == "dist" ]; then cd libtorrent && ./autotool.sh && ./configure $ltconf && make install && cd "$TRAVIS_BUILD_DIR" ; fi
 
 script:
-  - qt-qconf
-  - ./configure $qbtconf && sudo make install
-  
+  - if [ "$TRAVIS_BRANCH" = "$coverity_branch" ]; then exit ; fi # Skip usual build when running coverity scan
+  - ./bootstrap.sh && ./configure $qbtconf
+  - make install
+
 after_success:
-  - if $gui ; then qbittorrent --version ; else qbittorrent-nox --version ; fi
+  - cd "$qbt_path/bin"
+  - export LD_PRELOAD="$libt_path/lib/libtorrent-rasterbar.so:$LD_PRELOAD"
+  - if $gui ; then ./qbittorrent --version ; else ./qbittorrent-nox --version ; fi
+
+after_script:
+  - ccache --show-stats

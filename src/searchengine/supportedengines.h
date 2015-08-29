@@ -42,7 +42,8 @@
 #include <QDebug>
 
 #include "fs_utils.h"
-#include "qinisettings.h"
+#include "misc.h"
+#include "preferences.h"
 
 class SearchCategories: public QObject, public QHash<QString, QString> {
   Q_OBJECT
@@ -75,8 +76,7 @@ public:
     full_name = engine_elem.elementsByTagName("name").at(0).toElement().text();
     url = engine_elem.elementsByTagName("url").at(0).toElement().text();
     supported_categories = engine_elem.elementsByTagName("categories").at(0).toElement().text().split(" ");
-    QIniSettings settings;
-    QStringList disabled_engines = settings.value(QString::fromUtf8("SearchEngines/disabledEngines"), QStringList()).toStringList();
+    QStringList disabled_engines = Preferences::instance()->getSearchEngDisabled();
     enabled = !disabled_engines.contains(name);
   }
 
@@ -88,14 +88,14 @@ public:
   void setEnabled(bool _enabled) {
     enabled = _enabled;
     // Save to Hard disk
-    QIniSettings settings;
-    QStringList disabled_engines = settings.value(QString::fromUtf8("SearchEngines/disabledEngines"), QStringList()).toStringList();
+    Preferences* const pref = Preferences::instance();
+    QStringList disabled_engines = pref->getSearchEngDisabled();
     if (enabled) {
       disabled_engines.removeAll(name);
     } else {
       disabled_engines.append(name);
     }
-    settings.setValue("SearchEngines/disabledEngines", disabled_engines);
+    pref->setSearchEngDisabled(disabled_engines);
   }
 };
 
@@ -112,6 +112,12 @@ public:
 
   ~SupportedEngines() {
     qDeleteAll(this->values());
+  }
+
+  QStringList enginesAll() const {
+    QStringList engines;
+    foreach (const SupportedEngine *engine, values()) engines << engine->getName();
+    return engines;
   }
 
   QStringList enginesEnabled() const {
@@ -143,9 +149,9 @@ public slots:
     QProcess nova;
     nova.setEnvironment(QProcess::systemEnvironment());
     QStringList params;
-    params << fsutils::searchEngineLocation()+QDir::separator()+"nova2.py";
+    params << fsutils::toNativePath(fsutils::searchEngineLocation()+"/nova2.py");
     params << "--capabilities";
-    nova.start("python", params, QIODevice::ReadOnly);
+    nova.start(misc::pythonExecutable(), params, QIODevice::ReadOnly);
     nova.waitForStarted();
     nova.waitForFinished();
     QString capabilities = QString(nova.readAll());
