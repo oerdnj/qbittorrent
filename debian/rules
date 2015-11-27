@@ -23,9 +23,6 @@ override_dh_auto_install:
 	dh_auto_install --builddirectory build-nox --destdir debian/qbittorrent-nox
 	dh_auto_install --builddirectory build-gui --destdir debian/qbittorrent
 
-override_dh_install:
-	dh_install debian/qbittorrent.xpm usr/share/pixmaps
-
 override_dh_auto_clean:
 	dh_auto_clean --builddirectory build-nox
 	dh_auto_clean --builddirectory build-gui

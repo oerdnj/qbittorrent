@@ -1,6 +1,7 @@
 qbittorrent (3.2.5-1) UNRELEASED; urgency=medium
 
   * New upstream release (Closes: #806374).
+  * Drop menu file per the tech-ctte decision on #741573.
 
  -- Andrew Starr-Bochicchio <asb@debian.org>  Fri, 27 Nov 2015 14:43:47 -0500
 

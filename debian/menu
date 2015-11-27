@@ -1,6 +1,0 @@
-?package(qbittorrent): \
- needs="X11" \
- section="Applications/Network/File Transfer" \
- title="qBittorrent" \
- command="/usr/bin/qbittorrent" \
- icon="/usr/share/pixmaps/qbittorrent.xpm"
