@@ -52,6 +52,7 @@
 #include "scannedfoldersmodel.h"
 #include "qtracker.h"
 #include "logger.h"
+#include "unicodestrings.h"
 #ifndef DISABLE_GUI
 #include "shutdownconfirm.h"
 #include "geoipmanager.h"
@@ -449,23 +450,17 @@ void QBtSession::configureSession() {
     if (pref->isQueueingSystemEnabled()) {
         int max_downloading = pref->getMaxActiveDownloads();
         int max_active = pref->getMaxActiveTorrents();
+
         if (max_downloading > -1)
             sessionSettings.active_downloads = max_downloading + HiddenData::getDownloadingSize();
         else
             sessionSettings.active_downloads = max_downloading;
-        if (max_active > -1) {
-            int limit = max_active + HiddenData::getDownloadingSize();
-            sessionSettings.active_limit = limit;
-            sessionSettings.active_tracker_limit = limit;
-            sessionSettings.active_dht_limit = limit;
-            sessionSettings.active_lsd_limit = limit;
-        }
-        else {
+
+        if (max_active > -1)
+            sessionSettings.active_limit = max_active + HiddenData::getDownloadingSize();
+        else
             sessionSettings.active_limit = max_active;
-            sessionSettings.active_tracker_limit = max_active;
-            sessionSettings.active_dht_limit = max_active;
-            sessionSettings.active_lsd_limit = max_active;
-        }
+
         sessionSettings.active_seeds = pref->getMaxActiveUploads();
         sessionSettings.dont_count_slow_torrents = pref->ignoreSlowTorrentsForQueueing();
         setQueueingEnabled(true);
@@ -473,16 +468,16 @@ void QBtSession::configureSession() {
         sessionSettings.active_downloads = -1;
         sessionSettings.active_seeds = -1;
         sessionSettings.active_limit = -1;
-        sessionSettings.active_tracker_limit = -1;
-        sessionSettings.active_dht_limit = -1;
-        sessionSettings.active_lsd_limit = -1;
         setQueueingEnabled(false);
     }
+    sessionSettings.active_tracker_limit = -1;
+    sessionSettings.active_dht_limit = -1;
+    sessionSettings.active_lsd_limit = -1;
     // Outgoing ports
     sessionSettings.outgoing_ports = std::make_pair(pref->outgoingPortsMin(), pref->outgoingPortsMax());
     // Ignore limits on LAN
-    qDebug() << "Ignore limits on LAN" << pref->ignoreLimitsOnLAN();
-    sessionSettings.ignore_limits_on_local_network = pref->ignoreLimitsOnLAN();
+    qDebug() << "Ignore limits on LAN" << pref->getIgnoreLimitsOnLAN();
+    sessionSettings.ignore_limits_on_local_network = pref->getIgnoreLimitsOnLAN();
     // Include overhead in transfer limits
     sessionSettings.rate_limit_ip_overhead = pref->includeOverheadInLimits();
     // IP address to announce to trackers
@@ -1957,7 +1952,7 @@ void QBtSession::updateRatioTimer()
 
 // Enable IP Filtering
 void QBtSession::enableIPFilter(const QString &filter_path, bool force) {
-    qDebug("Enabling IPFiler");
+    qDebug("Enabling IPFilter");
     if (!filterParser) {
         filterParser = new FilterParserThread(this, s);
         connect(filterParser.data(), SIGNAL(IPFilterParsed(int)), SLOT(handleIPFilterParsed(int)));
@@ -2568,10 +2563,10 @@ void QBtSession::handlePeerBlockedAlert(libtorrent::peer_blocked_alert* p)
         reason = tr("because it has a low port.", "this peer was blocked because it has a low port.");
         break;
     case peer_blocked_alert::utp_disabled:
-        reason = tr("because μTP is disabled.", "this peer was blocked because μTP is disabled.");
+        reason = trUtf8("because %1 is disabled.", "this peer was blocked because uTP is disabled.").arg(QString::fromUtf8(C_UTP)); // don't translate μTP
         break;
     case peer_blocked_alert::tcp_disabled:
-        reason = tr("because TCP is disabled.", "this peer was blocked because TCP is disabled.");
+        reason = tr("because %1 is disabled.", "this peer was blocked because TCP is disabled.").arg("TCP"); // don't translate TCP
         break;
     }
 

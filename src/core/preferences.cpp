@@ -32,6 +32,7 @@
 
 #include "preferences.h"
 #include "qinisettings.h"
+#include "logger.h"
 
 #include <QCryptographicHash>
 #include <QPair>
@@ -67,12 +68,12 @@ Preferences::Preferences()
     QStringList keys = settings_new->allKeys();
     bool use_new = false;
 
-
     // This means that the PC closed either due to power outage
     // or because the disk was full. In any case the settings weren't transfered
     // in their final position. So assume that qbittorrent_new.ini/qbittorrent_new.conf
     // contains the most recent settings.
     if (!keys.isEmpty()) {
+        Logger::instance()->addMessage(tr("Detected unclean program exit. Using fallback file to restore settings."), Log::WARNING);
         use_new = true;
         dirty = true;
     }
@@ -100,7 +101,9 @@ Preferences::Preferences()
     //Ensures sync to disk before we attempt to manipulate the files from save().
     delete settings;
 #ifndef Q_OS_MAC
+    QString new_path = settings_new->fileName();
     delete settings_new;
+    fsutils::forceRemove(new_path);
 
     if (use_new)
         save();
@@ -134,7 +137,7 @@ void Preferences::drop()
 
 void Preferences::save()
 {
-    QReadLocker locker(&lock);
+    QWriteLocker locker(&lock);
 
     if (!dirty)
         return;
@@ -158,11 +161,19 @@ void Preferences::save()
 
 #ifndef Q_OS_MAC
     settings->sync(); // Important to get error status
-    if (settings->status() == QSettings::AccessError) {
+    QString new_path = settings->fileName();
+    QSettings::Status status = settings->status();
+
+    if (status != QSettings::NoError) {
+        if (status == QSettings::AccessError)
+            Logger::instance()->addMessage(tr("An access error occurred while trying to write the configuration file."), Log::CRITICAL);
+        else
+            Logger::instance()->addMessage(tr("A format error occurred while trying to write the configuration file."), Log::CRITICAL);
+
         delete settings;
+        fsutils::forceRemove(new_path);
         return;
     }
-    QString new_path = settings->fileName();
     delete settings;
     QString final_path = new_path;
     int index = final_path.lastIndexOf("_new", -1, Qt::CaseInsensitive);
@@ -1417,12 +1428,12 @@ void Preferences::setOutgoingPortsMax(uint val)
     setValue("Preferences/Advanced/OutgoingPortsMax", val);
 }
 
-bool Preferences::ignoreLimitsOnLAN() const
+bool Preferences::getIgnoreLimitsOnLAN() const
 {
     return value("Preferences/Advanced/IgnoreLimitsLAN", true).toBool();
 }
 
-void Preferences::ignoreLimitsOnLAN(bool ignore)
+void Preferences::setIgnoreLimitsOnLAN(bool ignore)
 {
     setValue("Preferences/Advanced/IgnoreLimitsLAN", ignore);
 }
@@ -1592,6 +1603,13 @@ QStringList Preferences::getTorrentLabels() const
 void Preferences::setTorrentLabels(const QStringList& labels)
 {
     setValue("TransferListFilters/customLabels", labels);
+}
+
+void Preferences::addTorrentLabelExternal(const QString &label)
+{
+    addTorrentLabel(label);
+    QString toEmit = label;
+    emit externalLabelAdded(toEmit);
 }
 
 void Preferences::addTorrentLabel(const QString& label)
@@ -2197,36 +2215,36 @@ void Preferences::setRssOpenFolders(const QStringList &folders)
 QByteArray Preferences::getRssHSplitterState() const
 {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-    return value("rss/qt5/splitter_h").toByteArray();
+    return value("Rss/qt5/splitter_h").toByteArray();
 #else
-    return value("rss/splitter_h").toByteArray();
+    return value("Rss/splitter_h").toByteArray();
 #endif
 }
 
 void Preferences::setRssHSplitterState(const QByteArray &state)
 {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-    setValue("rss/qt5/splitter_h", state);
+    setValue("Rss/qt5/splitter_h", state);
 #else
-    setValue("rss/splitter_h", state);
+    setValue("Rss/splitter_h", state);
 #endif
 }
 
 QByteArray Preferences::getRssVSplitterState() const
 {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-    return value("rss/qt5/splitter_v").toByteArray();
+    return value("Rss/qt5/splitter_v").toByteArray();
 #else
-    return value("rss/splitter_v").toByteArray();
+    return value("Rss/splitter_v").toByteArray();
 #endif
 }
 
 void Preferences::setRssVSplitterState(const QByteArray &state)
 {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-    setValue("rss/qt5/splitter_v", state);
+    setValue("Rss/qt5/splitter_v", state);
 #else
-    setValue("rss/splitter_v", state);
+    setValue("Rss/splitter_v", state);
 #endif
 }
 

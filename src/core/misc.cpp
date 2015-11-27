@@ -31,6 +31,7 @@
 #include "core/unicodestrings.h"
 #include "core/logger.h"
 #include "misc.h"
+#include "fs_utils.h"
 
 #include <cmath>
 
@@ -50,6 +51,11 @@
 #else
 #include <QApplication>
 #include <QDesktopWidget>
+#endif
+
+#ifndef DISABLE_GUI
+#include <QDesktopServices>
+#include <QProcess>
 #endif
 
 #ifdef Q_OS_WIN
@@ -332,9 +338,15 @@ QString misc::pythonVersionComplete() {
             QByteArray output = pythonProc.readAllStandardOutput();
             if (output.isEmpty())
                 output = pythonProc.readAllStandardError();
-            const QByteArray versionStr = output.split(' ').last();
-            version = versionStr.trimmed();
-            Logger::instance()->addMessage(QCoreApplication::translate("misc", "Python version: %1").arg(version), Log::INFO);
+
+            // Software 'Anaconda' installs its own python interpreter
+            // and `python --version` returns a string like this:
+            // `Python 3.4.3 :: Anaconda 2.3.0 (64-bit)`
+            const QList<QByteArray> verSplit = output.split(' ');
+            if (verSplit.size() > 1) {
+                version = verSplit.at(1).trimmed();
+                Logger::instance()->addMessage(QCoreApplication::translate("misc", "Python version: %1").arg(version), Log::INFO);
+            }
         }
     }
     return version;
@@ -592,7 +604,7 @@ QString misc::toQString(time_t t, Qt::DateFormat f)
 }
 
 #ifndef DISABLE_GUI
-bool misc::naturalSort(QString left, QString right, bool &result)   // uses lessThan comparison
+bool misc::naturalSort(const QString &left, const QString &right, bool &result)   // uses lessThan comparison
 { // Return value indicates if functions was successful
   // result argument will contain actual comparison result if function was successful
     int posL = 0;
@@ -651,6 +663,83 @@ bool misc::naturalSort(QString left, QString right, bool &result)   // uses less
 
     return false;
 }
+
+misc::NaturalCompare::NaturalCompare()
+{
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
+#if defined(Q_OS_WIN)
+    // Without ICU library, QCollator doesn't support `setNumericMode(true)` on OS older than Win7
+    if(QSysInfo::windowsVersion() < QSysInfo::WV_WINDOWS7)
+        return;
+#endif
+    m_collator.setNumericMode(true);
+    m_collator.setCaseSensitivity(Qt::CaseInsensitive);
+#endif
+}
+
+bool misc::NaturalCompare::operator()(const QString &l, const QString &r)
+{
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
+#if defined(Q_OS_WIN)
+    // Without ICU library, QCollator doesn't support `setNumericMode(true)` on OS older than Win7
+    if(QSysInfo::windowsVersion() < QSysInfo::WV_WINDOWS7)
+        return lessThan(l, r);
+#endif
+    return (m_collator.compare(l, r) < 0);
+#else
+    return lessThan(l, r);
+#endif
+}
+
+bool misc::NaturalCompare::lessThan(const QString &left, const QString &right)
+{
+    // Return value `false` indicates `right` should go before `left`, otherwise, after
+    int posL = 0;
+    int posR = 0;
+    while (true) {
+        while (true) {
+            if (posL == left.size() || posR == right.size())
+                return (left.size() < right.size());  // when a shorter string is another string's prefix, shorter string place before longer string
+
+            QChar leftChar = left[posL].toLower();
+            QChar rightChar = right[posR].toLower();
+            if (leftChar == rightChar)
+                ;  // compare next character
+            else if (leftChar.isDigit() && rightChar.isDigit())
+                break; // Both are digits, break this loop and compare numbers
+            else
+                return leftChar < rightChar;
+
+            ++posL;
+            ++posR;
+        }
+
+        int startL = posL;
+        while ((posL < left.size()) && left[posL].isDigit())
+            ++posL;
+#if QT_VERSION >= QT_VERSION_CHECK(5, 1, 0)
+        int numL = left.midRef(startL, posL - startL).toInt();
+#else
+        int numL = left.mid(startL, posL - startL).toInt();
+#endif
+
+        int startR = posR;
+        while ((posR < right.size()) && right[posR].isDigit())
+            ++posR;
+#if QT_VERSION >= QT_VERSION_CHECK(5, 1, 0)
+        int numR = right.midRef(startR, posR - startR).toInt();
+#else
+        int numR = right.mid(startR, posR - startR).toInt();
+#endif
+
+        if (numL != numR)
+            return (numL < numR);
+
+        // Strings + digits do match and we haven't hit string end
+        // Do another round
+    }
+    return false;
+}
 #endif
 
 // to send numbers instead of strings with suffixes
@@ -691,6 +780,90 @@ void misc::loadBencodedFile(const QString &filename, std::vector<char> &buffer, 
     // bdecode
     lazy_bdecode(&buffer[0], &buffer[0] + buffer.size(), entry, ec);
 }
+
+#ifndef DISABLE_GUI
+// Open the given path with an appropriate application
+void misc::openPath(const QString& absolutePath)
+{
+    const QString path = fsutils::fromNativePath(absolutePath);
+    // Hack to access samba shares with QDesktopServices::openUrl
+    if (path.startsWith("//"))
+        QDesktopServices::openUrl(fsutils::toNativePath("file:" + path));
+    else
+        QDesktopServices::openUrl(QUrl::fromLocalFile(path));
+}
+
+// Open the parent directory of the given path with a file manager and select
+// (if possible) the item at the given path
+void misc::openFolderSelect(const QString& absolutePath)
+{
+    const QString path = fsutils::fromNativePath(absolutePath);
+#ifdef Q_OS_WIN
+    if (QFileInfo(path).exists()) {
+        // Syntax is: explorer /select, "C:\Folder1\Folder2\file_to_select"
+        // Dir separators MUST be win-style slashes
+
+        // QProcess::startDetached() has an obscure bug. If the path has
+        // no spaces and a comma(and maybe other special characters) it doesn't
+        // get wrapped in quotes. So explorer.exe can't find the correct path and
+        // displays the default one. If we wrap the path in quotes and pass it to
+        // QProcess::startDetached() explorer.exe still shows the default path. In
+        // this case QProcess::startDetached() probably puts its own quotes around ours.
+
+        STARTUPINFO startupInfo;
+        ::ZeroMemory(&startupInfo, sizeof(startupInfo));
+        startupInfo.cb = sizeof(startupInfo);
+
+        PROCESS_INFORMATION processInfo;
+        ::ZeroMemory(&processInfo, sizeof(processInfo));
+
+        QString cmd = QString("explorer.exe /select,\"%1\"").arg(fsutils::toNativePath(absolutePath));
+        LPWSTR lpCmd = new WCHAR[cmd.size() + 1];
+        cmd.toWCharArray(lpCmd);
+        lpCmd[cmd.size()] = 0;
+
+        bool ret = ::CreateProcessW(NULL, lpCmd, NULL, NULL, FALSE, 0, NULL, NULL, &startupInfo, &processInfo);
+        delete [] lpCmd;
+
+        if (ret) {
+            ::CloseHandle(processInfo.hProcess);
+            ::CloseHandle(processInfo.hThread);
+        }
+    }
+    else {
+        // If the item to select doesn't exist, try to open its parent
+        openPath(path.left(path.lastIndexOf("/")));
+    }
+#elif defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+    if (QFileInfo(path).exists()) {
+        QProcess proc;
+        QString output;
+        proc.start("xdg-mime", QStringList() << "query" << "default" << "inode/directory");
+        proc.waitForFinished();
+        output = proc.readLine().simplified();
+        if (output == "dolphin.desktop" || output == "org.kde.dolphin.desktop")
+            proc.startDetached("dolphin", QStringList() << "--select" << fsutils::toNativePath(path));
+        else if (output == "nautilus.desktop" || output == "org.gnome.Nautilus.desktop"
+                 || output == "nautilus-folder-handler.desktop")
+            proc.startDetached("nautilus", QStringList() << "--no-desktop" << fsutils::toNativePath(path));
+        else if (output == "caja-folder-handler.desktop")
+            proc.startDetached("caja", QStringList() << "--no-desktop" << fsutils::toNativePath(path));
+        else if (output == "nemo.desktop")
+            proc.startDetached("nemo", QStringList() << "--no-desktop" << fsutils::toNativePath(path));
+        else if (output == "konqueror.desktop" || output == "kfmclient_dir.desktop")
+            proc.startDetached("konqueror", QStringList() << "--select" << fsutils::toNativePath(path));
+        else
+            openPath(path.left(path.lastIndexOf("/")));
+    }
+    else {
+        // If the item to select doesn't exist, try to open its parent
+        openPath(path.left(path.lastIndexOf("/")));
+    }
+#else
+    openPath(path.left(path.lastIndexOf("/")));
+#endif
+}
+#endif // DISABLE_GUI
 
 namespace {
 //  Trick to get a portable sleep() function

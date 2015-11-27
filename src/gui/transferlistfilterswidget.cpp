@@ -619,7 +619,8 @@ void TrackerFiltersList::handleFavicoDownload(const QString& url, const QString&
     QListWidgetItem *trackerItem = item(rowFromTracker(host));
     QIcon icon(filePath);
     //Detect a non-decodable icon
-    bool invalid = icon.pixmap(icon.availableSizes().first()).isNull();
+    QList<QSize> sizes = icon.availableSizes();
+    bool invalid = (sizes.size() > 0 ? icon.pixmap(sizes.first()).isNull() : true);
     if (invalid) {
         if (url.endsWith(".ico", Qt::CaseInsensitive)) {
             Logger::instance()->addMessage(tr("Couldn't decode favicon for URL `%1`. Trying to download favicon in PNG format.").arg(url),
@@ -643,6 +644,8 @@ void TrackerFiltersList::handleFavicoFailure(const QString& url, const QString& 
     // that.
     Logger::instance()->addMessage(tr("Couldn't download favicon for URL `%1`. Reason: `%2`").arg(url).arg(error),
                                    Log::WARNING);
+    if (url.endsWith(".ico", Qt::CaseInsensitive))
+        m_downloader->downloadUrl(url.left(url.size() - 4) + ".png");
 }
 
 void TrackerFiltersList::showMenu(QPoint)
@@ -812,6 +815,7 @@ TransferListFiltersWidget::TransferListFiltersWidget(QWidget *parent, TransferLi
     connect(statusLabel, SIGNAL(toggled(bool)), pref, SLOT(setStatusFilterState(const bool)));
     connect(labelLabel, SIGNAL(toggled(bool)), labelFilters, SLOT(toggleFilter(bool)));
     connect(labelLabel, SIGNAL(toggled(bool)), pref, SLOT(setLabelFilterState(const bool)));
+    connect(pref, SIGNAL(externalLabelAdded(QString&)), labelFilters, SLOT(addItem(QString&)));
     connect(trackerLabel, SIGNAL(toggled(bool)), trackerFilters, SLOT(toggleFilter(bool)));
     connect(trackerLabel, SIGNAL(toggled(bool)), pref, SLOT(setTrackerFilterState(const bool)));
     connect(this, SIGNAL(trackerSuccess(const QString &, const QString &)), trackerFilters, SLOT(trackerSuccess(const QString &, const QString &)));

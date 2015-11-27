@@ -32,7 +32,6 @@
 #include <QShortcut>
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
-#include <QDesktopServices>
 #include <QTimer>
 #include <QClipboard>
 #include <QColor>
@@ -179,7 +178,7 @@ TorrentModel* TransferListWidget::getSourceModel() const
 
 void TransferListWidget::previewFile(QString filePath)
 {
-    openUrl(filePath);
+    misc::openPath(filePath);
 }
 
 void TransferListWidget::setRefreshInterval(int t)
@@ -233,8 +232,11 @@ void TransferListWidget::torrentDoubleClicked(const QModelIndex& index)
             h.pause();
         break;
     case OPEN_DEST:
-        const QString path = h.root_path();
-        openUrl(path);
+        if (h.num_files() == 1)
+            misc::openFolderSelect(QDir(h.root_path()).absoluteFilePath(h.filepath_at(0)));
+        else
+            misc::openPath(h.root_path());
+        break;
     }
 }
 
@@ -458,14 +460,18 @@ void TransferListWidget::openSelectedTorrentsFolder() const
     const QStringList hashes = getSelectedTorrentsHashes();
     foreach (const QString &hash, hashes) {
         const QTorrentHandle h = BTSession->getTorrentHandle(hash);
-        if (h.is_valid()) {
-            QString rootFolder = h.root_path();
-            qDebug("Opening path at %s", qPrintable(rootFolder));
-            if (!pathsList.contains(rootFolder)) {
-                pathsList.insert(rootFolder);
-                openUrl(rootFolder);
-            }
+        QString path;
+        if (h.num_files() == 1) {
+            path = QDir(h.root_path()).absoluteFilePath(h.filepath_at(0));
+            if (!pathsList.contains(path))
+                misc::openFolderSelect(path);
         }
+        else {
+            path = h.root_path();
+            if (!pathsList.contains(path))
+                misc::openPath(path);
+        }
+        pathsList.insert(path);
     }
 }
 
@@ -670,16 +676,6 @@ void TransferListWidget::askNewLabelForSelection()
     } while(invalid);
 }
 
-bool TransferListWidget::openUrl(const QString &_path) const
-{
-    const QString path = fsutils::fromNativePath(_path);
-    // Hack to access samba shares with QDesktopServices::openUrl
-    if (path.startsWith("//"))
-        return QDesktopServices::openUrl(fsutils::toNativePath("file:" + path));
-    else
-        return QDesktopServices::openUrl(QUrl::fromLocalFile(path));
-}
-
 void TransferListWidget::renameSelectedTorrent()
 {
     const QModelIndexList selectedIndexes = selectionModel()->selectedRows();
@@ -786,6 +782,8 @@ void TransferListWidget::displayListMenu(const QPoint&)
     bool all_same_sequential_download_mode = true, all_same_prio_firstlast = true;
     bool sequential_download_mode = false, prioritize_first_last = false;
     bool one_has_metadata = false, one_not_seed = false;
+    bool all_same_label = true;
+    QString first_label;
     bool first = true;
     QTorrentHandle h;
     qDebug("Displaying menu");
@@ -795,6 +793,12 @@ void TransferListWidget::displayListMenu(const QPoint&)
         // Get handle and pause the torrent
         h = BTSession->getTorrentHandle(hash);
         if (!h.is_valid()) continue;
+
+        if (first_label.isEmpty() && first)
+            first_label = listModel->data(listModel->index(mapToSource(index).row(), TorrentModelItem::TR_LABEL)).toString();
+
+        all_same_label = (first_label == (listModel->data(listModel->index(mapToSource(index).row(), TorrentModelItem::TR_LABEL)).toString()));
+
         if (h.has_metadata())
             one_has_metadata = true;
         if (!h.is_seed()) {
@@ -836,8 +840,8 @@ void TransferListWidget::displayListMenu(const QPoint&)
         first = false;
 
         if (one_has_metadata && one_not_seed && !all_same_sequential_download_mode
-            && !all_same_prio_firstlast && !all_same_super_seeding && needs_start
-            && needs_force && needs_pause && needs_preview) {
+            && !all_same_prio_firstlast && !all_same_super_seeding && !all_same_label
+            && needs_start && needs_force && needs_pause && needs_preview) {
             break;
         }
     }
@@ -864,7 +868,13 @@ void TransferListWidget::displayListMenu(const QPoint&)
     labelMenu->addSeparator();
     foreach (QString label, customLabels) {
         label.replace('&', "&&");  // avoid '&' becomes accelerator key
-        labelActions << labelMenu->addAction(IconProvider::instance()->getIcon("inode-directory"), label);
+        QAction *lb = new QAction(IconProvider::instance()->getIcon("inode-directory"), label, labelMenu);
+        if (all_same_label && (label == first_label)) {
+            lb->setCheckable(true);
+            lb->setChecked(true);
+        }
+        labelMenu->addAction(lb);
+        labelActions << lb;
     }
     listMenu.addSeparator();
     if (one_not_seed)

@@ -113,6 +113,7 @@ private:
 
 signals:
     void changed();
+    void externalLabelAdded(QString&);
 
 public slots:
     void save();
@@ -367,8 +368,8 @@ public:
     void setOutgoingPortsMin(uint val);
     uint outgoingPortsMax() const;
     void setOutgoingPortsMax(uint val);
-    bool ignoreLimitsOnLAN() const;
-    void ignoreLimitsOnLAN(bool ignore);
+    bool getIgnoreLimitsOnLAN() const;
+    void setIgnoreLimitsOnLAN(bool ignore);
     bool includeOverheadInLimits() const;
     void includeOverheadInLimits(bool include);
     bool trackerExchangeEnabled() const;
@@ -403,6 +404,7 @@ public:
 #endif
     QStringList getTorrentLabels() const;
     void setTorrentLabels(const QStringList& labels);
+    void addTorrentLabelExternal(const QString &label);
     void addTorrentLabel(const QString& label);
     void removeTorrentLabel(const QString& label);
     bool recursiveDownloadDisabled() const;
