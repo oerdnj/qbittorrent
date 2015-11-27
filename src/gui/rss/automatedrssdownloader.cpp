@@ -43,6 +43,7 @@
 #include "iconprovider.h"
 #include "autoexpandabledialog.h"
 #include "fs_utils.h"
+#include "misc.h"
 
 AutomatedRssDownloader::AutomatedRssDownloader(const QWeakPointer<RssManager>& manager, QWidget *parent) :
   QDialog(parent),
@@ -248,7 +249,9 @@ void AutomatedRssDownloader::updateRuleDefinitionBox()
         ui->lineEFilter->clear();
       ui->saveDiffDir_check->setChecked(!rule->savePath().isEmpty());
       ui->lineSavePath->setText(fsutils::toNativePath(rule->savePath()));
+      ui->checkRegex->blockSignals(true);
       ui->checkRegex->setChecked(rule->useRegex());
+      ui->checkRegex->blockSignals(false);
       if (rule->label().isEmpty()) {
         ui->comboLabel->setCurrentIndex(-1);
         ui->comboLabel->clearEditText();
@@ -308,10 +311,10 @@ RssDownloadRulePtr AutomatedRssDownloader::getCurrentRule() const
 void AutomatedRssDownloader::initLabelCombobox()
 {
   // Load custom labels
-  const QStringList customLabels = Preferences::instance()->getTorrentLabels();
-  foreach (const QString& label, customLabels) {
-    ui->comboLabel->addItem(label);
-  }
+  QStringList customLabels = Preferences::instance()->getTorrentLabels();
+  std::sort(customLabels.begin(), customLabels.end(), misc::NaturalCompare());
+  foreach (const QString& l, customLabels)
+    ui->comboLabel->addItem(l);
 }
 
 void AutomatedRssDownloader::saveEditedRule()
@@ -344,7 +347,7 @@ void AutomatedRssDownloader::saveEditedRule()
   rule->setAddPaused(RssDownloadRule::AddPausedState(ui->comboAddPaused->currentIndex()));
   // Save new label
   if (!rule->label().isEmpty())
-    Preferences::instance()->addTorrentLabel(rule->label());
+    Preferences::instance()->addTorrentLabelExternal(rule->label());
   rule->setIgnoreDays(ui->spinIgnorePeriod->value());
   //rule->setRssFeeds(getSelectedFeeds());
   // Save it

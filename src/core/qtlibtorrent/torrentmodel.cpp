@@ -208,32 +208,36 @@ QIcon TorrentModelItem::getIconByState(State state) {
 }
 
 QColor TorrentModelItem::getColorByState(State state) {
+    // Color names taken from http://cloford.com/resources/colours/500col.htm
     bool dark = isDarkTheme();
     switch (state) {
     case STATE_DOWNLOADING:
     case STATE_DOWNLOADING_META:
     case STATE_FORCED_DL:
-        return QColor(34, 139, 34); // Forest Green
+        if (!dark)
+            return QColor(34, 139, 34); // Forest Green
+        else
+            return QColor(50, 205, 50); // Lime Green
     case STATE_ALLOCATING:
     case STATE_STALLED_DL:
     case STATE_STALLED_UP:
         if (!dark)
             return QColor(0, 0, 0); // Black
         else
-            return QColor(255, 255, 255); // White
+            return QColor(204, 204, 204); // Gray 80
     case STATE_SEEDING:
     case STATE_FORCED_UP:
         if (!dark)
             return QColor(65, 105, 225); // Royal Blue
         else
-            return QColor(100, 149, 237); // Cornflower Blue
+            return QColor(99, 184, 255); // Steel Blue 1
     case STATE_PAUSED_DL:
         return QColor(250, 128, 114); // Salmon
     case STATE_PAUSED_UP:
         if (!dark)
             return QColor(0, 0, 139); // Dark Blue
         else
-            return QColor(65, 105, 225); // Royal Blue
+            return QColor(79, 148, 205); // Steel Blue 3
     case STATE_PAUSED_MISSING:
         return QColor(255, 0, 0); // red
     case STATE_QUEUED_DL:
@@ -242,7 +246,10 @@ QColor TorrentModelItem::getColorByState(State state) {
     case STATE_CHECKING_DL:
     case STATE_QUEUED_CHECK:
     case STATE_QUEUED_FASTCHECK:
-        return QColor(0, 128, 128); // Teal
+        if (!dark)
+            return QColor(0, 128, 128); // Teal
+        else
+            return QColor(0, 205, 205); // Cyan 3
     case STATE_INVALID:
         return QColor(255, 0, 0); // red
     default:
