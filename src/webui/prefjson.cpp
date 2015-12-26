@@ -29,16 +29,15 @@
  */
 
 #include "prefjson.h"
-#include "preferences.h"
-#include "qbtsession.h"
-#include "scannedfoldersmodel.h"
-#include "fs_utils.h"
+#include "base/preferences.h"
+#include "base/scanfoldersmodel.h"
+#include "base/utils/fs.h"
 
-#include <libtorrent/version.hpp>
 #ifndef QT_NO_OPENSSL
 #include <QSslCertificate>
 #include <QSslKey>
 #endif
+#include <QStringList>
 #include <QTranslator>
 #include <QCoreApplication>
 #include "jsonutils.h"
@@ -54,21 +53,28 @@ QByteArray prefjson::getPreferences()
 
     // Downloads
     // Hard Disk
-    data["save_path"] = fsutils::toNativePath(pref->getSavePath());
+    data["save_path"] = Utils::Fs::toNativePath(pref->getSavePath());
     data["temp_path_enabled"] = pref->isTempPathEnabled();
-    data["temp_path"] = fsutils::toNativePath(pref->getTempPath());
+    data["temp_path"] = Utils::Fs::toNativePath(pref->getTempPath());
     data["preallocate_all"] = pref->preAllocateAllFiles();
     data["incomplete_files_ext"] = pref->useIncompleteFilesExtension();
-    QVariantList l;
-    foreach (const QString& s, pref->getScanDirs())
-        l << fsutils::toNativePath(s);
-    data["scan_dirs"] = l;
+    QVariantList scanDirs;
+    foreach (const QString& s, pref->getScanDirs()) {
+        scanDirs << Utils::Fs::toNativePath(s);
+    }
+    data["scan_dirs"] = scanDirs;
+    QVariantList ScanDirsDownloadPaths;
+    foreach (const QString& s, pref->getScanDirsDownloadPaths()) {
+        ScanDirsDownloadPaths << Utils::Fs::toNativePath(s);
+    }
+    data["scan_dirs_download_paths"] = ScanDirsDownloadPaths;
     QVariantList var_list;
-    foreach (bool b, pref->getDownloadInScanDirs())
+    foreach (bool b, pref->getDownloadInScanDirs()) {
         var_list << b;
+    }
     data["download_in_scan_dirs"] = var_list;
-    data["export_dir"] = fsutils::toNativePath(pref->getTorrentExportDir());
-    data["export_dir_fin"] = fsutils::toNativePath(pref->getFinishedTorrentExportDir());
+    data["export_dir"] = Utils::Fs::toNativePath(pref->getTorrentExportDir());
+    data["export_dir_fin"] = Utils::Fs::toNativePath(pref->getFinishedTorrentExportDir());
     // Email notification upon download completion
     data["mail_notification_enabled"] = pref->isMailNotificationEnabled();
     data["mail_notification_email"] = pref->getMailNotificationEmail();
@@ -79,7 +85,7 @@ QByteArray prefjson::getPreferences()
     data["mail_notification_password"] = pref->getMailNotificationSMTPPassword();
     // Run an external program on torrent completion
     data["autorun_enabled"] = pref->isAutoRunEnabled();
-    data["autorun_program"] = fsutils::toNativePath(pref->getAutoRunProgram());
+    data["autorun_program"] = Utils::Fs::toNativePath(pref->getAutoRunProgram());
 
     // Connection
     // Listening Port
@@ -96,15 +102,13 @@ QByteArray prefjson::getPreferences()
     data["proxy_ip"] = pref->getProxyIp();
     data["proxy_port"] = pref->getProxyPort();
     data["proxy_peer_connections"] = pref->proxyPeerConnections();
-#if LIBTORRENT_VERSION_NUM >= 10000
     data["force_proxy"] = pref->getForceProxy();
-#endif
     data["proxy_auth_enabled"] = pref->isProxyAuthEnabled();
     data["proxy_username"] = pref->getProxyUsername();
     data["proxy_password"] = pref->getProxyPassword();
     // IP Filtering
     data["ip_filter_enabled"] = pref->isFilteringEnabled();
-    data["ip_filter_path"] = fsutils::toNativePath(pref->getFilter());
+    data["ip_filter_path"] = Utils::Fs::toNativePath(pref->getFilter());
     data["ip_filter_trackers"] = pref->isFilteringTrackerEnabled();
 
     // Speed
@@ -142,7 +146,7 @@ QByteArray prefjson::getPreferences()
     // Share Ratio Limiting
     data["max_ratio_enabled"] = (pref->getGlobalMaxRatio() >= 0.);
     data["max_ratio"] = pref->getGlobalMaxRatio();
-    data["max_ratio_act"] = pref->getMaxRatioAction();
+    data["max_ratio_act"] = static_cast<int>(pref->getMaxRatioAction());
 
     // Web UI
     // Language
@@ -184,27 +188,32 @@ void prefjson::setPreferences(const QString& json)
         pref->preAllocateAllFiles(m["preallocate_all"].toBool());
     if (m.contains("incomplete_files_ext"))
         pref->useIncompleteFilesExtension(m["incomplete_files_ext"].toBool());
-    if (m.contains("scan_dirs") && m.contains("download_in_scan_dirs")) {
+    if (m.contains("scan_dirs") && m.contains("download_in_scan_dirs") && m.contains("scan_dirs_download_paths")) {
         QVariantList download_at_path_tmp = m["download_in_scan_dirs"].toList();
         QList<bool> download_at_path;
-        foreach (QVariant var, download_at_path_tmp)
+        foreach (QVariant var, download_at_path_tmp) {
             download_at_path << var.toBool();
+        }
         QStringList old_folders = pref->getScanDirs();
         QStringList new_folders = m["scan_dirs"].toStringList();
+        QStringList download_paths = m["scan_dirs_download_paths"].toStringList();
         if (download_at_path.size() == new_folders.size()) {
             pref->setScanDirs(new_folders);
             pref->setDownloadInScanDirs(download_at_path);
+            pref->setScanDirsDownloadPaths(download_paths);
             foreach (const QString &old_folder, old_folders) {
                 // Update deleted folders
-                if (!new_folders.contains(old_folder))
-                    QBtSession::instance()->getScanFoldersModel()->removePath(old_folder);
+                if (!new_folders.contains(old_folder)) {
+                    ScanFoldersModel::instance()->removePath(old_folder);
+                }
             }
             int i = 0;
             foreach (const QString &new_folder, new_folders) {
                 qDebug("New watched folder: %s", qPrintable(new_folder));
                 // Update new folders
-                if (!old_folders.contains(fsutils::fromNativePath(new_folder)))
-                    QBtSession::instance()->getScanFoldersModel()->addPath(new_folder, download_at_path.at(i));
+                if (!old_folders.contains(Utils::Fs::fromNativePath(new_folder))) {
+                    ScanFoldersModel::instance()->addPath(new_folder, download_at_path.at(i), download_paths.at(i));
+                }
                 ++i;
             }
         }
@@ -260,10 +269,8 @@ void prefjson::setPreferences(const QString& json)
         pref->setProxyPort(m["proxy_port"].toUInt());
     if (m.contains("proxy_peer_connections"))
         pref->setProxyPeerConnections(m["proxy_peer_connections"].toBool());
-#if LIBTORRENT_VERSION_NUM >= 10000
     if (m.contains("force_proxy"))
         pref->setForceProxy(m["force_proxy"].toBool());
-#endif
     if (m.contains("proxy_auth_enabled"))
         pref->setProxyAuthEnabled(m["proxy_auth_enabled"].toBool());
     if (m.contains("proxy_username"))
@@ -297,12 +304,14 @@ void prefjson::setPreferences(const QString& json)
     // Scheduling
     if (m.contains("scheduler_enabled"))
         pref->setSchedulerEnabled(m["scheduler_enabled"].toBool());
-    if (m.contains("schedule_from_hour") && m.contains("schedule_from_min"))
+    if (m.contains("schedule_from_hour") && m.contains("schedule_from_min")) {
         pref->setSchedulerStartTime(QTime(m["schedule_from_hour"].toInt(),
-                                          m["schedule_from_min"].toInt()));
-    if (m.contains("schedule_to_hour") && m.contains("schedule_to_min"))
+                                                                         m["schedule_from_min"].toInt()));
+    }
+    if (m.contains("schedule_to_hour") && m.contains("schedule_to_min")) {
         pref->setSchedulerEndTime(QTime(m["schedule_to_hour"].toInt(),
-                                        m["schedule_to_min"].toInt()));
+                                                                     m["schedule_to_min"].toInt()));
+    }
     if (m.contains("scheduler_days"))
         pref->setSchedulerDays(scheduler_days(m["scheduler_days"].toInt()));
 
@@ -335,7 +344,7 @@ void prefjson::setPreferences(const QString& json)
     else
         pref->setGlobalMaxRatio(-1);
     if (m.contains("max_ratio_act"))
-        pref->setMaxRatioAction(m["max_ratio_act"].toInt());
+        pref->setMaxRatioAction(static_cast<MaxRatioAction>(m["max_ratio_act"].toInt()));
 
     // Web UI
     // Language
@@ -343,10 +352,11 @@ void prefjson::setPreferences(const QString& json)
         QString locale = m["locale"].toString();
         if (pref->getLocale() != locale) {
             QTranslator *translator = new QTranslator;
-            if (translator->load(QString::fromUtf8(":/lang/qbittorrent_") + locale))
+            if (translator->load(QString::fromUtf8(":/lang/qbittorrent_") + locale)) {
                 qDebug("%s locale recognized, using translation.", qPrintable(locale));
-            else
+            }else{
                 qDebug("%s locale unrecognized, using default (en).", qPrintable(locale));
+            }
             qApp->installTranslator(translator);
 
             pref->setLocale(locale);
@@ -391,5 +401,5 @@ void prefjson::setPreferences(const QString& json)
         pref->setDynDomainName(m["dyndns_domain"].toString());
 
     // Save preferences
-    pref->save();
+    pref->apply();
 }

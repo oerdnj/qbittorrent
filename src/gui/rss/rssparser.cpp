@@ -29,8 +29,8 @@
  */
 
 #include "rssparser.h"
-#include "downloadthread.h"
-#include "fs_utils.h"
+#include "base/utils/fs.h"
+
 #include <QDebug>
 #include <QFile>
 #include <QRegExp>
@@ -57,12 +57,6 @@ static const char shortMonth[][4] = {
   "Jan", "Feb", "Mar", "Apr",
   "May", "Jun", "Jul", "Aug",
   "Sep", "Oct", "Nov", "Dec"
-};
-static const char longMonth[][10] = {
-  "January", "February", "March",
-  "April", "May", "June",
-  "July", "August", "September",
-  "October", "November", "December"
 };
 
 // Ported to Qt4 from KDElibs4
@@ -214,7 +208,7 @@ void RssParser::parseRssFile(const QString& feedUrl, const QString& filePath)
 {
   qDebug() << Q_FUNC_INFO << feedUrl << filePath;
   m_mutex.lock();
-  ParsingJob job = { feedUrl, fsutils::fromNativePath(filePath) };
+  ParsingJob job = { feedUrl, Utils::Fs::fromNativePath(filePath) };
   m_queue.enqueue(job);
   // Wake up thread.
   if (m_queue.count() == 1) {
@@ -504,18 +498,18 @@ void RssParser::parseFeed(const ParsingJob& job)
   }
 
   if (!found_channel) {
-    reportFailure(job, tr("Invalid RSS feed at %1.").arg(job.feedUrl));
+    reportFailure(job, tr("Invalid RSS feed at '%1'.").arg(job.feedUrl));
     return;
   }
 
   // Clean up
   fileRss.close();
   emit feedParsingFinished(job.feedUrl, QString());
-  fsutils::forceRemove(job.filePath);
+  Utils::Fs::forceRemove(job.filePath);
 }
 
 void RssParser::reportFailure(const ParsingJob& job, const QString& error)
 {
   emit feedParsingFinished(job.feedUrl, error);
-  fsutils::forceRemove(job.filePath);
+  Utils::Fs::forceRemove(job.filePath);
 }

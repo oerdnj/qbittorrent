@@ -33,6 +33,7 @@
 #include <QScopedPointer>
 
 #ifndef DISABLE_GUI
+// GUI-only includes
 #include <QFont>
 #include <QMessageBox>
 #include <QPainter>
@@ -41,14 +42,19 @@
 #include <QSplashScreen>
 #ifdef QBT_STATIC_QT
 #include <QtPlugin>
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+#ifdef QBT_USES_QT5
 Q_IMPORT_PLUGIN(QICOPlugin)
 #else
 Q_IMPORT_PLUGIN(qico)
 #endif
 #endif // QBT_STATIC_QT
-#else // DISABLE_GUI
+
+#else
+// NoGUI-only includes
 #include <cstdio>
+#ifdef Q_OS_UNIX
+#include "unistd.h"
+#endif
 #endif // DISABLE_GUI
 
 #ifdef Q_OS_UNIX
@@ -66,9 +72,10 @@ Q_IMPORT_PLUGIN(qico)
 #include <cstdlib>
 #include <iostream>
 #include "application.h"
-#include "misc.h"
-#include "preferences.h"
-#include "logger.h"
+#include "base/utils/misc.h"
+#include "base/preferences.h"
+
+#include "upgrade.h"
 
 // Signal handlers
 #if defined(Q_OS_UNIX) || defined(STACKTRACE_WIN)
@@ -120,13 +127,11 @@ QBtCommandLineParameters parseCommandLine();
 // Main
 int main(int argc, char *argv[])
 {
-    //Initialize logger singleton here to avoid threading issues
-    Logger::instance()->addMessage(QObject::tr("qBittorrent %1 started", "qBittorrent v3.2.0alpha started").arg(VERSION));
     // We must save it here because QApplication constructor may change it
     bool isOneArg = (argc == 2);
 
     // Create Application
-    QString appId = QLatin1String("qBittorrent-") + misc::getUserIDString();
+    QString appId = QLatin1String("qBittorrent-") + Utils::Misc::getUserIDString();
     QScopedPointer<Application> app(new Application(appId, argc, argv));
 
     const QBtCommandLineParameters params = parseCommandLine();
@@ -176,8 +181,16 @@ int main(int argc, char *argv[])
     if (!qputenv("QBITTORRENT", QByteArray(VERSION)))
         std::cerr << "Couldn't set environment variable...\n";
 
+#ifndef DISABLE_GUI
     if (!userAgreesWithLegalNotice())
         return EXIT_SUCCESS;
+#else
+    if (!params.shouldDaemonize
+        && isatty(fileno(stdin))
+        && isatty(fileno(stdout))
+        && !userAgreesWithLegalNotice())
+        return EXIT_SUCCESS;
+#endif
 
     // Check if qBittorrent is already running for this user
     if (app->isRunning()) {
@@ -191,11 +204,19 @@ int main(int argc, char *argv[])
 #endif
         qDebug("qBittorrent is already running for this user.");
 
-        misc::msleep(300);
+        Utils::Misc::msleep(300);
         app->sendParams(params.torrents);
 
         return EXIT_SUCCESS;
     }
+
+#ifndef DISABLE_GUI
+    if (!upgrade()) return EXIT_FAILURE;
+#else
+    if (!upgrade(!params.shouldDaemonize
+                 && isatty(fileno(stdin))
+                 && isatty(fileno(stdout)))) return EXIT_FAILURE;
+#endif
 
     srand(time(0));
 #ifdef DISABLE_GUI
@@ -398,7 +419,7 @@ void displayUsage(const QString& prg_name)
 #else
     QMessageBox msgBox(QMessageBox::Information, QObject::tr("Help"), makeUsage(prg_name), QMessageBox::Ok);
     msgBox.show(); // Need to be shown or to moveToCenter does not work
-    msgBox.move(misc::screenCenter(&msgBox));
+    msgBox.move(Utils::Misc::screenCenter(&msgBox));
     msgBox.exec();
 #endif
 }
@@ -410,7 +431,7 @@ void displayBadArgMessage(const QString& message)
     QMessageBox msgBox(QMessageBox::Critical, QObject::tr("Bad command line"),
                        message + QLatin1Char('\n') + help, QMessageBox::Ok);
     msgBox.show(); // Need to be shown or to moveToCenter does not work
-    msgBox.move(misc::screenCenter(&msgBox));
+    msgBox.move(Utils::Misc::screenCenter(&msgBox));
     msgBox.exec();
 #else
     std::cerr << qPrintable(QObject::tr("Bad command line: "));
@@ -442,7 +463,7 @@ bool userAgreesWithLegalNotice()
     msgBox.addButton(QObject::tr("Cancel"), QMessageBox::RejectRole);
     QAbstractButton *agree_button = msgBox.addButton(QObject::tr("I Agree"), QMessageBox::AcceptRole);
     msgBox.show(); // Need to be shown or to moveToCenter does not work
-    msgBox.move(misc::screenCenter(&msgBox));
+    msgBox.move(Utils::Misc::screenCenter(&msgBox));
     msgBox.exec();
     if (msgBox.clickedButton() == agree_button) {
         // Save the answer

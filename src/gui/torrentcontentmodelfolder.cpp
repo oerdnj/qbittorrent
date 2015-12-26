@@ -28,6 +28,7 @@
  * Contact : chris@qbittorrent.org
  */
 
+#include <QDebug>
 #include "torrentcontentmodelfolder.h"
 
 TorrentContentModelFolder::TorrentContentModelFolder(const QString& name, TorrentContentModelFolder* parent)
@@ -135,18 +136,20 @@ void TorrentContentModelFolder::setPriority(int new_prio, bool update_parent)
 
 void TorrentContentModelFolder::recalculateProgress()
 {
-  qulonglong totalDone = 0;
+  qreal tProgress = 0;
+  qulonglong tSize = 0;
   foreach (TorrentContentModelItem* child, m_childItems) {
     if (child->priority() != prio::IGNORED) {
       if (child->itemType() == FolderType)
         static_cast<TorrentContentModelFolder*>(child)->recalculateProgress();
-      totalDone += child->totalDone();
+      tProgress += child->progress() * child->size();
+      tSize += child->size();
     }
   }
 
-  if (!isRootItem()) {
-    m_totalDone = totalDone;
-    Q_ASSERT(m_totalDone <= m_size);
+  if (!isRootItem() && tSize > 0) {
+    m_progress = tProgress / tSize;
+    Q_ASSERT(m_progress <= 1.);
   }
 }
 

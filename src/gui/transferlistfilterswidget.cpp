@@ -41,42 +41,53 @@
 
 #include "transferlistdelegate.h"
 #include "transferlistwidget.h"
-#include "preferences.h"
+#include "base/preferences.h"
 #include "torrentmodel.h"
-#include "iconprovider.h"
-#include "fs_utils.h"
+#include "guiiconprovider.h"
+#include "base/utils/fs.h"
+#include "base/utils/string.h"
 #include "autoexpandabledialog.h"
-#include "torrentfilterenum.h"
-#include "misc.h"
-#include "downloadthread.h"
-#include "logger.h"
+#include "base/torrentfilter.h"
+#include "base/bittorrent/trackerentry.h"
+#include "base/bittorrent/session.h"
+#include "base/bittorrent/torrenthandle.h"
+#include "base/net/downloadmanager.h"
+#include "base/net/downloadhandler.h"
+#include "base/utils/misc.h"
+#include "base/logger.h"
 
 FiltersBase::FiltersBase(QWidget *parent, TransferListWidget *transferList)
     : QListWidget(parent)
     , transferList(transferList)
 {
-    setStyleSheet("QListWidget { background: transparent; border: 0 }");
+    setFrameShape(QFrame::NoFrame);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    setUniformItemSizes(true);
+    setSpacing(0);
+
+    setIconSize(Utils::Misc::smallIconSize());
+
 #if defined(Q_OS_MAC)
     setAttribute(Qt::WA_MacShowFocusRect, false);
 #endif
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
     setContextMenuPolicy(Qt::CustomContextMenu);
-
-    setIconSize(QSize(16, 16));
-
     connect(this, SIGNAL(customContextMenuRequested(QPoint)), SLOT(showMenu(QPoint)));
     connect(this, SIGNAL(currentRowChanged(int)), SLOT(applyFilter(int)));
-    connect(transferList->getSourceModel(), SIGNAL(torrentAdded(TorrentModelItem*)), SLOT(handleNewTorrent(TorrentModelItem*)));
-    connect(transferList->getSourceModel(), SIGNAL(torrentAboutToBeRemoved(TorrentModelItem*)), SLOT(torrentAboutToBeDeleted(TorrentModelItem*)));
+
+    connect(BitTorrent::Session::instance(), SIGNAL(torrentAdded(BitTorrent::TorrentHandle *const)), SLOT(handleNewTorrent(BitTorrent::TorrentHandle *const)));
+    connect(BitTorrent::Session::instance(), SIGNAL(torrentAboutToBeRemoved(BitTorrent::TorrentHandle *const)), SLOT(torrentAboutToBeDeleted(BitTorrent::TorrentHandle *const)));
 }
 
 QSize FiltersBase::sizeHint() const
 {
     QSize size;
     // Height should be exactly the height of the content
-    size.setHeight((sizeHintForRow(0) * count()) + (2 * frameWidth()) + 6);
-    // Width should be exactly the height of the content
-    size.setWidth(sizeHintForColumn(0) + (2 * frameWidth()));
+    size.setHeight(((sizeHintForRow(0) + 2 * spacing()) * (count() + 0.5)));
+    // Width should be exactly the width of the content
+    size.setWidth(sizeHintForColumn(0));
     return size;
 }
 
@@ -99,12 +110,7 @@ void FiltersBase::toggleFilter(bool checked)
 StatusFiltersWidget::StatusFiltersWidget(QWidget *parent, TransferListWidget *transferList)
     : FiltersBase(parent, transferList)
 {
-    setUniformItemSizes(true);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    // Height is fixed (sizeHint().height() is used)
-    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    setSpacing(0);
-    connect(transferList->getSourceModel(), SIGNAL(modelRefreshed()), SLOT(updateTorrentNumbers()));
+    connect(BitTorrent::Session::instance(), SIGNAL(torrentsUpdated()), SLOT(updateTorrentNumbers()));
 
     // Add status filters
     QListWidgetItem *all = new QListWidgetItem(this);
@@ -131,6 +137,9 @@ StatusFiltersWidget::StatusFiltersWidget(QWidget *parent, TransferListWidget *tr
     QListWidgetItem *inactive = new QListWidgetItem(this);
     inactive->setData(Qt::DisplayRole, QVariant(tr("Inactive (0)")));
     inactive->setData(Qt::DecorationRole, QIcon(":/icons/skin/filterinactive.png"));
+    QListWidgetItem *errored = new QListWidgetItem(this);
+    errored->setData(Qt::DisplayRole, QVariant(tr("Errored (0)")));
+    errored->setData(Qt::DecorationRole, QIcon(":/icons/skin/error.png"));
 
     const Preferences* const pref = Preferences::instance();
     setCurrentRow(pref->getTransSelFilter(), QItemSelectionModel::SelectCurrent);
@@ -144,15 +153,17 @@ StatusFiltersWidget::~StatusFiltersWidget()
 
 void StatusFiltersWidget::updateTorrentNumbers()
 {
-    const TorrentStatusReport report = transferList->getSourceModel()->getTorrentStatusReport();
-    item(TorrentFilter::ALL)->setData(Qt::DisplayRole, QVariant(tr("All (%1)").arg(report.nb_active + report.nb_inactive)));
-    item(TorrentFilter::DOWNLOADING)->setData(Qt::DisplayRole, QVariant(tr("Downloading (%1)").arg(report.nb_downloading)));
-    item(TorrentFilter::SEEDING)->setData(Qt::DisplayRole, QVariant(tr("Seeding (%1)").arg(report.nb_seeding)));
-    item(TorrentFilter::COMPLETED)->setData(Qt::DisplayRole, QVariant(tr("Completed (%1)").arg(report.nb_completed)));
-    item(TorrentFilter::PAUSED)->setData(Qt::DisplayRole, QVariant(tr("Paused (%1)").arg(report.nb_paused)));
-    item(TorrentFilter::RESUMED)->setData(Qt::DisplayRole, QVariant(tr("Resumed (%1)").arg(report.nb_downloading + report.nb_seeding - report.nb_paused)));
-    item(TorrentFilter::ACTIVE)->setData(Qt::DisplayRole, QVariant(tr("Active (%1)").arg(report.nb_active)));
-    item(TorrentFilter::INACTIVE)->setData(Qt::DisplayRole, QVariant(tr("Inactive (%1)").arg(report.nb_inactive)));
+    auto report = BitTorrent::Session::instance()->torrentStatusReport();
+
+    item(TorrentFilter::All)->setData(Qt::DisplayRole, QVariant(tr("All (%1)").arg(report.nbActive + report.nbInactive)));
+    item(TorrentFilter::Downloading)->setData(Qt::DisplayRole, QVariant(tr("Downloading (%1)").arg(report.nbDownloading)));
+    item(TorrentFilter::Seeding)->setData(Qt::DisplayRole, QVariant(tr("Seeding (%1)").arg(report.nbSeeding)));
+    item(TorrentFilter::Completed)->setData(Qt::DisplayRole, QVariant(tr("Completed (%1)").arg(report.nbCompleted)));
+    item(TorrentFilter::Paused)->setData(Qt::DisplayRole, QVariant(tr("Paused (%1)").arg(report.nbPaused)));
+    item(TorrentFilter::Resumed)->setData(Qt::DisplayRole, QVariant(tr("Resumed (%1)").arg(report.nbResumed)));
+    item(TorrentFilter::Active)->setData(Qt::DisplayRole, QVariant(tr("Active (%1)").arg(report.nbActive)));
+    item(TorrentFilter::Inactive)->setData(Qt::DisplayRole, QVariant(tr("Inactive (%1)").arg(report.nbInactive)));
+    item(TorrentFilter::Errored)->setData(Qt::DisplayRole, QVariant(tr("Errored (%1)").arg(report.nbErrored)));
 }
 
 void StatusFiltersWidget::showMenu(QPoint) {}
@@ -162,25 +173,24 @@ void StatusFiltersWidget::applyFilter(int row)
     transferList->applyStatusFilter(row);
 }
 
-void StatusFiltersWidget::handleNewTorrent(TorrentModelItem*) {}
+void StatusFiltersWidget::handleNewTorrent(BitTorrent::TorrentHandle *const) {}
 
-void StatusFiltersWidget::torrentAboutToBeDeleted(TorrentModelItem*) {}
+void StatusFiltersWidget::torrentAboutToBeDeleted(BitTorrent::TorrentHandle *const) {}
 
 LabelFiltersList::LabelFiltersList(QWidget *parent, TransferListWidget *transferList)
     : FiltersBase(parent, transferList)
     , m_totalTorrents(0)
     , m_totalLabeled(0)
 {
-    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    connect(transferList->getSourceModel(), SIGNAL(torrentChangedLabel(TorrentModelItem*,QString,QString)), SLOT(torrentChangedLabel(TorrentModelItem*, QString, QString)));
+    connect(BitTorrent::Session::instance(), SIGNAL(torrentLabelChanged(BitTorrent::TorrentHandle *const, QString)), SLOT(torrentChangedLabel(BitTorrent::TorrentHandle *const, QString)));
 
     // Add Label filters
     QListWidgetItem *allLabels = new QListWidgetItem(this);
     allLabels->setData(Qt::DisplayRole, QVariant(tr("All (0)", "this is for the label filter")));
-    allLabels->setData(Qt::DecorationRole, IconProvider::instance()->getIcon("inode-directory"));
+    allLabels->setData(Qt::DecorationRole, GuiIconProvider::instance()->getIcon("inode-directory"));
     QListWidgetItem *noLabel = new QListWidgetItem(this);
     noLabel->setData(Qt::DisplayRole, QVariant(tr("Unlabeled (0)")));
-    noLabel->setData(Qt::DecorationRole, IconProvider::instance()->getIcon("inode-directory"));
+    noLabel->setData(Qt::DecorationRole, GuiIconProvider::instance()->getIcon("inode-directory"));
 
     const Preferences* const pref = Preferences::instance();
     QStringList labelList = pref->getTorrentLabels();
@@ -200,7 +210,7 @@ void LabelFiltersList::addItem(QString &label, bool hasTorrent)
 {
     int labelCount = 0;
     QListWidgetItem *labelItem = 0;
-    label = fsutils::toValidFileSystemName(label.trimmed());
+    label = Utils::Fs::toValidFileSystemName(label.trimmed());
     item(0)->setText(tr("All (%1)", "this is for the label filter").arg(m_totalTorrents));
 
     if (label.isEmpty()) {
@@ -215,7 +225,7 @@ void LabelFiltersList::addItem(QString &label, bool hasTorrent)
     }
     else {
         labelItem = new QListWidgetItem();
-        labelItem->setData(Qt::DecorationRole, IconProvider::instance()->getIcon("inode-directory"));
+        labelItem->setData(Qt::DecorationRole, GuiIconProvider::instance()->getIcon("inode-directory"));
     }
 
     if (hasTorrent) {
@@ -233,7 +243,7 @@ void LabelFiltersList::addItem(QString &label, bool hasTorrent)
     Q_ASSERT(count() >= 2);
     for (int i = 2; i<count(); ++i) {
         bool less = false;
-        if (!(misc::naturalSort(label, item(i)->text(), less)))
+        if (!(Utils::String::naturalSort(label, item(i)->text(), less)))
             less = (label.localeAwareCompare(item(i)->text()) < 0);
         if (less) {
             insertItem(i, labelItem);
@@ -269,9 +279,12 @@ void LabelFiltersList::removeItem(const QString &label)
 
 void LabelFiltersList::removeSelectedLabel()
 {
-    const int labelRow = row(selectedItems().first());
-    if (labelRow < 2)
-        return;
+    QList<QListWidgetItem*> items = selectedItems();
+    if (items.size() == 0) return;
+
+    const int labelRow = row(items.first());
+    if (labelRow < 2) return;
+
     const QString &label = labelFromRow(labelRow);
     Q_ASSERT(m_labels.contains(label));
     m_labels.remove(label);
@@ -303,27 +316,27 @@ void LabelFiltersList::removeUnusedLabels()
         updateGeometry();
 }
 
-void LabelFiltersList::torrentChangedLabel(TorrentModelItem *torrentItem, QString old_label, QString new_label)
+void LabelFiltersList::torrentChangedLabel(BitTorrent::TorrentHandle *const torrent, const QString &oldLabel)
 {
-    Q_UNUSED(torrentItem);
-    qDebug("Torrent label changed from %s to %s", qPrintable(old_label), qPrintable(new_label));
-    removeItem(old_label);
-    addItem(new_label, true);
+    qDebug("Torrent label changed from %s to %s", qPrintable(oldLabel), qPrintable(torrent->label()));
+    removeItem(oldLabel);
+    QString newLabel = torrent->label();
+    addItem(newLabel, true);
 }
 
 void LabelFiltersList::showMenu(QPoint)
 {
     QMenu menu(this);
-    QAction *addAct = menu.addAction(IconProvider::instance()->getIcon("list-add"), tr("Add label..."));
+    QAction *addAct = menu.addAction(GuiIconProvider::instance()->getIcon("list-add"), tr("Add label..."));
     QAction *removeAct = 0;
     QAction *removeUnusedAct = 0;
     if (!selectedItems().empty() && row(selectedItems().first()) > 1)
-        removeAct = menu.addAction(IconProvider::instance()->getIcon("list-remove"), tr("Remove label"));
-    removeUnusedAct = menu.addAction(IconProvider::instance()->getIcon("list-remove"), tr("Remove unused labels"));
+        removeAct = menu.addAction(GuiIconProvider::instance()->getIcon("list-remove"), tr("Remove label"));
+    removeUnusedAct = menu.addAction(GuiIconProvider::instance()->getIcon("list-remove"), tr("Remove unused labels"));
     menu.addSeparator();
-    QAction *startAct = menu.addAction(IconProvider::instance()->getIcon("media-playback-start"), tr("Resume torrents"));
-    QAction *pauseAct = menu.addAction(IconProvider::instance()->getIcon("media-playback-pause"), tr("Pause torrents"));
-    QAction *deleteTorrentsAct = menu.addAction(IconProvider::instance()->getIcon("edit-delete"), tr("Delete torrents"));
+    QAction *startAct = menu.addAction(GuiIconProvider::instance()->getIcon("media-playback-start"), tr("Resume torrents"));
+    QAction *pauseAct = menu.addAction(GuiIconProvider::instance()->getIcon("media-playback-pause"), tr("Pause torrents"));
+    QAction *deleteTorrentsAct = menu.addAction(GuiIconProvider::instance()->getIcon("edit-delete"), tr("Delete torrents"));
     QAction *act = 0;
     act = menu.exec(QCursor::pos());
     if (!act)
@@ -352,7 +365,7 @@ void LabelFiltersList::showMenu(QPoint)
             invalid = false;
             label = AutoExpandableDialog::getText(this, tr("New Label"), tr("Label:"), QLineEdit::Normal, label, &ok);
             if (ok && !label.isEmpty()) {
-                if (fsutils::isValidFileSystemName(label)) {
+                if (Utils::Fs::isValidFileSystemName(label)) {
                     addItem(label, false);
                 }
                 else {
@@ -366,38 +379,32 @@ void LabelFiltersList::showMenu(QPoint)
 
 void LabelFiltersList::applyFilter(int row)
 {
-    switch (row) {
-    case 0:
-        transferList->applyLabelFilterAll();
-        break;
-    case 1:
-        transferList->applyLabelFilter(QString());
-        break;
-    default:
-        transferList->applyLabelFilter(labelFromRow(row));
-    }
+    transferList->applyLabelFilter(labelFromRow(row));
 }
 
-void LabelFiltersList::handleNewTorrent(TorrentModelItem* torrentItem)
+void LabelFiltersList::handleNewTorrent(BitTorrent::TorrentHandle *const torrent)
 {
+    Q_ASSERT(torrent);
     ++m_totalTorrents;
-    QString label = torrentItem->data(TorrentModelItem::TR_LABEL).toString();
+    QString label = torrent->label();
     addItem(label, true);
+    // FIXME: Drop this confusion.
     // labelFilters->addItem() may have changed the label, update the model accordingly.
-    torrentItem->setData(TorrentModelItem::TR_LABEL, label);
+    torrent->setLabel(label);
 }
 
-void LabelFiltersList::torrentAboutToBeDeleted(TorrentModelItem* torrentItem)
+void LabelFiltersList::torrentAboutToBeDeleted(BitTorrent::TorrentHandle *const torrent)
 {
+    Q_ASSERT(torrent);
     --m_totalTorrents;
-    Q_ASSERT(torrentItem);
-    QString label = torrentItem->data(TorrentModelItem::TR_LABEL).toString();
-    removeItem(label);
+    removeItem(torrent->label());
 }
 
 QString LabelFiltersList::labelFromRow(int row) const
 {
-    Q_ASSERT(row > 1);
+    if (row == 0) return QString(); // All
+    if (row == 1) return QLatin1String(""); // Unlabeled
+
     const QString &label = item(row)->text();
     QStringList parts = label.split(" ");
     Q_ASSERT(parts.size() >= 2);
@@ -415,17 +422,14 @@ int LabelFiltersList::rowFromLabel(const QString &label) const
 
 TrackerFiltersList::TrackerFiltersList(QWidget *parent, TransferListWidget *transferList)
     : FiltersBase(parent, transferList)
-    , m_downloader(new DownloadThread(this))
     , m_totalTorrents(0)
 {
-    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
-
     QListWidgetItem *allTrackers = new QListWidgetItem(this);
     allTrackers->setData(Qt::DisplayRole, QVariant(tr("All (0)", "this is for the label filter")));
-    allTrackers->setData(Qt::DecorationRole, IconProvider::instance()->getIcon("network-server"));
+    allTrackers->setData(Qt::DecorationRole, GuiIconProvider::instance()->getIcon("network-server"));
     QListWidgetItem *noTracker = new QListWidgetItem(this);
     noTracker->setData(Qt::DisplayRole, QVariant(tr("Trackerless (0)")));
-    noTracker->setData(Qt::DecorationRole, IconProvider::instance()->getIcon("network-server"));
+    noTracker->setData(Qt::DecorationRole, GuiIconProvider::instance()->getIcon("network-server"));
     QListWidgetItem *errorTracker = new QListWidgetItem(this);
     errorTracker->setData(Qt::DisplayRole, QVariant(tr("Error (0)")));
     errorTracker->setData(Qt::DecorationRole, style()->standardIcon(QStyle::SP_MessageBoxCritical));
@@ -435,16 +439,13 @@ TrackerFiltersList::TrackerFiltersList(QWidget *parent, TransferListWidget *tran
     m_trackers.insert("", QStringList());
 
     setCurrentRow(0, QItemSelectionModel::SelectCurrent);
-    connect(m_downloader, SIGNAL(downloadFinished(QString, QString)), SLOT(handleFavicoDownload(QString, QString)));
-    connect(m_downloader, SIGNAL(downloadFailure(QString, QString)), SLOT(handleFavicoFailure(QString, QString)));
     toggleFilter(Preferences::instance()->getTrackerFilterState());
 }
 
 TrackerFiltersList::~TrackerFiltersList()
 {
-    delete m_downloader;
     foreach (const QString &iconPath, m_iconPaths)
-        fsutils::forceRemove(iconPath);
+        Utils::Fs::forceRemove(iconPath);
 }
 
 void TrackerFiltersList::addItem(const QString &tracker, const QString &hash)
@@ -466,8 +467,9 @@ void TrackerFiltersList::addItem(const QString &tracker, const QString &hash)
     }
     else {
         trackerItem = new QListWidgetItem();
-        trackerItem->setData(Qt::DecorationRole, IconProvider::instance()->getIcon("network-server"));
-        m_downloader->downloadUrl(QString("http://") + host + QString("/favicon.ico"));
+        trackerItem->setData(Qt::DecorationRole, GuiIconProvider::instance()->getIcon("network-server"));
+
+        downloadFavicon(QString("http://%1/favicon.ico").arg(host));
     }
 
     tmp.append(hash);
@@ -489,7 +491,7 @@ void TrackerFiltersList::addItem(const QString &tracker, const QString &hash)
     Q_ASSERT(count() >= 4);
     for (int i = 4; i<count(); ++i) {
         bool less = false;
-        if (!(misc::naturalSort(host, item(i)->text(), less)))
+        if (!(Utils::String::naturalSort(host, item(i)->text(), less)))
             less = (host.localeAwareCompare(item(i)->text()) < 0);
         if (less) {
             insertItem(i, trackerItem);
@@ -608,11 +610,18 @@ void TrackerFiltersList::trackerWarning(const QString &hash, const QString &trac
         applyFilter(3);
 }
 
+void TrackerFiltersList::downloadFavicon(const QString& url)
+{
+    Net::DownloadHandler *h = Net::DownloadManager::instance()->downloadUrl(url, true);
+    connect(h, SIGNAL(downloadFinished(QString, QString)), this, SLOT(handleFavicoDownload(QString, QString)));
+    connect(h, SIGNAL(downloadFailed(QString, QString)), this, SLOT(handleFavicoFailure(QString, QString)));
+}
+
 void TrackerFiltersList::handleFavicoDownload(const QString& url, const QString& filePath)
 {
     QString host = getHost(url);
     if (!m_trackers.contains(host)) {
-        fsutils::forceRemove(filePath);
+        Utils::Fs::forceRemove(filePath);
         return;
     }
 
@@ -623,14 +632,14 @@ void TrackerFiltersList::handleFavicoDownload(const QString& url, const QString&
     bool invalid = (sizes.size() > 0 ? icon.pixmap(sizes.first()).isNull() : true);
     if (invalid) {
         if (url.endsWith(".ico", Qt::CaseInsensitive)) {
-            Logger::instance()->addMessage(tr("Couldn't decode favicon for URL `%1`. Trying to download favicon in PNG format.").arg(url),
+            Logger::instance()->addMessage(tr("Couldn't decode favicon for URL '%1'. Trying to download favicon in PNG format.").arg(url),
                                            Log::WARNING);
-            m_downloader->downloadUrl(url.left(url.size() - 4) + ".png");
+            downloadFavicon(url.left(url.size() - 4) + ".png");
         }
         else {
-            Logger::instance()->addMessage(tr("Couldn't decode favicon for URL `%1`.").arg(url), Log::WARNING);
+            Logger::instance()->addMessage(tr("Couldn't decode favicon for URL '%1'.").arg(url), Log::WARNING);
         }
-        fsutils::forceRemove(filePath);
+        Utils::Fs::forceRemove(filePath);
     }
     else {
         trackerItem->setData(Qt::DecorationRole, QVariant(QIcon(filePath)));
@@ -642,18 +651,18 @@ void TrackerFiltersList::handleFavicoFailure(const QString& url, const QString& 
 {
     // Don't use getHost() on the url here. Print the full url. The error might relate to
     // that.
-    Logger::instance()->addMessage(tr("Couldn't download favicon for URL `%1`. Reason: `%2`").arg(url).arg(error),
+    Logger::instance()->addMessage(tr("Couldn't download favicon for URL '%1'. Reason: %2").arg(url).arg(error),
                                    Log::WARNING);
     if (url.endsWith(".ico", Qt::CaseInsensitive))
-        m_downloader->downloadUrl(url.left(url.size() - 4) + ".png");
+        downloadFavicon(url.left(url.size() - 4) + ".png");
 }
 
 void TrackerFiltersList::showMenu(QPoint)
 {
     QMenu menu(this);
-    QAction *startAct = menu.addAction(IconProvider::instance()->getIcon("media-playback-start"), tr("Resume torrents"));
-    QAction *pauseAct = menu.addAction(IconProvider::instance()->getIcon("media-playback-pause"), tr("Pause torrents"));
-    QAction *deleteTorrentsAct = menu.addAction(IconProvider::instance()->getIcon("edit-delete"), tr("Delete torrents"));
+    QAction *startAct = menu.addAction(GuiIconProvider::instance()->getIcon("media-playback-start"), tr("Resume torrents"));
+    QAction *pauseAct = menu.addAction(GuiIconProvider::instance()->getIcon("media-playback-pause"), tr("Pause torrents"));
+    QAction *deleteTorrentsAct = menu.addAction(GuiIconProvider::instance()->getIcon("edit-delete"), tr("Delete torrents"));
     QAction *act = 0;
     act = menu.exec(QCursor::pos());
 
@@ -676,13 +685,12 @@ void TrackerFiltersList::applyFilter(int row)
         transferList->applyTrackerFilter(getHashes(row));
 }
 
-void TrackerFiltersList::handleNewTorrent(TorrentModelItem* torrentItem)
+void TrackerFiltersList::handleNewTorrent(BitTorrent::TorrentHandle *const torrent)
 {
-    QTorrentHandle handle = torrentItem->torrentHandle();
-    QString hash = handle.hash();
-    std::vector<libtorrent::announce_entry> trackers = handle.trackers();
-    for (std::vector<libtorrent::announce_entry>::iterator i = trackers.begin(), e = trackers.end(); i != e; ++i)
-        addItem(misc::toQStringU(i->url), hash);
+    QString hash = torrent->hash();
+    QList<BitTorrent::TrackerEntry> trackers = torrent->trackers();
+    foreach (const BitTorrent::TrackerEntry &tracker, trackers)
+        addItem(tracker.url(), hash);
 
     //Check for trackerless torrent
     if (trackers.size() == 0)
@@ -691,13 +699,12 @@ void TrackerFiltersList::handleNewTorrent(TorrentModelItem* torrentItem)
     item(0)->setText(tr("All (%1)", "this is for the tracker filter").arg(++m_totalTorrents));
 }
 
-void TrackerFiltersList::torrentAboutToBeDeleted(TorrentModelItem* torrentItem)
+void TrackerFiltersList::torrentAboutToBeDeleted(BitTorrent::TorrentHandle *const torrent)
 {
-    QTorrentHandle handle = torrentItem->torrentHandle();
-    QString hash = handle.hash();
-    std::vector<libtorrent::announce_entry> trackers = handle.trackers();
-    for (std::vector<libtorrent::announce_entry>::iterator i = trackers.begin(), e = trackers.end(); i != e; ++i)
-        removeItem(misc::toQStringU(i->url), hash);
+    QString hash = torrent->hash();
+    QList<BitTorrent::TrackerEntry> trackers = torrent->trackers();
+    foreach (const BitTorrent::TrackerEntry &tracker, trackers)
+        removeItem(tracker.url(), hash);
 
     //Check for trackerless torrent
     if (trackers.size() == 0)
@@ -767,23 +774,20 @@ TransferListFiltersWidget::TransferListFiltersWidget(QWidget *parent, TransferLi
     font.setBold(true);
     font.setCapitalization(QFont::AllUppercase);
 
-    frame->setFrameShadow(QFrame::Plain);
-    frame->setFrameShape(QFrame::NoFrame);
-    scroll->setFrameShadow(QFrame::Plain);
-    scroll->setFrameShape(QFrame::NoFrame);
-    scroll->setStyleSheet("QFrame { background: transparent; }");
     scroll->setWidgetResizable(true);
     scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    vLayout->setContentsMargins(0, 4, 0, 0);
-    frameLayout->setContentsMargins(0, 4, 0, 0);
+    setStyleSheet("QFrame {background: transparent;}");
+    scroll->setStyleSheet("QFrame {border: none;}");
+    vLayout->setContentsMargins(0, 0, 0, 0);
+    frameLayout->setContentsMargins(0, 2, 0, 0);
     frameLayout->setSpacing(2);
+    frameLayout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 
     frame->setLayout(frameLayout);
     scroll->setWidget(frame);
     vLayout->addWidget(scroll);
     setLayout(vLayout);
-    setContentsMargins(0,0,0,0);
 
     QCheckBox * statusLabel = new QCheckBox(tr("Status"), this);
     statusLabel->setChecked(pref->getStatusFilterState());
@@ -809,8 +813,6 @@ TransferListFiltersWidget::TransferListFiltersWidget(QWidget *parent, TransferLi
     trackerFilters = new TrackerFiltersList(this, transferList);
     frameLayout->addWidget(trackerFilters);
 
-    frameLayout->addStretch();
-
     connect(statusLabel, SIGNAL(toggled(bool)), statusFilters, SLOT(toggleFilter(bool)));
     connect(statusLabel, SIGNAL(toggled(bool)), pref, SLOT(setStatusFilterState(const bool)));
     connect(labelLabel, SIGNAL(toggled(bool)), labelFilters, SLOT(toggleFilter(bool)));
@@ -823,19 +825,34 @@ TransferListFiltersWidget::TransferListFiltersWidget(QWidget *parent, TransferLi
     connect(this, SIGNAL(trackerWarning(const QString &, const QString &)), trackerFilters, SLOT(trackerWarning(const QString &, const QString &)));
 }
 
-void TransferListFiltersWidget::addTrackers(const QStringList &trackers, const QString &hash)
+void TransferListFiltersWidget::addTrackers(BitTorrent::TorrentHandle *const torrent, const QList<BitTorrent::TrackerEntry> &trackers)
 {
-    foreach (const QString &tracker, trackers)
-        trackerFilters->addItem(tracker, hash);
+    foreach (const BitTorrent::TrackerEntry &tracker, trackers)
+        trackerFilters->addItem(tracker.url(), torrent->hash());
 }
 
-void TransferListFiltersWidget::removeTrackers(const QStringList &trackers, const QString &hash)
+void TransferListFiltersWidget::removeTrackers(BitTorrent::TorrentHandle *const torrent, const QList<BitTorrent::TrackerEntry> &trackers)
 {
-    foreach (const QString &tracker, trackers)
-        trackerFilters->removeItem(tracker, hash);
+    foreach (const BitTorrent::TrackerEntry &tracker, trackers)
+        trackerFilters->removeItem(tracker.url(), torrent->hash());
 }
 
-void TransferListFiltersWidget::changeTrackerless(bool trackerless, const QString &hash)
+void TransferListFiltersWidget::changeTrackerless(BitTorrent::TorrentHandle *const torrent, bool trackerless)
 {
-    trackerFilters->changeTrackerless(trackerless, hash);
+    trackerFilters->changeTrackerless(trackerless, torrent->hash());
+}
+
+void TransferListFiltersWidget::trackerSuccess(BitTorrent::TorrentHandle *const torrent, const QString &tracker)
+{
+    emit trackerSuccess(torrent->hash(), tracker);
+}
+
+void TransferListFiltersWidget::trackerWarning(BitTorrent::TorrentHandle *const torrent, const QString &tracker)
+{
+    emit trackerWarning(torrent->hash(), tracker);
+}
+
+void TransferListFiltersWidget::trackerError(BitTorrent::TorrentHandle *const torrent, const QString &tracker)
+{
+    emit trackerError(torrent->hash(), tracker);
 }
