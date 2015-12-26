@@ -5,18 +5,17 @@ Author: Cristian Greco <cristian@debian.org>
 
 Index: qbittorrent/unixconf.pri
 ===================================================================
---- qbittorrent.orig/unixconf.pri	2015-08-01 19:53:58.450121894 -0400
-+++ qbittorrent/unixconf.pri	2015-08-01 19:54:55.131076486 -0400
-@@ -14,9 +14,10 @@
-     QT += dbus
- }
+--- qbittorrent.orig/unixconf.pri	2015-12-26 14:39:32.176931136 -0500
++++ qbittorrent/unixconf.pri	2015-12-26 14:39:32.172931077 -0500
+@@ -15,8 +15,9 @@
+ # COMPILATION SPECIFIC
+ !nogui:dbus: QT += dbus
  
 -QMAKE_CXXFLAGS += -Wformat -Wformat-security
+-!haiku: QMAKE_LFLAGS_APP += -rdynamic
 +QMAKE_CXXFLAGS += -Wformat -Wformat-security $$(CXXFLAGS) $$(CPPFLAGS)
 +QMAKE_LFLAGS_RELEASE += $$(LDFLAGS)
- !haiku {
--    QMAKE_LFLAGS_APP += -rdynamic
-+    QMAKE_LFLAGS_APP += -rdynamic $$(LDFLAGS)
- }
++!haiku: QMAKE_LFLAGS_APP += -rdynamic $$(LDFLAGS)
  
  # Man page
+ nogui {
