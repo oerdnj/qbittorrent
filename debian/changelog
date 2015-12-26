@@ -1,10 +1,10 @@
-qbittorrent (3.3.1-1) UNRELEASED; urgency=medium
+qbittorrent (3.3.1-1) unstable; urgency=medium
 
   * New upstream release (Closes: #808442).
   * Qt 5 is now the default. Add build dependencies on
     qtbase5-dev and qttools5-dev-tools.
 
- -- Andrew Starr-Bochicchio <asb@debian.org>  Sat, 26 Dec 2015 16:31:22 -0500
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Sat, 26 Dec 2015 16:34:34 -0500
 
 qbittorrent (3.2.5-1) unstable; urgency=medium
 
