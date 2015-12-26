@@ -7,7 +7,8 @@ Build-Depends: debhelper (>= 7.4.12),
                dpkg-dev (>= 1.16.1),
                libtorrent-rasterbar-dev (>= 0.15.4),
                libboost-dev,
-               libqt4-dev (>= 4.6.0)
+               qtbase5-dev (>= 5.2.0),
+               qttools5-dev-tools
 Standards-Version: 3.9.6
 Vcs-Git: git://anonscm.debian.org/collab-maint/qbittorrent.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/qbittorrent.git
