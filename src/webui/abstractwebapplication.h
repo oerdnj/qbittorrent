@@ -32,9 +32,9 @@
 #include <QObject>
 #include <QMap>
 #include <QHash>
-#include "http/types.h"
-#include "http/responsebuilder.h"
-#include "http/irequesthandler.h"
+#include "base/http/types.h"
+#include "base/http/responsebuilder.h"
+#include "base/http/irequesthandler.h"
 
 struct WebSession;
 struct WebSessionData;

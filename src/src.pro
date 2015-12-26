@@ -1,6 +1,11 @@
 # Global
 TEMPLATE = app
-CONFIG += qt thread
+CONFIG += qt thread silent
+
+# C++11 support
+CONFIG += c++11
+DEFINES += BOOST_NO_CXX11_RVALUE_REFERENCES
+greaterThan(QT_MAJOR_VERSION, 4): DEFINES += QBT_USES_QT5
 
 # Windows specific configuration
 win32: include(../winconf.pri)
@@ -16,10 +21,11 @@ os2: include(../os2conf.pri)
 
 nogui {
     QT -= gui
-    DEFINES += DISABLE_GUI
+    DEFINES += DISABLE_GUI DISABLE_COUNTRIES_RESOLUTION
     TARGET = qbittorrent-nox
 } else {
     QT += xml
+    greaterThan(QT_MAJOR_VERSION, 4): QT += concurrent
     CONFIG(static) {
         DEFINES += QBT_STATIC_QT
         QTPLUGIN += qico
@@ -52,8 +58,10 @@ DEFINES += QT_USE_FAST_CONCATENATION QT_USE_FAST_OPERATOR_PLUS
 
 win32: DEFINES += NOMINMAX
 
+INCLUDEPATH += $$PWD
+
 include(app/app.pri)
-include(core/core.pri)
+include(base/base.pri)
 !nowebui: include(webui/webui.pri)
 !nogui {
     include(gui/gui.pri)

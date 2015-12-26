@@ -41,9 +41,9 @@
 #include <QApplication>
 #include <QDebug>
 
-#include "fs_utils.h"
-#include "misc.h"
-#include "preferences.h"
+#include "base/utils/fs.h"
+#include "base/utils/misc.h"
+#include "base/preferences.h"
 
 class SearchCategories: public QObject, public QHash<QString, QString> {
   Q_OBJECT
@@ -149,9 +149,9 @@ public slots:
     QProcess nova;
     nova.setEnvironment(QProcess::systemEnvironment());
     QStringList params;
-    params << fsutils::toNativePath(fsutils::searchEngineLocation()+"/nova2.py");
+    params << Utils::Fs::toNativePath(Utils::Fs::searchEngineLocation()+"/nova2.py");
     params << "--capabilities";
-    nova.start(misc::pythonExecutable(), params, QIODevice::ReadOnly);
+    nova.start(Utils::Misc::pythonExecutable(), params, QIODevice::ReadOnly);
     nova.waitForStarted();
     nova.waitForFinished();
     QString capabilities = QString(nova.readAll());

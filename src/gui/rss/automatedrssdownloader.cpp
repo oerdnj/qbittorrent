@@ -37,13 +37,13 @@
 #include "automatedrssdownloader.h"
 #include "ui_automatedrssdownloader.h"
 #include "rssdownloadrulelist.h"
-#include "preferences.h"
+#include "base/preferences.h"
 #include "rssmanager.h"
 #include "rssfeed.h"
-#include "iconprovider.h"
+#include "guiiconprovider.h"
 #include "autoexpandabledialog.h"
-#include "fs_utils.h"
-#include "misc.h"
+#include "base/utils/fs.h"
+#include "base/utils/string.h"
 
 AutomatedRssDownloader::AutomatedRssDownloader(const QWeakPointer<RssManager>& manager, QWidget *parent) :
   QDialog(parent),
@@ -52,8 +52,8 @@ AutomatedRssDownloader::AutomatedRssDownloader(const QWeakPointer<RssManager>& m
 {
   ui->setupUi(this);
   // Icons
-  ui->removeRuleBtn->setIcon(IconProvider::instance()->getIcon("list-remove"));
-  ui->addRuleBtn->setIcon(IconProvider::instance()->getIcon("list-add"));
+  ui->removeRuleBtn->setIcon(GuiIconProvider::instance()->getIcon("list-remove"));
+  ui->addRuleBtn->setIcon(GuiIconProvider::instance()->getIcon("list-add"));
 
   // Ui Settings
   ui->listRules->setSortingEnabled(true);
@@ -248,7 +248,7 @@ void AutomatedRssDownloader::updateRuleDefinitionBox()
       else
         ui->lineEFilter->clear();
       ui->saveDiffDir_check->setChecked(!rule->savePath().isEmpty());
-      ui->lineSavePath->setText(fsutils::toNativePath(rule->savePath()));
+      ui->lineSavePath->setText(Utils::Fs::toNativePath(rule->savePath()));
       ui->checkRegex->blockSignals(true);
       ui->checkRegex->setChecked(rule->useRegex());
       ui->checkRegex->blockSignals(false);
@@ -261,11 +261,11 @@ void AutomatedRssDownloader::updateRuleDefinitionBox()
       ui->comboAddPaused->setCurrentIndex(rule->addPaused());
       ui->spinIgnorePeriod->setValue(rule->ignoreDays());
       QDateTime dateTime = rule->lastMatch();
-      QString lMatch = tr("Last match: ");
+      QString lMatch;
       if (dateTime.isValid())
-        lMatch += QString::number(dateTime.daysTo(QDateTime::currentDateTime())) + tr(" days ago.");
+        lMatch = tr("Last Match: %1 days ago").arg(dateTime.daysTo(QDateTime::currentDateTime()));
       else
-        lMatch += tr("Unknown");
+        lMatch = tr("Last Match: Unknown");
       ui->lblLastMatch->setText(lMatch);
       updateMustLineValidity();
       updateMustNotLineValidity();
@@ -312,7 +312,7 @@ void AutomatedRssDownloader::initLabelCombobox()
 {
   // Load custom labels
   QStringList customLabels = Preferences::instance()->getTorrentLabels();
-  std::sort(customLabels.begin(), customLabels.end(), misc::NaturalCompare());
+  std::sort(customLabels.begin(), customLabels.end(), Utils::String::NaturalCompare());
   foreach (const QString& l, customLabels)
     ui->comboLabel->addItem(l);
 }
@@ -380,7 +380,7 @@ void AutomatedRssDownloader::on_removeRuleBtn_clicked()
   // Ask for confirmation
   QString confirm_text;
   if (selection.count() == 1)
-    confirm_text = tr("Are you sure you want to remove the download rule named %1?").arg(selection.first()->text());
+    confirm_text = tr("Are you sure you want to remove the download rule named '%1'?").arg(selection.first()->text());
   else
     confirm_text = tr("Are you sure you want to remove the selected download rules?");
   if (QMessageBox::question(this, tr("Rule deletion confirmation"), confirm_text, QMessageBox::Yes, QMessageBox::No) != QMessageBox::Yes)
@@ -401,7 +401,7 @@ void AutomatedRssDownloader::on_browseSP_clicked()
 {
   QString save_path = QFileDialog::getExistingDirectory(this, tr("Destination directory"), QDir::homePath());
   if (!save_path.isEmpty())
-    ui->lineSavePath->setText(fsutils::toNativePath(save_path));
+    ui->lineSavePath->setText(Utils::Fs::toNativePath(save_path));
 }
 
 void AutomatedRssDownloader::on_exportBtn_clicked()
@@ -439,17 +439,17 @@ void AutomatedRssDownloader::displayRulesListMenu(const QPoint &pos)
 {
   Q_UNUSED(pos);
   QMenu menu;
-  QAction *addAct = menu.addAction(IconProvider::instance()->getIcon("list-add"), tr("Add new rule..."));
+  QAction *addAct = menu.addAction(GuiIconProvider::instance()->getIcon("list-add"), tr("Add new rule..."));
   QAction *delAct = 0;
   QAction *renameAct = 0;
   const QList<QListWidgetItem*> selection = ui->listRules->selectedItems();
   if (!selection.isEmpty()) {
     if (selection.count() == 1) {
-      delAct = menu.addAction(IconProvider::instance()->getIcon("list-remove"), tr("Delete rule"));
+      delAct = menu.addAction(GuiIconProvider::instance()->getIcon("list-remove"), tr("Delete rule"));
       menu.addSeparator();
-      renameAct = menu.addAction(IconProvider::instance()->getIcon("edit-rename"), tr("Rename rule..."));
+      renameAct = menu.addAction(GuiIconProvider::instance()->getIcon("edit-rename"), tr("Rename rule..."));
     } else {
-      delAct = menu.addAction(IconProvider::instance()->getIcon("list-remove"), tr("Delete selected rules"));
+      delAct = menu.addAction(GuiIconProvider::instance()->getIcon("list-remove"), tr("Delete selected rules"));
     }
   }
   QAction *act = menu.exec(QCursor::pos());
@@ -561,7 +561,7 @@ void AutomatedRssDownloader::addFeedArticlesToTree(const RssFeedPtr& feed, const
     QFont f = treeFeedItem->font(0);
     f.setBold(true);
     treeFeedItem->setFont(0, f);
-    treeFeedItem->setData(0, Qt::DecorationRole, IconProvider::instance()->getIcon("inode-directory"));
+    treeFeedItem->setData(0, Qt::DecorationRole, GuiIconProvider::instance()->getIcon("inode-directory"));
     treeFeedItem->setData(0, Qt::UserRole, feed->url());
     ui->treeMatchingArticles->addTopLevelItem(treeFeedItem);
   }
@@ -610,7 +610,7 @@ void AutomatedRssDownloader::updateMustLineValidity()
     ui->lbl_must_stat->setPixmap(QPixmap());
   } else {
     ui->lineContains->setStyleSheet("QLineEdit { color: #ff0000; }");
-    ui->lbl_must_stat->setPixmap(IconProvider::instance()->getIcon("task-attention").pixmap(16, 16));
+    ui->lbl_must_stat->setPixmap(GuiIconProvider::instance()->getIcon("task-attention").pixmap(16, 16));
   }
 }
 
@@ -635,7 +635,7 @@ void AutomatedRssDownloader::updateMustNotLineValidity()
     ui->lbl_mustnot_stat->setPixmap(QPixmap());
   } else {
     ui->lineNotContains->setStyleSheet("QLineEdit { color: #ff0000; }");
-    ui->lbl_mustnot_stat->setPixmap(IconProvider::instance()->getIcon("task-attention").pixmap(16, 16));
+    ui->lbl_mustnot_stat->setPixmap(GuiIconProvider::instance()->getIcon("task-attention").pixmap(16, 16));
   }
 }
 

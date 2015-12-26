@@ -37,11 +37,12 @@
 #include <QModelIndex>
 #include <QPainter>
 #include <QApplication>
-#include "misc.h"
+#include "base/utils/misc.h"
+#include "base/utils/string.h"
 #include "previewselect.h"
 
 #ifdef Q_OS_WIN
-#if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
+#ifndef QBT_USES_QT5
 #include <QPlastiqueStyle>
 #else
 #include <QProxyStyle>
@@ -63,13 +64,13 @@ class PreviewListDelegate: public QItemDelegate {
       switch(index.column()) {
         case PreviewSelect::SIZE:
           QItemDelegate::drawBackground(painter, opt, index);
-          QItemDelegate::drawDisplay(painter, opt, option.rect, misc::friendlyUnit(index.data().toLongLong()));
+          QItemDelegate::drawDisplay(painter, opt, option.rect, Utils::Misc::friendlyUnit(index.data().toLongLong()));
           break;
         case PreviewSelect::PROGRESS:{
           QStyleOptionProgressBarV2 newopt;
           qreal progress = index.data().toDouble()*100.;
           newopt.rect = opt.rect;
-          newopt.text = ((progress == 100.0) ? QString("100%") : misc::accurateDoubleToString(progress, 1) + "%");
+          newopt.text = ((progress == 100.0) ? QString("100%") : Utils::String::fromDouble(progress, 1) + "%");
           newopt.progress = (int)progress;
           newopt.maximum = 100;
           newopt.minimum = 0;
@@ -79,7 +80,7 @@ class PreviewListDelegate: public QItemDelegate {
           QApplication::style()->drawControl(QStyle::CE_ProgressBar, &newopt, painter);
 #else
           // XXX: To avoid having the progress text on the right of the bar
-#if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
+#ifndef QBT_USES_QT5
           QPlastiqueStyle st;
 #else
           QProxyStyle st("fusion");

@@ -35,8 +35,8 @@
 #include <QPalette>
 #include "executionlog.h"
 #include "ui_executionlog.h"
-#include "logger.h"
-#include "iconprovider.h"
+#include "base/logger.h"
+#include "guiiconprovider.h"
 #include "loglistwidget.h"
 
 ExecutionLog::ExecutionLog(QWidget *parent)
@@ -47,8 +47,8 @@ ExecutionLog::ExecutionLog(QWidget *parent)
 {
     ui->setupUi(this);
 
-    ui->tabConsole->setTabIcon(0, IconProvider::instance()->getIcon("view-calendar-journal"));
-    ui->tabConsole->setTabIcon(1, IconProvider::instance()->getIcon("view-filter"));
+    ui->tabConsole->setTabIcon(0, GuiIconProvider::instance()->getIcon("view-calendar-journal"));
+    ui->tabConsole->setTabIcon(1, GuiIconProvider::instance()->getIcon("view-filter"));
     ui->tabGeneral->layout()->addWidget(m_msgList);
     ui->tabBan->layout()->addWidget(m_peerList);
 
@@ -98,11 +98,7 @@ void ExecutionLog::addPeerMessage(const Log::Peer& peer)
     QDateTime time = QDateTime::fromMSecsSinceEpoch(peer.timestamp);
 
     if (peer.blocked)
-#if LIBTORRENT_VERSION_NUM < 10000
-        text = "<font color='grey'>" + time.toString(Qt::SystemLocaleShortDate) + "</font> - " + tr("<font color='red'>%1</font> was blocked", "x.y.z.w was blocked").arg(peer.ip);
-#else
         text = "<font color='grey'>" + time.toString(Qt::SystemLocaleShortDate) + "</font> - " + tr("<font color='red'>%1</font> was blocked %2", "x.y.z.w was blocked").arg(peer.ip).arg(peer.reason);
-#endif
     else
         text = "<font color='grey'>" + time.toString(Qt::SystemLocaleShortDate) + "</font> - " + tr("<font color='red'>%1</font> was banned", "x.y.z.w was banned").arg(peer.ip);
 

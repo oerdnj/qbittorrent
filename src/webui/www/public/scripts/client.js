@@ -22,32 +22,39 @@
  * THE SOFTWARE.
  */
 
-myTable = new dynamicTable();
+torrentsTable = new TorrentsTable();
+torrentPeersTable = new TorrentPeersTable();
 
 var updatePropertiesPanel = function(){};
+var updateTorrentPeersData = function(){};
 var updateMainData = function(){};
 var alternativeSpeedLimits = false;
 var queueing_enabled = true;
 var syncMainDataTimerPeriod = 1500;
 
-selected_filter = getLocalStorageItem('selected_filter', 'all');
-selected_label = null;
+var LABELS_ALL = 1;
+var LABELS_UNLABELLED = 2;
+
+var label_list = {};
+
+var selected_label = LABELS_ALL;
+var setLabelFilter = function(){};
+
+var selected_filter = getLocalStorageItem('selected_filter', 'all');
+var setFilter = function(){};
 
 var loadSelectedLabel = function () {
-    if (getLocalStorageItem('any_label', '1') == '0')
-        selected_label = getLocalStorageItem('selected_label', '');
-    else
-        selected_label = null;
-}
+    selected_label = getLocalStorageItem('selected_label', LABELS_ALL);
+};
 loadSelectedLabel();
 
-var saveSelectedLabel = function () {
-    if (selected_label == null)
-        localStorage.setItem('any_label', '1');
-    else {
-        localStorage.setItem('any_label', '0');
-        localStorage.setItem('selected_label', selected_label);
+function genHash(string) {
+    var hash = 0;
+    for (var i = 0; i < string.length; i++) {
+        var c = string.charCodeAt(i);
+        hash = (c + hash * 31) | 0;
     }
+    return hash;
 }
 
 window.addEvent('load', function () {
@@ -90,6 +97,14 @@ window.addEvent('load', function () {
         resizeLimit : [100, 300]
     });
 
+    setLabelFilter = function(hash) {
+        selected_label = hash;
+        localStorage.setItem('selected_label', selected_label);
+        highlightSelectedLabel();
+        if (typeof torrentsTable.table != 'undefined')
+            updateMainData();
+    };
+
     setFilter = function (f) {
         // Visually Select the right filter
         $("all_filter").removeClass("selectedFilter");
@@ -104,7 +119,7 @@ window.addEvent('load', function () {
         selected_filter = f;
         localStorage.setItem('selected_filter', f);
         // Reload torrents
-        if (typeof myTable.table != 'undefined')
+        if (typeof torrentsTable.table != 'undefined')
             updateMainData();
     }
 
@@ -148,6 +163,112 @@ window.addEvent('load', function () {
     var syncMainDataLastResponseId = 0;
     var serverState = {};
 
+    var removeTorrentFromLabelList = function(hash) {
+        if (hash == null || hash == "")
+            return false;
+        var removed = false;
+        Object.each(label_list, function(label) {
+            if (Object.contains(label.torrents, hash)) {
+                removed = true;
+                label.torrents.splice(label.torrents.indexOf(hash), 1);
+            }
+        });
+        return removed;
+    };
+
+    var addTorrentToLabelList = function(torrent) {
+        var label = torrent['label'];
+        if (label == null)
+            return false;
+        if (label.length === 0) { // Empty label
+            removeTorrentFromLabelList(torrent['hash']);
+            return true;
+        }
+        var labelHash = genHash(label);
+        if (label_list[labelHash] == null) // This should not happen
+            label_list[labelHash] = {name: label, torrents: []};
+        if (!Object.contains(label_list[labelHash].torrents, torrent['hash'])) {
+            removeTorrentFromLabelList(torrent['hash']);
+            label_list[labelHash].torrents = label_list[labelHash].torrents.combine([torrent['hash']]);
+            return true;
+        }
+        return false;
+    };
+
+    var updateContextMenu = function () {
+        var labelList = $('contextLabelList');
+        labelList.empty();
+        labelList.appendChild(new Element('li', {html: '<a href="javascript:newLabelFN();"><img src="theme/list-add" alt="QBT_TR(New...)QBT_TR"/> QBT_TR(New...)QBT_TR</a>'}));
+        labelList.appendChild(new Element('li', {html: '<a href="javascript:updateLabelFN(0);"><img src="theme/edit-clear" alt="QBT_TR(Reset)QBT_TR"/> QBT_TR(Reset)QBT_TR</a>'}));
+
+        var sortedLabels = []
+        Object.each(label_list, function(label) {
+            sortedLabels.push(label.name);
+        });
+        sortedLabels.sort();
+
+        var first = true;
+        Object.each(sortedLabels, function(labelName) {
+            var labelHash = genHash(labelName);
+            var el = new Element('li', {html: '<a href="javascript:updateLabelFN(\'' + labelHash + '\');"><img src="theme/inode-directory"/> ' + labelName + '</a>'});
+            if (first) {
+                el.addClass('separator');
+                first = false;
+            }
+            labelList.appendChild(el);
+        });
+    };
+
+    var updateLabelList = function() {
+        var labelList = $('filterLabelList');
+        if (!labelList)
+            return;
+        labelList.empty();
+
+        var create_link = function(hash, text, count) {
+            var html = '<a href="#" onclick="setLabelFilter(' + hash + ');return false;">' +
+                '<img src="theme/inode-directory"/>' +
+                text + ' (' + count + ')' + '</a>';
+            return new Element('li', {id: hash, html: html});
+        };
+
+        var all = torrentsTable.getRowIds().length;
+        var unlabelled = 0;
+        Object.each(torrentsTable.rows, function(row) {
+            if (row['full_data'].label.length === 0)
+            unlabelled += 1;
+        });
+        labelList.appendChild(create_link(LABELS_ALL, 'QBT_TR(All)QBT_TR', all));
+        labelList.appendChild(create_link(LABELS_UNLABELLED, 'QBT_TR(Unlabeled)QBT_TR', unlabelled));
+
+        var sortedLabels = []
+        Object.each(label_list, function(label) {
+            sortedLabels.push(label.name);
+        });
+        sortedLabels.sort();
+
+        Object.each(sortedLabels, function(labelName) {
+            var labelHash = genHash(labelName);
+            var labelCount = label_list[labelHash].torrents.length;
+            labelList.appendChild(create_link(labelHash, labelName, labelCount));
+        });
+
+        highlightSelectedLabel();
+    };
+
+    var highlightSelectedLabel = function() {
+        var labelList = $('filterLabelList');
+        if (!labelList)
+            return;
+        var childrens = labelList.childNodes;
+        for (var i in childrens) {
+            if (childrens[i].id == selected_label)
+                childrens[i].className = "selectedFilter";
+            else
+                childrens[i].className = "";
+        }
+    }
+
     var syncMainDataTimer;
     var syncMainData = function () {
         var url = new URI('sync/maindata');
@@ -164,27 +285,55 @@ window.addEvent('load', function () {
             onSuccess : function (response) {
                 $('error_div').set('html', '');
                 if (response) {
+                    var update_labels = false;
                     var full_update = (response['full_update'] == true);
-                    if (full_update)
-                        myTable.rows.erase();
-                    if (response['rid'])
+                    if (full_update) {
+                        torrentsTable.clear();
+                        label_list = {};
+                    }
+                    if (response['rid']) {
                         syncMainDataLastResponseId = response['rid'];
-                    if (response['torrents'])
+                    }
+                    if (response['labels']) {
+                        response['labels'].each(function(label) {
+                            var labelHash = genHash(label);
+                            label_list[labelHash] = {name: label, torrents: []};
+                        });
+                        update_labels = true;
+                    }
+                    if (response['labels_removed']) {
+                        response['labels_removed'].each(function(label) {
+                            var labelHash = genHash(label);
+                            delete label_list[labelHash];
+                        });
+                        update_labels = true;
+                    }
+                    if (response['torrents']) {
                         for (var key in response['torrents']) {
                             response['torrents'][key]['hash'] = key;
-                            myTable.updateRowData(response['torrents'][key]);
+                            response['torrents'][key]['rowId'] = key;
+                            torrentsTable.updateRowData(response['torrents'][key]);
+                            if (addTorrentToLabelList(response['torrents'][key]))
+                                update_labels = true;
                         }
+                    }
                     if (response['torrents_removed'])
                         response['torrents_removed'].each(function (hash) {
-                            myTable.removeRow(hash);
+                            torrentsTable.removeRow(hash);
+                            removeTorrentFromLabelList(hash);
+                            update_labels = true; // Allways to update All label
                         });
-                    myTable.updateTable(full_update);
-                    myTable.altRow();
+                    torrentsTable.updateTable(full_update);
+                    torrentsTable.altRow();
                     if (response['server_state']) {
                         var tmp = response['server_state'];
                         for(var key in tmp)
                             serverState[key] = tmp[key];
                         processServerState();
+                    }
+                    if (update_labels) {
+                        updateLabelList();
+                        updateContextMenu();
                     }
                 }
                 clearTimeout(syncMainDataTimer);
@@ -194,7 +343,7 @@ window.addEvent('load', function () {
     };
 
     updateMainData = function() {
-        myTable.updateTable();
+        torrentsTable.updateTable();
         clearTimeout(syncMainDataTimer);
         syncMainDataTimer = syncMainData.delay(100);
     }
@@ -227,8 +376,8 @@ window.addEvent('load', function () {
 
         if (queueing_enabled != serverState.queueing) {
             queueing_enabled = serverState.queueing;
-            myTable.columns['priority'].force_hide = !queueing_enabled;
-            myTable.updateColumn('priority');
+            torrentsTable.columns['priority'].force_hide = !queueing_enabled;
+            torrentsTable.updateColumn('priority');
             if (queueing_enabled) {
                 $('queueingLinks').removeClass('invisible');
                 $('queueingButtons').removeClass('invisible');
@@ -277,11 +426,6 @@ window.addEvent('load', function () {
 
     $('DlInfos').addEvent('click', globalDownloadLimitFN);
     $('UpInfos').addEvent('click', globalUploadLimitFN);
-
-    setSortedColumn = function (column) {
-        myTable.setSortedColumn(column);
-        updateMainData();
-    };
 
     $('showTopToolbarLink').addEvent('click', function(e) {
         showTopToolbar = !showTopToolbar;
@@ -343,7 +487,7 @@ window.addEvent('load', function () {
         },
         contentURL : 'properties_content.html',
         require : {
-            css : ['css/Tabs.css'],
+            css : ['css/Tabs.css', 'css/dynamicTable.css'],
             js : ['scripts/prop-general.js', 'scripts/prop-trackers.js', 'scripts/prop-webseeds.js', 'scripts/prop-files.js'],
         },
         tabsURL : 'properties.html',
@@ -355,6 +499,8 @@ window.addEvent('load', function () {
                     updateTorrentData();
                 else if (!$('prop_trackers').hasClass('invisible'))
                     updateTrackersData();
+                else if (!$('prop_peers').hasClass('invisible'))
+                    updateTorrentPeersData();
                 else if (!$('prop_webseeds').hasClass('invisible'))
                     updateWebSeedsData();
                 else if (!$('prop_files').hasClass('invisible'))
@@ -366,11 +512,22 @@ window.addEvent('load', function () {
                 $('prop_trackers').addClass("invisible");
                 $('prop_webseeds').addClass("invisible");
                 $('prop_files').addClass("invisible");
+                $('prop_peers').addClass("invisible");
                 updatePropertiesPanel();
             });
 
             $('PropTrackersLink').addEvent('click', function(e){
                 $('prop_trackers').removeClass("invisible");
+                $('prop_general').addClass("invisible");
+                $('prop_webseeds').addClass("invisible");
+                $('prop_files').addClass("invisible");
+                $('prop_peers').addClass("invisible");
+                updatePropertiesPanel();
+            });
+
+            $('PropPeersLink').addEvent('click', function(e){
+                $('prop_peers').removeClass("invisible");
+                $('prop_trackers').addClass("invisible");
                 $('prop_general').addClass("invisible");
                 $('prop_webseeds').addClass("invisible");
                 $('prop_files').addClass("invisible");
@@ -382,6 +539,7 @@ window.addEvent('load', function () {
                 $('prop_general').addClass("invisible");
                 $('prop_trackers').addClass("invisible");
                 $('prop_files').addClass("invisible");
+                $('prop_peers').addClass("invisible");
                 updatePropertiesPanel();
             });
 
@@ -390,6 +548,7 @@ window.addEvent('load', function () {
                 $('prop_general').addClass("invisible");
                 $('prop_trackers').addClass("invisible");
                 $('prop_webseeds').addClass("invisible");
+                $('prop_peers').addClass("invisible");
                 updatePropertiesPanel();
             });
 
@@ -410,7 +569,7 @@ var keyboardEvents = new Keyboard({
     defaultEventType: 'keydown',
     events: {
         'ctrl+a': function(event) {
-            myTable.selectAll();
+            torrentsTable.selectAll();
             event.preventDefault();
         },
         'delete': function(event) {
@@ -421,3 +580,78 @@ var keyboardEvents = new Keyboard({
 });
 
 keyboardEvents.activate();
+
+var loadTorrentPeersTimer;
+var syncTorrentPeersLastResponseId = 0;
+var show_flags = true;
+var loadTorrentPeersData = function(){
+    if ($('prop_peers').hasClass('invisible') ||
+        $('propertiesPanel_collapseToggle').hasClass('panel-expand')) {
+        syncTorrentPeersLastResponseId = 0;
+        torrentPeersTable.clear();
+        return;
+    }
+    var current_hash = torrentsTable.getCurrentTorrentHash();
+    if (current_hash == "") {
+        syncTorrentPeersLastResponseId = 0;
+        torrentPeersTable.clear();
+        clearTimeout(loadTorrentPeersTimer);
+        loadTorrentPeersTimer = loadTorrentPeersData.delay(syncMainDataTimerPeriod);
+        return;
+    }
+    var url = new URI('sync/torrent_peers');
+    url.setData('rid', syncTorrentPeersLastResponseId);
+    url.setData('hash', current_hash);
+    var request = new Request.JSON({
+        url: url,
+        noCache: true,
+        method: 'get',
+        onFailure: function() {
+            $('error_div').set('html', 'QBT_TR(qBittorrent client is not reachable)QBT_TR');
+            clearTimeout(loadTorrentPeersTimer);
+            loadTorrentPeersTimer = loadTorrentPeersData.delay(5000);
+        },
+        onSuccess: function(response) {
+            $('error_div').set('html', '');
+            if (response) {
+                var full_update = (response['full_update'] == true);
+                if (full_update) {
+                    torrentPeersTable.clear();
+                }
+                if (response['rid']) {
+                    syncTorrentPeersLastResponseId = response['rid'];
+                }
+                if (response['peers']) {
+                    for (var key in response['peers']) {
+                        response['peers'][key]['rowId'] = key;
+                        torrentPeersTable.updateRowData(response['peers'][key]);
+                    }
+                }
+                if (response['peers_removed'])
+                    response['peers_removed'].each(function (hash) {
+                        torrentPeersTable.removeRow(hash);
+                    });
+                torrentPeersTable.updateTable(full_update);
+                torrentPeersTable.altRow();
+
+                if (response['show_flags']) {
+                    if (show_flags != response['show_flags']) {
+                        show_flags = response['show_flags'];
+                        torrentPeersTable.columns['country'].force_hide = !show_flags;
+                        torrentPeersTable.updateColumn('country');
+                    }
+                }
+            }
+            else {
+                torrentPeersTable.clear();
+            }
+            clearTimeout(loadTorrentPeersTimer);
+            loadTorrentPeersTimer = loadTorrentPeersData.delay(syncMainDataTimerPeriod);
+        }
+    }).send();
+};
+
+updateTorrentPeersData = function(){
+    clearTimeout(loadTorrentPeersTimer);
+    loadTorrentPeersData();
+};

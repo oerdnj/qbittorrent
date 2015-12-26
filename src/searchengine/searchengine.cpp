@@ -42,19 +42,21 @@
 #include <QSortFilterProxyModel>
 #include <QFileDialog>
 #include <QDesktopServices>
+#include <QClipboard>
 
 #ifdef Q_OS_WIN
 #include <stdlib.h>
 #endif
 
 #include "searchengine.h"
-#include "qbtsession.h"
-#include "fs_utils.h"
-#include "misc.h"
-#include "preferences.h"
+#include "base/bittorrent/session.h"
+#include "base/utils/fs.h"
+#include "base/utils/misc.h"
+#include "base/preferences.h"
 #include "searchlistdelegate.h"
 #include "mainwindow.h"
-#include "iconprovider.h"
+#include "addnewtorrentdialog.h"
+#include "guiiconprovider.h"
 #include "lineedit.h"
 
 #define SEARCHHISTORY_MAXSIZE 50
@@ -62,17 +64,18 @@
 /*SEARCH ENGINE START*/
 SearchEngine::SearchEngine(MainWindow* parent)
     : QWidget(parent)
-    , search_pattern(new LineEdit)
+    , search_pattern(new LineEdit(this))
     , mp_mainWindow(parent)
 {
     setupUi(this);
     searchBarLayout->insertWidget(0, search_pattern);
     connect(search_pattern, SIGNAL(returnPressed()), search_button, SLOT(click()));
     // Icons
-    search_button->setIcon(IconProvider::instance()->getIcon("edit-find"));
-    download_button->setIcon(IconProvider::instance()->getIcon("download"));
-    goToDescBtn->setIcon(IconProvider::instance()->getIcon("application-x-mswinurl"));
-    enginesButton->setIcon(IconProvider::instance()->getIcon("preferences-system-network"));
+    search_button->setIcon(GuiIconProvider::instance()->getIcon("edit-find"));
+    download_button->setIcon(GuiIconProvider::instance()->getIcon("download"));
+    goToDescBtn->setIcon(GuiIconProvider::instance()->getIcon("application-x-mswinurl"));
+    enginesButton->setIcon(GuiIconProvider::instance()->getIcon("preferences-system-network"));
+    copyURLBtn->setIcon(GuiIconProvider::instance()->getIcon("edit-copy"));
     tabWidget->setTabsClosable(true);
     connect(tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
     // Boolean initialization
@@ -158,10 +161,12 @@ void SearchEngine::tab_changed(int t)
         if (currentSearchTab->getCurrentSearchListModel()->rowCount()) {
             download_button->setEnabled(true);
             goToDescBtn->setEnabled(true);
+            copyURLBtn->setEnabled(true);
         }
         else {
             download_button->setEnabled(false);
             goToDescBtn->setEnabled(false);
+            copyURLBtn->setEnabled(false);
         }
         search_status->setText(currentSearchTab->status);
     }
@@ -194,7 +199,7 @@ void SearchEngine::giveFocusToSearchInput()
 // Function called when we click on search button
 void SearchEngine::on_search_button_clicked()
 {
-    if (misc::pythonVersion() < 0) {
+    if (Utils::Misc::pythonVersion() < 0) {
         mp_mainWindow->showNotificationBaloon(tr("Search Engine"), tr("Please install Python to use the Search Engine."));
         return;
     }
@@ -241,7 +246,7 @@ void SearchEngine::on_search_button_clicked()
     // Getting checked search engines
     QStringList params;
     search_stopped = false;
-    params << fsutils::toNativePath(fsutils::searchEngineLocation() + "/nova2.py");
+    params << Utils::Fs::toNativePath(Utils::Fs::searchEngineLocation() + "/nova2.py");
     if (selectedEngine() == "all") params << supported_engines->enginesAll().join(",");
     else if (selectedEngine() == "enabled") params << supported_engines->enginesEnabled().join(",");
     else if (selectedEngine() == "multi") params << supported_engines->enginesEnabled().join(",");
@@ -253,10 +258,10 @@ void SearchEngine::on_search_button_clicked()
     no_search_results = true;
     nb_search_results = 0;
     search_result_line_truncated.clear();
-    //on change le texte du label courrant
+    // Changing the text of the current label
     activeSearchTab->getCurrentLabel()->setText(tr("Results <i>(%1)</i>:", "i.e: Search results").arg(0));
     // Launch search
-    searchProcess->start(misc::pythonExecutable(), params, QIODevice::ReadOnly);
+    searchProcess->start(Utils::Misc::pythonExecutable(), params, QIODevice::ReadOnly);
     searchTimeout->start(180000); // 3min
 }
 
@@ -280,7 +285,7 @@ void SearchEngine::downloadTorrent(QString engine_url, QString torrent_url)
 {
     if (torrent_url.startsWith("bc://bt/", Qt::CaseInsensitive)) {
         qDebug("Converting bc link to magnet link");
-        torrent_url = misc::bcLinkToMagnet(torrent_url);
+        torrent_url = Utils::Misc::bcLinkToMagnet(torrent_url);
     }
     qDebug() << Q_FUNC_INFO << torrent_url;
     if (torrent_url.startsWith("magnet:")) {
@@ -294,11 +299,11 @@ void SearchEngine::downloadTorrent(QString engine_url, QString torrent_url)
         connect(downloadProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(downloadFinished(int,QProcess::ExitStatus)));
         downloaders << downloadProcess;
         QStringList params;
-        params << fsutils::toNativePath(fsutils::searchEngineLocation() + "/nova2dl.py");
+        params << Utils::Fs::toNativePath(Utils::Fs::searchEngineLocation() + "/nova2dl.py");
         params << engine_url;
         params << torrent_url;
         // Launch search
-        downloadProcess->start(misc::pythonExecutable(), params, QIODevice::ReadOnly);
+        downloadProcess->start(Utils::Misc::pythonExecutable(), params, QIODevice::ReadOnly);
     }
 }
 
@@ -337,8 +342,11 @@ void SearchEngine::downloadFinished(int exitcode, QProcess::ExitStatus)
         QStringList parts = line.split(' ');
         if (parts.size() == 2) {
             QString path = parts[0];
-            QString url = parts[1];
-            QBtSession::instance()->processDownloadedFile(url, path);
+
+            if (Preferences::instance()->useAdditionDialog())
+                AddNewTorrentDialog::show(path, mp_mainWindow);
+            else
+                BitTorrent::Session::instance()->addTorrent(path);
         }
     }
     qDebug("Deleting downloadProcess");
@@ -346,10 +354,10 @@ void SearchEngine::downloadFinished(int exitcode, QProcess::ExitStatus)
     delete downloadProcess;
 }
 
-static void removePythonScriptIfExists(const QString& script_path)
+static inline void removePythonScriptIfExists(const QString& script_path)
 {
-    fsutils::forceRemove(script_path);
-    fsutils::forceRemove(script_path + "c");
+    Utils::Fs::forceRemove(script_path);
+    Utils::Fs::forceRemove(script_path + "c");
 }
 
 // Update nova.py search plugin if necessary
@@ -357,14 +365,14 @@ void SearchEngine::updateNova()
 {
     qDebug("Updating nova");
     // create nova directory if necessary
-    QDir search_dir(fsutils::searchEngineLocation());
-    QString nova_folder = misc::pythonVersion() >= 3 ? "nova3" : "nova";
+    QDir search_dir(Utils::Fs::searchEngineLocation());
+    QString nova_folder = Utils::Misc::pythonVersion() >= 3 ? "nova3" : "nova";
     QFile package_file(search_dir.absoluteFilePath("__init__.py"));
     package_file.open(QIODevice::WriteOnly | QIODevice::Text);
     package_file.close();
     if (!search_dir.exists("engines"))
         search_dir.mkdir("engines");
-    fsutils::removeDirRecursive(search_dir.absoluteFilePath("__pycache__"));
+    Utils::Fs::removeDirRecursive(search_dir.absoluteFilePath("__pycache__"));
 
     QFile package_file2(search_dir.absolutePath() + "/engines/__init__.py");
     package_file2.open(QIODevice::WriteOnly | QIODevice::Text);
@@ -408,9 +416,8 @@ void SearchEngine::updateNova()
         removePythonScriptIfExists(filePath);
         QFile::copy(":/" + nova_folder + "/sgmllib3.py", filePath);
     }
-
-    QDir destDir(QDir(fsutils::searchEngineLocation()).absoluteFilePath("engines"));
-    fsutils::removeDirRecursive(destDir.absoluteFilePath("__pycache__"));
+    QDir destDir(QDir(Utils::Fs::searchEngineLocation()).absoluteFilePath("engines"));
+    Utils::Fs::removeDirRecursive(destDir.absoluteFilePath("__pycache__"));
     QDir shipped_subDir(":/" + nova_folder + "/engines/");
     QStringList files = shipped_subDir.entryList();
     foreach (const QString &file, files) {
@@ -526,6 +533,7 @@ void SearchEngine::appendSearchResult(const QString &line)
     // Enable clear & download buttons
     download_button->setEnabled(true);
     goToDescBtn->setEnabled(true);
+    copyURLBtn->setEnabled(true);
 }
 
 void SearchEngine::closeTab(int index)
@@ -551,6 +559,7 @@ void SearchEngine::closeTab(int index)
         download_button->setEnabled(false);
         goToDescBtn->setEnabled(false);
         search_status->setText(tr("Stopped"));
+        copyURLBtn->setEnabled(false);
     }
 }
 
@@ -581,5 +590,23 @@ void SearchEngine::on_goToDescBtn_clicked()
             if (!desc_url.isEmpty())
                 QDesktopServices::openUrl(QUrl::fromEncoded(desc_url.toUtf8()));
         }
+    }
+}
+
+void SearchEngine::on_copyURLBtn_clicked()
+{
+    QStringList urls;
+    QModelIndexList selectedIndexes = all_tab.at(tabWidget->currentIndex())->getCurrentTreeView()->selectionModel()->selectedIndexes();
+    foreach (const QModelIndex &index, selectedIndexes) {
+        if (index.column() == SearchSortModel::NAME) {
+            QSortFilterProxyModel* model = all_tab.at(tabWidget->currentIndex())->getCurrentSearchListProxy();
+            const QString descUrl = model->data(model->index(index.row(), SearchSortModel::DESC_LINK)).toString();
+            if (!descUrl.isEmpty())
+                urls << descUrl.toUtf8();
+        }
+    }
+    if (!urls.empty()) {
+        QClipboard *clipboard = QApplication::clipboard();
+        clipboard->setText(urls.join("\n"));
     }
 }

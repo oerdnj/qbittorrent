@@ -33,10 +33,10 @@
 #include <QDir>
 
 #include "rssdownloadrule.h"
-#include "preferences.h"
+#include "base/preferences.h"
 #include "rssfeed.h"
 #include "rssarticle.h"
-#include "fs_utils.h"
+#include "base/utils/fs.h"
 
 RssDownloadRule::RssDownloadRule(): m_enabled(false), m_useRegex(false), m_apstate(USE_GLOBAL)
 {
@@ -83,7 +83,7 @@ bool RssDownloadRule::matches(const QString &article_title) const
         if (ep.endsWith('-')) { // Infinite range
           int epOurs = ep.left(ep.size() - 1).toInt();
 
-          // Extract partial match from article and ocmpare as digits
+          // Extract partial match from article and compare as digits
           pos = reg.indexIn(article_title);
           if (pos != -1) {
             int epTheirs = reg.cap(1).toInt();
@@ -100,7 +100,7 @@ bool RssDownloadRule::matches(const QString &article_title) const
           int epOursFirst = range.first().toInt();
           int epOursLast = range.last().toInt();
 
-          // Extract partial match from article and ocmpare as digits
+          // Extract partial match from article and compare as digits
           pos = reg.indexIn(article_title);
           if (pos != -1) {
             int epTheirs = reg.cap(1).toInt();
@@ -179,7 +179,7 @@ bool RssDownloadRule::operator==(const RssDownloadRule &other) const {
 void RssDownloadRule::setSavePath(const QString &save_path)
 {
   if (!save_path.isEmpty() && QDir(save_path) != QDir(Preferences::instance()->getSavePath()))
-    m_savePath = fsutils::fromNativePath(save_path);
+    m_savePath = Utils::Fs::fromNativePath(save_path);
   else
     m_savePath = QString();
 }

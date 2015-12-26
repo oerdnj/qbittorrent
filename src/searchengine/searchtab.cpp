@@ -33,18 +33,29 @@
 #include <QStandardItemModel>
 #include <QHeaderView>
 #include <QSortFilterProxyModel>
+#ifdef QBT_USES_QT5
+#include <QTableView>
+#endif
 
 #include "searchtab.h"
 #include "searchlistdelegate.h"
-#include "misc.h"
+#include "base/utils/misc.h"
 #include "searchengine.h"
-#include "preferences.h"
+#include "base/preferences.h"
 
 SearchTab::SearchTab(SearchEngine *parent) : QWidget(), parent(parent)
 {
     box = new QVBoxLayout();
     results_lbl = new QLabel();
     resultsBrowser = new QTreeView();
+#ifdef QBT_USES_QT5
+    // This hack fixes reordering of first column with Qt5.
+    // https://github.com/qtproject/qtbase/commit/e0fc088c0c8bc61dbcaf5928b24986cd61a22777
+    QTableView unused;
+    unused.setVerticalHeader(resultsBrowser->header());
+    resultsBrowser->header()->setParent(resultsBrowser);
+    unused.setVerticalHeader(new QHeaderView(Qt::Horizontal));
+#endif
     resultsBrowser->setSelectionMode(QAbstractItemView::ExtendedSelection);
     box->addWidget(results_lbl);
     box->addWidget(resultsBrowser);

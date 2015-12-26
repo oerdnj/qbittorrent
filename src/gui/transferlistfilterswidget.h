@@ -40,9 +40,12 @@ class QCheckBox;
 QT_END_NAMESPACE
 
 class TransferListWidget;
-class TorrentModelItem;
-class QTorrentHandle;
-class DownloadThread;
+
+namespace BitTorrent
+{
+    class TorrentHandle;
+    class TrackerEntry;
+}
 
 class FiltersBase: public QListWidget
 {
@@ -63,8 +66,8 @@ protected:
 private slots:
     virtual void showMenu(QPoint) = 0;
     virtual void applyFilter(int row) = 0;
-    virtual void handleNewTorrent(TorrentModelItem* torrentItem) = 0;
-    virtual void torrentAboutToBeDeleted(TorrentModelItem* torrentItem) = 0;
+    virtual void handleNewTorrent(BitTorrent::TorrentHandle *const) = 0;
+    virtual void torrentAboutToBeDeleted(BitTorrent::TorrentHandle *const) = 0;
 };
 
 class StatusFiltersWidget: public FiltersBase
@@ -83,8 +86,8 @@ private:
     // No need to redeclare them here as slots.
     virtual void showMenu(QPoint);
     virtual void applyFilter(int row);
-    virtual void handleNewTorrent(TorrentModelItem*);
-    virtual void torrentAboutToBeDeleted(TorrentModelItem*);
+    virtual void handleNewTorrent(BitTorrent::TorrentHandle *const);
+    virtual void torrentAboutToBeDeleted(BitTorrent::TorrentHandle *const);
 };
 
 class LabelFiltersList: public FiltersBase
@@ -101,7 +104,7 @@ private slots:
     void removeItem(const QString &label);
     void removeSelectedLabel();
     void removeUnusedLabels();
-    void torrentChangedLabel(TorrentModelItem *torrentItem, QString old_label, QString new_label);
+    void torrentChangedLabel(BitTorrent::TorrentHandle *const torrent, const QString &oldLabel);
 
 
 private:
@@ -109,8 +112,8 @@ private:
     // No need to redeclare them here as slots.
     virtual void showMenu(QPoint);
     virtual void applyFilter(int row);
-    virtual void handleNewTorrent(TorrentModelItem* torrentItem);
-    virtual void torrentAboutToBeDeleted(TorrentModelItem* torrentItem);
+    virtual void handleNewTorrent(BitTorrent::TorrentHandle *const torrent);
+    virtual void torrentAboutToBeDeleted(BitTorrent::TorrentHandle *const torrent);
     QString labelFromRow(int row) const;
     int rowFromLabel(const QString &label) const;
 
@@ -147,18 +150,18 @@ private:
     // No need to redeclare them here as slots.
     virtual void showMenu(QPoint);
     virtual void applyFilter(int row);
-    virtual void handleNewTorrent(TorrentModelItem* torrentItem);
-    virtual void torrentAboutToBeDeleted(TorrentModelItem* torrentItem);
+    virtual void handleNewTorrent(BitTorrent::TorrentHandle *const torrent);
+    virtual void torrentAboutToBeDeleted(BitTorrent::TorrentHandle *const torrent);
     QString trackerFromRow(int row) const;
     int rowFromTracker(const QString &tracker) const;
     QString getHost(const QString &trakcer) const;
     QStringList getHashes(int row);
+    void downloadFavicon(const QString &url);
 
 private:
     QHash<QString, QStringList> m_trackers;
     QHash<QString, QStringList> m_errors;
     QHash<QString, QStringList> m_warnings;
-    DownloadThread *m_downloader;
     QStringList m_iconPaths;
     int m_totalTorrents;
 };
@@ -171,9 +174,12 @@ public:
     TransferListFiltersWidget(QWidget *parent, TransferListWidget *transferList);
 
 public slots:
-    void addTrackers(const QStringList &trackers, const QString &hash);
-    void removeTrackers(const QStringList &trackers, const QString &hash);
-    void changeTrackerless(bool trackerless, const QString &hash);
+    void addTrackers(BitTorrent::TorrentHandle *const torrent, const QList<BitTorrent::TrackerEntry> &trackers);
+    void removeTrackers(BitTorrent::TorrentHandle *const torrent, const QList<BitTorrent::TrackerEntry> &trackers);
+    void changeTrackerless(BitTorrent::TorrentHandle *const torrent, bool trackerless);
+    void trackerSuccess(BitTorrent::TorrentHandle *const torrent, const QString &tracker);
+    void trackerWarning(BitTorrent::TorrentHandle *const torrent, const QString &tracker);
+    void trackerError(BitTorrent::TorrentHandle *const torrent, const QString &tracker);
 
 signals:
     void trackerSuccess(const QString &hash, const QString &tracker);

@@ -141,8 +141,12 @@ hr {
 }
 
 .selectedFilter {
-    background-color: #354158;
-    color: #000;
+    background-color: #415A8D;
+    color: #FFFFFF;
+}
+
+.selectedFilter a {
+    color: #FFFFFF;
 }
 
 #properties {
@@ -356,6 +360,13 @@ ul.filterList li:hover {
 
 ul.filterList li:hover a {
     color: white;
+}
+
+td.generalLabel {
+    white-space: nowrap;
+    text-align: right;
+    width: 1px;
+    vertical-align: top;
 }
 
 #filesTable {

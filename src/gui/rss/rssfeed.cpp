@@ -31,17 +31,19 @@
 #include <QDebug>
 #include "rssfeed.h"
 #include "rssmanager.h"
-#include "qbtsession.h"
+#include "base/bittorrent/session.h"
+#include "base/bittorrent/magneturi.h"
 #include "rssfolder.h"
-#include "preferences.h"
-#include "qinisettings.h"
+#include "base/preferences.h"
+#include "base/qinisettings.h"
 #include "rssarticle.h"
 #include "rssparser.h"
-#include "misc.h"
+#include "base/utils/misc.h"
 #include "rssdownloadrulelist.h"
-#include "downloadthread.h"
-#include "fs_utils.h"
-#include "logger.h"
+#include "base/net/downloadmanager.h"
+#include "base/net/downloadhandler.h"
+#include "base/utils/fs.h"
+#include "base/logger.h"
 
 bool rssArticleDateRecentThan(const RssArticlePtr& left, const RssArticlePtr& right)
 {
@@ -60,15 +62,15 @@ RssFeed::RssFeed(RssManager* manager, RssFolder* parent, const QString& url):
 {
   qDebug() << Q_FUNC_INFO << m_url;
   // Listen for new RSS downloads
-  connect(manager->rssDownloader(), SIGNAL(downloadFinished(QString,QString)), SLOT(handleFinishedDownload(QString,QString)));
-  connect(manager->rssDownloader(), SIGNAL(downloadFailure(QString,QString)), SLOT(handleDownloadFailure(QString,QString)));
   connect(manager->rssParser(), SIGNAL(feedTitle(QString,QString)), SLOT(handleFeedTitle(QString,QString)));
   connect(manager->rssParser(), SIGNAL(newArticle(QString,QVariantHash)), SLOT(handleNewArticle(QString,QVariantHash)));
   connect(manager->rssParser(), SIGNAL(feedParsingFinished(QString,QString)), SLOT(handleFeedParsingFinished(QString,QString)));
 
   // Download the RSS Feed icon
-  m_iconUrl = iconUrl();
-  manager->rssDownloader()->downloadUrl(m_iconUrl);
+  Net::DownloadHandler *handler = Net::DownloadManager::instance()->downloadUrl(iconUrl(), true);
+  connect(handler, SIGNAL(downloadFinished(QString, QString)), this, SLOT(handleFinishedDownload(QString, QString)));
+  connect(handler, SIGNAL(downloadFailed(QString, QString)), this, SLOT(handleDownloadFailure(QString, QString)));
+  m_iconUrl = handler->url();
 
   // Load old RSS articles
   loadItemsFromDisk();
@@ -77,7 +79,7 @@ RssFeed::RssFeed(RssManager* manager, RssFolder* parent, const QString& url):
 RssFeed::~RssFeed()
 {
   if (!m_icon.startsWith(":/") && QFile::exists(m_icon))
-    fsutils::forceRemove(m_icon);
+    Utils::Fs::forceRemove(m_icon);
 }
 
 void RssFeed::saveItemsToDisk()
@@ -158,12 +160,6 @@ void RssFeed::addArticle(const RssArticlePtr& article) {
   }
 }
 
-QList<QNetworkCookie> RssFeed::feedCookies() const
-{
-  QString feed_hostname = QUrl::fromEncoded(m_url.toUtf8()).host();
-  return Preferences::instance()->getHostNameQNetworkCookies(feed_hostname);
-}
-
 bool RssFeed::refresh()
 {
   if (m_loading) {
@@ -172,7 +168,10 @@ bool RssFeed::refresh()
   }
   m_loading = true;
   // Download the RSS again
-  m_manager->rssDownloader()->downloadUrl(m_url, feedCookies());
+  Net::DownloadHandler *handler = Net::DownloadManager::instance()->downloadUrl(m_url, true);
+  connect(handler, SIGNAL(downloadFinished(QString, QString)), this, SLOT(handleFinishedDownload(QString, QString)));
+  connect(handler, SIGNAL(downloadFailed(QString, QString)), this, SLOT(handleDownloadFailure(QString, QString)));
+  m_url = handler->url(); // sync URL encoding
   return true;
 }
 
@@ -298,7 +297,7 @@ RssArticleList RssFeed::unreadArticleListByDateDesc() const
   return unread_news;
 }
 
-// download the icon from the adress
+// download the icon from the address
 QString RssFeed::iconUrl() const
 {
   // XXX: This works for most sites but it is not perfect
@@ -306,7 +305,7 @@ QString RssFeed::iconUrl() const
 }
 
 // read and store the downloaded rss' informations
-void RssFeed::handleFinishedDownload(const QString& url, const QString& filePath)
+void RssFeed::handleFinishedDownload(const QString &url, const QString &filePath)
 {
   if (url == m_url) {
     qDebug() << Q_FUNC_INFO << "Successfully downloaded RSS feed at" << url;
@@ -319,10 +318,9 @@ void RssFeed::handleFinishedDownload(const QString& url, const QString& filePath
   }
 }
 
-void RssFeed::handleDownloadFailure(const QString& url, const QString& error)
+void RssFeed::handleDownloadFailure(const QString &url, const QString &error)
 {
-  if (url != m_url)
-    return;
+  if (url != m_url) return;
 
   m_inErrorState = true;
   m_loading = false;
@@ -368,18 +366,26 @@ void RssFeed::downloadArticleTorrentIfMatching(RssDownloadRuleList* rules, const
   // Download the torrent
   const QString& torrent_url = article->torrentUrl();
   if (torrent_url.isEmpty()) {
-    Logger::instance()->addMessage(tr("Automatic download %1 from %2 RSS feed failed because it doesn't contain a torrent or a magnet link...").arg(article->title()).arg(displayName()), Log::WARNING);
+    Logger::instance()->addMessage(tr("Automatic download of '%1' from '%2' RSS feed failed because it doesn't contain a torrent or a magnet link...").arg(article->title()).arg(displayName()), Log::WARNING);
     article->markAsRead();
     return;
   }
 
-  Logger::instance()->addMessage(tr("Automatically downloading %1 torrent from %2 RSS feed...").arg(article->title()).arg(displayName()));
-  connect(QBtSession::instance(), SIGNAL(newDownloadedTorrentFromRss(QString)), article.data(), SLOT(handleTorrentDownloadSuccess(const QString&)), Qt::UniqueConnection);
+  Logger::instance()->addMessage(tr("Automatically downloading '%1' torrent from '%2' RSS feed...").arg(article->title()).arg(displayName()));
   connect(article.data(), SIGNAL(articleWasRead()), SLOT(handleArticleStateChanged()), Qt::UniqueConnection);
-  if (torrent_url.startsWith("magnet:", Qt::CaseInsensitive))
-    QBtSession::instance()->addMagnetSkipAddDlg(torrent_url, matching_rule->savePath(), matching_rule->label(), matching_rule->addPaused());
+  if (BitTorrent::MagnetUri(torrent_url).isValid())
+      article->markAsRead();
   else
-    QBtSession::instance()->downloadUrlAndSkipDialog(torrent_url, matching_rule->savePath(), matching_rule->label(), feedCookies(), matching_rule->addPaused());
+      connect(BitTorrent::Session::instance(), SIGNAL(downloadFromUrlFinished(QString)), article.data(), SLOT(handleTorrentDownloadSuccess(const QString&)), Qt::UniqueConnection);
+
+  BitTorrent::AddTorrentParams params;
+  params.savePath = matching_rule->savePath();
+  params.label = matching_rule->label();
+  if (matching_rule->addPaused() == RssDownloadRule::ALWAYS_PAUSED)
+      params.addPaused = TriStateBool::True;
+  else if (matching_rule->addPaused() == RssDownloadRule::NEVER_PAUSED)
+      params.addPaused = TriStateBool::False;
+  BitTorrent::Session::instance()->addTorrent(torrent_url, params);
 }
 
 void RssFeed::recheckRssItemsForDownload()
@@ -431,7 +437,8 @@ void RssFeed::handleFeedParsingFinished(const QString& feedUrl, const QString& e
   saveItemsToDisk();
 }
 
-void RssFeed::handleArticleStateChanged() {
+void RssFeed::handleArticleStateChanged()
+{
   m_manager->forwardFeedInfosChanged(m_url, displayName(), m_unreadCount);
 }
 
