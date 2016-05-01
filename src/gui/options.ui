@@ -23,29 +23,20 @@
       <bool>false</bool>
      </property>
      <widget class="QListWidget" name="tabSelection">
-      <property name="autoScroll">
-       <bool>false</bool>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
       </property>
-      <property name="iconSize">
-       <size>
-        <width>32</width>
-        <height>32</height>
-       </size>
+      <property name="movement">
+       <enum>QListView::Static</enum>
+      </property>
+      <property name="flow">
+       <enum>QListView::TopToBottom</enum>
       </property>
       <property name="isWrapping" stdset="0">
-       <bool>true</bool>
+       <bool>false</bool>
       </property>
       <property name="resizeMode">
        <enum>QListView::Adjust</enum>
-      </property>
-      <property name="spacing">
-       <number>4</number>
-      </property>
-      <property name="gridSize">
-       <size>
-        <width>110</width>
-        <height>60</height>
-       </size>
       </property>
       <property name="viewMode">
        <enum>QListView::IconMode</enum>
@@ -57,77 +48,35 @@
        <property name="text">
         <string>Behavior</string>
        </property>
-       <property name="textAlignment">
-        <set>AlignCenter</set>
-       </property>
-       <property name="flags">
-        <set>ItemIsSelectable|ItemIsEnabled</set>
-       </property>
       </item>
       <item>
        <property name="text">
         <string>Downloads</string>
-       </property>
-       <property name="textAlignment">
-        <set>AlignCenter</set>
-       </property>
-       <property name="flags">
-        <set>ItemIsSelectable|ItemIsEnabled</set>
        </property>
       </item>
       <item>
        <property name="text">
         <string>Connection</string>
        </property>
-       <property name="textAlignment">
-        <set>AlignCenter</set>
-       </property>
-       <property name="flags">
-        <set>ItemIsSelectable|ItemIsEnabled</set>
-       </property>
       </item>
       <item>
        <property name="text">
         <string>Speed</string>
-       </property>
-       <property name="textAlignment">
-        <set>AlignCenter</set>
-       </property>
-       <property name="flags">
-        <set>ItemIsSelectable|ItemIsEnabled</set>
        </property>
       </item>
       <item>
        <property name="text">
         <string>BitTorrent</string>
        </property>
-       <property name="textAlignment">
-        <set>AlignCenter</set>
-       </property>
-       <property name="flags">
-        <set>ItemIsSelectable|ItemIsEnabled</set>
-       </property>
       </item>
       <item>
        <property name="text">
         <string>Web UI</string>
        </property>
-       <property name="textAlignment">
-        <set>AlignCenter</set>
-       </property>
-       <property name="flags">
-        <set>ItemIsSelectable|ItemIsEnabled</set>
-       </property>
       </item>
       <item>
        <property name="text">
         <string>Advanced</string>
-       </property>
-       <property name="textAlignment">
-        <set>AlignCenter</set>
-       </property>
-       <property name="flags">
-        <set>ItemIsSelectable|ItemIsEnabled</set>
        </property>
       </item>
      </widget>
@@ -141,6 +90,9 @@
          <number>0</number>
         </property>
         <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
          <number>0</number>
         </property>
         <property name="bottomMargin">
@@ -161,9 +113,9 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
-             <width>454</width>
-             <height>610</height>
+             <y>-190</y>
+             <width>486</width>
+             <height>732</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -256,6 +208,44 @@
                   <bool>true</bool>
                  </property>
                 </widget>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout">
+                 <item>
+                  <widget class="QCheckBox" name="checkHideZero">
+                   <property name="text">
+                    <string>Hide zero and infinity values</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="comboHideZero">
+                   <item>
+                    <property name="text">
+                     <string>Always</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Paused torrents only</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_10">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>0</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
                </item>
                <item>
                 <widget class="QGroupBox" name="groupBox_7">
@@ -380,6 +370,16 @@
                 </widget>
                </item>
                <item>
+                <widget class="QCheckBox" name="checkProgramAutoExitConfirm">
+                 <property name="text">
+                  <string>Confirmation on auto-exit when downloads finish</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <widget class="QGroupBox" name="checkShowSystray">
                  <property name="title">
                   <string>Show qBittorrent in notification area</string>
@@ -481,6 +481,153 @@
              </widget>
             </item>
             <item>
+             <widget class="QGroupBox" name="checkFileLog">
+              <property name="title">
+               <string>Log file</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_11">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_7">
+                 <item>
+                  <widget class="QLabel" name="label_4">
+                   <property name="text">
+                    <string>Save path:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="textFileLogPath"/>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="browseFileLogDir">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>25</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string notr="true">...</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_8">
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QCheckBox" name="checkFileLogBackup">
+                   <property name="text">
+                    <string>Backup the log file after:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="spinFileLogSize">
+                   <property name="suffix">
+                    <string> MB</string>
+                   </property>
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                   <property name="maximum">
+                    <number>1000</number>
+                   </property>
+                   <property name="value">
+                    <number>10</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_10">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_9">
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QCheckBox" name="checkFileLogDelete">
+                   <property name="text">
+                    <string>Delete backup logs older than:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="spinFileLogAge">
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                   <property name="maximum">
+                    <number>365</number>
+                   </property>
+                   <property name="value">
+                    <number>6</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="comboFileLogAgeType">
+                   <property name="currentIndex">
+                    <number>1</number>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string comment="Delete backup logs older than 10 months">days</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string comment="Delete backup logs older than 10 months">months</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string comment="Delete backup logs older than 10 years">years</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_16">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
              <spacer name="verticalSpacer_4">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
@@ -507,6 +654,9 @@
         <property name="topMargin">
          <number>0</number>
         </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
         <property name="bottomMargin">
          <number>0</number>
         </property>
@@ -520,8 +670,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>454</width>
-             <height>942</height>
+             <width>487</width>
+             <height>1334</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -714,7 +864,7 @@
                   <item>
                    <layout class="QHBoxLayout" name="horizontalLayout_16">
                     <item>
-                     <widget class="QTableView" name="scanFoldersView">
+                     <widget class="QTreeView" name="scanFoldersView">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                         <horstretch>0</horstretch>
@@ -727,28 +877,25 @@
                         <height>150</height>
                        </size>
                       </property>
+                      <property name="editTriggers">
+                       <set>QAbstractItemView::AllEditTriggers</set>
+                      </property>
                       <property name="selectionMode">
                        <enum>QAbstractItemView::SingleSelection</enum>
                       </property>
                       <property name="selectionBehavior">
                        <enum>QAbstractItemView::SelectRows</enum>
                       </property>
-                      <property name="showGrid">
+                      <property name="textElideMode">
+                       <enum>Qt::ElideNone</enum>
+                      </property>
+                      <property name="rootIsDecorated">
                        <bool>false</bool>
                       </property>
-                      <property name="sortingEnabled">
-                       <bool>true</bool>
-                      </property>
-                      <attribute name="horizontalHeaderDefaultSectionSize">
+                      <attribute name="headerDefaultSectionSize">
                        <number>80</number>
                       </attribute>
-                      <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
-                       <bool>false</bool>
-                      </attribute>
-                      <attribute name="horizontalHeaderStretchLastSection">
-                       <bool>true</bool>
-                      </attribute>
-                      <attribute name="verticalHeaderVisible">
+                      <attribute name="headerStretchLastSection">
                        <bool>false</bool>
                       </attribute>
                      </widget>
@@ -1023,6 +1170,9 @@
         <property name="topMargin">
          <number>0</number>
         </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
         <property name="bottomMargin">
          <number>0</number>
         </property>
@@ -1036,8 +1186,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>361</width>
-             <height>586</height>
+             <width>450</width>
+             <height>658</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_20">
@@ -1566,8 +1716,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>275</width>
-             <height>401</height>
+             <width>376</width>
+             <height>444</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -1937,6 +2087,9 @@
         <property name="topMargin">
          <number>0</number>
         </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
         <property name="bottomMargin">
          <number>0</number>
         </property>
@@ -1950,8 +2103,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>440</width>
-             <height>481</height>
+             <width>555</width>
+             <height>527</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2055,7 +2208,7 @@
                  <item>
                   <widget class="QLabel" name="label_anonymous">
                    <property name="text">
-                    <string> (&lt;a href=&quot;http://github.com/qbittorrent/qBittorrent/wiki/Anonymous-Mode&quot;&gt;More information&lt;/a&gt;)</string>
+                    <string> (&lt;a href=&quot;https://github.com/qbittorrent/qBittorrent/wiki/Anonymous-Mode&quot;&gt;More information&lt;/a&gt;)</string>
                    </property>
                    <property name="openExternalLinks">
                     <bool>true</bool>
@@ -2323,12 +2476,15 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabOptionPage7">
-       <layout class="QVBoxLayout">
+      <widget class="QWidget" name="tabWebuiPage">
+       <layout class="QVBoxLayout" name="tabWebuiPageLayout">
         <property name="leftMargin">
          <number>0</number>
         </property>
         <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
          <number>0</number>
         </property>
         <property name="bottomMargin">
@@ -2344,8 +2500,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>332</width>
-             <height>480</height>
+             <width>419</width>
+             <height>537</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_23">
@@ -2529,7 +2685,7 @@
                   <item row="2" column="0" colspan="3">
                    <widget class="QLabel" name="lblWebUIInfo">
                     <property name="text">
-                     <string>&lt;a href=http://httpd.apache.org/docs/2.2/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</string>
+                     <string>&lt;a href=https://httpd.apache.org/docs/current/ssl/ssl_faq.html#aboutcerts&gt;Information about certificates&lt;/a&gt;</string>
                     </property>
                     <property name="openExternalLinks">
                      <bool>true</bool>
@@ -2710,47 +2866,19 @@
        </layout>
       </widget>
       <widget class="QWidget" name="tabAdvancedPage">
-       <layout class="QVBoxLayout" name="verticalLayout_35">
+       <layout class="QVBoxLayout" name="advPageLayout">
         <property name="leftMargin">
          <number>0</number>
         </property>
         <property name="topMargin">
          <number>0</number>
         </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
         <property name="bottomMargin">
          <number>0</number>
         </property>
-        <item>
-         <widget class="QScrollArea" name="scrollArea_advanced">
-          <property name="widgetResizable">
-           <bool>true</bool>
-          </property>
-          <widget class="QWidget" name="scrollAreaWidgetContents_10">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>89</width>
-             <height>28</height>
-            </rect>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_36">
-            <property name="leftMargin">
-             <number>0</number>
-            </property>
-            <property name="topMargin">
-             <number>0</number>
-            </property>
-            <property name="rightMargin">
-             <number>0</number>
-            </property>
-            <property name="bottomMargin">
-             <number>0</number>
-            </property>
-           </layout>
-          </widget>
-         </widget>
-        </item>
        </layout>
       </widget>
      </widget>

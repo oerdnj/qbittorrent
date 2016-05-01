@@ -132,6 +132,10 @@ public:
     void showSpeedInTitleBar(bool show);
     bool useAlternatingRowColors() const;
     void setAlternatingRowColors(bool b);
+    bool getHideZeroValues() const;
+    void setHideZeroValues(bool b);
+    int getHideZeroComboValues() const;
+    void setHideZeroComboValues(int n);
     bool useRandomPort() const;
     void setRandomPort(bool b);
     bool systrayIntegration() const;
@@ -176,13 +180,9 @@ public:
     void additionDialogFront(bool b);
     bool addTorrentsInPause() const;
     void addTorrentsInPause(bool b);
-    QStringList getScanDirs() const;
-    void setScanDirs(const QStringList &dirs);
-    QList<bool> getDownloadInScanDirs() const;
-    void setDownloadInScanDirs(const QList<bool> &list);
+    QVariantHash getScanDirs() const;
+    void setScanDirs(const QVariantHash &dirs);
     QString getScanDirsLastPath() const;
-    void setScanDirsDownloadPaths(const QStringList &downloadpaths);
-    QStringList getScanDirsDownloadPaths() const;
     void setScanDirsLastPath(const QString &path);
     bool isTorrentExportEnabled() const;
     QString getTorrentExportDir() const;
@@ -301,6 +301,25 @@ public:
     // Execution Log
     bool isExecutionLogEnabled() const;
     void setExecutionLogEnabled(bool b);
+    int executionLogMessageTypes() const;
+    void setExecutionLogMessageTypes(const int &value);
+
+    // File log
+    bool fileLogEnabled() const;
+    void setFileLogEnabled(bool enabled);
+    QString fileLogPath() const;
+    void setFileLogPath(const QString &path);
+    bool fileLogBackup() const;
+    void setFileLogBackup(bool backup);
+    bool fileLogDeleteOld() const;
+    void setFileLogDeleteOld(bool deleteOld);
+    int fileLogMaxSize() const;
+    void setFileLogMaxSize(const int &size);
+    int fileLogAge() const;
+    void setFileLogAge(const int &age);
+    int fileLogAgeType() const;
+    void setFileLogAgeType(const int &ageType);
+
 
     // Queueing system
     bool isQueueingSystemEnabled() const;
@@ -360,6 +379,8 @@ public:
     void setHibernateWhenDownloadsComplete(bool hibernate);
     bool shutdownqBTWhenDownloadsComplete() const;
     void setShutdownqBTWhenDownloadsComplete(bool shutdown);
+    bool dontConfirmAutoExit() const;
+    void setDontConfirmAutoExit(bool dontConfirmAutoExit);
     uint diskCacheSize() const;
     void setDiskCacheSize(uint size);
     uint diskCacheTTL() const;
@@ -421,6 +442,12 @@ public:
     static bool isMagnetLinkAssocSet();
     static void setTorrentFileAssoc(bool set);
     static void setMagnetLinkAssoc(bool set);
+#endif
+#ifdef Q_OS_MAC
+    static bool isTorrentFileAssocSet();
+    static bool isMagnetLinkAssocSet();
+    static void setTorrentFileAssoc();
+    static void setMagnetLinkAssoc();
 #endif
     bool isTrackerEnabled() const;
     void setTrackerEnabled(bool enabled);
@@ -538,9 +565,12 @@ public:
     void setRssFeedsUrls(const QStringList &rssFeeds);
     QStringList getRssFeedsAliases() const;
     void setRssFeedsAliases(const QStringList &rssAliases);
-    QList<QByteArray> getHostNameCookies(const QString &host_name) const;
-    QList<QNetworkCookie> getHostNameQNetworkCookies(const QString& host_name) const;
-    void setHostNameCookies(const QString &host_name, const QList<QByteArray> &cookies);
+
+    // Network
+    QList<QNetworkCookie> getNetworkCookies() const;
+    void setNetworkCookies(const QList<QNetworkCookie> &cookies);
+    // Temporary method for upgrade purposes
+    void moveRSSCookies();
 
     // SpeedWidget
     int getSpeedWidgetPeriod() const;

@@ -38,6 +38,8 @@
 #include <QWaitCondition>
 #include <QNetworkConfigurationManager>
 
+#include <libtorrent/version.hpp>
+
 #include "base/tristatebool.h"
 #include "base/types.h"
 #include "torrentinfo.h"
@@ -45,12 +47,23 @@
 namespace libtorrent
 {
     class session;
+    struct torrent_handle;
     class entry;
     struct add_torrent_params;
     struct pe_settings;
-    struct proxy_settings;
     struct session_settings;
     struct session_status;
+
+#if LIBTORRENT_VERSION_NUM < 10100
+    struct proxy_settings;
+#else
+    namespace aux
+    {
+        struct proxy_settings;
+    }
+
+    typedef aux::proxy_settings proxy_settings;
+#endif
 
     class alert;
     struct torrent_alert;
@@ -86,6 +99,7 @@ namespace libtorrent
     struct external_ip_alert;
 }
 
+class QThread;
 class QTimer;
 class QStringList;
 class QString;
@@ -95,6 +109,7 @@ template<typename T> class QList;
 class FilterParserThread;
 class BandwidthScheduler;
 class Statistics;
+class ResumeDataSavingManager;
 
 typedef QPair<QString, QString> QStringPair;
 
@@ -114,15 +129,13 @@ namespace BitTorrent
         QString name;
         QString label;
         QString savePath;
-        bool disableTempPath; // e.g. for imported torrents
-        bool sequential;
+        bool disableTempPath = false; // e.g. for imported torrents
+        bool sequential = false;
         TriStateBool addForced;
         TriStateBool addPaused;
         QVector<int> filePriorities; // used if TorrentInfo is set
-        bool ignoreShareRatio;
-        bool skipChecking;
-
-        AddTorrentParams();
+        bool ignoreShareRatio = false;
+        bool skipChecking = false;
     };
 
     struct TorrentStatusReport
@@ -183,7 +196,7 @@ namespace BitTorrent
         bool addTorrent(QString source, const AddTorrentParams &params = AddTorrentParams());
         bool addTorrent(const TorrentInfo &torrentInfo, const AddTorrentParams &params = AddTorrentParams());
         bool deleteTorrent(const QString &hash, bool deleteLocalFiles = false);
-        bool loadMetadata(const QString &magnetUri);
+        bool loadMetadata(const MagnetUri &magnetUri);
         bool cancelLoadMetadata(const InfoHash &hash);
 
         void recursiveTorrentDownload(const InfoHash &hash);
@@ -313,13 +326,12 @@ namespace BitTorrent
         void handleListenFailedAlert(libtorrent::listen_failed_alert *p);
         void handleExternalIPAlert(libtorrent::external_ip_alert *p);
 
+        void createTorrentHandle(const libtorrent::torrent_handle &nativeHandle);
+
         void saveResumeData();
-        bool writeResumeDataFile(TorrentHandle *const torrent, const libtorrent::entry &data);
 
         void dispatchAlerts(std::auto_ptr<libtorrent::alert> alertPtr);
         void getPendingAlerts(QVector<libtorrent::alert *> &out, ulong time = 0);
-
-        AddTorrentData addDataFromParams(const AddTorrentParams &params);
 
         // BitTorrent
         libtorrent::session *m_nativeSession;
@@ -355,6 +367,9 @@ namespace BitTorrent
         QPointer<BandwidthScheduler> m_bwScheduler;
         // Tracker
         QPointer<Tracker> m_tracker;
+        // fastresume data writing thread
+        QThread *m_ioThread;
+        ResumeDataSavingManager *m_resumeDataSavingManager;
 
         QHash<InfoHash, TorrentInfo> m_loadedMetadata;
         QHash<InfoHash, TorrentHandle *> m_torrents;

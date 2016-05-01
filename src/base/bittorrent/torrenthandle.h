@@ -38,6 +38,11 @@
 #include <QHash>
 
 #include <libtorrent/torrent_handle.hpp>
+#include <libtorrent/version.hpp>
+#if LIBTORRENT_VERSION_NUM >= 10100
+#include <libtorrent/torrent_status.hpp>
+#endif
+
 #include <boost/function.hpp>
 
 #include "base/tristatebool.h"
@@ -97,14 +102,15 @@ namespace BitTorrent
         QVector<int> filePriorities;
         // for resumed torrents
         qreal ratioLimit;
+
+        AddTorrentData();
+        AddTorrentData(const AddTorrentParams &params);
     };
 
     struct TrackerInfo
     {
         QString lastMessage;
-        quint32 numPeers;
-
-        TrackerInfo();
+        quint32 numPeers = 0;
     };
 
     class TorrentState
@@ -344,7 +350,6 @@ namespace BitTorrent
     private:
         typedef boost::function<void ()> EventTrigger;
 
-        void initialize();
         void updateStatus();
         void updateStatus(const libtorrent::torrent_status &nativeStatus);
         void updateState();

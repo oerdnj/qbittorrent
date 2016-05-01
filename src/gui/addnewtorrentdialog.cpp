@@ -133,11 +133,6 @@ void AddNewTorrentDialog::saveState()
 
 void AddNewTorrentDialog::show(QString source, QWidget *parent)
 {
-    if (source.startsWith("bc://bt/", Qt::CaseInsensitive)) {
-        qDebug("Converting bc link to magnet link");
-        source = Utils::Misc::bcLinkToMagnet(source);
-    }
-
     AddNewTorrentDialog *dlg = new AddNewTorrentDialog(parent);
 
     if (Utils::Misc::isUrl(source)) {
@@ -149,8 +144,9 @@ void AddNewTorrentDialog::show(QString source, QWidget *parent)
     }
     else {
         bool ok = false;
-        if (source.startsWith("magnet:", Qt::CaseInsensitive))
-            ok = dlg->loadMagnet(source);
+        BitTorrent::MagnetUri magnetUri(source);
+        if (magnetUri.isValid())
+            ok = dlg->loadMagnet(magnetUri);
         else
             ok = dlg->loadTorrent(source);
 
@@ -161,15 +157,21 @@ void AddNewTorrentDialog::show(QString source, QWidget *parent)
     }
 }
 
-bool AddNewTorrentDialog::loadTorrent(const QString& torrent_path)
+bool AddNewTorrentDialog::loadTorrent(const QString &torrentPath)
 {
-    if (torrent_path.startsWith("file://", Qt::CaseInsensitive))
-        m_filePath = QUrl::fromEncoded(torrent_path.toLocal8Bit()).toLocalFile();
+    if (torrentPath.startsWith("file://", Qt::CaseInsensitive))
+        m_filePath = QUrl::fromEncoded(torrentPath.toLocal8Bit()).toLocalFile();
     else
-        m_filePath = torrent_path;
+        m_filePath = torrentPath;
 
     if (!QFile::exists(m_filePath)) {
         MessageBoxRaised::critical(0, tr("I/O Error"), tr("The torrent file does not exist."));
+        return false;
+    }
+
+    QFileInfo fileinfo(m_filePath);
+    if (!fileinfo.isReadable()) {
+        MessageBoxRaised::critical(0, tr("I/O Error"), tr("The torrent file cannot be read from the disk. Probably you don't have enough permissions."));
         return false;
     }
 
@@ -187,9 +189,14 @@ bool AddNewTorrentDialog::loadTorrent(const QString& torrent_path)
     if (BitTorrent::Session::instance()->isKnownTorrent(m_hash)) {
         BitTorrent::TorrentHandle *const torrent = BitTorrent::Session::instance()->findTorrent(m_hash);
         if (torrent) {
-            torrent->addTrackers(m_torrentInfo.trackers());
-            torrent->addUrlSeeds(m_torrentInfo.urlSeeds());
-            MessageBoxRaised::information(0, tr("Already in download list"), tr("Torrent is already in download list. Trackers were merged."), QMessageBox::Ok);
+            if (torrent->isPrivate() || m_torrentInfo.isPrivate()) {
+                MessageBoxRaised::critical(0, tr("Already in download list"), tr("Torrent is already in download list. Trackers weren't merged because it is a private torrent."), QMessageBox::Ok);
+            }
+            else {
+                torrent->addTrackers(m_torrentInfo.trackers());
+                torrent->addUrlSeeds(m_torrentInfo.urlSeeds());
+                MessageBoxRaised::information(0, tr("Already in download list"), tr("Torrent is already in download list. Trackers were merged."), QMessageBox::Ok);
+            }
         }
         else {
             MessageBoxRaised::critical(0, tr("Cannot add torrent"), tr("Cannot add this torrent. Perhaps it is already in adding state."), QMessageBox::Ok);
@@ -202,22 +209,26 @@ bool AddNewTorrentDialog::loadTorrent(const QString& torrent_path)
     return true;
 }
 
-bool AddNewTorrentDialog::loadMagnet(const QString &magnet_uri)
+bool AddNewTorrentDialog::loadMagnet(const BitTorrent::MagnetUri &magnetUri)
 {
-    BitTorrent::MagnetUri magnet(magnet_uri);
-    if (!magnet.isValid()) {
+    if (!magnetUri.isValid()) {
         MessageBoxRaised::critical(0, tr("Invalid magnet link"), tr("This magnet link was not recognized"));
         return false;
     }
 
-    m_hash = magnet.hash();
+    m_hash = magnetUri.hash();
     // Prevent showing the dialog if download is already present
     if (BitTorrent::Session::instance()->isKnownTorrent(m_hash)) {
         BitTorrent::TorrentHandle *const torrent = BitTorrent::Session::instance()->findTorrent(m_hash);
         if (torrent) {
-            torrent->addTrackers(magnet.trackers());
-            torrent->addUrlSeeds(magnet.urlSeeds());
-            MessageBoxRaised::information(0, tr("Already in download list"), tr("Magnet link is already in download list. Trackers were merged."), QMessageBox::Ok);
+            if (torrent->isPrivate()) {
+                MessageBoxRaised::critical(0, tr("Already in download list"), tr("Torrent is already in download list. Trackers weren't merged because it is a private torrent."), QMessageBox::Ok);
+            }
+            else {
+                torrent->addTrackers(magnetUri.trackers());
+                torrent->addUrlSeeds(magnetUri.urlSeeds());
+                MessageBoxRaised::information(0, tr("Already in download list"), tr("Magnet link is already in download list. Trackers were merged."), QMessageBox::Ok);
+            }
         }
         else {
             MessageBoxRaised::critical(0, tr("Cannot add torrent"), tr("Cannot add this torrent. Perhaps it is already in adding."), QMessageBox::Ok);
@@ -228,14 +239,14 @@ bool AddNewTorrentDialog::loadMagnet(const QString &magnet_uri)
     connect(BitTorrent::Session::instance(), SIGNAL(metadataLoaded(BitTorrent::TorrentInfo)), SLOT(updateMetadata(BitTorrent::TorrentInfo)));
 
     // Set dialog title
-    QString torrent_name = magnet.name();
+    QString torrent_name = magnetUri.name();
     setWindowTitle(torrent_name.isEmpty() ? tr("Magnet link") : torrent_name);
 
     setupTreeview();
     // Set dialog position
     setdialogPosition();
 
-    BitTorrent::Session::instance()->loadMetadata(magnet_uri);
+    BitTorrent::Session::instance()->loadMetadata(magnetUri);
     setMetadataProgressIndicator(true, tr("Retrieving metadata..."));
     ui->lblhash->setText(m_hash);
 
@@ -255,28 +266,28 @@ void AddNewTorrentDialog::showEvent(QShowEvent *event)
 
 void AddNewTorrentDialog::showAdvancedSettings(bool show)
 {
+    const int minimumW = minimumWidth();
+    setMinimumWidth(width());  // to remain the same width
     if (show) {
         ui->adv_button->setText(QString::fromUtf8(C_UP));
         ui->settings_group->setVisible(true);
-        ui->info_group->setVisible(true);
+        ui->infoGroup->setVisible(true);
         if (m_hasMetadata && (m_torrentInfo.filesCount() > 1)) {
             ui->content_tree->setVisible(true);
-            setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         }
         else {
             ui->content_tree->setVisible(false);
-            setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
         }
         static_cast<QVBoxLayout*>(layout())->insertWidget(layout()->indexOf(ui->never_show_cb) + 1, ui->adv_button);
     }
     else {
         ui->adv_button->setText(QString::fromUtf8(C_DOWN));
         ui->settings_group->setVisible(false);
-        ui->info_group->setVisible(false);
+        ui->infoGroup->setVisible(false);
         ui->buttonsHLayout->insertWidget(0, layout()->takeAt(layout()->indexOf(ui->never_show_cb) + 1)->widget());
-        setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     }
-    relayout();
+    adjustSize();
+    setMinimumWidth(minimumW);
 }
 
 void AddNewTorrentDialog::saveSavePathHistory() const
@@ -337,7 +348,7 @@ void AddNewTorrentDialog::updateDiskSpaceLabel()
 
     QString size_string = torrent_size ? Utils::Misc::friendlyUnit(torrent_size) : QString(tr("Not Available", "This size is unavailable."));
     size_string += " (";
-    size_string += tr("Free disk space: %1").arg(Utils::Misc::friendlyUnit(Utils::Fs::freeDiskSpaceOnPath(
+    size_string += tr("Free space on disk: %1").arg(Utils::Misc::friendlyUnit(Utils::Fs::freeDiskSpaceOnPath(
                                                                    ui->save_path_combo->itemData(
                                                                        ui->save_path_combo->currentIndex()).toString())));
     size_string += ")";
@@ -349,7 +360,6 @@ void AddNewTorrentDialog::onSavePathChanged(int index)
     // Toggle default save path setting checkbox visibility
     ui->default_save_path_cb->setChecked(false);
     ui->default_save_path_cb->setVisible(QDir(ui->save_path_combo->itemData(ui->save_path_combo->currentIndex()).toString()) != QDir(Preferences::instance()->getSavePath()));
-    relayout();
 
     // Remember index
     m_oldIndex = index;
@@ -404,15 +414,6 @@ void AddNewTorrentDialog::browseButton_clicked()
         ui->save_path_combo->setCurrentIndex(m_oldIndex);
     }
     connect(ui->save_path_combo, SIGNAL(currentIndexChanged(int)), SLOT(onSavePathChanged(int)));
-}
-
-void AddNewTorrentDialog::relayout()
-{
-    qApp->processEvents();
-    int min_width = minimumWidth();
-    setMinimumWidth(width());
-    adjustSize();
-    setMinimumWidth(min_width);
 }
 
 void AddNewTorrentDialog::renameSelectedFile()
@@ -479,6 +480,10 @@ void AddNewTorrentDialog::renameSelectedFile()
             path_items.removeLast();
             path_items << new_name_last;
             QString new_path = path_items.join("/");
+            if (Utils::Fs::sameFileNames(old_path, new_path)) {
+                qDebug("Name did not change");
+                return;
+            }
             if (!new_path.endsWith("/")) new_path += "/";
             // Check for overwriting
             for (int i = 0; i < m_torrentInfo.filesCount(); ++i) {
@@ -669,7 +674,7 @@ void AddNewTorrentDialog::setMetadataProgressIndicator(bool visibleIndicator, co
 void AddNewTorrentDialog::setupTreeview()
 {
     if (!m_hasMetadata) {
-        ui->comment_lbl->setText(tr("Not Available", "This comment is unavailable"));
+        setCommentText(tr("Not Available", "This comment is unavailable"));
         ui->date_lbl->setText(tr("Not Available", "This date is unavailable"));
     }
     else {
@@ -677,15 +682,14 @@ void AddNewTorrentDialog::setupTreeview()
         setWindowTitle(m_torrentInfo.name());
 
         // Set torrent information
-        ui->comment_lbl->setText(Utils::Misc::parseHtmlLinks(m_torrentInfo.comment()));
-        ui->date_lbl->setText(!m_torrentInfo.creationDate().isNull() ? m_torrentInfo.creationDate().toString(Qt::DefaultLocaleLongDate) : tr("Not available"));
+        setCommentText(Utils::Misc::parseHtmlLinks(m_torrentInfo.comment()));
+        ui->date_lbl->setText(!m_torrentInfo.creationDate().isNull() ? m_torrentInfo.creationDate().toString(Qt::DefaultLocaleShortDate) : tr("Not available"));
 
         // Prepare content tree
         if (m_torrentInfo.filesCount() > 1) {
             m_contentModel = new TorrentContentFilterModel(this);
             connect(m_contentModel->model(), SIGNAL(filteredFilesChanged()), SLOT(updateDiskSpaceLabel()));
             ui->content_tree->setModel(m_contentModel);
-            ui->content_tree->hideColumn(PROGRESS);
             m_contentDelegate = new PropListDelegate();
             ui->content_tree->setItemDelegate(m_contentDelegate);
             connect(ui->content_tree, SIGNAL(clicked(const QModelIndex &)), ui->content_tree, SLOT(edit(const QModelIndex &)));
@@ -695,6 +699,10 @@ void AddNewTorrentDialog::setupTreeview()
             m_contentModel->model()->setupModelData(m_torrentInfo);
             if (!m_headerState.isEmpty())
                 ui->content_tree->header()->restoreState(m_headerState);
+
+        // Hide useless columns after loading the header state
+        ui->content_tree->hideColumn(PROGRESS);
+        ui->content_tree->hideColumn(REMAINING);
 
             // Expand root folder
             ui->content_tree->setExpanded(m_contentModel->index(0, 0), true);
@@ -722,7 +730,7 @@ void AddNewTorrentDialog::handleDownloadFailed(const QString &url, const QString
 void AddNewTorrentDialog::handleRedirectedToMagnet(const QString &url, const QString &magnetUri)
 {
     Q_UNUSED(url)
-    if (loadMagnet(magnetUri))
+    if (loadMagnet(BitTorrent::MagnetUri(magnetUri)))
         open();
     else
         this->deleteLater();
@@ -735,4 +743,15 @@ void AddNewTorrentDialog::handleDownloadFinished(const QString &url, const QStri
         open();
     else
         this->deleteLater();
+}
+
+void AddNewTorrentDialog::setCommentText(const QString &str) const
+{
+    ui->commentLabel->setText(str);
+
+    // workaround for the additional space introduced by QScrollArea
+    int lineHeight = ui->commentLabel->fontMetrics().lineSpacing();
+    int lines = 1 + str.count("\n");
+    int height = lineHeight * lines;
+    ui->scrollArea->setMaximumHeight(height);
 }

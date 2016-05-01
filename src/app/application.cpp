@@ -37,7 +37,7 @@
 #ifndef DISABLE_GUI
 #include "gui/guiiconprovider.h"
 #ifdef Q_OS_WIN
-#include <Windows.h>
+#include <windows.h>
 #include <QSharedMemory>
 #include <QSessionManager>
 #endif // Q_OS_WIN
@@ -58,6 +58,7 @@
 #endif
 
 #include "application.h"
+#include "filelogger.h"
 #include "base/logger.h"
 #include "base/preferences.h"
 #include "base/utils/fs.h"
@@ -92,7 +93,9 @@ Application::Application(const QString &id, int &argc, char **argv)
     setApplicationName("qBittorrent");
     initializeTranslation();
 #ifndef DISABLE_GUI
-    setStyleSheet("QStatusBar::item { border-width: 0; }");
+#ifdef QBT_USES_QT5
+    setAttribute(Qt::AA_UseHighDpiPixmaps, true);  // opt-in to the high DPI pixmap support
+#endif // QBT_USES_QT5
     setQuitOnLastWindowClosed(false);
 #ifdef Q_OS_WIN
     connect(this, SIGNAL(commitDataRequest(QSessionManager &)), this, SLOT(shutdownCleanup(QSessionManager &)), Qt::DirectConnection);
@@ -101,8 +104,20 @@ Application::Application(const QString &id, int &argc, char **argv)
 
     connect(this, SIGNAL(messageReceived(const QString &)), SLOT(processMessage(const QString &)));
     connect(this, SIGNAL(aboutToQuit()), SLOT(cleanup()));
+    connect(Preferences::instance(), SIGNAL(changed()), SLOT(configure()));
 
+    configure();
     Logger::instance()->addMessage(tr("qBittorrent %1 started", "qBittorrent v3.2.0alpha started").arg(VERSION));
+}
+
+void Application::configure()
+{
+    bool fileLogEnabled = Preferences::instance()->fileLogEnabled();
+
+    if (fileLogEnabled && !m_fileLogger)
+        m_fileLogger = new FileLogger;
+    else if (!fileLogEnabled)
+        delete m_fileLogger;
 }
 
 void Application::processMessage(const QString &message)
@@ -186,7 +201,14 @@ void Application::allTorrentsFinished()
         else if (shutdown)
             action = ShutdownAction::Shutdown;
 
-        if (!ShutdownConfirmDlg::askForConfirmation(action)) return;
+        if ((action == ShutdownAction::None) && (!pref->dontConfirmAutoExit())) {
+            if (!ShutdownConfirmDlg::askForConfirmation(action))
+                return;
+        }
+        else { //exit and shutdown
+            if (!ShutdownConfirmDlg::askForConfirmation(action))
+                return;
+        }
 
         // Actually shut down
         if (suspend || hibernate || shutdown) {
@@ -462,10 +484,11 @@ void Application::cleanup()
 #ifndef DISABLE_COUNTRIES_RESOLUTION
     Net::GeoIPManager::freeInstance();
 #endif
+    Net::DownloadManager::freeInstance();
     Preferences::freeInstance();
+    delete m_fileLogger;
     Logger::freeInstance();
     IconProvider::freeInstance();
-    Net::DownloadManager::freeInstance();
 #ifndef DISABLE_GUI
 #ifdef Q_OS_WIN
     typedef BOOL (WINAPI *PSHUTDOWNBRDESTROY)(HWND);

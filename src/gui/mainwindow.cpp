@@ -34,6 +34,7 @@
 #include "notifications.h"
 #endif
 
+#include <QDebug>
 #include <QFileDialog>
 #include <QFileSystemWatcher>
 #include <QMessageBox>
@@ -50,10 +51,11 @@
 #include "mainwindow.h"
 #include "transferlistwidget.h"
 #include "base/utils/misc.h"
+#include "base/utils/fs.h"
 #include "torrentcreatordlg.h"
 #include "downloadfromurldlg.h"
 #include "addnewtorrentdialog.h"
-#include "searchengine.h"
+#include "search/searchwidget.h"
 #include "rss_imp.h"
 #include "base/bittorrent/session.h"
 #include "base/bittorrent/sessionstatus.h"
@@ -104,6 +106,9 @@ MainWindow::MainWindow(QWidget *parent)
     , m_posInitialized(false)
     , force_exit(false)
     , unlockDlgShowing(false)
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
+    , m_wasUpdateCheckEnabled(false)
+#endif
     , has_python(false)
 {
     setupUi(this);
@@ -124,10 +129,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     actionOpen->setIcon(GuiIconProvider::instance()->getIcon("list-add"));
     actionDownload_from_URL->setIcon(GuiIconProvider::instance()->getIcon("insert-link"));
-    actionSet_upload_limit->setIcon(QIcon(QString::fromUtf8(":/icons/skin/seeding.png")));
-    actionSet_download_limit->setIcon(QIcon(QString::fromUtf8(":/icons/skin/download.png")));
-    actionSet_global_upload_limit->setIcon(QIcon(QString::fromUtf8(":/icons/skin/seeding.png")));
-    actionSet_global_download_limit->setIcon(QIcon(QString::fromUtf8(":/icons/skin/download.png")));
+    actionSet_upload_limit->setIcon(QIcon(QString::fromUtf8(":/icons/skin/uploadLimit.png")));
+    actionSet_download_limit->setIcon(QIcon(QString::fromUtf8(":/icons/skin/downloadLimit.png")));
+    actionSet_global_upload_limit->setIcon(QIcon(QString::fromUtf8(":/icons/skin/uploadLimit.png")));
+    actionSet_global_download_limit->setIcon(QIcon(QString::fromUtf8(":/icons/skin/downloadLimit.png")));
     actionCreate_torrent->setIcon(GuiIconProvider::instance()->getIcon("document-edit"));
     actionAbout->setIcon(GuiIconProvider::instance()->getIcon("help-about"));
     actionStatistics->setIcon(GuiIconProvider::instance()->getIcon("view-statistics"));
@@ -268,9 +273,20 @@ MainWindow::MainWindow(QWidget *parent)
     actionSpeed_in_title_bar->setChecked(pref->speedInTitleBar());
     actionRSS_Reader->setChecked(pref->isRSSEnabled());
     actionSearch_engine->setChecked(pref->isSearchEnabled());
-    actionExecution_Logs->setChecked(pref->isExecutionLogEnabled());
+    actionExecutionLogs->setChecked(pref->isExecutionLogEnabled());
+
+    Log::MsgTypes flags(pref->executionLogMessageTypes());
+    actionNormalMessages->setChecked(flags & Log::NORMAL);
+    actionInformationMessages->setChecked(flags & Log::INFO);
+    actionWarningMessages->setChecked(flags & Log::WARNING);
+    actionCriticalMessages->setChecked(flags & Log::CRITICAL);
+
     displayRSSTab(actionRSS_Reader->isChecked());
-    on_actionExecution_Logs_triggered(actionExecution_Logs->isChecked());
+    on_actionExecutionLogs_triggered(actionExecutionLogs->isChecked());
+    on_actionNormalMessages_triggered(actionNormalMessages->isChecked());
+    on_actionInformationMessages_triggered(actionInformationMessages->isChecked());
+    on_actionWarningMessages_triggered(actionWarningMessages->isChecked());
+    on_actionCriticalMessages_triggered(actionCriticalMessages->isChecked());
     if (actionSearch_engine->isChecked())
         QTimer::singleShot(0, this, SLOT(on_actionSearch_engine_triggered()));
 
@@ -336,6 +352,8 @@ MainWindow::MainWindow(QWidget *parent)
     updateNbTorrents();
     connect(transferList->getSourceModel(), SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(updateNbTorrents()));
     connect(transferList->getSourceModel(), SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(updateNbTorrents()));
+
+    connect(pref, SIGNAL(changed()), this, SLOT(optionsSaved()));
 
     qDebug("GUI Built");
 #ifdef Q_OS_WIN
@@ -526,7 +544,7 @@ void MainWindow::displaySearchTab(bool enable)
     if (enable) {
         // RSS tab
         if (!searchEngine) {
-            searchEngine = new SearchEngine(this);
+            searchEngine = new SearchWidget(this);
             tabs->insertTab(1, searchEngine, GuiIconProvider::instance()->getIcon("edit-find"), tr("Search"));
         }
     }
@@ -1108,7 +1126,7 @@ void MainWindow::loadPreferences(bool configure_session)
         toolBar->setVisible(false);
     }
 
-    if (pref->preventFromSuspend()) {
+    if (pref->preventFromSuspend() && !preventTimer->isActive()) {
         preventTimer->start(PREVENT_SUSPEND_INTERVAL);
     }
     else {
@@ -1149,10 +1167,14 @@ void MainWindow::loadPreferences(bool configure_session)
     properties->reloadPreferences();
 
 #if defined(Q_OS_WIN) || defined(Q_OS_MAC)
-    if (pref->isUpdateCheckEnabled())
+    if (pref->isUpdateCheckEnabled() && !m_wasUpdateCheckEnabled) {
+        m_wasUpdateCheckEnabled = true;
         checkProgramUpdate();
-    else
+    }
+    else if (!pref->isUpdateCheckEnabled() && m_wasUpdateCheckEnabled) {
+        m_wasUpdateCheckEnabled = false;
         programUpdateTimer.stop();
+    }
 #endif
 
     qDebug("GUI settings loaded");
@@ -1336,14 +1358,10 @@ void MainWindow::createTrayIcon()
 // Display Program Options
 void MainWindow::on_actionOptions_triggered()
 {
-    if (options) {
-        // Get focus
+    if (options)
         options->setFocus();
-    }
-    else {
+    else
         options = new options_imp(this);
-        connect(options, SIGNAL(status_changed()), this, SLOT(optionsSaved()));
-    }
 }
 
 void MainWindow::on_actionTop_tool_bar_triggered()
@@ -1462,7 +1480,7 @@ void MainWindow::handleUpdateCheckFinished(bool update_available, QString new_ve
     QMessageBox::StandardButton answer = QMessageBox::Yes;
     if (update_available) {
         answer = QMessageBox::question(this, tr("qBittorrent Update Available"),
-                                       tr("A new version is available.\nUpdate to version %1?").arg(new_version),
+                                       tr("A new version is available.\nDo you want to download %1?").arg(new_version),
                                        QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
         if (answer == QMessageBox::Yes) {
             // The user want to update, let's download the update
@@ -1500,7 +1518,7 @@ void MainWindow::minimizeWindow()
     setWindowState(windowState() ^ Qt::WindowMinimized);
 }
 
-void MainWindow::on_actionExecution_Logs_triggered(bool checked)
+void MainWindow::on_actionExecutionLogs_triggered(bool checked)
 {
     if (checked) {
         Q_ASSERT(!m_executionLog);
@@ -1511,7 +1529,64 @@ void MainWindow::on_actionExecution_Logs_triggered(bool checked)
     else if (m_executionLog) {
         delete m_executionLog;
     }
+
+    actionNormalMessages->setEnabled(checked);
+    actionInformationMessages->setEnabled(checked);
+    actionWarningMessages->setEnabled(checked);
+    actionCriticalMessages->setEnabled(checked);
     Preferences::instance()->setExecutionLogEnabled(checked);
+}
+
+void MainWindow::on_actionNormalMessages_triggered(bool checked)
+{
+    if (!m_executionLog)
+        return;
+
+    Preferences* const pref = Preferences::instance();
+
+    Log::MsgTypes flags(pref->executionLogMessageTypes());
+    checked ? (flags |= Log::NORMAL) : (flags &= ~Log::NORMAL);
+    m_executionLog->showMsgTypes(flags);
+    pref->setExecutionLogMessageTypes(flags);
+}
+
+void MainWindow::on_actionInformationMessages_triggered(bool checked)
+{
+    if (!m_executionLog)
+        return;
+
+    Preferences* const pref = Preferences::instance();
+
+    Log::MsgTypes flags(pref->executionLogMessageTypes());
+    checked ? (flags |= Log::INFO) : (flags &= ~Log::INFO);
+    m_executionLog->showMsgTypes(flags);
+    pref->setExecutionLogMessageTypes(flags);
+}
+
+void MainWindow::on_actionWarningMessages_triggered(bool checked)
+{
+    if (!m_executionLog)
+        return;
+
+    Preferences* const pref = Preferences::instance();
+
+    Log::MsgTypes flags(pref->executionLogMessageTypes());
+    checked ? (flags |= Log::WARNING) : (flags &= ~Log::WARNING);
+    m_executionLog->showMsgTypes(flags);
+    pref->setExecutionLogMessageTypes(flags);
+}
+
+void MainWindow::on_actionCriticalMessages_triggered(bool checked)
+{
+    if (!m_executionLog)
+        return;
+
+    Preferences* const pref = Preferences::instance();
+
+    Log::MsgTypes flags(pref->executionLogMessageTypes());
+    checked ? (flags |= Log::CRITICAL) : (flags &= ~Log::CRITICAL);
+    m_executionLog->showMsgTypes(flags);
+    pref->setExecutionLogMessageTypes(flags);
 }
 
 void MainWindow::on_actionAutoExit_qBittorrent_toggled(bool enabled)

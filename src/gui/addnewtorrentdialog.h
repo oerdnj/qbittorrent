@@ -38,11 +38,15 @@
 #include "base/bittorrent/infohash.h"
 #include "base/bittorrent/torrentinfo.h"
 
-QT_BEGIN_NAMESPACE
-namespace Ui {
+namespace BitTorrent
+{
+    class MagnetUri;
+}
+
+namespace Ui
+{
     class AddNewTorrentDialog;
 }
-QT_END_NAMESPACE
 
 class TorrentContentFilterModel;
 class PropListDelegate;
@@ -64,7 +68,6 @@ private slots:
     void displayContentTreeMenu(const QPoint&);
     void updateDiskSpaceLabel();
     void onSavePathChanged(int);
-    void relayout();
     void renameSelectedFile();
     void setdialogPosition();
     void updateMetadata(const BitTorrent::TorrentInfo &info);
@@ -79,8 +82,8 @@ protected slots:
 
 private:
     explicit AddNewTorrentDialog(QWidget *parent = 0);
-    bool loadTorrent(const QString& torrent_path);
-    bool loadMagnet(const QString& magnet_uri);
+    bool loadTorrent(const QString &torrentPath);
+    bool loadMagnet(const BitTorrent::MagnetUri &magnetUri);
     void loadSavePathHistory();
     void saveSavePathHistory() const;
     int indexOfSavePath(const QString& save_path);
@@ -89,6 +92,7 @@ private:
     void saveState();
     void setMetadataProgressIndicator(bool visibleIndicator, const QString &labelText = QString());
     void setupTreeview();
+    void setCommentText(const QString &str) const;
 
 private:
     Ui::AddNewTorrentDialog *ui;

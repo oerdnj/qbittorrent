@@ -25,9 +25,15 @@
 torrentsTable = new TorrentsTable();
 torrentPeersTable = new TorrentPeersTable();
 
-var updatePropertiesPanel = function(){};
-var updateTorrentPeersData = function(){};
-var updateMainData = function(){};
+var updatePropertiesPanel = function () {};
+
+var updateTorrentData = function () {};
+var updateTrackersData = function () {};
+var updateTorrentPeersData = function () {};
+var updateWebSeedsData = function () {};
+var updateTorrentFilesData = function () {};
+
+var updateMainData = function () {};
 var alternativeSpeedLimits = false;
 var queueing_enabled = true;
 var syncMainDataTimerPeriod = 1500;
@@ -115,6 +121,7 @@ window.addEvent('load', function () {
         $("resumed_filter").removeClass("selectedFilter");
         $("active_filter").removeClass("selectedFilter");
         $("inactive_filter").removeClass("selectedFilter");
+        $("errored_filter").removeClass("selectedFilter");
         $(f + "_filter").addClass("selectedFilter");
         selected_filter = f;
         localStorage.setItem('selected_filter', f);
@@ -219,6 +226,22 @@ window.addEvent('load', function () {
         });
     };
 
+    var updateFilter = function(filter, filterTitle) {
+        $(filter + '_filter').firstChild.childNodes[1].nodeValue = filterTitle.replace('%1', torrentsTable.getFilteredTorrentsNumber(filter));
+    };
+
+    var updateFiltersList = function() {
+        updateFilter('all', 'QBT_TR(All (%1))QBT_TR');
+        updateFilter('downloading', 'QBT_TR(Downloading (%1))QBT_TR');
+        updateFilter('seeding', 'QBT_TR(Seeding (%1))QBT_TR');
+        updateFilter('completed', 'QBT_TR(Completed (%1))QBT_TR');
+        updateFilter('resumed', 'QBT_TR(Resumed (%1))QBT_TR');
+        updateFilter('paused', 'QBT_TR(Paused (%1))QBT_TR');
+        updateFilter('active', 'QBT_TR(Active (%1))QBT_TR');
+        updateFilter('inactive', 'QBT_TR(Inactive (%1))QBT_TR');
+        updateFilter('errored', 'QBT_TR(Errored (%1))QBT_TR');
+    };
+
     var updateLabelList = function() {
         var labelList = $('filterLabelList');
         if (!labelList)
@@ -238,8 +261,8 @@ window.addEvent('load', function () {
             if (row['full_data'].label.length === 0)
             unlabelled += 1;
         });
-        labelList.appendChild(create_link(LABELS_ALL, 'QBT_TR(All)QBT_TR', all));
-        labelList.appendChild(create_link(LABELS_UNLABELLED, 'QBT_TR(Unlabeled)QBT_TR', unlabelled));
+        labelList.appendChild(create_link(LABELS_ALL, 'QBT_TR(All (0))QBT_TR'.replace(' (0)', ''), all));
+        labelList.appendChild(create_link(LABELS_UNLABELLED, 'QBT_TR(Unlabeled (0))QBT_TR'.replace(' (0)', ''), unlabelled));
 
         var sortedLabels = []
         Object.each(label_list, function(label) {
@@ -331,6 +354,7 @@ window.addEvent('load', function () {
                             serverState[key] = tmp[key];
                         processServerState();
                     }
+                    updateFiltersList();
                     if (update_labels) {
                         updateLabelList();
                         updateContextMenu();
@@ -349,17 +373,15 @@ window.addEvent('load', function () {
     }
 
     var processServerState = function () {
-        var transfer_info = "";
+        var transfer_info = friendlyUnit(serverState.dl_info_speed, true);
         if (serverState.dl_rate_limit > 0)
-            transfer_info += "[" + friendlyUnit(serverState.dl_rate_limit, true) + "] ";
-        transfer_info += friendlyUnit(serverState.dl_info_speed, true);
-        transfer_info += " (" + friendlyUnit(serverState.dl_info_data, false) + ")"
+            transfer_info += " [" + friendlyUnit(serverState.dl_rate_limit, true) + "]";
+        transfer_info += " (" + friendlyUnit(serverState.dl_info_data, false) + ")";
         $("DlInfos").set('html', transfer_info);
-        transfer_info = "";
+        transfer_info = friendlyUnit(serverState.up_info_speed, true);
         if (serverState.up_rate_limit > 0)
-            transfer_info += "[" + friendlyUnit(serverState.up_rate_limit, true) + "] ";
-        transfer_info += friendlyUnit(serverState.up_info_speed, true)
-        transfer_info += " (" + friendlyUnit(serverState.up_info_data, false) + ")"
+            transfer_info += " [" + friendlyUnit(serverState.up_rate_limit, true) + "]";
+        transfer_info += " (" + friendlyUnit(serverState.up_info_data, false) + ")";
         $("UpInfos").set('html', transfer_info);
         if (speedInTitle) {
             document.title = "QBT_TR([D:%1 U:%2])QBT_TR".replace("%1", friendlyUnit(serverState.dl_info_speed, true)).replace("%2", friendlyUnit(serverState.up_info_speed, true));
@@ -514,6 +536,7 @@ window.addEvent('load', function () {
                 $('prop_files').addClass("invisible");
                 $('prop_peers').addClass("invisible");
                 updatePropertiesPanel();
+                localStorage.setItem('selected_tab', this.id);
             });
 
             $('PropTrackersLink').addEvent('click', function(e){
@@ -523,6 +546,7 @@ window.addEvent('load', function () {
                 $('prop_files').addClass("invisible");
                 $('prop_peers').addClass("invisible");
                 updatePropertiesPanel();
+                localStorage.setItem('selected_tab', this.id);
             });
 
             $('PropPeersLink').addEvent('click', function(e){
@@ -532,6 +556,7 @@ window.addEvent('load', function () {
                 $('prop_webseeds').addClass("invisible");
                 $('prop_files').addClass("invisible");
                 updatePropertiesPanel();
+                localStorage.setItem('selected_tab', this.id);
             });
 
             $('PropWebSeedsLink').addEvent('click', function(e){
@@ -541,6 +566,7 @@ window.addEvent('load', function () {
                 $('prop_files').addClass("invisible");
                 $('prop_peers').addClass("invisible");
                 updatePropertiesPanel();
+                localStorage.setItem('selected_tab', this.id);
             });
 
             $('PropFilesLink').addEvent('click', function(e){
@@ -550,6 +576,7 @@ window.addEvent('load', function () {
                 $('prop_webseeds').addClass("invisible");
                 $('prop_peers').addClass("invisible");
                 updatePropertiesPanel();
+                localStorage.setItem('selected_tab', this.id);
             });
 
             $('propertiesPanel_collapseToggle').addEvent('click', function(e){

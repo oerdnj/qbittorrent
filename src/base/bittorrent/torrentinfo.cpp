@@ -43,8 +43,8 @@
 namespace libt = libtorrent;
 using namespace BitTorrent;
 
-TorrentInfo::TorrentInfo(boost::intrusive_ptr<const libt::torrent_info> nativeInfo)
-    : m_nativeInfo(const_cast<libt::torrent_info *>(nativeInfo.get()))
+TorrentInfo::TorrentInfo(NativeConstPtr nativeInfo)
+    : m_nativeInfo(nativeInfo)
 {
 }
 
@@ -63,7 +63,7 @@ TorrentInfo TorrentInfo::loadFromFile(const QString &path, QString &error)
 {
     error.clear();
     libt::error_code ec;
-    TorrentInfo info(new libt::torrent_info(Utils::String::toStdString(Utils::Fs::toNativePath(path)), ec));
+    TorrentInfo info(NativePtr(new libt::torrent_info(Utils::String::toStdString(Utils::Fs::toNativePath(path)), ec)));
     if (ec) {
         error = QString::fromUtf8(ec.message().c_str());
         qDebug("Cannot load .torrent file: %s", qPrintable(error));
@@ -211,13 +211,27 @@ QByteArray TorrentInfo::metadata() const
     return QByteArray(m_nativeInfo->metadata().get(), m_nativeInfo->metadata_size());
 }
 
+QStringList TorrentInfo::filesForPiece(int pieceIndex) const
+{
+    if (pieceIndex < 0)
+        return QStringList();
+
+    std::vector<libtorrent::file_slice> files(
+        nativeInfo()->map_block(pieceIndex, 0, nativeInfo()->piece_size(pieceIndex)));
+    QStringList res;
+    for (const libtorrent::file_slice& s: files) {
+        res.append(filePath(s.file_index));
+    }
+    return res;
+}
+
 void TorrentInfo::renameFile(uint index, const QString &newPath)
 {
     if (!isValid()) return;
-    m_nativeInfo->rename_file(index, Utils::String::toStdString(newPath));
+    nativeInfo()->rename_file(index, Utils::String::toStdString(newPath));
 }
 
-boost::intrusive_ptr<libtorrent::torrent_info> TorrentInfo::nativeInfo() const
+TorrentInfo::NativePtr TorrentInfo::nativeInfo() const
 {
-    return m_nativeInfo;
+    return *reinterpret_cast<const NativePtr *>(&m_nativeInfo);
 }
