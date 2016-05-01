@@ -47,8 +47,12 @@
 #endif
 
 #ifdef Q_OS_WIN
-#include <ShlObj.h>
+#include <shlobj.h>
 #include <winreg.h>
+#endif
+
+#ifdef Q_OS_MAC
+#include <CoreServices/CoreServices.h>
 #endif
 
 #include <cstdlib>
@@ -57,6 +61,8 @@
 
 
 Preferences* Preferences::m_instance = 0;
+
+static const QString LOG_FOLDER("logs");
 
 Preferences::Preferences()
     : m_randomPort(rand() % 64512 + 1024)
@@ -269,6 +275,26 @@ void Preferences::setAlternatingRowColors(bool b)
     setValue("Preferences/General/AlternatingRowColors", b);
 }
 
+bool Preferences::getHideZeroValues() const
+{
+    return value("Preferences/General/HideZeroValues", false).toBool();
+}
+
+void Preferences::setHideZeroValues(bool b)
+{
+    setValue("Preferences/General/HideZeroValues", b);
+}
+
+int Preferences::getHideZeroComboValues() const
+{
+    return value("Preferences/General/HideZeroComboValues", 0).toInt();
+}
+
+void Preferences::setHideZeroComboValues(int n)
+{
+    setValue("Preferences/General/HideZeroComboValues", n);
+}
+
 bool Preferences::useRandomPort() const
 {
     return value("Preferences/General/UseRandomPort", false).toBool();
@@ -331,7 +357,7 @@ void Preferences::setStartMinimized(bool b)
 
 bool Preferences::isSplashScreenDisabled() const
 {
-    return value("Preferences/General/NoSplashScreen", false).toBool();
+    return value("Preferences/General/NoSplashScreen", true).toBool();
 }
 
 void Preferences::setSplashScreenDisabled(bool b)
@@ -475,46 +501,15 @@ void Preferences::addTorrentsInPause(bool b)
     setValue("Preferences/Downloads/StartInPause", b);
 }
 
-QStringList Preferences::getScanDirs() const
+QVariantHash Preferences::getScanDirs() const
 {
-    QStringList originalList = value("Preferences/Downloads/ScanDirs").toStringList();
-    if (originalList.isEmpty())
-        return originalList;
-
-    QStringList newList;
-    foreach (const QString& s, originalList)
-        newList << Utils::Fs::fromNativePath(s);
-    return newList;
+    return value("Preferences/Downloads/ScanDirsV2").toHash();
 }
 
 // This must be called somewhere with data from the model
-void Preferences::setScanDirs(const QStringList &dirs)
+void Preferences::setScanDirs(const QVariantHash &dirs)
 {
-    QStringList newList;
-    if (!dirs.isEmpty())
-        foreach (const QString& s, dirs)
-            newList << Utils::Fs::fromNativePath(s);
-    setValue("Preferences/Downloads/ScanDirs", newList);
-}
-
-QList<bool> Preferences::getDownloadInScanDirs() const
-{
-    return Utils::Misc::boolListfromStringList(value("Preferences/Downloads/DownloadInScanDirs").toStringList());
-}
-
-void Preferences::setDownloadInScanDirs(const QList<bool> &list)
-{
-    setValue("Preferences/Downloads/DownloadInScanDirs", Utils::Misc::toStringList(list));
-}
-
-void Preferences::setScanDirsDownloadPaths(const QStringList &downloadpaths)
-{
-    setValue("Preferences/Downloads/ScanDirsDownloadPaths", downloadpaths);
-}
-
-QStringList Preferences::getScanDirsDownloadPaths() const
-{
-    return value("Preferences/Downloads/ScanDirsDownloadPaths").toStringList();
+    setValue("Preferences/Downloads/ScanDirsV2", dirs);
 }
 
 QString Preferences::getScanDirsLastPath() const
@@ -996,7 +991,7 @@ void Preferences::setTrackersList(const QString &val)
 
 qreal Preferences::getGlobalMaxRatio() const
 {
-    return value("Preferences/Bittorrent/MaxRatio", -1).toDouble();
+    return value("Preferences/Bittorrent/MaxRatio", -1).toReal();
 }
 
 void Preferences::setGlobalMaxRatio(qreal ratio)
@@ -1027,12 +1022,12 @@ void Preferences::setFilteringEnabled(bool enabled)
 
 bool Preferences::isFilteringTrackerEnabled() const
 {
-	return value("Preferences/IPFilter/FilterTracker", false).toBool();
+    return value("Preferences/IPFilter/FilterTracker", false).toBool();
 }
 
 void Preferences::setFilteringTrackerEnabled(bool enabled)
 {
-	setValue("Preferences/IPFilter/FilterTracker", enabled);
+    setValue("Preferences/IPFilter/FilterTracker", enabled);
 }
 
 QString Preferences::getFilter() const
@@ -1079,6 +1074,100 @@ bool Preferences::isExecutionLogEnabled() const
 void Preferences::setExecutionLogEnabled(bool b)
 {
     setValue("Preferences/ExecutionLog/enabled", b);
+}
+
+int Preferences::executionLogMessageTypes() const
+{
+    // as default value we need all the bits set
+    // -1 is considered the portable way to achieve that
+    return value("MainWindow/ExecutionLog/Types", -1).toInt();
+}
+
+void Preferences::setExecutionLogMessageTypes(const int &value)
+{
+    setValue("MainWindow/ExecutionLog/Types", value);
+}
+
+// File log
+bool Preferences::fileLogEnabled() const
+{
+    return value("Application/FileLogger/Enabled", true).toBool();
+}
+
+void Preferences::setFileLogEnabled(bool enabled)
+{
+    setValue("Application/FileLogger/Enabled", enabled);
+}
+
+QString Preferences::fileLogPath() const
+{
+    return value("Application/FileLogger/Path", QVariant(Utils::Fs::QDesktopServicesDataLocation() + LOG_FOLDER)).toString();
+}
+
+void Preferences::setFileLogPath(const QString &path)
+{
+    setValue("Application/FileLogger/Path", path);
+}
+
+bool Preferences::fileLogBackup() const
+{
+    return value("Application/FileLogger/Backup", true).toBool();
+}
+
+void Preferences::setFileLogBackup(bool backup)
+{
+    setValue("Application/FileLogger/Backup", backup);
+}
+
+bool Preferences::fileLogDeleteOld() const
+{
+    return value("Application/FileLogger/DeleteOld", true).toBool();
+}
+
+void Preferences::setFileLogDeleteOld(bool deleteOld)
+{
+    setValue("Application/FileLogger/DeleteOld", deleteOld);
+}
+
+int Preferences::fileLogMaxSize() const
+{
+    int val = value("Application/FileLogger/MaxSize", 10).toInt();
+    if (val < 1)
+        return 1;
+    if (val > 1000)
+        return 1000;
+    return val;
+}
+
+void Preferences::setFileLogMaxSize(const int &size)
+{
+    setValue("Application/FileLogger/MaxSize", std::min(std::max(size, 1), 1000));
+}
+
+int Preferences::fileLogAge() const
+{
+    int val = value("Application/FileLogger/Age", 6).toInt();
+    if (val < 1)
+        return 1;
+    if (val > 365)
+        return 365;
+    return val;
+}
+
+void Preferences::setFileLogAge(const int &age)
+{
+    setValue("Application/FileLogger/Age", std::min(std::max(age, 1), 365));
+}
+
+int Preferences::fileLogAgeType() const
+{
+    int val = value("Application/FileLogger/AgeType", 1).toInt();
+    return (val < 0 || val > 2) ? 1 : val;
+}
+
+void Preferences::setFileLogAgeType(const int &ageType)
+{
+    setValue("Application/FileLogger/AgeType", (ageType < 0 || ageType > 2) ? 1 : ageType);
 }
 
 // Queueing system
@@ -1337,12 +1426,12 @@ void Preferences::setAutoRunEnabled(bool enabled)
 
 QString Preferences::getAutoRunProgram() const
 {
-    return Utils::Fs::fromNativePath(value("AutoRun/program").toString());
+    return value("AutoRun/program").toString();
 }
 
 void Preferences::setAutoRunProgram(const QString &program)
 {
-    setValue("AutoRun/program", Utils::Fs::fromNativePath(program));
+    setValue("AutoRun/program", program);
 }
 
 bool Preferences::shutdownWhenDownloadsComplete() const
@@ -1383,6 +1472,16 @@ bool Preferences::shutdownqBTWhenDownloadsComplete() const
 void Preferences::setShutdownqBTWhenDownloadsComplete(bool shutdown)
 {
     setValue("Preferences/Downloads/AutoShutDownqBTOnCompletion", shutdown);
+}
+
+bool Preferences::dontConfirmAutoExit() const
+{
+    return value("ShutdownConfirmDlg/DontConfirmAutoExit", false).toBool();
+}
+
+void Preferences::setDontConfirmAutoExit(bool dontConfirmAutoExit)
+{
+    setValue("ShutdownConfirmDlg/DontConfirmAutoExit", dontConfirmAutoExit);
 }
 
 uint Preferences::diskCacheSize() const
@@ -1907,6 +2006,62 @@ void Preferences::setMagnetLinkAssoc(bool set)
     }
 
     SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, 0, 0);
+}
+#endif
+
+#ifdef Q_OS_MAC
+namespace
+{
+    CFStringRef torrentExtension = CFSTR("torrent");
+    CFStringRef magnetUrlScheme = CFSTR("magnet");
+}
+
+bool Preferences::isTorrentFileAssocSet()
+{
+    bool isSet = false;
+    CFStringRef torrentId = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, torrentExtension, NULL);
+    if (torrentId != NULL) {
+        CFStringRef defaultHandlerId = LSCopyDefaultRoleHandlerForContentType(torrentId, kLSRolesViewer);
+        if (defaultHandlerId != NULL) {
+            CFStringRef myBundleId = CFBundleGetIdentifier(CFBundleGetMainBundle());
+            isSet = CFStringCompare(myBundleId, defaultHandlerId, 0) == kCFCompareEqualTo;
+            CFRelease(defaultHandlerId);
+        }
+        CFRelease(torrentId);
+    }
+    return isSet;
+}
+
+bool Preferences::isMagnetLinkAssocSet()
+{
+    bool isSet = false;
+    CFStringRef defaultHandlerId = LSCopyDefaultHandlerForURLScheme(magnetUrlScheme);
+    if (defaultHandlerId != NULL) {
+        CFStringRef myBundleId = CFBundleGetIdentifier(CFBundleGetMainBundle());
+        isSet = CFStringCompare(myBundleId, defaultHandlerId, 0) == kCFCompareEqualTo;
+        CFRelease(defaultHandlerId);
+    }
+    return isSet;
+}
+
+void Preferences::setTorrentFileAssoc()
+{
+    if (isTorrentFileAssocSet())
+        return;
+    CFStringRef torrentId = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, torrentExtension, NULL);
+    if (torrentId != NULL) {
+        CFStringRef myBundleId = CFBundleGetIdentifier(CFBundleGetMainBundle());
+        LSSetDefaultRoleHandlerForContentType(torrentId, kLSRolesViewer, myBundleId);
+        CFRelease(torrentId);
+    }
+}
+
+void Preferences::setMagnetLinkAssoc()
+{
+    if (isMagnetLinkAssocSet())
+        return;
+    CFStringRef myBundleId = CFBundleGetIdentifier(CFBundleGetMainBundle());
+    LSSetDefaultHandlerForURLScheme(magnetUrlScheme, myBundleId);
 }
 #endif
 
@@ -2525,45 +2680,57 @@ void Preferences::setToolbarTextPosition(const int position)
     setValue("Toolbar/textPosition", position);
 }
 
-QList<QByteArray> Preferences::getHostNameCookies(const QString &host_name) const
+void Preferences::moveRSSCookies()
 {
-    QMap<QString, QVariant> hosts_table = value("Rss/hosts_cookies").toMap();
-    if (!hosts_table.contains(host_name)) return QList<QByteArray>();
-    QByteArray raw_cookies = hosts_table.value(host_name).toByteArray();
-    return raw_cookies.split(':');
-}
-
-QList<QNetworkCookie> Preferences::getHostNameQNetworkCookies(const QString& host_name) const
-{
-    QList<QNetworkCookie> cookies;
-    const QList<QByteArray> raw_cookies = getHostNameCookies(host_name);
-    foreach (const QByteArray& raw_cookie, raw_cookies) {
-        QList<QByteArray> cookie_parts = raw_cookie.split('=');
-        if (cookie_parts.size() == 2) {
-            qDebug("Loading cookie: %s = %s", cookie_parts.first().constData(), cookie_parts.last().constData());
-            cookies << QNetworkCookie(cookie_parts.first(), cookie_parts.last());
+    QList<QNetworkCookie> cookies = getNetworkCookies();
+    QVariantMap hostsTable = value("Rss/hosts_cookies").toMap();
+    foreach (const QString &key, hostsTable.keys()) {
+        QVariant value = hostsTable[key];
+        QList<QByteArray> rawCookies = value.toByteArray().split(':');
+        foreach (const QByteArray &rawCookie, rawCookies) {
+            foreach (QNetworkCookie cookie, QNetworkCookie::parseCookies(rawCookie)) {
+                cookie.setDomain(key);
+                cookie.setPath("/");
+                cookie.setExpirationDate(QDateTime::currentDateTime().addYears(10));
+                cookies << cookie;
+            }
         }
     }
+
+    setNetworkCookies(cookies);
+
+    QWriteLocker locker(&lock);
+    dirty = true;
+    timer.start();
+    m_data.remove("Rss/hosts_cookies");
+}
+
+QList<QNetworkCookie> Preferences::getNetworkCookies() const
+{
+    QList<QNetworkCookie> cookies;
+    QStringList rawCookies = value("Network/Cookies").toStringList();
+    foreach (const QString &rawCookie, rawCookies)
+        cookies << QNetworkCookie::parseCookies(rawCookie.toUtf8());
+
     return cookies;
 }
 
-void Preferences::setHostNameCookies(const QString &host_name, const QList<QByteArray> &cookies)
+void Preferences::setNetworkCookies(const QList<QNetworkCookie> &cookies)
 {
-    QMap<QString, QVariant> hosts_table = value("Rss/hosts_cookies").toMap();
-    QByteArray raw_cookies = "";
-    foreach (const QByteArray& cookie, cookies)
-        raw_cookies += cookie + ":";
-    if (raw_cookies.endsWith(":"))
-        raw_cookies.chop(1);
-    hosts_table.insert(host_name, raw_cookies);
-    setValue("Rss/hosts_cookies", hosts_table);
+    QStringList rawCookies;
+    foreach (const QNetworkCookie &cookie, cookies)
+        rawCookies << cookie.toRawForm();
+
+    setValue("Network/Cookies", rawCookies);
 }
 
-int Preferences::getSpeedWidgetPeriod() const {
+int Preferences::getSpeedWidgetPeriod() const
+{
     return value("SpeedWidget/period", 1).toInt();
 }
 
-void Preferences::setSpeedWidgetPeriod(const int period) {
+void Preferences::setSpeedWidgetPeriod(const int period)
+{
     setValue("SpeedWidget/period", period);
 }
 

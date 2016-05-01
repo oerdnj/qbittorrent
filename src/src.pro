@@ -21,11 +21,11 @@ os2: include(../os2conf.pri)
 
 nogui {
     QT -= gui
-    DEFINES += DISABLE_GUI DISABLE_COUNTRIES_RESOLUTION
+    DEFINES += DISABLE_GUI
     TARGET = qbittorrent-nox
 } else {
     QT += xml
-    greaterThan(QT_MAJOR_VERSION, 4): QT += concurrent
+    greaterThan(QT_MAJOR_VERSION, 4): QT += concurrent widgets
     CONFIG(static) {
         DEFINES += QBT_STATIC_QT
         QTPLUGIN += qico
@@ -34,8 +34,7 @@ nogui {
 }
 nowebui: DEFINES += DISABLE_WEBUI
 strace_win: DEFINES += STACKTRACE_WIN
-QT += network
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT += network xml
 
 # Vars
 LANG_PATH = lang
@@ -63,16 +62,14 @@ INCLUDEPATH += $$PWD
 include(app/app.pri)
 include(base/base.pri)
 !nowebui: include(webui/webui.pri)
-!nogui {
-    include(gui/gui.pri)
-    include(searchengine/searchengine.pri)
-}
+!nogui: include(gui/gui.pri)
 
 # Resource files
 QMAKE_RESOURCE_FLAGS += -compress 9 -threshold 5
 RESOURCES += \
     icons.qrc \
-    lang.qrc
+    lang.qrc \
+    searchengine.qrc
 
 # Translations
 TRANSLATIONS = \
@@ -101,7 +98,7 @@ TRANSLATIONS = \
     $$LANG_PATH/qbittorrent_sk.ts \
     $$LANG_PATH/qbittorrent_sl.ts \
     $$LANG_PATH/qbittorrent_ro.ts \
-    $$LANG_PATH/qbittorrent_pt.ts \
+    $$LANG_PATH/qbittorrent_pt_PT.ts \
     $$LANG_PATH/qbittorrent_nb.ts \
     $$LANG_PATH/qbittorrent_fi.ts \
     $$LANG_PATH/qbittorrent_da.ts \

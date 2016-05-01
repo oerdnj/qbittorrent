@@ -49,8 +49,8 @@
 #include "websessiondata.h"
 #include "webapplication.h"
 
-static const int API_VERSION = 7;
-static const int API_VERSION_MIN = 2;
+static const int API_VERSION = 9;
+static const int API_VERSION_MIN = 8;
 
 const QString WWW_FOLDER = ":/www/public/";
 const QString PRIVATE_FOLDER = ":/www/private/";
@@ -354,14 +354,6 @@ void WebApplication::action_command_download()
     foreach (QString url, list) {
         url = url.trimmed();
         if (!url.isEmpty()) {
-            if (url.startsWith("bc://bt/", Qt::CaseInsensitive)) {
-                qDebug("Converting bc link to magnet link");
-                url = Utils::Misc::bcLinkToMagnet(url);
-            }
-            if ((url.size() == 40 && !url.contains(QRegExp("[^0-9A-Fa-f]")))
-                || (url.size() == 32 && !url.contains(QRegExp("[^2-7A-Za-z]"))))
-                url = "magnet:?xt=urn:btih:" + url;
-
             Net::DownloadManager::instance()->setCookiesFromUrl(cookies, QUrl::fromEncoded(url.toUtf8()));
             BitTorrent::Session::instance()->addTorrent(url, params);
         }
@@ -724,7 +716,7 @@ void WebApplication::action_command_setLabel()
 
     QStringList hashes = request().posts["hashes"].split("|");
     QString label = request().posts["label"].trimmed();
-    if (!Utils::Fs::isValidFileSystemName(label)) {
+    if (!Utils::Fs::isValidFileSystemName(label) && !label.isEmpty()) {
         status(400, "Labels must not contain special characters");
         return;
     }

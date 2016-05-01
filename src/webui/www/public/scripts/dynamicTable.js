@@ -194,6 +194,10 @@ var DynamicTable = new Class({
             }
         },
 
+        deselectAll : function () {
+            this.cur.empty();
+        },
+
         selectRow : function (rowId) {
             this.cur.empty();
             this.cur.push(rowId);
@@ -208,7 +212,10 @@ var DynamicTable = new Class({
                 if (tr.hasClass('selected'))
                     tr.removeClass('selected');
             }
+            this.onSelectedRowChanged();
         },
+
+        onSelectedRowChanged : function () {},
 
         updateRowData : function (data) {
             var rowId = data['rowId'];
@@ -346,7 +353,6 @@ var DynamicTable = new Class({
                             } else {
                                 // Simple selection
                                 this._this.selectRow(this.rowId);
-                                updatePropertiesPanel();
                             }
                         }
                         return false;
@@ -423,7 +429,7 @@ var DynamicTable = new Class({
         },
 
         selectedRowsIds : function () {
-            return this.cur;
+            return this.cur.slice();
         },
 
         getRowIds : function () {
@@ -435,18 +441,18 @@ var TorrentsTable = new Class({
         Extends: DynamicTable,
 
         initColumns : function () {
-            this.newColumn('priority', 'width: 30px; cursor: pointer', '#');
-            this.newColumn('state_icon', 'width: 16px', '');
-            this.newColumn('name', 'min-width: 200px; cursor: pointer', 'QBT_TR(Name)QBT_TR');
-            this.newColumn('size', 'width: 100px; cursor: pointer', 'QBT_TR(Size)QBT_TR');
-            this.newColumn('progress', 'width: 80px; cursor: pointer', 'QBT_TR(Done)QBT_TR');
-            this.newColumn('num_seeds', 'width: 100px; cursor: pointer', 'QBT_TR(Seeds)QBT_TR');
-            this.newColumn('num_leechs', 'width: 100px; cursor: pointer', 'QBT_TR(Peers)QBT_TR');
-            this.newColumn('dlspeed', 'width: 100px; cursor: pointer', 'QBT_TR(Down Speed)QBT_TR');
-            this.newColumn('upspeed', 'width: 100px; cursor: pointer', 'QBT_TR(Up Speed)QBT_TR');
-            this.newColumn('eta', 'width: 100px; cursor: pointer', 'QBT_TR(ETA)QBT_TR');
-            this.newColumn('ratio', 'width: 100px; cursor: pointer', 'QBT_TR(Ratio)QBT_TR');
-            this.newColumn('label', 'width: 100px; cursor: pointer', 'QBT_TR(Label)QBT_TR');
+            this.newColumn('priority', 'width: 30px', '#');
+            this.newColumn('state_icon', 'width: 16px; cursor: default', '');
+            this.newColumn('name', 'min-width: 200px', 'QBT_TR(Name)QBT_TR');
+            this.newColumn('size', 'width: 100px', 'QBT_TR(Size)QBT_TR');
+            this.newColumn('progress', 'width: 80px', 'QBT_TR(Done)QBT_TR');
+            this.newColumn('num_seeds', 'width: 100px', 'QBT_TR(Seeds)QBT_TR');
+            this.newColumn('num_leechs', 'width: 100px', 'QBT_TR(Peers)QBT_TR');
+            this.newColumn('dlspeed', 'width: 100px', 'QBT_TR(Down Speed)QBT_TR');
+            this.newColumn('upspeed', 'width: 100px', 'QBT_TR(Up Speed)QBT_TR');
+            this.newColumn('eta', 'width: 100px', 'QBT_TR(ETA)QBT_TR');
+            this.newColumn('ratio', 'width: 100px', 'QBT_TR(Ratio)QBT_TR');
+            this.newColumn('label', 'width: 100px', 'QBT_TR(Label)QBT_TR');
 
             this.columns['state_icon'].onclick = '';
             this.columns['state_icon'].dataProperties[0] = 'state';
@@ -480,7 +486,7 @@ var TorrentsTable = new Class({
                 else if (state == "checkingDL" || state == "checkingUP" ||
                         state == "queuedForChecking" || state == "checkingResumeData")
                     state = "checking";
-                else if (state == "unknown")
+                else if (state == "unknown" || state == "error" || state == "missingFiles")
                     state = "error";
 
                 var img_path = 'images/skin/' + state + '.png';
@@ -616,6 +622,9 @@ var TorrentsTable = new Class({
 
         applyFilter : function (row, filterName, labelName) {
             var state = row['full_data'].state;
+            var inactive = false;
+            var r;
+
             switch(filterName) {
                 case 'downloading':
                     if (state != 'downloading' && !~state.indexOf('DL'))
@@ -630,19 +639,25 @@ var TorrentsTable = new Class({
                         return false;
                     break;
                 case 'paused':
-                    if (state != 'pausedDL')
+                    if (!~state.indexOf('paused'))
                         return false;
                     break;
                 case 'resumed':
                     if (~state.indexOf('paused'))
                         return false;
                     break;
+                case 'inactive':
+                    inactive = true;
                 case 'active':
-                    if (state != 'downloading' && state != 'forcedDL' && state != 'uploading' && state != 'forcedUP')
+                    if (state == 'stalledDL')
+                        r = (row['full_data'].upspeed > 0)
+                    else
+                        r = state == 'metaDL' || state == 'downloading' || state == 'forcedDL' || state == 'uploading' || state == 'forcedUP';
+                    if (r == inactive)
                         return false;
                     break;
-                case 'inactive':
-                    if (state == 'downloading' || state == 'forcedDL' || state == 'uploading'  || state == 'forcedUP')
+                case 'errored':
+                    if (state != 'error' && state != "unknown" && state != "missingFiles")
                         return false;
                     break;
             }
@@ -657,6 +672,16 @@ var TorrentsTable = new Class({
                 return false;
 
             return true;
+        },
+
+        getFilteredTorrentsNumber : function (filterName) {
+            var cnt = 0;
+            var rows = this.rows.getValues();
+
+            for (i = 0; i < rows.length; i++)
+                if (this.applyFilter(rows[i], filterName, LABELS_ALL)) cnt++;
+
+            return cnt;
         },
 
         getFilteredAndSortedRows : function () {
@@ -697,6 +722,10 @@ var TorrentsTable = new Class({
 
         getCurrentTorrentHash : function () {
             return this.getSelectedRowId();
+        },
+
+        onSelectedRowChanged : function () {
+            updatePropertiesPanel();
         }
     });
 
@@ -711,8 +740,8 @@ var TorrentPeersTable = new Class({
             this.newColumn('progress', 'width: 30px', 'QBT_TR(Progress)QBT_TR');
             this.newColumn('dl_speed', 'width: 30px', 'QBT_TR(Down Speed)QBT_TR');
             this.newColumn('up_speed', 'width: 30px', 'QBT_TR(Up Speed)QBT_TR');
-            this.newColumn('downloaded', 'width: 30px', 'QBT_TR(Downloaded)QBT_TR');
-            this.newColumn('uploaded', 'width: 30px', 'QBT_TR(Uploaded)QBT_TR');
+            this.newColumn('downloaded', 'width: 30px', 'QBT_TR(Downloaded)QBT_TR[CONTEXT=PeerListWidget]');
+            this.newColumn('uploaded', 'width: 30px', 'QBT_TR(Uploaded)QBT_TR[CONTEXT=PeerListWidget]');
             this.newColumn('connection', 'width: 30px', 'QBT_TR(Connection)QBT_TR');
             this.newColumn('flags', 'width: 30px', 'QBT_TR(Flags)QBT_TR');
             this.newColumn('relevance', 'min-width: 30px', 'QBT_TR(Relevance)QBT_TR');

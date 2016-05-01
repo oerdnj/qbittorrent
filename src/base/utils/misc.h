@@ -56,6 +56,10 @@ namespace Utils
         QPoint screenCenter(QWidget *win);
         QSize smallIconSize();
 #endif
+        QString osName();
+        QString boostVersionString();
+        QString libtorrentVersionString();
+
         int pythonVersion();
         QString pythonExecutable();
         QString pythonVersionComplete();
@@ -66,7 +70,6 @@ namespace Utils
         QString friendlyUnit(qreal val, bool is_speed = false);
         bool isPreviewable(const QString& extension);
 
-        QString bcLinkToMagnet(QString bc_link);
         // Take a number of seconds and return an user-friendly
         // time duration like "1d 2h 10m".
         QString userFriendlyDuration(qlonglong seconds);

@@ -67,7 +67,7 @@
     <div id="peers">
         <table class="torrentTable" cellpadding="0" cellspacing="0" style="width: 100%">
             <thead>
-                <tr id="torrentPeersTableHeader">
+                <tr id="torrentPeersTableHeader" class="dynamicTableHeader">
                 </tr>
             </thead>
             <tbody id="torrentPeersTable"></tbody>
@@ -97,7 +97,7 @@
                     <th>QBT_TR(Name)QBT_TR</th>
                     <th style="width: 150px;">QBT_TR(Size)QBT_TR</th>
                     <th style="width: 90px;">QBT_TR(Progress)QBT_TR</th>
-                    <th style="width: 150px; border-right: 0">QBT_TR(Priority)QBT_TR</th>
+                    <th style="width: 150px; border-right: 0">QBT_TR(Download Priority)QBT_TR</th>
                 </tr>
             </thead>
             <tbody id="filesTable"></tbody>
@@ -107,4 +107,5 @@
 
 <script type="text/javascript">
     torrentPeersTable.setup('torrentPeersTable', 'torrentPeersTableHeader', null);
+    $(getLocalStorageItem('selected_tab', 'PropGeneralLink')).click();
 </script>

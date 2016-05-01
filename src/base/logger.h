@@ -12,16 +12,16 @@ namespace Log
 {
     enum MsgType
     {
-        NORMAL,
-        INFO,
-        WARNING,
-        CRITICAL //ERROR is defined by libtorrent and results in compiler error
+        ALL = -1,
+        NORMAL = 0x1,
+        INFO = 0x2,
+        WARNING = 0x4,
+        CRITICAL = 0x8 //ERROR is defined by libtorrent and results in compiler error
     };
+    Q_DECLARE_FLAGS(MsgTypes, MsgType)
 
     struct Msg
     {
-        Msg();
-        Msg(int id, MsgType type, const QString &message);
         int id;
         qint64 timestamp;
         MsgType type;
@@ -30,8 +30,6 @@ namespace Log
 
     struct Peer
     {
-        Peer(int id, const QString &ip, bool blocked, const QString &reason);
-        Peer();
         int id;
         qint64 timestamp;
         QString ip;
@@ -39,6 +37,8 @@ namespace Log
         QString reason;
     };
 }
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(Log::MsgTypes)
 
 class Logger : public QObject
 {

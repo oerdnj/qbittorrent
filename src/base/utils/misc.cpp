@@ -37,6 +37,9 @@
 #include <QProcess>
 #include <QSettings>
 #include <QThread>
+#include <QSysInfo>
+#include <boost/version.hpp>
+#include <libtorrent/version.hpp>
 
 #ifdef DISABLE_GUI
 #include <QCoreApplication>
@@ -48,7 +51,7 @@
 
 #ifdef Q_OS_WIN
 #include <windows.h>
-#include <PowrProf.h>
+#include <powrprof.h>
 const int UNLEN = 256;
 #else
 #include <unistd.h>
@@ -392,21 +395,6 @@ bool Utils::Misc::isPreviewable(const QString& extension)
     return multimedia_extensions.contains(extension.toUpper());
 }
 
-QString Utils::Misc::bcLinkToMagnet(QString bc_link)
-{
-    QByteArray raw_bc = bc_link.toUtf8();
-    raw_bc = raw_bc.mid(8); // skip bc://bt/
-    raw_bc = QByteArray::fromBase64(raw_bc); // Decode base64
-    // Format is now AA/url_encoded_filename/size_bytes/info_hash/ZZ
-    QStringList parts = QString(raw_bc).split("/");
-    if (parts.size() != 5) return QString::null;
-    QString filename = parts.at(1);
-    QString hash = parts.at(3);
-    QString magnet = "magnet:?xt=urn:btih:" + hash;
-    magnet += "&dn=" + filename;
-    return magnet;
-}
-
 // Take a number of seconds and return an user-friendly
 // time duration like "1d 2h 10m".
 QString Utils::Misc::userFriendlyDuration(qlonglong seconds)
@@ -595,23 +583,22 @@ void Utils::Misc::openFolderSelect(const QString& absolutePath)
 #elif defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
     if (QFileInfo(path).exists()) {
         QProcess proc;
-        QString output;
         proc.start("xdg-mime", QStringList() << "query" << "default" << "inode/directory");
         proc.waitForFinished();
-        output = proc.readLine().simplified();
+        QString output = proc.readLine().simplified();
         if (output == "dolphin.desktop" || output == "org.kde.dolphin.desktop")
             proc.startDetached("dolphin", QStringList() << "--select" << Utils::Fs::toNativePath(path));
         else if (output == "nautilus.desktop" || output == "org.gnome.Nautilus.desktop"
                  || output == "nautilus-folder-handler.desktop")
             proc.startDetached("nautilus", QStringList() << "--no-desktop" << Utils::Fs::toNativePath(path));
-        else if (output == "caja-folder-handler.desktop")
-            proc.startDetached("caja", QStringList() << "--no-desktop" << Utils::Fs::toNativePath(path));
         else if (output == "nemo.desktop")
             proc.startDetached("nemo", QStringList() << "--no-desktop" << Utils::Fs::toNativePath(path));
         else if (output == "konqueror.desktop" || output == "kfmclient_dir.desktop")
             proc.startDetached("konqueror", QStringList() << "--select" << Utils::Fs::toNativePath(path));
-        else
+        else {
+            // "caja" manager can't pinpoint the file, see: https://github.com/qbittorrent/qBittorrent/issues/5003
             openPath(path.left(path.lastIndexOf("/")));
+        }
     }
     else {
         // If the item to select doesn't exist, try to open its parent
@@ -649,3 +636,35 @@ QSize Utils::Misc::smallIconSize()
     return QSize(s, s);
 }
 #endif
+
+QString Utils::Misc::osName()
+{
+    // static initialization for usage in signal handler
+    static const QString name =
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+    QString("%1 %2 %3")
+    .arg(QSysInfo::prettyProductName())
+    .arg(QSysInfo::kernelVersion())
+    .arg(QSysInfo::currentCpuArchitecture());
+#else
+    "<Input OS name here>";
+#endif
+    return name;
+}
+
+QString Utils::Misc::boostVersionString()
+{
+    // static initialization for usage in signal handler
+    static const QString ver = QString("%1.%2.%3")
+                 .arg(BOOST_VERSION / 100000)
+                 .arg((BOOST_VERSION / 100) % 1000)
+                 .arg(BOOST_VERSION % 100);
+    return ver;
+}
+
+QString Utils::Misc::libtorrentVersionString()
+{
+    // static initialization for usage in signal handler
+    static const QString ver = LIBTORRENT_VERSION;
+    return ver;
+}
