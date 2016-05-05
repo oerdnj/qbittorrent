@@ -4,6 +4,8 @@ qbittorrent (3.3.4-1) UNRELEASED; urgency=medium
   * debian/patches/kfreebsd-detection.patch:
    - Fix build on kfreebsd by correcting build host
      detection. Thanks to Steven Chamberlain (Closes: #815371).
+  * Add linitan-override for source-is-missing mocha-init.js,
+    the file is not minified.
 
  -- Andrew Starr-Bochicchio <asb@debian.org>  Sun, 01 May 2016 17:22:01 -0400
 
