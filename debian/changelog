@@ -1,4 +1,4 @@
-qbittorrent (3.3.4-1) UNRELEASED; urgency=medium
+qbittorrent (3.3.4-1) unstable; urgency=medium
 
   * New upstream release. 
   * debian/patches/kfreebsd-detection.patch:
@@ -10,7 +10,7 @@ qbittorrent (3.3.4-1) UNRELEASED; urgency=medium
     in debian/missing-sources dir.
   * Bump Standards-Version to 3.9.7, no changes.
 
- -- Andrew Starr-Bochicchio <asb@debian.org>  Sun, 01 May 2016 17:22:01 -0400
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Wed, 04 May 2016 22:37:11 -0400
 
 qbittorrent (3.3.1-1) unstable; urgency=medium
 
