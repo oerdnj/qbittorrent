@@ -8,6 +8,7 @@ qbittorrent (3.3.4-1) UNRELEASED; urgency=medium
     the file is not minified.
   * Provide source for compressed mootools-more javascript lib
     in debian/missing-sources dir.
+  * Bump Standards-Version to 3.9.7, no changes.
 
  -- Andrew Starr-Bochicchio <asb@debian.org>  Sun, 01 May 2016 17:22:01 -0400
 
