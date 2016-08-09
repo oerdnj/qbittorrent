@@ -1,9 +1,9 @@
-qbittorrent (3.3.6-1) UNRELEASED; urgency=medium
+qbittorrent (3.3.6-1) unstable; urgency=medium
 
   * New upstream release (Closes: #831113).
   * Bump Standards-Version to 3.9.8, no changes.
 
- -- Andrew Starr-Bochicchio <a.starr.b@gmail.com>  Mon, 08 Aug 2016 22:39:09 -0400
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Mon, 08 Aug 2016 22:53:15 -0400
 
 qbittorrent (3.3.4-1) unstable; urgency=medium
 
