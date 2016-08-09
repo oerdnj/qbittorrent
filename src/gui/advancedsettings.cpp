@@ -31,7 +31,9 @@
 #include <QHeaderView>
 #include <QHostAddress>
 #include <QNetworkInterface>
+#include "app/application.h"
 #include "base/preferences.h"
+#include "gui/mainwindow.h"
 
 enum AdvSettingsCols
 {
@@ -45,6 +47,8 @@ enum AdvSettingsRows
     QBITTORRENT_HEADER,
     // network interface
     NETWORK_IFACE,
+    //Optional network address
+    NETWORK_IFACE_ADDRESS,
     NETWORK_LISTEN_IPV6,
     // behavior
     SAVE_RESUME_DATA_INTERVAL,
@@ -58,6 +62,7 @@ enum AdvSettingsRows
     RESOLVE_HOSTS,
     RESOLVE_COUNTRIES,
     PROGRAM_NOTIFICATIONS,
+    TORRENT_ADDED_NOTIFICATIONS,
 #if (defined(Q_OS_UNIX) && !defined(Q_OS_MAC))
     USE_ICON_THEME,
 #endif
@@ -101,6 +106,7 @@ AdvancedSettings::AdvancedSettings(QWidget *parent)
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     // Signals
     connect(&spin_cache, SIGNAL(valueChanged(int)), SLOT(updateCacheSpinSuffix(int)));
+    connect(&combo_iface, SIGNAL(currentIndexChanged(int)), SLOT(updateInterfaceAddressCombo()));
     // Load settings
     loadAdvancedSettings();
     resizeColumnToContents(0);
@@ -143,14 +149,26 @@ void AdvancedSettings::saveAdvancedSettings()
     }
     // Listen on IPv6 address
     pref->setListenIPv6(cb_listen_ipv6.isChecked());
-    // Network address
-    QHostAddress addr(txt_network_address.text().trimmed());
-    if (addr.isNull())
+    // Interface address
+    if (combo_iface_address.currentIndex() == 0) {
+        // All addresses (default)
+        pref->setNetworkInterfaceAddress(QString::null);
+    }
+    else {
+        QHostAddress ifaceAddr(combo_iface_address.currentText().trimmed());
+        ifaceAddr.isNull() ? pref->setNetworkInterfaceAddress(QString::null) : pref->setNetworkInterfaceAddress(ifaceAddr.toString());
+    }
+    // Network Announce address
+    QHostAddress networkAddr(txt_network_address.text().trimmed());
+    if (networkAddr.isNull())
         pref->setNetworkAddress("");
     else
-        pref->setNetworkAddress(addr.toString());
+        pref->setNetworkAddress(networkAddr.toString());
+
     // Program notification
-    pref->useProgramNotification(cb_program_notifications.isChecked());
+    MainWindow * const mainWindow = static_cast<Application*>(QCoreApplication::instance())->mainWindow();
+    mainWindow->setNotificationsEnabled(cb_program_notifications.isChecked());
+    mainWindow->setTorrentAddedNotificationsEnabled(cb_torrent_added_notifications.isChecked());
     // Tracker
     pref->setTrackerEnabled(cb_tracker_status.isChecked());
     pref->setTrackerPort(spin_tracker_port.value());
@@ -173,6 +191,43 @@ void AdvancedSettings::updateCacheSpinSuffix(int value)
         spin_cache.setSuffix(tr(" (auto)"));
     else
         spin_cache.setSuffix(tr(" MiB"));
+}
+
+void AdvancedSettings::updateInterfaceAddressCombo()
+{
+    // Try to get the currently selected interface name
+    const QString ifaceName = combo_iface.itemData(combo_iface.currentIndex()).toString(); // Empty string for the first element
+    const QString currentAddress = Preferences::instance()->getNetworkInterfaceAddress();
+
+    //Clear all items and reinsert them, default to all
+    combo_iface_address.clear();
+    combo_iface_address.addItem(tr("All addresses"));
+    combo_iface_address.setCurrentIndex(0);
+
+    auto populateCombo = [this, &currentAddress](const QString &ip, const QAbstractSocket::NetworkLayerProtocol &protocol)
+    {
+        Q_ASSERT(protocol == QAbstractSocket::IPv4Protocol || protocol == QAbstractSocket::IPv6Protocol);
+        //Only take ipv4 for now?
+        if (protocol != QAbstractSocket::IPv4Protocol && protocol != QAbstractSocket::IPv6Protocol)
+            return;
+        combo_iface_address.addItem(ip);
+        //Try to select the last added one
+        if (ip == currentAddress)
+            combo_iface_address.setCurrentIndex(combo_iface_address.count() - 1);
+    };
+
+    if (ifaceName.isEmpty()) {
+        foreach (const QHostAddress &ip, QNetworkInterface::allAddresses())
+            populateCombo(ip.toString(), ip.protocol());
+    }
+    else {
+        const QNetworkInterface iface = QNetworkInterface::interfaceFromName(ifaceName);
+        const QList<QNetworkAddressEntry> addresses = iface.addressEntries();
+        foreach (const QNetworkAddressEntry &entry, addresses) {
+            const QHostAddress ip = entry.ip();
+            populateCombo(ip.toString(), ip.protocol());
+        }
+    }
 }
 
 void AdvancedSettings::loadAdvancedSettings()
@@ -257,6 +312,12 @@ void AdvancedSettings::loadAdvancedSettings()
     bool interface_exists = current_iface.isEmpty();
     int i = 1;
     foreach (const QNetworkInterface& iface, QNetworkInterface::allInterfaces()) {
+        // This line fixes a Qt bug => https://bugreports.qt.io/browse/QTBUG-52633
+        // Tested in Qt 5.6.0. For more info see:
+        // https://github.com/qbittorrent/qBittorrent/issues/5131
+        // https://github.com/qbittorrent/qBittorrent/pull/5135
+        if (iface.addressEntries().isEmpty()) continue;
+
         if (iface.flags() & QNetworkInterface::IsLoopBack) continue;
         combo_iface.addItem(iface.humanReadableName(), iface.name());
         if (!current_iface.isEmpty() && (iface.name() == current_iface)) {
@@ -271,15 +332,23 @@ void AdvancedSettings::loadAdvancedSettings()
         combo_iface.setCurrentIndex(i);
     }
     addRow(NETWORK_IFACE, tr("Network Interface (requires restart)"), &combo_iface);
+    // Network interface address
+    updateInterfaceAddressCombo();
+    addRow(NETWORK_IFACE_ADDRESS, tr("Optional IP Address to bind to (requires restart)"), &combo_iface_address);
     // Listen on IPv6 address
     cb_listen_ipv6.setChecked(pref->getListenIPv6());
     addRow(NETWORK_LISTEN_IPV6, tr("Listen on IPv6 address (requires restart)"), &cb_listen_ipv6);
-    // Network address
+    // Announce address
     txt_network_address.setText(pref->getNetworkAddress());
     addRow(NETWORK_ADDRESS, tr("IP Address to report to trackers (requires restart)"), &txt_network_address);
+
     // Program notifications
-    cb_program_notifications.setChecked(pref->useProgramNotification());
-    addRow(PROGRAM_NOTIFICATIONS, tr("Display program on-screen notifications"), &cb_program_notifications);
+    const MainWindow * const mainWindow = static_cast<Application*>(QCoreApplication::instance())->mainWindow();
+    cb_program_notifications.setChecked(mainWindow->isNotificationsEnabled());
+    addRow(PROGRAM_NOTIFICATIONS, tr("Display notifications"), &cb_program_notifications);
+    // Torrent added notifications
+    cb_torrent_added_notifications.setChecked(mainWindow->isTorrentAddedNotificationsEnabled());
+    addRow(TORRENT_ADDED_NOTIFICATIONS, tr("Display notifications for added torrents"), &cb_torrent_added_notifications);
     // Tracker State
     cb_tracker_status.setChecked(pref->isTrackerEnabled());
     addRow(TRACKER_STATUS, tr("Enable embedded tracker"), &cb_tracker_status);

@@ -41,7 +41,7 @@
 #include <QNetworkCookie>
 #include <QVariant>
 
-#include "base/types.h"
+#include "types.h"
 
 enum scheduler_days
 {
@@ -89,30 +89,23 @@ namespace DNS
     };
 }
 
+class SettingsStorage;
+
 class Preferences: public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(Preferences)
 
-private:
     Preferences();
-    ~Preferences();
 
-    static Preferences* m_instance;
-    QHash<QString, QVariant> m_data;
-    int m_randomPort;
-    bool dirty;
-    QTimer timer;
-    mutable QReadWriteLock lock;
     const QVariant value(const QString &key, const QVariant &defaultValue = QVariant()) const;
     void setValue(const QString &key, const QVariant &value);
 
-private slots:
-    bool save();
+    static Preferences* m_instance;
+    int m_randomPort;
 
 signals:
     void changed();
-    void externalLabelAdded(QString&);
 
 public:
     static void initInstance();
@@ -122,8 +115,6 @@ public:
     // General options
     QString getLocale() const;
     void setLocale(const QString &locale);
-    bool useProgramNotification() const;
-    void useProgramNotification(bool use);
     bool deleteTorrentFilesAsDefault() const;
     void setDeleteTorrentFilesAsDefault(bool del);
     bool confirmOnExit() const;
@@ -158,28 +149,12 @@ public:
 #endif
 
     // Downloads
-    QString getSavePath() const;
-    void setSavePath(const QString &save_path);
-    bool isTempPathEnabled() const;
-    void setTempPathEnabled(bool enabled);
-    QString getTempPath() const;
-    void setTempPath(const QString &path);
-    QString getDefaultLabel() const;
-    void setDefaultLabel(const QString &defaultLabel);
     bool useIncompleteFilesExtension() const;
     void useIncompleteFilesExtension(bool enabled);
-    bool appendTorrentLabel() const;
-    void setAppendTorrentLabel(bool b);
     QString lastLocationPath() const;
     void setLastLocationPath(const QString &path);
     bool preAllocateAllFiles() const;
     void preAllocateAllFiles(bool enabled);
-    bool useAdditionDialog() const;
-    void useAdditionDialog(bool b);
-    bool additionDialogFront() const;
-    void additionDialogFront(bool b);
-    bool addTorrentsInPause() const;
-    void addTorrentsInPause(bool b);
     QVariantHash getScanDirs() const;
     void setScanDirs(const QVariantHash &dirs);
     QString getScanDirsLastPath() const;
@@ -281,8 +256,6 @@ public:
     void setTrackersList(const QString &val);
     qreal getGlobalMaxRatio() const;
     void setGlobalMaxRatio(qreal ratio);
-    MaxRatioAction getMaxRatioAction() const;
-    void setMaxRatioAction(MaxRatioAction act);
 
     // IP Filter
     bool isFilteringEnabled() const;
@@ -297,29 +270,6 @@ public:
     // Search
     bool isSearchEnabled() const;
     void setSearchEnabled(bool enabled);
-
-    // Execution Log
-    bool isExecutionLogEnabled() const;
-    void setExecutionLogEnabled(bool b);
-    int executionLogMessageTypes() const;
-    void setExecutionLogMessageTypes(const int &value);
-
-    // File log
-    bool fileLogEnabled() const;
-    void setFileLogEnabled(bool enabled);
-    QString fileLogPath() const;
-    void setFileLogPath(const QString &path);
-    bool fileLogBackup() const;
-    void setFileLogBackup(bool backup);
-    bool fileLogDeleteOld() const;
-    void setFileLogDeleteOld(bool deleteOld);
-    int fileLogMaxSize() const;
-    void setFileLogMaxSize(const int &size);
-    int fileLogAge() const;
-    void setFileLogAge(const int &age);
-    int fileLogAgeType() const;
-    void setFileLogAgeType(const int &ageType);
-
 
     // Queueing system
     bool isQueueingSystemEnabled() const;
@@ -413,6 +363,8 @@ public:
     void setNetworkInterface(const QString& iface);
     QString getNetworkInterfaceName() const;
     void setNetworkInterfaceName(const QString& iface);
+    QString getNetworkInterfaceAddress() const;
+    void setNetworkInterfaceAddress(const QString& addr);
     bool getListenIPv6() const;
     void setListenIPv6(bool enable);
     QString getNetworkAddress() const;
@@ -427,11 +379,6 @@ public:
     bool useSystemIconTheme() const;
     void useSystemIconTheme(bool enabled);
 #endif
-    QStringList getTorrentLabels() const;
-    void setTorrentLabels(const QStringList& labels);
-    void addTorrentLabelExternal(const QString &label);
-    void addTorrentLabel(const QString& label);
-    void removeTorrentLabel(const QString& label);
     bool recursiveDownloadDisabled() const;
     void disableRecursiveDownload(bool disable = true);
 #ifdef Q_OS_WIN
@@ -464,19 +411,8 @@ public:
     TrayIcon::Style trayIconStyle() const;
     void setTrayIconStyle(TrayIcon::Style style);
 
-
     // Stuff that don't appear in the Options GUI but are saved
     // in the same file.
-    QByteArray getAddNewTorrentDialogState() const;
-    void setAddNewTorrentDialogState(const QByteArray &state);
-    int getAddNewTorrentDialogPos() const;
-    void setAddNewTorrentDialogPos(const int &pos);
-    int getAddNewTorrentDialogWidth() const;
-    void setAddNewTorrentDialogWidth(const int &width);
-    bool getAddNewTorrentDialogExpanded() const;
-    void setAddNewTorrentDialogExpanded(const bool expanded);
-    QStringList getAddNewTorrentDialogPathHistory() const;
-    void setAddNewTorrentDialogPathHistory(const QStringList &history);
     QDateTime getDNSLastUpd() const;
     void setDNSLastUpd(const QDateTime &date);
     QString getDNSLastIP() const;
@@ -538,7 +474,7 @@ public:
     QByteArray getTorImportGeometry() const;
     void setTorImportGeometry(const QByteArray &geometry);
     bool getStatusFilterState() const;
-    bool getLabelFilterState() const;
+    bool getCategoryFilterState() const;
     bool getTrackerFilterState() const;
     int getTransSelFilter() const;
     void setTransSelFilter(const int &index);
@@ -546,11 +482,6 @@ public:
     void setTransHeaderState(const QByteArray &state);
     int getToolbarTextPosition() const;
     void setToolbarTextPosition(const int position);
-
-    // Temp code.
-    // See TorrentStatistics::loadStats() for details.
-    QVariantHash getStats() const;
-    void removeStats();
 
     //From old RssSettings class
     bool isRSSEnabled() const;
@@ -569,8 +500,6 @@ public:
     // Network
     QList<QNetworkCookie> getNetworkCookies() const;
     void setNetworkCookies(const QList<QNetworkCookie> &cookies);
-    // Temporary method for upgrade purposes
-    void moveRSSCookies();
 
     // SpeedWidget
     int getSpeedWidgetPeriod() const;
@@ -578,9 +507,11 @@ public:
     bool getSpeedWidgetGraphEnable(int id) const;
     void setSpeedWidgetGraphEnable(int id, const bool enable);
 
+    void upgrade();
+
 public slots:
     void setStatusFilterState(bool checked);
-    void setLabelFilterState(bool checked);
+    void setCategoryFilterState(bool checked);
     void setTrackerFilterState(bool checked);
 
     void apply();

@@ -1,6 +1,7 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2011  Christophe Dumez
+ * Copyright (C) 2016  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2014  sledgehammer999 <hammered999@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,51 +25,41 @@
  * modify file(s), you may extend this exception to your version of the file(s),
  * but you are not obligated to do so. If you do not wish to do so, delete this
  * exception statement from your version.
- *
- * Contact : chris@qbittorrent.org
  */
 
-#ifndef SHUTDOWNCONFIRM_H
-#define SHUTDOWNCONFIRM_H
+#ifndef SETTINGSSTORAGE_H
+#define SETTINGSSTORAGE_H
 
-#include <QDialog>
+#include <QObject>
+#include <QVariantHash>
 #include <QTimer>
-#include "base/utils/misc.h"
+#include <QReadWriteLock>
 
-class QLabel;
-class QCheckBox;
-
-namespace Ui
-{
-    class confirmShutdownDlg;
-}
-
-class ShutdownConfirmDlg : public QDialog
+class SettingsStorage: public QObject
 {
     Q_OBJECT
+    SettingsStorage();
+    ~SettingsStorage();
 
 public:
-    ShutdownConfirmDlg(const ShutdownAction &action);
-    bool shutdown() const;
+    static void initInstance();
+    static void freeInstance();
+    static SettingsStorage* instance();
 
-    static bool askForConfirmation(const ShutdownAction &action);
+    QVariant loadValue(const QString &key, const QVariant &defaultValue = QVariant()) const;
+    void storeValue(const QString &key, const QVariant &value);
+    void removeValue(const QString &key);
 
-protected:
-    void showEvent(QShowEvent *event);
-
-private slots:
-    void updateSeconds();
-    void accept() override;
+public slots:
+    bool save();
 
 private:
-    // Methods
-    void updateText();
+    static SettingsStorage *m_instance;
 
-    // Vars
-    Ui::confirmShutdownDlg *ui;
+    QVariantHash m_data;
+    bool m_dirty;
     QTimer m_timer;
-    int m_timeout;
-    ShutdownAction m_action;
+    mutable QReadWriteLock m_lock;
 };
 
-#endif // SHUTDOWNCONFIRM_H
+#endif // SETTINGSSTORAGE_H
