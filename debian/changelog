@@ -1,6 +1,7 @@
 qbittorrent (3.3.6-1) UNRELEASED; urgency=medium
 
   * New upstream release (Closes: #831113).
+  * Bump Standards-Version to 3.9.8, no changes.
 
  -- Andrew Starr-Bochicchio <a.starr.b@gmail.com>  Mon, 08 Aug 2016 22:39:09 -0400
 
