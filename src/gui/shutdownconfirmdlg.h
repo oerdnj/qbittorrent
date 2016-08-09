@@ -1,6 +1,6 @@
 /*
- * Bittorrent Client using Qt4 and libtorrent.
- * Copyright (C) 2010  Christophe Dumez
+ * Bittorrent Client using Qt and libtorrent.
+ * Copyright (C) 2011  Christophe Dumez
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,38 +25,49 @@
  * but you are not obligated to do so. If you do not wish to do so, delete this
  * exception statement from your version.
  *
- * Contact : chris@qbittorrent.org arnaud@qbittorrent.org
+ * Contact : chris@qbittorrent.org
  */
 
-#ifndef COOKIESDLG_H
-#define COOKIESDLG_H
+#ifndef SHUTDOWNCONFIRMDLG_H
+#define SHUTDOWNCONFIRMDLG_H
 
 #include <QDialog>
-#include <QList>
+#include <QTimer>
+#include "base/types.h"
 
-class QNetworkCookie;
-class QUrl;
-
-namespace Ui {
-    class CookiesDlg;
+namespace Ui
+{
+    class confirmShutdownDlg;
 }
 
-class CookiesDlg : public QDialog
+class ShutdownConfirmDlg: public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit CookiesDlg(const QUrl &url, QWidget *parent = 0);
-    ~CookiesDlg();
-    QList<QNetworkCookie> getCookies() const;
-    static bool askForCookies(QWidget *parent, const QUrl &url, QList<QNetworkCookie> &out);
+    ShutdownConfirmDlg(const ShutdownDialogAction &action);
+    ~ShutdownConfirmDlg();
 
-  protected slots:
-    void on_add_btn_clicked();
-    void on_del_btn_clicked();
+    static bool askForConfirmation(const ShutdownDialogAction &action);
+
+protected:
+    void showEvent(QShowEvent *event) override;
+
+private slots:
+    void updateSeconds();
+    void accept() override;
 
 private:
-    Ui::CookiesDlg *ui;
+    // Methods
+    void initText();
+    void updateText();
+
+    // Vars
+    Ui::confirmShutdownDlg *ui;
+    QTimer m_timer;
+    int m_timeout;
+    ShutdownDialogAction m_action;
+    QString m_msg;
 };
 
-#endif // COOKIESDLG_H
+#endif // SHUTDOWNCONFIRM_H

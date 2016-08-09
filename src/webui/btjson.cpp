@@ -29,6 +29,7 @@
  */
 
 #include "btjson.h"
+#include "base/logger.h"
 #include "base/utils/misc.h"
 #include "base/utils/fs.h"
 #include "base/preferences.h"
@@ -102,7 +103,7 @@ static const char KEY_TORRENT_ETA[] = "eta";
 static const char KEY_TORRENT_STATE[] = "state";
 static const char KEY_TORRENT_SEQUENTIAL_DOWNLOAD[] = "seq_dl";
 static const char KEY_TORRENT_FIRST_LAST_PIECE_PRIO[] = "f_l_piece_prio";
-static const char KEY_TORRENT_LABEL[] = "label";
+static const char KEY_TORRENT_CATEGORY[] = "category";
 static const char KEY_TORRENT_SUPER_SEEDING[] = "super_seeding";
 static const char KEY_TORRENT_FORCE_START[] = "force_start";
 static const char KEY_TORRENT_SAVE_PATH[] = "save_path";
@@ -198,6 +199,15 @@ static const char KEY_FULL_UPDATE[] = "full_update";
 static const char KEY_RESPONSE_ID[] = "rid";
 static const char KEY_SUFFIX_REMOVED[] = "_removed";
 
+// Log keys
+static const char KEY_LOG_ID[] = "id";
+static const char KEY_LOG_TIMESTAMP[] = "timestamp";
+static const char KEY_LOG_MSG_TYPE[] = "type";
+static const char KEY_LOG_MSG_MESSAGE[] = "message";
+static const char KEY_LOG_PEER_IP[] = "ip";
+static const char KEY_LOG_PEER_BLOCKED[] = "blocked";
+static const char KEY_LOG_PEER_REASON[] = "reason";
+
 QVariantMap getTranserInfoMap();
 QVariantMap toMap(BitTorrent::TorrentHandle *const torrent);
 void processMap(QVariantMap prevData, QVariantMap data, QVariantMap &syncData);
@@ -279,13 +289,13 @@ private:
  *   - "seq_dl": Torrent sequential download state
  *   - "f_l_piece_prio": Torrent first last piece priority state
  *   - "force_start": Torrent force start state
- *   - "label": Torrent label
+ *   - "category": Torrent category
  */
-QByteArray btjson::getTorrents(QString filter, QString label,
+QByteArray btjson::getTorrents(QString filter, QString category,
                                QString sortedColumn, bool reverse, int limit, int offset)
 {
     QVariantList torrentList;
-    TorrentFilter torrentFilter(filter, TorrentFilter::AnyHash, label);
+    TorrentFilter torrentFilter(filter, TorrentFilter::AnyHash, category);
     foreach (BitTorrent::TorrentHandle *const torrent, BitTorrent::Session::instance()->torrents()) {
         if (torrentFilter.match(torrent))
             torrentList.append(toMap(torrent));
@@ -317,8 +327,8 @@ QByteArray btjson::getTorrents(QString filter, QString label,
  *  - "full_update": full data update flag
  *  - "torrents": dictionary contains information about torrents.
  *  - "torrents_removed": a list of hashes of removed torrents
- *  - "labels": list of labels
- *  - "labels_removed": list of removed labels
+ *  - "categories": list of categories
+ *  - "categories_removed": list of removed categories
  *  - "server_state": map contains information about the state of the server
  * The keys of the 'torrents' dictionary are hashes of torrents.
  * Each value of the 'torrents' dictionary contains map. The map can contain following keys:
@@ -362,11 +372,11 @@ QByteArray btjson::getSyncMainData(int acceptedResponseId, QVariantMap &lastData
 
     data["torrents"] = torrents;
 
-    QVariantList labels;
-    foreach (QString s, Preferences::instance()->getTorrentLabels())
-        labels << s;
+    QVariantList categories;
+    foreach (const QString &category, BitTorrent::Session::instance()->categories())
+        categories << category;
 
-    data["labels"] = labels;
+    data["categories"] = categories;
 
     QVariantMap serverState = getTranserInfoMap();
     serverState[KEY_SYNC_MAINDATA_QUEUEING] = BitTorrent::Session::instance()->isQueueingEnabled();
@@ -705,12 +715,12 @@ QVariantMap toMap(BitTorrent::TorrentHandle *const torrent)
     ret[KEY_TORRENT_SEQUENTIAL_DOWNLOAD] = torrent->isSequentialDownload();
     if (torrent->hasMetadata())
         ret[KEY_TORRENT_FIRST_LAST_PIECE_PRIO] = torrent->hasFirstLastPiecePriority();
-    ret[KEY_TORRENT_LABEL] = torrent->label();
+    ret[KEY_TORRENT_CATEGORY] = torrent->category();
     ret[KEY_TORRENT_SUPER_SEEDING] = torrent->superSeeding();
     ret[KEY_TORRENT_FORCE_START] = torrent->isForced();
     ret[KEY_TORRENT_SAVE_PATH] = Utils::Fs::toNativePath(torrent->savePath());
-    ret[KEY_TORRENT_ADDED_ON] = torrent->addedTime();
-    ret[KEY_TORRENT_COMPLETION_ON] = torrent->completedTime();
+    ret[KEY_TORRENT_ADDED_ON] = torrent->addedTime().toTime_t();
+    ret[KEY_TORRENT_COMPLETION_ON] = torrent->completedTime().toTime_t();
 
     return ret;
 }
@@ -760,11 +770,15 @@ void processMap(QVariantMap prevData, QVariantMap data, QVariantMap &syncData)
         case QMetaType::Double:
         case QMetaType::ULongLong:
         case QMetaType::UInt:
+        case QMetaType::QDateTime:
             if (prevData[key] != data[key])
                 syncData[key] = data[key];
             break;
         default:
-            Q_ASSERT(0);
+            Q_ASSERT_X(false, "processMap"
+                       , QString("Unexpected type: %1")
+                       .arg(QMetaType::typeName(static_cast<QMetaType::Type>(data[key].type())))
+                       .toUtf8().constData());
         }
     }
 }
@@ -885,4 +899,65 @@ QVariantMap generateSyncData(int acceptedResponseId, QVariantMap data, QVariantM
     syncData[KEY_RESPONSE_ID] = lastResponseId;
 
     return syncData;
+}
+
+/**
+ * Returns the log in JSON format.
+ *
+ * The return value is an array of dictionaries.
+ * The dictionary keys are:
+ *   - "id": id of the message
+ *   - "timestamp": milliseconds since epoch
+ *   - "type": type of the message (int, see MsgType)
+ *   - "message": text of the message
+ */
+QByteArray btjson::getLog(bool normal, bool info, bool warning, bool critical, int lastKnownId)
+{
+    Logger* const logger = Logger::instance();
+    QVariantList msgList;
+
+    foreach (const Log::Msg& msg, logger->getMessages(lastKnownId)) {
+        if (!((msg.type == Log::NORMAL && normal)
+              || (msg.type == Log::INFO && info)
+              || (msg.type == Log::WARNING && warning)
+              || (msg.type == Log::CRITICAL && critical)))
+            continue;
+        QVariantMap map;
+        map[KEY_LOG_ID] = msg.id;
+        map[KEY_LOG_TIMESTAMP] = msg.timestamp;
+        map[KEY_LOG_MSG_TYPE] = msg.type;
+        map[KEY_LOG_MSG_MESSAGE] = msg.message;
+        msgList.append(map);
+    }
+
+    return json::toJson(msgList);
+}
+
+/**
+ * Returns the peer log in JSON format.
+ *
+ * The return value is an array of dictionaries.
+ * The dictionary keys are:
+ *   - "id": id of the message
+ *   - "timestamp": milliseconds since epoch
+ *   - "ip": IP of the peer
+ *   - "blocked": whether or not the peer was blocked
+ *   - "reason": reason of the block
+ */
+QByteArray btjson::getPeerLog(int lastKnownId)
+{
+    Logger* const logger = Logger::instance();
+    QVariantList peerList;
+
+    foreach (const Log::Peer& peer, logger->getPeers(lastKnownId)) {
+        QVariantMap map;
+        map[KEY_LOG_ID] = peer.id;
+        map[KEY_LOG_TIMESTAMP] = peer.timestamp;
+        map[KEY_LOG_PEER_IP] = peer.ip;
+        map[KEY_LOG_PEER_BLOCKED] = peer.blocked;
+        map[KEY_LOG_PEER_REASON] = peer.reason;
+        peerList.append(map);
+    }
+
+    return json::toJson(peerList);
 }

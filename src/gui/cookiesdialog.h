@@ -1,6 +1,6 @@
 /*
- * Bittorrent Client using Qt4 and libtorrent.
- * Copyright (C) 2010  Christophe Dumez
+ * Bittorrent Client using Qt and libtorrent.
+ * Copyright (C) 2016  Vladimir Golovnev <glassez@yandex.ru>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,63 +24,38 @@
  * modify file(s), you may extend this exception to your version of the file(s),
  * but you are not obligated to do so. If you do not wish to do so, delete this
  * exception statement from your version.
- *
- * Contact : chris@qbittorrent.org
  */
 
-#ifndef TORRENTIMPORTDLG_H
-#define TORRENTIMPORTDLG_H
+#ifndef COOKIESDIALOG_H
+#define COOKIESDIALOG_H
 
 #include <QDialog>
-#include <QStringList>
-
-#include "base/bittorrent/torrentinfo.h"
 
 namespace Ui
 {
-    class TorrentImportDlg;
+    class CookiesDialog;
 }
 
-class TorrentImportDlg: public QDialog
+class CookiesModel;
+
+class CookiesDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit TorrentImportDlg(QWidget *parent = 0);
-    ~TorrentImportDlg();
+    explicit CookiesDialog(QWidget *parent = 0);
+    ~CookiesDialog();
 
-    static void importTorrent();
-
-    QString getTorrentPath() const;
-    QString getContentPath() const;
-    bool fileRenamed() const;
-    BitTorrent::TorrentInfo torrent() const;
-    bool skipFileChecking() const;
-
-protected slots:
-    void loadTorrent(const QString &torrentPath);
-    void initializeFilesPath();
+public slots:
+    void accept() override;
 
 private slots:
-    void on_browseTorrentBtn_clicked();
-    void on_browseContentBtn_clicked();
-    void on_importBtn_clicked();
-
-protected:
-    void closeEvent(QCloseEvent *event);
+    void onButtonAddClicked();
+    void onButtonDeleteClicked();
 
 private:
-    void loadSettings();
-    void saveSettings();
-
-private:
-    Ui::TorrentImportDlg *ui;
-    BitTorrent::TorrentInfo m_torrentInfo;
-    // NOTE: Where do we use it?
-    QStringList m_filesPath;
-    QString m_contentPath;
-    QString m_torrentPath;
-    bool m_fileRenamed;
+    Ui::CookiesDialog *m_ui;
+    CookiesModel *m_cookiesModel;
 };
 
-#endif // TORRENTIMPORTDLG_H
+#endif // COOKIESDIALOG_H
