@@ -3,9 +3,9 @@ From: Steven Chamberlain <steven@pyro.eu.org>
 Date: Sun, 21 Feb 2016 01:30:09 +0000
 Debian-Bug: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=815371
 
---- a/configure.ac
-+++ b/configure.ac
-@@ -62,7 +62,7 @@
+--- qbittorrent.orig/configure.ac
++++ qbittorrent/configure.ac
+@@ -62,7 +62,7 @@ AC_ARG_ENABLE(qt-dbus,
  
  # Detect OS
  AC_MSG_CHECKING([whether OS is FreeBSD])
@@ -14,9 +14,9 @@ Debian-Bug: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=815371
        [AC_MSG_RESULT([yes])
        LIBS="-lexecinfo $LIBS"],
        [AC_MSG_RESULT([no])])
---- a/configure
-+++ b/configure
-@@ -4248,7 +4248,7 @@
+--- qbittorrent.orig/configure
++++ qbittorrent/configure
+@@ -4248,7 +4248,7 @@ fi
  # Detect OS
  { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether OS is FreeBSD" >&5
  $as_echo_n "checking whether OS is FreeBSD... " >&6; }

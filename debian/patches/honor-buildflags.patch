@@ -3,11 +3,9 @@ Origin: vendor
 Forwarded: no
 Author: Cristian Greco <cristian@debian.org>
 
-Index: qbittorrent/unixconf.pri
-===================================================================
---- qbittorrent.orig/unixconf.pri	2015-12-26 14:39:32.176931136 -0500
-+++ qbittorrent/unixconf.pri	2015-12-26 14:39:32.172931077 -0500
-@@ -15,8 +15,9 @@
+--- qbittorrent.orig/unixconf.pri
++++ qbittorrent/unixconf.pri
+@@ -15,8 +15,9 @@ lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXX
  # COMPILATION SPECIFIC
  !nogui:dbus: QT += dbus
  
