@@ -1,3 +1,13 @@
+qbittorrent (1:3.3.6-1) unstable; urgency=medium
+
+  * Require bumped libtorrent-rasterbar >= 1.0.9
+  * Bump debhelper compat level to 9
+  * Add custom gbp.conf
+  * Refresh patches on top of 3.3.6 release
+  * Bump epoch to always override official packages
+
+ -- Ondřej Surý <ondrej@debian.org>  Wed, 17 Aug 2016 09:02:38 +0200
+
 qbittorrent (3.3.6-1) unstable; urgency=medium
 
   * New upstream release (Closes: #831113).
