@@ -1,3 +1,10 @@
+qbittorrent (3.3.6-2) UNRELEASED; urgency=medium
+
+  * Replace mentions of Qt4 with Qt5 in the package
+    description (Closes: #834508).
+
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Sun, 21 Aug 2016 12:06:46 -0400
+
 qbittorrent (3.3.6-1) unstable; urgency=medium
 
   * New upstream release (Closes: #831113).

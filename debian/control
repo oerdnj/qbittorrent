@@ -19,8 +19,8 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
          python (>= 2.5), geoip-database
 Suggests: qbittorrent-dbg
-Description: bittorrent client based on libtorrent-rasterbar with a Qt4 GUI
- BitTorrent client written in C++ and based on libtorrent-rasterbar with a Qt4
+Description: bittorrent client based on libtorrent-rasterbar with a Qt5 GUI
+ BitTorrent client written in C++ and based on libtorrent-rasterbar with a Qt5
  user interface. qBittorrent is a feature rich but lightweight client that is
  very similar to uTorrent. Its main features are:
  .
@@ -45,7 +45,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends}
 Suggests: qbittorrent-dbg
 Description: bittorrent client based on libtorrent-rasterbar (without X support)
  BitTorrent client written in C++ and based on libtorrent-rasterbar.
- qBittorrent-nox is a version of qBittorrent (Qt4 application) that does not
+ qBittorrent-nox is a version of qBittorrent (Qt5 application) that does not
  require X and can be controlled via a WebUI, thus is more suitable for headless
  servers. It is a feature rich but lightweight client that is very similar to
  rTorrent. Its main features are:
@@ -68,7 +68,7 @@ Section: debug
 Priority: extra
 Depends: qbittorrent (= ${binary:Version}) | qbittorrent-nox (= ${binary:Version}), ${misc:Depends}
 Description: debug symbols for qbittorrent and qbittorrent-nox
- BitTorrent client written in C++ and based on libtorrent-rasterbar with a Qt4
+ BitTorrent client written in C++ and based on libtorrent-rasterbar with a Qt5
  user interface. qBittorrent is a feature rich but lightweight client that is
  very similar to uTorrent.
  .
