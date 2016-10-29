@@ -5,7 +5,7 @@ export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 include /usr/share/dpkg/buildflags.mk
 
 %:
-	dh $@ --parallel
+	dh $@ --without autoreconf --parallel
 
 override_dh_auto_configure:
 	mkdir -p build-nox && cd build-nox && ../configure --prefix=/usr --disable-gui \

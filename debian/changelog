@@ -5,6 +5,9 @@ qbittorrent (3.3.7-1) UNRELEASED; urgency=medium
     description (Closes: #834508).
   * debian/rules: Set INSTALL_ROOT for dh_auto_install
     (Closes: #840176). 
+  * Bump debian/compat to level 10.
+  * debian/rules: Pass '--without autoreconf' to dh as autoreconf
+    is now used by default with compat level 10.
 
  -- Andrew Starr-Bochicchio <asb@debian.org>  Sat, 29 Oct 2016 15:37:52 -0400
 
