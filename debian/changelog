@@ -1,4 +1,4 @@
-qbittorrent (3.3.7-1) UNRELEASED; urgency=medium
+qbittorrent (3.3.7-1) unstable; urgency=medium
 
   * New upstream release.
   * Replace mentions of Qt4 with Qt5 in the package
@@ -9,7 +9,7 @@ qbittorrent (3.3.7-1) UNRELEASED; urgency=medium
   * debian/rules: Pass '--without autoreconf' to dh as autoreconf
     is now used by default with compat level 10.
 
- -- Andrew Starr-Bochicchio <asb@debian.org>  Sat, 29 Oct 2016 15:37:52 -0400
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Sat, 29 Oct 2016 17:34:11 -0400
 
 qbittorrent (3.3.6-1) unstable; urgency=medium
 
