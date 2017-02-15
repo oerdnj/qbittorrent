@@ -205,189 +205,189 @@
         <translation>Mellőzés</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="212"/>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="218"/>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="681"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="211"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="217"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="680"/>
         <source>I/O Error</source>
         <translation>I/O Hiba</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="226"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="225"/>
         <source>Invalid torrent</source>
         <translation>Érvénytelen torrent</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="238"/>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="243"/>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="272"/>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="277"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="237"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="242"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="271"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="276"/>
         <source>Already in download list</source>
         <translation>Már a letöltési listában van</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="708"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="706"/>
         <source>Not Available</source>
         <comment>This comment is unavailable</comment>
         <translation>Nem elérhető</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="709"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="707"/>
         <source>Not Available</source>
         <comment>This date is unavailable</comment>
         <translation>Nem elérhető</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="717"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="715"/>
         <source>Not available</source>
         <translation>Nem elérhető</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="261"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="260"/>
         <source>Invalid magnet link</source>
         <translation>Érvénytelen magnet link</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="212"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="211"/>
         <source>The torrent file &apos;%1&apos; does not exist.</source>
-        <translation>A(z) „%1” torrent fájl nem létezik.</translation>
+        <translation>A &apos;%1&apos; torrent fájl nem létezik.</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="218"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="217"/>
         <source>The torrent file &apos;%1&apos; cannot be read from the disk. Probably you don&apos;t have enough permissions.</source>
-        <translation>A(z) „%1” torrent fájl nem olvasható a lemezről. Lehet hogy nincs elég joga hozzá.</translation>
+        <translation>A &apos;%1&apos; torrent fájl nem olvasható a lemezről. Elképzelhető, hogy nem rendelkezik a megfelelő jogosultsággal.</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="226"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="225"/>
         <source>Failed to load the torrent: %1.
 Error: %2</source>
         <comment>Don&apos;t remove the &apos;
 &apos; characters. They insert a newline.</comment>
-        <translation>A torrent betöltése sikertelen: %1
+        <translation>A következő torrent betöltése sikertelen: %1
 Hiba: %2</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="238"/>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="272"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="237"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="271"/>
         <source>Torrent is already in download list. Trackers weren&apos;t merged because it is a private torrent.</source>
         <translation>A torrent már szerepel a letöltések között. A követők nem kerültek egyesítésre, mert ez egy privát torrent.</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="243"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="242"/>
         <source>Torrent is already in download list. Trackers were merged.</source>
         <translation>A torrent már szerepel a letöltések között. A követők egyesítésre kerültek.</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="247"/>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="281"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="246"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="280"/>
         <source>Cannot add torrent</source>
         <translation>Torrentet nem lehet hozzáadni</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="247"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="246"/>
         <source>Cannot add this torrent. Perhaps it is already in adding state.</source>
         <translation>Nem lehet hozzáadni ezt a torrentet. Talán már hozzáadási állapotban van.</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="261"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="260"/>
         <source>This magnet link was not recognized</source>
         <translation>A magnet linket nem sikerült felismerni</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="277"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="276"/>
         <source>Magnet link is already in download list. Trackers were merged.</source>
         <translation>A magnet link már szerepel a letöltések között. A trackerek egyesítésre kerültek.</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="281"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="280"/>
         <source>Cannot add this torrent. Perhaps it is already in adding.</source>
         <translation>Nem lehet hozzáadni ezt a torrentet. Talán már hozzáadásban van.</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="290"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="289"/>
         <source>Magnet link</source>
         <translation>Magnet link</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="298"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="297"/>
         <source>Retrieving metadata...</source>
         <translation>Metadata letöltése...</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="382"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="381"/>
         <source>Not Available</source>
         <comment>This size is unavailable.</comment>
         <translation>Nem elérhető</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="384"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="383"/>
         <source>Free space on disk: %1</source>
         <translation>Szabad terület a lemezen: %1</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="425"/>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="427"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="424"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="426"/>
         <source>Choose save path</source>
         <translation>Mentési útvonal választása</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="460"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="459"/>
         <source>Rename the file</source>
         <translation>Fájl átnevezése</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="461"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="460"/>
         <source>New name:</source>
         <translation>Új név:</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="465"/>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="490"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="464"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="489"/>
         <source>The file could not be renamed</source>
         <translation>Nem sikerült átnevezni a fájlt </translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="466"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="465"/>
         <source>This file name contains forbidden characters, please choose a different one.</source>
         <translation>Ez a fájlnév tiltott karaktereket tartalmaz, kérlek válassz egy másikat.</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="491"/>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="528"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="490"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="527"/>
         <source>This name is already in use in this folder. Please use a different name.</source>
         <translation>Ez a név már használatban van ebben a mappában. Kérlek válassz másik nevet.</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="527"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="526"/>
         <source>The folder could not be renamed</source>
         <translation>Nem sikerült átnevezni a mappát</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="587"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="586"/>
         <source>Rename...</source>
         <translation>Átnevezés...</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="591"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="590"/>
         <source>Priority</source>
         <translation>Priorítás</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="682"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="681"/>
         <source>Invalid metadata</source>
         <translation>Érvénytelen metadata</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="689"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="688"/>
         <source>Parsing metadata...</source>
         <translation>Metadata értelmezése...</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="694"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="692"/>
         <source>Metadata retrieval complete</source>
         <translation>Metadata sikeresen letöltve</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="756"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="747"/>
         <source>Download Error</source>
         <translation>Letöltési hiba</translation>
     </message>
@@ -395,194 +395,199 @@ Hiba: %2</translation>
 <context>
     <name>AdvancedSettings</name>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="260"/>
+        <location filename="../gui/advancedsettings.cpp" line="268"/>
         <source>Disk write cache size</source>
         <translation>Lemez írási gyorsítótár mérete</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="193"/>
+        <location filename="../gui/advancedsettings.cpp" line="199"/>
         <source> MiB</source>
         <translation> MiB</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="280"/>
+        <location filename="../gui/advancedsettings.cpp" line="288"/>
         <source>Outgoing ports (Min) [0: Disabled]</source>
         <translation>Kimenő portok (Min) [0: Letiltva]</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="285"/>
+        <location filename="../gui/advancedsettings.cpp" line="293"/>
         <source>Outgoing ports (Max) [0: Disabled]</source>
         <translation>Kimenő portok (Max) [0: Letiltva]</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="288"/>
+        <location filename="../gui/advancedsettings.cpp" line="296"/>
         <source>Recheck torrents on completion</source>
         <translation>Torrentek újraellenőrzése a letöltésük végeztével</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="294"/>
+        <location filename="../gui/advancedsettings.cpp" line="302"/>
         <source>Transfer list refresh interval</source>
         <translation>Átviteli lista frissítésének időköze</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="293"/>
+        <location filename="../gui/advancedsettings.cpp" line="301"/>
         <source> ms</source>
         <comment> milliseconds</comment>
         <translation> ms</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="98"/>
+        <location filename="../gui/advancedsettings.cpp" line="102"/>
         <source>Setting</source>
         <translation>Beállítások</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="98"/>
+        <location filename="../gui/advancedsettings.cpp" line="102"/>
         <source>Value</source>
         <comment>Value set for this setting</comment>
         <translation>Érték</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="191"/>
+        <location filename="../gui/advancedsettings.cpp" line="197"/>
         <source> (auto)</source>
         <translation> (auto)</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="204"/>
+        <location filename="../gui/advancedsettings.cpp" line="210"/>
         <source>All addresses</source>
         <translation>Összes cím</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="239"/>
+        <location filename="../gui/advancedsettings.cpp" line="247"/>
         <source>qBittorrent Section</source>
-        <translation type="unfinished"></translation>
+        <translation>qBittorrent szakasz</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="241"/>
-        <location filename="../gui/advancedsettings.cpp" line="246"/>
+        <location filename="../gui/advancedsettings.cpp" line="249"/>
+        <location filename="../gui/advancedsettings.cpp" line="254"/>
         <source>Open documentation</source>
         <translation>Dokumentáció megnyitása</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="244"/>
+        <location filename="../gui/advancedsettings.cpp" line="252"/>
         <source>libtorrent Section</source>
-        <translation type="unfinished"></translation>
+        <translation>libtorrent szakasz</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="265"/>
+        <location filename="../gui/advancedsettings.cpp" line="273"/>
         <source> s</source>
         <comment> seconds</comment>
         <translation> s</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="266"/>
+        <location filename="../gui/advancedsettings.cpp" line="274"/>
         <source>Disk cache expiry interval</source>
         <translation>Merevlemez gyorsítótár lejáratának ideje</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="269"/>
+        <location filename="../gui/advancedsettings.cpp" line="277"/>
         <source>Enable OS cache</source>
         <translation>OS cache engedélyezése</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="274"/>
+        <location filename="../gui/advancedsettings.cpp" line="282"/>
         <source> m</source>
         <comment> minutes</comment>
         <translation>m</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="297"/>
+        <location filename="../gui/advancedsettings.cpp" line="305"/>
         <source>Resolve peer countries (GeoIP)</source>
         <translation>Ügyfelek országának megjelenítése</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="300"/>
+        <location filename="../gui/advancedsettings.cpp" line="308"/>
         <source>Resolve peer host names</source>
         <translation>Host nevek feloldása</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="308"/>
+        <location filename="../gui/advancedsettings.cpp" line="316"/>
         <source>Strict super seeding</source>
         <translation>Szigorú szuper seed</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="334"/>
+        <location filename="../gui/advancedsettings.cpp" line="342"/>
         <source>Network Interface (requires restart)</source>
         <translation>Háltózati csatoló (újraindítást igényel)</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="337"/>
+        <location filename="../gui/advancedsettings.cpp" line="345"/>
         <source>Optional IP Address to bind to (requires restart)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="340"/>
+        <location filename="../gui/advancedsettings.cpp" line="348"/>
         <source>Listen on IPv6 address (requires restart)</source>
         <translation>Figyelés IPv6 címen (újraindítást igényel)</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="348"/>
+        <location filename="../gui/advancedsettings.cpp" line="356"/>
         <source>Display notifications</source>
         <translation>Értesítések megjelenítése</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="351"/>
+        <location filename="../gui/advancedsettings.cpp" line="359"/>
         <source>Display notifications for added torrents</source>
         <translation>Értesítések megjelenítése a hozzáadott torrentekről</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="370"/>
+        <location filename="../gui/advancedsettings.cpp" line="362"/>
+        <source>Download tracker&apos;s favicon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advancedsettings.cpp" line="382"/>
         <source>Confirm torrent recheck</source>
         <translation>Újraellenőrzés megerősítése</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="373"/>
+        <location filename="../gui/advancedsettings.cpp" line="385"/>
         <source>Exchange trackers with other peers</source>
         <translation>Trackerek megosztása a többi klienssel</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="376"/>
+        <location filename="../gui/advancedsettings.cpp" line="388"/>
         <source>Always announce to all trackers</source>
         <translation>Mindig jelentsen az összes tracker felé</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="310"/>
+        <location filename="../gui/advancedsettings.cpp" line="318"/>
         <source>Any interface</source>
         <comment>i.e. Any network interface</comment>
         <translation>Bármely csatoló</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="275"/>
+        <location filename="../gui/advancedsettings.cpp" line="283"/>
         <source>Save resume data interval</source>
         <comment>How often the fastresume file is saved.</comment>
         <translation>Folytatási adatfájl mentésének intervalluma</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="305"/>
+        <location filename="../gui/advancedsettings.cpp" line="313"/>
         <source>Maximum number of half-open connections [0: Unlimited]</source>
         <translation>Félig nyitott kapcsolatok maximális száma [0: Korlátlan]</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="343"/>
+        <location filename="../gui/advancedsettings.cpp" line="351"/>
         <source>IP Address to report to trackers (requires restart)</source>
         <translation>Trackernek lejelentett IP cím (újraindítást igényel)</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="354"/>
+        <location filename="../gui/advancedsettings.cpp" line="366"/>
         <source>Enable embedded tracker</source>
         <translation>Beépített tracker bekapcsolása</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="359"/>
+        <location filename="../gui/advancedsettings.cpp" line="371"/>
         <source>Embedded tracker port</source>
         <translation>Beépített tracker portja</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="362"/>
+        <location filename="../gui/advancedsettings.cpp" line="374"/>
         <source>Check for software updates</source>
         <translation>Frissítések keresése</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="366"/>
+        <location filename="../gui/advancedsettings.cpp" line="378"/>
         <source>Use system icon theme</source>
         <translation>Renszer ikon téma használata</translation>
     </message>
@@ -590,53 +595,53 @@ Hiba: %2</translation>
 <context>
     <name>Application</name>
     <message>
-        <location filename="../app/application.cpp" line="131"/>
+        <location filename="../app/application.cpp" line="132"/>
         <source>qBittorrent %1 started</source>
         <comment>qBittorrent v3.2.0alpha started</comment>
         <translation>qBittorrent %1 elindult</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="259"/>
+        <location filename="../app/application.cpp" line="260"/>
         <source>Torrent: %1, running external program, command: %2</source>
         <translation>Torrent: %1, külső program futtatása, parancs: %2</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="273"/>
+        <location filename="../app/application.cpp" line="269"/>
         <source>Torrent: %1, run external program command too long (length &gt; %2), execution failed.</source>
         <translation>Torrent: %1, külső program futtatási parancs túl hosszú (hossz &gt; %2), végrehajtás sikertelen.</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="323"/>
+        <location filename="../app/application.cpp" line="319"/>
         <source>Torrent: %1, sending mail notification</source>
         <translation>Torrent: %1, értesítő levél küldése</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="427"/>
+        <location filename="../app/application.cpp" line="424"/>
         <source>Information</source>
         <translation>Információ</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="428"/>
+        <location filename="../app/application.cpp" line="425"/>
         <source>To control qBittorrent, access the Web UI at http://localhost:%1</source>
         <translation>A qBittorrent vezérléséhez, nyisd meg ezt a címet: http://localhost:%1</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="429"/>
+        <location filename="../app/application.cpp" line="426"/>
         <source>The Web UI administrator user name is: %1</source>
         <translation>Web UI adminisztrátor felhasználó neve: %1</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="432"/>
+        <location filename="../app/application.cpp" line="429"/>
         <source>The Web UI administrator password is still the default one: %1</source>
         <translation>Web UI adminisztrátor jelszó még az alapértelmezett: %1</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="433"/>
+        <location filename="../app/application.cpp" line="430"/>
         <source>This is a security risk, please consider changing your password from program preferences.</source>
         <translation>Ez biztonsági kockázatot jelent. Kérlek változtass jelszót a program beállításinál.</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="605"/>
+        <location filename="../app/application.cpp" line="602"/>
         <source>Saving torrent progress...</source>
         <translation>Torrent állapotának mentése...</translation>
     </message>
@@ -956,322 +961,298 @@ Hiba: %2</translation>
 <context>
     <name>BitTorrent::Session</name>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="226"/>
-        <source>Peer ID: </source>
-        <translation>Peer ID:</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="601"/>
-        <source>HTTP User-Agent is &apos;%1&apos;</source>
-        <translation>HTTP User-Agent a következő &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="628"/>
-        <source>Anonymous mode [ON]</source>
-        <translation>Anonymous mód: [BE]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="630"/>
-        <source>Anonymous mode [OFF]</source>
-        <translation>Anonymous mód: [KI]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="816"/>
-        <source>PeX support [ON]</source>
-        <translation>PeX támogatás [BE]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="818"/>
-        <source>PeX support [OFF]</source>
-        <translation>PeX támogatás [KI]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="820"/>
+        <location filename="../base/bittorrent/session.cpp" line="475"/>
         <source>Restart is required to toggle PeX support</source>
         <translation>A PeX támogatás átkapcsolásához újra kell indítani a programot.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="825"/>
-        <source>Local Peer Discovery support [ON]</source>
-        <translation>Helyi Peerek Felkutatása (LPD) támogatás [BE]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="829"/>
-        <source>Local Peer Discovery support [OFF]</source>
-        <translation>Helyi Peerek Felkutatása (LPD) támogatás [KI]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="842"/>
-        <source>Encryption support [ON]</source>
-        <translation>Titkosítás támogatása [BE]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="847"/>
-        <source>Encryption support [FORCED]</source>
-        <translation>Titkosítás támogatása  [KÉNYSZERÍTVE]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="852"/>
-        <source>Encryption support [OFF]</source>
-        <translation>Titkosítás támogatása  [KI]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="929"/>
+        <location filename="../base/bittorrent/session.cpp" line="1258"/>
         <source>Embedded Tracker [ON]</source>
         <translation>Beágyazott tracker [BE]</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="931"/>
+        <location filename="../base/bittorrent/session.cpp" line="1260"/>
         <source>Failed to start the embedded tracker!</source>
         <translation>Beágyazott tracker indítása sikertelen!</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="934"/>
+        <location filename="../base/bittorrent/session.cpp" line="1263"/>
         <source>Embedded Tracker [OFF]</source>
         <translation>Beágyazott tracker [KI]</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="972"/>
+        <location filename="../base/bittorrent/session.cpp" line="1309"/>
         <source>&apos;%1&apos; reached the maximum ratio you set. Removing...</source>
         <translation>&apos;%1&apos; elérte a maximális megengedett arányt. Eltávolítás...</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="978"/>
+        <location filename="../base/bittorrent/session.cpp" line="1315"/>
         <source>&apos;%1&apos; reached the maximum ratio you set. Pausing...</source>
         <translation>&apos;%1&apos; elérte a maximáls megengedett arányt. Szüneteltetés...</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1708"/>
+        <location filename="../base/bittorrent/session.cpp" line="1927"/>
         <source>System network status changed to %1</source>
         <comment>e.g: System network status changed to ONLINE</comment>
         <translation>Rendszer hálózat állapota megváltozott erre: %1</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1708"/>
+        <location filename="../base/bittorrent/session.cpp" line="1927"/>
         <source>ONLINE</source>
         <translation>ONLINE</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1708"/>
+        <location filename="../base/bittorrent/session.cpp" line="1927"/>
         <source>OFFLINE</source>
         <translation>OFFLINE</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1720"/>
+        <location filename="../base/bittorrent/session.cpp" line="1939"/>
         <source>Network configuration of %1 has changed, refreshing session binding</source>
         <comment>e.g: Network configuration of tun0 has changed, refreshing session binding</comment>
         <translation>%1 hálózati konfigurációja megváltozott, munkamenet-kötés frissítése</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1738"/>
+        <location filename="../base/bittorrent/session.cpp" line="1956"/>
         <source>Configured network interface address %1 isn&apos;t valid.</source>
         <comment>Configured network interface address 124.5.1568.1 isn&apos;t valid.</comment>
         <translation>A hálózati csatoló beállított címe érvénytelen: %1.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2033"/>
+        <location filename="../base/bittorrent/session.cpp" line="2293"/>
+        <source>Encryption support [%1]</source>
+        <translation>Titkosítás támogatás [%1]</translation>
+    </message>
+    <message>
+        <location filename="../base/bittorrent/session.cpp" line="2294"/>
+        <source>FORCED</source>
+        <translation>KÉNYSZERÍTETT</translation>
+    </message>
+    <message>
+        <location filename="../base/bittorrent/session.cpp" line="2499"/>
+        <source>Anonymous mode [%1]</source>
+        <translation>Névtelen mód [%1]</translation>
+    </message>
+    <message>
+        <location filename="../base/bittorrent/session.cpp" line="2885"/>
         <source>Unable to decode &apos;%1&apos; torrent file.</source>
         <translation>Nem sikerült dekódolni a &apos;%1&apos; torrent fájlt.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2148"/>
+        <location filename="../base/bittorrent/session.cpp" line="3011"/>
         <source>Recursive download of file &apos;%1&apos; embedded in torrent &apos;%2&apos;</source>
         <comment>Recursive download of &apos;test.torrent&apos; embedded in torrent &apos;test2&apos;</comment>
         <translation>Fájl ismételt letöltése &apos;%1&apos; beágyazva a torrentbe &apos;%2&apos;</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2476"/>
+        <location filename="../base/bittorrent/session.cpp" line="3290"/>
         <source>Couldn&apos;t save &apos;%1.torrent&apos;</source>
         <translation>&apos;%1.torrent&apos;-et nem lehetett elmenteni</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2597"/>
+        <location filename="../base/bittorrent/session.cpp" line="3411"/>
         <source>because %1 is disabled.</source>
         <comment>this peer was blocked because uTP is disabled.</comment>
         <translation>mert a %1 ki van kapcsolva.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2600"/>
+        <location filename="../base/bittorrent/session.cpp" line="3414"/>
         <source>because %1 is disabled.</source>
         <comment>this peer was blocked because TCP is disabled.</comment>
         <translation>mert a %1 ki van kapcsolva.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2618"/>
+        <location filename="../base/bittorrent/session.cpp" line="3432"/>
         <source>URL seed lookup failed for URL: &apos;%1&apos;, message: %2</source>
         <translation>URL forrás meghatározása sikertelen: &apos;%1&apos;, hibaüzenet: %2</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2658"/>
+        <location filename="../base/bittorrent/session.cpp" line="3472"/>
         <source>qBittorrent failed listening on interface %1 port: %2/%3. Reason: %4.</source>
         <comment>e.g: qBittorrent failed listening on interface 192.168.0.1 port: TCP/6881. Reason: already in use.</comment>
-        <translation type="unfinished"></translation>
+        <translation>A qBittorrentnek nem sikerült a(z) %1 csatoló %2/%3 portján figyelnie. Indok: %4.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1095"/>
+        <location filename="../base/bittorrent/session.cpp" line="1431"/>
         <source>&apos;%1&apos; was removed from transfer list and hard disk.</source>
         <comment>&apos;xxx.avi&apos; was removed...</comment>
         <translation>&apos;%1&apos; eltávolítva az átviteli listáról és a merevlemezről.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1097"/>
+        <location filename="../base/bittorrent/session.cpp" line="1433"/>
         <source>&apos;%1&apos; was removed from transfer list.</source>
         <comment>&apos;xxx.avi&apos; was removed...</comment>
         <translation>&apos;%1&apos; eltávolítva az átviteli listáról.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1232"/>
+        <location filename="../base/bittorrent/session.cpp" line="1568"/>
         <source>Downloading &apos;%1&apos;, please wait...</source>
         <comment>e.g: Downloading &apos;xxx.torrent&apos;, please wait...</comment>
         <translation>&apos;%1&apos; letöltése, kérlek várj...</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1572"/>
-        <source>DHT support [ON]</source>
-        <translation>DHT támogatás [BE]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="1577"/>
-        <source>DHT support [OFF]. Reason: %1</source>
-        <translation>DHT támogatás [KI]. Indok: %1</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="1585"/>
-        <source>DHT support [OFF]</source>
-        <translation>DHT támogatás [KI]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="218"/>
-        <location filename="../base/bittorrent/session.cpp" line="1814"/>
+        <location filename="../base/bittorrent/session.cpp" line="945"/>
+        <location filename="../base/bittorrent/session.cpp" line="2033"/>
         <source>qBittorrent is trying to listen on any interface port: %1</source>
         <comment>e.g: qBittorrent is trying to listen on any interface port: TCP/6881</comment>
         <translation>A qBittorrent próbálja a TCP/%1 portot használni - minden interfészen</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1757"/>
+        <location filename="../base/bittorrent/session.cpp" line="1975"/>
         <source>The network interface defined is invalid: %1</source>
         <translation>A megadott hálózati csatoló hasznavehetetlen: %1</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="222"/>
-        <location filename="../base/bittorrent/session.cpp" line="1825"/>
+        <location filename="../base/bittorrent/session.cpp" line="958"/>
+        <location filename="../base/bittorrent/session.cpp" line="2044"/>
         <source>qBittorrent is trying to listen on interface %1 port: %2</source>
         <comment>e.g: qBittorrent is trying to listen on interface 192.168.0.1 port: TCP/6881</comment>
         <translation>A qBittorrent próbálja TCP/%2 portot használni a %1 interfészen</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1791"/>
+        <location filename="../base/bittorrent/session.cpp" line="446"/>
+        <source>DHT support [%1]</source>
+        <translation>DHT támogatás [%1]</translation>
+    </message>
+    <message>
+        <location filename="../base/bittorrent/session.cpp" line="446"/>
+        <location filename="../base/bittorrent/session.cpp" line="461"/>
+        <location filename="../base/bittorrent/session.cpp" line="2294"/>
+        <location filename="../base/bittorrent/session.cpp" line="2499"/>
+        <source>ON</source>
+        <translation>BE</translation>
+    </message>
+    <message>
+        <location filename="../base/bittorrent/session.cpp" line="446"/>
+        <location filename="../base/bittorrent/session.cpp" line="461"/>
+        <location filename="../base/bittorrent/session.cpp" line="2294"/>
+        <location filename="../base/bittorrent/session.cpp" line="2499"/>
+        <source>OFF</source>
+        <translation>KI</translation>
+    </message>
+    <message>
+        <location filename="../base/bittorrent/session.cpp" line="461"/>
+        <source>Local Peer Discovery support [%1]</source>
+        <translation>Helyi peer felfedezés támogatás [%1]</translation>
+    </message>
+    <message>
+        <location filename="../base/bittorrent/session.cpp" line="487"/>
+        <source>Restart is required to toggle Tracker Exchange support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../base/bittorrent/session.cpp" line="2009"/>
         <source>qBittorrent didn&apos;t find an %1 local address to listen on</source>
         <comment>qBittorrent didn&apos;t find an IPv4 local address to listen on</comment>
         <translation>Nem található a %1 helyi cím a figyeléshez</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1818"/>
+        <location filename="../base/bittorrent/session.cpp" line="2037"/>
         <source>qBittorrent failed to listen on any interface port: %1. Reason: %2.</source>
         <comment>e.g: qBittorrent failed to listen on any interface port: TCP/6881. Reason: no such interface</comment>
         <translation>Nem sikerült felhasználni egyik %1 interfész portot sem. Indok: %2</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1944"/>
+        <location filename="../base/bittorrent/session.cpp" line="2796"/>
         <source>Tracker &apos;%1&apos; was added to torrent &apos;%2&apos;</source>
         <translation>&apos;%1&apos; tracker hozzá lett adva a(z) &apos;%2&apos; torrenthez</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1954"/>
+        <location filename="../base/bittorrent/session.cpp" line="2806"/>
         <source>Tracker &apos;%1&apos; was deleted from torrent &apos;%2&apos;</source>
         <translation>&apos;%1&apos; URL seed törölve a(z) &apos;%2&apos; torrentből.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1969"/>
+        <location filename="../base/bittorrent/session.cpp" line="2821"/>
         <source>URL seed &apos;%1&apos; was added to torrent &apos;%2&apos;</source>
         <translation>&apos;%1&apos; URL seed hozzáadva a(z) &apos;%2&apos; torrenthez.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1975"/>
+        <location filename="../base/bittorrent/session.cpp" line="2827"/>
         <source>URL seed &apos;%1&apos; was removed from torrent &apos;%2&apos;</source>
         <translation>&apos;%1&apos; URL seed eltávolítva a(z) &apos;%2&apos; torrentből.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2243"/>
+        <location filename="../base/bittorrent/session.cpp" line="3058"/>
         <source>Unable to resume torrent &apos;%1&apos;.</source>
         <comment>e.g: Unable to resume torrent &apos;hash&apos;.</comment>
         <translation>Nem lehet folytatni a(z) &apos;%1&apos; torrentet.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2302"/>
+        <location filename="../base/bittorrent/session.cpp" line="3117"/>
         <source>Successfully parsed the provided IP filter: %1 rules were applied.</source>
         <comment>%1 is a number</comment>
         <translation>A következő IP szűrő sikeresen feldolgozva: %1 szabály alkalmazva.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2308"/>
+        <location filename="../base/bittorrent/session.cpp" line="3123"/>
         <source>Error: Failed to parse the provided IP filter.</source>
         <translation>Hiba: az IP szűrő megnyitása sikertelen.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2513"/>
+        <location filename="../base/bittorrent/session.cpp" line="3327"/>
         <source>Couldn&apos;t add torrent. Reason: %1</source>
         <translation>Nem lehet torrentet hozzáadni. Ok: %1</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2459"/>
+        <location filename="../base/bittorrent/session.cpp" line="3273"/>
         <source>&apos;%1&apos; resumed. (fast resume)</source>
         <comment>&apos;torrent name&apos; was resumed. (fast resume)</comment>
         <translation>&apos;%1&apos; folytatva. (gyors folytatás)</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2490"/>
+        <location filename="../base/bittorrent/session.cpp" line="3304"/>
         <source>&apos;%1&apos; added to download list.</source>
         <comment>&apos;torrent name&apos; was added to download list.</comment>
         <translation>&apos;%1&apos; felvéve a letöltési listára.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2561"/>
+        <location filename="../base/bittorrent/session.cpp" line="3375"/>
         <source>An I/O error occurred, &apos;%1&apos; paused. %2</source>
         <translation>I/O hiba történt, &apos;%1&apos; szüneteltetve. %2</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2569"/>
+        <location filename="../base/bittorrent/session.cpp" line="3383"/>
         <source>UPnP/NAT-PMP: Port mapping failure, message: %1</source>
         <translation>UPnP/NAT-PMP: Port lefoglalása sikertelen, hibaüzenet: %1</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2575"/>
+        <location filename="../base/bittorrent/session.cpp" line="3389"/>
         <source>UPnP/NAT-PMP: Port mapping successful, message: %1</source>
         <translation>UPnP/NAT-PMP: Port lefoglalása sikeres, hibaüzenet: %1</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2585"/>
+        <location filename="../base/bittorrent/session.cpp" line="3399"/>
         <source>due to IP filter.</source>
         <comment>this peer was blocked due to ip filter.</comment>
         <translation>IP szűrő miatt.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2588"/>
+        <location filename="../base/bittorrent/session.cpp" line="3402"/>
         <source>due to port filter.</source>
         <comment>this peer was blocked due to port filter.</comment>
         <translation>port szűrő miatt.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2591"/>
+        <location filename="../base/bittorrent/session.cpp" line="3405"/>
         <source>due to i2p mixed mode restrictions.</source>
         <comment>this peer was blocked due to i2p mixed mode restrictions.</comment>
         <translation>i2p kevert mód korlátozás miatt.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2594"/>
+        <location filename="../base/bittorrent/session.cpp" line="3408"/>
         <source>because it has a low port.</source>
         <comment>this peer was blocked because it has a low port.</comment>
         <translation>mert alacsony porttal rendelkezik.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2632"/>
+        <location filename="../base/bittorrent/session.cpp" line="3446"/>
         <source>qBittorrent is successfully listening on interface %1 port: %2/%3</source>
         <comment>e.g: qBittorrent is successfully listening on interface 192.168.0.1 port: TCP/6881</comment>
         <translation>A qBittorrent sikeresen használatba vette a %2/%3 portot - a %1 interfészen</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2667"/>
+        <location filename="../base/bittorrent/session.cpp" line="3481"/>
         <source>External IP: %1</source>
         <comment>e.g. External IP: 192.168.0.1</comment>
         <translation>Külső IP: %1</translation>
@@ -2259,12 +2240,12 @@ A kategórianév nem tartalmazhatja a „//” karaktersorozatot.</translation>
     <message>
         <location filename="../gui/mainwindow.ui" line="389"/>
         <location filename="../gui/mainwindow.ui" line="423"/>
-        <location filename="../gui/mainwindow.cpp" line="1401"/>
+        <location filename="../gui/mainwindow.cpp" line="1407"/>
         <source>Show</source>
         <translation>Mutat</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1587"/>
+        <location filename="../gui/mainwindow.cpp" line="1594"/>
         <source>Check for program updates</source>
         <translation>Frissítések keresése indításkor</translation>
     </message>
@@ -2279,240 +2260,235 @@ A kategórianév nem tartalmazhatja a „//” karaktersorozatot.</translation>
         <translation>Ha kedveled a qBittorrentet, kélek támogasd!</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1615"/>
+        <location filename="../gui/mainwindow.cpp" line="1622"/>
         <source>Execution Log</source>
         <translation>Napló</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="569"/>
+        <location filename="../gui/mainwindow.cpp" line="581"/>
         <source>Clear the password</source>
         <translation>Jelszó törlése</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="210"/>
+        <location filename="../gui/mainwindow.cpp" line="214"/>
         <source>Filter torrent list...</source>
         <translation>Torrent lista szűrése...</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="180"/>
+        <location filename="../gui/mainwindow.cpp" line="184"/>
         <source>&amp;Set Password</source>
         <translation>&amp;Jelszó beállítása</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="182"/>
+        <location filename="../gui/mainwindow.cpp" line="186"/>
         <source>&amp;Clear Password</source>
         <translation>&amp;Jelszó törlése</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="228"/>
+        <location filename="../gui/mainwindow.cpp" line="233"/>
         <source>Transfers</source>
         <translation>Átvitelek</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="382"/>
+        <location filename="../gui/mainwindow.cpp" line="387"/>
         <source>Torrent file association</source>
         <translation>Torrent fájl társítás</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="383"/>
+        <location filename="../gui/mainwindow.cpp" line="388"/>
         <source>qBittorrent is not the default application to open torrent files or Magnet links.
 Do you want to associate qBittorrent to torrent files and Magnet links?</source>
         <translation>A qBittorrent nem az alapértelmezett .torrent vagy Magnet link kezelő alkalmazás.
 Szeretnéd alapértelmezetté tenni?</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="458"/>
+        <location filename="../gui/mainwindow.cpp" line="470"/>
         <source>Icons Only</source>
         <translation>Csak ikonok</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="460"/>
+        <location filename="../gui/mainwindow.cpp" line="472"/>
         <source>Text Only</source>
         <translation>Csak szöveg</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="462"/>
+        <location filename="../gui/mainwindow.cpp" line="474"/>
         <source>Text Alongside Icons</source>
         <translation>Szöveg az ikonok mellett</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="464"/>
+        <location filename="../gui/mainwindow.cpp" line="476"/>
         <source>Text Under Icons</source>
         <translation>Szöveg az ikonok alatt</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="466"/>
+        <location filename="../gui/mainwindow.cpp" line="478"/>
         <source>Follow System Style</source>
         <translation>Rendszer kinézetének követése</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="553"/>
-        <location filename="../gui/mainwindow.cpp" line="581"/>
-        <location filename="../gui/mainwindow.cpp" line="888"/>
+        <location filename="../gui/mainwindow.cpp" line="565"/>
+        <location filename="../gui/mainwindow.cpp" line="593"/>
+        <location filename="../gui/mainwindow.cpp" line="894"/>
         <source>UI lock password</source>
         <translation>UI jelszó</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="553"/>
-        <location filename="../gui/mainwindow.cpp" line="581"/>
-        <location filename="../gui/mainwindow.cpp" line="888"/>
+        <location filename="../gui/mainwindow.cpp" line="565"/>
+        <location filename="../gui/mainwindow.cpp" line="593"/>
+        <location filename="../gui/mainwindow.cpp" line="894"/>
         <source>Please type the UI lock password:</source>
         <translation>Kérlek add meg az UI jelszavát:</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="557"/>
+        <location filename="../gui/mainwindow.cpp" line="569"/>
         <source>The password should contain at least 3 characters</source>
         <translation>A jelszónak legalább 3 karaktert kell tartalmaznia</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="562"/>
+        <location filename="../gui/mainwindow.cpp" line="574"/>
         <source>Password update</source>
         <translation>Jelszó frissítés</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="562"/>
+        <location filename="../gui/mainwindow.cpp" line="574"/>
         <source>The UI lock password has been successfully updated</source>
         <translation>Az UI jelszó sikeresen frissítve</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="569"/>
+        <location filename="../gui/mainwindow.cpp" line="581"/>
         <source>Are you sure you want to clear the password?</source>
         <translation>Biztosan ki akarod törölni a jelszót?</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="621"/>
+        <location filename="../gui/mainwindow.cpp" line="633"/>
         <source>Search</source>
         <translation>Keresés</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="632"/>
+        <location filename="../gui/mainwindow.cpp" line="644"/>
         <source>Transfers (%1)</source>
         <translation>Átvitelek (%1)</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="722"/>
+        <location filename="../gui/mainwindow.cpp" line="734"/>
         <source>Error</source>
         <translation>Hiba</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="722"/>
+        <location filename="../gui/mainwindow.cpp" line="734"/>
         <source>Failed to add torrent: %1</source>
         <translation>Torrent hozzáadása nem sikerült: %1</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="729"/>
+        <location filename="../gui/mainwindow.cpp" line="741"/>
         <source>Torrent added</source>
         <translation>Torrent hozzáadva</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="729"/>
+        <location filename="../gui/mainwindow.cpp" line="741"/>
         <source>&apos;%1&apos; was added.</source>
         <comment>e.g: xxx.avi was added.</comment>
         <translation>„%1” hozzáadva.</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="735"/>
+        <location filename="../gui/mainwindow.cpp" line="747"/>
         <source>Download completion</source>
         <translation>Elkészült letöltés</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="741"/>
+        <location filename="../gui/mainwindow.cpp" line="753"/>
         <source>I/O Error</source>
         <comment>i.e: Input/Output Error</comment>
         <translation>I/O Hiba</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="802"/>
+        <location filename="../gui/mainwindow.cpp" line="814"/>
         <source>Recursive download confirmation</source>
         <translation>Letöltés ismételt megerősítése</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="803"/>
+        <location filename="../gui/mainwindow.cpp" line="815"/>
         <source>Yes</source>
         <translation>Igen</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="804"/>
+        <location filename="../gui/mainwindow.cpp" line="816"/>
         <source>No</source>
         <translation>Nem</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="805"/>
+        <location filename="../gui/mainwindow.cpp" line="817"/>
         <source>Never</source>
         <translation>Soha</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="825"/>
+        <location filename="../gui/mainwindow.cpp" line="838"/>
         <source>Global Upload Speed Limit</source>
         <translation>Teljes feltöltési sebesség korlát</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="841"/>
+        <location filename="../gui/mainwindow.cpp" line="851"/>
         <source>Global Download Speed Limit</source>
         <translation>Teljes letöltési sebesség korlát</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="991"/>
+        <location filename="../gui/mainwindow.cpp" line="997"/>
         <source>&amp;No</source>
         <translation>&amp;Nem</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="992"/>
+        <location filename="../gui/mainwindow.cpp" line="998"/>
         <source>&amp;Yes</source>
         <translation>&amp;Igen</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="993"/>
+        <location filename="../gui/mainwindow.cpp" line="999"/>
         <source>&amp;Always Yes</source>
         <translation>&amp;Mindig igen</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1488"/>
-        <source>Python found in %1</source>
-        <translation>Python verzió: %1</translation>
-    </message>
-    <message>
-        <location filename="../gui/mainwindow.cpp" line="1506"/>
+        <location filename="../gui/mainwindow.cpp" line="1513"/>
         <source>Old Python Interpreter</source>
         <translation>Elavult Python bővítmény</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1506"/>
+        <location filename="../gui/mainwindow.cpp" line="1513"/>
         <source>Your Python version (%1) is outdated. Please upgrade to latest version for search engines to work.
 Minimum requirement: 2.7.9 / 3.3.0.</source>
         <translation>A telepített Python verzió (%1) elavult. A legújabb verzió szükséges a keresőmotorok működéséhez.
 Minimális követelmény: 2.7.9 / 3.3.0.</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1571"/>
+        <location filename="../gui/mainwindow.cpp" line="1578"/>
         <source>qBittorrent Update Available</source>
         <translation>Elérhető qBittorrent frissítés</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1572"/>
+        <location filename="../gui/mainwindow.cpp" line="1579"/>
         <source>A new version is available.
 Do you want to download %1?</source>
         <translation>Egy új verzió érhető el.
 Frissítés a %1 verzióra?</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1581"/>
+        <location filename="../gui/mainwindow.cpp" line="1588"/>
         <source>Already Using the Latest qBittorrent Version</source>
         <translation>Már a legújabb verziót használod</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1516"/>
+        <location filename="../gui/mainwindow.cpp" line="1523"/>
         <source>Undetermined Python version</source>
         <translation>Ismeretlen Python verzió</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="735"/>
+        <location filename="../gui/mainwindow.cpp" line="747"/>
         <source>&apos;%1&apos; has finished downloading.</source>
         <comment>e.g: xxx.avi has finished downloading.</comment>
         <translation>&apos;%1&apos; befejezte a letöltést.</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="741"/>
+        <location filename="../gui/mainwindow.cpp" line="753"/>
         <source>An I/O error occurred for torrent &apos;%1&apos;.
  Reason: %2</source>
         <comment>e.g: An error occurred for torrent &apos;xxx.avi&apos;.
@@ -2520,146 +2496,152 @@ Frissítés a %1 verzióra?</translation>
         <translation>I/O hiba történt ennél a torrentnél &apos;%1&apos;. Oka: &apos;%2&apos;</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="802"/>
+        <location filename="../gui/mainwindow.cpp" line="814"/>
         <source>The torrent &apos;%1&apos; contains torrent files, do you want to proceed with their download?</source>
         <translation>A &apos;%1&apos; torrent .torrent fájlokat is tartalmaz. Szeretnéd folytatni a letöltést?</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="817"/>
+        <location filename="../gui/mainwindow.cpp" line="829"/>
         <source>Couldn&apos;t download file at URL &apos;%1&apos;, reason: %2.</source>
         <translation>Nem sikerült letölteni URL címről: &apos;%1&apos;, mert: %2.</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1516"/>
+        <location filename="../gui/mainwindow.cpp" line="1495"/>
+        <source>Python found in %1: %2</source>
+        <comment>Python found in PATH: /usr/local/bin:/usr/bin:/etc/bin</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/mainwindow.cpp" line="1523"/>
         <source>Couldn&apos;t determine your Python version (%1). Search engine disabled.</source>
         <translation>Nem lehet megállapítani a Python verzióját (%1). A keresőmező ki lett kapcsolva.</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1527"/>
-        <location filename="../gui/mainwindow.cpp" line="1539"/>
+        <location filename="../gui/mainwindow.cpp" line="1534"/>
+        <location filename="../gui/mainwindow.cpp" line="1546"/>
         <source>Missing Python Interpreter</source>
         <translation>Hiányzó Python Interpreter</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1528"/>
+        <location filename="../gui/mainwindow.cpp" line="1535"/>
         <source>Python is required to use the search engine but it does not seem to be installed.
 Do you want to install it now?</source>
         <translation>A kereső használatához Python szükséges, de úgy tűnik nincs telepítve. Szeretnéd most telepíteni?</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1539"/>
+        <location filename="../gui/mainwindow.cpp" line="1546"/>
         <source>Python is required to use the search engine but it does not seem to be installed.</source>
         <translation>A keresőhöz Python szükséges, de nincs installálva.</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1582"/>
+        <location filename="../gui/mainwindow.cpp" line="1589"/>
         <source>No updates available.
 You are already using the latest version.</source>
         <translation>Nincs elérhető frissítés. A legfrissebb verziót használod.</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1586"/>
+        <location filename="../gui/mainwindow.cpp" line="1593"/>
         <source>&amp;Check for Updates</source>
         <translation>&amp;Frissítések ellenőrzése</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1729"/>
+        <location filename="../gui/mainwindow.cpp" line="1736"/>
         <source>Checking for Updates...</source>
         <translation>Frissítések keresése...</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1730"/>
+        <location filename="../gui/mainwindow.cpp" line="1737"/>
         <source>Already checking for program updates in the background</source>
         <translation>A frissítések keresése már fut a háttérben</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1745"/>
+        <location filename="../gui/mainwindow.cpp" line="1752"/>
         <source>Python found in &apos;%1&apos;</source>
         <translation>Python verzió: %1</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1798"/>
+        <location filename="../gui/mainwindow.cpp" line="1819"/>
         <source>Download error</source>
         <translation>Letöltési hiba</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1798"/>
+        <location filename="../gui/mainwindow.cpp" line="1819"/>
         <source>Python setup could not be downloaded, reason: %1.
 Please install it manually.</source>
         <translation>A Python telepítőt nem sikerült letölteni, mivel: %1.
 Kérlek telepítsd fel kézzel.</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="557"/>
-        <location filename="../gui/mainwindow.cpp" line="903"/>
+        <location filename="../gui/mainwindow.cpp" line="569"/>
+        <location filename="../gui/mainwindow.cpp" line="909"/>
         <source>Invalid password</source>
         <translation>Érvénytelen jelszó</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="599"/>
         <location filename="../gui/mainwindow.cpp" line="611"/>
+        <location filename="../gui/mainwindow.cpp" line="623"/>
         <source>RSS (%1)</source>
         <translation>RSS (%1)</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="817"/>
+        <location filename="../gui/mainwindow.cpp" line="829"/>
         <source>URL download error</source>
         <translation>URL letöltés hiba</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="903"/>
+        <location filename="../gui/mainwindow.cpp" line="909"/>
         <source>The password is invalid</source>
         <translation>A jelszó érvénytelen</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1291"/>
-        <location filename="../gui/mainwindow.cpp" line="1298"/>
+        <location filename="../gui/mainwindow.cpp" line="1297"/>
+        <location filename="../gui/mainwindow.cpp" line="1304"/>
         <source>DL speed: %1</source>
         <comment>e.g: Download speed: 10 KiB/s</comment>
         <translation>Letöltési sebsesség: %1</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1294"/>
         <location filename="../gui/mainwindow.cpp" line="1300"/>
+        <location filename="../gui/mainwindow.cpp" line="1306"/>
         <source>UP speed: %1</source>
         <comment>e.g: Upload speed: 10 KiB/s</comment>
         <translation>Feltöltési sebesség: %1</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1306"/>
+        <location filename="../gui/mainwindow.cpp" line="1312"/>
         <source>[D: %1, U: %2] qBittorrent %3</source>
         <comment>D = Download; U = Upload; %3 is qBittorrent version</comment>
         <translation>[L: %1/s, F: %2/s] qBittorrent %3</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1401"/>
+        <location filename="../gui/mainwindow.cpp" line="1407"/>
         <source>Hide</source>
         <translation>Elrejt</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="988"/>
+        <location filename="../gui/mainwindow.cpp" line="994"/>
         <source>Exiting qBittorrent</source>
         <translation>qBittorrent bezárása</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="989"/>
+        <location filename="../gui/mainwindow.cpp" line="995"/>
         <source>Some files are currently transferring.
 Are you sure you want to quit qBittorrent?</source>
         <translation>Néhány átvitel még folyamatban van.
 Biztos, hogy bezárod a qBittorrentet?</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1132"/>
+        <location filename="../gui/mainwindow.cpp" line="1138"/>
         <source>Open Torrent Files</source>
         <translation>Torrent Fájl Megnyitása</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1133"/>
+        <location filename="../gui/mainwindow.cpp" line="1139"/>
         <source>Torrent Files</source>
         <translation>Torrent Fájlok</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1168"/>
+        <location filename="../gui/mainwindow.cpp" line="1174"/>
         <source>Options were saved successfully.</source>
         <translation>Beállítások sikeresen elmentve.</translation>
     </message>
@@ -2738,1285 +2720,1285 @@ Biztos, hogy bezárod a qBittorrentet?</translation>
 <context>
     <name>Net::GeoIPManager</name>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="104"/>
-        <location filename="../base/net/geoipmanager.cpp" line="431"/>
+        <location filename="../base/net/geoipmanager.cpp" line="103"/>
+        <location filename="../base/net/geoipmanager.cpp" line="430"/>
         <source>GeoIP database loaded. Type: %1. Build time: %2.</source>
         <translation>GeoIP adatbázis betöltve. Típus: %1. Létrehozás ideje: %2.</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="108"/>
-        <location filename="../base/net/geoipmanager.cpp" line="452"/>
+        <location filename="../base/net/geoipmanager.cpp" line="107"/>
+        <location filename="../base/net/geoipmanager.cpp" line="451"/>
         <source>Couldn&apos;t load GeoIP database. Reason: %1</source>
         <translation>GeoIP adatbázist nem lehet betölteni. Ok: %1</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="380"/>
+        <location filename="../base/net/geoipmanager.cpp" line="379"/>
         <source>Venezuela, Bolivarian Republic of</source>
         <translation>Venezuelai Bolivári Köztársaság</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="383"/>
+        <location filename="../base/net/geoipmanager.cpp" line="382"/>
         <source>Viet Nam</source>
         <translation>Vietnam</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="393"/>
-        <location filename="../base/net/geoipmanager.cpp" line="397"/>
+        <location filename="../base/net/geoipmanager.cpp" line="392"/>
+        <location filename="../base/net/geoipmanager.cpp" line="396"/>
         <source>N/A</source>
         <translation>N/A</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="143"/>
+        <location filename="../base/net/geoipmanager.cpp" line="142"/>
         <source>Andorra</source>
         <translation>Andorra</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="144"/>
+        <location filename="../base/net/geoipmanager.cpp" line="143"/>
         <source>United Arab Emirates</source>
         <translation>Egyesült Arab Emírségek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="145"/>
+        <location filename="../base/net/geoipmanager.cpp" line="144"/>
         <source>Afghanistan</source>
         <translation>Afganisztán</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="146"/>
+        <location filename="../base/net/geoipmanager.cpp" line="145"/>
         <source>Antigua and Barbuda</source>
         <translation>Antigua és Barbuda</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="147"/>
+        <location filename="../base/net/geoipmanager.cpp" line="146"/>
         <source>Anguilla</source>
         <translation>Anguilla</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="148"/>
+        <location filename="../base/net/geoipmanager.cpp" line="147"/>
         <source>Albania</source>
         <translation>Albánia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="149"/>
+        <location filename="../base/net/geoipmanager.cpp" line="148"/>
         <source>Armenia</source>
         <translation>Örményország</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="150"/>
+        <location filename="../base/net/geoipmanager.cpp" line="149"/>
         <source>Angola</source>
         <translation>Angola</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="151"/>
+        <location filename="../base/net/geoipmanager.cpp" line="150"/>
         <source>Antarctica</source>
         <translation>Antarktisz</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="152"/>
+        <location filename="../base/net/geoipmanager.cpp" line="151"/>
         <source>Argentina</source>
         <translation>Argentína</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="153"/>
+        <location filename="../base/net/geoipmanager.cpp" line="152"/>
         <source>American Samoa</source>
         <translation>Amerikai Szamoa</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="154"/>
+        <location filename="../base/net/geoipmanager.cpp" line="153"/>
         <source>Austria</source>
         <translation>Ausztria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="155"/>
+        <location filename="../base/net/geoipmanager.cpp" line="154"/>
         <source>Australia</source>
         <translation>Ausztrália</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="156"/>
+        <location filename="../base/net/geoipmanager.cpp" line="155"/>
         <source>Aruba</source>
         <translation>Aruba</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="158"/>
+        <location filename="../base/net/geoipmanager.cpp" line="157"/>
         <source>Azerbaijan</source>
         <translation>Azerbajdzsán</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="159"/>
+        <location filename="../base/net/geoipmanager.cpp" line="158"/>
         <source>Bosnia and Herzegovina</source>
         <translation>Bosznia-Hercegovina</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="160"/>
+        <location filename="../base/net/geoipmanager.cpp" line="159"/>
         <source>Barbados</source>
         <translation>Barbados</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="161"/>
+        <location filename="../base/net/geoipmanager.cpp" line="160"/>
         <source>Bangladesh</source>
         <translation>Banglades</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="162"/>
+        <location filename="../base/net/geoipmanager.cpp" line="161"/>
         <source>Belgium</source>
         <translation>Belgium</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="163"/>
+        <location filename="../base/net/geoipmanager.cpp" line="162"/>
         <source>Burkina Faso</source>
         <translation>Burkina Faso</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="164"/>
+        <location filename="../base/net/geoipmanager.cpp" line="163"/>
         <source>Bulgaria</source>
         <translation>Bulgária</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="165"/>
+        <location filename="../base/net/geoipmanager.cpp" line="164"/>
         <source>Bahrain</source>
         <translation>Bahrain</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="166"/>
+        <location filename="../base/net/geoipmanager.cpp" line="165"/>
         <source>Burundi</source>
         <translation>Burundi</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="167"/>
+        <location filename="../base/net/geoipmanager.cpp" line="166"/>
         <source>Benin</source>
         <translation>Benin</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="169"/>
+        <location filename="../base/net/geoipmanager.cpp" line="168"/>
         <source>Bermuda</source>
         <translation>Bermuda</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="170"/>
+        <location filename="../base/net/geoipmanager.cpp" line="169"/>
         <source>Brunei Darussalam</source>
         <translation>Brunei Szultanátus</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="173"/>
+        <location filename="../base/net/geoipmanager.cpp" line="172"/>
         <source>Brazil</source>
         <translation>Brazília</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="174"/>
+        <location filename="../base/net/geoipmanager.cpp" line="173"/>
         <source>Bahamas</source>
         <translation>Bahama-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="175"/>
+        <location filename="../base/net/geoipmanager.cpp" line="174"/>
         <source>Bhutan</source>
         <translation>Bhután</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="176"/>
+        <location filename="../base/net/geoipmanager.cpp" line="175"/>
         <source>Bouvet Island</source>
         <translation>Bouvet-sziget</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="177"/>
+        <location filename="../base/net/geoipmanager.cpp" line="176"/>
         <source>Botswana</source>
         <translation>Botswana</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="178"/>
+        <location filename="../base/net/geoipmanager.cpp" line="177"/>
         <source>Belarus</source>
         <translation>Belorusszia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="179"/>
+        <location filename="../base/net/geoipmanager.cpp" line="178"/>
         <source>Belize</source>
         <translation>Belize</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="180"/>
+        <location filename="../base/net/geoipmanager.cpp" line="179"/>
         <source>Canada</source>
         <translation>Kanada</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="181"/>
+        <location filename="../base/net/geoipmanager.cpp" line="180"/>
         <source>Cocos (Keeling) Islands</source>
         <translation>Kókusz (Keeling)-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="182"/>
+        <location filename="../base/net/geoipmanager.cpp" line="181"/>
         <source>Congo, The Democratic Republic of the</source>
         <translation>Kongói Demokratikus Köztársaság</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="183"/>
+        <location filename="../base/net/geoipmanager.cpp" line="182"/>
         <source>Central African Republic</source>
         <translation>Közép-Afrikai Köztársaság</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="184"/>
+        <location filename="../base/net/geoipmanager.cpp" line="183"/>
         <source>Congo</source>
         <translation>Kongó</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="185"/>
+        <location filename="../base/net/geoipmanager.cpp" line="184"/>
         <source>Switzerland</source>
         <translation>Svájc</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="187"/>
+        <location filename="../base/net/geoipmanager.cpp" line="186"/>
         <source>Cook Islands</source>
         <translation>Cook-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="188"/>
+        <location filename="../base/net/geoipmanager.cpp" line="187"/>
         <source>Chile</source>
         <translation>Chile</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="189"/>
+        <location filename="../base/net/geoipmanager.cpp" line="188"/>
         <source>Cameroon</source>
         <translation>Kamerun</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="190"/>
+        <location filename="../base/net/geoipmanager.cpp" line="189"/>
         <source>China</source>
         <translation>Kína</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="191"/>
+        <location filename="../base/net/geoipmanager.cpp" line="190"/>
         <source>Colombia</source>
         <translation>Kolumbia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="192"/>
+        <location filename="../base/net/geoipmanager.cpp" line="191"/>
         <source>Costa Rica</source>
         <translation>Costa Rica</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="193"/>
+        <location filename="../base/net/geoipmanager.cpp" line="192"/>
         <source>Cuba</source>
         <translation>Kuba</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="194"/>
+        <location filename="../base/net/geoipmanager.cpp" line="193"/>
         <source>Cape Verde</source>
         <translation>Zöld-foki Köztársaság</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="195"/>
+        <location filename="../base/net/geoipmanager.cpp" line="194"/>
         <source>Curacao</source>
         <translation>Curaçao</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="196"/>
+        <location filename="../base/net/geoipmanager.cpp" line="195"/>
         <source>Christmas Island</source>
         <translation>Karácsony-sziget</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="197"/>
+        <location filename="../base/net/geoipmanager.cpp" line="196"/>
         <source>Cyprus</source>
         <translation>Ciprus</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="198"/>
+        <location filename="../base/net/geoipmanager.cpp" line="197"/>
         <source>Czech Republic</source>
         <translation>Cseh Köztársaság</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="199"/>
+        <location filename="../base/net/geoipmanager.cpp" line="198"/>
         <source>Germany</source>
         <translation>Németország</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="200"/>
+        <location filename="../base/net/geoipmanager.cpp" line="199"/>
         <source>Djibouti</source>
         <translation>Dzsibuti</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="201"/>
+        <location filename="../base/net/geoipmanager.cpp" line="200"/>
         <source>Denmark</source>
         <translation>Dánia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="202"/>
+        <location filename="../base/net/geoipmanager.cpp" line="201"/>
         <source>Dominica</source>
         <translation>Dominika</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="203"/>
+        <location filename="../base/net/geoipmanager.cpp" line="202"/>
         <source>Dominican Republic</source>
         <translation>Dominikai Köztársaság</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="204"/>
+        <location filename="../base/net/geoipmanager.cpp" line="203"/>
         <source>Algeria</source>
         <translation>Algéria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="205"/>
+        <location filename="../base/net/geoipmanager.cpp" line="204"/>
         <source>Ecuador</source>
         <translation>Ecuador</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="206"/>
+        <location filename="../base/net/geoipmanager.cpp" line="205"/>
         <source>Estonia</source>
         <translation>Észtország</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="207"/>
+        <location filename="../base/net/geoipmanager.cpp" line="206"/>
         <source>Egypt</source>
         <translation>Egyiptom</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="208"/>
+        <location filename="../base/net/geoipmanager.cpp" line="207"/>
         <source>Western Sahara</source>
         <translation>Nyugat-Szahara</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="209"/>
+        <location filename="../base/net/geoipmanager.cpp" line="208"/>
         <source>Eritrea</source>
         <translation>Eritrea</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="210"/>
+        <location filename="../base/net/geoipmanager.cpp" line="209"/>
         <source>Spain</source>
         <translation>Spanyolország</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="211"/>
+        <location filename="../base/net/geoipmanager.cpp" line="210"/>
         <source>Ethiopia</source>
         <translation>Etiópia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="212"/>
+        <location filename="../base/net/geoipmanager.cpp" line="211"/>
         <source>Finland</source>
         <translation>Finnország</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="213"/>
+        <location filename="../base/net/geoipmanager.cpp" line="212"/>
         <source>Fiji</source>
         <translation>Fidzsi-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="214"/>
+        <location filename="../base/net/geoipmanager.cpp" line="213"/>
         <source>Falkland Islands (Malvinas)</source>
         <translation>Falkland-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="215"/>
+        <location filename="../base/net/geoipmanager.cpp" line="214"/>
         <source>Micronesia, Federated States of</source>
         <translation>Mikronéziai Szövetségi Államok</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="216"/>
+        <location filename="../base/net/geoipmanager.cpp" line="215"/>
         <source>Faroe Islands</source>
         <translation>Feröer-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="217"/>
+        <location filename="../base/net/geoipmanager.cpp" line="216"/>
         <source>France</source>
         <translation>Franciaország</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="218"/>
+        <location filename="../base/net/geoipmanager.cpp" line="217"/>
         <source>Gabon</source>
         <translation>Gabon</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="219"/>
+        <location filename="../base/net/geoipmanager.cpp" line="218"/>
         <source>United Kingdom</source>
         <translation>Egyesült Királyság</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="220"/>
+        <location filename="../base/net/geoipmanager.cpp" line="219"/>
         <source>Grenada</source>
         <translation>Grenada</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="221"/>
+        <location filename="../base/net/geoipmanager.cpp" line="220"/>
         <source>Georgia</source>
         <translation>Grúzia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="222"/>
+        <location filename="../base/net/geoipmanager.cpp" line="221"/>
         <source>French Guiana</source>
         <translation>Francia Guyana</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="224"/>
+        <location filename="../base/net/geoipmanager.cpp" line="223"/>
         <source>Ghana</source>
         <translation>Ghána</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="225"/>
+        <location filename="../base/net/geoipmanager.cpp" line="224"/>
         <source>Gibraltar</source>
         <translation>Gibraltár</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="226"/>
+        <location filename="../base/net/geoipmanager.cpp" line="225"/>
         <source>Greenland</source>
         <translation>Grönland</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="227"/>
+        <location filename="../base/net/geoipmanager.cpp" line="226"/>
         <source>Gambia</source>
         <translation>Gambia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="228"/>
+        <location filename="../base/net/geoipmanager.cpp" line="227"/>
         <source>Guinea</source>
         <translation>Guinea</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="229"/>
+        <location filename="../base/net/geoipmanager.cpp" line="228"/>
         <source>Guadeloupe</source>
         <translation>Guadeloupe</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="230"/>
+        <location filename="../base/net/geoipmanager.cpp" line="229"/>
         <source>Equatorial Guinea</source>
         <translation>Egyenlítői-Guinea</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="231"/>
+        <location filename="../base/net/geoipmanager.cpp" line="230"/>
         <source>Greece</source>
         <translation>Görögország</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="232"/>
+        <location filename="../base/net/geoipmanager.cpp" line="231"/>
         <source>South Georgia and the South Sandwich Islands</source>
         <translation>Déli-Georgia és Déli-Sandwich-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="233"/>
+        <location filename="../base/net/geoipmanager.cpp" line="232"/>
         <source>Guatemala</source>
         <translation>Guatemala</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="234"/>
+        <location filename="../base/net/geoipmanager.cpp" line="233"/>
         <source>Guam</source>
         <translation>Guam</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="235"/>
+        <location filename="../base/net/geoipmanager.cpp" line="234"/>
         <source>Guinea-Bissau</source>
         <translation>Bissau-Guinea</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="236"/>
+        <location filename="../base/net/geoipmanager.cpp" line="235"/>
         <source>Guyana</source>
         <translation>Guyana</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="237"/>
+        <location filename="../base/net/geoipmanager.cpp" line="236"/>
         <source>Hong Kong</source>
         <translation>Hong Kong</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="238"/>
+        <location filename="../base/net/geoipmanager.cpp" line="237"/>
         <source>Heard Island and McDonald Islands</source>
         <translation>Heard-sziget és McDonald-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="239"/>
+        <location filename="../base/net/geoipmanager.cpp" line="238"/>
         <source>Honduras</source>
         <translation>Honduras</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="240"/>
+        <location filename="../base/net/geoipmanager.cpp" line="239"/>
         <source>Croatia</source>
         <translation>Horvátország</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="241"/>
+        <location filename="../base/net/geoipmanager.cpp" line="240"/>
         <source>Haiti</source>
         <translation>Haiti</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="242"/>
+        <location filename="../base/net/geoipmanager.cpp" line="241"/>
         <source>Hungary</source>
         <translation>Magyarország</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="243"/>
+        <location filename="../base/net/geoipmanager.cpp" line="242"/>
         <source>Indonesia</source>
         <translation>Indonézia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="244"/>
+        <location filename="../base/net/geoipmanager.cpp" line="243"/>
         <source>Ireland</source>
         <translation>Írország</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="245"/>
+        <location filename="../base/net/geoipmanager.cpp" line="244"/>
         <source>Israel</source>
         <translation>Izrael</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="247"/>
+        <location filename="../base/net/geoipmanager.cpp" line="246"/>
         <source>India</source>
         <translation>India</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="248"/>
+        <location filename="../base/net/geoipmanager.cpp" line="247"/>
         <source>British Indian Ocean Territory</source>
         <translation>Brit Indiai-óceáni Terület</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="249"/>
+        <location filename="../base/net/geoipmanager.cpp" line="248"/>
         <source>Iraq</source>
         <translation>Irak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="250"/>
+        <location filename="../base/net/geoipmanager.cpp" line="249"/>
         <source>Iran, Islamic Republic of</source>
         <translation>Iráni Iszlám Köztársaság</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="251"/>
+        <location filename="../base/net/geoipmanager.cpp" line="250"/>
         <source>Iceland</source>
         <translation>Izland</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="252"/>
+        <location filename="../base/net/geoipmanager.cpp" line="251"/>
         <source>Italy</source>
         <translation>Olaszország</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="254"/>
+        <location filename="../base/net/geoipmanager.cpp" line="253"/>
         <source>Jamaica</source>
         <translation>Jamaica</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="255"/>
+        <location filename="../base/net/geoipmanager.cpp" line="254"/>
         <source>Jordan</source>
         <translation>Jordánia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="256"/>
+        <location filename="../base/net/geoipmanager.cpp" line="255"/>
         <source>Japan</source>
         <translation>Japán</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="257"/>
+        <location filename="../base/net/geoipmanager.cpp" line="256"/>
         <source>Kenya</source>
         <translation>Kenya</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="258"/>
+        <location filename="../base/net/geoipmanager.cpp" line="257"/>
         <source>Kyrgyzstan</source>
         <translation>Kirgizisztán</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="259"/>
+        <location filename="../base/net/geoipmanager.cpp" line="258"/>
         <source>Cambodia</source>
         <translation>Kambodzsa</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="260"/>
+        <location filename="../base/net/geoipmanager.cpp" line="259"/>
         <source>Kiribati</source>
         <translation>Kiribati</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="261"/>
+        <location filename="../base/net/geoipmanager.cpp" line="260"/>
         <source>Comoros</source>
         <translation>Comore-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="262"/>
+        <location filename="../base/net/geoipmanager.cpp" line="261"/>
         <source>Saint Kitts and Nevis</source>
         <translation>Saint Kitts és Nevis</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="263"/>
+        <location filename="../base/net/geoipmanager.cpp" line="262"/>
         <source>Korea, Democratic People&apos;s Republic of</source>
         <translation>Koreai Népi Demokratikus Köztársaság</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="264"/>
+        <location filename="../base/net/geoipmanager.cpp" line="263"/>
         <source>Korea, Republic of</source>
         <translation>Dél-Korea</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="265"/>
+        <location filename="../base/net/geoipmanager.cpp" line="264"/>
         <source>Kuwait</source>
         <translation>Kuvait</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="266"/>
+        <location filename="../base/net/geoipmanager.cpp" line="265"/>
         <source>Cayman Islands</source>
         <translation>Kajmán-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="267"/>
+        <location filename="../base/net/geoipmanager.cpp" line="266"/>
         <source>Kazakhstan</source>
         <translation>Kazahsztán</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="268"/>
+        <location filename="../base/net/geoipmanager.cpp" line="267"/>
         <source>Lao People&apos;s Democratic Republic</source>
         <translation>Laoszi Népi Demokratikus Köztársaság</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="269"/>
+        <location filename="../base/net/geoipmanager.cpp" line="268"/>
         <source>Lebanon</source>
         <translation>Libanon</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="270"/>
+        <location filename="../base/net/geoipmanager.cpp" line="269"/>
         <source>Saint Lucia</source>
         <translation>Saint Lucia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="271"/>
+        <location filename="../base/net/geoipmanager.cpp" line="270"/>
         <source>Liechtenstein</source>
         <translation>Liechtenstein</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="272"/>
+        <location filename="../base/net/geoipmanager.cpp" line="271"/>
         <source>Sri Lanka</source>
         <translation>Sri Lanka</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="273"/>
+        <location filename="../base/net/geoipmanager.cpp" line="272"/>
         <source>Liberia</source>
         <translation>Libéria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="274"/>
+        <location filename="../base/net/geoipmanager.cpp" line="273"/>
         <source>Lesotho</source>
         <translation>Lesotho</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="275"/>
+        <location filename="../base/net/geoipmanager.cpp" line="274"/>
         <source>Lithuania</source>
         <translation>Litvánia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="276"/>
+        <location filename="../base/net/geoipmanager.cpp" line="275"/>
         <source>Luxembourg</source>
         <translation>Luxemburg</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="277"/>
+        <location filename="../base/net/geoipmanager.cpp" line="276"/>
         <source>Latvia</source>
         <translation>Lettország</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="279"/>
+        <location filename="../base/net/geoipmanager.cpp" line="278"/>
         <source>Morocco</source>
         <translation>Marokkó</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="280"/>
+        <location filename="../base/net/geoipmanager.cpp" line="279"/>
         <source>Monaco</source>
         <translation>Monaco</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="281"/>
+        <location filename="../base/net/geoipmanager.cpp" line="280"/>
         <source>Moldova, Republic of</source>
         <translation>Moldovai Köztársaság</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="284"/>
+        <location filename="../base/net/geoipmanager.cpp" line="283"/>
         <source>Madagascar</source>
         <translation>Madagaszkár</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="285"/>
+        <location filename="../base/net/geoipmanager.cpp" line="284"/>
         <source>Marshall Islands</source>
         <translation>Marshall-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="287"/>
+        <location filename="../base/net/geoipmanager.cpp" line="286"/>
         <source>Mali</source>
         <translation>Mali</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="288"/>
+        <location filename="../base/net/geoipmanager.cpp" line="287"/>
         <source>Myanmar</source>
         <translation>Mianmar</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="289"/>
+        <location filename="../base/net/geoipmanager.cpp" line="288"/>
         <source>Mongolia</source>
         <translation>Mongólia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="291"/>
+        <location filename="../base/net/geoipmanager.cpp" line="290"/>
         <source>Northern Mariana Islands</source>
         <translation>Északi-Mariana-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="292"/>
+        <location filename="../base/net/geoipmanager.cpp" line="291"/>
         <source>Martinique</source>
         <translation>Martinique</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="293"/>
+        <location filename="../base/net/geoipmanager.cpp" line="292"/>
         <source>Mauritania</source>
         <translation>Mauritánia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="294"/>
+        <location filename="../base/net/geoipmanager.cpp" line="293"/>
         <source>Montserrat</source>
         <translation>Montserrat</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="295"/>
+        <location filename="../base/net/geoipmanager.cpp" line="294"/>
         <source>Malta</source>
         <translation>Málta</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="296"/>
+        <location filename="../base/net/geoipmanager.cpp" line="295"/>
         <source>Mauritius</source>
         <translation>Mauritius</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="297"/>
+        <location filename="../base/net/geoipmanager.cpp" line="296"/>
         <source>Maldives</source>
         <translation>Maldív-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="298"/>
+        <location filename="../base/net/geoipmanager.cpp" line="297"/>
         <source>Malawi</source>
         <translation>Malawi</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="299"/>
+        <location filename="../base/net/geoipmanager.cpp" line="298"/>
         <source>Mexico</source>
         <translation>Mexikó</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="300"/>
+        <location filename="../base/net/geoipmanager.cpp" line="299"/>
         <source>Malaysia</source>
         <translation>Malajzia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="301"/>
+        <location filename="../base/net/geoipmanager.cpp" line="300"/>
         <source>Mozambique</source>
         <translation>Mozambik</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="302"/>
+        <location filename="../base/net/geoipmanager.cpp" line="301"/>
         <source>Namibia</source>
         <translation>Namíbia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="303"/>
+        <location filename="../base/net/geoipmanager.cpp" line="302"/>
         <source>New Caledonia</source>
         <translation>Új-Kaledónia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="304"/>
+        <location filename="../base/net/geoipmanager.cpp" line="303"/>
         <source>Niger</source>
         <translation>Niger</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="305"/>
+        <location filename="../base/net/geoipmanager.cpp" line="304"/>
         <source>Norfolk Island</source>
         <translation>Norfolk-sziget</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="306"/>
+        <location filename="../base/net/geoipmanager.cpp" line="305"/>
         <source>Nigeria</source>
         <translation>Nigéria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="307"/>
+        <location filename="../base/net/geoipmanager.cpp" line="306"/>
         <source>Nicaragua</source>
         <translation>Nicaragua</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="308"/>
+        <location filename="../base/net/geoipmanager.cpp" line="307"/>
         <source>Netherlands</source>
         <translation>Hollandia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="309"/>
+        <location filename="../base/net/geoipmanager.cpp" line="308"/>
         <source>Norway</source>
         <translation>Norvégia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="310"/>
+        <location filename="../base/net/geoipmanager.cpp" line="309"/>
         <source>Nepal</source>
         <translation>Nepál</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="311"/>
+        <location filename="../base/net/geoipmanager.cpp" line="310"/>
         <source>Nauru</source>
         <translation>Nauru</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="312"/>
+        <location filename="../base/net/geoipmanager.cpp" line="311"/>
         <source>Niue</source>
         <translation>Niue</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="313"/>
+        <location filename="../base/net/geoipmanager.cpp" line="312"/>
         <source>New Zealand</source>
         <translation>Új-Zéland</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="314"/>
+        <location filename="../base/net/geoipmanager.cpp" line="313"/>
         <source>Oman</source>
         <translation>Omán</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="315"/>
+        <location filename="../base/net/geoipmanager.cpp" line="314"/>
         <source>Panama</source>
         <translation>Panama</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="316"/>
+        <location filename="../base/net/geoipmanager.cpp" line="315"/>
         <source>Peru</source>
         <translation>Peru</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="317"/>
+        <location filename="../base/net/geoipmanager.cpp" line="316"/>
         <source>French Polynesia</source>
         <translation>Francia Polinézia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="318"/>
+        <location filename="../base/net/geoipmanager.cpp" line="317"/>
         <source>Papua New Guinea</source>
         <translation>Pápua Új-Guinea</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="319"/>
+        <location filename="../base/net/geoipmanager.cpp" line="318"/>
         <source>Philippines</source>
         <translation>Fülöp-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="320"/>
+        <location filename="../base/net/geoipmanager.cpp" line="319"/>
         <source>Pakistan</source>
         <translation>Pakisztán</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="321"/>
+        <location filename="../base/net/geoipmanager.cpp" line="320"/>
         <source>Poland</source>
         <translation>Lengyelország</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="322"/>
+        <location filename="../base/net/geoipmanager.cpp" line="321"/>
         <source>Saint Pierre and Miquelon</source>
         <translation>Saint-Pierre és Miquelon</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="324"/>
+        <location filename="../base/net/geoipmanager.cpp" line="323"/>
         <source>Puerto Rico</source>
         <translation>Puerto Rico</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="326"/>
+        <location filename="../base/net/geoipmanager.cpp" line="325"/>
         <source>Portugal</source>
         <translation>Portugália</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="327"/>
+        <location filename="../base/net/geoipmanager.cpp" line="326"/>
         <source>Palau</source>
         <translation>Palau</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="328"/>
+        <location filename="../base/net/geoipmanager.cpp" line="327"/>
         <source>Paraguay</source>
         <translation>Paraguay</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="329"/>
+        <location filename="../base/net/geoipmanager.cpp" line="328"/>
         <source>Qatar</source>
         <translation>Katar</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="330"/>
+        <location filename="../base/net/geoipmanager.cpp" line="329"/>
         <source>Reunion</source>
         <translation>Réunion</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="331"/>
+        <location filename="../base/net/geoipmanager.cpp" line="330"/>
         <source>Romania</source>
         <translation>Románia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="333"/>
+        <location filename="../base/net/geoipmanager.cpp" line="332"/>
         <source>Russian Federation</source>
         <translation>Orosz Föderáció</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="334"/>
+        <location filename="../base/net/geoipmanager.cpp" line="333"/>
         <source>Rwanda</source>
         <translation>Ruanda</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="335"/>
+        <location filename="../base/net/geoipmanager.cpp" line="334"/>
         <source>Saudi Arabia</source>
         <translation>Szaud-Arábia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="336"/>
+        <location filename="../base/net/geoipmanager.cpp" line="335"/>
         <source>Solomon Islands</source>
         <translation>Salamon-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="337"/>
+        <location filename="../base/net/geoipmanager.cpp" line="336"/>
         <source>Seychelles</source>
         <translation>Seychelle-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="338"/>
+        <location filename="../base/net/geoipmanager.cpp" line="337"/>
         <source>Sudan</source>
         <translation>Szudán</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="339"/>
+        <location filename="../base/net/geoipmanager.cpp" line="338"/>
         <source>Sweden</source>
         <translation>Svédország</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="340"/>
+        <location filename="../base/net/geoipmanager.cpp" line="339"/>
         <source>Singapore</source>
         <translation>Szingapúr</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="342"/>
+        <location filename="../base/net/geoipmanager.cpp" line="341"/>
         <source>Slovenia</source>
         <translation>Szlovénia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="343"/>
+        <location filename="../base/net/geoipmanager.cpp" line="342"/>
         <source>Svalbard and Jan Mayen</source>
         <translation>Svalbard és Jan Mayen</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="344"/>
+        <location filename="../base/net/geoipmanager.cpp" line="343"/>
         <source>Slovakia</source>
         <translation>Szlovákia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="345"/>
+        <location filename="../base/net/geoipmanager.cpp" line="344"/>
         <source>Sierra Leone</source>
         <translation>Sierra Leone</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="346"/>
+        <location filename="../base/net/geoipmanager.cpp" line="345"/>
         <source>San Marino</source>
         <translation>San Marino</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="347"/>
+        <location filename="../base/net/geoipmanager.cpp" line="346"/>
         <source>Senegal</source>
         <translation>Szenegál</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="348"/>
+        <location filename="../base/net/geoipmanager.cpp" line="347"/>
         <source>Somalia</source>
         <translation>Szomália</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="349"/>
+        <location filename="../base/net/geoipmanager.cpp" line="348"/>
         <source>Suriname</source>
         <translation>Suriname</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="351"/>
+        <location filename="../base/net/geoipmanager.cpp" line="350"/>
         <source>Sao Tome and Principe</source>
         <translation>São Tomé és Príncipe</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="352"/>
+        <location filename="../base/net/geoipmanager.cpp" line="351"/>
         <source>El Salvador</source>
         <translation>El Salvador</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="354"/>
+        <location filename="../base/net/geoipmanager.cpp" line="353"/>
         <source>Syrian Arab Republic</source>
         <translation>Szíriai Arab Köztársaság</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="355"/>
+        <location filename="../base/net/geoipmanager.cpp" line="354"/>
         <source>Swaziland</source>
         <translation>Szváziföld</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="356"/>
+        <location filename="../base/net/geoipmanager.cpp" line="355"/>
         <source>Turks and Caicos Islands</source>
         <translation>Turks- és Caicos-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="357"/>
+        <location filename="../base/net/geoipmanager.cpp" line="356"/>
         <source>Chad</source>
         <translation>Csád</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="358"/>
+        <location filename="../base/net/geoipmanager.cpp" line="357"/>
         <source>French Southern Territories</source>
         <translation>Francia déli és antarktiszi területek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="359"/>
+        <location filename="../base/net/geoipmanager.cpp" line="358"/>
         <source>Togo</source>
         <translation>Togo</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="360"/>
+        <location filename="../base/net/geoipmanager.cpp" line="359"/>
         <source>Thailand</source>
         <translation>Thaiföld</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="361"/>
+        <location filename="../base/net/geoipmanager.cpp" line="360"/>
         <source>Tajikistan</source>
         <translation>Tádzsikisztán</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="362"/>
+        <location filename="../base/net/geoipmanager.cpp" line="361"/>
         <source>Tokelau</source>
         <translation>Tokelau-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="364"/>
+        <location filename="../base/net/geoipmanager.cpp" line="363"/>
         <source>Turkmenistan</source>
         <translation>Türkmenisztán</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="365"/>
+        <location filename="../base/net/geoipmanager.cpp" line="364"/>
         <source>Tunisia</source>
         <translation>Tunézia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="366"/>
+        <location filename="../base/net/geoipmanager.cpp" line="365"/>
         <source>Tonga</source>
         <translation>Tonga</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="363"/>
+        <location filename="../base/net/geoipmanager.cpp" line="362"/>
         <source>Timor-Leste</source>
         <translation>Kelet-Timor</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="171"/>
+        <location filename="../base/net/geoipmanager.cpp" line="170"/>
         <source>Bolivia, Plurinational State of</source>
         <translation>Bolíviai Többnemzetiségű Állam</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="172"/>
+        <location filename="../base/net/geoipmanager.cpp" line="171"/>
         <source>Bonaire, Sint Eustatius and Saba</source>
         <translation>Bonaire, Sint Eustatius és Saba</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="186"/>
+        <location filename="../base/net/geoipmanager.cpp" line="185"/>
         <source>Cote d&apos;Ivoire</source>
         <translation>Elefántcsontpart</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="278"/>
+        <location filename="../base/net/geoipmanager.cpp" line="277"/>
         <source>Libya</source>
         <translation>Líbia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="283"/>
+        <location filename="../base/net/geoipmanager.cpp" line="282"/>
         <source>Saint Martin (French part)</source>
         <translation>Szent Márton-sziget (Francia rész)</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="286"/>
+        <location filename="../base/net/geoipmanager.cpp" line="285"/>
         <source>Macedonia, The Former Yugoslav Republic of</source>
         <translation>Macedónia Volt Jugoszláv Köztársaság</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="290"/>
+        <location filename="../base/net/geoipmanager.cpp" line="289"/>
         <source>Macao</source>
         <translation>Makaó</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="323"/>
+        <location filename="../base/net/geoipmanager.cpp" line="322"/>
         <source>Pitcairn</source>
         <translation>Pitcairn-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="325"/>
+        <location filename="../base/net/geoipmanager.cpp" line="324"/>
         <source>Palestine, State of</source>
         <translation>Palesztina</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="341"/>
+        <location filename="../base/net/geoipmanager.cpp" line="340"/>
         <source>Saint Helena, Ascension and Tristan da Cunha</source>
         <translation>Szent Ilona, Ascension és Tristan da Cunha</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="350"/>
+        <location filename="../base/net/geoipmanager.cpp" line="349"/>
         <source>South Sudan</source>
         <translation>Dél-Szudán</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="353"/>
+        <location filename="../base/net/geoipmanager.cpp" line="352"/>
         <source>Sint Maarten (Dutch part)</source>
         <translation>Sint Maarten (Holland rész)</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="367"/>
+        <location filename="../base/net/geoipmanager.cpp" line="366"/>
         <source>Turkey</source>
         <translation>Törökország</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="368"/>
+        <location filename="../base/net/geoipmanager.cpp" line="367"/>
         <source>Trinidad and Tobago</source>
         <translation>Trinidad és Tobago</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="369"/>
+        <location filename="../base/net/geoipmanager.cpp" line="368"/>
         <source>Tuvalu</source>
         <translation>Tuvalu</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="370"/>
+        <location filename="../base/net/geoipmanager.cpp" line="369"/>
         <source>Taiwan</source>
         <translation>Tajvan</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="371"/>
+        <location filename="../base/net/geoipmanager.cpp" line="370"/>
         <source>Tanzania, United Republic of</source>
         <translation>Tanzániai Egyesült Köztársaság</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="372"/>
+        <location filename="../base/net/geoipmanager.cpp" line="371"/>
         <source>Ukraine</source>
         <translation>Ukrajna</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="373"/>
+        <location filename="../base/net/geoipmanager.cpp" line="372"/>
         <source>Uganda</source>
         <translation>Uganda</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="374"/>
+        <location filename="../base/net/geoipmanager.cpp" line="373"/>
         <source>United States Minor Outlying Islands</source>
         <translation>Amerikai Csendes-óceáni-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="375"/>
+        <location filename="../base/net/geoipmanager.cpp" line="374"/>
         <source>United States</source>
         <translation>Egyesült Államok</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="376"/>
+        <location filename="../base/net/geoipmanager.cpp" line="375"/>
         <source>Uruguay</source>
         <translation>Uruguay</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="377"/>
+        <location filename="../base/net/geoipmanager.cpp" line="376"/>
         <source>Uzbekistan</source>
         <translation>Üzbegisztán</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="378"/>
+        <location filename="../base/net/geoipmanager.cpp" line="377"/>
         <source>Holy See (Vatican City State)</source>
         <translation>Apostoli Szentszék</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="379"/>
+        <location filename="../base/net/geoipmanager.cpp" line="378"/>
         <source>Saint Vincent and the Grenadines</source>
         <translation>Saint Vincent és a Grenadine-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="381"/>
+        <location filename="../base/net/geoipmanager.cpp" line="380"/>
         <source>Virgin Islands, British</source>
         <translation>Brit Virgin-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="382"/>
+        <location filename="../base/net/geoipmanager.cpp" line="381"/>
         <source>Virgin Islands, U.S.</source>
         <translation>Amerikai Virgin-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="384"/>
+        <location filename="../base/net/geoipmanager.cpp" line="383"/>
         <source>Vanuatu</source>
         <translation>Vanuatu</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="385"/>
+        <location filename="../base/net/geoipmanager.cpp" line="384"/>
         <source>Wallis and Futuna</source>
         <translation>Wallis és Futuna</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="386"/>
+        <location filename="../base/net/geoipmanager.cpp" line="385"/>
         <source>Samoa</source>
         <translation>Szamoa</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="387"/>
+        <location filename="../base/net/geoipmanager.cpp" line="386"/>
         <source>Yemen</source>
         <translation>Jemen</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="388"/>
+        <location filename="../base/net/geoipmanager.cpp" line="387"/>
         <source>Mayotte</source>
         <translation>Mayotte</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="332"/>
+        <location filename="../base/net/geoipmanager.cpp" line="331"/>
         <source>Serbia</source>
         <translation>Szerbia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="389"/>
+        <location filename="../base/net/geoipmanager.cpp" line="388"/>
         <source>South Africa</source>
         <translation>Dél-afrikai Köztársaság</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="390"/>
+        <location filename="../base/net/geoipmanager.cpp" line="389"/>
         <source>Zambia</source>
         <translation>Zambia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="282"/>
+        <location filename="../base/net/geoipmanager.cpp" line="281"/>
         <source>Montenegro</source>
         <translation>Montenegro</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="391"/>
+        <location filename="../base/net/geoipmanager.cpp" line="390"/>
         <source>Zimbabwe</source>
         <translation>Zimbabwe</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="157"/>
+        <location filename="../base/net/geoipmanager.cpp" line="156"/>
         <source>Aland Islands</source>
         <translation>Åland-szigetek</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="223"/>
+        <location filename="../base/net/geoipmanager.cpp" line="222"/>
         <source>Guernsey</source>
         <translation>Guernsey-sziget</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="246"/>
+        <location filename="../base/net/geoipmanager.cpp" line="245"/>
         <source>Isle of Man</source>
         <translation>Man-sziget</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="253"/>
+        <location filename="../base/net/geoipmanager.cpp" line="252"/>
         <source>Jersey</source>
         <translation>Jersey</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="168"/>
+        <location filename="../base/net/geoipmanager.cpp" line="167"/>
         <source>Saint Barthelemy</source>
         <translation>Saint-Barthélemy</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="420"/>
+        <location filename="../base/net/geoipmanager.cpp" line="419"/>
         <source>Could not uncompress GeoIP database file.</source>
         <translation>Nem lehet kibontani GeoIP adatbázis fájlt.</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="441"/>
+        <location filename="../base/net/geoipmanager.cpp" line="440"/>
         <source>Couldn&apos;t save downloaded GeoIP database file.</source>
         <translation>Nem lehet menteni a letöltött GeoIP adatbázis fájlt.</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="444"/>
+        <location filename="../base/net/geoipmanager.cpp" line="443"/>
         <source>Successfully updated GeoIP database.</source>
         <translation>GeoIP adatbázis sikeresen frissítve.</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="459"/>
+        <location filename="../base/net/geoipmanager.cpp" line="458"/>
         <source>Couldn&apos;t download GeoIP database file. Reason: %1</source>
         <translation>Nem lehet letölteni GeoIP adatbázis fájlt. Ok:  %1</translation>
     </message>
@@ -4024,12 +4006,12 @@ Biztos, hogy bezárod a qBittorrentet?</translation>
 <context>
     <name>Net::PortForwarder</name>
     <message>
-        <location filename="../base/net/portforwarder.cpp" line="110"/>
+        <location filename="../base/net/portforwarder.cpp" line="127"/>
         <source>UPnP / NAT-PMP support [ON]</source>
         <translation>UPnP / NAT-PMP támogatás [ON]</translation>
     </message>
     <message>
-        <location filename="../base/net/portforwarder.cpp" line="119"/>
+        <location filename="../base/net/portforwarder.cpp" line="143"/>
         <source>UPnP / NAT-PMP support [OFF]</source>
         <translation>UPnP / NAT-PMP támogatás [OFF]</translation>
     </message>
@@ -4037,7 +4019,7 @@ Biztos, hogy bezárod a qBittorrentet?</translation>
 <context>
     <name>Net::Smtp</name>
     <message>
-        <location filename="../base/net/smtp.cpp" line="500"/>
+        <location filename="../base/net/smtp.cpp" line="510"/>
         <source>Email Notification Error:</source>
         <translation>Email értesítés hiba:</translation>
     </message>
@@ -4191,23 +4173,23 @@ Biztos, hogy bezárod a qBittorrentet?</translation>
     <message>
         <location filename="../gui/optionsdlg.ui" line="378"/>
         <source>Confirmation on auto-exit when downloads finish</source>
-        <translation type="unfinished"></translation>
+        <translation>Megerősítés kérése automatikus kilépéskor, amikor a letöltések befejeződnek</translation>
     </message>
     <message>
         <location filename="../gui/optionsdlg.ui" line="388"/>
         <source>Show qBittorrent in notification area</source>
-        <translation type="unfinished"></translation>
+        <translation>A qBittorrent megjelenítése az értesítési területen</translation>
     </message>
     <message>
         <location filename="../gui/optionsdlg.ui" line="397"/>
         <source>Minimize qBittorrent to notification area</source>
-        <translation type="unfinished"></translation>
+        <translation>A qBittorrent értesítési területre helyezése minimalizáláskor</translation>
     </message>
     <message>
         <location filename="../gui/optionsdlg.ui" line="407"/>
         <source>Close qBittorrent to notification area</source>
         <comment>i.e: The systray tray icon will still be visible when closing the main window.</comment>
-        <translation type="unfinished"></translation>
+        <translation>A qBittorrent értesítési területre helyezése bezáráskor</translation>
     </message>
     <message>
         <location filename="../gui/optionsdlg.ui" line="416"/>
@@ -4922,200 +4904,200 @@ Biztos, hogy bezárod a qBittorrentet?</translation>
         <translation>Domain név:</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="99"/>
+        <location filename="../gui/optionsdlg.cpp" line="101"/>
         <source>By enabling these options, you can &lt;strong&gt;irrevocably lose&lt;/strong&gt; your .torrent files!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ezeket a beállításokat bekapcsolva, &lt;strong&gt;véglegesen elveszítheti&lt;/strong&gt; a .torrent fájljait!</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="101"/>
+        <location filename="../gui/optionsdlg.cpp" line="103"/>
         <source>When these options are enabled, qBittorent will &lt;strong&gt;delete&lt;/strong&gt; .torrent files after they were successfully (the first option) or not (the second option) added to its download queue. This will be applied &lt;strong&gt;not only&lt;/strong&gt; to the files opened via &amp;ldquo;Add torrent&amp;rdquo; menu action but to those opened via &lt;strong&gt;file type association&lt;/strong&gt; as well</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="106"/>
+        <location filename="../gui/optionsdlg.cpp" line="108"/>
         <source>If you enable the second option (&amp;ldquo;Also when addition is cancelled&amp;rdquo;) the .torrent file &lt;strong&gt;will be deleted&lt;/strong&gt; even if you press &amp;ldquo;&lt;strong&gt;Cancel&lt;/strong&gt;&amp;rdquo; in the &amp;ldquo;Add torrent&amp;rdquo; dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="244"/>
+        <location filename="../gui/optionsdlg.cpp" line="247"/>
         <source>Supported parameters (case sensitive):</source>
         <translation>Támogatott paraméterek (kis- és nagybetű érzékeny):</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="245"/>
+        <location filename="../gui/optionsdlg.cpp" line="248"/>
         <source>%N: Torrent name</source>
         <translation>%N: Torrent neve</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="246"/>
+        <location filename="../gui/optionsdlg.cpp" line="249"/>
         <source>%L: Category</source>
         <translation>%L: Kategória</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="247"/>
+        <location filename="../gui/optionsdlg.cpp" line="250"/>
         <source>%F: Content path (same as root path for multifile torrent)</source>
         <translation>%F: Tartalom útvonala (többfájlok torrenteknél ugyanaz mint a gyökér útvonal)</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="248"/>
+        <location filename="../gui/optionsdlg.cpp" line="251"/>
         <source>%R: Root path (first torrent subdirectory path)</source>
         <translation>%R: Gyökér útvonala (első torrent alkönyvtár útvonala)</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="249"/>
+        <location filename="../gui/optionsdlg.cpp" line="252"/>
         <source>%D: Save path</source>
         <translation>%D: Mentés útvonala</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="250"/>
+        <location filename="../gui/optionsdlg.cpp" line="253"/>
         <source>%C: Number of files</source>
         <translation>%C: Fájlok száma</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="251"/>
+        <location filename="../gui/optionsdlg.cpp" line="254"/>
         <source>%Z: Torrent size (bytes)</source>
         <translation>%Z: Torrent mérete (bájtok)</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="252"/>
+        <location filename="../gui/optionsdlg.cpp" line="255"/>
         <source>%T: Current tracker</source>
         <translation>%T: Jelenlegi követő</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="253"/>
+        <location filename="../gui/optionsdlg.cpp" line="256"/>
         <source>%I: Info hash</source>
         <translation>%I: Hash információ</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="254"/>
+        <location filename="../gui/optionsdlg.cpp" line="257"/>
         <source>Tip: Encapsulate parameter with quotation marks to avoid text being cut off at whitespace (e.g., &quot;%N&quot;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipp: Tegye a paramétereket idézőjelbe, hogy elkerülje azt, hogy az üres karaktereknél kettévágásra kerüljenek (például &quot;%N&quot;)</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1336"/>
+        <location filename="../gui/optionsdlg.cpp" line="1353"/>
         <source>Select folder to monitor</source>
         <translation>Válassz egy megfigyelni kívánt könyvtárat</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1343"/>
+        <location filename="../gui/optionsdlg.cpp" line="1360"/>
         <source>Folder is already being monitored:</source>
         <translation>A könyvtár már megfigyelés alatt van:</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1346"/>
+        <location filename="../gui/optionsdlg.cpp" line="1363"/>
         <source>Folder does not exist:</source>
         <translation>A könyvtár nem létezik:</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1349"/>
+        <location filename="../gui/optionsdlg.cpp" line="1366"/>
         <source>Folder is not readable:</source>
         <translation>A könyvtár nem olvasható:</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1360"/>
+        <location filename="../gui/optionsdlg.cpp" line="1377"/>
         <source>Adding entry failed</source>
         <translation>Bejegyzés hozzáadása sikertelen</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1388"/>
-        <location filename="../gui/optionsdlg.cpp" line="1390"/>
+        <location filename="../gui/optionsdlg.cpp" line="1405"/>
+        <location filename="../gui/optionsdlg.cpp" line="1407"/>
         <source>Choose export directory</source>
         <translation>Export könyvtár kiválasztása</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1400"/>
-        <location filename="../gui/optionsdlg.cpp" line="1402"/>
-        <location filename="../gui/optionsdlg.cpp" line="1437"/>
-        <location filename="../gui/optionsdlg.cpp" line="1439"/>
-        <location filename="../gui/optionsdlg.cpp" line="1450"/>
-        <location filename="../gui/optionsdlg.cpp" line="1452"/>
+        <location filename="../gui/optionsdlg.cpp" line="1417"/>
+        <location filename="../gui/optionsdlg.cpp" line="1419"/>
+        <location filename="../gui/optionsdlg.cpp" line="1454"/>
+        <location filename="../gui/optionsdlg.cpp" line="1456"/>
+        <location filename="../gui/optionsdlg.cpp" line="1467"/>
+        <location filename="../gui/optionsdlg.cpp" line="1469"/>
         <source>Choose a save directory</source>
         <translation>Mentési könyvtár választása</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1425"/>
+        <location filename="../gui/optionsdlg.cpp" line="1442"/>
         <source>Choose an IP filter file</source>
         <translation>Válassz egy IP-szűrő fájlt</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1425"/>
+        <location filename="../gui/optionsdlg.cpp" line="1442"/>
         <source>All supported filters</source>
         <translation>Minden támogatott szűrő</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1492"/>
+        <location filename="../gui/optionsdlg.cpp" line="1509"/>
         <source>SSL Certificate</source>
         <translation>SSL tanúsítvány</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1504"/>
+        <location filename="../gui/optionsdlg.cpp" line="1521"/>
         <source>SSL Key</source>
         <translation>SSL kulcs</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1537"/>
+        <location filename="../gui/optionsdlg.cpp" line="1553"/>
         <source>Parsing error</source>
         <translation>Feldolgozási hiba</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1537"/>
+        <location filename="../gui/optionsdlg.cpp" line="1553"/>
         <source>Failed to parse the provided IP filter</source>
         <translation>Megadott IP szűrő feldogozása sikertelen</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1539"/>
+        <location filename="../gui/optionsdlg.cpp" line="1555"/>
         <source>Successfully refreshed</source>
         <translation>Sikeresen frissítve</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1539"/>
+        <location filename="../gui/optionsdlg.cpp" line="1555"/>
         <source>Successfully parsed the provided IP filter: %1 rules were applied.</source>
         <comment>%1 is a number</comment>
         <translation>A következő IP szűrő sikeresen feldolgozva: %1 szabály alkalmazva.</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1626"/>
+        <location filename="../gui/optionsdlg.cpp" line="1647"/>
         <source>Invalid key</source>
         <translation>Érvénytelen kulcs</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1626"/>
+        <location filename="../gui/optionsdlg.cpp" line="1647"/>
         <source>This is not a valid SSL key.</source>
         <translation>Ez egy érvénytelen SSL kulcs.</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1642"/>
+        <location filename="../gui/optionsdlg.cpp" line="1666"/>
         <source>Invalid certificate</source>
         <translation>Érvénytelen tanúsítvány</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1642"/>
+        <location filename="../gui/optionsdlg.cpp" line="1666"/>
         <source>This is not a valid SSL certificate.</source>
         <translation>Ez egy érvénytelen SSL tanúsítvány.</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1650"/>
+        <location filename="../gui/optionsdlg.cpp" line="1677"/>
         <source>Time Error</source>
         <translation>Idő hiba</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1650"/>
+        <location filename="../gui/optionsdlg.cpp" line="1677"/>
         <source>The start time and the end time can&apos;t be the same.</source>
         <translation>A kezdés és befejezés ideje nem lehet ugyanaz.</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1659"/>
-        <location filename="../gui/optionsdlg.cpp" line="1663"/>
+        <location filename="../gui/optionsdlg.cpp" line="1686"/>
+        <location filename="../gui/optionsdlg.cpp" line="1690"/>
         <source>Length Error</source>
         <translation>Hossz hiba</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1659"/>
+        <location filename="../gui/optionsdlg.cpp" line="1686"/>
         <source>The Web UI username must be at least 3 characters long.</source>
         <translation>A webes felület felhasználónevének legalább 3 karakter hosszúnak kell lennie.</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1663"/>
+        <location filename="../gui/optionsdlg.cpp" line="1690"/>
         <source>The Web UI password must be at least 6 characters long.</source>
         <translation>A webes felület jelszavának legalább 6 karakter hosszúnak kell lennie.</translation>
     </message>
@@ -5196,142 +5178,142 @@ Biztos, hogy bezárod a qBittorrentet?</translation>
 <context>
     <name>PeerListWidget</name>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="73"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="74"/>
         <source>IP</source>
         <translation>IP</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="74"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="75"/>
         <source>Port</source>
         <translation>Port</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="75"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="76"/>
         <source>Flags</source>
         <translation>Flags</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="76"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="77"/>
         <source>Connection</source>
         <translation>Kapcsolat</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="77"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="78"/>
         <source>Client</source>
         <comment>i.e.: Client application</comment>
         <translation>Kliens</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="78"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="79"/>
         <source>Progress</source>
         <comment>i.e: % downloaded</comment>
         <translation>Folyamat</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="79"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="80"/>
         <source>Down Speed</source>
         <comment>i.e: Download speed</comment>
         <translation>Letöltési sebesség</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="80"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="81"/>
         <source>Up Speed</source>
         <comment>i.e: Upload speed</comment>
         <translation>Feltöltési sebesség</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="81"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="82"/>
         <source>Downloaded</source>
         <comment>i.e: total data downloaded</comment>
         <translation>Letöltve</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="82"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="83"/>
         <source>Uploaded</source>
         <comment>i.e: total data uploaded</comment>
         <translation>Feltöltve</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="83"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="84"/>
         <source>Relevance</source>
         <comment>i.e: How relevant this peer is to us. How many pieces it has that we don&apos;t.</comment>
         <translation>Relevancia</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="84"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="85"/>
         <source>Files</source>
         <comment>i.e. files that are being downloaded right now</comment>
         <translation>Fájlok</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="153"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="154"/>
         <source>Column visibility</source>
         <translation>Oszlop láthatósága</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="230"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="231"/>
         <source>Add a new peer...</source>
         <translation>Új ügyfél hozzáadása...</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="238"/>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="276"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="239"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="277"/>
         <source>Ban peer permanently</source>
         <translation>Ügyfél kitiltása végleg</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="250"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="251"/>
         <source>Manually adding peer &apos;%1&apos;...</source>
         <translation>Ügyfél kitiltva &apos;%1&apos;...</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="254"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="255"/>
         <source>The peer &apos;%1&apos; could not be added to this torrent.</source>
         <translation>Az ügyfélt &apos;%1&apos; nem lehet hozzáadni ehhez a torenthez.</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="287"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="288"/>
         <source>Manually banning peer &apos;%1&apos;...</source>
         <translation>Ügyfél kitiltva &apos;%1&apos;...</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="258"/>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="260"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="259"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="261"/>
         <source>Peer addition</source>
         <translation>Ügyfél hozzáadása</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="72"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="73"/>
         <source>Country</source>
         <translation>Ország</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="236"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="237"/>
         <source>Copy IP:port</source>
         <translation>IP:port másolása</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="258"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="259"/>
         <source>Some peers could not be added. Check the Log for details.</source>
         <translation>Néhány ügyfelet nem lehet hozzáadni. Ellenőrizd a naplót a részletekért.</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="260"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="261"/>
         <source>The peers were added to this torrent.</source>
         <translation>Ügyfelek hozzáadva ehhez a torrenthez.</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="276"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="277"/>
         <source>Are you sure you want to ban permanently the selected peers?</source>
         <translation>Biztos vagy benne, hogy végleg kitiltod a kiválaszott ügyfelet?</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="277"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="278"/>
         <source>&amp;Yes</source>
         <translation>&amp;Igen</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="277"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="278"/>
         <source>&amp;No</source>
         <translation>&amp;Nem</translation>
     </message>
@@ -5392,7 +5374,7 @@ Biztos, hogy bezárod a qBittorrentet?</translation>
     <message>
         <location filename="../gui/properties/piecesbar.cpp" line="289"/>
         <source>Hold Shift key for detailed information</source>
-        <translation type="unfinished"></translation>
+        <translation>Részletes információkért tartsa lenyomva a Shift billentyűt</translation>
     </message>
 </context>
 <context>
@@ -5431,7 +5413,7 @@ Biztos, hogy bezárod a qBittorrentet?</translation>
     <message>
         <location filename="../gui/search/pluginselectdlg.ui" line="83"/>
         <source>You can get new search engine plugins here: &lt;a href=&quot;http://plugins.qbittorrent.org&quot;&gt;http://plugins.qbittorrent.org&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>További keresőmotor kiegészítőket itt tölthet le: &lt;a href=&quot;http://plugins.qbittorrent.org&quot;&gt;http://plugins.qbittorrent.org&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../gui/search/pluginselectdlg.ui" line="95"/>
@@ -5477,7 +5459,8 @@ Biztos, hogy bezárod a qBittorrentet?</translation>
         <location filename="../gui/search/pluginselectdlg.cpp" line="211"/>
         <source>Some plugins could not be uninstalled because they are included in qBittorrent. Only the ones you added yourself can be uninstalled.
 Those plugins were disabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Néhány kiegészítőt nem lehet eltávolítani, mert a qBittorrent része. Csak azok távolíthatóak el, amelyeket saját kezűleg telepített.
+Ezek a kiegészítők letiltásra kerültek.</translation>
     </message>
     <message>
         <location filename="../gui/search/pluginselectdlg.cpp" line="213"/>
@@ -5509,7 +5492,7 @@ Those plugins were disabled.</source>
     <message>
         <location filename="../gui/search/pluginselectdlg.cpp" line="338"/>
         <source>The link doesn&apos;t seem to point to a search engine plugin.</source>
-        <translation type="unfinished"></translation>
+        <translation>Úgy tűnik, a hivatkozás nem egy keresőmotor kiegészítőre mutat.</translation>
     </message>
     <message>
         <location filename="../gui/search/pluginselectdlg.cpp" line="354"/>
@@ -5560,12 +5543,12 @@ Those plugins were disabled.</source>
         <location filename="../gui/search/pluginselectdlg.cpp" line="430"/>
         <source>&quot;%1&quot; search engine plugin was successfully updated.</source>
         <comment>%1 is the name of the search engine</comment>
-        <translation type="unfinished"></translation>
+        <translation>A(z) „%1” keresőmotor kiegészítő sikeresen frissítve.</translation>
     </message>
     <message>
         <location filename="../gui/search/pluginselectdlg.cpp" line="437"/>
         <source>Couldn&apos;t update &quot;%1&quot; search engine plugin. %2</source>
-        <translation type="unfinished"></translation>
+        <translation>A(z) „%1” keresőmotor kiegészítő frissítése nem sikerült. %2</translation>
     </message>
 </context>
 <context>
@@ -5645,7 +5628,7 @@ Those plugins were disabled.</source>
     <message>
         <location filename="../gui/properties/proplistdelegate.cpp" line="73"/>
         <source>N/A</source>
-        <translation type="unfinished">N/A</translation>
+        <translation>N/A</translation>
     </message>
     <message>
         <location filename="../gui/properties/proplistdelegate.cpp" line="112"/>
@@ -6046,95 +6029,95 @@ Those plugins were disabled.</source>
         <translation>I/O Hiba: Nem sikerült létrehozni az ideiglenes fájlt.</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="145"/>
+        <location filename="../app/main.cpp" line="151"/>
         <source>%1 is an unknown command line parameter.</source>
         <comment>--random-parameter is an unknown command line parameter.</comment>
         <translation>A %1 egy ismeretlen parancssori paraméter.</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="157"/>
-        <location filename="../app/main.cpp" line="170"/>
+        <location filename="../app/main.cpp" line="163"/>
+        <location filename="../app/main.cpp" line="176"/>
         <source>%1 must be the single command line parameter.</source>
         <translation>%1 egyedüli parancssori paraméter lehet csak.</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="180"/>
+        <location filename="../app/main.cpp" line="186"/>
         <source>%1 must specify the correct port (1 to 65535).</source>
         <translation>A %1 helyes portot kell konfiguráljon (1 és 65535 között).</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="204"/>
+        <location filename="../app/main.cpp" line="210"/>
         <source>You cannot use %1: qBittorrent is already running for this user.</source>
         <translation>Nem lehet használni %1: a qBittorrent már fut ennél a felhasználónál.</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="387"/>
+        <location filename="../app/main.cpp" line="404"/>
         <source>Usage:</source>
         <translation>Használat:</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="400"/>
+        <location filename="../app/main.cpp" line="417"/>
         <source>Options:</source>
         <translation>Beállítások:</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="402"/>
+        <location filename="../app/main.cpp" line="419"/>
         <source>Displays program version</source>
         <translation>Program verzió megjelenítése</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="404"/>
+        <location filename="../app/main.cpp" line="421"/>
         <source>Displays this help message</source>
         <translation>Ezen súgó üzenet megjelenítése</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="406"/>
+        <location filename="../app/main.cpp" line="423"/>
         <source>Changes the Web UI port (current: %1)</source>
         <translation>Web UI port megváltozatása (aktuális: %1)</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="409"/>
+        <location filename="../app/main.cpp" line="426"/>
         <source>Disable splash screen</source>
         <translation>Induló képernyő letiltása</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="411"/>
+        <location filename="../app/main.cpp" line="428"/>
         <source>Run in daemon-mode (background)</source>
         <translation>daemon-mode -ban való futtatás (háttérben)</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="413"/>
+        <location filename="../app/main.cpp" line="430"/>
         <source>Downloads the torrents passed by the user</source>
         <translation>A felhasználó által engedélyezett torrentek letöltése</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="423"/>
+        <location filename="../app/main.cpp" line="440"/>
         <source>Help</source>
         <translation>Súgó</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="432"/>
+        <location filename="../app/main.cpp" line="449"/>
         <source>Run application with -h option to read about command line parameters.</source>
         <translation>Az alkalmazást a -h paraméterrel indítva ismerkedhet meg a parancssori paraméterekkel.</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="434"/>
+        <location filename="../app/main.cpp" line="451"/>
         <source>Bad command line</source>
         <translation>Rossz parancs</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="440"/>
+        <location filename="../app/main.cpp" line="457"/>
         <source>Bad command line: </source>
         <translation>Rossz parancs sor:</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="453"/>
+        <location filename="../app/main.cpp" line="470"/>
         <source>Legal Notice</source>
         <translation>Jogi figyelmeztetés</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="454"/>
-        <location filename="../app/main.cpp" line="464"/>
+        <location filename="../app/main.cpp" line="471"/>
+        <location filename="../app/main.cpp" line="481"/>
         <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.
 
 No further notices will be issued.</source>
@@ -6143,53 +6126,53 @@ No further notices will be issued.</source>
 Vélhetően tisztában vagy ezzel, így többé nem kapsz figyelmeztetést.</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="455"/>
+        <location filename="../app/main.cpp" line="472"/>
         <source>Press %1 key to accept and continue...</source>
         <translation>Nyomja meg a %1 billentyűt az elfogadás és folytatáshoz...</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="465"/>
+        <location filename="../app/main.cpp" line="482"/>
         <source>Legal notice</source>
         <translation>Jogi figyelmeztetés</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="466"/>
+        <location filename="../app/main.cpp" line="483"/>
         <source>Cancel</source>
         <translation>Mégsem</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="467"/>
+        <location filename="../app/main.cpp" line="484"/>
         <source>I Agree</source>
         <translation>Elfogadom</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="297"/>
+        <location filename="../app/application.cpp" line="293"/>
         <source>Torrent name: %1</source>
         <translation>Torrent neve: %1</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="298"/>
+        <location filename="../app/application.cpp" line="294"/>
         <source>Torrent size: %1</source>
         <translation>Torrent mérete: %1</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="299"/>
+        <location filename="../app/application.cpp" line="295"/>
         <source>Save path: %1</source>
         <translation>Mentés helye: %1</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="300"/>
+        <location filename="../app/application.cpp" line="296"/>
         <source>The torrent was downloaded in %1.</source>
         <comment>The torrent was downloaded in 1 hour and 20 seconds</comment>
         <translation>A torrent letöltve %1 alatt.</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="303"/>
+        <location filename="../app/application.cpp" line="299"/>
         <source>Thank you for using qBittorrent.</source>
         <translation>Köszönjük, hogy a qBittorentet használod.</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="309"/>
+        <location filename="../app/application.cpp" line="305"/>
         <source>[qBittorrent] &apos;%1&apos; has finished downloading</source>
         <translation>[qBittorrent] %1 letöltése befejeződött</translation>
     </message>
@@ -6304,45 +6287,45 @@ Vélhetően tisztában vagy ezzel, így többé nem kapsz figyelmeztetést.</tra
         <translation>Ismeretlen hiba</translation>
     </message>
     <message>
-        <location filename="../app/upgrade.h" line="54"/>
-        <location filename="../app/upgrade.h" line="67"/>
+        <location filename="../app/upgrade.h" line="61"/>
+        <location filename="../app/upgrade.h" line="74"/>
         <source>Upgrade</source>
         <translation>Frissítés</translation>
     </message>
     <message>
-        <location filename="../app/upgrade.h" line="57"/>
+        <location filename="../app/upgrade.h" line="64"/>
         <source>You updated from an older version that saved things differently. You must migrate to the new saving system. You will not be able to use an older version than v3.3.0 again. Continue? [y/n]</source>
         <translation>Egy régebbi verzióról frissítettél, ami eltérően mentett dolgokat. Át kell térned az új mentési rendszerre. Nem fogsz tudni v3.3.0-nál régebbi verziót használni újra. Folytatod? [i/n]</translation>
     </message>
     <message>
-        <location filename="../app/upgrade.h" line="66"/>
+        <location filename="../app/upgrade.h" line="73"/>
         <source>You updated from an older version that saved things differently. You must migrate to the new saving system. If you continue, you will not be able to use an older version than v3.3.0 again.</source>
         <translation>Egy régebbi verzióról frissítettél, ami eltérően mentett dolgokat. Át kell térned az új mentési rendszerre. Ha folytatod, nem fogsz tudni v3.3.0-nál régebbi verziót használni újra.</translation>
     </message>
     <message>
-        <location filename="../app/upgrade.h" line="166"/>
+        <location filename="../app/upgrade.h" line="184"/>
         <source>Couldn&apos;t migrate torrent with hash: %1</source>
         <translation>Nem lehet költöztetni torrentet ezzel a hashhel: %1</translation>
     </message>
     <message>
-        <location filename="../app/upgrade.h" line="169"/>
+        <location filename="../app/upgrade.h" line="187"/>
         <source>Couldn&apos;t migrate torrent. Invalid fastresume file name: %1</source>
         <translation>Nem lehet költöztetni torrentet. Érvénytelen gyorsfolytatási fájl név: %1</translation>
     </message>
     <message>
-        <location filename="../base/settingsstorage.cpp" line="214"/>
+        <location filename="../base/settingsstorage.cpp" line="272"/>
         <source>Detected unclean program exit. Using fallback file to restore settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nem rendes kilépés történt a programból. Az elmentett beállítások visszatöltésre kerülnek.</translation>
     </message>
     <message>
-        <location filename="../base/settingsstorage.cpp" line="280"/>
+        <location filename="../base/settingsstorage.cpp" line="335"/>
         <source>An access error occurred while trying to write the configuration file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hozzáférési hiba történt a konfigurációs fájl írási kísérletekor.</translation>
     </message>
     <message>
-        <location filename="../base/settingsstorage.cpp" line="282"/>
+        <location filename="../base/settingsstorage.cpp" line="337"/>
         <source>A format error occurred while trying to write the configuration file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Formázási hiba történt a konfigurációs fájl írási kísérletekor.</translation>
     </message>
 </context>
 <context>
@@ -6359,8 +6342,8 @@ Vélhetően tisztában vagy ezzel, így többé nem kapsz figyelmeztetést.</tra
     </message>
     <message>
         <location filename="../gui/rss/rss.ui" line="32"/>
-        <location filename="../gui/rss/rss.ui" line="159"/>
-        <location filename="../gui/rss/rss.ui" line="162"/>
+        <location filename="../gui/rss/rss.ui" line="171"/>
+        <location filename="../gui/rss/rss.ui" line="174"/>
         <source>Mark items read</source>
         <translation>Elemek olvasottnak jelölése</translation>
     </message>
@@ -6380,60 +6363,60 @@ Vélhetően tisztában vagy ezzel, így többé nem kapsz figyelmeztetést.</tra
         <translation>Beállítások...</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="91"/>
+        <location filename="../gui/rss/rss.ui" line="97"/>
         <source>Torrents: (double-click to download)</source>
         <translation>Torrent: (duplaklikk a letöltéshez)</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="122"/>
-        <location filename="../gui/rss/rss.ui" line="125"/>
+        <location filename="../gui/rss/rss.ui" line="134"/>
+        <location filename="../gui/rss/rss.ui" line="137"/>
         <source>Delete</source>
         <translation>Törlés</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="130"/>
+        <location filename="../gui/rss/rss.ui" line="142"/>
         <source>Rename...</source>
         <translation>Átnevezés...</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="133"/>
+        <location filename="../gui/rss/rss.ui" line="145"/>
         <source>Rename</source>
         <translation>Átnevezés</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="138"/>
-        <location filename="../gui/rss/rss.ui" line="141"/>
+        <location filename="../gui/rss/rss.ui" line="150"/>
+        <location filename="../gui/rss/rss.ui" line="153"/>
         <source>Update</source>
         <translation>Frissítés</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="146"/>
+        <location filename="../gui/rss/rss.ui" line="158"/>
         <source>New subscription...</source>
         <translation>Új feliratkozás...</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="151"/>
-        <location filename="../gui/rss/rss.ui" line="154"/>
+        <location filename="../gui/rss/rss.ui" line="163"/>
+        <location filename="../gui/rss/rss.ui" line="166"/>
         <source>Update all feeds</source>
         <translation>Összes csatorna frissítése</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="167"/>
+        <location filename="../gui/rss/rss.ui" line="179"/>
         <source>Download torrent</source>
         <translation>Torrent letöltése</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="172"/>
+        <location filename="../gui/rss/rss.ui" line="184"/>
         <source>Open news URL</source>
         <translation>Új URL megnyitása</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="177"/>
+        <location filename="../gui/rss/rss.ui" line="189"/>
         <source>Copy feed URL</source>
         <translation>Csatorna URL másolása</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="182"/>
+        <location filename="../gui/rss/rss.ui" line="194"/>
         <source>New folder...</source>
         <translation>Új könyvtár...</translation>
     </message>
@@ -6524,14 +6507,14 @@ Vélhetően tisztában vagy ezzel, így többé nem kapsz figyelmeztetést.</tra
 <context>
     <name>Rss::Feed</name>
     <message>
-        <location filename="../base/rss/rssfeed.cpp" line="381"/>
+        <location filename="../base/rss/rssfeed.cpp" line="386"/>
         <source>Automatic download of &apos;%1&apos; from &apos;%2&apos; RSS feed failed because it doesn&apos;t contain a torrent or a magnet link...</source>
-        <translation type="unfinished"></translation>
+        <translation>A(z) „%1” automatikus letöltése a(z) „%2” RSS csatornából sikertelen, mert nem tartalmaz torrentet vagy mágneslinket…</translation>
     </message>
     <message>
-        <location filename="../base/rss/rssfeed.cpp" line="386"/>
+        <location filename="../base/rss/rssfeed.cpp" line="391"/>
         <source>Automatically downloading &apos;%1&apos; torrent from &apos;%2&apos; RSS feed...</source>
-        <translation type="unfinished"></translation>
+        <translation>A(z) „%1” torrent automatikus letöltése a(z) „%2” RSS csatornából…</translation>
     </message>
 </context>
 <context>
@@ -6557,7 +6540,7 @@ Vélhetően tisztában vagy ezzel, így többé nem kapsz figyelmeztetést.</tra
     <message>
         <location filename="../gui/rss/rsssettingsdlg.ui" line="39"/>
         <source> min</source>
-        <translation type="unfinished"></translation>
+        <translation>perc</translation>
     </message>
     <message>
         <location filename="../gui/rss/rsssettingsdlg.ui" line="55"/>
@@ -6570,7 +6553,7 @@ Vélhetően tisztában vagy ezzel, így többé nem kapsz figyelmeztetést.</tra
     <message>
         <location filename="../gui/scanfoldersdelegate.cpp" line="102"/>
         <source>Select save location</source>
-        <translation type="unfinished"></translation>
+        <translation>Válasszon mentési helyet</translation>
     </message>
 </context>
 <context>
@@ -6578,27 +6561,27 @@ Vélhetően tisztában vagy ezzel, így többé nem kapsz figyelmeztetést.</tra
     <message>
         <location filename="../base/scanfoldersmodel.cpp" line="151"/>
         <source>Monitored Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Megfigyelt mappa</translation>
     </message>
     <message>
         <location filename="../base/scanfoldersmodel.cpp" line="154"/>
         <source>Override Save Location</source>
-        <translation type="unfinished"></translation>
+        <translation>Mentési hely felülírása</translation>
     </message>
     <message>
         <location filename="../base/scanfoldersmodel.cpp" line="395"/>
         <source>Monitored folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Megfigyelt mappa</translation>
     </message>
     <message>
         <location filename="../base/scanfoldersmodel.cpp" line="397"/>
         <source>Default save location</source>
-        <translation type="unfinished"></translation>
+        <translation>Alapértelmezett mentési hely</translation>
     </message>
     <message>
         <location filename="../base/scanfoldersmodel.cpp" line="399"/>
         <source>Browse...</source>
-        <translation type="unfinished">Keresés...</translation>
+        <translation>Keresés…</translation>
     </message>
 </context>
 <context>
@@ -6606,34 +6589,34 @@ Vélhetően tisztában vagy ezzel, így többé nem kapsz figyelmeztetést.</tra
     <message>
         <location filename="../base/searchengine.cpp" line="171"/>
         <source>Unknown search engine plugin file format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ismeretlen keresőmotor kiegészítő fájlformátum.</translation>
     </message>
     <message>
         <location filename="../base/searchengine.cpp" line="185"/>
         <source>A more recent version of this plugin is already installed.</source>
-        <translation type="unfinished"></translation>
+        <translation>A kiegészítő egy frissebb verziója már telepítve van.</translation>
     </message>
     <message>
         <location filename="../base/searchengine.cpp" line="213"/>
         <location filename="../base/searchengine.cpp" line="216"/>
         <source>Plugin is not supported.</source>
-        <translation type="unfinished"></translation>
+        <translation>A kiegészítő nem támogatott.</translation>
     </message>
     <message>
         <location filename="../base/searchengine.cpp" line="357"/>
         <source>Update server is temporarily unavailable. %1</source>
-        <translation type="unfinished"></translation>
+        <translation>A frissítési kiszolgáló ideiglenesen nem elérhető. %1</translation>
     </message>
     <message>
         <location filename="../base/searchengine.cpp" line="375"/>
         <location filename="../base/searchengine.cpp" line="377"/>
         <source>Failed to download the plugin file. %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nem sikerült a kiegészítő fájl letöltése. %1</translation>
     </message>
     <message>
         <location filename="../base/searchengine.cpp" line="638"/>
         <source>An incorrect update info received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Érvénytelen frissítési információ fogadva.</translation>
     </message>
     <message>
         <location filename="../base/searchengine.cpp" line="662"/>
@@ -7256,61 +7239,61 @@ Vélhetően tisztában vagy ezzel, így többé nem kapsz figyelmeztetést.</tra
 <context>
     <name>StatusBar</name>
     <message>
-        <location filename="../gui/statusbar.cpp" line="67"/>
-        <location filename="../gui/statusbar.cpp" line="189"/>
+        <location filename="../gui/statusbar.cpp" line="66"/>
+        <location filename="../gui/statusbar.cpp" line="188"/>
         <source>Connection status:</source>
         <translation>Kapcsolat állapota:</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="67"/>
-        <location filename="../gui/statusbar.cpp" line="189"/>
+        <location filename="../gui/statusbar.cpp" line="66"/>
+        <location filename="../gui/statusbar.cpp" line="188"/>
         <source>No direct connections. This may indicate network configuration problems.</source>
         <translation>Nincsenek kapcsolatok. Ez lehet hálózat beállítási hiba miatt is.</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="87"/>
-        <location filename="../gui/statusbar.cpp" line="198"/>
+        <location filename="../gui/statusbar.cpp" line="86"/>
+        <location filename="../gui/statusbar.cpp" line="197"/>
         <source>DHT: %1 nodes</source>
         <translation>DHT: %1 csomó</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="157"/>
+        <location filename="../gui/statusbar.cpp" line="156"/>
         <source>qBittorrent needs to be restarted</source>
         <translation>qBittorrent újraindítást igényel</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="167"/>
+        <location filename="../gui/statusbar.cpp" line="166"/>
         <source>qBittorrent was just updated and needs to be restarted for the changes to be effective.</source>
         <translation>A qBittorrent frissült új verzióra. Most újraindítást igényel a változások életbe lépéséhez.</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="179"/>
-        <location filename="../gui/statusbar.cpp" line="185"/>
+        <location filename="../gui/statusbar.cpp" line="178"/>
+        <location filename="../gui/statusbar.cpp" line="184"/>
         <source>Connection Status:</source>
         <translation>A kapcsolat állapota:</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="179"/>
+        <location filename="../gui/statusbar.cpp" line="178"/>
         <source>Offline. This usually means that qBittorrent failed to listen on the selected port for incoming connections.</source>
         <translation>Offline. Ez általában azt jelenti, hogy a qBittorrent nem tudja használni a bejövő kapcsolatokhoz a megadott portot.</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="185"/>
+        <location filename="../gui/statusbar.cpp" line="184"/>
         <source>Online</source>
         <translation>Online</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="238"/>
+        <location filename="../gui/statusbar.cpp" line="237"/>
         <source>Click to switch to alternative speed limits</source>
         <translation>Alternatív sebesség korlát bekapcsolásához kattints ide</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="233"/>
+        <location filename="../gui/statusbar.cpp" line="232"/>
         <source>Click to switch to regular speed limits</source>
         <translation>Általános sebesség korlát bekapcsolásához kattints ide</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="248"/>
+        <location filename="../gui/statusbar.cpp" line="247"/>
         <source>Manual change of rate limits mode. The scheduler is disabled.</source>
         <translation>Átviteli sebességek kézi változtatása. Az ütemező kikapcsolva.</translation>
     </message>
@@ -7320,7 +7303,7 @@ Vélhetően tisztában vagy ezzel, így többé nem kapsz figyelmeztetést.</tra
         <translation>Teljes letöltési sebesség korlát</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="284"/>
+        <location filename="../gui/statusbar.cpp" line="269"/>
         <source>Global Upload Speed Limit</source>
         <translation>Teljes feltöltési sebesség korlát</translation>
     </message>
@@ -7675,84 +7658,69 @@ Vélhetően tisztában vagy ezzel, így többé nem kapsz figyelmeztetést.</tra
 <context>
     <name>TrackerFiltersList</name>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="445"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="446"/>
         <source>All (0)</source>
         <comment>this is for the tracker filter</comment>
         <translation>Összes (0)</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="448"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="449"/>
         <source>Trackerless (0)</source>
         <translation>Tracker nélkül (0)</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="451"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="452"/>
         <source>Error (0)</source>
         <translation>Hiba (0)</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="454"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="455"/>
         <source>Warning (0)</source>
         <translation>Figyelmeztetés (0)</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="498"/>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="552"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="499"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="554"/>
         <source>Trackerless (%1)</source>
         <translation>Tracker nélkül (%1)</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="504"/>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="547"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="505"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="549"/>
         <source>%1 (%2)</source>
         <comment>openbittorrent.com (10)</comment>
         <translation>%1 (%2)</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="577"/>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="609"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="592"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="624"/>
         <source>Error (%1)</source>
         <translation>Hiba (%1)</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="590"/>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="624"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="605"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="639"/>
         <source>Warning (%1)</source>
         <translation>Figyelmeztetés (%1)</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="654"/>
-        <source>Couldn&apos;t decode favicon for URL &apos;%1&apos;. Trying to download favicon in PNG format.</source>
-        <translation>Nem lehet dekódolni favicont a(z) &apos;%1&apos; URL-hez. Favicon letöltésének megpróbálása PNG formátumban.</translation>
-    </message>
-    <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="659"/>
-        <source>Couldn&apos;t decode favicon for URL &apos;%1&apos;.</source>
-        <translation>Nem lehet dekódolni az ikont a linkről &apos;%1&apos;.</translation>
-    </message>
-    <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="673"/>
-        <source>Couldn&apos;t download favicon for URL &apos;%1&apos;. Reason: %2</source>
-        <translation>Nem lehet letölteni favicont a(z) &apos;%1&apos; URL-hez. Ok: %2</translation>
-    </message>
-    <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="682"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="689"/>
         <source>Resume torrents</source>
         <translation>Torrentek folytatása</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="683"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="690"/>
         <source>Pause torrents</source>
         <translation>Torrentek szüneteltetése</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="684"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="691"/>
         <source>Delete torrents</source>
         <translation>Torrentek törlése</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="718"/>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="732"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="725"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="739"/>
         <source>All (%1)</source>
         <comment>this is for the tracker filter</comment>
         <translation>Minden (%1)</translation>
@@ -8020,17 +7988,17 @@ Vélhetően tisztában vagy ezzel, így többé nem kapsz figyelmeztetést.</tra
 <context>
     <name>TransferListFiltersWidget</name>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="811"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="818"/>
         <source>Status</source>
         <translation>Állapot</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="819"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="826"/>
         <source>Categories</source>
         <translation>Kategóriák</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="827"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="834"/>
         <source>Trackers</source>
         <translation>Trackerek</translation>
     </message>
@@ -8038,80 +8006,80 @@ Vélhetően tisztában vagy ezzel, így többé nem kapsz figyelmeztetést.</tra
 <context>
     <name>TransferListWidget</name>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="512"/>
+        <location filename="../gui/transferlistwidget.cpp" line="527"/>
         <source>Column visibility</source>
         <translation>Oszlop beállítások</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="253"/>
+        <location filename="../gui/transferlistwidget.cpp" line="255"/>
         <source>Choose save path</source>
         <translation>Mentés helye</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="440"/>
+        <location filename="../gui/transferlistwidget.cpp" line="452"/>
         <source>Torrent Download Speed Limiting</source>
         <translation>Torrent letöltés sebességkorlátozás</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="469"/>
+        <location filename="../gui/transferlistwidget.cpp" line="483"/>
         <source>Torrent Upload Speed Limiting</source>
         <translation>Torrent feltöltés sebességkorlátozás</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="500"/>
+        <location filename="../gui/transferlistwidget.cpp" line="515"/>
         <source>Recheck confirmation</source>
         <translation>Újraellenőrzés megerősítése</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="500"/>
+        <location filename="../gui/transferlistwidget.cpp" line="515"/>
         <source>Are you sure you want to recheck the selected torrent(s)?</source>
         <translation>Biztos benne, hogy újraellenőrzi a kiválasztott torrenteket?</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="610"/>
+        <location filename="../gui/transferlistwidget.cpp" line="625"/>
         <source>Rename</source>
         <translation>Átnevezés</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="610"/>
+        <location filename="../gui/transferlistwidget.cpp" line="625"/>
         <source>New name:</source>
         <translation>Új név:</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="630"/>
+        <location filename="../gui/transferlistwidget.cpp" line="645"/>
         <source>Resume</source>
         <comment>Resume/start the torrent</comment>
         <translation>Folytatás</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="634"/>
+        <location filename="../gui/transferlistwidget.cpp" line="649"/>
         <source>Force Resume</source>
         <comment>Force Resume/start the torrent</comment>
         <translation>Erőltetett folytatás</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="632"/>
+        <location filename="../gui/transferlistwidget.cpp" line="647"/>
         <source>Pause</source>
         <comment>Pause the torrent</comment>
         <translation>Szünet</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="582"/>
+        <location filename="../gui/transferlistwidget.cpp" line="597"/>
         <source>New Category</source>
         <translation>Új kategória</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="582"/>
+        <location filename="../gui/transferlistwidget.cpp" line="597"/>
         <source>Category:</source>
         <translation>Kategória:</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="585"/>
+        <location filename="../gui/transferlistwidget.cpp" line="600"/>
         <source>Invalid category name</source>
         <translation>Érvénytelen kategórianév</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="586"/>
+        <location filename="../gui/transferlistwidget.cpp" line="601"/>
         <source>Category name must not contain &apos;\&apos;.
 Category name must not start/end with &apos;/&apos;.
 Category name must not contain &apos;//&apos; sequence.</source>
@@ -8120,129 +8088,129 @@ A kategórianév nem kezdődhet/végződhet „/” karakterrel.
 A kategórianév nem tartalmazhatja a „//” karaktersorozatot.</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="636"/>
+        <location filename="../gui/transferlistwidget.cpp" line="651"/>
         <source>Delete</source>
         <comment>Delete the torrent</comment>
         <translation>Törlés</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="638"/>
+        <location filename="../gui/transferlistwidget.cpp" line="653"/>
         <source>Preview file...</source>
         <translation>Fájl előnézete...</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="640"/>
+        <location filename="../gui/transferlistwidget.cpp" line="655"/>
         <source>Limit share ratio...</source>
         <translation>Megosztási arány korlát...</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="642"/>
+        <location filename="../gui/transferlistwidget.cpp" line="657"/>
         <source>Limit upload rate...</source>
         <translation>Feltöltési arány korlátozása...</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="644"/>
+        <location filename="../gui/transferlistwidget.cpp" line="659"/>
         <source>Limit download rate...</source>
         <translation>Letöltési arány korlátozása...</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="646"/>
+        <location filename="../gui/transferlistwidget.cpp" line="661"/>
         <source>Open destination folder</source>
         <translation>Célkönyvtár megnyitása</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="648"/>
+        <location filename="../gui/transferlistwidget.cpp" line="663"/>
         <source>Move up</source>
         <comment>i.e. move up in the queue</comment>
         <translation>Feljebb mozgat</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="650"/>
+        <location filename="../gui/transferlistwidget.cpp" line="665"/>
         <source>Move down</source>
         <comment>i.e. Move down in the queue</comment>
         <translation>Lejjebb mozgat</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="652"/>
+        <location filename="../gui/transferlistwidget.cpp" line="667"/>
         <source>Move to top</source>
         <comment>i.e. Move to top of the queue</comment>
         <translation>Legfelülre mozgat</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="654"/>
+        <location filename="../gui/transferlistwidget.cpp" line="669"/>
         <source>Move to bottom</source>
         <comment>i.e. Move to bottom of the queue</comment>
         <translation>Legalúlra mozgat</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="656"/>
+        <location filename="../gui/transferlistwidget.cpp" line="671"/>
         <source>Set location...</source>
         <translation>Hely megadása...</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="662"/>
+        <location filename="../gui/transferlistwidget.cpp" line="677"/>
         <source>Copy name</source>
         <translation>Név másolása</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="672"/>
+        <location filename="../gui/transferlistwidget.cpp" line="687"/>
         <source>Download first and last pieces first</source>
         <translation>Első és utolsó szelet letöltése először</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="675"/>
+        <location filename="../gui/transferlistwidget.cpp" line="690"/>
         <source>Automatic Torrent Management</source>
         <translation>Alapértelmezett torrentkezelés</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="677"/>
+        <location filename="../gui/transferlistwidget.cpp" line="692"/>
         <source>Automatic mode means that various torrent properties(eg save path) will be decided by the associated category</source>
         <translation>Az automatikus mód azt jelenti, hogy a különböző torrenttulajdonságok (pl. a mentési útvonal) a hozzátartozó kategória alapján kerülnek eldöntésre</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="775"/>
+        <location filename="../gui/transferlistwidget.cpp" line="790"/>
         <source>Category</source>
         <translation>Kategória</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="776"/>
+        <location filename="../gui/transferlistwidget.cpp" line="791"/>
         <source>New...</source>
         <comment>New category...</comment>
         <translation>Új…</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="777"/>
+        <location filename="../gui/transferlistwidget.cpp" line="792"/>
         <source>Reset</source>
         <comment>Reset category</comment>
         <translation>Visszaállítás</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="832"/>
+        <location filename="../gui/transferlistwidget.cpp" line="847"/>
         <source>Priority</source>
         <translation>Priorítás</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="658"/>
+        <location filename="../gui/transferlistwidget.cpp" line="673"/>
         <source>Force recheck</source>
         <translation>Kényszerített újraellenőrzés</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="660"/>
+        <location filename="../gui/transferlistwidget.cpp" line="675"/>
         <source>Copy magnet link</source>
         <translation>Magnet link másolása</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="664"/>
+        <location filename="../gui/transferlistwidget.cpp" line="679"/>
         <source>Super seeding mode</source>
         <translation>Szuper seed üzemmód</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="667"/>
+        <location filename="../gui/transferlistwidget.cpp" line="682"/>
         <source>Rename...</source>
         <translation>Átnevezés...</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="669"/>
+        <location filename="../gui/transferlistwidget.cpp" line="684"/>
         <source>Download in sequential order</source>
         <translation>Letöltés sorrendben</translation>
     </message>
@@ -8280,7 +8248,7 @@ A kategórianév nem tartalmazhatja a „//” karaktersorozatot.</translation>
 <context>
     <name>WebApplication</name>
     <message>
-        <location filename="../webui/webapplication.cpp" line="781"/>
+        <location filename="../webui/webapplication.cpp" line="775"/>
         <source>Incorrect category name</source>
         <translation>Érvénytelen kategórianév</translation>
     </message>
@@ -8602,11 +8570,11 @@ A kategórianév nem tartalmazhatja a „//” karaktersorozatot.</translation>
 <context>
     <name>fsutils</name>
     <message>
-        <location filename="../base/utils/fs.cpp" line="447"/>
-        <location filename="../base/utils/fs.cpp" line="454"/>
-        <location filename="../base/utils/fs.cpp" line="464"/>
-        <location filename="../base/utils/fs.cpp" line="497"/>
-        <location filename="../base/utils/fs.cpp" line="509"/>
+        <location filename="../base/utils/fs.cpp" line="420"/>
+        <location filename="../base/utils/fs.cpp" line="427"/>
+        <location filename="../base/utils/fs.cpp" line="437"/>
+        <location filename="../base/utils/fs.cpp" line="470"/>
+        <location filename="../base/utils/fs.cpp" line="482"/>
         <source>Downloads</source>
         <translation>Letöltések</translation>
     </message>
@@ -8614,115 +8582,115 @@ A kategórianév nem tartalmazhatja a „//” karaktersorozatot.</translation>
 <context>
     <name>misc</name>
     <message>
-        <location filename="../base/utils/misc.cpp" line="85"/>
+        <location filename="../base/utils/misc.cpp" line="86"/>
         <source>B</source>
         <comment>bytes</comment>
         <translation>B</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="86"/>
+        <location filename="../base/utils/misc.cpp" line="87"/>
         <source>KiB</source>
         <comment>kibibytes (1024 bytes)</comment>
         <translation>KiB</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="87"/>
+        <location filename="../base/utils/misc.cpp" line="88"/>
         <source>MiB</source>
         <comment>mebibytes (1024 kibibytes)</comment>
         <translation>MiB</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="88"/>
+        <location filename="../base/utils/misc.cpp" line="89"/>
         <source>GiB</source>
         <comment>gibibytes (1024 mibibytes)</comment>
         <translation>GiB</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="89"/>
+        <location filename="../base/utils/misc.cpp" line="90"/>
         <source>TiB</source>
         <comment>tebibytes (1024 gibibytes)</comment>
         <translation>TiB</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="90"/>
+        <location filename="../base/utils/misc.cpp" line="91"/>
         <source>PiB</source>
         <comment>pebibytes (1024 tebibytes)</comment>
         <translation>PiB</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="91"/>
+        <location filename="../base/utils/misc.cpp" line="92"/>
         <source>EiB</source>
         <comment>exbibytes (1024 pebibytes)</comment>
         <translation>EiB</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="286"/>
+        <location filename="../base/utils/misc.cpp" line="288"/>
         <source>Python not detected</source>
         <translation>A Python nem található</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="314"/>
+        <location filename="../base/utils/misc.cpp" line="317"/>
         <source>Python version: %1</source>
         <translation>Python verzió: %1</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="361"/>
+        <location filename="../base/utils/misc.cpp" line="363"/>
         <source>/s</source>
         <comment>per second</comment>
         <translation>/s</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="442"/>
+        <location filename="../base/utils/misc.cpp" line="443"/>
         <source>%1h %2m</source>
         <comment>e.g: 3hours 5minutes</comment>
         <translation>%1ó %2p</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="446"/>
+        <location filename="../base/utils/misc.cpp" line="447"/>
         <source>%1d %2h</source>
         <comment>e.g: 2days 10hours</comment>
         <translation>%1nap %2ó</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="353"/>
+        <location filename="../base/utils/misc.cpp" line="356"/>
         <source>Unknown</source>
         <comment>Unknown (size)</comment>
         <translation>Ismeretlen</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="210"/>
+        <location filename="../base/utils/misc.cpp" line="211"/>
         <source>qBittorrent will shutdown the computer now because all downloads are complete.</source>
         <translation>A qBittorrent most leállítja a számítógépet, mert az összes letöltés elkészült.</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="435"/>
+        <location filename="../base/utils/misc.cpp" line="436"/>
         <source>&lt; 1m</source>
         <comment>&lt; 1 minute</comment>
         <translation>&lt; 1perc</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="438"/>
+        <location filename="../base/utils/misc.cpp" line="439"/>
         <source>%1m</source>
         <comment>e.g: 10minutes</comment>
         <translation>%1perc</translation>
     </message>
     <message>
-        <location filename="../webui/btjson.cpp" line="469"/>
+        <location filename="../webui/btjson.cpp" line="471"/>
         <source>Working</source>
         <translation>Kapcsolódva</translation>
     </message>
     <message>
-        <location filename="../webui/btjson.cpp" line="467"/>
+        <location filename="../webui/btjson.cpp" line="469"/>
         <source>Updating...</source>
         <translation>Frissítés...</translation>
     </message>
     <message>
-        <location filename="../webui/btjson.cpp" line="471"/>
+        <location filename="../webui/btjson.cpp" line="473"/>
         <source>Not working</source>
         <translation>Nincs kapcsolódva</translation>
     </message>
     <message>
-        <location filename="../webui/btjson.cpp" line="465"/>
+        <location filename="../webui/btjson.cpp" line="467"/>
         <source>Not contacted yet</source>
         <translation>Még nem kapcsolódott</translation>
     </message>

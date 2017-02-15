@@ -35,6 +35,7 @@
 #include <QMenu>
 #include <QClipboard>
 #include <QMessageBox>
+#include <QWheelEvent>
 #ifdef QBT_USES_QT5
 #include <QTableView>
 #endif
@@ -124,7 +125,7 @@ PeerListWidget::PeerListWidget(PropertiesWidget *parent)
     connect(header(), SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(displayToggleColumnsMenu(const QPoint &)));
     connect(header(), SIGNAL(sectionClicked(int)), SLOT(handleSortColumnChanged(int)));
     handleSortColumnChanged(header()->sortIndicatorSection());
-    m_copyHotkey = new QShortcut(QKeySequence(Qt::ControlModifier + Qt::Key_C), this, SLOT(copySelectedPeers()), 0, Qt::WidgetShortcut);
+    m_copyHotkey = new QShortcut(QKeySequence::Copy, this, SLOT(copySelectedPeers()), 0, Qt::WidgetShortcut);
 
 #ifdef QBT_USES_QT5
     // This hack fixes reordering of first column with Qt5.
@@ -455,3 +456,16 @@ void PeerListWidget::handleSortColumnChanged(int col)
     }
 }
 
+void PeerListWidget::wheelEvent(QWheelEvent *event)
+{
+    event->accept();
+
+    if(event->modifiers() & Qt::ShiftModifier) {
+        // Shift + scroll = horizontal scroll
+        QWheelEvent scrollHEvent(event->pos(), event->globalPos(), event->delta(), event->buttons(), event->modifiers(), Qt::Horizontal);
+        QTreeView::wheelEvent(&scrollHEvent);
+        return;
+    }
+
+    QTreeView::wheelEvent(event);  // event delegated to base class
+}

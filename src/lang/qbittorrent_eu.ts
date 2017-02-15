@@ -205,59 +205,59 @@
         <translation>Ez jeitsi</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="212"/>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="218"/>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="681"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="211"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="217"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="680"/>
         <source>I/O Error</source>
         <translation>S/I Akatsa</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="226"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="225"/>
         <source>Invalid torrent</source>
         <translation>Torrent baliogabea</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="238"/>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="243"/>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="272"/>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="277"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="237"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="242"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="271"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="276"/>
         <source>Already in download list</source>
         <translation>Jadanik jeisketa zerrendan</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="708"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="706"/>
         <source>Not Available</source>
         <comment>This comment is unavailable</comment>
         <translation>Ez dago Eskuragarri</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="709"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="707"/>
         <source>Not Available</source>
         <comment>This date is unavailable</comment>
         <translation>Ez dago Eskuragarri</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="717"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="715"/>
         <source>Not available</source>
         <translation>Eskuraezina</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="261"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="260"/>
         <source>Invalid magnet link</source>
         <translation>Magnet lotura baliogabea</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="212"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="211"/>
         <source>The torrent file &apos;%1&apos; does not exist.</source>
         <translation>&apos;%1&apos; torrent agiria ez dago.</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="218"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="217"/>
         <source>The torrent file &apos;%1&apos; cannot be read from the disk. Probably you don&apos;t have enough permissions.</source>
         <translation>&apos;%1&apos; torrent agiria ezin da irakurri diskatik. Zihurrenik ez duzu nahikoa baimen.</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="226"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="225"/>
         <source>Failed to load the torrent: %1.
 Error: %2</source>
         <comment>Don&apos;t remove the &apos;
@@ -266,128 +266,128 @@ Error: %2</source>
 Akatsa: %2</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="238"/>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="272"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="237"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="271"/>
         <source>Torrent is already in download list. Trackers weren&apos;t merged because it is a private torrent.</source>
         <translation>Torrenta jadanik jeisketa zerrendan dago. Aztarnariak ezin dira batu torrent pribatu bat delako.</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="243"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="242"/>
         <source>Torrent is already in download list. Trackers were merged.</source>
         <translation>Torrenta jadanik jeisketa zerrendan dago. Aztarnariak batu dira.</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="247"/>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="281"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="246"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="280"/>
         <source>Cannot add torrent</source>
         <translation>Ezin da torrenta gehitu</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="247"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="246"/>
         <source>Cannot add this torrent. Perhaps it is already in adding state.</source>
         <translation>Ezin da torrent hau gehitu. Badaiteke jadanik gehituta egoeran egotea.</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="261"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="260"/>
         <source>This magnet link was not recognized</source>
         <translation>Magnet lotura hau ez da ezagutu</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="277"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="276"/>
         <source>Magnet link is already in download list. Trackers were merged.</source>
         <translation>Torrenta jadanik jeisketa zerrendan dago. Aztarnariak batu dira.</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="281"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="280"/>
         <source>Cannot add this torrent. Perhaps it is already in adding.</source>
         <translation>Ezin da torrent hau gehitu. Badaiteke jadanik gehituta egotea.</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="290"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="289"/>
         <source>Magnet link</source>
         <translation>Magnet lotura</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="298"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="297"/>
         <source>Retrieving metadata...</source>
         <translation>Metadatuak eskuratzen...</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="382"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="381"/>
         <source>Not Available</source>
         <comment>This size is unavailable.</comment>
         <translation>Ez dago Eskuragarri</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="384"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="383"/>
         <source>Free space on disk: %1</source>
         <translation>Diskako toki askea: %1</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="425"/>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="427"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="424"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="426"/>
         <source>Choose save path</source>
         <translation>Hautatu gordetze helburua</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="460"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="459"/>
         <source>Rename the file</source>
         <translation>Berrizendatu agiria</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="461"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="460"/>
         <source>New name:</source>
         <translation>Izen berria:</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="465"/>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="490"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="464"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="489"/>
         <source>The file could not be renamed</source>
         <translation>Agiria ezin da berrizendatu</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="466"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="465"/>
         <source>This file name contains forbidden characters, please choose a different one.</source>
         <translation>Agiri honek hizki galaraziak ditu, mesedez hautatu beste bat.</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="491"/>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="528"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="490"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="527"/>
         <source>This name is already in use in this folder. Please use a different name.</source>
         <translation>Izen hau jadanik erabilia da agiritegi honetan. Mesedez erabili beste bat.</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="527"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="526"/>
         <source>The folder could not be renamed</source>
         <translation>Agiritegia ezin da berrizendatu</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="587"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="586"/>
         <source>Rename...</source>
         <translation>Berrizendatu...</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="591"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="590"/>
         <source>Priority</source>
         <translation>Lehentasuna</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="682"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="681"/>
         <source>Invalid metadata</source>
         <translation>Metadatu baliogabeak</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="689"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="688"/>
         <source>Parsing metadata...</source>
         <translation>Metadatuak aztertzen...</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="694"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="692"/>
         <source>Metadata retrieval complete</source>
         <translation>Metadatu eskurapena osatuta</translation>
     </message>
     <message>
-        <location filename="../gui/addnewtorrentdialog.cpp" line="756"/>
+        <location filename="../gui/addnewtorrentdialog.cpp" line="747"/>
         <source>Download Error</source>
         <translation>Jeisketa Akatsa</translation>
     </message>
@@ -395,194 +395,199 @@ Akatsa: %2</translation>
 <context>
     <name>AdvancedSettings</name>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="260"/>
+        <location filename="../gui/advancedsettings.cpp" line="268"/>
         <source>Disk write cache size</source>
         <translation>Diska idazketa katxe neurria</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="193"/>
+        <location filename="../gui/advancedsettings.cpp" line="199"/>
         <source> MiB</source>
         <translation> MiB</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="280"/>
+        <location filename="../gui/advancedsettings.cpp" line="288"/>
         <source>Outgoing ports (Min) [0: Disabled]</source>
         <translation>Irteera atakak (Gutx) [0:Ezgaituta]</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="285"/>
+        <location filename="../gui/advancedsettings.cpp" line="293"/>
         <source>Outgoing ports (Max) [0: Disabled]</source>
         <translation>Irteera atakak (Geh) [0:Ezgaituta]</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="288"/>
+        <location filename="../gui/advancedsettings.cpp" line="296"/>
         <source>Recheck torrents on completion</source>
         <translation>Berregiaztatu torrentak osatutakoan</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="294"/>
+        <location filename="../gui/advancedsettings.cpp" line="302"/>
         <source>Transfer list refresh interval</source>
         <translation>Eskualdaketa zerrendaren berritze epea</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="293"/>
+        <location filename="../gui/advancedsettings.cpp" line="301"/>
         <source> ms</source>
         <comment> milliseconds</comment>
         <translation> sm</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="98"/>
+        <location filename="../gui/advancedsettings.cpp" line="102"/>
         <source>Setting</source>
         <translation>Ezarpena</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="98"/>
+        <location filename="../gui/advancedsettings.cpp" line="102"/>
         <source>Value</source>
         <comment>Value set for this setting</comment>
         <translation>Balioa</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="191"/>
+        <location filename="../gui/advancedsettings.cpp" line="197"/>
         <source> (auto)</source>
         <translation> (berez)</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="204"/>
+        <location filename="../gui/advancedsettings.cpp" line="210"/>
         <source>All addresses</source>
         <translation>Helbide guztiak</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="239"/>
+        <location filename="../gui/advancedsettings.cpp" line="247"/>
         <source>qBittorrent Section</source>
         <translation>qBittorrent Atala</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="241"/>
-        <location filename="../gui/advancedsettings.cpp" line="246"/>
+        <location filename="../gui/advancedsettings.cpp" line="249"/>
+        <location filename="../gui/advancedsettings.cpp" line="254"/>
         <source>Open documentation</source>
         <translation>Ireki agiritza</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="244"/>
+        <location filename="../gui/advancedsettings.cpp" line="252"/>
         <source>libtorrent Section</source>
         <translation>libtorrent Atala</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="265"/>
+        <location filename="../gui/advancedsettings.cpp" line="273"/>
         <source> s</source>
         <comment> seconds</comment>
         <translation> seg</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="266"/>
+        <location filename="../gui/advancedsettings.cpp" line="274"/>
         <source>Disk cache expiry interval</source>
         <translation>Diska katxe muga tartea</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="269"/>
+        <location filename="../gui/advancedsettings.cpp" line="277"/>
         <source>Enable OS cache</source>
         <translation>Gaitu SE katxea</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="274"/>
+        <location filename="../gui/advancedsettings.cpp" line="282"/>
         <source> m</source>
         <comment> minutes</comment>
         <translation> m</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="297"/>
+        <location filename="../gui/advancedsettings.cpp" line="305"/>
         <source>Resolve peer countries (GeoIP)</source>
         <translation> Erabaki hartzaile herrialdeak (GeoIP)</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="300"/>
+        <location filename="../gui/advancedsettings.cpp" line="308"/>
         <source>Resolve peer host names</source>
         <translation> Erabaki hartzaile hostalari izenak</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="308"/>
+        <location filename="../gui/advancedsettings.cpp" line="316"/>
         <source>Strict super seeding</source>
         <translation>Gain emaritza zorrotza</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="334"/>
+        <location filename="../gui/advancedsettings.cpp" line="342"/>
         <source>Network Interface (requires restart)</source>
         <translation>Sare Interfazea (berrabiaraztea beharrezkoa)</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="337"/>
+        <location filename="../gui/advancedsettings.cpp" line="345"/>
         <source>Optional IP Address to bind to (requires restart)</source>
         <translation>IP Helbidea aztarnariei jakinarazteko (berrabiaraztea beharrezkoa)</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="340"/>
+        <location filename="../gui/advancedsettings.cpp" line="348"/>
         <source>Listen on IPv6 address (requires restart)</source>
         <translation>Aditu IPv6 helbidetan (beharrezkoa berrabiaraztea)</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="348"/>
+        <location filename="../gui/advancedsettings.cpp" line="356"/>
         <source>Display notifications</source>
         <translation>Erakutsi jakinarazpenak</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="351"/>
+        <location filename="../gui/advancedsettings.cpp" line="359"/>
         <source>Display notifications for added torrents</source>
         <translation>Erakutsi jakinarazpenak gehitutako torrententzat</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="370"/>
+        <location filename="../gui/advancedsettings.cpp" line="362"/>
+        <source>Download tracker&apos;s favicon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advancedsettings.cpp" line="382"/>
         <source>Confirm torrent recheck</source>
         <translation>Baieztatu torrentaren berregiaztapena</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="373"/>
+        <location filename="../gui/advancedsettings.cpp" line="385"/>
         <source>Exchange trackers with other peers</source>
         <translation>Aldatu aztarnariak beste hartzaileekin</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="376"/>
+        <location filename="../gui/advancedsettings.cpp" line="388"/>
         <source>Always announce to all trackers</source>
         <translation>Betik iragarri aztarnari guztietara</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="310"/>
+        <location filename="../gui/advancedsettings.cpp" line="318"/>
         <source>Any interface</source>
         <comment>i.e. Any network interface</comment>
         <translation>Edozein interfaze</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="275"/>
+        <location filename="../gui/advancedsettings.cpp" line="283"/>
         <source>Save resume data interval</source>
         <comment>How often the fastresume file is saved.</comment>
         <translation>Gorde berregite datu tartea</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="305"/>
+        <location filename="../gui/advancedsettings.cpp" line="313"/>
         <source>Maximum number of half-open connections [0: Unlimited]</source>
         <translation>Gehienezko elkarketa erdi-ireki zenbatekoa [0: Mugagabe]</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="343"/>
+        <location filename="../gui/advancedsettings.cpp" line="351"/>
         <source>IP Address to report to trackers (requires restart)</source>
         <translation>IP Helbidea aztarnariei jakinarazteko (berrabiaraztea beharrezkoa)</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="354"/>
+        <location filename="../gui/advancedsettings.cpp" line="366"/>
         <source>Enable embedded tracker</source>
         <translation>Gaitu barneratutako aztarnaria</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="359"/>
+        <location filename="../gui/advancedsettings.cpp" line="371"/>
         <source>Embedded tracker port</source>
         <translation>Barneratutako aztarnari ataka</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="362"/>
+        <location filename="../gui/advancedsettings.cpp" line="374"/>
         <source>Check for software updates</source>
         <translation>Egiaztatu software eguneraketak</translation>
     </message>
     <message>
-        <location filename="../gui/advancedsettings.cpp" line="366"/>
+        <location filename="../gui/advancedsettings.cpp" line="378"/>
         <source>Use system icon theme</source>
         <translation>Erabili sistemaren ikur azalgaia</translation>
     </message>
@@ -590,53 +595,53 @@ Akatsa: %2</translation>
 <context>
     <name>Application</name>
     <message>
-        <location filename="../app/application.cpp" line="131"/>
+        <location filename="../app/application.cpp" line="132"/>
         <source>qBittorrent %1 started</source>
         <comment>qBittorrent v3.2.0alpha started</comment>
         <translation>qBittorrent %1 abiatuta</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="259"/>
+        <location filename="../app/application.cpp" line="260"/>
         <source>Torrent: %1, running external program, command: %2</source>
         <translation>Torrenta: %1, kanpoko programa ekiten, agindua: %2</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="273"/>
+        <location filename="../app/application.cpp" line="269"/>
         <source>Torrent: %1, run external program command too long (length &gt; %2), execution failed.</source>
         <translation>Torrenta: %1, kanpoko programa agindu luzeegia ekiten (luzera &gt; %2), exekuzio hutsegitea.</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="323"/>
+        <location filename="../app/application.cpp" line="319"/>
         <source>Torrent: %1, sending mail notification</source>
         <translation>Torrenta: %1, post@ jakinarapena bidaltzen</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="427"/>
+        <location filename="../app/application.cpp" line="424"/>
         <source>Information</source>
         <translation>Argibideak</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="428"/>
+        <location filename="../app/application.cpp" line="425"/>
         <source>To control qBittorrent, access the Web UI at http://localhost:%1</source>
         <translation>qBittorrent agintzeko, sartu Web EI-ra, http://localhost:%1</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="429"/>
+        <location filename="../app/application.cpp" line="426"/>
         <source>The Web UI administrator user name is: %1</source>
         <translation>Web EI administrari erabiltzaile izena da: %1</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="432"/>
+        <location filename="../app/application.cpp" line="429"/>
         <source>The Web UI administrator password is still the default one: %1</source>
         <translation>Web EI adminstrari sarhitza berezkoa da: %1</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="433"/>
+        <location filename="../app/application.cpp" line="430"/>
         <source>This is a security risk, please consider changing your password from program preferences.</source>
         <translation>Hau segurtasun arrisku bat da, mesedez kontuan izan zure sarhitza aldatzea programaren hobespenetan.</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="605"/>
+        <location filename="../app/application.cpp" line="602"/>
         <source>Saving torrent progress...</source>
         <translation>Torrent garapena gordetzen...</translation>
     </message>
@@ -956,322 +961,298 @@ Akatsa: %2</translation>
 <context>
     <name>BitTorrent::Session</name>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="226"/>
-        <source>Peer ID: </source>
-        <translation>Hartzaile ID-a:</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="601"/>
-        <source>HTTP User-Agent is &apos;%1&apos;</source>
-        <translation>HTTP Erabiltzaile-Ordezkaria da, &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="628"/>
-        <source>Anonymous mode [ON]</source>
-        <translation>Izengabeko modua [BAI]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="630"/>
-        <source>Anonymous mode [OFF]</source>
-        <translation>Izengabeko modua [EZ]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="816"/>
-        <source>PeX support [ON]</source>
-        <translation>HaX sostengua [BAI]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="818"/>
-        <source>PeX support [OFF]</source>
-        <translation>HaX sostengua [EZ]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="820"/>
+        <location filename="../base/bittorrent/session.cpp" line="475"/>
         <source>Restart is required to toggle PeX support</source>
         <translation>Berrabiaraztea beharrezkoa HaX sostengua aldatzeko</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="825"/>
-        <source>Local Peer Discovery support [ON]</source>
-        <translation>Tokiko Hartzaile Aurkikuntza sostengua [BAI]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="829"/>
-        <source>Local Peer Discovery support [OFF]</source>
-        <translation>Tokiko Hartzaile Aurkikuntza sostengua [EZ]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="842"/>
-        <source>Encryption support [ON]</source>
-        <translation>Enkripataketa sostengua [BAI]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="847"/>
-        <source>Encryption support [FORCED]</source>
-        <translation>Enkripataketa sostengua [BEHARTUTA]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="852"/>
-        <source>Encryption support [OFF]</source>
-        <translation>Enkripataketa sostengua [EZ]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="929"/>
+        <location filename="../base/bittorrent/session.cpp" line="1258"/>
         <source>Embedded Tracker [ON]</source>
         <translation>Barneratutako Aztarnaria [BAI]</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="931"/>
+        <location filename="../base/bittorrent/session.cpp" line="1260"/>
         <source>Failed to start the embedded tracker!</source>
         <translation>Hutsegitea barneratutako aztarnaria abiaraztean!</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="934"/>
+        <location filename="../base/bittorrent/session.cpp" line="1263"/>
         <source>Embedded Tracker [OFF]</source>
         <translation>Barneratutako Aztarnaria [EZ]</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="972"/>
+        <location filename="../base/bittorrent/session.cpp" line="1309"/>
         <source>&apos;%1&apos; reached the maximum ratio you set. Removing...</source>
         <translation>%1 ezarri duzun gehienezko maila erdietsita. Kentzen...</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="978"/>
+        <location filename="../base/bittorrent/session.cpp" line="1315"/>
         <source>&apos;%1&apos; reached the maximum ratio you set. Pausing...</source>
         <translation>%1 ezarri duzun gehienezko maila erdietsita. Pausatzen...</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1708"/>
+        <location filename="../base/bittorrent/session.cpp" line="1927"/>
         <source>System network status changed to %1</source>
         <comment>e.g: System network status changed to ONLINE</comment>
         <translation>Sistemaren sare egoera %1-ra aldatu da</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1708"/>
+        <location filename="../base/bittorrent/session.cpp" line="1927"/>
         <source>ONLINE</source>
         <translation>ONLINE</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1708"/>
+        <location filename="../base/bittorrent/session.cpp" line="1927"/>
         <source>OFFLINE</source>
         <translation>LINEAZ-KANPO</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1720"/>
+        <location filename="../base/bittorrent/session.cpp" line="1939"/>
         <source>Network configuration of %1 has changed, refreshing session binding</source>
         <comment>e.g: Network configuration of tun0 has changed, refreshing session binding</comment>
         <translation>%1-ren sare itxurapena aldatu egin da, saio lotura berritzen</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1738"/>
+        <location filename="../base/bittorrent/session.cpp" line="1956"/>
         <source>Configured network interface address %1 isn&apos;t valid.</source>
         <comment>Configured network interface address 124.5.1568.1 isn&apos;t valid.</comment>
         <translation>Itxuratutako %1 sare interfaze helbidea ez da baliozkoa.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2033"/>
+        <location filename="../base/bittorrent/session.cpp" line="2293"/>
+        <source>Encryption support [%1]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../base/bittorrent/session.cpp" line="2294"/>
+        <source>FORCED</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../base/bittorrent/session.cpp" line="2499"/>
+        <source>Anonymous mode [%1]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../base/bittorrent/session.cpp" line="2885"/>
         <source>Unable to decode &apos;%1&apos; torrent file.</source>
         <translation>Ezinezkoa &apos;%1&apos; torrent agiria dekodeatzea.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2148"/>
+        <location filename="../base/bittorrent/session.cpp" line="3011"/>
         <source>Recursive download of file &apos;%1&apos; embedded in torrent &apos;%2&apos;</source>
         <comment>Recursive download of &apos;test.torrent&apos; embedded in torrent &apos;test2&apos;</comment>
         <translation>&apos;%1&apos; agiriaren jeisketa mugagabea &apos;%2&apos; torrentean barneratuta</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2476"/>
+        <location filename="../base/bittorrent/session.cpp" line="3290"/>
         <source>Couldn&apos;t save &apos;%1.torrent&apos;</source>
         <translation>Ezinezkoa &apos;%1.torrent&apos; gordetzea</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2597"/>
+        <location filename="../base/bittorrent/session.cpp" line="3411"/>
         <source>because %1 is disabled.</source>
         <comment>this peer was blocked because uTP is disabled.</comment>
         <translation>%1 ezgaituta dagoelako.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2600"/>
+        <location filename="../base/bittorrent/session.cpp" line="3414"/>
         <source>because %1 is disabled.</source>
         <comment>this peer was blocked because TCP is disabled.</comment>
         <translation>%1 ezgaituta dagoelako.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2618"/>
+        <location filename="../base/bittorrent/session.cpp" line="3432"/>
         <source>URL seed lookup failed for URL: &apos;%1&apos;, message: %2</source>
         <translation>Url emaritza bigizta hutsegitea url honetan: &apos;%1&apos;, mezua: %2</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2658"/>
+        <location filename="../base/bittorrent/session.cpp" line="3472"/>
         <source>qBittorrent failed listening on interface %1 port: %2/%3. Reason: %4.</source>
         <comment>e.g: qBittorrent failed listening on interface 192.168.0.1 port: TCP/6881. Reason: already in use.</comment>
         <translation>qBittorrent-ek huts egin du aditzean %1 interfazean, ataka: %2/%3. Zergaitia: %4</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1095"/>
+        <location filename="../base/bittorrent/session.cpp" line="1431"/>
         <source>&apos;%1&apos; was removed from transfer list and hard disk.</source>
         <comment>&apos;xxx.avi&apos; was removed...</comment>
         <translation>&apos;%1&apos; eskualdaketa zerrendatik eta diska gogorretik kendu da.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1097"/>
+        <location filename="../base/bittorrent/session.cpp" line="1433"/>
         <source>&apos;%1&apos; was removed from transfer list.</source>
         <comment>&apos;xxx.avi&apos; was removed...</comment>
         <translation>&apos;%1&apos; eskualdaketa zerrendatik kendu da.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1232"/>
+        <location filename="../base/bittorrent/session.cpp" line="1568"/>
         <source>Downloading &apos;%1&apos;, please wait...</source>
         <comment>e.g: Downloading &apos;xxx.torrent&apos;, please wait...</comment>
         <translation>&apos;%1&apos; jeisten, mesedez itxaron...</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1572"/>
-        <source>DHT support [ON]</source>
-        <translation>DHT sostengua [BAI]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="1577"/>
-        <source>DHT support [OFF]. Reason: %1</source>
-        <translation>DHT sostengua [EZ]. Zergaitia: %1</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="1585"/>
-        <source>DHT support [OFF]</source>
-        <translation>DHT sostengua [EZ]</translation>
-    </message>
-    <message>
-        <location filename="../base/bittorrent/session.cpp" line="218"/>
-        <location filename="../base/bittorrent/session.cpp" line="1814"/>
+        <location filename="../base/bittorrent/session.cpp" line="945"/>
+        <location filename="../base/bittorrent/session.cpp" line="2033"/>
         <source>qBittorrent is trying to listen on any interface port: %1</source>
         <comment>e.g: qBittorrent is trying to listen on any interface port: TCP/6881</comment>
         <translation>qBittorrent interfazearen edozein atakan aditzen saiatzen ari da: %1</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1757"/>
+        <location filename="../base/bittorrent/session.cpp" line="1975"/>
         <source>The network interface defined is invalid: %1</source>
         <translation>Zehaztutako sare interfazea baliogabea da: %1</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="222"/>
-        <location filename="../base/bittorrent/session.cpp" line="1825"/>
+        <location filename="../base/bittorrent/session.cpp" line="958"/>
+        <location filename="../base/bittorrent/session.cpp" line="2044"/>
         <source>qBittorrent is trying to listen on interface %1 port: %2</source>
         <comment>e.g: qBittorrent is trying to listen on interface 192.168.0.1 port: TCP/6881</comment>
         <translation>qBittorrent aditzen saiatzen ari da %1 interfazean, ataka: %2</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1791"/>
+        <location filename="../base/bittorrent/session.cpp" line="446"/>
+        <source>DHT support [%1]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../base/bittorrent/session.cpp" line="446"/>
+        <location filename="../base/bittorrent/session.cpp" line="461"/>
+        <location filename="../base/bittorrent/session.cpp" line="2294"/>
+        <location filename="../base/bittorrent/session.cpp" line="2499"/>
+        <source>ON</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../base/bittorrent/session.cpp" line="446"/>
+        <location filename="../base/bittorrent/session.cpp" line="461"/>
+        <location filename="../base/bittorrent/session.cpp" line="2294"/>
+        <location filename="../base/bittorrent/session.cpp" line="2499"/>
+        <source>OFF</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../base/bittorrent/session.cpp" line="461"/>
+        <source>Local Peer Discovery support [%1]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../base/bittorrent/session.cpp" line="487"/>
+        <source>Restart is required to toggle Tracker Exchange support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../base/bittorrent/session.cpp" line="2009"/>
         <source>qBittorrent didn&apos;t find an %1 local address to listen on</source>
         <comment>qBittorrent didn&apos;t find an IPv4 local address to listen on</comment>
         <translation>qBittorrent-ek  ez du %1 tokiko helbide bat aurkitu aditzeko</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1818"/>
+        <location filename="../base/bittorrent/session.cpp" line="2037"/>
         <source>qBittorrent failed to listen on any interface port: %1. Reason: %2.</source>
         <comment>e.g: qBittorrent failed to listen on any interface port: TCP/6881. Reason: no such interface</comment>
         <translation>qBittorrent-ek huts egin du edozein interfaze atakan aditzerakoan: %1. Zergaitia: %2</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1944"/>
+        <location filename="../base/bittorrent/session.cpp" line="2796"/>
         <source>Tracker &apos;%1&apos; was added to torrent &apos;%2&apos;</source>
         <translation>&apos;%1&apos; aztarnaria &apos;%2&apos; torrentera gehitu da.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1954"/>
+        <location filename="../base/bittorrent/session.cpp" line="2806"/>
         <source>Tracker &apos;%1&apos; was deleted from torrent &apos;%2&apos;</source>
         <translation>&apos;%1&apos; aztarnaria &apos;%2&apos; torrentetik kendu da</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1969"/>
+        <location filename="../base/bittorrent/session.cpp" line="2821"/>
         <source>URL seed &apos;%1&apos; was added to torrent &apos;%2&apos;</source>
         <translation>&apos;%1&apos; emaritza URL-a &apos;%2&apos; torrentera gehitu da</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="1975"/>
+        <location filename="../base/bittorrent/session.cpp" line="2827"/>
         <source>URL seed &apos;%1&apos; was removed from torrent &apos;%2&apos;</source>
         <translation>&apos;%1&apos; aztarnaria &apos;%2&apos; torrentetik kendu da</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2243"/>
+        <location filename="../base/bittorrent/session.cpp" line="3058"/>
         <source>Unable to resume torrent &apos;%1&apos;.</source>
         <comment>e.g: Unable to resume torrent &apos;hash&apos;.</comment>
         <translation>Ezinezkoa %1 torrenta berrekitea.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2302"/>
+        <location filename="../base/bittorrent/session.cpp" line="3117"/>
         <source>Successfully parsed the provided IP filter: %1 rules were applied.</source>
         <comment>%1 is a number</comment>
         <translation>Emandako IP iragazkia ongi aztertu da: %1 araua ezarri dira.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2308"/>
+        <location filename="../base/bittorrent/session.cpp" line="3123"/>
         <source>Error: Failed to parse the provided IP filter.</source>
         <translation>Akatsa: Hutsegitea emandako IP iragazkia aztertzerakoan.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2513"/>
+        <location filename="../base/bittorrent/session.cpp" line="3327"/>
         <source>Couldn&apos;t add torrent. Reason: %1</source>
         <translation>Ezinezkoa torrenta gehitzea. Zergaitia: %1</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2459"/>
+        <location filename="../base/bittorrent/session.cpp" line="3273"/>
         <source>&apos;%1&apos; resumed. (fast resume)</source>
         <comment>&apos;torrent name&apos; was resumed. (fast resume)</comment>
         <translation>&apos;%1&apos; berrekinda. (berrekite azkarra)</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2490"/>
+        <location filename="../base/bittorrent/session.cpp" line="3304"/>
         <source>&apos;%1&apos; added to download list.</source>
         <comment>&apos;torrent name&apos; was added to download list.</comment>
         <translation>&apos;%1&apos; jeisketa zerrendara gehituta.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2561"/>
+        <location filename="../base/bittorrent/session.cpp" line="3375"/>
         <source>An I/O error occurred, &apos;%1&apos; paused. %2</source>
         <translation>S/I akats bat gertatu da, &apos;%1&apos; pausatuta. %2</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2569"/>
+        <location filename="../base/bittorrent/session.cpp" line="3383"/>
         <source>UPnP/NAT-PMP: Port mapping failure, message: %1</source>
         <translation>UPnP/NAT-PMP: Ataka mapaketa hutsegitea, mezua: %1</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2575"/>
+        <location filename="../base/bittorrent/session.cpp" line="3389"/>
         <source>UPnP/NAT-PMP: Port mapping successful, message: %1</source>
         <translation>UPnP/NAT-PMP: Ataka mapaketa ongi burutu da, mezua: %1</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2585"/>
+        <location filename="../base/bittorrent/session.cpp" line="3399"/>
         <source>due to IP filter.</source>
         <comment>this peer was blocked due to ip filter.</comment>
         <translation>IP iragazkiagaitik.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2588"/>
+        <location filename="../base/bittorrent/session.cpp" line="3402"/>
         <source>due to port filter.</source>
         <comment>this peer was blocked due to port filter.</comment>
         <translation>ataka iragazkiagaitik.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2591"/>
+        <location filename="../base/bittorrent/session.cpp" line="3405"/>
         <source>due to i2p mixed mode restrictions.</source>
         <comment>this peer was blocked due to i2p mixed mode restrictions.</comment>
         <translation>i2p modu nahasi murrizpenengaitik.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2594"/>
+        <location filename="../base/bittorrent/session.cpp" line="3408"/>
         <source>because it has a low port.</source>
         <comment>this peer was blocked because it has a low port.</comment>
         <translation>ataka apala delako.</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2632"/>
+        <location filename="../base/bittorrent/session.cpp" line="3446"/>
         <source>qBittorrent is successfully listening on interface %1 port: %2/%3</source>
         <comment>e.g: qBittorrent is successfully listening on interface 192.168.0.1 port: TCP/6881</comment>
         <translation>qBittorrent ongi aditzen ari da %1 interfazean, ataka: %2/%3</translation>
     </message>
     <message>
-        <location filename="../base/bittorrent/session.cpp" line="2667"/>
+        <location filename="../base/bittorrent/session.cpp" line="3481"/>
         <source>External IP: %1</source>
         <comment>e.g. External IP: 192.168.0.1</comment>
         <translation>Kanpoko IP-a: %1</translation>
@@ -2259,12 +2240,12 @@ Kategoria izenak ezin du &apos;//&apos; sekuentzia izan.</translation>
     <message>
         <location filename="../gui/mainwindow.ui" line="389"/>
         <location filename="../gui/mainwindow.ui" line="423"/>
-        <location filename="../gui/mainwindow.cpp" line="1401"/>
+        <location filename="../gui/mainwindow.cpp" line="1407"/>
         <source>Show</source>
         <translation>Erakutsi</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1587"/>
+        <location filename="../gui/mainwindow.cpp" line="1594"/>
         <source>Check for program updates</source>
         <translation>Egiaztatu programaren eguneraketak</translation>
     </message>
@@ -2279,240 +2260,235 @@ Kategoria izenak ezin du &apos;//&apos; sekuentzia izan.</translation>
         <translation>qBittorrent gogoko baduzu, mesedez eman dirulaguntza!</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1615"/>
+        <location filename="../gui/mainwindow.cpp" line="1622"/>
         <source>Execution Log</source>
         <translation>Ekintza Oharra</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="569"/>
+        <location filename="../gui/mainwindow.cpp" line="581"/>
         <source>Clear the password</source>
         <translation>Garbitu sarhitza</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="210"/>
+        <location filename="../gui/mainwindow.cpp" line="214"/>
         <source>Filter torrent list...</source>
         <translation>Iragazi torrent zerrenda...</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="180"/>
+        <location filename="../gui/mainwindow.cpp" line="184"/>
         <source>&amp;Set Password</source>
         <translation>Ezarri &amp;Sarhitza</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="182"/>
+        <location filename="../gui/mainwindow.cpp" line="186"/>
         <source>&amp;Clear Password</source>
         <translation>&amp;Garbitu Sarhitza</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="228"/>
+        <location filename="../gui/mainwindow.cpp" line="233"/>
         <source>Transfers</source>
         <translation>Eskualdaketak</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="382"/>
+        <location filename="../gui/mainwindow.cpp" line="387"/>
         <source>Torrent file association</source>
         <translation>Torrent agiri elkarketa</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="383"/>
+        <location filename="../gui/mainwindow.cpp" line="388"/>
         <source>qBittorrent is not the default application to open torrent files or Magnet links.
 Do you want to associate qBittorrent to torrent files and Magnet links?</source>
         <translation>qBittorrent ez da berezko aplikazioa torrent agiriak edo Magnet loturak irekitzeko.
 Nahi duzu qBittorrent elkartzea torrent agiriekin eta Magnet loturekin?</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="458"/>
+        <location filename="../gui/mainwindow.cpp" line="470"/>
         <source>Icons Only</source>
         <translation>Ikurrak Bakarrik</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="460"/>
+        <location filename="../gui/mainwindow.cpp" line="472"/>
         <source>Text Only</source>
         <translation>Idazkia Bakarrik</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="462"/>
+        <location filename="../gui/mainwindow.cpp" line="474"/>
         <source>Text Alongside Icons</source>
         <translation>Idazkia Ikurren Alboan</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="464"/>
+        <location filename="../gui/mainwindow.cpp" line="476"/>
         <source>Text Under Icons</source>
         <translation>Idazkia Ikurren Azpian</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="466"/>
+        <location filename="../gui/mainwindow.cpp" line="478"/>
         <source>Follow System Style</source>
         <translation>Jarraitu Sistemaren Estiloa</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="553"/>
-        <location filename="../gui/mainwindow.cpp" line="581"/>
-        <location filename="../gui/mainwindow.cpp" line="888"/>
+        <location filename="../gui/mainwindow.cpp" line="565"/>
+        <location filename="../gui/mainwindow.cpp" line="593"/>
+        <location filename="../gui/mainwindow.cpp" line="894"/>
         <source>UI lock password</source>
         <translation>EI blokeatze sarhitza</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="553"/>
-        <location filename="../gui/mainwindow.cpp" line="581"/>
-        <location filename="../gui/mainwindow.cpp" line="888"/>
+        <location filename="../gui/mainwindow.cpp" line="565"/>
+        <location filename="../gui/mainwindow.cpp" line="593"/>
+        <location filename="../gui/mainwindow.cpp" line="894"/>
         <source>Please type the UI lock password:</source>
         <translation>Mesedez idatzi EI blokeatze sarhitza:</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="557"/>
+        <location filename="../gui/mainwindow.cpp" line="569"/>
         <source>The password should contain at least 3 characters</source>
         <translation>Sarhitzak 3 hizkirri izan behar ditu gutxienez</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="562"/>
+        <location filename="../gui/mainwindow.cpp" line="574"/>
         <source>Password update</source>
         <translation>Sarhitz eguneraketa</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="562"/>
+        <location filename="../gui/mainwindow.cpp" line="574"/>
         <source>The UI lock password has been successfully updated</source>
         <translation>EI blokeatze sarhitza ongi eguneratu da</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="569"/>
+        <location filename="../gui/mainwindow.cpp" line="581"/>
         <source>Are you sure you want to clear the password?</source>
         <translation>Zihur zaude sarhitza garbitzea nahi duzula?</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="621"/>
+        <location filename="../gui/mainwindow.cpp" line="633"/>
         <source>Search</source>
         <translation>Bilatu</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="632"/>
+        <location filename="../gui/mainwindow.cpp" line="644"/>
         <source>Transfers (%1)</source>
         <translation>Eskualdaketak (%1)</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="722"/>
+        <location filename="../gui/mainwindow.cpp" line="734"/>
         <source>Error</source>
         <translation>Akatsa</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="722"/>
+        <location filename="../gui/mainwindow.cpp" line="734"/>
         <source>Failed to add torrent: %1</source>
         <translation>Hutsegitea torrenta gehitzerakoan: %1</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="729"/>
+        <location filename="../gui/mainwindow.cpp" line="741"/>
         <source>Torrent added</source>
         <translation>Torrenta gehituta</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="729"/>
+        <location filename="../gui/mainwindow.cpp" line="741"/>
         <source>&apos;%1&apos; was added.</source>
         <comment>e.g: xxx.avi was added.</comment>
         <translation>&apos;%1&apos; gehituta.</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="735"/>
+        <location filename="../gui/mainwindow.cpp" line="747"/>
         <source>Download completion</source>
         <translation>Jeisketa osaketa</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="741"/>
+        <location filename="../gui/mainwindow.cpp" line="753"/>
         <source>I/O Error</source>
         <comment>i.e: Input/Output Error</comment>
         <translation>S/I Akatsa</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="802"/>
+        <location filename="../gui/mainwindow.cpp" line="814"/>
         <source>Recursive download confirmation</source>
         <translation>Jeisketa mugagabearen baieztapena</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="803"/>
+        <location filename="../gui/mainwindow.cpp" line="815"/>
         <source>Yes</source>
         <translation>Bai</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="804"/>
+        <location filename="../gui/mainwindow.cpp" line="816"/>
         <source>No</source>
         <translation>Ez</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="805"/>
+        <location filename="../gui/mainwindow.cpp" line="817"/>
         <source>Never</source>
         <translation>Inoiz ez</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="825"/>
+        <location filename="../gui/mainwindow.cpp" line="838"/>
         <source>Global Upload Speed Limit</source>
         <translation>Igoera Abiadura Muga Orokorra</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="841"/>
+        <location filename="../gui/mainwindow.cpp" line="851"/>
         <source>Global Download Speed Limit</source>
         <translation>Jeisketa Abiadura Muga Orokorra</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="991"/>
+        <location filename="../gui/mainwindow.cpp" line="997"/>
         <source>&amp;No</source>
         <translation>&amp;Ez</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="992"/>
+        <location filename="../gui/mainwindow.cpp" line="998"/>
         <source>&amp;Yes</source>
         <translation>&amp;Bai</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="993"/>
+        <location filename="../gui/mainwindow.cpp" line="999"/>
         <source>&amp;Always Yes</source>
         <translation>&amp; Betik Bai</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1488"/>
-        <source>Python found in %1</source>
-        <translation>Python aurkitu da hemen: %1</translation>
-    </message>
-    <message>
-        <location filename="../gui/mainwindow.cpp" line="1506"/>
+        <location filename="../gui/mainwindow.cpp" line="1513"/>
         <source>Old Python Interpreter</source>
         <translation>Python Interpretea zaharra</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1506"/>
+        <location filename="../gui/mainwindow.cpp" line="1513"/>
         <source>Your Python version (%1) is outdated. Please upgrade to latest version for search engines to work.
 Minimum requirement: 2.7.9 / 3.3.0.</source>
         <translation>Zure Python bertsioa (%1) zaharkitua dago. Mesedez eguneratu azken bertsiora bilaketa gailuek lan egin ahal izateko.
 Beharrezko gutxiena: 2.7.9/3.3.0.</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1571"/>
+        <location filename="../gui/mainwindow.cpp" line="1578"/>
         <source>qBittorrent Update Available</source>
         <translation>qBittorrent Eguneraketa Eskuragarri</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1572"/>
+        <location filename="../gui/mainwindow.cpp" line="1579"/>
         <source>A new version is available.
 Do you want to download %1?</source>
         <translation>Bertsio berri bat eskuragarri dago.
 Nahi duzu %1 jeistea?</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1581"/>
+        <location filename="../gui/mainwindow.cpp" line="1588"/>
         <source>Already Using the Latest qBittorrent Version</source>
         <translation>Jadanik Azken qBittorrent Bertsioa Erabiltzen</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1516"/>
+        <location filename="../gui/mainwindow.cpp" line="1523"/>
         <source>Undetermined Python version</source>
         <translation>Python bertsioa zehaztugabea</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="735"/>
+        <location filename="../gui/mainwindow.cpp" line="747"/>
         <source>&apos;%1&apos; has finished downloading.</source>
         <comment>e.g: xxx.avi has finished downloading.</comment>
         <translation>&apos;%1&apos;-k amaitu du jeisketa.</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="741"/>
+        <location filename="../gui/mainwindow.cpp" line="753"/>
         <source>An I/O error occurred for torrent &apos;%1&apos;.
  Reason: %2</source>
         <comment>e.g: An error occurred for torrent &apos;xxx.avi&apos;.
@@ -2521,148 +2497,154 @@ Nahi duzu %1 jeistea?</translation>
 Zergaitia: %2</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="802"/>
+        <location filename="../gui/mainwindow.cpp" line="814"/>
         <source>The torrent &apos;%1&apos; contains torrent files, do you want to proceed with their download?</source>
         <translation>&apos;%1&apos; torrentak torrent agiriak ditu, beren jeisketa burutzea nahi duzu?</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="817"/>
+        <location filename="../gui/mainwindow.cpp" line="829"/>
         <source>Couldn&apos;t download file at URL &apos;%1&apos;, reason: %2.</source>
         <translation>Ezinezkoa agiria jeistea URL-tik: &apos;%1&apos;, zergaitia: %2.</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1516"/>
+        <location filename="../gui/mainwindow.cpp" line="1495"/>
+        <source>Python found in %1: %2</source>
+        <comment>Python found in PATH: /usr/local/bin:/usr/bin:/etc/bin</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/mainwindow.cpp" line="1523"/>
         <source>Couldn&apos;t determine your Python version (%1). Search engine disabled.</source>
         <translation>Ezin da zure Python bertsioa (%1) zehaztu. Bilaketa gailua ezgaituta.</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1527"/>
-        <location filename="../gui/mainwindow.cpp" line="1539"/>
+        <location filename="../gui/mainwindow.cpp" line="1534"/>
+        <location filename="../gui/mainwindow.cpp" line="1546"/>
         <source>Missing Python Interpreter</source>
         <translation>Ez dago Python Interpretea</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1528"/>
+        <location filename="../gui/mainwindow.cpp" line="1535"/>
         <source>Python is required to use the search engine but it does not seem to be installed.
 Do you want to install it now?</source>
         <translation>Python beharrezkoa da bilaketa gailua erabiltzeko baina ez dirudi ezarrita dagoenik. 
 Orain ezartzea nahi duzu?</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1539"/>
+        <location filename="../gui/mainwindow.cpp" line="1546"/>
         <source>Python is required to use the search engine but it does not seem to be installed.</source>
         <translation>Python beharrezkoa da bilaketa gailua erabiltzeko baina ez dirudi ezarrita dagoenik.</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1582"/>
+        <location filename="../gui/mainwindow.cpp" line="1589"/>
         <source>No updates available.
 You are already using the latest version.</source>
         <translation>Ez dago eguneraketarik eskuragarri.
 Jadanik azken bertsioa ari zara erabiltzen.</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1586"/>
+        <location filename="../gui/mainwindow.cpp" line="1593"/>
         <source>&amp;Check for Updates</source>
         <translation>&amp;Egiaztatu Eguneraketak</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1729"/>
+        <location filename="../gui/mainwindow.cpp" line="1736"/>
         <source>Checking for Updates...</source>
         <translation>Eguneraketak Egiaztatzen..</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1730"/>
+        <location filename="../gui/mainwindow.cpp" line="1737"/>
         <source>Already checking for program updates in the background</source>
         <translation>Jadanik programaren eguneraketa egiaztatzen barrenean</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1745"/>
+        <location filename="../gui/mainwindow.cpp" line="1752"/>
         <source>Python found in &apos;%1&apos;</source>
         <translation>Python aurkitu da hemen: &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1798"/>
+        <location filename="../gui/mainwindow.cpp" line="1819"/>
         <source>Download error</source>
         <translation>Jeisketa akatsa</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1798"/>
+        <location filename="../gui/mainwindow.cpp" line="1819"/>
         <source>Python setup could not be downloaded, reason: %1.
 Please install it manually.</source>
         <translation>Python ezartzailea ezin da jeitsi, zergaitia: %1.
 Mesedez ezarri eskuz.</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="557"/>
-        <location filename="../gui/mainwindow.cpp" line="903"/>
+        <location filename="../gui/mainwindow.cpp" line="569"/>
+        <location filename="../gui/mainwindow.cpp" line="909"/>
         <source>Invalid password</source>
         <translation>Sarhitz baliogabea</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="599"/>
         <location filename="../gui/mainwindow.cpp" line="611"/>
+        <location filename="../gui/mainwindow.cpp" line="623"/>
         <source>RSS (%1)</source>
         <translation>RSS (%1)</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="817"/>
+        <location filename="../gui/mainwindow.cpp" line="829"/>
         <source>URL download error</source>
         <translation>URL jeisketa akatsa</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="903"/>
+        <location filename="../gui/mainwindow.cpp" line="909"/>
         <source>The password is invalid</source>
         <translation>Sarhitza baliogabea da</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1291"/>
-        <location filename="../gui/mainwindow.cpp" line="1298"/>
+        <location filename="../gui/mainwindow.cpp" line="1297"/>
+        <location filename="../gui/mainwindow.cpp" line="1304"/>
         <source>DL speed: %1</source>
         <comment>e.g: Download speed: 10 KiB/s</comment>
         <translation>JE abiadura: %1</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1294"/>
         <location filename="../gui/mainwindow.cpp" line="1300"/>
+        <location filename="../gui/mainwindow.cpp" line="1306"/>
         <source>UP speed: %1</source>
         <comment>e.g: Upload speed: 10 KiB/s</comment>
         <translation>IG abiadura: %1</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1306"/>
+        <location filename="../gui/mainwindow.cpp" line="1312"/>
         <source>[D: %1, U: %2] qBittorrent %3</source>
         <comment>D = Download; U = Upload; %3 is qBittorrent version</comment>
         <translation>[J: %1, I: %2] qBittorrent %3</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1401"/>
+        <location filename="../gui/mainwindow.cpp" line="1407"/>
         <source>Hide</source>
         <translation>Ezkutatu</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="988"/>
+        <location filename="../gui/mainwindow.cpp" line="994"/>
         <source>Exiting qBittorrent</source>
         <translation>qBittorrentetik irtetzen</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="989"/>
+        <location filename="../gui/mainwindow.cpp" line="995"/>
         <source>Some files are currently transferring.
 Are you sure you want to quit qBittorrent?</source>
         <translation>Agiri batzuk orain eskualdatzen daude.
 Zihur zaude qBittorrent uztea nahi duzula?</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1132"/>
+        <location filename="../gui/mainwindow.cpp" line="1138"/>
         <source>Open Torrent Files</source>
         <translation>Ireki Torrent Agiriak</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1133"/>
+        <location filename="../gui/mainwindow.cpp" line="1139"/>
         <source>Torrent Files</source>
         <translation>Torrent Agiriak</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="1168"/>
+        <location filename="../gui/mainwindow.cpp" line="1174"/>
         <source>Options were saved successfully.</source>
         <translation>Aukerak ongi gorde dira.</translation>
     </message>
@@ -2741,1285 +2723,1285 @@ Zihur zaude qBittorrent uztea nahi duzula?</translation>
 <context>
     <name>Net::GeoIPManager</name>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="104"/>
-        <location filename="../base/net/geoipmanager.cpp" line="431"/>
+        <location filename="../base/net/geoipmanager.cpp" line="103"/>
+        <location filename="../base/net/geoipmanager.cpp" line="430"/>
         <source>GeoIP database loaded. Type: %1. Build time: %2.</source>
         <translation>GeoIP datubasea gertatuta. Mota: %1. Eraiketa eguna: %2.</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="108"/>
-        <location filename="../base/net/geoipmanager.cpp" line="452"/>
+        <location filename="../base/net/geoipmanager.cpp" line="107"/>
+        <location filename="../base/net/geoipmanager.cpp" line="451"/>
         <source>Couldn&apos;t load GeoIP database. Reason: %1</source>
         <translation>Ezin da GeoIP datubasea gertatu. Zergaitia: %1</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="380"/>
+        <location filename="../base/net/geoipmanager.cpp" line="379"/>
         <source>Venezuela, Bolivarian Republic of</source>
         <translation>Venezuela, Bolibariar Herkalderria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="383"/>
+        <location filename="../base/net/geoipmanager.cpp" line="382"/>
         <source>Viet Nam</source>
         <translation>Vietnam</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="393"/>
-        <location filename="../base/net/geoipmanager.cpp" line="397"/>
+        <location filename="../base/net/geoipmanager.cpp" line="392"/>
+        <location filename="../base/net/geoipmanager.cpp" line="396"/>
         <source>N/A</source>
         <translation>E/G</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="143"/>
+        <location filename="../base/net/geoipmanager.cpp" line="142"/>
         <source>Andorra</source>
         <translation>Andorra</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="144"/>
+        <location filename="../base/net/geoipmanager.cpp" line="143"/>
         <source>United Arab Emirates</source>
         <translation>Arabiar Emirrerri Batuak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="145"/>
+        <location filename="../base/net/geoipmanager.cpp" line="144"/>
         <source>Afghanistan</source>
         <translation>Afganistan</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="146"/>
+        <location filename="../base/net/geoipmanager.cpp" line="145"/>
         <source>Antigua and Barbuda</source>
         <translation>Antigua eta Barbuda</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="147"/>
+        <location filename="../base/net/geoipmanager.cpp" line="146"/>
         <source>Anguilla</source>
         <translation>Angila</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="148"/>
+        <location filename="../base/net/geoipmanager.cpp" line="147"/>
         <source>Albania</source>
         <translation>Albania</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="149"/>
+        <location filename="../base/net/geoipmanager.cpp" line="148"/>
         <source>Armenia</source>
         <translation>Armenia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="150"/>
+        <location filename="../base/net/geoipmanager.cpp" line="149"/>
         <source>Angola</source>
         <translation>Angola</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="151"/>
+        <location filename="../base/net/geoipmanager.cpp" line="150"/>
         <source>Antarctica</source>
         <translation>Antartika</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="152"/>
+        <location filename="../base/net/geoipmanager.cpp" line="151"/>
         <source>Argentina</source>
         <translation>Argentina</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="153"/>
+        <location filename="../base/net/geoipmanager.cpp" line="152"/>
         <source>American Samoa</source>
         <translation>Amerikar Samoa</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="154"/>
+        <location filename="../base/net/geoipmanager.cpp" line="153"/>
         <source>Austria</source>
         <translation>Austria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="155"/>
+        <location filename="../base/net/geoipmanager.cpp" line="154"/>
         <source>Australia</source>
         <translation>Australia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="156"/>
+        <location filename="../base/net/geoipmanager.cpp" line="155"/>
         <source>Aruba</source>
         <translation>Aruba</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="158"/>
+        <location filename="../base/net/geoipmanager.cpp" line="157"/>
         <source>Azerbaijan</source>
         <translation>Azerbaijan</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="159"/>
+        <location filename="../base/net/geoipmanager.cpp" line="158"/>
         <source>Bosnia and Herzegovina</source>
         <translation>Bosnia eta Herzegovina</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="160"/>
+        <location filename="../base/net/geoipmanager.cpp" line="159"/>
         <source>Barbados</source>
         <translation>Barbados</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="161"/>
+        <location filename="../base/net/geoipmanager.cpp" line="160"/>
         <source>Bangladesh</source>
         <translation>Bangladesh</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="162"/>
+        <location filename="../base/net/geoipmanager.cpp" line="161"/>
         <source>Belgium</source>
         <translation>Belgika</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="163"/>
+        <location filename="../base/net/geoipmanager.cpp" line="162"/>
         <source>Burkina Faso</source>
         <translation>Burkina Faso</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="164"/>
+        <location filename="../base/net/geoipmanager.cpp" line="163"/>
         <source>Bulgaria</source>
         <translation>Bulgaria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="165"/>
+        <location filename="../base/net/geoipmanager.cpp" line="164"/>
         <source>Bahrain</source>
         <translation>Bahrain</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="166"/>
+        <location filename="../base/net/geoipmanager.cpp" line="165"/>
         <source>Burundi</source>
         <translation>Burundi</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="167"/>
+        <location filename="../base/net/geoipmanager.cpp" line="166"/>
         <source>Benin</source>
         <translation>Benin</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="169"/>
+        <location filename="../base/net/geoipmanager.cpp" line="168"/>
         <source>Bermuda</source>
         <translation>Bermuda</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="170"/>
+        <location filename="../base/net/geoipmanager.cpp" line="169"/>
         <source>Brunei Darussalam</source>
         <translation>Brunei Darussalam</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="173"/>
+        <location filename="../base/net/geoipmanager.cpp" line="172"/>
         <source>Brazil</source>
         <translation>Brazil</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="174"/>
+        <location filename="../base/net/geoipmanager.cpp" line="173"/>
         <source>Bahamas</source>
         <translation>Bahamak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="175"/>
+        <location filename="../base/net/geoipmanager.cpp" line="174"/>
         <source>Bhutan</source>
         <translation>Butan</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="176"/>
+        <location filename="../base/net/geoipmanager.cpp" line="175"/>
         <source>Bouvet Island</source>
         <translation>Bouvet Uhartea</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="177"/>
+        <location filename="../base/net/geoipmanager.cpp" line="176"/>
         <source>Botswana</source>
         <translation>Botswana</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="178"/>
+        <location filename="../base/net/geoipmanager.cpp" line="177"/>
         <source>Belarus</source>
         <translation>Belaerrusia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="179"/>
+        <location filename="../base/net/geoipmanager.cpp" line="178"/>
         <source>Belize</source>
         <translation>Belize</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="180"/>
+        <location filename="../base/net/geoipmanager.cpp" line="179"/>
         <source>Canada</source>
         <translation>Kanada</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="181"/>
+        <location filename="../base/net/geoipmanager.cpp" line="180"/>
         <source>Cocos (Keeling) Islands</source>
         <translation>Cocos (Keeling) Uharteak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="182"/>
+        <location filename="../base/net/geoipmanager.cpp" line="181"/>
         <source>Congo, The Democratic Republic of the</source>
         <translation>Kongoa, Herriaginte Herkalderria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="183"/>
+        <location filename="../base/net/geoipmanager.cpp" line="182"/>
         <source>Central African Republic</source>
         <translation>Ertafrikako Herkalderria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="184"/>
+        <location filename="../base/net/geoipmanager.cpp" line="183"/>
         <source>Congo</source>
         <translation>Kongoa</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="185"/>
+        <location filename="../base/net/geoipmanager.cpp" line="184"/>
         <source>Switzerland</source>
         <translation>Suitza</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="187"/>
+        <location filename="../base/net/geoipmanager.cpp" line="186"/>
         <source>Cook Islands</source>
         <translation>Cook Uharteak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="188"/>
+        <location filename="../base/net/geoipmanager.cpp" line="187"/>
         <source>Chile</source>
         <translation>Txile</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="189"/>
+        <location filename="../base/net/geoipmanager.cpp" line="188"/>
         <source>Cameroon</source>
         <translation>Kamerun</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="190"/>
+        <location filename="../base/net/geoipmanager.cpp" line="189"/>
         <source>China</source>
         <translation>Txina</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="191"/>
+        <location filename="../base/net/geoipmanager.cpp" line="190"/>
         <source>Colombia</source>
         <translation>Colombia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="192"/>
+        <location filename="../base/net/geoipmanager.cpp" line="191"/>
         <source>Costa Rica</source>
         <translation>Costa Rica</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="193"/>
+        <location filename="../base/net/geoipmanager.cpp" line="192"/>
         <source>Cuba</source>
         <translation>Kuba</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="194"/>
+        <location filename="../base/net/geoipmanager.cpp" line="193"/>
         <source>Cape Verde</source>
         <translation>Lurmutur Berdea</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="195"/>
+        <location filename="../base/net/geoipmanager.cpp" line="194"/>
         <source>Curacao</source>
         <translation>Curacao</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="196"/>
+        <location filename="../base/net/geoipmanager.cpp" line="195"/>
         <source>Christmas Island</source>
         <translation>Christmas Uhartea</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="197"/>
+        <location filename="../base/net/geoipmanager.cpp" line="196"/>
         <source>Cyprus</source>
         <translation>Zipre</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="198"/>
+        <location filename="../base/net/geoipmanager.cpp" line="197"/>
         <source>Czech Republic</source>
         <translation>Txekiar Herkalderria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="199"/>
+        <location filename="../base/net/geoipmanager.cpp" line="198"/>
         <source>Germany</source>
         <translation>Alemania</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="200"/>
+        <location filename="../base/net/geoipmanager.cpp" line="199"/>
         <source>Djibouti</source>
         <translation>Djibouti</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="201"/>
+        <location filename="../base/net/geoipmanager.cpp" line="200"/>
         <source>Denmark</source>
         <translation>Danimarka</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="202"/>
+        <location filename="../base/net/geoipmanager.cpp" line="201"/>
         <source>Dominica</source>
         <translation>Dominika</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="203"/>
+        <location filename="../base/net/geoipmanager.cpp" line="202"/>
         <source>Dominican Republic</source>
         <translation>Dominikar Herkalderria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="204"/>
+        <location filename="../base/net/geoipmanager.cpp" line="203"/>
         <source>Algeria</source>
         <translation>Aljeria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="205"/>
+        <location filename="../base/net/geoipmanager.cpp" line="204"/>
         <source>Ecuador</source>
         <translation>Ekuador</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="206"/>
+        <location filename="../base/net/geoipmanager.cpp" line="205"/>
         <source>Estonia</source>
         <translation>Estonia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="207"/>
+        <location filename="../base/net/geoipmanager.cpp" line="206"/>
         <source>Egypt</source>
         <translation>Egipto</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="208"/>
+        <location filename="../base/net/geoipmanager.cpp" line="207"/>
         <source>Western Sahara</source>
         <translation>Sahara Mendebaldea</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="209"/>
+        <location filename="../base/net/geoipmanager.cpp" line="208"/>
         <source>Eritrea</source>
         <translation>Eritrea</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="210"/>
+        <location filename="../base/net/geoipmanager.cpp" line="209"/>
         <source>Spain</source>
         <translation>Espainia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="211"/>
+        <location filename="../base/net/geoipmanager.cpp" line="210"/>
         <source>Ethiopia</source>
         <translation>Etiopia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="212"/>
+        <location filename="../base/net/geoipmanager.cpp" line="211"/>
         <source>Finland</source>
         <translation>Finlandia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="213"/>
+        <location filename="../base/net/geoipmanager.cpp" line="212"/>
         <source>Fiji</source>
         <translation>Fiji</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="214"/>
+        <location filename="../base/net/geoipmanager.cpp" line="213"/>
         <source>Falkland Islands (Malvinas)</source>
         <translation>Malvina Uharteak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="215"/>
+        <location filename="../base/net/geoipmanager.cpp" line="214"/>
         <source>Micronesia, Federated States of</source>
         <translation>Mikronesia, Estatu Federatuak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="216"/>
+        <location filename="../base/net/geoipmanager.cpp" line="215"/>
         <source>Faroe Islands</source>
         <translation>Faroe Uharteak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="217"/>
+        <location filename="../base/net/geoipmanager.cpp" line="216"/>
         <source>France</source>
         <translation>Frantzia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="218"/>
+        <location filename="../base/net/geoipmanager.cpp" line="217"/>
         <source>Gabon</source>
         <translation>Gabon</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="219"/>
+        <location filename="../base/net/geoipmanager.cpp" line="218"/>
         <source>United Kingdom</source>
         <translation>Erresuma Batua</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="220"/>
+        <location filename="../base/net/geoipmanager.cpp" line="219"/>
         <source>Grenada</source>
         <translation>Granada</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="221"/>
+        <location filename="../base/net/geoipmanager.cpp" line="220"/>
         <source>Georgia</source>
         <translation>Georgia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="222"/>
+        <location filename="../base/net/geoipmanager.cpp" line="221"/>
         <source>French Guiana</source>
         <translation>Frantziar Guiana</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="224"/>
+        <location filename="../base/net/geoipmanager.cpp" line="223"/>
         <source>Ghana</source>
         <translation>Ghana</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="225"/>
+        <location filename="../base/net/geoipmanager.cpp" line="224"/>
         <source>Gibraltar</source>
         <translation>Gibraltar</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="226"/>
+        <location filename="../base/net/geoipmanager.cpp" line="225"/>
         <source>Greenland</source>
         <translation>Groenlandia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="227"/>
+        <location filename="../base/net/geoipmanager.cpp" line="226"/>
         <source>Gambia</source>
         <translation>Gambia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="228"/>
+        <location filename="../base/net/geoipmanager.cpp" line="227"/>
         <source>Guinea</source>
         <translation>Ginea</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="229"/>
+        <location filename="../base/net/geoipmanager.cpp" line="228"/>
         <source>Guadeloupe</source>
         <translation>Guadalupe</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="230"/>
+        <location filename="../base/net/geoipmanager.cpp" line="229"/>
         <source>Equatorial Guinea</source>
         <translation>Ekuatore Ginea</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="231"/>
+        <location filename="../base/net/geoipmanager.cpp" line="230"/>
         <source>Greece</source>
         <translation>Grezia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="232"/>
+        <location filename="../base/net/geoipmanager.cpp" line="231"/>
         <source>South Georgia and the South Sandwich Islands</source>
         <translation>Hego Georgia eta Hego Sandwich Uharteak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="233"/>
+        <location filename="../base/net/geoipmanager.cpp" line="232"/>
         <source>Guatemala</source>
         <translation>Guatemala</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="234"/>
+        <location filename="../base/net/geoipmanager.cpp" line="233"/>
         <source>Guam</source>
         <translation>Guam</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="235"/>
+        <location filename="../base/net/geoipmanager.cpp" line="234"/>
         <source>Guinea-Bissau</source>
         <translation>Ginea-Bissau</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="236"/>
+        <location filename="../base/net/geoipmanager.cpp" line="235"/>
         <source>Guyana</source>
         <translation>Guyana</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="237"/>
+        <location filename="../base/net/geoipmanager.cpp" line="236"/>
         <source>Hong Kong</source>
         <translation>Hong Kong</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="238"/>
+        <location filename="../base/net/geoipmanager.cpp" line="237"/>
         <source>Heard Island and McDonald Islands</source>
         <translation>Heard Uhartea McDonald Uharteak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="239"/>
+        <location filename="../base/net/geoipmanager.cpp" line="238"/>
         <source>Honduras</source>
         <translation>Honduras</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="240"/>
+        <location filename="../base/net/geoipmanager.cpp" line="239"/>
         <source>Croatia</source>
         <translation>Kroazia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="241"/>
+        <location filename="../base/net/geoipmanager.cpp" line="240"/>
         <source>Haiti</source>
         <translation>Haiti</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="242"/>
+        <location filename="../base/net/geoipmanager.cpp" line="241"/>
         <source>Hungary</source>
         <translation>Hungaria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="243"/>
+        <location filename="../base/net/geoipmanager.cpp" line="242"/>
         <source>Indonesia</source>
         <translation>Indonesia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="244"/>
+        <location filename="../base/net/geoipmanager.cpp" line="243"/>
         <source>Ireland</source>
         <translation>Irlanda</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="245"/>
+        <location filename="../base/net/geoipmanager.cpp" line="244"/>
         <source>Israel</source>
         <translation>Israel</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="247"/>
+        <location filename="../base/net/geoipmanager.cpp" line="246"/>
         <source>India</source>
         <translation>India</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="248"/>
+        <location filename="../base/net/geoipmanager.cpp" line="247"/>
         <source>British Indian Ocean Territory</source>
         <translation>Britainiar Indiatako Itsasoko Lurraldea</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="249"/>
+        <location filename="../base/net/geoipmanager.cpp" line="248"/>
         <source>Iraq</source>
         <translation>Irak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="250"/>
+        <location filename="../base/net/geoipmanager.cpp" line="249"/>
         <source>Iran, Islamic Republic of</source>
         <translation>Iran, Islamiar Herkalderria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="251"/>
+        <location filename="../base/net/geoipmanager.cpp" line="250"/>
         <source>Iceland</source>
         <translation>Islandia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="252"/>
+        <location filename="../base/net/geoipmanager.cpp" line="251"/>
         <source>Italy</source>
         <translation>Italia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="254"/>
+        <location filename="../base/net/geoipmanager.cpp" line="253"/>
         <source>Jamaica</source>
         <translation>Jamaika</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="255"/>
+        <location filename="../base/net/geoipmanager.cpp" line="254"/>
         <source>Jordan</source>
         <translation>Jordania</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="256"/>
+        <location filename="../base/net/geoipmanager.cpp" line="255"/>
         <source>Japan</source>
         <translation>Japonia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="257"/>
+        <location filename="../base/net/geoipmanager.cpp" line="256"/>
         <source>Kenya</source>
         <translation>Kenia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="258"/>
+        <location filename="../base/net/geoipmanager.cpp" line="257"/>
         <source>Kyrgyzstan</source>
         <translation>Kyrgyzstan</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="259"/>
+        <location filename="../base/net/geoipmanager.cpp" line="258"/>
         <source>Cambodia</source>
         <translation>Kanbodia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="260"/>
+        <location filename="../base/net/geoipmanager.cpp" line="259"/>
         <source>Kiribati</source>
         <translation>Kiribati</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="261"/>
+        <location filename="../base/net/geoipmanager.cpp" line="260"/>
         <source>Comoros</source>
         <translation>Comoros</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="262"/>
+        <location filename="../base/net/geoipmanager.cpp" line="261"/>
         <source>Saint Kitts and Nevis</source>
         <translation>Saint Kitts eta Nevis</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="263"/>
+        <location filename="../base/net/geoipmanager.cpp" line="262"/>
         <source>Korea, Democratic People&apos;s Republic of</source>
         <translation>Korea, Herriagintezko Herriaren Herkalderria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="264"/>
+        <location filename="../base/net/geoipmanager.cpp" line="263"/>
         <source>Korea, Republic of</source>
         <translation>Korea, Herkalderria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="265"/>
+        <location filename="../base/net/geoipmanager.cpp" line="264"/>
         <source>Kuwait</source>
         <translation>Kuwait</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="266"/>
+        <location filename="../base/net/geoipmanager.cpp" line="265"/>
         <source>Cayman Islands</source>
         <translation>Kaiman Uharteak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="267"/>
+        <location filename="../base/net/geoipmanager.cpp" line="266"/>
         <source>Kazakhstan</source>
         <translation>Kazakhstan</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="268"/>
+        <location filename="../base/net/geoipmanager.cpp" line="267"/>
         <source>Lao People&apos;s Democratic Republic</source>
         <translation>Laoseko Herriaren Herriagintezko Herkalderria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="269"/>
+        <location filename="../base/net/geoipmanager.cpp" line="268"/>
         <source>Lebanon</source>
         <translation>Libanoa</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="270"/>
+        <location filename="../base/net/geoipmanager.cpp" line="269"/>
         <source>Saint Lucia</source>
         <translation>Santa Luzia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="271"/>
+        <location filename="../base/net/geoipmanager.cpp" line="270"/>
         <source>Liechtenstein</source>
         <translation>Liechtenstein</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="272"/>
+        <location filename="../base/net/geoipmanager.cpp" line="271"/>
         <source>Sri Lanka</source>
         <translation>Sri Lanka</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="273"/>
+        <location filename="../base/net/geoipmanager.cpp" line="272"/>
         <source>Liberia</source>
         <translation>Liberia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="274"/>
+        <location filename="../base/net/geoipmanager.cpp" line="273"/>
         <source>Lesotho</source>
         <translation>Lesotho</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="275"/>
+        <location filename="../base/net/geoipmanager.cpp" line="274"/>
         <source>Lithuania</source>
         <translation>Lituania</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="276"/>
+        <location filename="../base/net/geoipmanager.cpp" line="275"/>
         <source>Luxembourg</source>
         <translation>Luxenburgo</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="277"/>
+        <location filename="../base/net/geoipmanager.cpp" line="276"/>
         <source>Latvia</source>
         <translation>Letonia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="279"/>
+        <location filename="../base/net/geoipmanager.cpp" line="278"/>
         <source>Morocco</source>
         <translation>Maroko</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="280"/>
+        <location filename="../base/net/geoipmanager.cpp" line="279"/>
         <source>Monaco</source>
         <translation>Monako</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="281"/>
+        <location filename="../base/net/geoipmanager.cpp" line="280"/>
         <source>Moldova, Republic of</source>
         <translation>Moldavia, Herkalderria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="284"/>
+        <location filename="../base/net/geoipmanager.cpp" line="283"/>
         <source>Madagascar</source>
         <translation>Madagaskar</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="285"/>
+        <location filename="../base/net/geoipmanager.cpp" line="284"/>
         <source>Marshall Islands</source>
         <translation>Marshall Uharteak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="287"/>
+        <location filename="../base/net/geoipmanager.cpp" line="286"/>
         <source>Mali</source>
         <translation>Mali</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="288"/>
+        <location filename="../base/net/geoipmanager.cpp" line="287"/>
         <source>Myanmar</source>
         <translation>Myanmar</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="289"/>
+        <location filename="../base/net/geoipmanager.cpp" line="288"/>
         <source>Mongolia</source>
         <translation>Mongolia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="291"/>
+        <location filename="../base/net/geoipmanager.cpp" line="290"/>
         <source>Northern Mariana Islands</source>
         <translation>Iparraldeko Mariana Uharteak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="292"/>
+        <location filename="../base/net/geoipmanager.cpp" line="291"/>
         <source>Martinique</source>
         <translation>Martinika</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="293"/>
+        <location filename="../base/net/geoipmanager.cpp" line="292"/>
         <source>Mauritania</source>
         <translation>Mauritania</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="294"/>
+        <location filename="../base/net/geoipmanager.cpp" line="293"/>
         <source>Montserrat</source>
         <translation>Montserrat</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="295"/>
+        <location filename="../base/net/geoipmanager.cpp" line="294"/>
         <source>Malta</source>
         <translation>Malta</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="296"/>
+        <location filename="../base/net/geoipmanager.cpp" line="295"/>
         <source>Mauritius</source>
         <translation>Maurizio</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="297"/>
+        <location filename="../base/net/geoipmanager.cpp" line="296"/>
         <source>Maldives</source>
         <translation>Maldivak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="298"/>
+        <location filename="../base/net/geoipmanager.cpp" line="297"/>
         <source>Malawi</source>
         <translation>Malawi</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="299"/>
+        <location filename="../base/net/geoipmanager.cpp" line="298"/>
         <source>Mexico</source>
         <translation>Mexiko</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="300"/>
+        <location filename="../base/net/geoipmanager.cpp" line="299"/>
         <source>Malaysia</source>
         <translation>Malaisia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="301"/>
+        <location filename="../base/net/geoipmanager.cpp" line="300"/>
         <source>Mozambique</source>
         <translation>Mozanbike</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="302"/>
+        <location filename="../base/net/geoipmanager.cpp" line="301"/>
         <source>Namibia</source>
         <translation>Namibia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="303"/>
+        <location filename="../base/net/geoipmanager.cpp" line="302"/>
         <source>New Caledonia</source>
         <translation>Kaledonia Berria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="304"/>
+        <location filename="../base/net/geoipmanager.cpp" line="303"/>
         <source>Niger</source>
         <translation>Niger</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="305"/>
+        <location filename="../base/net/geoipmanager.cpp" line="304"/>
         <source>Norfolk Island</source>
         <translation>Norfolk Uhartea</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="306"/>
+        <location filename="../base/net/geoipmanager.cpp" line="305"/>
         <source>Nigeria</source>
         <translation>Nigeria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="307"/>
+        <location filename="../base/net/geoipmanager.cpp" line="306"/>
         <source>Nicaragua</source>
         <translation>Nicaragua</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="308"/>
+        <location filename="../base/net/geoipmanager.cpp" line="307"/>
         <source>Netherlands</source>
         <translation>Herbehereak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="309"/>
+        <location filename="../base/net/geoipmanager.cpp" line="308"/>
         <source>Norway</source>
         <translation>Norbegia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="310"/>
+        <location filename="../base/net/geoipmanager.cpp" line="309"/>
         <source>Nepal</source>
         <translation>Nepal</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="311"/>
+        <location filename="../base/net/geoipmanager.cpp" line="310"/>
         <source>Nauru</source>
         <translation>Nauru</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="312"/>
+        <location filename="../base/net/geoipmanager.cpp" line="311"/>
         <source>Niue</source>
         <translation>Niue</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="313"/>
+        <location filename="../base/net/geoipmanager.cpp" line="312"/>
         <source>New Zealand</source>
         <translation>Zeelanda Berria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="314"/>
+        <location filename="../base/net/geoipmanager.cpp" line="313"/>
         <source>Oman</source>
         <translation>Oman</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="315"/>
+        <location filename="../base/net/geoipmanager.cpp" line="314"/>
         <source>Panama</source>
         <translation>Panama</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="316"/>
+        <location filename="../base/net/geoipmanager.cpp" line="315"/>
         <source>Peru</source>
         <translation>Peruq</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="317"/>
+        <location filename="../base/net/geoipmanager.cpp" line="316"/>
         <source>French Polynesia</source>
         <translation>Frantziar Polinesia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="318"/>
+        <location filename="../base/net/geoipmanager.cpp" line="317"/>
         <source>Papua New Guinea</source>
         <translation>Papua Ginea Berria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="319"/>
+        <location filename="../base/net/geoipmanager.cpp" line="318"/>
         <source>Philippines</source>
         <translation>Filipinak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="320"/>
+        <location filename="../base/net/geoipmanager.cpp" line="319"/>
         <source>Pakistan</source>
         <translation>Pakistan</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="321"/>
+        <location filename="../base/net/geoipmanager.cpp" line="320"/>
         <source>Poland</source>
         <translation>Polonia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="322"/>
+        <location filename="../base/net/geoipmanager.cpp" line="321"/>
         <source>Saint Pierre and Miquelon</source>
         <translation>Saint Pierre eta Mikelon</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="324"/>
+        <location filename="../base/net/geoipmanager.cpp" line="323"/>
         <source>Puerto Rico</source>
         <translation>Puerto Rico</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="326"/>
+        <location filename="../base/net/geoipmanager.cpp" line="325"/>
         <source>Portugal</source>
         <translation>Portugal</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="327"/>
+        <location filename="../base/net/geoipmanager.cpp" line="326"/>
         <source>Palau</source>
         <translation>Palau</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="328"/>
+        <location filename="../base/net/geoipmanager.cpp" line="327"/>
         <source>Paraguay</source>
         <translation>Paraguay</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="329"/>
+        <location filename="../base/net/geoipmanager.cpp" line="328"/>
         <source>Qatar</source>
         <translation>Katar</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="330"/>
+        <location filename="../base/net/geoipmanager.cpp" line="329"/>
         <source>Reunion</source>
         <translation>Reunion</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="331"/>
+        <location filename="../base/net/geoipmanager.cpp" line="330"/>
         <source>Romania</source>
         <translation>Errumania</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="333"/>
+        <location filename="../base/net/geoipmanager.cpp" line="332"/>
         <source>Russian Federation</source>
         <translation>Errusiar Federazioa</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="334"/>
+        <location filename="../base/net/geoipmanager.cpp" line="333"/>
         <source>Rwanda</source>
         <translation>Ruanda</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="335"/>
+        <location filename="../base/net/geoipmanager.cpp" line="334"/>
         <source>Saudi Arabia</source>
         <translation>Saudi Arabia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="336"/>
+        <location filename="../base/net/geoipmanager.cpp" line="335"/>
         <source>Solomon Islands</source>
         <translation>Solomon Uharteak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="337"/>
+        <location filename="../base/net/geoipmanager.cpp" line="336"/>
         <source>Seychelles</source>
         <translation>Seychelles</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="338"/>
+        <location filename="../base/net/geoipmanager.cpp" line="337"/>
         <source>Sudan</source>
         <translation>Sudan</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="339"/>
+        <location filename="../base/net/geoipmanager.cpp" line="338"/>
         <source>Sweden</source>
         <translation>Suedia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="340"/>
+        <location filename="../base/net/geoipmanager.cpp" line="339"/>
         <source>Singapore</source>
         <translation>Singapur</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="342"/>
+        <location filename="../base/net/geoipmanager.cpp" line="341"/>
         <source>Slovenia</source>
         <translation>Eslobenia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="343"/>
+        <location filename="../base/net/geoipmanager.cpp" line="342"/>
         <source>Svalbard and Jan Mayen</source>
         <translation>Svalbard eta Jan Mayen</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="344"/>
+        <location filename="../base/net/geoipmanager.cpp" line="343"/>
         <source>Slovakia</source>
         <translation>Eslobakia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="345"/>
+        <location filename="../base/net/geoipmanager.cpp" line="344"/>
         <source>Sierra Leone</source>
         <translation>Sierra Leona</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="346"/>
+        <location filename="../base/net/geoipmanager.cpp" line="345"/>
         <source>San Marino</source>
         <translation>San Marino</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="347"/>
+        <location filename="../base/net/geoipmanager.cpp" line="346"/>
         <source>Senegal</source>
         <translation>Senegal</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="348"/>
+        <location filename="../base/net/geoipmanager.cpp" line="347"/>
         <source>Somalia</source>
         <translation>Somalia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="349"/>
+        <location filename="../base/net/geoipmanager.cpp" line="348"/>
         <source>Suriname</source>
         <translation>Suriname</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="351"/>
+        <location filename="../base/net/geoipmanager.cpp" line="350"/>
         <source>Sao Tome and Principe</source>
         <translation>Sao Tome eta Principe</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="352"/>
+        <location filename="../base/net/geoipmanager.cpp" line="351"/>
         <source>El Salvador</source>
         <translation>El Salvador</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="354"/>
+        <location filename="../base/net/geoipmanager.cpp" line="353"/>
         <source>Syrian Arab Republic</source>
         <translation>Siriako Arabiar Herkalderria</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="355"/>
+        <location filename="../base/net/geoipmanager.cpp" line="354"/>
         <source>Swaziland</source>
         <translation>Swazilandia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="356"/>
+        <location filename="../base/net/geoipmanager.cpp" line="355"/>
         <source>Turks and Caicos Islands</source>
         <translation>Dordokak eta Caicos Uharteak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="357"/>
+        <location filename="../base/net/geoipmanager.cpp" line="356"/>
         <source>Chad</source>
         <translation>Txad</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="358"/>
+        <location filename="../base/net/geoipmanager.cpp" line="357"/>
         <source>French Southern Territories</source>
         <translation>Frantziar Hegoaldeko Lurraldeak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="359"/>
+        <location filename="../base/net/geoipmanager.cpp" line="358"/>
         <source>Togo</source>
         <translation>Togo</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="360"/>
+        <location filename="../base/net/geoipmanager.cpp" line="359"/>
         <source>Thailand</source>
         <translation>Thailandia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="361"/>
+        <location filename="../base/net/geoipmanager.cpp" line="360"/>
         <source>Tajikistan</source>
         <translation>Tajikistan</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="362"/>
+        <location filename="../base/net/geoipmanager.cpp" line="361"/>
         <source>Tokelau</source>
         <translation>Tokelau</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="364"/>
+        <location filename="../base/net/geoipmanager.cpp" line="363"/>
         <source>Turkmenistan</source>
         <translation>Turkmenistan</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="365"/>
+        <location filename="../base/net/geoipmanager.cpp" line="364"/>
         <source>Tunisia</source>
         <translation>Tunizia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="366"/>
+        <location filename="../base/net/geoipmanager.cpp" line="365"/>
         <source>Tonga</source>
         <translation>Tonga</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="363"/>
+        <location filename="../base/net/geoipmanager.cpp" line="362"/>
         <source>Timor-Leste</source>
         <translation>Timor-Ekialdea</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="171"/>
+        <location filename="../base/net/geoipmanager.cpp" line="170"/>
         <source>Bolivia, Plurinational State of</source>
         <translation>Bolivia, Nazioanitzeko Estatua</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="172"/>
+        <location filename="../base/net/geoipmanager.cpp" line="171"/>
         <source>Bonaire, Sint Eustatius and Saba</source>
         <translation>Bonaire, Sint Eustatius eta Saba</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="186"/>
+        <location filename="../base/net/geoipmanager.cpp" line="185"/>
         <source>Cote d&apos;Ivoire</source>
         <translation>Boli Kosta</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="278"/>
+        <location filename="../base/net/geoipmanager.cpp" line="277"/>
         <source>Libya</source>
         <translation>Libia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="283"/>
+        <location filename="../base/net/geoipmanager.cpp" line="282"/>
         <source>Saint Martin (French part)</source>
         <translation>Saint Martin (Frantziar aldea)</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="286"/>
+        <location filename="../base/net/geoipmanager.cpp" line="285"/>
         <source>Macedonia, The Former Yugoslav Republic of</source>
         <translation>Mazedonia, Yugoslaviar Herkalderria Ohia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="290"/>
+        <location filename="../base/net/geoipmanager.cpp" line="289"/>
         <source>Macao</source>
         <translation>Macao</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="323"/>
+        <location filename="../base/net/geoipmanager.cpp" line="322"/>
         <source>Pitcairn</source>
         <translation>Pitcairn</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="325"/>
+        <location filename="../base/net/geoipmanager.cpp" line="324"/>
         <source>Palestine, State of</source>
         <translation>Palestina, Estatua</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="341"/>
+        <location filename="../base/net/geoipmanager.cpp" line="340"/>
         <source>Saint Helena, Ascension and Tristan da Cunha</source>
         <translation>Saint Helena, Ascension eta Tristan da Cunha</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="350"/>
+        <location filename="../base/net/geoipmanager.cpp" line="349"/>
         <source>South Sudan</source>
         <translation>Hego Sudan</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="353"/>
+        <location filename="../base/net/geoipmanager.cpp" line="352"/>
         <source>Sint Maarten (Dutch part)</source>
         <translation>Sint Maarten (Herbeherear aldea)</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="367"/>
+        <location filename="../base/net/geoipmanager.cpp" line="366"/>
         <source>Turkey</source>
         <translation>Turkia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="368"/>
+        <location filename="../base/net/geoipmanager.cpp" line="367"/>
         <source>Trinidad and Tobago</source>
         <translation>Trinidad eta Tobago</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="369"/>
+        <location filename="../base/net/geoipmanager.cpp" line="368"/>
         <source>Tuvalu</source>
         <translation>Tuvalu</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="370"/>
+        <location filename="../base/net/geoipmanager.cpp" line="369"/>
         <source>Taiwan</source>
         <translation>Taiwan</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="371"/>
+        <location filename="../base/net/geoipmanager.cpp" line="370"/>
         <source>Tanzania, United Republic of</source>
         <translation>Tantzania, Herkalderri Batua</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="372"/>
+        <location filename="../base/net/geoipmanager.cpp" line="371"/>
         <source>Ukraine</source>
         <translation>Ukrainia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="373"/>
+        <location filename="../base/net/geoipmanager.cpp" line="372"/>
         <source>Uganda</source>
         <translation>Uganda</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="374"/>
+        <location filename="../base/net/geoipmanager.cpp" line="373"/>
         <source>United States Minor Outlying Islands</source>
         <translation>Estatu Batuetako Itsasoz Haraindiko Uharteak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="375"/>
+        <location filename="../base/net/geoipmanager.cpp" line="374"/>
         <source>United States</source>
         <translation>Estatu Batuak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="376"/>
+        <location filename="../base/net/geoipmanager.cpp" line="375"/>
         <source>Uruguay</source>
         <translation>Uruguay</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="377"/>
+        <location filename="../base/net/geoipmanager.cpp" line="376"/>
         <source>Uzbekistan</source>
         <translation>Uzbekistan</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="378"/>
+        <location filename="../base/net/geoipmanager.cpp" line="377"/>
         <source>Holy See (Vatican City State)</source>
         <translation>Hiri Santua (Vaticanoa Hiri Estatua)</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="379"/>
+        <location filename="../base/net/geoipmanager.cpp" line="378"/>
         <source>Saint Vincent and the Grenadines</source>
         <translation>Saint Vincent eta Granadinak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="381"/>
+        <location filename="../base/net/geoipmanager.cpp" line="380"/>
         <source>Virgin Islands, British</source>
         <translation>Virgin Uharteak, Britainiarrak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="382"/>
+        <location filename="../base/net/geoipmanager.cpp" line="381"/>
         <source>Virgin Islands, U.S.</source>
         <translation>Virgin Uharteak, AEB</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="384"/>
+        <location filename="../base/net/geoipmanager.cpp" line="383"/>
         <source>Vanuatu</source>
         <translation>Vanuatu</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="385"/>
+        <location filename="../base/net/geoipmanager.cpp" line="384"/>
         <source>Wallis and Futuna</source>
         <translation>Wallis eta Futuna</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="386"/>
+        <location filename="../base/net/geoipmanager.cpp" line="385"/>
         <source>Samoa</source>
         <translation>Samoa</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="387"/>
+        <location filename="../base/net/geoipmanager.cpp" line="386"/>
         <source>Yemen</source>
         <translation>Yemen</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="388"/>
+        <location filename="../base/net/geoipmanager.cpp" line="387"/>
         <source>Mayotte</source>
         <translation>Mayotte</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="332"/>
+        <location filename="../base/net/geoipmanager.cpp" line="331"/>
         <source>Serbia</source>
         <translation>Serbia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="389"/>
+        <location filename="../base/net/geoipmanager.cpp" line="388"/>
         <source>South Africa</source>
         <translation>Hego Afrika</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="390"/>
+        <location filename="../base/net/geoipmanager.cpp" line="389"/>
         <source>Zambia</source>
         <translation>Zambia</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="282"/>
+        <location filename="../base/net/geoipmanager.cpp" line="281"/>
         <source>Montenegro</source>
         <translation>Montenegro</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="391"/>
+        <location filename="../base/net/geoipmanager.cpp" line="390"/>
         <source>Zimbabwe</source>
         <translation>Zimbabwe</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="157"/>
+        <location filename="../base/net/geoipmanager.cpp" line="156"/>
         <source>Aland Islands</source>
         <translation>Aland Uharteak</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="223"/>
+        <location filename="../base/net/geoipmanager.cpp" line="222"/>
         <source>Guernsey</source>
         <translation>Guernsey</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="246"/>
+        <location filename="../base/net/geoipmanager.cpp" line="245"/>
         <source>Isle of Man</source>
         <translation>Man Uhartea</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="253"/>
+        <location filename="../base/net/geoipmanager.cpp" line="252"/>
         <source>Jersey</source>
         <translation>Jersey</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="168"/>
+        <location filename="../base/net/geoipmanager.cpp" line="167"/>
         <source>Saint Barthelemy</source>
         <translation>Saint Bartolome</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="420"/>
+        <location filename="../base/net/geoipmanager.cpp" line="419"/>
         <source>Could not uncompress GeoIP database file.</source>
         <translation>Ezin da GeoIP datubase agiria deskonprimitu.</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="441"/>
+        <location filename="../base/net/geoipmanager.cpp" line="440"/>
         <source>Couldn&apos;t save downloaded GeoIP database file.</source>
         <translation>Ezin da jeitsitako GeoIP datubase agiria gorde.</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="444"/>
+        <location filename="../base/net/geoipmanager.cpp" line="443"/>
         <source>Successfully updated GeoIP database.</source>
         <translation>GeoIP datubasea ongi eguneratu da.</translation>
     </message>
     <message>
-        <location filename="../base/net/geoipmanager.cpp" line="459"/>
+        <location filename="../base/net/geoipmanager.cpp" line="458"/>
         <source>Couldn&apos;t download GeoIP database file. Reason: %1</source>
         <translation>Ezin da GeoIP datubase agiria jeitsi. Zergaitia: %1</translation>
     </message>
@@ -4027,12 +4009,12 @@ Zihur zaude qBittorrent uztea nahi duzula?</translation>
 <context>
     <name>Net::PortForwarder</name>
     <message>
-        <location filename="../base/net/portforwarder.cpp" line="110"/>
+        <location filename="../base/net/portforwarder.cpp" line="127"/>
         <source>UPnP / NAT-PMP support [ON]</source>
         <translation>UPnP / NAT-PMP sostengua [BAI]</translation>
     </message>
     <message>
-        <location filename="../base/net/portforwarder.cpp" line="119"/>
+        <location filename="../base/net/portforwarder.cpp" line="143"/>
         <source>UPnP / NAT-PMP support [OFF]</source>
         <translation>UPnP / NAT-PMP sostengua [EZ]</translation>
     </message>
@@ -4040,7 +4022,7 @@ Zihur zaude qBittorrent uztea nahi duzula?</translation>
 <context>
     <name>Net::Smtp</name>
     <message>
-        <location filename="../base/net/smtp.cpp" line="500"/>
+        <location filename="../base/net/smtp.cpp" line="510"/>
         <source>Email Notification Error:</source>
         <translation>Post@ Jakinarazpen Akatsa:</translation>
     </message>
@@ -4539,17 +4521,17 @@ Zihur zaude qBittorrent uztea nahi duzula?</translation>
     <message>
         <location filename="../gui/optionsdlg.ui" line="1445"/>
         <source>Maximum number of connections per torrent:</source>
-        <translation>Gehinezko elkarketa zenbatekoa torrent bakoitzeko:</translation>
+        <translation>Gehienezko elkarketa zenbatekoa torrent bakoitzeko:</translation>
     </message>
     <message>
         <location filename="../gui/optionsdlg.ui" line="1455"/>
         <source>Global maximum number of connections:</source>
-        <translation>Gehinezko elkarketa zenbatekoa orotara:</translation>
+        <translation>Gehienezko elkarketa zenbatekoa orotara:</translation>
     </message>
     <message>
         <location filename="../gui/optionsdlg.ui" line="1494"/>
         <source>Maximum number of upload slots per torrent:</source>
-        <translation>Gehinezko igoera aho zenbatekoa torrent bakoitzeko:</translation>
+        <translation>Gehienezko igoera aho zenbatekoa torrent bakoitzeko:</translation>
     </message>
     <message>
         <location filename="../gui/optionsdlg.ui" line="1504"/>
@@ -4925,200 +4907,200 @@ Zihur zaude qBittorrent uztea nahi duzula?</translation>
         <translation>Domeinu izena:</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="99"/>
+        <location filename="../gui/optionsdlg.cpp" line="101"/>
         <source>By enabling these options, you can &lt;strong&gt;irrevocably lose&lt;/strong&gt; your .torrent files!</source>
         <translation>Aukera hauek gaituz, &lt;strong&gt;atzerabiderik gabe galdu&lt;/strong&gt; ditzakezu zure .torrent agiriak!</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="101"/>
+        <location filename="../gui/optionsdlg.cpp" line="103"/>
         <source>When these options are enabled, qBittorent will &lt;strong&gt;delete&lt;/strong&gt; .torrent files after they were successfully (the first option) or not (the second option) added to its download queue. This will be applied &lt;strong&gt;not only&lt;/strong&gt; to the files opened via &amp;ldquo;Add torrent&amp;rdquo; menu action but to those opened via &lt;strong&gt;file type association&lt;/strong&gt; as well</source>
         <translation>Aukera hauek gaitzen direnean, qBittorent-ek .torrent agiriak &lt;strong&gt;ezabatuko&lt;/strong&gt; ditu beren jeitsiera lerrora ongi (lehen aukera) edo ez (bigarren aukera) gehitutakoan. Hau &lt;strong&gt;ez da bakarrik&lt;/strong&gt; &amp;ldquo;Gehitu torrenta&amp;rdquo; menu ekintzaren bidez irekitako agirietan ezarriko, baita &lt;strong&gt;agiri mota elkarketa&lt;/strong&gt; bidez irekitakoetan ere.</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="106"/>
+        <location filename="../gui/optionsdlg.cpp" line="108"/>
         <source>If you enable the second option (&amp;ldquo;Also when addition is cancelled&amp;rdquo;) the .torrent file &lt;strong&gt;will be deleted&lt;/strong&gt; even if you press &amp;ldquo;&lt;strong&gt;Cancel&lt;/strong&gt;&amp;rdquo; in the &amp;ldquo;Add torrent&amp;rdquo; dialog</source>
         <translation>Bigarren aukera gaitzen baduzu (&amp;ldquo;Baita gehitzea ezeztatutakoan&amp;rdquo;) .torrent agiria &lt;strong&gt;ezabatu egingo da&lt;/strong&gt; baita &amp;ldquo;&lt;strong&gt;Ezeztatu&lt;/strong&gt;&amp;rdquo; sakatzen baduzu ere &amp;ldquo;Gehitu torrenta&amp;rdquo; elkarrizketan</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="244"/>
+        <location filename="../gui/optionsdlg.cpp" line="247"/>
         <source>Supported parameters (case sensitive):</source>
         <translation>Sostengatutako parametroak (hizki xehe-larriak bereiziz)</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="245"/>
+        <location filename="../gui/optionsdlg.cpp" line="248"/>
         <source>%N: Torrent name</source>
         <translation>%N: Torrentaren izena</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="246"/>
+        <location filename="../gui/optionsdlg.cpp" line="249"/>
         <source>%L: Category</source>
         <translation>%L: Kategoria</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="247"/>
+        <location filename="../gui/optionsdlg.cpp" line="250"/>
         <source>%F: Content path (same as root path for multifile torrent)</source>
         <translation>%F: Eduki helburua (torrent anitzerako erro helburua bezala)</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="248"/>
+        <location filename="../gui/optionsdlg.cpp" line="251"/>
         <source>%R: Root path (first torrent subdirectory path)</source>
         <translation>%R: Erro helburua (lehen torrent azpizuzenbide helburua)</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="249"/>
+        <location filename="../gui/optionsdlg.cpp" line="252"/>
         <source>%D: Save path</source>
         <translation>%D: Gordetze helburua</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="250"/>
+        <location filename="../gui/optionsdlg.cpp" line="253"/>
         <source>%C: Number of files</source>
         <translation>%C: Agiri zenbatekoa</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="251"/>
+        <location filename="../gui/optionsdlg.cpp" line="254"/>
         <source>%Z: Torrent size (bytes)</source>
         <translation>%Z: Torrentaren neurria (byte)</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="252"/>
+        <location filename="../gui/optionsdlg.cpp" line="255"/>
         <source>%T: Current tracker</source>
         <translation>%T: Oraingo aztarnaria</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="253"/>
+        <location filename="../gui/optionsdlg.cpp" line="256"/>
         <source>%I: Info hash</source>
         <translation>%I: Info hasha</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="254"/>
+        <location filename="../gui/optionsdlg.cpp" line="257"/>
         <source>Tip: Encapsulate parameter with quotation marks to avoid text being cut off at whitespace (e.g., &quot;%N&quot;)</source>
         <translation>Aholkua: Enkapsulatu parametroa adartxo artean idazkia zuriune batekin ebakia izatea saihesteko (adib., &quot;%N&quot;)</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1336"/>
+        <location filename="../gui/optionsdlg.cpp" line="1353"/>
         <source>Select folder to monitor</source>
         <translation>Hautatu monitorizatzeko agiritegia</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1343"/>
+        <location filename="../gui/optionsdlg.cpp" line="1360"/>
         <source>Folder is already being monitored:</source>
         <translation>Agiritegia jadanik monitorizatua dago:</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1346"/>
+        <location filename="../gui/optionsdlg.cpp" line="1363"/>
         <source>Folder does not exist:</source>
         <translation>Agiritegia ez dago:</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1349"/>
+        <location filename="../gui/optionsdlg.cpp" line="1366"/>
         <source>Folder is not readable:</source>
         <translation>Agiritegia ez da irakurgarria:</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1360"/>
+        <location filename="../gui/optionsdlg.cpp" line="1377"/>
         <source>Adding entry failed</source>
         <translation>Hutsegitea sarrera gehitzean</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1388"/>
-        <location filename="../gui/optionsdlg.cpp" line="1390"/>
+        <location filename="../gui/optionsdlg.cpp" line="1405"/>
+        <location filename="../gui/optionsdlg.cpp" line="1407"/>
         <source>Choose export directory</source>
         <translation>Hautatu esportatzeko zuzenbidea</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1400"/>
-        <location filename="../gui/optionsdlg.cpp" line="1402"/>
-        <location filename="../gui/optionsdlg.cpp" line="1437"/>
-        <location filename="../gui/optionsdlg.cpp" line="1439"/>
-        <location filename="../gui/optionsdlg.cpp" line="1450"/>
-        <location filename="../gui/optionsdlg.cpp" line="1452"/>
+        <location filename="../gui/optionsdlg.cpp" line="1417"/>
+        <location filename="../gui/optionsdlg.cpp" line="1419"/>
+        <location filename="../gui/optionsdlg.cpp" line="1454"/>
+        <location filename="../gui/optionsdlg.cpp" line="1456"/>
+        <location filename="../gui/optionsdlg.cpp" line="1467"/>
+        <location filename="../gui/optionsdlg.cpp" line="1469"/>
         <source>Choose a save directory</source>
         <translation>Hautatu gordetzeko zuzenbide bat</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1425"/>
+        <location filename="../gui/optionsdlg.cpp" line="1442"/>
         <source>Choose an IP filter file</source>
         <translation>Hautatu IP iragazki agiri bat</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1425"/>
+        <location filename="../gui/optionsdlg.cpp" line="1442"/>
         <source>All supported filters</source>
         <translation>Sostengatutako iragazki guztiak</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1492"/>
+        <location filename="../gui/optionsdlg.cpp" line="1509"/>
         <source>SSL Certificate</source>
         <translation>SSL Egiaztagiria</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1504"/>
+        <location filename="../gui/optionsdlg.cpp" line="1521"/>
         <source>SSL Key</source>
         <translation>SSL Giltza</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1537"/>
+        <location filename="../gui/optionsdlg.cpp" line="1553"/>
         <source>Parsing error</source>
         <translation>Azterketa akatsa</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1537"/>
+        <location filename="../gui/optionsdlg.cpp" line="1553"/>
         <source>Failed to parse the provided IP filter</source>
         <translation>Hutsegitea emandako IP iragazkia aztertzerakoan</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1539"/>
+        <location filename="../gui/optionsdlg.cpp" line="1555"/>
         <source>Successfully refreshed</source>
         <translation>Ongi berrituta</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1539"/>
+        <location filename="../gui/optionsdlg.cpp" line="1555"/>
         <source>Successfully parsed the provided IP filter: %1 rules were applied.</source>
         <comment>%1 is a number</comment>
         <translation>Emandako IP iragazkia ongi aztertu da: %1 araua ezarri dira.</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1626"/>
+        <location filename="../gui/optionsdlg.cpp" line="1647"/>
         <source>Invalid key</source>
         <translation>Giltza baliogabea</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1626"/>
+        <location filename="../gui/optionsdlg.cpp" line="1647"/>
         <source>This is not a valid SSL key.</source>
         <translation>Hau ez da baliozko SSL giltza bat.</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1642"/>
+        <location filename="../gui/optionsdlg.cpp" line="1666"/>
         <source>Invalid certificate</source>
         <translation>Egiaztagiri baliogabea</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1642"/>
+        <location filename="../gui/optionsdlg.cpp" line="1666"/>
         <source>This is not a valid SSL certificate.</source>
         <translation>Hau ez da baliozko SSL egiaztagiri bat.</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1650"/>
+        <location filename="../gui/optionsdlg.cpp" line="1677"/>
         <source>Time Error</source>
         <translation>Ordu Akatsa</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1650"/>
+        <location filename="../gui/optionsdlg.cpp" line="1677"/>
         <source>The start time and the end time can&apos;t be the same.</source>
         <translation>Hasiera ordua eta amaiera ordua ezin dira berdinak izan.</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1659"/>
-        <location filename="../gui/optionsdlg.cpp" line="1663"/>
+        <location filename="../gui/optionsdlg.cpp" line="1686"/>
+        <location filename="../gui/optionsdlg.cpp" line="1690"/>
         <source>Length Error</source>
         <translation>Luzera Akatsa</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1659"/>
+        <location filename="../gui/optionsdlg.cpp" line="1686"/>
         <source>The Web UI username must be at least 3 characters long.</source>
         <translation>Web EI erabiltzaile-izenak gutxienez 3 hizkirriko luzera izan behar du.</translation>
     </message>
     <message>
-        <location filename="../gui/optionsdlg.cpp" line="1663"/>
+        <location filename="../gui/optionsdlg.cpp" line="1690"/>
         <source>The Web UI password must be at least 6 characters long.</source>
         <translation>Web EI sarhitzak gutxienez 6 hizkirriko luzera izan behar du.</translation>
     </message>
@@ -5199,142 +5181,142 @@ Zihur zaude qBittorrent uztea nahi duzula?</translation>
 <context>
     <name>PeerListWidget</name>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="73"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="74"/>
         <source>IP</source>
         <translation>IP-a</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="74"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="75"/>
         <source>Port</source>
         <translation>Ataka</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="75"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="76"/>
         <source>Flags</source>
         <translation>Ikurrak</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="76"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="77"/>
         <source>Connection</source>
         <translation>Elkarketa</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="77"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="78"/>
         <source>Client</source>
         <comment>i.e.: Client application</comment>
         <translation>Bezeroa</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="78"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="79"/>
         <source>Progress</source>
         <comment>i.e: % downloaded</comment>
         <translation>Garapena</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="79"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="80"/>
         <source>Down Speed</source>
         <comment>i.e: Download speed</comment>
         <translation>Jeisketa Abiadura</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="80"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="81"/>
         <source>Up Speed</source>
         <comment>i.e: Upload speed</comment>
         <translation>Igoera Abiadura</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="81"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="82"/>
         <source>Downloaded</source>
         <comment>i.e: total data downloaded</comment>
         <translation>Jeitsita</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="82"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="83"/>
         <source>Uploaded</source>
         <comment>i.e: total data uploaded</comment>
         <translation>Igota</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="83"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="84"/>
         <source>Relevance</source>
         <comment>i.e: How relevant this peer is to us. How many pieces it has that we don&apos;t.</comment>
         <translation>Garrantzia</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="84"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="85"/>
         <source>Files</source>
         <comment>i.e. files that are being downloaded right now</comment>
         <translation>Agiriak</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="153"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="154"/>
         <source>Column visibility</source>
         <translation>Zutabe ikusgarritasuna</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="230"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="231"/>
         <source>Add a new peer...</source>
         <translation>Gehitu hartzaile berri bat...</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="238"/>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="276"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="239"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="277"/>
         <source>Ban peer permanently</source>
         <translation>Eragotzi hartzailea mugagabe</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="250"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="251"/>
         <source>Manually adding peer &apos;%1&apos;...</source>
         <translation>Eskuzko hartzaile gehitzea &apos;%1&apos;...</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="254"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="255"/>
         <source>The peer &apos;%1&apos; could not be added to this torrent.</source>
         <translation>&apos;%1&apos; hartzailea ezin da torrent honetara gehitu.</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="287"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="288"/>
         <source>Manually banning peer &apos;%1&apos;...</source>
         <translation>Eskuzko hartzaile eragoztea &apos;%1&apos;...</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="258"/>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="260"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="259"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="261"/>
         <source>Peer addition</source>
         <translation>Hartzaile gehiketa</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="72"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="73"/>
         <source>Country</source>
         <translation>Herrialdea</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="236"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="237"/>
         <source>Copy IP:port</source>
         <translation>Kopiatu IP:ataka</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="258"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="259"/>
         <source>Some peers could not be added. Check the Log for details.</source>
         <translation>Zenbait hartzailea ezin dira gehitu. Egiaztatu Oharra xehetasunetarako.</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="260"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="261"/>
         <source>The peers were added to this torrent.</source>
         <translation>Hartzaileak torrent honetara gehitu dira.</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="276"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="277"/>
         <source>Are you sure you want to ban permanently the selected peers?</source>
         <translation>Zihur zaude mugagabe eragoztea nahi dituzula hautatutako hartzaileak?</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="277"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="278"/>
         <source>&amp;Yes</source>
         <translation>&amp;Bai</translation>
     </message>
     <message>
-        <location filename="../gui/properties/peerlistwidget.cpp" line="277"/>
+        <location filename="../gui/properties/peerlistwidget.cpp" line="278"/>
         <source>&amp;No</source>
         <translation>&amp;Ez</translation>
     </message>
@@ -6051,95 +6033,95 @@ Plugin hauek ezgaituta daude.</translation>
         <translation>S/I Akatsa: Ezin da aldibaterako agiria sortu.</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="145"/>
+        <location filename="../app/main.cpp" line="151"/>
         <source>%1 is an unknown command line parameter.</source>
         <comment>--random-parameter is an unknown command line parameter.</comment>
         <translation>%1 agindu lerro parametro ezezaguna da.</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="157"/>
-        <location filename="../app/main.cpp" line="170"/>
+        <location filename="../app/main.cpp" line="163"/>
+        <location filename="../app/main.cpp" line="176"/>
         <source>%1 must be the single command line parameter.</source>
         <translation>%1 agindu lerro parametro soila izan behar da.</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="180"/>
+        <location filename="../app/main.cpp" line="186"/>
         <source>%1 must specify the correct port (1 to 65535).</source>
         <translation>%1-k ataka zuzena adierazi behar du (1 eta 65535 artean).</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="204"/>
+        <location filename="../app/main.cpp" line="210"/>
         <source>You cannot use %1: qBittorrent is already running for this user.</source>
         <translation>Ezin duzu %1 erabili: qBittorrent jadanik ekinean dago erabiltzaile honentzat.</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="387"/>
+        <location filename="../app/main.cpp" line="404"/>
         <source>Usage:</source>
         <translation>Erabilpena:</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="400"/>
+        <location filename="../app/main.cpp" line="417"/>
         <source>Options:</source>
         <translation>Aukerak:</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="402"/>
+        <location filename="../app/main.cpp" line="419"/>
         <source>Displays program version</source>
         <translation>Programaren bertsioa erakusten du</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="404"/>
+        <location filename="../app/main.cpp" line="421"/>
         <source>Displays this help message</source>
         <translation>Laguntza mezu hau erakusten du</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="406"/>
+        <location filename="../app/main.cpp" line="423"/>
         <source>Changes the Web UI port (current: %1)</source>
         <translation>Web EI ataka aldatzen du (oraingoa: %1)</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="409"/>
+        <location filename="../app/main.cpp" line="426"/>
         <source>Disable splash screen</source>
         <translation>Ezgaitu ongi etorri ikusleihoa</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="411"/>
+        <location filename="../app/main.cpp" line="428"/>
         <source>Run in daemon-mode (background)</source>
         <translation>Ekin daemon-moduan (barrenean)</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="413"/>
+        <location filename="../app/main.cpp" line="430"/>
         <source>Downloads the torrents passed by the user</source>
         <translation>Erabiltzaileak pasatutako torrentak jeisten ditu</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="423"/>
+        <location filename="../app/main.cpp" line="440"/>
         <source>Help</source>
         <translation>Laguntza</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="432"/>
+        <location filename="../app/main.cpp" line="449"/>
         <source>Run application with -h option to read about command line parameters.</source>
         <translation>Ekin aplikazioa -h aukerarekin agindu lerro parametroei buruz irakurtzeko.</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="434"/>
+        <location filename="../app/main.cpp" line="451"/>
         <source>Bad command line</source>
         <translation>Agindu lerro okerra</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="440"/>
+        <location filename="../app/main.cpp" line="457"/>
         <source>Bad command line: </source>
         <translation>Agindu lerro okerra:</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="453"/>
+        <location filename="../app/main.cpp" line="470"/>
         <source>Legal Notice</source>
         <translation>Legezko Jakinarazpena</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="454"/>
-        <location filename="../app/main.cpp" line="464"/>
+        <location filename="../app/main.cpp" line="471"/>
+        <location filename="../app/main.cpp" line="481"/>
         <source>qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.
 
 No further notices will be issued.</source>
@@ -6147,53 +6129,53 @@ No further notices will be issued.</source>
 Ez dira jakinarazpen gehiago egingo.</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="455"/>
+        <location filename="../app/main.cpp" line="472"/>
         <source>Press %1 key to accept and continue...</source>
         <translation>Sakatu %1 tekla onartu eta jarraitzeko...</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="465"/>
+        <location filename="../app/main.cpp" line="482"/>
         <source>Legal notice</source>
         <translation>Legezko Jakinarazpena</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="466"/>
+        <location filename="../app/main.cpp" line="483"/>
         <source>Cancel</source>
         <translation>Ezeztatu</translation>
     </message>
     <message>
-        <location filename="../app/main.cpp" line="467"/>
+        <location filename="../app/main.cpp" line="484"/>
         <source>I Agree</source>
         <translation>Onartzen dut</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="297"/>
+        <location filename="../app/application.cpp" line="293"/>
         <source>Torrent name: %1</source>
         <translation>Torrent izena: %1</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="298"/>
+        <location filename="../app/application.cpp" line="294"/>
         <source>Torrent size: %1</source>
         <translation>Torrent neurria: %1</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="299"/>
+        <location filename="../app/application.cpp" line="295"/>
         <source>Save path: %1</source>
         <translation>Gordetze helburua: %1</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="300"/>
+        <location filename="../app/application.cpp" line="296"/>
         <source>The torrent was downloaded in %1.</source>
         <comment>The torrent was downloaded in 1 hour and 20 seconds</comment>
         <translation>Torrentaren jeiste denbora, %1.</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="303"/>
+        <location filename="../app/application.cpp" line="299"/>
         <source>Thank you for using qBittorrent.</source>
         <translation>Mila esker qBittorrent erabiltzeagaitik.</translation>
     </message>
     <message>
-        <location filename="../app/application.cpp" line="309"/>
+        <location filename="../app/application.cpp" line="305"/>
         <source>[qBittorrent] &apos;%1&apos; has finished downloading</source>
         <translation>[qBittorrent] &apos;%1&apos; jeisketa amaitu du</translation>
     </message>
@@ -6308,43 +6290,43 @@ Ez dira jakinarazpen gehiago egingo.</translation>
         <translation>Akats ezezaguna</translation>
     </message>
     <message>
-        <location filename="../app/upgrade.h" line="54"/>
-        <location filename="../app/upgrade.h" line="67"/>
+        <location filename="../app/upgrade.h" line="61"/>
+        <location filename="../app/upgrade.h" line="74"/>
         <source>Upgrade</source>
         <translation>Eguneratu</translation>
     </message>
     <message>
-        <location filename="../app/upgrade.h" line="57"/>
+        <location filename="../app/upgrade.h" line="64"/>
         <source>You updated from an older version that saved things differently. You must migrate to the new saving system. You will not be able to use an older version than v3.3.0 again. Continue? [y/n]</source>
         <translation>Gauzak beste modu batean gordetzen dituen bertsio zahar batetik eguneratu zara. Gordetze sistema berrira migratu behar duzu. Ezingo duzu v3.3.0 baino zaharragoa den bertsiorik erabili ahalko berriro. Jarriatu? [y/n].</translation>
     </message>
     <message>
-        <location filename="../app/upgrade.h" line="66"/>
+        <location filename="../app/upgrade.h" line="73"/>
         <source>You updated from an older version that saved things differently. You must migrate to the new saving system. If you continue, you will not be able to use an older version than v3.3.0 again.</source>
         <translation>Gauzak beste modu batean gordetzen dituen bertsio zahar batetik eguneratu zara. Gordetze sistema berrira migratu behar duzu. Jarraitzen baduzu, ezingo duzu v3.3.0 baino zaharragoa den bertsiorik erabili ahalko berriro.</translation>
     </message>
     <message>
-        <location filename="../app/upgrade.h" line="166"/>
+        <location filename="../app/upgrade.h" line="184"/>
         <source>Couldn&apos;t migrate torrent with hash: %1</source>
         <translation>Ezinezkoa torrenta migratzea, hasha: %1</translation>
     </message>
     <message>
-        <location filename="../app/upgrade.h" line="169"/>
+        <location filename="../app/upgrade.h" line="187"/>
         <source>Couldn&apos;t migrate torrent. Invalid fastresume file name: %1</source>
         <translation>Ezinezkoa torrenta migratzea. Berrekite-azkar agiri izen baliogabea: %1</translation>
     </message>
     <message>
-        <location filename="../base/settingsstorage.cpp" line="214"/>
+        <location filename="../base/settingsstorage.cpp" line="272"/>
         <source>Detected unclean program exit. Using fallback file to restore settings.</source>
         <translation>Programatik irtetze ez garbia atzemanda. Atzerabide agiria erabiltzen ezarpenak leheneratzeko.</translation>
     </message>
     <message>
-        <location filename="../base/settingsstorage.cpp" line="280"/>
+        <location filename="../base/settingsstorage.cpp" line="335"/>
         <source>An access error occurred while trying to write the configuration file.</source>
         <translation>Sarbide akats bat gertatu da itxurapen agiria idazten saiatzerakoan.</translation>
     </message>
     <message>
-        <location filename="../base/settingsstorage.cpp" line="282"/>
+        <location filename="../base/settingsstorage.cpp" line="337"/>
         <source>A format error occurred while trying to write the configuration file.</source>
         <translation>Heuskarri akats bat gertatu da itxurapen agiria idazten saiatzerakoan.</translation>
     </message>
@@ -6363,8 +6345,8 @@ Ez dira jakinarazpen gehiago egingo.</translation>
     </message>
     <message>
         <location filename="../gui/rss/rss.ui" line="32"/>
-        <location filename="../gui/rss/rss.ui" line="159"/>
-        <location filename="../gui/rss/rss.ui" line="162"/>
+        <location filename="../gui/rss/rss.ui" line="171"/>
+        <location filename="../gui/rss/rss.ui" line="174"/>
         <source>Mark items read</source>
         <translation>Markatu gaiak irakurritzat</translation>
     </message>
@@ -6384,60 +6366,60 @@ Ez dira jakinarazpen gehiago egingo.</translation>
         <translation>Ezarpenak...</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="91"/>
+        <location filename="../gui/rss/rss.ui" line="97"/>
         <source>Torrents: (double-click to download)</source>
         <translation>Torrentak: (klik-bikoitza jeisteko)</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="122"/>
-        <location filename="../gui/rss/rss.ui" line="125"/>
+        <location filename="../gui/rss/rss.ui" line="134"/>
+        <location filename="../gui/rss/rss.ui" line="137"/>
         <source>Delete</source>
         <translation>Ezabatu</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="130"/>
+        <location filename="../gui/rss/rss.ui" line="142"/>
         <source>Rename...</source>
         <translation>Berrizendatu...</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="133"/>
+        <location filename="../gui/rss/rss.ui" line="145"/>
         <source>Rename</source>
         <translation>Berrizendatu</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="138"/>
-        <location filename="../gui/rss/rss.ui" line="141"/>
+        <location filename="../gui/rss/rss.ui" line="150"/>
+        <location filename="../gui/rss/rss.ui" line="153"/>
         <source>Update</source>
         <translation>Eguneratu</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="146"/>
+        <location filename="../gui/rss/rss.ui" line="158"/>
         <source>New subscription...</source>
         <translation>Harpidetza berria...</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="151"/>
-        <location filename="../gui/rss/rss.ui" line="154"/>
+        <location filename="../gui/rss/rss.ui" line="163"/>
+        <location filename="../gui/rss/rss.ui" line="166"/>
         <source>Update all feeds</source>
         <translation>Eguneratu harpidetza guztiak</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="167"/>
+        <location filename="../gui/rss/rss.ui" line="179"/>
         <source>Download torrent</source>
         <translation>Jeitsi torrenta</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="172"/>
+        <location filename="../gui/rss/rss.ui" line="184"/>
         <source>Open news URL</source>
         <translation>Ireki URL berriak</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="177"/>
+        <location filename="../gui/rss/rss.ui" line="189"/>
         <source>Copy feed URL</source>
         <translation>Kopiatu harpidetza URL-a</translation>
     </message>
     <message>
-        <location filename="../gui/rss/rss.ui" line="182"/>
+        <location filename="../gui/rss/rss.ui" line="194"/>
         <source>New folder...</source>
         <translation>Agiritegi berria...</translation>
     </message>
@@ -6528,12 +6510,12 @@ Ez dira jakinarazpen gehiago egingo.</translation>
 <context>
     <name>Rss::Feed</name>
     <message>
-        <location filename="../base/rss/rssfeed.cpp" line="381"/>
+        <location filename="../base/rss/rssfeed.cpp" line="386"/>
         <source>Automatic download of &apos;%1&apos; from &apos;%2&apos; RSS feed failed because it doesn&apos;t contain a torrent or a magnet link...</source>
         <translation>Hutsegitea &apos;%1&apos; torrenta %2 RSS harpidetzatik berezgaitasunez jeistean ez duelako torrent bat edo magnet lotura bat...</translation>
     </message>
     <message>
-        <location filename="../base/rss/rssfeed.cpp" line="386"/>
+        <location filename="../base/rss/rssfeed.cpp" line="391"/>
         <source>Automatically downloading &apos;%1&apos; torrent from &apos;%2&apos; RSS feed...</source>
         <translation>&apos;%1&apos; torrenta berezgaitasunez jeisten %2 RSS harpidetzatik...</translation>
     </message>
@@ -6587,7 +6569,7 @@ Ez dira jakinarazpen gehiago egingo.</translation>
     <message>
         <location filename="../base/scanfoldersmodel.cpp" line="154"/>
         <source>Override Save Location</source>
-        <translation>Ezezatatu Gordetze Kokalekua</translation>
+        <translation>Ezeztatu Gordetze Kokalekua</translation>
     </message>
     <message>
         <location filename="../base/scanfoldersmodel.cpp" line="395"/>
@@ -7260,61 +7242,61 @@ Ez dira jakinarazpen gehiago egingo.</translation>
 <context>
     <name>StatusBar</name>
     <message>
-        <location filename="../gui/statusbar.cpp" line="67"/>
-        <location filename="../gui/statusbar.cpp" line="189"/>
+        <location filename="../gui/statusbar.cpp" line="66"/>
+        <location filename="../gui/statusbar.cpp" line="188"/>
         <source>Connection status:</source>
         <translation>Elkarketa egoera:</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="67"/>
-        <location filename="../gui/statusbar.cpp" line="189"/>
+        <location filename="../gui/statusbar.cpp" line="66"/>
+        <location filename="../gui/statusbar.cpp" line="188"/>
         <source>No direct connections. This may indicate network configuration problems.</source>
         <translation>Ez dago zuzeneko elkarketarik. Honek adierazi dezake sare itxurapen arazoak daudela.</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="87"/>
-        <location filename="../gui/statusbar.cpp" line="198"/>
+        <location filename="../gui/statusbar.cpp" line="86"/>
+        <location filename="../gui/statusbar.cpp" line="197"/>
         <source>DHT: %1 nodes</source>
         <translation>DHT: %1 elkargune</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="157"/>
+        <location filename="../gui/statusbar.cpp" line="156"/>
         <source>qBittorrent needs to be restarted</source>
         <translation>qBittorrentek berrabiarazpena behar du</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="167"/>
+        <location filename="../gui/statusbar.cpp" line="166"/>
         <source>qBittorrent was just updated and needs to be restarted for the changes to be effective.</source>
         <translation>qBittorrent eguneratua izan da eta berrabiarazpena behar du aldaketek eragina izateko.</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="179"/>
-        <location filename="../gui/statusbar.cpp" line="185"/>
+        <location filename="../gui/statusbar.cpp" line="178"/>
+        <location filename="../gui/statusbar.cpp" line="184"/>
         <source>Connection Status:</source>
         <translation>Elkarketa Egoera:</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="179"/>
+        <location filename="../gui/statusbar.cpp" line="178"/>
         <source>Offline. This usually means that qBittorrent failed to listen on the selected port for incoming connections.</source>
         <translation>Lineaz-kanpo. Honek arrunt esanahi du qBittorrentek huts egin duela hautatutako barrurako elkarketen atakan aditzean.</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="185"/>
+        <location filename="../gui/statusbar.cpp" line="184"/>
         <source>Online</source>
         <translation>Online</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="238"/>
+        <location filename="../gui/statusbar.cpp" line="237"/>
         <source>Click to switch to alternative speed limits</source>
         <translation>Klikatu beste abiadura muga batera aldatzeko</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="233"/>
+        <location filename="../gui/statusbar.cpp" line="232"/>
         <source>Click to switch to regular speed limits</source>
         <translation>Klikatu abiadura muga arruntera aldatzeko</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="248"/>
+        <location filename="../gui/statusbar.cpp" line="247"/>
         <source>Manual change of rate limits mode. The scheduler is disabled.</source>
         <translation>Eskuzko maila muga modu aldaketa. Egitarautzailea ezgaituta dago.</translation>
     </message>
@@ -7324,7 +7306,7 @@ Ez dira jakinarazpen gehiago egingo.</translation>
         <translation>Jeisketa Abiadura Muga Orokorra</translation>
     </message>
     <message>
-        <location filename="../gui/statusbar.cpp" line="284"/>
+        <location filename="../gui/statusbar.cpp" line="269"/>
         <source>Global Upload Speed Limit</source>
         <translation>Igoera Abiadura Muga Orokorra</translation>
     </message>
@@ -7679,84 +7661,69 @@ Ez dira jakinarazpen gehiago egingo.</translation>
 <context>
     <name>TrackerFiltersList</name>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="445"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="446"/>
         <source>All (0)</source>
         <comment>this is for the tracker filter</comment>
         <translation>Denak (0)</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="448"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="449"/>
         <source>Trackerless (0)</source>
         <translation>Aztarnarigabe (0)</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="451"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="452"/>
         <source>Error (0)</source>
         <translation>Akatsa (0)</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="454"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="455"/>
         <source>Warning (0)</source>
         <translation>Kontuz (0)</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="498"/>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="552"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="499"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="554"/>
         <source>Trackerless (%1)</source>
         <translation>Aztarnarigabe (%1)</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="504"/>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="547"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="505"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="549"/>
         <source>%1 (%2)</source>
         <comment>openbittorrent.com (10)</comment>
         <translation>%1 (%2)</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="577"/>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="609"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="592"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="624"/>
         <source>Error (%1)</source>
         <translation>Akatsa (%1)</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="590"/>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="624"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="605"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="639"/>
         <source>Warning (%1)</source>
         <translation>Kontuz (%1)</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="654"/>
-        <source>Couldn&apos;t decode favicon for URL &apos;%1&apos;. Trying to download favicon in PNG format.</source>
-        <translation>Ezin da &apos;%1&apos; url-arentzako fabikoa dekodeatu. Fabikoa PNG heuskarrian jeisten saiatzen.</translation>
-    </message>
-    <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="659"/>
-        <source>Couldn&apos;t decode favicon for URL &apos;%1&apos;.</source>
-        <translation>Ezin da &apos;%1&apos; url-arentzako fabikoa dekodeatu.</translation>
-    </message>
-    <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="673"/>
-        <source>Couldn&apos;t download favicon for URL &apos;%1&apos;. Reason: %2</source>
-        <translation>Ezin da &apos;%1&apos; url-arentzako fabikoa jeitsi. Zergaitia: %2</translation>
-    </message>
-    <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="682"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="689"/>
         <source>Resume torrents</source>
         <translation>Berrekin torrentak</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="683"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="690"/>
         <source>Pause torrents</source>
         <translation>Pausatu torrentak</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="684"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="691"/>
         <source>Delete torrents</source>
         <translation>Ezabatu torrentak</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="718"/>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="732"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="725"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="739"/>
         <source>All (%1)</source>
         <comment>this is for the tracker filter</comment>
         <translation>Denak (%1)</translation>
@@ -8024,17 +7991,17 @@ Ez dira jakinarazpen gehiago egingo.</translation>
 <context>
     <name>TransferListFiltersWidget</name>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="811"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="818"/>
         <source>Status</source>
         <translation>Egoera</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="819"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="826"/>
         <source>Categories</source>
         <translation>Kategoriak</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistfilterswidget.cpp" line="827"/>
+        <location filename="../gui/transferlistfilterswidget.cpp" line="834"/>
         <source>Trackers</source>
         <translation>Aztarnariak</translation>
     </message>
@@ -8042,80 +8009,80 @@ Ez dira jakinarazpen gehiago egingo.</translation>
 <context>
     <name>TransferListWidget</name>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="512"/>
+        <location filename="../gui/transferlistwidget.cpp" line="527"/>
         <source>Column visibility</source>
         <translation>Zutabe ikusgarritasuna</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="253"/>
+        <location filename="../gui/transferlistwidget.cpp" line="255"/>
         <source>Choose save path</source>
         <translation>Hautatu gordetzeko helburua</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="440"/>
+        <location filename="../gui/transferlistwidget.cpp" line="452"/>
         <source>Torrent Download Speed Limiting</source>
         <translation>Torrent Jeisketa Abiadura Muga</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="469"/>
+        <location filename="../gui/transferlistwidget.cpp" line="483"/>
         <source>Torrent Upload Speed Limiting</source>
         <translation>Torrent Igoera Abiadura Muga</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="500"/>
+        <location filename="../gui/transferlistwidget.cpp" line="515"/>
         <source>Recheck confirmation</source>
         <translation>Berregiaztatu baieztapena</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="500"/>
+        <location filename="../gui/transferlistwidget.cpp" line="515"/>
         <source>Are you sure you want to recheck the selected torrent(s)?</source>
         <translation>Zihur zaude hautaturiko torrenta(k) berregiaztatzea nahi d(it)uzula?</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="610"/>
+        <location filename="../gui/transferlistwidget.cpp" line="625"/>
         <source>Rename</source>
         <translation>Berrizendatu</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="610"/>
+        <location filename="../gui/transferlistwidget.cpp" line="625"/>
         <source>New name:</source>
         <translation>Izen berria:</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="630"/>
+        <location filename="../gui/transferlistwidget.cpp" line="645"/>
         <source>Resume</source>
         <comment>Resume/start the torrent</comment>
         <translation>Berrekin</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="634"/>
+        <location filename="../gui/transferlistwidget.cpp" line="649"/>
         <source>Force Resume</source>
         <comment>Force Resume/start the torrent</comment>
         <translation>Behartu Berrekitea</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="632"/>
+        <location filename="../gui/transferlistwidget.cpp" line="647"/>
         <source>Pause</source>
         <comment>Pause the torrent</comment>
         <translation>Pausatu</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="582"/>
+        <location filename="../gui/transferlistwidget.cpp" line="597"/>
         <source>New Category</source>
         <translation>Kategoria Berria</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="582"/>
+        <location filename="../gui/transferlistwidget.cpp" line="597"/>
         <source>Category:</source>
         <translation>Kategoria:</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="585"/>
+        <location filename="../gui/transferlistwidget.cpp" line="600"/>
         <source>Invalid category name</source>
         <translation>Kategoria izen baliogabea</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="586"/>
+        <location filename="../gui/transferlistwidget.cpp" line="601"/>
         <source>Category name must not contain &apos;\&apos;.
 Category name must not start/end with &apos;/&apos;.
 Category name must not contain &apos;//&apos; sequence.</source>
@@ -8124,129 +8091,129 @@ Kategoria izenak ez da hasi/amaitu behar &apos;/&apos;-rekin.
 Kategoria izenak ezin du &apos;//&apos; sekuentzia izan.</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="636"/>
+        <location filename="../gui/transferlistwidget.cpp" line="651"/>
         <source>Delete</source>
         <comment>Delete the torrent</comment>
         <translation>Ezabatu</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="638"/>
+        <location filename="../gui/transferlistwidget.cpp" line="653"/>
         <source>Preview file...</source>
         <translation>Agiri aurreikuspena...</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="640"/>
+        <location filename="../gui/transferlistwidget.cpp" line="655"/>
         <source>Limit share ratio...</source>
         <translation>Mugatu elkarbanatze maila...</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="642"/>
+        <location filename="../gui/transferlistwidget.cpp" line="657"/>
         <source>Limit upload rate...</source>
         <translation>Mugatu igoera neurria...</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="644"/>
+        <location filename="../gui/transferlistwidget.cpp" line="659"/>
         <source>Limit download rate...</source>
         <translation>Mugatu jeisketa neurria...</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="646"/>
+        <location filename="../gui/transferlistwidget.cpp" line="661"/>
         <source>Open destination folder</source>
         <translation>Ireki helmuga agiritegia</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="648"/>
+        <location filename="../gui/transferlistwidget.cpp" line="663"/>
         <source>Move up</source>
         <comment>i.e. move up in the queue</comment>
         <translation>Mugitu gora</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="650"/>
+        <location filename="../gui/transferlistwidget.cpp" line="665"/>
         <source>Move down</source>
         <comment>i.e. Move down in the queue</comment>
         <translation>Mugitu behera</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="652"/>
+        <location filename="../gui/transferlistwidget.cpp" line="667"/>
         <source>Move to top</source>
         <comment>i.e. Move to top of the queue</comment>
         <translation>Mugitu goren</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="654"/>
+        <location filename="../gui/transferlistwidget.cpp" line="669"/>
         <source>Move to bottom</source>
         <comment>i.e. Move to bottom of the queue</comment>
         <translation>Mugitu beheren</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="656"/>
+        <location filename="../gui/transferlistwidget.cpp" line="671"/>
         <source>Set location...</source>
         <translation>Ezarri kokalekua...</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="662"/>
+        <location filename="../gui/transferlistwidget.cpp" line="677"/>
         <source>Copy name</source>
         <translation>Kopiatu izena</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="672"/>
+        <location filename="../gui/transferlistwidget.cpp" line="687"/>
         <source>Download first and last pieces first</source>
         <translation>Jeitsi lehen eta azken atalak lehenik</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="675"/>
+        <location filename="../gui/transferlistwidget.cpp" line="690"/>
         <source>Automatic Torrent Management</source>
         <translation>Berezgaitasunezko Torrent Kudeaketa</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="677"/>
+        <location filename="../gui/transferlistwidget.cpp" line="692"/>
         <source>Automatic mode means that various torrent properties(eg save path) will be decided by the associated category</source>
         <translation>Berezgaitasunezko moduak esanahi du torrent ezaugarri ugari (adib. gordetze helburua) elkartutako kategoriaren arabera erabakiko direla</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="775"/>
+        <location filename="../gui/transferlistwidget.cpp" line="790"/>
         <source>Category</source>
         <translation>Kategoria</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="776"/>
+        <location filename="../gui/transferlistwidget.cpp" line="791"/>
         <source>New...</source>
         <comment>New category...</comment>
         <translation>Berria...</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="777"/>
+        <location filename="../gui/transferlistwidget.cpp" line="792"/>
         <source>Reset</source>
         <comment>Reset category</comment>
         <translation>Berrezarri</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="832"/>
+        <location filename="../gui/transferlistwidget.cpp" line="847"/>
         <source>Priority</source>
         <translation>Lehentasuna</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="658"/>
+        <location filename="../gui/transferlistwidget.cpp" line="673"/>
         <source>Force recheck</source>
         <translation>Behartu berregiaztapena</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="660"/>
+        <location filename="../gui/transferlistwidget.cpp" line="675"/>
         <source>Copy magnet link</source>
         <translation>Kopiatu magnet lotura</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="664"/>
+        <location filename="../gui/transferlistwidget.cpp" line="679"/>
         <source>Super seeding mode</source>
         <translation>Gain emaritza modua</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="667"/>
+        <location filename="../gui/transferlistwidget.cpp" line="682"/>
         <source>Rename...</source>
         <translation>Berrizendatu...</translation>
     </message>
     <message>
-        <location filename="../gui/transferlistwidget.cpp" line="669"/>
+        <location filename="../gui/transferlistwidget.cpp" line="684"/>
         <source>Download in sequential order</source>
         <translation>Jeitsi sekuentzialki</translation>
     </message>
@@ -8284,7 +8251,7 @@ Kategoria izenak ezin du &apos;//&apos; sekuentzia izan.</translation>
 <context>
     <name>WebApplication</name>
     <message>
-        <location filename="../webui/webapplication.cpp" line="781"/>
+        <location filename="../webui/webapplication.cpp" line="775"/>
         <source>Incorrect category name</source>
         <translation>Kategoria izen okerra</translation>
     </message>
@@ -8606,11 +8573,11 @@ Kategoria izenak ezin du &apos;//&apos; sekuentzia izan.</translation>
 <context>
     <name>fsutils</name>
     <message>
-        <location filename="../base/utils/fs.cpp" line="447"/>
-        <location filename="../base/utils/fs.cpp" line="454"/>
-        <location filename="../base/utils/fs.cpp" line="464"/>
-        <location filename="../base/utils/fs.cpp" line="497"/>
-        <location filename="../base/utils/fs.cpp" line="509"/>
+        <location filename="../base/utils/fs.cpp" line="420"/>
+        <location filename="../base/utils/fs.cpp" line="427"/>
+        <location filename="../base/utils/fs.cpp" line="437"/>
+        <location filename="../base/utils/fs.cpp" line="470"/>
+        <location filename="../base/utils/fs.cpp" line="482"/>
         <source>Downloads</source>
         <translation>Jeisketak</translation>
     </message>
@@ -8618,115 +8585,115 @@ Kategoria izenak ezin du &apos;//&apos; sekuentzia izan.</translation>
 <context>
     <name>misc</name>
     <message>
-        <location filename="../base/utils/misc.cpp" line="85"/>
+        <location filename="../base/utils/misc.cpp" line="86"/>
         <source>B</source>
         <comment>bytes</comment>
         <translation>B</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="86"/>
+        <location filename="../base/utils/misc.cpp" line="87"/>
         <source>KiB</source>
         <comment>kibibytes (1024 bytes)</comment>
         <translation>KiB</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="87"/>
+        <location filename="../base/utils/misc.cpp" line="88"/>
         <source>MiB</source>
         <comment>mebibytes (1024 kibibytes)</comment>
         <translation>MiB</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="88"/>
+        <location filename="../base/utils/misc.cpp" line="89"/>
         <source>GiB</source>
         <comment>gibibytes (1024 mibibytes)</comment>
         <translation>GiB</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="89"/>
+        <location filename="../base/utils/misc.cpp" line="90"/>
         <source>TiB</source>
         <comment>tebibytes (1024 gibibytes)</comment>
         <translation>TiB</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="90"/>
+        <location filename="../base/utils/misc.cpp" line="91"/>
         <source>PiB</source>
         <comment>pebibytes (1024 tebibytes)</comment>
         <translation>PiB</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="91"/>
+        <location filename="../base/utils/misc.cpp" line="92"/>
         <source>EiB</source>
         <comment>exbibytes (1024 pebibytes)</comment>
         <translation>EiB</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="286"/>
+        <location filename="../base/utils/misc.cpp" line="288"/>
         <source>Python not detected</source>
         <translation>Python ez da atzeman</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="314"/>
+        <location filename="../base/utils/misc.cpp" line="317"/>
         <source>Python version: %1</source>
         <translation>Python bertsioa: %1</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="361"/>
+        <location filename="../base/utils/misc.cpp" line="363"/>
         <source>/s</source>
         <comment>per second</comment>
         <translation>/s</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="442"/>
+        <location filename="../base/utils/misc.cpp" line="443"/>
         <source>%1h %2m</source>
         <comment>e.g: 3hours 5minutes</comment>
         <translation>%1o %2m</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="446"/>
+        <location filename="../base/utils/misc.cpp" line="447"/>
         <source>%1d %2h</source>
         <comment>e.g: 2days 10hours</comment>
         <translation>%1e %2o</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="353"/>
+        <location filename="../base/utils/misc.cpp" line="356"/>
         <source>Unknown</source>
         <comment>Unknown (size)</comment>
         <translation>Ezezaguna</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="210"/>
+        <location filename="../base/utils/misc.cpp" line="211"/>
         <source>qBittorrent will shutdown the computer now because all downloads are complete.</source>
         <translation>qBittorrent-ek orain ordenagailua itzaliko du jeisketa guztiak osatu direlako.</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="435"/>
+        <location filename="../base/utils/misc.cpp" line="436"/>
         <source>&lt; 1m</source>
         <comment>&lt; 1 minute</comment>
         <translation>&lt; 1m</translation>
     </message>
     <message>
-        <location filename="../base/utils/misc.cpp" line="438"/>
+        <location filename="../base/utils/misc.cpp" line="439"/>
         <source>%1m</source>
         <comment>e.g: 10minutes</comment>
         <translation>%1m</translation>
     </message>
     <message>
-        <location filename="../webui/btjson.cpp" line="469"/>
+        <location filename="../webui/btjson.cpp" line="471"/>
         <source>Working</source>
         <translation>Lanean</translation>
     </message>
     <message>
-        <location filename="../webui/btjson.cpp" line="467"/>
+        <location filename="../webui/btjson.cpp" line="469"/>
         <source>Updating...</source>
         <translation>Eguneratzen...</translation>
     </message>
     <message>
-        <location filename="../webui/btjson.cpp" line="471"/>
+        <location filename="../webui/btjson.cpp" line="473"/>
         <source>Not working</source>
         <translation>Lan gabe</translation>
     </message>
     <message>
-        <location filename="../webui/btjson.cpp" line="465"/>
+        <location filename="../webui/btjson.cpp" line="467"/>
         <source>Not contacted yet</source>
         <translation>Harremandu gabe oraindik</translation>
     </message>
