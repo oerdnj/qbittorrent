@@ -44,6 +44,7 @@
 #include <QCloseEvent>
 #include <QShortcut>
 #include <QScrollBar>
+#include <QSysInfo>
 #include <QMimeData>
 #include <QCryptographicHash>
 #include <QProcess>
@@ -113,6 +114,9 @@ namespace
     const QString KEY_NOTIFICATIONS_ENABLED = NOTIFICATIONS_SETTINGS_KEY("Enabled");
     const QString KEY_NOTIFICATIONS_TORRENTADDED = NOTIFICATIONS_SETTINGS_KEY("TorrentAdded");
 
+    // Misc
+    const QString KEY_DOWNLOAD_TRACKER_FAVICON = NOTIFICATIONS_SETTINGS_KEY("DownloadTrackerFavicon");
+
     //just a shortcut
     inline SettingsStorage *settings() { return  SettingsStorage::instance(); }
 }
@@ -170,12 +174,6 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui->menuAutoShutdownOnDownloadsCompletion->setIcon(GuiIconProvider::instance()->getIcon("application-exit"));
     m_ui->actionManageCookies->setIcon(GuiIconProvider::instance()->getIcon("preferences-web-browser-cookies"));
 
-    QMenu *startAllMenu = new QMenu(this);
-    startAllMenu->addAction(m_ui->actionStartAll);
-    m_ui->actionStart->setMenu(startAllMenu);
-    QMenu *pauseAllMenu = new QMenu(this);
-    pauseAllMenu->addAction(m_ui->actionPauseAll);
-    m_ui->actionPause->setMenu(pauseAllMenu);
     QMenu *lockMenu = new QMenu(this);
     QAction *defineUiLockPasswdAct = lockMenu->addAction(tr("&Set Password"));
     connect(defineUiLockPasswdAct, SIGNAL(triggered()), this, SLOT(defineUILockPassword()));
@@ -219,6 +217,7 @@ MainWindow::MainWindow(QWidget *parent)
     //transferList->setStyleSheet("QTreeView {border: none;}");  // borderless
     m_propertiesWidget = new PropertiesWidget(hSplitter, this, m_transferListWidget);
     m_transferListFiltersWidget = new TransferListFiltersWidget(m_splitter, m_transferListWidget);
+    m_transferListFiltersWidget->setDownloadTrackerFavicon(isDownloadTrackerFavicon());
     hSplitter->addWidget(m_transferListWidget);
     hSplitter->addWidget(m_propertiesWidget);
     m_splitter->addWidget(m_transferListFiltersWidget);
@@ -248,7 +247,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_ui->actionStartAll, SIGNAL(triggered()), m_transferListWidget, SLOT(resumeAllTorrents()));
     connect(m_ui->actionPause, SIGNAL(triggered()), m_transferListWidget, SLOT(pauseSelectedTorrents()));
     connect(m_ui->actionPauseAll, SIGNAL(triggered()), m_transferListWidget, SLOT(pauseAllTorrents()));
-    connect(m_ui->actionDelete, SIGNAL(triggered()), m_transferListWidget, SLOT(deleteSelectedTorrents()));
+    connect(m_ui->actionDelete, SIGNAL(triggered()), m_transferListWidget, SLOT(softDeleteSelectedTorrents()));
     connect(m_ui->actionTopPriority, SIGNAL(triggered()), m_transferListWidget, SLOT(topPrioSelectedTorrents()));
     connect(m_ui->actionIncreasePriority, SIGNAL(triggered()), m_transferListWidget, SLOT(increasePrioSelectedTorrents()));
     connect(m_ui->actionDecreasePriority, SIGNAL(triggered()), m_transferListWidget, SLOT(decreasePrioSelectedTorrents()));
@@ -397,10 +396,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-#ifdef Q_OS_MAC
-    // Workaround to avoid bug http://bugreports.qt.nokia.com/browse/QTBUG-7305
-    setUnifiedTitleAndToolBarOnMac(false);
-#endif
     delete m_ui;
 }
 
@@ -445,6 +440,17 @@ bool MainWindow::isTorrentAddedNotificationsEnabled() const
 void MainWindow::setTorrentAddedNotificationsEnabled(bool value)
 {
     settings()->storeValue(KEY_NOTIFICATIONS_TORRENTADDED, value);
+}
+
+bool MainWindow::isDownloadTrackerFavicon() const
+{
+    return settings()->loadValue(KEY_DOWNLOAD_TRACKER_FAVICON, true).toBool();
+}
+
+void MainWindow::setDownloadTrackerFavicon(bool value)
+{
+    m_transferListFiltersWidget->setDownloadTrackerFavicon(value);
+    settings()->storeValue(KEY_DOWNLOAD_TRACKER_FAVICON, value);
 }
 
 void MainWindow::addToolbarContextMenu()
@@ -743,8 +749,8 @@ void MainWindow::fullDiskError(BitTorrent::TorrentHandle *const torrent, QString
 
 void MainWindow::createKeyboardShortcuts()
 {
-    m_ui->actionCreateTorrent->setShortcut(QKeySequence("Ctrl+N"));
-    m_ui->actionOpen->setShortcut(QKeySequence("Ctrl+O"));
+    m_ui->actionCreateTorrent->setShortcut(QKeySequence::New);
+    m_ui->actionOpen->setShortcut(QKeySequence::Open);
     m_ui->actionDownloadFromURL->setShortcut(QKeySequence("Ctrl+Shift+O"));
     m_ui->actionExit->setShortcut(QKeySequence("Ctrl+Q"));
 
@@ -752,12 +758,12 @@ void MainWindow::createKeyboardShortcuts()
     connect(switchTransferShortcut, SIGNAL(activated()), this, SLOT(displayTransferTab()));
     QShortcut *switchSearchShortcut = new QShortcut(QKeySequence("Alt+2"), this);
     connect(switchSearchShortcut, SIGNAL(activated()), this, SLOT(displaySearchTab()));
-    QShortcut *switchSearchShortcut2 = new QShortcut(QKeySequence("Ctrl+F"), this);
+    QShortcut *switchSearchShortcut2 = new QShortcut(QKeySequence::Find, this);
     connect(switchSearchShortcut2, SIGNAL(activated()), this, SLOT(displaySearchTab()));
     QShortcut *switchRSSShortcut = new QShortcut(QKeySequence("Alt+3"), this);
     connect(switchRSSShortcut, SIGNAL(activated()), this, SLOT(displayRSSTab()));
 
-    m_ui->actionDocumentation->setShortcut(QKeySequence("F1"));
+    m_ui->actionDocumentation->setShortcut(QKeySequence::HelpContents);
     m_ui->actionOptions->setShortcut(QKeySequence("Alt+O"));
     m_ui->actionStart->setShortcut(QKeySequence("Ctrl+S"));
     m_ui->actionStartAll->setShortcut(QKeySequence("Ctrl+Shift+S"));
@@ -820,32 +826,26 @@ void MainWindow::handleDownloadFromUrlFailure(QString url, QString reason) const
 void MainWindow::on_actionSetGlobalUploadLimit_triggered()
 {
     qDebug() << Q_FUNC_INFO;
-    bool ok;
-    int curLimit = BitTorrent::Session::instance()->uploadRateLimit();
-    const long newLimit = SpeedLimitDialog::askSpeedLimit(&ok, tr("Global Upload Speed Limit"), curLimit);
+    BitTorrent::Session *const session = BitTorrent::Session::instance();
+    bool ok = false;
+    const long newLimit = SpeedLimitDialog::askSpeedLimit(
+                &ok, tr("Global Upload Speed Limit"), session->uploadSpeedLimit());
     if (ok) {
         qDebug("Setting global upload rate limit to %.1fKb/s", newLimit / 1024.);
-        BitTorrent::Session::instance()->setUploadRateLimit(newLimit);
-        if (newLimit <= 0)
-            Preferences::instance()->setGlobalUploadLimit(-1);
-        else
-            Preferences::instance()->setGlobalUploadLimit(newLimit / 1024.);
+        session->setUploadSpeedLimit(newLimit);
     }
 }
 
 void MainWindow::on_actionSetGlobalDownloadLimit_triggered()
 {
     qDebug() << Q_FUNC_INFO;
-    bool ok;
-    int curLimit = BitTorrent::Session::instance()->downloadRateLimit();
-    const long newLimit = SpeedLimitDialog::askSpeedLimit(&ok, tr("Global Download Speed Limit"), curLimit);
+    BitTorrent::Session *const session = BitTorrent::Session::instance();
+    bool ok = false;
+    const long newLimit = SpeedLimitDialog::askSpeedLimit(
+                &ok, tr("Global Download Speed Limit"), session->downloadSpeedLimit());
     if (ok) {
         qDebug("Setting global download rate limit to %.1fKb/s", newLimit / 1024.);
-        BitTorrent::Session::instance()->setDownloadRateLimit(newLimit);
-        if (newLimit <= 0)
-            Preferences::instance()->setGlobalDownloadLimit(-1);
-        else
-            Preferences::instance()->setGlobalDownloadLimit(newLimit / 1024.);
+        session->setDownloadSpeedLimit(newLimit);
     }
 }
 
@@ -924,7 +924,7 @@ void MainWindow::toggleVisibility(QSystemTrayIcon::ActivationReason e)
                     return;
             }
             // Make sure the window is not minimized
-            setWindowState(windowState() & (~Qt::WindowMinimized | Qt::WindowActive));
+            setWindowState((windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
             // Then show it
             show();
             raise();
@@ -1221,7 +1221,7 @@ void MainWindow::loadPreferences(bool configureSession)
     m_propertiesWidget->getPeerList()->setAlternatingRowColors(pref->useAlternatingRowColors());
 
     // Queueing System
-    if (pref->isQueueingSystemEnabled()) {
+    if (BitTorrent::Session::instance()->isQueueingSystemEnabled()) {
         if (!m_ui->actionDecreasePriority->isVisible()) {
             m_transferListWidget->hidePriorityColumn(false);
             m_ui->actionDecreasePriority->setVisible(true);
@@ -1412,7 +1412,7 @@ QMenu* MainWindow::trayIconMenu()
     m_trayIconMenu->addAction(m_ui->actionOpen);
     m_trayIconMenu->addAction(m_ui->actionDownloadFromURL);
     m_trayIconMenu->addSeparator();
-    const bool isAltBWEnabled = Preferences::instance()->isAltBandwidthEnabled();
+    const bool isAltBWEnabled = BitTorrent::Session::instance()->isAltGlobalSpeedLimitEnabled();
     updateAltSpeedsBtn(isAltBWEnabled);
     m_ui->actionUseAlternativeSpeedLimits->setChecked(isAltBWEnabled);
     m_trayIconMenu->addAction(m_ui->actionUseAlternativeSpeedLimits);
@@ -1485,7 +1485,8 @@ void MainWindow::on_actionSearchWidget_triggered()
 
         // Check if python is already in PATH
         if (pythonVersion > 0)
-            Logger::instance()->addMessage(tr("Python found in %1").arg("PATH"), Log::INFO); // Prevent translators from messing with PATH
+            // Prevent translators from messing with PATH
+            Logger::instance()->addMessage(tr("Python found in %1: %2", "Python found in PATH: /usr/local/bin:/usr/bin:/etc/bin").arg("PATH").arg(qgetenv("PATH").constData()), Log::INFO);
 #ifdef Q_OS_WIN
         else if (addPythonPathToEnv())
             pythonVersion = Utils::Misc::pythonVersion();
@@ -1604,7 +1605,7 @@ void MainWindow::showConnectionSettings()
 
 void MainWindow::minimizeWindow()
 {
-    setWindowState(windowState() ^ Qt::WindowMinimized);
+    setWindowState(windowState() | Qt::WindowMinimized);
 }
 
 void MainWindow::on_actionExecutionLogs_triggered(bool checked)
@@ -1759,7 +1760,11 @@ void MainWindow::installPython()
 {
     setCursor(QCursor(Qt::WaitCursor));
     // Download python
-    Net::DownloadHandler *handler = Net::DownloadManager::instance()->downloadUrl("https://www.python.org/ftp/python/3.4.3/python-3.4.3.msi", true);
+    Net::DownloadHandler *handler = nullptr;
+    if (QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA)
+        handler = Net::DownloadManager::instance()->downloadUrl("https://www.python.org/ftp/python/3.5.2/python-3.5.2.exe", true);
+    else
+        handler = Net::DownloadManager::instance()->downloadUrl("https://www.python.org/ftp/python/3.4.4/python-3.4.4.msi", true);
     connect(handler, SIGNAL(downloadFinished(QString, QString)), this, SLOT(pythonDownloadSuccess(QString, QString)));
     connect(handler, SIGNAL(downloadFailed(QString, QString)), this, SLOT(pythonDownloadFailure(QString, QString)));
 }
@@ -1768,19 +1773,29 @@ void MainWindow::pythonDownloadSuccess(const QString &url, const QString &filePa
 {
     Q_UNUSED(url)
     setCursor(QCursor(Qt::ArrowCursor));
-    QFile::rename(filePath, filePath + ".msi");
     QProcess installer;
     qDebug("Launching Python installer in passive mode...");
 
-    installer.start("msiexec.exe /passive /i " + Utils::Fs::toNativePath(filePath) + ".msi");
+    if (QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA) {
+        QFile::rename(filePath, filePath + ".exe");
+        installer.start("\"" + Utils::Fs::toNativePath(filePath) + ".exe\" /passive");
+    }
+    else {
+        QFile::rename(filePath, filePath + ".msi");
+        installer.start(Utils::Misc::windowsSystemPath() + "\\msiexec.exe /passive /i \"" + Utils::Fs::toNativePath(filePath) + ".msi\"");
+    }
+
     // Wait for setup to complete
-    installer.waitForFinished();
+    installer.waitForFinished(10 * 60 * 1000);
 
     qDebug("Installer stdout: %s", installer.readAllStandardOutput().data());
     qDebug("Installer stderr: %s", installer.readAllStandardError().data());
     qDebug("Setup should be complete!");
     // Delete temp file
-    Utils::Fs::forceRemove(filePath);
+    if (QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA)
+        Utils::Fs::forceRemove(filePath + ".exe");
+    else
+        Utils::Fs::forceRemove(filePath + ".msi");
     // Reload search engine
     m_hasPython = addPythonPathToEnv();
     if (m_hasPython) {
