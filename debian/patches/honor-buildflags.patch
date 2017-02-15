@@ -1,11 +1,16 @@
-Description: Let the build system honor flags obtained through dpkg-buildflags.
-Origin: vendor
-Forwarded: no
-Author: Cristian Greco <cristian@debian.org>
+From: Cristian Greco <cristian@debian.org>
+Date: Wed, 15 Feb 2017 20:27:16 +0100
+Subject: honor-buildflags
 
---- qbittorrent.orig/unixconf.pri
-+++ qbittorrent/unixconf.pri
-@@ -15,8 +15,9 @@ lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXX
+---
+ unixconf.pri | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/unixconf.pri b/unixconf.pri
+index cc59b43..3078890 100644
+--- a/unixconf.pri
++++ b/unixconf.pri
+@@ -15,8 +15,9 @@ lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++11
  # COMPILATION SPECIFIC
  !nogui:dbus: QT += dbus
  
