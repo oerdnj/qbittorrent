@@ -1,11 +1,11 @@
-qbittorrent (3.3.7-3) UNRELEASED; urgency=medium
+qbittorrent (3.3.7-3) unstable; urgency=medium
 
   * CVE-2017-6503: Escape values in WebUI to prevent
     potential XSS (Closes: #856977).
   * CVE-2017-6504: Set the X-Frame-Options header to
-    prevent potential clickjacking (Closes: #856978). 
+    prevent potential clickjacking (Closes: #856978).
 
- -- Andrew Starr-Bochicchio <asb@debian.org>  Sun, 12 Mar 2017 20:21:39 -0400
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Sun, 12 Mar 2017 21:04:51 -0400
 
 qbittorrent (3.3.7-2) unstable; urgency=medium
 
