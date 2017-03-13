@@ -1,3 +1,10 @@
+qbittorrent (3.3.7-3) UNRELEASED; urgency=medium
+
+  * CVE-2017-6503: Escape values in WebUI to prevent
+    potential XSS (Closes: #856977).
+
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Sun, 12 Mar 2017 20:21:39 -0400
+
 qbittorrent (3.3.7-2) unstable; urgency=medium
 
   * Explicitly build depend on zlib1g-dev (Closes: #845619).
