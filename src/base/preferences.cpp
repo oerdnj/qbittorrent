@@ -31,8 +31,9 @@
  */
 
 #include <QCryptographicHash>
-#include <QPair>
 #include <QDir>
+#include <QLocale>
+#include <QPair>
 #include <QSettings>
 
 #ifndef DISABLE_GUI
@@ -92,7 +93,7 @@ void Preferences::setValue(const QString &key, const QVariant &value)
 // General options
 QString Preferences::getLocale() const
 {
-    return value("Preferences/General/Locale").toString();
+    return value("Preferences/General/Locale", QLocale::system().name()).toString();
 }
 
 void Preferences::setLocale(const QString &locale)
@@ -450,7 +451,11 @@ void Preferences::setWebUiPort(quint16 port)
 
 bool Preferences::useUPnPForWebUIPort() const
 {
+#ifdef DISABLE_GUI
     return value("Preferences/WebUI/UseUPnP", true).toBool();
+#else
+    return value("Preferences/WebUI/UseUPnP", false).toBool();
+#endif
 }
 
 void Preferences::setUPnPForWebUIPort(bool enabled)
@@ -1320,14 +1325,22 @@ void Preferences::setRssMainSplitterState(const QByteArray &state)
 #endif
 }
 
-QString Preferences::getSearchColsWidth() const
+QByteArray Preferences::getSearchTabHeaderState() const
 {
-    return value("SearchResultsColsWidth").toString();
+#ifdef QBT_USES_QT5
+    return value("SearchTab/qt5/HeaderState").toByteArray();
+#else
+    return value("SearchTab/HeaderState").toByteArray();
+#endif
 }
 
-void Preferences::setSearchColsWidth(const QString &width)
+void Preferences::setSearchTabHeaderState(const QByteArray &state)
 {
-    setValue("SearchResultsColsWidth", width);
+#ifdef QBT_USES_QT5
+    setValue("SearchTab/qt5/HeaderState", state);
+#else
+    setValue("SearchTab/HeaderState", state);
+#endif
 }
 
 QStringList Preferences::getSearchEngDisabled() const

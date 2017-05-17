@@ -44,6 +44,7 @@ rss/rssmanager.h
 utils/fs.h
 utils/gzip.h
 utils/misc.h
+utils/random.h
 utils/string.h
 filesystemwatcher.h
 iconprovider.h
@@ -103,6 +104,7 @@ rss/rssmanager.cpp
 utils/fs.cpp
 utils/gzip.cpp
 utils/misc.cpp
+utils/random.cpp
 utils/string.cpp
 filesystemwatcher.cpp
 iconprovider.cpp
@@ -117,24 +119,24 @@ tristatebool.cpp
 )
 
 add_library(qbt_base STATIC ${QBT_BASE_HEADERS} ${QBT_BASE_SOURCES})
-target_link_libraries(qbt_base ZLIB::ZLIB LibtorrentRasterbar::LibTorrent)
-target_link_qt_components(qbt_base Core Network Xml)
+target_link_libraries(qbt_base PRIVATE ZLIB::ZLIB PUBLIC LibtorrentRasterbar::LibTorrent)
+target_link_qt_components(qbt_base PUBLIC Core Network Xml)
 if (QT4_FOUND)
     if (GUI)
-        target_link_libraries(qbt_base Qt4::QtGui)
+        target_link_libraries(qbt_base PUBLIC Qt4::QtGui)
     endif (GUI)
 else (QT4_FOUND)
     if (GUI)
-        target_link_libraries(qbt_base Qt5::Gui Qt5::Widgets)
+        target_link_libraries(qbt_base PUBLIC Qt5::Gui Qt5::Widgets)
     endif (GUI)
 endif (QT4_FOUND)
 
 if (DBUS)
-    target_link_qt_components(qbt_base DBus)
+    target_link_qt_components(qbt_base PRIVATE DBus)
 endif ()
 
 if (APPLE)
     find_library(IOKit_LIBRARY IOKit)
     find_library(Carbon_LIBRARY Carbon)
-    target_link_libraries(qbt_base ${Carbon_LIBRARY} ${IOKit_LIBRARY})
+    target_link_libraries(qbt_base PRIVATE ${Carbon_LIBRARY} ${IOKit_LIBRARY})
 endif (APPLE)

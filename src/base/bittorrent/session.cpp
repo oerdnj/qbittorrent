@@ -55,7 +55,6 @@
 #include <libtorrent/bencode.hpp>
 #include <libtorrent/error_code.hpp>
 #include <libtorrent/extensions/ut_metadata.hpp>
-#include <libtorrent/extensions/lt_trackers.hpp>
 #include <libtorrent/extensions/ut_pex.hpp>
 #include <libtorrent/extensions/smart_ban.hpp>
 #include <libtorrent/identify_client.hpp>
@@ -77,6 +76,7 @@
 #include "base/unicodestrings.h"
 #include "base/utils/misc.h"
 #include "base/utils/fs.h"
+#include "base/utils/random.h"
 #include "base/utils/string.h"
 #include "cachestatus.h"
 #include "magneturi.h"
@@ -91,7 +91,7 @@
 
 static const char PEER_ID[] = "qB";
 static const char RESUME_FOLDER[] = "BT_backup";
-static const char USER_AGENT[] = "qBittorrent " VERSION;
+static const char USER_AGENT[] = "qBittorrent/" QBT_VERSION_2;
 
 namespace libt = libtorrent;
 using namespace BitTorrent;
@@ -213,7 +213,6 @@ Session::Session(QObject *parent)
     , m_isDHTEnabled(BITTORRENT_SESSION_KEY("DHTEnabled"), true)
     , m_isLSDEnabled(BITTORRENT_SESSION_KEY("LSDEnabled"), true)
     , m_isPeXEnabled(BITTORRENT_SESSION_KEY("PeXEnabled"), true)
-    , m_isTrackerExchangeEnabled(BITTORRENT_SESSION_KEY("TrackerExchangeEnabled"), false)
     , m_isIPFilteringEnabled(BITTORRENT_SESSION_KEY("IPFilteringEnabled"), false)
     , m_isTrackerFilteringEnabled(BITTORRENT_SESSION_KEY("TrackerFilteringEnabled"), false)
     , m_IPFilterFile(BITTORRENT_SESSION_KEY("IPFilter"))
@@ -278,7 +277,6 @@ Session::Session(QObject *parent)
     , m_isTrackerEnabled(BITTORRENT_KEY("TrackerEnabled"), false)
     , m_bannedIPs("State/BannedIPs")
     , m_wasPexEnabled(m_isPeXEnabled)
-    , m_wasTrackerExchangeEnabled(m_isTrackerExchangeEnabled)
     , m_numResumeData(0)
     , m_extraLimit(0)
     , m_useProxy(false)
@@ -304,7 +302,7 @@ Session::Session(QObject *parent)
                     ;
 
 #if LIBTORRENT_VERSION_NUM < 10100
-    libt::fingerprint fingerprint(PEER_ID, VERSION_MAJOR, VERSION_MINOR, VERSION_BUGFIX, VERSION_BUILD);
+    libt::fingerprint fingerprint(PEER_ID, QBT_VERSION_MAJOR, QBT_VERSION_MINOR, QBT_VERSION_BUGFIX, QBT_VERSION_BUILD);
     std::string peerId = fingerprint.to_string();
     const ushort port = this->port();
     std::pair<int, int> ports(port, port);
@@ -334,7 +332,7 @@ Session::Session(QObject *parent)
         dispatchAlerts(alertPtr.release());
     });
 #else
-    std::string peerId = libt::generate_fingerprint(PEER_ID, VERSION_MAJOR, VERSION_MINOR, VERSION_BUGFIX, VERSION_BUILD);
+    std::string peerId = libt::generate_fingerprint(PEER_ID, QBT_VERSION_MAJOR, QBT_VERSION_MINOR, QBT_VERSION_BUGFIX, QBT_VERSION_BUILD);
     libt::settings_pack pack;
     pack.set_int(libt::settings_pack::alert_mask, alertMask);
     pack.set_str(libt::settings_pack::peer_fingerprint, peerId);
@@ -365,8 +363,6 @@ Session::Session(QObject *parent)
     // Enabling plugins
     //m_nativeSession->add_extension(&libt::create_metadata_plugin);
     m_nativeSession->add_extension(&libt::create_ut_metadata_plugin);
-    if (isTrackerExchangeEnabled())
-        m_nativeSession->add_extension(&libt::create_lt_trackers_plugin);
     if (isPeXEnabled())
         m_nativeSession->add_extension(&libt::create_ut_pex_plugin);
     m_nativeSession->add_extension(&libt::create_smart_ban_plugin);
@@ -473,18 +469,6 @@ void Session::setPeXEnabled(bool enabled)
     m_isPeXEnabled = enabled;
     if (m_wasPexEnabled != enabled)
         Logger::instance()->addMessage(tr("Restart is required to toggle PeX support"), Log::WARNING);
-}
-
-bool Session::isTrackerExchangeEnabled() const
-{
-    return m_isTrackerExchangeEnabled;
-}
-
-void Session::setTrackerExchangeEnabled(bool enabled)
-{
-    m_isTrackerExchangeEnabled = enabled;
-    if (m_wasTrackerExchangeEnabled != enabled)
-        Logger::instance()->addMessage(tr("Restart is required to toggle Tracker Exchange support"), Log::WARNING);
 }
 
 bool Session::isTempPathEnabled() const
@@ -1056,6 +1040,11 @@ void Session::configure(libtorrent::settings_pack &settingsPack)
     settingsPack.set_int(libt::settings_pack::active_tracker_limit, -1);
     settingsPack.set_int(libt::settings_pack::active_dht_limit, -1);
     settingsPack.set_int(libt::settings_pack::active_lsd_limit, -1);
+    // 1 active torrent force 2 connections. If you have more active torrents * 2 than connection limit,
+    // connection limit will get extended. Multiply max connections or active torrents by 10 for queue.
+    // Ignore -1 values because we don't want to set a max int message queue
+    settingsPack.set_int(libt::settings_pack::alert_queue_size, std::max(1000,
+        10 * std::max(maxActiveTorrents() * 2, maxConnections())));
 
     // Outgoing ports
     settingsPack.set_int(libt::settings_pack::outgoing_port, outgoingPortsMin());
@@ -1197,6 +1186,11 @@ void Session::configure(libtorrent::session_settings &sessionSettings)
     sessionSettings.active_tracker_limit = -1;
     sessionSettings.active_dht_limit = -1;
     sessionSettings.active_lsd_limit = -1;
+    // 1 active torrent force 2 connections. If you have more active torrents * 2 than connection limit,
+    // connection limit will get extended. Multiply max connections or active torrents by 10 for queue.
+    // Ignore -1 values because we don't want to set a max int message queue
+    sessionSettings.alert_queue_size = std::max(1000,
+        10 * std::max(maxActiveTorrents() * 2, maxConnections()));
 
     // Outgoing ports
     sessionSettings.outgoing_ports = std::make_pair(outgoingPortsMin(), outgoingPortsMax());
@@ -1576,8 +1570,10 @@ bool Session::addTorrent(QString source, const AddTorrentParams &params)
     }
     else {
         TorrentFileGuard guard(source);
-        guard.markAsAddedToSession();
-        return addTorrent_impl(params, MagnetUri(), TorrentInfo::loadFromFile(source));
+        if (addTorrent_impl(params, MagnetUri(), TorrentInfo::loadFromFile(source))) {
+            guard.markAsAddedToSession();
+            return true;
+        }
     }
 
     return false;
@@ -1856,7 +1852,7 @@ void Session::generateResumeData(bool final)
         if (torrent->isChecking() || torrent->hasError()) continue;
         if (!final && !torrent->needSaveResumeData()) continue;
 
-        saveTorrentResumeData(torrent);
+        saveTorrentResumeData(torrent, final);
         qDebug("Saving fastresume data for %s", qPrintable(torrent->name()));
     }
 }
@@ -1885,9 +1881,7 @@ void Session::saveResumeData()
             switch (a->type()) {
             case libt::save_resume_data_failed_alert::alert_type:
             case libt::save_resume_data_alert::alert_type:
-                TorrentHandle *torrent = m_torrents.take(static_cast<libt::torrent_alert *>(a)->handle.info_hash());
-                if (torrent)
-                    torrent->handleAlert(a);
+                dispatchTorrentAlert(a);
                 break;
             }
 #if LIBTORRENT_VERSION_NUM < 10100
@@ -1939,7 +1933,7 @@ void Session::networkConfigurationChange(const QNetworkConfiguration& cfg)
 
     // workaround for QTBUG-52633: check interface IPs, react only if the IPs have changed
     // seems to be present only with NetworkManager, hence Q_OS_LINUX
-#if defined Q_OS_LINUX && QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) // && QT_VERSION <= QT_VERSION_CHECK(5, ?, ?)
+#if defined Q_OS_LINUX && QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) && QT_VERSION < QT_VERSION_CHECK(5, 7, 1)
     static QStringList boundIPs = getListeningIPs();
     const QStringList newBoundIPs = getListeningIPs();
     if ((configuredInterfaceName == changedInterface) && (boundIPs != newBoundIPs)) {
@@ -2217,7 +2211,7 @@ void Session::setSaveResumeDataInterval(uint value)
 
 int Session::port() const
 {
-    static int randomPort = rand() % 64512 + 1024;
+    static int randomPort = Utils::Random::rand(1024, 65535);
     if (useRandomPort())
         return randomPort;
     return m_port;
@@ -2780,9 +2774,9 @@ void Session::handleTorrentRatioLimitChanged(TorrentHandle *const torrent)
     updateRatioTimer();
 }
 
-void Session::saveTorrentResumeData(TorrentHandle *const torrent)
+void Session::saveTorrentResumeData(TorrentHandle *const torrent, bool finalSave)
 {
-    torrent->saveResumeData();
+    torrent->saveResumeData(finalSave);
     ++m_numResumeData;
 }
 
@@ -3061,13 +3055,19 @@ void Session::startUpTorrents()
         QByteArray data;
     } TorrentResumeData;
 
-    auto startupTorrent = [this, logger, resumeDataDir](const TorrentResumeData &params)
+    int resumedTorrentsCount = 0;
+    const auto startupTorrent = [this, logger, &resumeDataDir, &resumedTorrentsCount](const TorrentResumeData &params)
     {
         QString filePath = resumeDataDir.filePath(QString("%1.torrent").arg(params.hash));
         qDebug() << "Starting up torrent" << params.hash << "...";
         if (!addTorrent_impl(params.addTorrentData, params.magnetUri, TorrentInfo::loadFromFile(filePath), params.data))
             logger->addMessage(tr("Unable to resume torrent '%1'.", "e.g: Unable to resume torrent 'hash'.")
                                .arg(params.hash), Log::CRITICAL);
+
+        // process add torrent messages before message queue overflow
+        if (resumedTorrentsCount % 100 == 0) readAlerts();
+
+        ++resumedTorrentsCount;
     };
 
     qDebug("Starting up torrents");
@@ -3075,6 +3075,7 @@ void Session::startUpTorrents()
     // Resume downloads
     QMap<int, TorrentResumeData> queuedResumeData;
     int nextQueuePosition = 1;
+    int numOfRemappedFiles = 0;
     QRegExp rx(QLatin1String("^([A-Fa-f0-9]{40})\\.fastresume$"));
     foreach (const QString &fastresumeName, fastresumes) {
         if (rx.indexIn(fastresumeName) == -1) continue;
@@ -3098,9 +3099,21 @@ void Session::startUpTorrents()
                 }
             }
             else {
-                queuedResumeData[queuePosition] = { hash, magnetUri, resumeData, data };
+                int q = queuePosition;
+                for(; queuedResumeData.contains(q); ++q) {
+                }
+                if (q != queuePosition) {
+                    ++numOfRemappedFiles;
+                }
+                queuedResumeData[q] = { hash, magnetUri, resumeData, data };
             }
         }
+    }
+
+    if (numOfRemappedFiles > 0) {
+        logger->addMessage(
+            QString(tr("Queue positions were corrected in %1 resume files")).arg(numOfRemappedFiles),
+            Log::CRITICAL);
     }
 
     // starting up downloading torrents (queue position > 0)

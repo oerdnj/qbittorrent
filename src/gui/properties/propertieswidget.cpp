@@ -159,14 +159,14 @@ PropertiesWidget::PropertiesWidget(QWidget *parent, MainWindow *main_window, Tra
     refreshTimer = new QTimer(this);
     connect(refreshTimer, SIGNAL(timeout()), this, SLOT(loadDynamicData()));
     refreshTimer->start(3000); // 3sec
-    editHotkeyFile = new QShortcut(QKeySequence("F2"), filesList, 0, 0, Qt::WidgetShortcut);
+    editHotkeyFile = new QShortcut(Qt::Key_F2, filesList, 0, 0, Qt::WidgetShortcut);
     connect(editHotkeyFile, SIGNAL(activated()), SLOT(renameSelectedFile()));
-    editHotkeyWeb = new QShortcut(QKeySequence("F2"), listWebSeeds, 0, 0, Qt::WidgetShortcut);
+    editHotkeyWeb = new QShortcut(Qt::Key_F2, listWebSeeds, 0, 0, Qt::WidgetShortcut);
     connect(editHotkeyWeb, SIGNAL(activated()), SLOT(editWebSeed()));
     connect(listWebSeeds, SIGNAL(doubleClicked(QModelIndex)), SLOT(editWebSeed()));
     deleteHotkeyWeb = new QShortcut(QKeySequence::Delete, listWebSeeds, 0, 0, Qt::WidgetShortcut);
     connect(deleteHotkeyWeb, SIGNAL(activated()), SLOT(deleteSelectedUrlSeeds()));
-    openHotkeyFile = new QShortcut(QKeySequence("Return"), filesList, 0, 0, Qt::WidgetShortcut);
+    openHotkeyFile = new QShortcut(Qt::Key_Return, filesList, 0, 0, Qt::WidgetShortcut);
     connect(openHotkeyFile, SIGNAL(activated()), SLOT(openSelectedFile()));
 }
 
@@ -314,12 +314,12 @@ void PropertiesWidget::loadTorrentInfos(BitTorrent::TorrentHandle *const torrent
         label_total_size_val->setText(Utils::Misc::friendlyUnit(m_torrent->totalSize()));
 
         // Comment
-        comment_text->setText(Utils::Misc::parseHtmlLinks(m_torrent->comment()));
+        comment_text->setText(Utils::Misc::parseHtmlLinks(Utils::String::toHtmlEscaped(m_torrent->comment())));
 
         // URL seeds
         loadUrlSeeds();
 
-        label_created_by_val->setText(m_torrent->creator());
+        label_created_by_val->setText(Utils::String::toHtmlEscaped(m_torrent->creator()));
 
         // List files in torrent
         PropListModel->model()->setupModelData(m_torrent->info());
