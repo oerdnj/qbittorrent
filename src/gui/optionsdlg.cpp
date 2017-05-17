@@ -58,6 +58,7 @@
 #include "base/torrentfileguard.h"
 #include "base/unicodestrings.h"
 #include "base/utils/fs.h"
+#include "base/utils/random.h"
 #include "addnewtorrentdialog.h"
 #include "advancedsettings.h"
 #include "guiiconprovider.h"
@@ -845,16 +846,21 @@ void OptionsDialog::loadOptions()
     case ProxyType::SOCKS4:
         m_ui->comboProxyType->setCurrentIndex(1);
         break;
+
     case ProxyType::SOCKS5_PW:
         useProxyAuth = true;
+        // fallthrough
     case ProxyType::SOCKS5:
         m_ui->comboProxyType->setCurrentIndex(2);
         break;
+
     case ProxyType::HTTP_PW:
         useProxyAuth = true;
+        // fallthrough
     case ProxyType::HTTP:
         m_ui->comboProxyType->setCurrentIndex(3);
         break;
+
     default:
         m_ui->comboProxyType->setCurrentIndex(0);
     }
@@ -997,7 +1003,7 @@ int OptionsDialog::getPort() const
 void OptionsDialog::on_randomButton_clicked()
 {
     // Range [1024: 65535]
-    m_ui->spinPort->setValue(rand() % 64512 + 1024);
+    m_ui->spinPort->setValue(Utils::Random::rand(1024, 65535));
 }
 
 int OptionsDialog::getEncryptionSetting() const
@@ -1311,7 +1317,7 @@ void OptionsDialog::setLocale(const QString &localeStr)
     }
     if (index < 0) {
         // Unrecognized, use US English
-        index = m_ui->comboI18n->findData(QLocale("en").name(), Qt::UserRole);
+        index = m_ui->comboI18n->findData("en", Qt::UserRole);
         Q_ASSERT(index >= 0);
     }
     m_ui->comboI18n->setCurrentIndex(index);

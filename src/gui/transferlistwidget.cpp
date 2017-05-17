@@ -48,6 +48,7 @@
 #include "transferlistwidget.h"
 #include "base/bittorrent/session.h"
 #include "base/bittorrent/torrenthandle.h"
+#include "base/logger.h"
 #include "base/torrentfilter.h"
 #include "transferlistdelegate.h"
 #include "previewselect.h"
@@ -141,13 +142,13 @@ TransferListWidget::TransferListWidget(QWidget *parent, MainWindow *main_window)
     //end up being size 0 when the new version is launched with
     //a conf file from the previous version.
     for (unsigned int i = 0; i<TorrentModel::NB_COLUMNS; i++)
-        if (!columnWidth(i))
+        if ((columnWidth(i) <= 0) && (!isColumnHidden(i)))
             resizeColumnToContents(i);
 
     setContextMenuPolicy(Qt::CustomContextMenu);
 
     // Listen for list events
-    connect(this, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(torrentDoubleClicked(QModelIndex)));
+    connect(this, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(torrentDoubleClicked()));
     connect(this, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(displayListMenu(const QPoint &)));
     header()->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(header(), SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(displayDLHoSMenu(const QPoint &)));
@@ -155,9 +156,11 @@ TransferListWidget::TransferListWidget(QWidget *parent, MainWindow *main_window)
     connect(header(), SIGNAL(sectionResized(int, int, int)), this, SLOT(saveSettings()));
     connect(header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), this, SLOT(saveSettings()));
 
-    editHotkey = new QShortcut(QKeySequence("F2"), this, SLOT(renameSelectedTorrent()), 0, Qt::WidgetShortcut);
+    editHotkey = new QShortcut(Qt::Key_F2, this, SLOT(renameSelectedTorrent()), 0, Qt::WidgetShortcut);
     deleteHotkey = new QShortcut(QKeySequence::Delete, this, SLOT(softDeleteSelectedTorrents()), 0, Qt::WidgetShortcut);
-    permDeleteHotkey = new QShortcut(QKeySequence("Shift+Delete"), this, SLOT(permDeleteSelectedTorrents()), 0, Qt::WidgetShortcut);
+    permDeleteHotkey = new QShortcut(Qt::SHIFT + Qt::Key_Delete, this, SLOT(permDeleteSelectedTorrents()), 0, Qt::WidgetShortcut);
+    doubleClickHotkey = new QShortcut(Qt::Key_Return, this, SLOT(torrentDoubleClicked()), 0, Qt::WidgetShortcut);
+    recheckHotkey = new QShortcut(Qt::CTRL + Qt::Key_R, this, SLOT(recheckSelectedTorrents()), 0, Qt::WidgetShortcut);
 
 #ifdef QBT_USES_QT5
     // This hack fixes reordering of first column with Qt5.
@@ -208,9 +211,13 @@ inline QModelIndex TransferListWidget::mapFromSource(const QModelIndex &index) c
     return nameFilterModel->mapFromSource(index);
 }
 
-void TransferListWidget::torrentDoubleClicked(const QModelIndex& index)
+void TransferListWidget::torrentDoubleClicked()
 {
-    BitTorrent::TorrentHandle *const torrent = listModel->torrentHandle(mapToSource(index));
+    const QModelIndexList selectedIndexes = selectionModel()->selectedRows();
+    if ((selectedIndexes.size() != 1) || !selectedIndexes.first().isValid()) return;
+
+    const QModelIndex index = listModel->index(mapToSource(selectedIndexes.first()).row());
+    BitTorrent::TorrentHandle *const torrent = listModel->torrentHandle(index);
     if (!torrent) return;
 
     int action;
@@ -249,17 +256,18 @@ void TransferListWidget::setSelectedTorrentsLocation()
     const QList<BitTorrent::TorrentHandle *> torrents = getSelectedTorrents();
     if (torrents.isEmpty()) return;
 
-    QString dir;
-    const QDir saveDir(torrents[0]->savePath());
-    qDebug("Old save path is %s", qPrintable(saveDir.absolutePath()));
-    dir = QFileDialog::getExistingDirectory(this, tr("Choose save path"), saveDir.absolutePath(),
+    const QString oldLocation = torrents[0]->savePath();
+    qDebug("Old location is %s", qPrintable(oldLocation));
+
+    const QString newLocation = QFileDialog::getExistingDirectory(this, tr("Choose save path"), oldLocation,
                                             QFileDialog::DontConfirmOverwrite | QFileDialog::ShowDirsOnly | QFileDialog::HideNameFilterDetails);
-    if (!dir.isNull()) {
-        qDebug("New path is %s", qPrintable(dir));
-        foreach (BitTorrent::TorrentHandle *const torrent, torrents) {
-            // Actually move storage
-            torrent->move(Utils::Fs::expandPathAbs(dir));
-        }
+    if (newLocation.isEmpty() || !QDir(newLocation).exists()) return;
+    qDebug("New location is %s", qPrintable(newLocation));
+
+    // Actually move storage
+    foreach (BitTorrent::TorrentHandle *const torrent, torrents) {
+        Logger::instance()->addMessage(tr("Set location: moving \"%1\", from \"%2\" to \"%3\"", "Set location: moving \"ubuntu_16_04.iso\", from \"/home/dir1\" to \"/home/dir2\"").arg(torrent->name()).arg(torrent->savePath()).arg(newLocation));
+        torrent->move(Utils::Fs::expandPathAbs(newLocation));
     }
 }
 
@@ -328,8 +336,8 @@ void TransferListWidget::deleteSelectedTorrents(bool deleteLocalFiles)
     const QList<BitTorrent::TorrentHandle *> torrents = getSelectedTorrents();
     if (torrents.empty()) return;
 
-    if (Preferences::instance()->confirmTorrentDeletion() &&
-        !DeletionConfirmationDlg::askForDeletionConfirmation(deleteLocalFiles, torrents.size(), torrents[0]->name()))
+    if (Preferences::instance()->confirmTorrentDeletion()
+        && !DeletionConfirmationDlg::askForDeletionConfirmation(deleteLocalFiles, torrents.size(), torrents[0]->name()))
         return;
     foreach (BitTorrent::TorrentHandle *const torrent, torrents)
         BitTorrent::Session::instance()->deleteTorrent(torrent->hash(), deleteLocalFiles);
@@ -344,8 +352,8 @@ void TransferListWidget::deleteVisibleTorrents()
         torrents << listModel->torrentHandle(mapToSource(nameFilterModel->index(i, 0)));
 
     bool deleteLocalFiles = false;
-    if (Preferences::instance()->confirmTorrentDeletion() &&
-        !DeletionConfirmationDlg::askForDeletionConfirmation(deleteLocalFiles, torrents.size(), torrents[0]->name()))
+    if (Preferences::instance()->confirmTorrentDeletion()
+        && !DeletionConfirmationDlg::askForDeletionConfirmation(deleteLocalFiles, torrents.size(), torrents[0]->name()))
         return;
     foreach (BitTorrent::TorrentHandle *const torrent, torrents)
         BitTorrent::Session::instance()->deleteTorrent(torrent->hash(), deleteLocalFiles);
@@ -428,65 +436,56 @@ void TransferListWidget::previewSelectedTorrents()
 
 void TransferListWidget::setDlLimitSelectedTorrents()
 {
-    QList<BitTorrent::TorrentHandle *> selected_torrents;
-    bool first = true;
-    bool all_same_limit = true;
+    QList<BitTorrent::TorrentHandle *> TorrentsList;
     foreach (BitTorrent::TorrentHandle *const torrent, getSelectedTorrents()) {
-        if (!torrent->isSeed()) {
-            selected_torrents << torrent;
-            // Determine current limit for selected torrents
-            if (first)
-                first = false;
-            else if (all_same_limit && (torrent->downloadLimit() != selected_torrents.first()->downloadLimit()))
-                all_same_limit = false;
+        if (torrent->isSeed())
+            continue;
+        TorrentsList += torrent;
+    }
+    if (TorrentsList.empty()) return;
+
+    int oldLimit = TorrentsList.first()->downloadLimit();
+    foreach (BitTorrent::TorrentHandle *const torrent, TorrentsList) {
+        if (torrent->downloadLimit() != oldLimit) {
+            oldLimit = -1;
+            break;
         }
     }
 
-    if (selected_torrents.empty()) return;
-
     bool ok = false;
-    int default_limit = -1;
-    if (all_same_limit)
-        default_limit = selected_torrents.first()->downloadLimit();
-    const long new_limit = SpeedLimitDialog::askSpeedLimit(
-                &ok, tr("Torrent Download Speed Limiting"), default_limit
+    const long newLimit = SpeedLimitDialog::askSpeedLimit(
+                &ok, tr("Torrent Download Speed Limiting"), oldLimit
                 , BitTorrent::Session::instance()->globalDownloadSpeedLimit());
-    if (ok) {
-        foreach (BitTorrent::TorrentHandle *const torrent, selected_torrents) {
-            qDebug("Applying download speed limit of %ld Kb/s to torrent %s", (long)(new_limit / 1024.), qPrintable(torrent->hash()));
-            torrent->setDownloadLimit(new_limit);
-        }
+    if (!ok) return;
+
+    foreach (BitTorrent::TorrentHandle *const torrent, TorrentsList) {
+        qDebug("Applying download speed limit of %ld Kb/s to torrent %s", (long) (newLimit / 1024.), qPrintable(torrent->hash()));
+        torrent->setDownloadLimit(newLimit);
     }
 }
 
 void TransferListWidget::setUpLimitSelectedTorrents()
 {
-    QList<BitTorrent::TorrentHandle *> selected_torrents;
-    bool first = true;
-    bool all_same_limit = true;
-    foreach (BitTorrent::TorrentHandle *const torrent, getSelectedTorrents()) {
-        selected_torrents << torrent;
-        // Determine current limit for selected torrents
-        if (first)
-            first = false;
-        else if (all_same_limit && (torrent->uploadLimit() != selected_torrents.first()->uploadLimit()))
-            all_same_limit = false;
+    QList<BitTorrent::TorrentHandle *> TorrentsList = getSelectedTorrents();
+    if (TorrentsList.empty()) return;
+
+    int oldLimit = TorrentsList.first()->uploadLimit();
+    foreach (BitTorrent::TorrentHandle *const torrent, TorrentsList) {
+        if (torrent->uploadLimit() != oldLimit) {
+            oldLimit = -1;
+            break;
+        }
     }
 
-    if (selected_torrents.empty()) return;
-
     bool ok = false;
-    int default_limit = -1;
-    if (all_same_limit)
-        default_limit = selected_torrents.first()->uploadLimit();
-    const long new_limit = SpeedLimitDialog::askSpeedLimit(
-                &ok, tr("Torrent Upload Speed Limiting"), default_limit
+    const long newLimit = SpeedLimitDialog::askSpeedLimit(
+                &ok, tr("Torrent Upload Speed Limiting"), oldLimit
                 , BitTorrent::Session::instance()->globalUploadSpeedLimit());
-    if (ok) {
-        foreach (BitTorrent::TorrentHandle *const torrent, selected_torrents) {
-            qDebug("Applying upload speed limit of %ld Kb/s to torrent %s", (long)(new_limit / 1024.), qPrintable(torrent->hash()));
-            torrent->setUploadLimit(new_limit);
-        }
+    if (!ok) return;
+
+    foreach (BitTorrent::TorrentHandle *const torrent, TorrentsList) {
+        qDebug("Applying upload speed limit of %ld Kb/s to torrent %s", (long) (newLimit / 1024.), qPrintable(torrent->hash()));
+        torrent->setUploadLimit(newLimit);
     }
 }
 
@@ -613,8 +612,7 @@ void TransferListWidget::askNewCategoryForSelection()
 void TransferListWidget::renameSelectedTorrent()
 {
     const QModelIndexList selectedIndexes = selectionModel()->selectedRows();
-    if (selectedIndexes.size() != 1) return;
-    if (!selectedIndexes.first().isValid()) return;
+    if ((selectedIndexes.size() != 1) || !selectedIndexes.first().isValid()) return;
 
     const QModelIndex mi = listModel->index(mapToSource(selectedIndexes.first()).row(), TorrentModel::TR_NAME);
     BitTorrent::TorrentHandle *const torrent = listModel->torrentHandle(mi);
@@ -639,8 +637,8 @@ void TransferListWidget::setSelectionCategory(QString category)
 void TransferListWidget::displayListMenu(const QPoint&)
 {
     QModelIndexList selectedIndexes = selectionModel()->selectedRows();
-    if (selectedIndexes.size() == 0)
-        return;
+    if (selectedIndexes.size() == 0) return;
+
     // Create actions
     QAction actionStart(GuiIconProvider::instance()->getIcon("media-playback-start"), tr("Resume", "Resume/start the torrent"), 0);
     connect(&actionStart, SIGNAL(triggered()), this, SLOT(startSelectedTorrents()));
@@ -938,7 +936,7 @@ void TransferListWidget::wheelEvent(QWheelEvent *event)
 {
     event->accept();
 
-    if(event->modifiers() & Qt::ShiftModifier) {
+    if (event->modifiers() & Qt::ShiftModifier) {
         // Shift + scroll = horizontal scroll
         QWheelEvent scrollHEvent(event->pos(), event->globalPos(), event->delta(), event->buttons(), event->modifiers(), Qt::Horizontal);
         QTreeView::wheelEvent(&scrollHEvent);

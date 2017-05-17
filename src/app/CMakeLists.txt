@@ -55,6 +55,7 @@ if (WIN32)
     else (MINGW)
         list (APPEND QBT_APP_SOURCES ../qbittorrent.rc)
     endif (MINGW)
+    list(APPEND QBT_APP_SOURCES ../qbittorent.exe.manifest)
 endif (WIN32)
 
 if (UNIX)
@@ -161,10 +162,15 @@ endif (GUI AND WIN32)
 target_link_libraries(${QBT_TARGET_NAME} ${QBT_TARGET_LIBRARIES} QtSingleApplication::QtSingleApplication)
 
 if (APPLE)
-    set(qbt_BUNDLE_NAME "${CMAKE_PROJECT_NAME}")
+    set(qbt_BUNDLE_NAME "${QBT_TARGET_NAME}")
+
+# substitute @EXECUTABLE@ in dist/mac/Info.plist
+    set(EXECUTABLE ${qbt_BUNDLE_NAME})
+    configure_file(${qBittorrent_SOURCE_DIR}/dist/mac/Info.plist ${qBittorrent_BINARY_DIR}/dist/mac/Info.plist @ONLY)
+
     set_target_properties(${QBT_TARGET_NAME} PROPERTIES
         MACOSX_BUNDLE_BUNDLE_NAME "${qbt_BUNDLE_NAME}"
-        MACOSX_BUNDLE_INFO_PLIST ${qBittorrent_SOURCE_DIR}/dist/mac/Info.plist
+        MACOSX_BUNDLE_INFO_PLIST ${qBittorrent_BINARY_DIR}/dist/mac/Info.plist
     )
 endif (APPLE)
 
@@ -174,6 +180,6 @@ install(TARGETS ${QBT_TARGET_NAME}
     BUNDLE  DESTINATION .
     COMPONENT runtime)
 
-if (APPLE)
+if (APPLE AND GUI)
     install(SCRIPT ${OSX_RES_SRC_DIR}/bundle.cmake)
-endif (APPLE)
+endif (APPLE AND GUI)
