@@ -41,7 +41,6 @@
 #endif
 #include <QNetworkConfigurationManager>
 #include <QPointer>
-#include <QReadWriteLock>
 #include <QStringList>
 #include <QVector>
 #include <QWaitCondition>
@@ -327,6 +326,7 @@ namespace BitTorrent
         bool isTrackerFilteringEnabled() const;
         void setTrackerFilteringEnabled(bool enabled);
 
+        void startUpTorrents();
         TorrentHandle *findTorrent(const InfoHash &hash) const;
         QHash<InfoHash, TorrentHandle *> torrents() const;
         TorrentStatusReport torrentStatusReport() const;
@@ -457,7 +457,6 @@ namespace BitTorrent
         void enableIPFilter();
         void disableIPFilter();
 
-        void startUpTorrents();
         bool addTorrent_impl(AddTorrentData addData, const MagnetUri &magnetUri,
                              TorrentInfo torrentInfo = TorrentInfo(),
                              const QByteArray &fastresumeData = QByteArray());
@@ -609,8 +608,6 @@ namespace BitTorrent
 #endif
 
         QNetworkConfigurationManager m_networkManager;
-
-        mutable QReadWriteLock m_lock;
 
         static Session *m_instance;
     };

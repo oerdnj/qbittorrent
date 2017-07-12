@@ -49,8 +49,8 @@
 #include "websessiondata.h"
 #include "webapplication.h"
 
-static const int API_VERSION = 13;
-static const int API_VERSION_MIN = 13;
+static const int API_VERSION = 14;
+static const int API_VERSION_MIN = 14;
 
 const QString WWW_FOLDER = ":/www/public/";
 const QString PRIVATE_FOLDER = ":/www/private/";
@@ -83,6 +83,8 @@ QMap<QString, QMap<QString, WebApplication::Action> > WebApplication::initialize
     ADD_ACTION(query, propertiesFiles);
     ADD_ACTION(query, getLog);
     ADD_ACTION(query, getPeerLog);
+    ADD_ACTION(query, getPieceHashes);
+    ADD_ACTION(query, getPieceStates);
     ADD_ACTION(sync, maindata);
     ADD_ACTION(sync, torrent_peers);
     ADD_ACTION(command, shutdown);
@@ -310,6 +312,18 @@ void WebApplication::action_query_getPeerLog()
     print(btjson::getPeerLog(lastKnownId), Http::CONTENT_TYPE_JSON);
 }
 
+void WebApplication::action_query_getPieceHashes()
+{
+    CHECK_URI(1);
+    print(btjson::getPieceHashesForTorrent(args_.front()), Http::CONTENT_TYPE_JSON);
+}
+
+void WebApplication::action_query_getPieceStates()
+{
+    CHECK_URI(1);
+    print(btjson::getPieceStatesForTorrent(args_.front()), Http::CONTENT_TYPE_JSON);
+}
+
 // GET param:
 //   - rid (int): last response id
 void WebApplication::action_sync_maindata()
@@ -367,6 +381,8 @@ void WebApplication::action_command_download()
     CHECK_URI(0);
     QString urls = request().posts["urls"];
     QStringList list = urls.split('\n');
+    bool skipChecking = request().posts["skip_checking"] == "true";
+    bool addPaused = request().posts["paused"] == "true";
     QString savepath = request().posts["savepath"];
     QString category = request().posts["category"];
     QString cookie = request().posts["cookie"];
@@ -390,22 +406,35 @@ void WebApplication::action_command_download()
     category = category.trimmed();
 
     BitTorrent::AddTorrentParams params;
+
+    // TODO: Check if destination actually exists
+    params.skipChecking = skipChecking;
+
+    params.addPaused = addPaused;
     params.savePath = savepath;
     params.category = category;
 
+    bool partialSuccess = false;
     foreach (QString url, list) {
         url = url.trimmed();
         if (!url.isEmpty()) {
             Net::DownloadManager::instance()->setCookiesFromUrl(cookies, QUrl::fromEncoded(url.toUtf8()));
-            BitTorrent::Session::instance()->addTorrent(url, params);
+            partialSuccess |= BitTorrent::Session::instance()->addTorrent(url, params);
         }
     }
+
+    if (partialSuccess)
+        print(QByteArray("Ok."), Http::CONTENT_TYPE_TXT);
+    else
+        print(QByteArray("Fails."), Http::CONTENT_TYPE_TXT);
 }
 
 void WebApplication::action_command_upload()
 {
     qDebug() << Q_FUNC_INFO;
     CHECK_URI(0);
+    bool skipChecking = request().posts["skip_checking"] == "true";
+    bool addPaused = request().posts["paused"] == "true";
     QString savepath = request().posts["savepath"];
     QString category = request().posts["category"];
 
@@ -423,6 +452,11 @@ void WebApplication::action_command_upload()
             }
             else {
                 BitTorrent::AddTorrentParams params;
+
+                 // TODO: Check if destination actually exists
+                params.skipChecking = skipChecking;
+
+                params.addPaused = addPaused;
                 params.savePath = savepath;
                 params.category = category;
                 if (!BitTorrent::Session::instance()->addTorrent(torrentInfo, params)) {
@@ -800,7 +834,7 @@ bool WebApplication::isPublicScope()
     return (scope_ == DEFAULT_SCOPE || scope_ == VERSION_INFO);
 }
 
-void WebApplication::processRequest()
+void WebApplication::doProcessRequest()
 {
     scope_ = DEFAULT_SCOPE;
     action_ = DEFAULT_ACTION;
