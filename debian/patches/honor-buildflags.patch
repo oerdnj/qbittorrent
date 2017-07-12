@@ -6,11 +6,9 @@ Subject: honor-buildflags
  unixconf.pri | 5 +++--
  1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/unixconf.pri b/unixconf.pri
-index cc59b43..3078890 100644
---- a/unixconf.pri
-+++ b/unixconf.pri
-@@ -15,8 +15,9 @@ lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++11
+--- qbittorrent.orig/unixconf.pri
++++ qbittorrent/unixconf.pri
+@@ -15,8 +15,9 @@ lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXX
  # COMPILATION SPECIFIC
  !nogui:dbus: QT += dbus
  
