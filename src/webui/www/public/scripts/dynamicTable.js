@@ -31,38 +31,307 @@
 
  **************************************************************/
 
+var DynamicTableHeaderContextMenuClass = null;
+var ProgressColumnWidth = -1;
+
 var DynamicTable = new Class({
 
         initialize : function () {},
 
-        setup : function (tableId, tableHeaderId, context_menu) {
-            this.tableId = tableId;
-            this.tableHeaderId = tableHeaderId;
-            this.table = $(tableId);
+        setup : function (dynamicTableDivId, dynamicTableFixedHeaderDivId, contextMenu) {
+            this.dynamicTableDivId = dynamicTableDivId;
+            this.dynamicTableFixedHeaderDivId = dynamicTableFixedHeaderDivId;
+            this.fixedTableHeader = $(dynamicTableFixedHeaderDivId).getElements('tr')[0];
+            this.hiddenTableHeader = $(dynamicTableDivId).getElements('tr')[0];
+            this.tableBody = $(dynamicTableDivId).getElements('tbody')[0];
             this.rows = new Hash();
-            this.cur = new Array();
-            this.columns = new Array();
-            this.context_menu = context_menu;
-            this.sortedColumn = getLocalStorageItem('sorted_column_' + this.tableId, 0);
-            this.reverseSort = getLocalStorageItem('reverse_sort_' + this.tableId, '0');
+            this.selectedRows = [];
+            this.columns = [];
+            this.contextMenu = contextMenu;
+            this.sortedColumn = getLocalStorageItem('sorted_column_' + this.dynamicTableDivId, 0);
+            this.reverseSort = getLocalStorageItem('reverse_sort_' + this.dynamicTableDivId, '0');
             this.initColumns();
             this.loadColumnsOrder();
-            this.updateHeader();
+            this.updateTableHeaders();
+            this.setupCommonEvents();
+            this.setupHeaderEvents();
+            this.setupHeaderMenu();
+        },
+
+        setupCommonEvents : function () {
+            var scrollFn = function() {
+                $(this.dynamicTableFixedHeaderDivId).getElements('table')[0].style.left =
+                       -$(this.dynamicTableDivId).scrollLeft + 'px';
+            }.bind(this);
+
+            $(this.dynamicTableDivId).addEvent('scroll', scrollFn);
+
+            var resizeFn = function() {
+                var panel = $(this.dynamicTableDivId).getParent('.panel');
+                var h = panel.getBoundingClientRect().height - $(this.dynamicTableFixedHeaderDivId).getBoundingClientRect().height;
+                $(this.dynamicTableDivId).style.height = h + 'px';
+
+                // Workaround due to inaccurate calculation of elements heights by browser
+
+                var n = 2;
+
+                while (panel.clientWidth != panel.offsetWidth && n > 0) { // is panel vertical scrollbar visible ?
+                    n--;
+                    h -= 0.5;
+                    $(this.dynamicTableDivId).style.height = h + 'px';
+                }
+
+                this.lastPanelHeight = panel.getBoundingClientRect().height;
+            }.bind(this);
+
+            $(this.dynamicTableDivId).getParent('.panel').addEvent('resize', resizeFn);
+
+            this.lastPanelHeight = 0;
+
+            // Workaround. Resize event is called not always (for example it isn't called when browser window changes it's size)
+
+            var checkResizeFn = function() {
+                var panel = $(this.dynamicTableDivId).getParent('.panel');
+                if (this.lastPanelHeight != panel.getBoundingClientRect().height) {
+                    this.lastPanelHeight = panel.getBoundingClientRect().height;
+                    panel.fireEvent('resize');
+                }
+            }.bind(this);
+
+            setInterval(checkResizeFn, 500);
+        },
+
+        setupHeaderEvents : function () {
+            this.currentHeaderAction = '';
+            this.canResize = false;
+
+            var resetElementBorderStyle = function (el, side) {
+                if (side === 'left' || side !== 'right') {
+                    el.setStyle('border-left-style', '');
+                    el.setStyle('border-left-color', '');
+                    el.setStyle('border-left-width', '');
+                }
+                if (side === 'right' || side !== 'left') {
+                    el.setStyle('border-right-style', '');
+                    el.setStyle('border-right-color', '');
+                    el.setStyle('border-right-width', '');
+                }
+            };
+
+            var mouseMoveFn = function (e) {
+                var brect = e.target.getBoundingClientRect();
+                var mouseXRelative = e.event.clientX - brect.left;
+                if (this.currentHeaderAction === '') {
+                    if (brect.width - mouseXRelative < 5) {
+                        this.resizeTh = e.target;
+                        this.canResize = true;
+                        e.target.getParent("tr").style.cursor = 'col-resize';
+                    }
+                    else if ((mouseXRelative < 5) && e.target.getPrevious('[class=""]')) {
+                        this.resizeTh = e.target.getPrevious('[class=""]');
+                        this.canResize = true;
+                        e.target.getParent("tr").style.cursor = 'col-resize';
+                    } else {
+                        this.canResize = false;
+                        e.target.getParent("tr").style.cursor = '';
+                    }
+                }
+                if (this.currentHeaderAction === 'drag') {
+                    var previousVisibleSibling = e.target.getPrevious('[class=""]');
+                    var borderChangeElement = previousVisibleSibling;
+                    var changeBorderSide = 'right';
+
+                    if (mouseXRelative > brect.width / 2) {
+                        borderChangeElement = e.target;
+                        this.dropSide = 'right';
+                    }
+                    else {
+                        this.dropSide = 'left';
+                    }
+
+                    e.target.getParent("tr").style.cursor = 'move';
+
+                    if (!previousVisibleSibling) { // right most column
+                        borderChangeElement = e.target;
+
+                        if (mouseXRelative <= brect.width / 2)
+                            changeBorderSide = 'left';
+                    }
+
+                    borderChangeElement.setStyle('border-' + changeBorderSide + '-style', 'solid');
+                    borderChangeElement.setStyle('border-' + changeBorderSide + '-color', '#e60');
+                    borderChangeElement.setStyle('border-' + changeBorderSide + '-width', 'initial');
+
+                    resetElementBorderStyle(borderChangeElement, changeBorderSide === 'right' ? 'left' : 'right');
+
+                    borderChangeElement.getSiblings('[class=""]').each(function(el){
+                        resetElementBorderStyle(el);
+                    });
+                }
+                this.lastHoverTh = e.target;
+                this.lastClientX = e.event.clientX;
+            }.bind(this);
+
+            var mouseOutFn = function (e) {
+                resetElementBorderStyle(e.target);
+            }.bind(this);
+
+            var onBeforeStart = function (el) {
+                this.clickedTh = el;
+                this.currentHeaderAction = 'start';
+                this.dragMovement = false;
+                this.dragStartX = this.lastClientX;
+            }.bind(this);
+
+            var onStart = function (el, event) {
+                if (this.canResize) {
+                    this.currentHeaderAction = 'resize';
+                    this.startWidth = this.resizeTh.getStyle('width').toFloat();
+                }
+                else {
+                    this.currentHeaderAction = 'drag';
+                    el.setStyle('background-color', '#C1D5E7');
+                }
+            }.bind(this);
+
+            var onDrag = function (el, event) {
+                if (this.currentHeaderAction === 'resize') {
+                    var width = this.startWidth + (event.page.x - this.dragStartX);
+                    if (width < 16)
+                        width = 16;
+                    this.columns[this.resizeTh.columnName].width = width;
+                    this.updateColumn(this.resizeTh.columnName);
+                }
+            }.bind(this);
+
+            var onComplete = function (el, event) {
+                resetElementBorderStyle(this.lastHoverTh);
+                el.setStyle('background-color', '');
+                if (this.currentHeaderAction === 'resize')
+                    localStorage.setItem('column_' + this.resizeTh.columnName + '_width_' + this.dynamicTableDivId, this.columns[this.resizeTh.columnName].width);
+                if ((this.currentHeaderAction === 'drag') && (el !== this.lastHoverTh)) {
+                    this.saveColumnsOrder();
+                    var val = localStorage.getItem('columns_order_' + this.dynamicTableDivId).split(',');
+                    val.erase(el.columnName);
+                    var pos = val.indexOf(this.lastHoverTh.columnName);
+                    if (this.dropSide === 'right') pos++;
+                    val.splice(pos, 0, el.columnName);
+                    localStorage.setItem('columns_order_' + this.dynamicTableDivId, val.join(','));
+                    this.loadColumnsOrder();
+                    this.updateTableHeaders();
+                    while (this.tableBody.firstChild)
+                        this.tableBody.removeChild(this.tableBody.firstChild);
+                    this.updateTable(true);
+                }
+                if (this.currentHeaderAction === 'drag') {
+                    resetElementBorderStyle(el);
+                    el.getSiblings('[class=""]').each(function(el){
+                        resetElementBorderStyle(el);
+                    });
+                }
+                this.currentHeaderAction = '';
+            }.bind(this);
+
+            var onCancel = function (el) {
+                this.currentHeaderAction = '';
+                this.setSortedColumn(el.columnName);
+            }.bind(this);
+
+            var ths = this.fixedTableHeader.getElements('th');
+
+            for (var i = 0; i < ths.length; i++) {
+                var th = ths[i];
+                th.addEvent('mousemove', mouseMoveFn);
+                th.addEvent('mouseout', mouseOutFn);
+                th.makeResizable({
+                    modifiers : {x: '', y: ''},
+                    onBeforeStart : onBeforeStart,
+                    onStart : onStart,
+                    onDrag : onDrag,
+                    onComplete : onComplete,
+                    onCancel : onCancel
+                });
+            }
+        },
+
+        setupDynamicTableHeaderContextMenuClass : function () {
+            if (!DynamicTableHeaderContextMenuClass) {
+                DynamicTableHeaderContextMenuClass = new Class({
+                    Extends: ContextMenu,
+                    updateMenuItems: function () {
+                        for (var i = 0; i < this.dynamicTable.columns.length; i++) {
+                            if (this.dynamicTable.columns[i].caption === '')
+                                continue;
+                            if (this.dynamicTable.columns[i].visible !== '0')
+                                this.setItemChecked(this.dynamicTable.columns[i].name, true);
+                            else
+                                this.setItemChecked(this.dynamicTable.columns[i].name, false);
+                        }
+                    }
+                });
+            }
+        },
+
+        showColumn : function (columnName, show) {
+            this.columns[columnName].visible = show ? '1' : '0';
+            localStorage.setItem('column_' + columnName + '_visible_' + this.dynamicTableDivId, show ? '1' : '0');
+            this.updateColumn(columnName);
+        },
+
+        setupHeaderMenu : function () {
+            this.setupDynamicTableHeaderContextMenuClass();
+
+            var menuId = this.dynamicTableDivId + '_headerMenu';
+
+            var ul = new Element('ul', {id: menuId, class: 'contextMenu scrollableMenu'});
+
+            var createLi = function(columnName, text) {
+                    var html = '<a href="#' + columnName + '" ><img src="theme/checked"/>' + escapeHtml(text) + '</a>';
+                    return new Element('li', {html: html});
+                };
+
+            var actions = {};
+
+            var onMenuItemClicked = function (element, ref, action) {
+                    this.showColumn(action, this.columns[action].visible === '0');
+                }.bind(this);
+
+            for (var i = 0; i < this.columns.length; i++) {
+                var text = this.columns[i].caption;
+                if (text === '')
+                    continue;
+                ul.appendChild(createLi(this.columns[i].name, text));
+                actions[this.columns[i].name] = onMenuItemClicked;
+            }
+
+            ul.inject(document.body);
+
+            this.headerContextMenu = new DynamicTableHeaderContextMenuClass({
+                targets: '#' + this.dynamicTableFixedHeaderDivId + ' tr',
+                actions: actions,
+                menu : menuId,
+                offsets : {
+                    x : -15,
+                    y : 2
+                }
+            });
+
+            this.headerContextMenu.dynamicTable = this;
         },
 
         initColumns : function () {},
 
-        newColumn : function (name, style, caption) {
+        newColumn : function (name, style, caption, defaultWidth, defaultVisible) {
             var column = {};
             column['name'] = name;
-            column['visible'] = getLocalStorageItem('column_' + name + '_visible_' + this.tableId, '1');
+            column['visible'] = getLocalStorageItem('column_' + name + '_visible_' + this.dynamicTableDivId, defaultVisible ? '1' : '0');
             column['force_hide'] = false;
             column['caption'] = caption;
             column['style'] = style;
-            column['onclick'] = 'this._this.setSortedColumn(\'' + name + '\');';
+            column['width'] = getLocalStorageItem('column_' + name + '_width_' + this.dynamicTableDivId, defaultWidth);
             column['dataProperties'] = [name];
             column['getRowValue'] = function (row, pos) {
-                if (pos == undefined)
+                if (pos === undefined)
                     pos = 0;
                 return row['full_data'][this.dataProperties[pos]];
             };
@@ -76,15 +345,17 @@ var DynamicTable = new Class({
             column['updateTd'] = function (td, row) {
                 td.innerHTML = this.getRowValue(row);
             };
+            column['onResize'] = null;
             this.columns.push(column);
             this.columns[name] = column;
 
-            $(this.tableHeaderId).appendChild(new Element('th'));
+            this.hiddenTableHeader.appendChild(new Element('th'));
+            this.fixedTableHeader.appendChild(new Element('th'));
         },
 
         loadColumnsOrder : function () {
-            columnsOrder = ['state_icon']; // status icon column is always the first
-            val = localStorage.getItem('columns_order_' + this.tableId);
+            var columnsOrder = [];
+            var val = localStorage.getItem('columns_order_' + this.dynamicTableDivId);
             if (val === null || val === undefined) return;
             val.split(',').forEach(function(v) {
                 if ((v in this.columns) && (!columnsOrder.contains(v)))
@@ -106,18 +377,24 @@ var DynamicTable = new Class({
                     val += ',';
                 val += this.columns[i].name;
             }
-            localStorage.setItem('columns_order_' + this.tableId, val);
+            localStorage.setItem('columns_order_' + this.dynamicTableDivId, val);
         },
 
-        updateHeader : function () {
-            var ths = $(this.tableHeaderId).getElements('th');
+        updateTableHeaders : function () {
+            this.updateHeader(this.hiddenTableHeader);
+            this.updateHeader(this.fixedTableHeader);
+        },
+
+        updateHeader : function (header) {
+            var ths = header.getElements('th');
 
             for (var i = 0; i < ths.length; i++) {
                 th = ths[i];
                 th._this = this;
-                th.setAttribute('onclick', this.columns[i].onclick);
+                th.setAttribute('title', this.columns[i].caption);
                 th.innerHTML = this.columns[i].caption;
-                th.setAttribute('style', this.columns[i].style);
+                th.setAttribute('style', 'width: ' + this.columns[i].width + 'px;' + this.columns[i].style);
+                th.columnName = this.columns[i].name;
                 if ((this.columns[i].visible == '0') || this.columns[i].force_hide)
                     th.addClass('invisible');
                 else
@@ -135,17 +412,30 @@ var DynamicTable = new Class({
         updateColumn : function (columnName) {
             var pos = this.getColumnPos(columnName);
             var visible = ((this.columns[pos].visible != '0') && !this.columns[pos].force_hide);
-            var ths = $(this.tableHeaderId).getElements('th');
-            if (visible)
+            var ths = this.hiddenTableHeader.getElements('th');
+            var fths = this.fixedTableHeader.getElements('th');
+            var trs = this.tableBody.getElements('tr');
+            var style = 'width: ' + this.columns[pos].width + 'px;' + this.columns[pos].style;
+
+            ths[pos].setAttribute('style', style);
+            fths[pos].setAttribute('style', style);
+
+            if (visible) {
                 ths[pos].removeClass('invisible');
-            else
-                ths[pos].addClass('invisible');
-            var trs = this.table.getElements('tr');
-            for (var i = 0; i < trs.length; i++)
-                if (visible)
+                fths[pos].removeClass('invisible');
+                for (var i = 0; i < trs.length; i++)
                     trs[i].getElements('td')[pos].removeClass('invisible');
-                else
-                    trs[i].getElements('td')[pos].addClass('invisible');
+            }
+            else {
+                ths[pos].addClass('invisible');
+                fths[pos].addClass('invisible');
+                for (var j = 0; j < trs.length; j++)
+                    trs[j].getElements('td')[pos].addClass('invisible');
+            }
+            if (this.columns[pos].onResize !== null)
+            {
+                this.columns[pos].onResize(columnName);
+            }
         },
 
         setSortedColumn : function (column) {
@@ -157,14 +447,14 @@ var DynamicTable = new Class({
                 // Toggle sort order
                 this.reverseSort = this.reverseSort == '0' ? '1' : '0';
             }
-            localStorage.setItem('sorted_column_' + this.tableId, column);
-            localStorage.setItem('reverse_sort_' + this.tableId, this.reverseSort);
+            localStorage.setItem('sorted_column_' + this.dynamicTableDivId, column);
+            localStorage.setItem('reverse_sort_' + this.dynamicTableDivId, this.reverseSort);
             this.updateTable(false);
         },
 
         getSelectedRowId : function () {
-            if (this.cur.length > 0)
-                return this.cur[0];
+            if (this.selectedRows.length > 0)
+                return this.selectedRows[0];
             return '';
         },
 
@@ -172,7 +462,7 @@ var DynamicTable = new Class({
             if (!MUI.ieLegacySupport)
                 return;
 
-            var trs = this.table.getElements('tr');
+            var trs = this.tableBody.getElements('tr');
             trs.each(function (el, i) {
                 if (i % 2) {
                     el.addClass('alt');
@@ -183,25 +473,25 @@ var DynamicTable = new Class({
         },
 
         selectAll : function () {
-            this.cur.empty();
+            this.selectedRows.empty();
 
-            var trs = this.table.getElements('tr');
+            var trs = this.tableBody.getElements('tr');
             for (var i = 0; i < trs.length; i++) {
                 var tr = trs[i];
-                this.cur.push(tr.rowId);
+                this.selectedRows.push(tr.rowId);
                 if (!tr.hasClass('selected'))
                     tr.addClass('selected');
             }
         },
 
         deselectAll : function () {
-            this.cur.empty();
+            this.selectedRows.empty();
         },
 
         selectRow : function (rowId) {
-            this.cur.empty();
-            this.cur.push(rowId);
-            var trs = this.table.getElements('tr');
+            this.selectedRows.empty();
+            this.selectedRows.push(rowId);
+            var trs = this.tableBody.getElements('tr');
             for (var i = 0; i < trs.length; i++) {
                 var tr = trs[i];
                 if (tr.rowId == rowId) {
@@ -237,7 +527,7 @@ var DynamicTable = new Class({
         },
 
         getFilteredAndSortedRows : function () {
-            var filteredRows = new Array();
+            var filteredRows = [];
 
             var rows = this.rows.getValues();
 
@@ -259,7 +549,7 @@ var DynamicTable = new Class({
         },
 
         getTrByRowId : function (rowId) {
-            trs = this.table.getElements('tr');
+            trs = this.tableBody.getElements('tr');
             for (var i = 0; i < trs.length; i++)
                 if (trs[i].rowId == rowId)
                     return trs[i];
@@ -267,25 +557,24 @@ var DynamicTable = new Class({
         },
 
         updateTable : function (fullUpdate) {
-            if (fullUpdate == undefined)
+            if (fullUpdate === undefined)
                 fullUpdate = false;
 
             var rows = this.getFilteredAndSortedRows();
 
-            for (var i = 0; i < this.cur.length; i++)
-                if (!(this.cur[i] in rows)) {
-                    this.cur.splice(i, 1);
+            for (var i = 0; i < this.selectedRows.length; i++)
+                if (!(this.selectedRows[i] in rows)) {
+                    this.selectedRows.splice(i, 1);
                     i--;
                 }
 
-            var trs = this.table.getElements('tr');
+            var trs = this.tableBody.getElements('tr');
 
             for (var rowPos = 0; rowPos < rows.length; rowPos++) {
                 var rowId = rows[rowPos]['rowId'];
                 tr_found = false;
-                for (j = rowPos; j < trs.length; j++)
+                for (var j = rowPos; j < trs.length; j++)
                     if (trs[j]['rowId'] == rowId) {
-                        trs[rowPos].removeClass('over');
                         tr_found = true;
                         if (rowPos == j)
                             break;
@@ -304,7 +593,7 @@ var DynamicTable = new Class({
 
                     tr._this = this;
                     tr.addEvent('contextmenu', function (e) {
-                        if (!this._this.cur.contains(this.rowId))
+                        if (!this._this.selectedRows.contains(this.rowId))
                             this._this.selectRow(this.rowId);
                         return true;
                     });
@@ -312,41 +601,41 @@ var DynamicTable = new Class({
                         e.stop();
                         if (e.control) {
                             // CTRL key was pressed
-                            if (this._this.cur.contains(this.rowId)) {
+                            if (this._this.selectedRows.contains(this.rowId)) {
                                 // remove it
-                                this._this.cur.erase(this.rowId);
+                                this._this.selectedRows.erase(this.rowId);
                                 // Remove selected style
                                 this.removeClass('selected');
                             }
                             else {
-                                this._this.cur.push(this.rowId);
+                                this._this.selectedRows.push(this.rowId);
                                 // Add selected style
                                 this.addClass('selected');
                             }
                         }
                         else {
-                            if (e.shift && this._this.cur.length == 1) {
+                            if (e.shift && this._this.selectedRows.length == 1) {
                                 // Shift key was pressed
-                                var first_row_id = this._this.cur[0];
+                                var first_row_id = this._this.selectedRows[0];
                                 var last_row_id = this.rowId;
-                                this._this.cur.empty();
-                                var trs = this._this.table.getElements('tr');
+                                this._this.selectedRows.empty();
+                                var trs = this._this.tableBody.getElements('tr');
                                 var select = false;
                                 for (var i = 0; i < trs.length; i++) {
                                     var tr = trs[i];
 
                                     if ((tr.rowId == first_row_id) || (tr.rowId == last_row_id)) {
-                                        this._this.cur.push(tr.rowId);
+                                        this._this.selectedRows.push(tr.rowId);
                                         tr.addClass('selected');
                                         select = !select;
                                     }
                                     else {
                                         if (select) {
-                                            this._this.cur.push(tr.rowId);
+                                            this._this.selectedRows.push(tr.rowId);
                                             tr.addClass('selected');
                                         }
                                         else
-                                            tr.removeClass('selected')
+                                            tr.removeClass('selected');
                                     }
                                 }
                             } else {
@@ -359,16 +648,16 @@ var DynamicTable = new Class({
 
                     this.setupTr(tr);
 
-                    for (var j = 0 ; j < this.columns.length; j++) {
+                    for (var k = 0 ; k < this.columns.length; k++) {
                         var td = new Element('td');
-                        if ((this.columns[j].visible == '0') || this.columns[j].force_hide)
+                        if ((this.columns[k].visible == '0') || this.columns[k].force_hide)
                             td.addClass('invisible');
                         td.injectInside(tr);
                     }
 
                     // Insert
                     if (rowPos >= trs.length) {
-                        tr.inject(this.table);
+                        tr.inject(this.tableBody);
                         trs.push(tr);
                     }
                     else {
@@ -377,8 +666,8 @@ var DynamicTable = new Class({
                     }
 
                     // Update context menu
-                    if (this.context_menu)
-                        this.context_menu.addTarget(tr);
+                    if (this.contextMenu)
+                        this.contextMenu.addTarget(tr);
 
                     this.updateRow(tr, true);
                 }
@@ -407,9 +696,9 @@ var DynamicTable = new Class({
         },
 
         removeRow : function (rowId) {
-            this.cur.erase(rowId);
+            this.selectedRows.erase(rowId);
             var tr = this.getTrByRowId(rowId);
-            if (tr != null) {
+            if (tr !== null) {
                 tr.dispose();
                 this.rows.erase(rowId);
                 return true;
@@ -418,9 +707,9 @@ var DynamicTable = new Class({
         },
 
         clear : function () {
-            this.cur.empty();
+            this.selectedRows.empty();
             this.rows.empty();
-            var trs = this.table.getElements('tr');
+            var trs = this.tableBody.getElements('tr');
             while (trs.length > 0) {
                 trs[trs.length - 1].dispose();
                 trs.pop();
@@ -428,7 +717,7 @@ var DynamicTable = new Class({
         },
 
         selectedRowsIds : function () {
-            return this.cur.slice();
+            return this.selectedRows.slice();
         },
 
         getRowIds : function () {
@@ -440,19 +729,35 @@ var TorrentsTable = new Class({
         Extends: DynamicTable,
 
         initColumns : function () {
-            this.newColumn('priority', 'width: 30px', '#');
-            this.newColumn('state_icon', 'width: 16px; cursor: default', '');
-            this.newColumn('name', 'min-width: 200px', 'QBT_TR(Name)QBT_TR');
-            this.newColumn('size', 'width: 100px', 'QBT_TR(Size)QBT_TR');
-            this.newColumn('progress', 'width: 80px', 'QBT_TR(Done)QBT_TR');
-            this.newColumn('num_seeds', 'width: 100px', 'QBT_TR(Seeds)QBT_TR');
-            this.newColumn('num_leechs', 'width: 100px', 'QBT_TR(Peers)QBT_TR');
-            this.newColumn('dlspeed', 'width: 100px', 'QBT_TR(Down Speed)QBT_TR');
-            this.newColumn('upspeed', 'width: 100px', 'QBT_TR(Up Speed)QBT_TR');
-            this.newColumn('eta', 'width: 100px', 'QBT_TR(ETA)QBT_TR');
-            this.newColumn('ratio', 'width: 100px', 'QBT_TR(Ratio)QBT_TR');
-            this.newColumn('category', 'width: 100px', 'QBT_TR(Category)QBT_TR');
-            this.newColumn('added_on', 'width: 100px', 'QBT_TR(Added on)QBT_TR');
+            this.newColumn('priority', '', '#', 30, true);
+            this.newColumn('state_icon', 'cursor: default', '', 22, true);
+            this.newColumn('name', '', 'QBT_TR(Name)QBT_TR[CONTEXT=TorrentModel]', 200, true);
+            this.newColumn('size', '', 'QBT_TR(Size)QBT_TR[CONTEXT=TorrentModel]', 100, true);
+            this.newColumn('progress', '', 'QBT_TR(Done)QBT_TR[CONTEXT=TorrentModel]', 85, true);
+            this.newColumn('status', '', 'QBT_TR(Status)QBT_TR[CONTEXT=TorrentModel]', 100, true);
+            this.newColumn('num_seeds', '', 'QBT_TR(Seeds)QBT_TR[CONTEXT=TorrentModel]', 100, true);
+            this.newColumn('num_leechs', '', 'QBT_TR(Peers)QBT_TR[CONTEXT=TorrentModel]', 100, true);
+            this.newColumn('dlspeed', '', 'QBT_TR(Down Speed)QBT_TR[CONTEXT=TorrentModel]', 100, true);
+            this.newColumn('upspeed', '', 'QBT_TR(Up Speed)QBT_TR[CONTEXT=TorrentModel]', 100, true);
+            this.newColumn('eta', '', 'QBT_TR(ETA)QBT_TR[CONTEXT=TorrentModel]', 100, true);
+            this.newColumn('ratio', '', 'QBT_TR(Ratio)QBT_TR[CONTEXT=TorrentModel]', 100, true);
+            this.newColumn('category', '', 'QBT_TR(Category)QBT_TR[CONTEXT=TorrentModel]', 100, true);
+            this.newColumn('added_on', '', 'QBT_TR(Added On)QBT_TR[CONTEXT=TorrentModel]', 100, true);
+            this.newColumn('completion_on', '', 'QBT_TR(Completed On)QBT_TR[CONTEXT=TorrentModel]', 100, false);
+            this.newColumn('tracker', '', 'QBT_TR(Tracker)QBT_TR[CONTEXT=TorrentModel]', 100, false);
+            this.newColumn('dl_limit', '', 'QBT_TR(Down Limit)QBT_TR[CONTEXT=TorrentModel]', 100, false);
+            this.newColumn('up_limit', '', 'QBT_TR(Up Limit)QBT_TR[CONTEXT=TorrentModel]', 100, false);
+            this.newColumn('downloaded', '', 'QBT_TR(Downloaded)QBT_TR[CONTEXT=TorrentModel]', 100, false);
+            this.newColumn('uploaded', '', 'QBT_TR(Uploaded)QBT_TR[CONTEXT=TorrentModel]', 100, false);
+            this.newColumn('downloaded_session', '', 'QBT_TR(Session Download)QBT_TR[CONTEXT=TorrentModel]', 100, false);
+            this.newColumn('uploaded_session', '', 'QBT_TR(Session Upload)QBT_TR[CONTEXT=TorrentModel]', 100, false);
+            this.newColumn('amount_left', '', 'QBT_TR(Remaining)QBT_TR[CONTEXT=TorrentModel]', 100, false);
+            this.newColumn('save_path', '', 'QBT_TR(Save path)QBT_TR[CONTEXT=TorrentModel]', 100, false);
+            this.newColumn('completed', '', 'QBT_TR(Completed)QBT_TR[CONTEXT=TorrentModel]', 100, false);
+            this.newColumn('ratio_limit', '', 'QBT_TR(Ratio Limit)QBT_TR[CONTEXT=TorrentModel]', 100, false);
+            this.newColumn('seen_complete', '', 'QBT_TR(Last Seen Complete)QBT_TR[CONTEXT=TorrentModel]', 100, false);
+            this.newColumn('last_activity', '', 'QBT_TR(Last Activity)QBT_TR[CONTEXT=TorrentModel]', 100, false);
+            this.newColumn('total_size', '', 'QBT_TR(Total Size)QBT_TR[CONTEXT=TorrentModel]', 100, false);
 
             this.columns['state_icon'].onclick = '';
             this.columns['state_icon'].dataProperties[0] = 'state';
@@ -467,26 +772,25 @@ var TorrentsTable = new Class({
         initColumnsFunctions : function () {
 
             // state_icon
-
             this.columns['state_icon'].updateTd = function (td, row) {
                 var state = this.getRowValue(row);
 
-                if (state == "forcedDL" || state == "metaDL")
+                if ((state === "forcedDL") || (state === "metaDL"))
                     state = "downloading";
-                else if (state == "allocating")
+                else if (state === "allocating")
                     state = "stalledDL";
-                else if (state == "forcedUP")
+                else if (state === "forcedUP")
                     state = "uploading";
-                else if (state == "pausedDL")
+                else if (state === "pausedDL")
                     state = "paused";
-                else if (state == "pausedUP")
+                else if (state === "pausedUP")
                     state = "completed";
-                else if (state == "queuedDL" || state == "queuedUP")
+                else if ((state === "queuedDL") || (state === "queuedUP"))
                     state = "queued";
-                else if (state == "checkingDL" || state == "checkingUP" ||
-                        state == "queuedForChecking" || state == "checkingResumeData")
+                else if ((state === "checkingDL") || (state === "checkingUP") ||
+                        (state === "queuedForChecking") || (state === "checkingResumeData"))
                     state = "checking";
-                else if (state == "unknown" || state == "error" || state == "missingFiles")
+                else if ((state === "unknown") || (state === "error") || (state === "missingFiles"))
                     state = "error";
 
                 var img_path = 'images/skin/' + state + '.png';
@@ -499,12 +803,37 @@ var TorrentsTable = new Class({
                 else
                     td.adopt(new Element('img', {
                         'src' : img_path,
-                        'class' : 'statusIcon'
+                        'class' : 'stateIcon'
                     }));
             };
 
-            // priority
+            // status
+            this.columns['status'].updateTd = function (td, row) {
+                var status = this.getRowValue(row);
+                if (!status) return;
 
+                if ((status === "downloading") || (status === "forcedDL") || (status === "metaDL"))
+                    status = "Downloading";
+                else if ((status === "stalledDL") || (status === "stalledUP") || (status === "allocating"))
+                    status = "Stalled";
+                else if ((status === "uploading") || (status === "forcedUP"))
+                    status = "Uploading";
+                else if (status === "pausedDL")
+                    status = "Paused";
+                else if (status === "pausedUP")
+                    status = "Completed";
+                else if ((status === "queuedDL") || (status === "queuedUP"))
+                    status = "Queued";
+                else if ((status === "checkingDL") || (status === "checkingUP") ||
+                        (status === "queuedForChecking") || (status === "checkingResumeData"))
+                    status = "Checking";
+                else if ((status === "unknown") || (status === "error") || (status === "missingFiles"))
+                    status = "Error";
+
+                td.set('html', status);
+            };
+
+            // priority
             this.columns['priority'].updateTd = function (td, row) {
                 var priority = this.getRowValue(row);
                 td.set('html', priority < 1 ? '*' : priority);
@@ -525,21 +854,18 @@ var TorrentsTable = new Class({
             };
 
             // name, category
-
             this.columns['name'].updateTd = function (td, row) {
                 td.set('html', escapeHtml(this.getRowValue(row)));
             };
             this.columns['category'].updateTd = this.columns['name'].updateTd;
 
             // size
-
             this.columns['size'].updateTd = function (td, row) {
                 var size = this.getRowValue(row);
                 td.set('html', friendlyUnit(size, false));
             };
 
             // progress
-
             this.columns['progress'].updateTd = function (td, row) {
                 var progress = this.getRowValue(row);
                 var progressFormated = (progress * 100).round(1);
@@ -548,17 +874,37 @@ var TorrentsTable = new Class({
 
                 if (td.getChildren('div').length) {
                     var div = td.getChildren('div')[0];
+                    if (td.resized) {
+                        td.resized = false;
+                        div.setWidth(ProgressColumnWidth - 5);
+                    }
                     if (div.getValue() != progressFormated)
                         div.setValue(progressFormated);
                 }
-                else
+                else {
+                    if (ProgressColumnWidth < 0)
+                        ProgressColumnWidth = td.offsetWidth;
                     td.adopt(new ProgressBar(progressFormated.toFloat(), {
-                        'width' : 80
+                        'width' : ProgressColumnWidth - 5
                     }));
+                    td.resized = false;
+                }
             };
 
-            // num_seeds
+            this.columns['progress'].onResize = function (columnName) {
+                var pos = this.getColumnPos(columnName);
+                var trs = this.tableBody.getElements('tr');
+                ProgressColumnWidth = -1;
+                for (var i = 0; i < trs.length; i++) {
+                    var td = trs[i].getElements('td')[pos];
+                    if (ProgressColumnWidth < 0)
+                        ProgressColumnWidth = td.offsetWidth;
+                    td.resized = true;
+                    this.columns[columnName].updateTd(td, this.rows.get(trs[i].rowId));
+                }
+            }.bind(this);
 
+            // num_seeds
             this.columns['num_seeds'].updateTd = function (td, row) {
                 var num_seeds = this.getRowValue(row, 0);
                 var num_complete = this.getRowValue(row, 1);
@@ -586,30 +932,25 @@ var TorrentsTable = new Class({
             };
 
             // num_leechs
-
             this.columns['num_leechs'].updateTd = this.columns['num_seeds'].updateTd;
             this.columns['num_leechs'].compareRows = this.columns['num_seeds'].compareRows;
 
             // dlspeed
-
             this.columns['dlspeed'].updateTd = function (td, row) {
                 var speed = this.getRowValue(row);
                 td.set('html', friendlyUnit(speed, true));
             };
 
             // upspeed
-
             this.columns['upspeed'].updateTd = this.columns['dlspeed'].updateTd;
 
             // eta
-
             this.columns['eta'].updateTd = function (td, row) {
                 var eta = this.getRowValue(row);
                 td.set('html', friendlyDuration(eta, true));
             };
 
             // ratio
-
             this.columns['ratio'].updateTd = function (td, row) {
                 var ratio = this.getRowValue(row);
                 var html = null;
@@ -621,10 +962,60 @@ var TorrentsTable = new Class({
             };
 
             // added on
-
             this.columns['added_on'].updateTd = function (td, row) {
                 var date = new Date(this.getRowValue(row) * 1000).toLocaleString();
                 td.set('html', date);
+            };
+
+            // completion_on
+            this.columns['completion_on'].updateTd = function (td, row) {
+                var val = this.getRowValue(row);
+                if (val === 0xffffffff || val < 0)
+                    td.set('html', '');
+                else {
+                    var date = new Date(this.getRowValue(row) * 1000).toLocaleString();
+                    td.set('html', date);
+                }
+            };
+
+            // seen_complete
+            this.columns['seen_complete'].updateTd = this.columns['completion_on'].updateTd;
+
+            //  dl_limit, up_limit
+            this.columns['dl_limit'].updateTd = function (td, row) {
+                var speed = this.getRowValue(row);
+                if (speed === 0)
+                    td.set('html', '∞');
+                else
+                    td.set('html', friendlyUnit(speed, true));
+            };
+
+            this.columns['up_limit'].updateTd = this.columns['dl_limit'].updateTd;
+
+            // downloaded, uploaded, downloaded_session, uploaded_session, amount_left, completed, total_size
+            this.columns['downloaded'].updateTd = this.columns['size'].updateTd;
+            this.columns['uploaded'].updateTd = this.columns['size'].updateTd;
+            this.columns['downloaded_session'].updateTd = this.columns['size'].updateTd;
+            this.columns['uploaded_session'].updateTd = this.columns['size'].updateTd;
+            this.columns['amount_left'].updateTd = this.columns['size'].updateTd;
+            this.columns['amount_left'].updateTd = this.columns['size'].updateTd;
+            this.columns['completed'].updateTd = this.columns['size'].updateTd;
+            this.columns['total_size'].updateTd = this.columns['size'].updateTd;
+
+            // save_path, tracker
+            this.columns['save_path'].updateTd = this.columns['name'].updateTd;
+            this.columns['tracker'].updateTd = this.columns['name'].updateTd;
+
+            // ratio_limit
+            this.columns['ratio_limit'].updateTd = this.columns['ratio'].updateTd;
+
+            // last_activity
+            this.columns['last_activity'].updateTd = function (td, row) {
+                var val = this.getRowValue(row);
+                if (val < 1)
+                    td.set('html', '∞');
+                else
+                    td.set('html', 'QBT_TR(%1 ago)QBT_TR[CONTEXT=TransferListDelegate]'.replace('%1', friendlyDuration((new Date()) / 1000 - val, true)));
             };
         },
 
@@ -656,9 +1047,10 @@ var TorrentsTable = new Class({
                     break;
                 case 'inactive':
                     inactive = true;
+                    // fallthrough
                 case 'active':
                     if (state == 'stalledDL')
-                        r = (row['full_data'].upspeed > 0)
+                        r = (row['full_data'].upspeed > 0);
                     else
                         r = state == 'metaDL' || state == 'downloading' || state == 'forcedDL' || state == 'uploading' || state == 'forcedUP';
                     if (r == inactive)
@@ -703,7 +1095,7 @@ var TorrentsTable = new Class({
         },
 
         getFilteredAndSortedRows : function () {
-            var filteredRows = new Array();
+            var filteredRows = [];
 
             var rows = this.rows.getValues();
 
@@ -752,18 +1144,19 @@ var TorrentPeersTable = new Class({
         Extends: DynamicTable,
 
         initColumns : function () {
-            this.newColumn('country', 'width: 4px', '');
-            this.newColumn('ip', 'width: 80px', 'QBT_TR(IP)QBT_TR');
-            this.newColumn('port', 'width: 35px', 'QBT_TR(Port)QBT_TR');
-            this.newColumn('client', 'width: 110px', 'QBT_TR(Client)QBT_TR');
-            this.newColumn('progress', 'width: 30px', 'QBT_TR(Progress)QBT_TR');
-            this.newColumn('dl_speed', 'width: 30px', 'QBT_TR(Down Speed)QBT_TR');
-            this.newColumn('up_speed', 'width: 30px', 'QBT_TR(Up Speed)QBT_TR');
-            this.newColumn('downloaded', 'width: 30px', 'QBT_TR(Downloaded)QBT_TR[CONTEXT=PeerListWidget]');
-            this.newColumn('uploaded', 'width: 30px', 'QBT_TR(Uploaded)QBT_TR[CONTEXT=PeerListWidget]');
-            this.newColumn('connection', 'width: 30px', 'QBT_TR(Connection)QBT_TR');
-            this.newColumn('flags', 'width: 30px', 'QBT_TR(Flags)QBT_TR');
-            this.newColumn('relevance', 'min-width: 30px', 'QBT_TR(Relevance)QBT_TR');
+            this.newColumn('country', '', 'QBT_TR(Country)QBT_TR[CONTEXT=PeerListWidget]', 22, true);
+            this.newColumn('ip', '', 'QBT_TR(IP)QBT_TR[CONTEXT=PeerListWidget]', 80, true);
+            this.newColumn('port', '', 'QBT_TR(Port)QBT_TR[CONTEXT=PeerListWidget]', 35, true);
+            this.newColumn('client', '', 'QBT_TR(Client)QBT_TR[CONTEXT=PeerListWidget]', 140, true);
+            this.newColumn('progress', '', 'QBT_TR(Progress)QBT_TR[CONTEXT=PeerListWidget]', 50, true);
+            this.newColumn('dl_speed', '', 'QBT_TR(Down Speed)QBT_TR[CONTEXT=PeerListWidget]', 50, true);
+            this.newColumn('up_speed', '', 'QBT_TR(Up Speed)QBT_TR[CONTEXT=PeerListWidget]', 50, true);
+            this.newColumn('downloaded', '', 'QBT_TR(Downloaded)QBT_TR[CONTEXT=PeerListWidget]', 50, true);
+            this.newColumn('uploaded', '', 'QBT_TR(Uploaded)QBT_TR[CONTEXT=PeerListWidget]', 50, true);
+            this.newColumn('connection', '', 'QBT_TR(Connection)QBT_TR[CONTEXT=PeerListWidget]', 50, true);
+            this.newColumn('flags', '', 'QBT_TR(Flags)QBT_TR[CONTEXT=PeerListWidget]', 50, true);
+            this.newColumn('relevance', '', 'QBT_TR(Relevance)QBT_TR[CONTEXT=PeerListWidget]', 30, true);
+            this.newColumn('files', '', 'QBT_TR(Files)QBT_TR[CONTEXT=PeerListWidget]', 100, true);
 
             this.columns['country'].dataProperties.push('country_code');
             this.columns['flags'].dataProperties.push('flags_desc');
@@ -834,7 +1227,7 @@ var TorrentPeersTable = new Class({
 
             this.columns['dl_speed'].updateTd = function (td, row) {
                 var speed = this.getRowValue(row);
-                if (speed == 0)
+                if (speed === 0)
                     td.set('html', '');
                 else
                     td.set('html', friendlyUnit(speed, true));
@@ -856,6 +1249,13 @@ var TorrentPeersTable = new Class({
             this.columns['flags'].updateTd = function (td, row) {
                 td.innerHTML = this.getRowValue(row, 0);
                 td.title = this.getRowValue(row, 1);
+            };
+
+            // files
+
+            this.columns['files'].updateTd = function (td, row) {
+                td.innerHTML = escapeHtml(this.getRowValue(row, 0).replace('\n', ';'));
+                td.title = escapeHtml(this.getRowValue(row, 0));
             };
 
         }

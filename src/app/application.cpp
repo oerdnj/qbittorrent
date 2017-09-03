@@ -70,6 +70,7 @@
 #include "base/net/smtp.h"
 #include "base/net/downloadmanager.h"
 #include "base/net/geoipmanager.h"
+#include "base/net/proxyconfigurationmanager.h"
 #include "base/bittorrent/session.h"
 #include "base/bittorrent/torrenthandle.h"
 
@@ -110,17 +111,20 @@ Application::Application(const QString &id, int &argc, char **argv)
         QFont::insertSubstitution(".Lucida Grande UI", "Lucida Grande");
     }
 #endif
+
     setApplicationName("qBittorrent");
     initializeTranslation();
-#ifndef DISABLE_GUI
+
+#if !defined(DISABLE_GUI)
 #ifdef QBT_USES_QT5
     setAttribute(Qt::AA_UseHighDpiPixmaps, true);  // opt-in to the high DPI pixmap support
 #endif // QBT_USES_QT5
     setQuitOnLastWindowClosed(false);
-#ifdef Q_OS_WIN
+#endif
+
+#if defined(Q_OS_WIN) && !defined(DISABLE_GUI)
     connect(this, SIGNAL(commitDataRequest(QSessionManager &)), this, SLOT(shutdownCleanup(QSessionManager &)), Qt::DirectConnection);
-#endif // Q_OS_WIN
-#endif // DISABLE_GUI
+#endif
 
     connect(this, SIGNAL(messageReceived(const QString &)), SLOT(processMessage(const QString &)));
     connect(this, SIGNAL(aboutToQuit()), SLOT(cleanup()));
@@ -128,7 +132,7 @@ Application::Application(const QString &id, int &argc, char **argv)
     if (isFileLoggerEnabled())
         m_fileLogger = new FileLogger(fileLoggerPath(), isFileLoggerBackup(), fileLoggerMaxSize(), isFileLoggerDeleteOld(), fileLoggerAge(), static_cast<FileLogger::FileLogAgeType>(fileLoggerAgeType()));
 
-    Logger::instance()->addMessage(tr("qBittorrent %1 started", "qBittorrent v3.2.0alpha started").arg(VERSION));
+    Logger::instance()->addMessage(tr("qBittorrent %1 started", "qBittorrent v3.2.0alpha started").arg(QBT_VERSION));
 }
 
 #ifndef DISABLE_GUI
@@ -263,7 +267,7 @@ void Application::runExternalProgram(BitTorrent::TorrentHandle *const torrent) c
 #elif defined(Q_OS_WIN)  // test cmd: `echo "%F" > "c:\ab ba.txt"`
     program.prepend(QLatin1String("\"")).append(QLatin1String("\""));
     program.prepend(Utils::Misc::windowsSystemPath() + QLatin1String("\\cmd.exe /C "));
-    const uint cmdMaxLength = 32768;  // max length (incl. terminate char) for `lpCommandLine` in `CreateProcessW()`
+    const int cmdMaxLength = 32768;  // max length (incl. terminate char) for `lpCommandLine` in `CreateProcessW()`
     if ((program.size() + 1) > cmdMaxLength) {
         logger->addMessage(tr("Torrent: %1, run external program command too long (length > %2), execution failed.").arg(torrent->name()).arg(cmdMaxLength), Log::CRITICAL);
         return;
@@ -395,6 +399,7 @@ void Application::processParams(const QStringList &params)
 
 int Application::exec(const QStringList &params)
 {
+    Net::ProxyConfigurationManager::initInstance();
     Net::DownloadManager::initInstance();
 #ifdef DISABLE_GUI
     IconProvider::initInstance();
@@ -438,6 +443,9 @@ int Application::exec(const QStringList &params)
         processParams(m_paramsQueue);
         m_paramsQueue.clear();
     }
+
+    // Now UI is ready to process signals from Session
+    BitTorrent::Session::instance()->startUpTorrents();
 
     return BaseApplication::exec();
 }
@@ -509,36 +517,26 @@ void Application::initializeTranslation()
 {
     Preferences* const pref = Preferences::instance();
     // Load translation
-    QString locale = pref->getLocale();
+    QString localeStr = pref->getLocale();
 
-    if (locale.isEmpty()) {
-        locale = QLocale::system().name();
-        pref->setLocale(locale);
-    }
-
-    if (m_qtTranslator.load(
+    if (
 #ifdef QBT_USES_QT5
-            QString::fromUtf8("qtbase_") + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath)) ||
-        m_qtTranslator.load(
+        m_qtTranslator.load(QString::fromUtf8("qtbase_") + localeStr, QLibraryInfo::location(QLibraryInfo::TranslationsPath)) ||
 #endif
-            QString::fromUtf8("qt_") + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
-            qDebug("Qt %s locale recognized, using translation.", qPrintable(locale));
-    }
-    else {
-        qDebug("Qt %s locale unrecognized, using default (en).", qPrintable(locale));
-    }
+        m_qtTranslator.load(QString::fromUtf8("qt_") + localeStr, QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
+            qDebug("Qt %s locale recognized, using translation.", qPrintable(localeStr));
+    else
+        qDebug("Qt %s locale unrecognized, using default (en).", qPrintable(localeStr));
     installTranslator(&m_qtTranslator);
 
-    if (m_translator.load(QString::fromUtf8(":/lang/qbittorrent_") + locale)) {
-        qDebug("%s locale recognized, using translation.", qPrintable(locale));
-    }
-    else {
-        qDebug("%s locale unrecognized, using default (en).", qPrintable(locale));
-    }
+    if (m_translator.load(QString::fromUtf8(":/lang/qbittorrent_") + localeStr))
+        qDebug("%s locale recognized, using translation.", qPrintable(localeStr));
+    else
+        qDebug("%s locale unrecognized, using default (en).", qPrintable(localeStr));
     installTranslator(&m_translator);
 
 #ifndef DISABLE_GUI
-    if (locale.startsWith("ar") || locale.startsWith("he")) {
+    if (localeStr.startsWith("ar") || localeStr.startsWith("he")) {
         qDebug("Right to Left mode");
         setLayoutDirection(Qt::RightToLeft);
     }
@@ -621,11 +619,13 @@ void Application::cleanup()
     Net::GeoIPManager::freeInstance();
 #endif
     Net::DownloadManager::freeInstance();
+    Net::ProxyConfigurationManager::freeInstance();
     Preferences::freeInstance();
     SettingsStorage::freeInstance();
     delete m_fileLogger;
     Logger::freeInstance();
     IconProvider::freeInstance();
+    Utils::Fs::removeDirRecursive(Utils::Fs::tempPath());
 
 #ifndef DISABLE_GUI
 #ifdef Q_OS_WIN

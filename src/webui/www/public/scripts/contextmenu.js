@@ -23,7 +23,7 @@ var ContextMenu = new Class({
     //initialization
     initialize: function(options) {
         //set options
-        this.setOptions(options)
+        this.setOptions(options);
 
         //option diffs menu
         this.menu = $(this.options.menu);
@@ -57,6 +57,11 @@ var ContextMenu = new Class({
     adjustMenuPosition: function(e) {
         this.updateMenuItems();
 
+        var scrollableMenuMaxHeight = document.documentElement.clientHeight * 0.75;
+
+        if (this.menu.hasClass('scrollableMenu'))
+            this.menu.setStyle('max-height', scrollableMenuMaxHeight);
+
         // draw the menu off-screen to know the menu dimentions
         this.menu.setStyles({
             left: '-999em',
@@ -64,19 +69,19 @@ var ContextMenu = new Class({
         });
 
         // position the menu
-        var xPos = e.page.x + this.options.offsets.x;
-        var yPos = e.page.y + this.options.offsets.y;
-        if (xPos + this.menu.offsetWidth > document.documentElement.clientWidth)
-            xPos -= this.menu.offsetWidth;
-        if (yPos + this.menu.offsetHeight > document.documentElement.clientHeight)
-            yPos -= this.menu.offsetHeight;
-        if (xPos < 0)
-            xPos = 0;
-        if (yPos < 0)
-            yPos = 0;
+        var xPosMenu = e.page.x + this.options.offsets.x;
+        var yPosMenu = e.page.y + this.options.offsets.y;
+        if (xPosMenu + this.menu.offsetWidth > document.documentElement.clientWidth)
+            xPosMenu -= this.menu.offsetWidth;
+        if (yPosMenu + this.menu.offsetHeight > document.documentElement.clientHeight)
+            yPosMenu = document.documentElement.clientHeight - this.menu.offsetHeight;
+        if (xPosMenu < 0)
+            xPosMenu = 0;
+        if (yPosMenu < 0)
+            yPosMenu = 0;
         this.menu.setStyles({
-            left: xPos,
-            top: yPos,
+            left: xPosMenu,
+            top: yPosMenu,
             position: 'absolute',
             'z-index': '2000'
         });
@@ -85,6 +90,8 @@ var ContextMenu = new Class({
         var uls = this.menu.getElementsByTagName('ul');
         for (var i = 0; i < uls.length; i++) {
             var ul = uls[i];
+            if (ul.hasClass('scrollableMenu'))
+                ul.setStyle('max-height', scrollableMenuMaxHeight);
             var rectParent = ul.parentNode.getBoundingClientRect();
             var xPosOrigin = rectParent.left;
             var yPosOrigin = rectParent.bottom;
@@ -93,7 +100,7 @@ var ContextMenu = new Class({
             if (xPos + ul.offsetWidth > document.documentElement.clientWidth)
                 xPos -= (ul.offsetWidth + rectParent.width - 2);
             if (yPos + ul.offsetHeight > document.documentElement.clientHeight)
-                yPos -= (ul.offsetHeight - rectParent.height - 2);
+                yPos = document.documentElement.clientHeight - ul.offsetHeight;
             if (xPos < 0)
                 xPos = 0;
             if (yPos < 0)
@@ -228,7 +235,7 @@ var ContextMenu = new Class({
     //execute an action
     execute: function (action, element) {
         if (this.options.actions[action]) {
-            this.options.actions[action](element, this);
+            this.options.actions[action](element, this, action);
         }
         return this;
     }
@@ -253,19 +260,19 @@ var TorrentsTableContextMenu = new Class({
         h.each(function(item, index){
             var data = torrentsTable.rows.get(item).full_data;
 
-            if (data['seq_dl'] != true)
+            if (data['seq_dl'] !== true)
                 all_are_seq_dl = false;
             else
                 there_are_seq_dl = true;
 
-            if (data['f_l_piece_prio'] != true)
+            if (data['f_l_piece_prio'] !== true)
                 all_are_f_l_piece_prio = false;
             else
                 there_are_f_l_piece_prio = true;
 
             if (data['progress'] != 1.0) // not downloaded
                 all_are_downloaded = false;
-            else if (data['super_seeding'] != true)
+            else if (data['super_seeding'] !== true)
                 all_are_super_seeding = false;
 
             if (data['state'] != 'pausedUP' && data['state'] != 'pausedDL')
@@ -273,7 +280,7 @@ var TorrentsTableContextMenu = new Class({
             else
                 there_are_paused = true;
 
-            if (data['force_start'] != true)
+            if (data['force_start'] !== true)
                 all_are_force_start = false;
             else
                 there_are_force_start = true;
@@ -334,10 +341,10 @@ var TorrentsTableContextMenu = new Class({
     updateCategoriesSubMenu : function (category_list) {
         var categoryList = $('contextCategoryList');
         categoryList.empty();
-        categoryList.appendChild(new Element('li', {html: '<a href="javascript:torrentNewCategoryFN();"><img src="theme/list-add" alt="QBT_TR(New...)QBT_TR"/> QBT_TR(New...)QBT_TR</a>'}));
-        categoryList.appendChild(new Element('li', {html: '<a href="javascript:torrentSetCategoryFN(0);"><img src="theme/edit-clear" alt="QBT_TR(Reset)QBT_TR"/> QBT_TR(Reset)QBT_TR</a>'}));
+        categoryList.appendChild(new Element('li', {html: '<a href="javascript:torrentNewCategoryFN();"><img src="theme/list-add" alt="QBT_TR(New...)QBT_TR[CONTEXT=TransferListWidget]"/> QBT_TR(New...)QBT_TR[CONTEXT=TransferListWidget]</a>'}));
+        categoryList.appendChild(new Element('li', {html: '<a href="javascript:torrentSetCategoryFN(0);"><img src="theme/edit-clear" alt="QBT_TR(Reset)QBT_TR[CONTEXT=TransferListWidget]"/> QBT_TR(Reset)QBT_TR[CONTEXT=TransferListWidget]</a>'}));
 
-        var sortedCategories = []
+        var sortedCategories = [];
         Object.each(category_list, function (category) {
             sortedCategories.push(category.name);
         });

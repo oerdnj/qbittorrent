@@ -34,8 +34,8 @@ var trackersDynTable = new Class({
     insertRow: function(row) {
         var url = row[0];
         if (this.rows.has(url)) {
-            var tr = this.rows.get(url);
-            this.updateRow(tr, row);
+            var tableRow = this.rows.get(url);
+            this.updateRow(tableRow, row);
             return;
         }
         //this.removeRow(id);
@@ -60,7 +60,7 @@ var loadTrackersData = function() {
         return;
     }
     var new_hash = torrentsTable.getCurrentTorrentHash();
-    if (new_hash == "") {
+    if (new_hash === "") {
         tTable.removeAllRows();
         clearTimeout(loadTrackersDataTimer);
         loadTrackersDataTimer = loadTrackersData.delay(10000);
@@ -76,7 +76,7 @@ var loadTrackersData = function() {
         noCache: true,
         method: 'get',
         onFailure: function() {
-            $('error_div').set('html', 'QBT_TR(qBittorrent client is not reachable)QBT_TR');
+            $('error_div').set('html', 'QBT_TR(qBittorrent client is not reachable)QBT_TR[CONTEXT=HttpServer]');
             clearTimeout(loadTrackersDataTimer);
             loadTrackersDataTimer = loadTrackersData.delay(20000);
         },
@@ -85,12 +85,12 @@ var loadTrackersData = function() {
             if (trackers) {
                 // Update Trackers data
                 trackers.each(function(tracker) {
-                    var row = new Array();
+                    var row = [];
                     row.length = 4;
-                    row[0] = tracker.url;
+                    row[0] = escapeHtml(tracker.url);
                     row[1] = tracker.status;
                     row[2] = tracker.num_peers;
-                    row[3] = tracker.msg;
+                    row[3] = escapeHtml(tracker.msg);
                     tTable.insertRow(row);
                 });
             }
@@ -101,22 +101,22 @@ var loadTrackersData = function() {
             loadTrackersDataTimer = loadTrackersData.delay(10000);
         }
     }).send();
-}
+};
 
 var updateTrackersData = function() {
     clearTimeout(loadTrackersDataTimer);
     loadTrackersData();
-}
+};
 
 tTable = new trackersDynTable();
 tTable.setup($('trackersTable'));
 
 // Add trackers code
 $('addTrackersPlus').addEvent('click', function addTrackerDlg() {
-    if (current_hash.length == 0) return;
+    if (current_hash.length === 0) return;
     new MochaUI.Window({
         id: 'trackersPage',
-        title: "QBT_TR(Trackers addition dialog)QBT_TR",
+        title: "QBT_TR(Trackers addition dialog)QBT_TR[CONTEXT=TrackersAdditionDlg]",
         loadMethod: 'iframe',
         contentURL: 'addtrackers.html?hash=' + current_hash,
         scrollbars: true,

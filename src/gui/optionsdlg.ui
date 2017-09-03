@@ -87,7 +87,7 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="tabOptionPage1">
+      <widget class="QWidget" name="tabBehaviorPage">
        <layout class="QVBoxLayout" name="verticalLayout_10">
         <property name="leftMargin">
          <number>0</number>
@@ -649,7 +649,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabOptionPage2">
+      <widget class="QWidget" name="tabDownloadsPage">
        <layout class="QVBoxLayout" name="verticalLayout_13">
         <property name="leftMargin">
          <number>0</number>
@@ -2184,7 +2184,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabOptionPage4">
+      <widget class="QWidget" name="tabBitTorrentPage">
        <layout class="QVBoxLayout" name="verticalLayout_15">
         <property name="leftMargin">
          <number>0</number>
@@ -2605,15 +2605,15 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>438</width>
-             <height>543</height>
+             <width>518</width>
+             <height>602</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_23">
             <item>
              <widget class="QGroupBox" name="checkWebUi">
               <property name="title">
-               <string>Enable Web User Interface (Remote control)</string>
+               <string>Web User Interface (Remote control)</string>
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -2622,6 +2622,28 @@
                <bool>false</bool>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_2">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_1">
+                 <item>
+                  <widget class="QLabel" name="labelServerDomains">
+                   <property name="text">
+                    <string>Server domains:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="textServerDomains">
+                   <property name="toolTip">
+                    <string>Whitelist for filtering HTTP Host header values.
+In order to defend against DNS rebinding attack,
+you should put in domain names used by WebUI server.
+
+Use ';' to split multiple entries. Can use wildcard '*'.</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_2">
                  <item>

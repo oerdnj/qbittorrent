@@ -53,7 +53,9 @@
 namespace
 {
     const short DEFAULT_PORT = 25;
+#ifndef QT_NO_OPENSSL
     const short DEFAULT_PORT_SSL = 465;
+#endif
 
     QByteArray hmacMD5(QByteArray key, const QByteArray &msg)
     {
@@ -98,12 +100,12 @@ Smtp::Smtp(QObject *parent)
     , m_authType(AuthPlain)
 {
     static bool needToRegisterMetaType = true;
-    
+
     if (needToRegisterMetaType) {
         qRegisterMetaType<QAbstractSocket::SocketError>();
         needToRegisterMetaType = false;
     }
-    
+
 #ifndef QT_NO_OPENSSL
     m_socket = new QSslSocket(this);
 #else
@@ -526,7 +528,8 @@ QString Smtp::getCurrentDateTime() const
     int timeOffsetHour = nowDateTime.secsTo(tmp) / 3600;
     int timeOffsetMin = nowDateTime.secsTo(tmp) / 60 - (60 * timeOffsetHour);
     int timeOffset = timeOffsetHour * 100 + timeOffsetMin;
-    char buf[6] = {0};
+    // buf size = 11 to avoid format truncation warnings from snprintf
+    char buf[11] = {0};
     std::snprintf(buf, sizeof(buf), "%+05d", timeOffset);
     QString timeOffsetStr = buf;
 

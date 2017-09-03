@@ -239,11 +239,26 @@ QVector<int> TorrentInfo::fileIndicesForPiece(int pieceIndex) const
     std::vector<libt::file_slice> files(
         nativeInfo()->map_block(pieceIndex, 0, nativeInfo()->piece_size(pieceIndex)));
     QVector<int> res;
-    res.reserve(files.size());
+    res.reserve(int(files.size()));
     std::transform(files.begin(), files.end(), std::back_inserter(res),
         [](const libt::file_slice &s) { return s.file_index; });
 
     return res;
+}
+
+QVector<QByteArray> TorrentInfo::pieceHashes() const
+{
+    if (!isValid())
+        return {};
+
+    const int count = piecesCount();
+    QVector<QByteArray> hashes;
+    hashes.reserve(count);
+
+    for (int i = 0; i < count; ++i)
+        hashes += { m_nativeInfo->hash_for_piece_ptr(i), libtorrent::sha1_hash::size };
+
+    return hashes;
 }
 
 TorrentInfo::PieceRange TorrentInfo::filePieces(const QString& file) const

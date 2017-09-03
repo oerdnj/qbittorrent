@@ -31,6 +31,8 @@
 #include <QRegExp>
 #include <QDebug>
 #include <QDir>
+#include <QString>
+#include <QStringList>
 
 #include "base/preferences.h"
 #include "base/utils/fs.h"
@@ -48,53 +50,122 @@ DownloadRule::DownloadRule()
 {
 }
 
+bool DownloadRule::matches(const QString &articleTitle, const QString &expression) const
+{
+    static QRegExp whitespace("\\s+");
+
+    if (expression.isEmpty()) {
+        // A regex of the form "expr|" will always match, so do the same for wildcards
+        return true;
+    }
+    else if (m_useRegex) {
+        QRegExp reg(expression, Qt::CaseInsensitive, QRegExp::RegExp);
+        return reg.indexIn(articleTitle) > -1;
+    }
+    else {
+        // Only match if every wildcard token (separated by spaces) is present in the article name.
+        // Order of wildcard tokens is unimportant (if order is important, they should have used *).
+        foreach (const QString &wildcard, expression.split(whitespace, QString::SplitBehavior::SkipEmptyParts)) {
+            QRegExp reg(wildcard, Qt::CaseInsensitive, QRegExp::Wildcard);
+
+            if (reg.indexIn(articleTitle) == -1)
+                return false;
+        }
+    }
+
+    return true;
+}
+
 bool DownloadRule::matches(const QString &articleTitle) const
 {
-    foreach (const QString &token, m_mustContain) {
-        if (!token.isEmpty()) {
-            QRegExp reg(token, Qt::CaseInsensitive, m_useRegex ? QRegExp::RegExp : QRegExp::Wildcard);
-            if (reg.indexIn(articleTitle) < 0)
+    if (!m_mustContain.empty()) {
+        bool logged = false;
+        bool foundMustContain = false;
+
+        // Each expression is either a regex, or a set of wildcards separated by whitespace.
+        // Accept if any complete expression matches.
+        foreach (const QString &expression, m_mustContain) {
+            if (!logged) {
+                qDebug() << "Checking matching" << (m_useRegex ? "regex:" : "wildcard expressions:") << m_mustContain.join("|");
+                logged = true;
+            }
+
+            // A regex of the form "expr|" will always match, so do the same for wildcards
+            foundMustContain = matches(articleTitle, expression);
+
+            if (foundMustContain) {
+                qDebug() << "Found matching" << (m_useRegex ? "regex:" : "wildcard expression:") << expression;
+                break;
+            }
+        }
+
+        if (!foundMustContain)
+            return false;
+    }
+
+    if (!m_mustNotContain.empty()) {
+        bool logged = false;
+
+        // Each expression is either a regex, or a set of wildcards separated by whitespace.
+        // Reject if any complete expression matches.
+        foreach (const QString &expression, m_mustNotContain) {
+            if (!logged) {
+                qDebug() << "Checking not matching" << (m_useRegex ? "regex:" : "wildcard expressions:") << m_mustNotContain.join("|");
+                logged = true;
+            }
+
+            // A regex of the form "expr|" will always match, so do the same for wildcards
+            if (matches(articleTitle, expression)) {
+                qDebug() << "Found not matching" << (m_useRegex ? "regex:" : "wildcard expression:") << expression;
                 return false;
+            }
         }
     }
-    qDebug("Checking not matching tokens");
-    // Checking not matching
-    foreach (const QString &token, m_mustNotContain) {
-        if (!token.isEmpty()) {
-            QRegExp reg(token, Qt::CaseInsensitive, m_useRegex ? QRegExp::RegExp : QRegExp::Wildcard);
-            if (reg.indexIn(articleTitle) > -1)
-                return false;
-        }
-    }
+
     if (!m_episodeFilter.isEmpty()) {
-        qDebug("Checking episode filter");
+        qDebug() << "Checking episode filter:" << m_episodeFilter;
         QRegExp f("(^\\d{1,4})x(.*;$)");
         int pos = f.indexIn(m_episodeFilter);
+
         if (pos < 0)
             return false;
 
         QString s = f.cap(1);
         QStringList eps = f.cap(2).split(";");
-        QString expStr;
-        expStr += "s0?" + s + "[ -_\\.]?" + "e0?";
+        int sOurs = s.toInt();
 
-        foreach (const QString &ep, eps) {
+        foreach (QString ep, eps) {
             if (ep.isEmpty())
                 continue;
 
+            // We need to trim leading zeroes, but if it's all zeros then we want episode zero.
+            while (ep.size() > 1 && ep.startsWith("0"))
+                ep = ep.right(ep.size() - 1);
+
             if (ep.indexOf('-') != -1) { // Range detected
-                QString partialPattern = "s0?" + s + "[ -_\\.]?" + "e(0?\\d{1,4})";
-                QRegExp reg(partialPattern, Qt::CaseInsensitive);
+                QString partialPattern1 = "\\bs0?(\\d{1,4})[ -_\\.]?e(0?\\d{1,4})(?:\\D|\\b)";
+                QString partialPattern2 = "\\b(\\d{1,4})x(0?\\d{1,4})(?:\\D|\\b)";
+                QRegExp reg(partialPattern1, Qt::CaseInsensitive);
 
                 if (ep.endsWith('-')) { // Infinite range
                     int epOurs = ep.left(ep.size() - 1).toInt();
 
                     // Extract partial match from article and compare as digits
                     pos = reg.indexIn(articleTitle);
+
+                    if (pos == -1) {
+                        reg = QRegExp(partialPattern2, Qt::CaseInsensitive);
+                        pos = reg.indexIn(articleTitle);
+                    }
+
                     if (pos != -1) {
-                        int epTheirs = reg.cap(1).toInt();
-                        if (epTheirs >= epOurs)
+                        int sTheirs = reg.cap(1).toInt();
+                        int epTheirs = reg.cap(2).toInt();
+                        if (((sTheirs == sOurs) && (epTheirs >= epOurs)) || (sTheirs > sOurs)) {
+                            qDebug() << "Matched episode:" << ep;
+                            qDebug() << "Matched article:" << articleTitle;
                             return true;
+                        }
                     }
                 }
                 else { // Normal range
@@ -108,21 +179,38 @@ bool DownloadRule::matches(const QString &articleTitle) const
 
                     // Extract partial match from article and compare as digits
                     pos = reg.indexIn(articleTitle);
+
+                    if (pos == -1) {
+                        reg = QRegExp(partialPattern2, Qt::CaseInsensitive);
+                        pos = reg.indexIn(articleTitle);
+                    }
+
                     if (pos != -1) {
-                        int epTheirs = reg.cap(1).toInt();
-                        if (epOursFirst <= epTheirs && epOursLast >= epTheirs)
+                        int sTheirs = reg.cap(1).toInt();
+                        int epTheirs = reg.cap(2).toInt();
+                        if ((sTheirs == sOurs) && ((epOursFirst <= epTheirs) && (epOursLast >= epTheirs))) {
+                            qDebug() << "Matched episode:" << ep;
+                            qDebug() << "Matched article:" << articleTitle;
                             return true;
+                        }
                     }
                 }
             }
             else { // Single number
-                QRegExp reg(expStr + ep + "\\D", Qt::CaseInsensitive);
-                if (reg.indexIn(articleTitle) != -1)
+                QString expStr("\\b(?:s0?" + s + "[ -_\\.]?" + "e0?" + ep + "|" + s + "x" + "0?" + ep + ")(?:\\D|\\b)");
+                QRegExp reg(expStr, Qt::CaseInsensitive);
+                if (reg.indexIn(articleTitle) != -1) {
+                    qDebug() << "Matched episode:" << ep;
+                    qDebug() << "Matched article:" << articleTitle;
                     return true;
+                }
             }
         }
+
         return false;
     }
+
+    qDebug() << "Matched article:" << articleTitle;
     return true;
 }
 
@@ -131,7 +219,11 @@ void DownloadRule::setMustContain(const QString &tokens)
     if (m_useRegex)
         m_mustContain = QStringList() << tokens;
     else
-        m_mustContain = tokens.split(" ");
+        m_mustContain = tokens.split("|");
+
+    // Check for single empty string - if so, no condition
+    if ((m_mustContain.size() == 1) && m_mustContain[0].isEmpty())
+        m_mustContain.clear();
 }
 
 void DownloadRule::setMustNotContain(const QString &tokens)
@@ -140,6 +232,10 @@ void DownloadRule::setMustNotContain(const QString &tokens)
         m_mustNotContain = QStringList() << tokens;
     else
         m_mustNotContain = tokens.split("|");
+
+    // Check for single empty string - if so, no condition
+    if ((m_mustNotContain.size() == 1) && m_mustNotContain[0].isEmpty())
+        m_mustNotContain.clear();
 }
 
 QStringList DownloadRule::rssFeeds() const
@@ -189,7 +285,7 @@ QVariantHash DownloadRule::toVariantHash() const
 {
     QVariantHash hash;
     hash["name"] = m_name;
-    hash["must_contain"] = m_mustContain.join(" ");
+    hash["must_contain"] = m_mustContain.join("|");
     hash["must_not_contain"] = m_mustNotContain.join("|");
     hash["save_path"] = m_savePath;
     hash["affected_feeds"] = m_rssFeeds;
@@ -265,7 +361,7 @@ int DownloadRule::ignoreDays() const
 
 QString DownloadRule::mustContain() const
 {
-    return m_mustContain.join(" ");
+    return m_mustContain.join("|");
 }
 
 QString DownloadRule::mustNotContain() const
@@ -300,8 +396,9 @@ QStringList DownloadRule::findMatchingArticles(const FeedPtr &feed) const
 
     ArticleHash::ConstIterator artIt = feedArticles.begin();
     ArticleHash::ConstIterator artItend = feedArticles.end();
-    for ( ; artIt != artItend ; ++artIt) {
+    for (; artIt != artItend; ++artIt) {
         const QString title = artIt.value()->title();
+        qDebug() << "Matching article:" << title;
         if (matches(title))
             ret << title;
     }

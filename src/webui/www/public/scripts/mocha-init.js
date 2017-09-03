@@ -19,7 +19,7 @@ if (typeof localStorage == 'undefined') {
                 duration: 365 * 10
             });
         }
-    }
+    };
 }
 
 function getLocalStorageItem(name, defaultVal) {
@@ -47,7 +47,7 @@ initializeWindows = function() {
         new Event(e).stop();
         new MochaUI.Window({
             id: 'downloadPage',
-            title: "QBT_TR(Download from URLs)QBT_TR",
+            title: "QBT_TR(Download from URLs)QBT_TR[CONTEXT=downloadFromURL]",
             loadMethod: 'iframe',
             contentURL: 'download.html',
             scrollbars: true,
@@ -57,7 +57,7 @@ initializeWindows = function() {
             paddingVertical: 0,
             paddingHorizontal: 0,
             width: 500,
-            height: 360
+            height: 400
         });
         updateMainData();
     });
@@ -66,7 +66,7 @@ initializeWindows = function() {
         new Event(e).stop();
         new MochaUI.Window({
             id: 'preferencesPage',
-            title: "QBT_TR(Options)QBT_TR",
+            title: "QBT_TR(Options)QBT_TR[CONTEXT=OptionsDialog]",
             loadMethod: 'xhr',
             toolbar: true,
             contentURL: 'preferences_content.html',
@@ -88,7 +88,7 @@ initializeWindows = function() {
         new Event(e).stop();
         new MochaUI.Window({
             id: 'uploadPage',
-            title: "QBT_TR(Upload local torrent)QBT_TR",
+            title: "QBT_TR(Upload local torrent)QBT_TR[CONTEXT=HttpServer]",
             loadMethod: 'iframe',
             contentURL: 'upload.html',
             scrollbars: true,
@@ -97,7 +97,7 @@ initializeWindows = function() {
             paddingVertical: 0,
             paddingHorizontal: 0,
             width: 500,
-            height: 200
+            height: 240
         });
         updateMainData();
     });
@@ -105,7 +105,7 @@ initializeWindows = function() {
     globalUploadLimitFN = function() {
         new MochaUI.Window({
             id: 'uploadLimitPage',
-            title: "QBT_TR(Global Upload Speed Limit)QBT_TR",
+            title: "QBT_TR(Global Upload Speed Limit)QBT_TR[CONTEXT=MainWindow]",
             loadMethod: 'iframe',
             contentURL: 'uploadlimit.html?hashes=global',
             scrollbars: false,
@@ -116,7 +116,7 @@ initializeWindows = function() {
             width: 424,
             height: 80
         });
-    }
+    };
 
     uploadLimitFN = function() {
         var h = torrentsTable.selectedRowsIds();
@@ -124,7 +124,7 @@ initializeWindows = function() {
             var hash = h[0];
             new MochaUI.Window({
                 id: 'uploadLimitPage',
-                title: "QBT_TR(Torrent Upload Speed Limiting)QBT_TR",
+                title: "QBT_TR(Torrent Upload Speed Limiting)QBT_TR[CONTEXT=TransferListWidget]",
                 loadMethod: 'iframe',
                 contentURL: 'uploadlimit.html?hashes=' + h.join("|"),
                 scrollbars: false,
@@ -199,7 +199,7 @@ initializeWindows = function() {
     globalDownloadLimitFN = function() {
         new MochaUI.Window({
             id: 'downloadLimitPage',
-            title: "QBT_TR(Global Download Speed Limit)QBT_TR",
+            title: "QBT_TR(Global Download Speed Limit)QBT_TR[CONTEXT=MainWindow]",
             loadMethod: 'iframe',
             contentURL: 'downloadlimit.html?hashes=global',
             scrollbars: false,
@@ -210,7 +210,22 @@ initializeWindows = function() {
             width: 424,
             height: 80
         });
-    }
+    };
+
+    StatisticsLinkFN = function() {
+        new MochaUI.Window({
+            id: 'statisticspage',
+            title: 'QBT_TR(Statistics)QBT_TR[CONTEXT=StatsDialog]',
+            loadMethod: 'xhr',
+            contentURL: 'statistics.html',
+            scrollbars: false,
+            resizable: false,
+            maximizable: false,
+            width: 275,
+            height: 370,
+            padding: 10
+        });
+    };
 
     downloadLimitFN = function() {
         var h = torrentsTable.selectedRowsIds();
@@ -218,7 +233,7 @@ initializeWindows = function() {
             var hash = h[0];
             new MochaUI.Window({
                 id: 'downloadLimitPage',
-                title: "QBT_TR(Torrent Download Speed Limiting)QBT_TR",
+                title: "QBT_TR(Torrent Download Speed Limiting)QBT_TR[CONTEXT=TransferListWidget]",
                 loadMethod: 'iframe',
                 contentURL: 'downloadlimit.html?hashes=' + h.join("|"),
                 scrollbars: false,
@@ -237,7 +252,7 @@ initializeWindows = function() {
         if (h.length) {
             new MochaUI.Window({
                 id: 'confirmDeletionPage',
-                title: "QBT_TR(Deletion confirmation)QBT_TR",
+                title: "QBT_TR(Deletion confirmation)QBT_TR[CONTEXT=confirmDeletionDlg]",
                 loadMethod: 'iframe',
                 contentURL: 'confirmdeletion.html?hashes=' + h.join("|"),
                 scrollbars: false,
@@ -309,7 +324,7 @@ initializeWindows = function() {
         if (h.length) {
             new MochaUI.Window({
                 id: 'newCategoryPage',
-                title: "QBT_TR(New Category)QBT_TR",
+                title: "QBT_TR(New Category)QBT_TR[CONTEXT=TransferListWidget]",
                 loadMethod: 'iframe',
                 contentURL: 'newcategory.html?hashes=' + h.join('|'),
                 scrollbars: false,
@@ -325,8 +340,8 @@ initializeWindows = function() {
 
     torrentSetCategoryFN = function (categoryHash) {
         var categoryName = '';
-        if (categoryHash != 0)
-            var categoryName = category_list[categoryHash].name;
+        if (categoryHash !== 0)
+            categoryName = category_list[categoryHash].name;
         var h = torrentsTable.selectedRowsIds();
         if (h.length) {
             new Request({
@@ -343,7 +358,7 @@ initializeWindows = function() {
     createCategoryFN = function () {
         new MochaUI.Window({
             id: 'newCategoryPage',
-            title: "QBT_TR(New Category)QBT_TR",
+            title: "QBT_TR(New Category)QBT_TR[CONTEXT=CategoryFilterWidget]",
             loadMethod: 'iframe',
             contentURL: 'newcategory.html',
             scrollbars: false,
@@ -372,7 +387,7 @@ initializeWindows = function() {
     deleteUnusedCategoriesFN = function () {
         var categories = [];
         for (var hash in category_list) {
-            if (torrentsTable.getFilteredTorrentsNumber('all', hash) == 0)
+            if (torrentsTable.getFilteredTorrentsNumber('all', hash) === 0)
                 categories.push(category_list[hash].name);
         }
         new Request({
@@ -422,7 +437,7 @@ initializeWindows = function() {
         if (h.length) {
             new MochaUI.Window({
                 id: 'confirmDeletionPage',
-                title: "QBT_TR(Deletion confirmation)QBT_TR",
+                title: "QBT_TR(Deletion confirmation)QBT_TR[CONTEXT=confirmDeletionDlg]",
                 loadMethod: 'iframe',
                 contentURL: 'confirmdeletion.html?hashes=' + h.join("|"),
                 scrollbars: false,
@@ -484,13 +499,13 @@ initializeWindows = function() {
             }).send();
             updateMainData();
         }
-    }
+    };
 
     addClickEvent('about', function(e) {
         new Event(e).stop();
         new MochaUI.Window({
             id: 'aboutpage',
-            title: 'QBT_TR(About)QBT_TR',
+            title: 'QBT_TR(About)QBT_TR[CONTEXT=AboutDlg]',
             loadMethod: 'xhr',
             contentURL: 'about.html',
             width: 550,
@@ -512,11 +527,11 @@ initializeWindows = function() {
 
     addClickEvent('shutdown', function(e) {
         new Event(e).stop();
-        if (confirm('QBT_TR(Are you sure you want to quit qBittorrent?)QBT_TR')) {
+        if (confirm('QBT_TR(Are you sure you want to quit qBittorrent?)QBT_TR[CONTEXT=MainWindow]')) {
             new Request({
                 url: 'command/shutdown',
                 onSuccess: function() {
-                    document.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title>QBT_TR(qBittorrent has been shutdown.)QBT_TR</title><style type=\"text/css\">body { text-align: center; }</style></head><body><h1>QBT_TR(qBittorrent has been shutdown.)QBT_TR</h1></body></html>");
+                    document.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title>QBT_TR(qBittorrent has been shutdown.)QBT_TR[CONTEXT=HttpServer]</title><style type=\"text/css\">body { text-align: center; }</style></head><body><h1>QBT_TR(qBittorrent has been shutdown.)QBT_TR[CONTEXT=HttpServer]</h1></body></html>");
                     stop();
                 }
             }).send();
@@ -529,4 +544,4 @@ initializeWindows = function() {
             new Event(e).stop();
         });
     });
-}
+};

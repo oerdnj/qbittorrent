@@ -35,7 +35,6 @@
 #include <QUrlQuery>
 #endif
 #include <QDir>
-#include <QTemporaryFile>
 #include <QDebug>
 #include "requestparser.h"
 
@@ -199,14 +198,14 @@ QList<QByteArray> RequestParser::splitMultipartData(const QByteArray& data, cons
         start = end + sepLength; // skip first boundary
 
         while ((end = data.indexOf(sep, start)) >= 0) {
-            ret << data.mid(start, end - start);
+            ret << data.mid(start, end - EOL.length() - start);
             start = end + sepLength;
         }
 
         // last or single part
         sep = boundary + "--" + EOL;
         if ((end = data.indexOf(sep, start)) >= 0)
-            ret << data.mid(start, end - start);
+            ret << data.mid(start, end - EOL.length() - start);
     }
 
     return ret;
