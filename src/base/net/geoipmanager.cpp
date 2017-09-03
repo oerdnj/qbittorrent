@@ -45,7 +45,6 @@
 static const char DATABASE_URL[] = "https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz";
 static const char GEOIP_FOLDER[] = "GeoIP";
 static const char GEOIP_FILENAME[] = "GeoLite2-Country.mmdb";
-static const int CACHE_SIZE = 1000;
 static const int UPDATE_INTERVAL = 30; // Days between database updates
 
 using namespace Net;
@@ -416,8 +415,10 @@ void GeoIPManager::downloadFinished(const QString &url, QByteArray data)
 {
     Q_UNUSED(url);
 
-    if (!Utils::Gzip::uncompress(data, data)) {
-        Logger::instance()->addMessage(tr("Could not uncompress GeoIP database file."), Log::WARNING);
+    bool ok = false;
+    data = Utils::Gzip::decompress(data, &ok);
+    if (!ok) {
+        Logger::instance()->addMessage(tr("Could not decompress GeoIP database file."), Log::WARNING);
         return;
     }
 

@@ -26,6 +26,10 @@
  * exception statement from your version.
  */
 
+#include "abstractwebapplication.h"
+
+#include <algorithm>
+
 #include <QCoreApplication>
 #include <QDateTime>
 #include <QDebug>
@@ -34,10 +38,13 @@
 #include <QNetworkCookie>
 #include <QTemporaryFile>
 #include <QTimer>
+#include <QUrl>
 
 #include "base/preferences.h"
+#include "base/utils/fs.h"
+#include "base/utils/random.h"
+#include "base/utils/string.h"
 #include "websessiondata.h"
-#include "abstractwebapplication.h"
 
 // UnbanTimer
 
@@ -84,8 +91,11 @@ AbstractWebApplication::AbstractWebApplication(QObject *parent)
     , session_(0)
 {
     QTimer *timer = new QTimer(this);
-    timer->setInterval(60000); // 1 min.
     connect(timer, SIGNAL(timeout()), SLOT(removeInactiveSessions()));
+    timer->start(60 * 1000);  // 1 min.
+
+    reloadDomainList();
+    connect(Preferences::instance(), SIGNAL(changed()), this, SLOT(reloadDomainList()));
 }
 
 AbstractWebApplication::~AbstractWebApplication()
@@ -100,7 +110,20 @@ Http::Response AbstractWebApplication::processRequest(const Http::Request &reque
     request_ = request;
     env_ = env;
 
-    clear(); // clear response
+    // clear response
+    clear();
+
+    // avoid clickjacking attacks
+    header(Http::HEADER_X_FRAME_OPTIONS, "SAMEORIGIN");
+    header(Http::HEADER_X_XSS_PROTECTION, "1; mode=block");
+    header(Http::HEADER_X_CONTENT_TYPE_OPTIONS, "nosniff");
+    header(Http::HEADER_CONTENT_SECURITY_POLICY, "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; object-src 'none';");
+
+    // block cross-site requests
+    if (isCrossSiteRequest(request_) || !validateHostHeader(request_, env, domainList)) {
+        status(401, "Unauthorized");
+        return response();
+    }
 
     sessionInitialize();
     if (!sessionActive() && !isAuthNeeded())
@@ -111,7 +134,7 @@ Http::Response AbstractWebApplication::processRequest(const Http::Request &reque
         print(QObject::tr("Your IP address has been banned after too many failed authentication attempts."), Http::CONTENT_TYPE_TXT);
     }
     else {
-        processRequest();
+        doProcessRequest();
     }
 
     return response();
@@ -135,26 +158,21 @@ void AbstractWebApplication::removeInactiveSessions()
     }
 }
 
+void AbstractWebApplication::reloadDomainList()
+{
+    domainList = Preferences::instance()->getServerDomains().split(';', QString::SkipEmptyParts);
+    std::for_each(domainList.begin(), domainList.end(), [](QString &entry){ entry = entry.trimmed(); });
+}
+
 bool AbstractWebApplication::sessionInitialize()
 {
-    static const QString SID_START = QLatin1String(C_SID) + QLatin1String("=");
-
     if (session_ == 0)
     {
-        QString cookie = request_.headers.value("cookie");
-        //qDebug() << Q_FUNC_INFO << "cookie: " << cookie;
-
-        QString sessionId;
-        int pos = cookie.indexOf(SID_START);
-        if (pos >= 0) {
-            pos += SID_START.length();
-            int end = cookie.indexOf(QRegExp("[,;]"), pos);
-            sessionId = cookie.mid(pos, end >= 0 ? end - pos : end);
-        }
+        const QString sessionId = parseCookie(request_).value(C_SID);
 
         // TODO: Additional session check
 
-        if (!sessionId.isNull()) {
+        if (!sessionId.isEmpty()) {
             if (sessions_.contains(sessionId)) {
                 session_ = sessions_[sessionId];
                 session_->updateTimestamp();
@@ -196,7 +214,7 @@ bool AbstractWebApplication::readFile(const QString& path, QByteArray &data, QSt
             translateDocument(dataStr);
 
             if (path.endsWith("about.html") || path.endsWith("index.html") || path.endsWith("client.js"))
-                dataStr.replace("${VERSION}", VERSION);
+                dataStr.replace("${VERSION}", QBT_VERSION);
 
             data = dataStr.toUtf8();
             translatedFiles_[path] = data; // cashing translated file
@@ -218,13 +236,12 @@ QString AbstractWebApplication::generateSid()
 {
     QString sid;
 
-    qsrand(QDateTime::currentDateTime().toTime_t());
     do {
         const size_t size = 6;
         quint32 tmp[size];
 
         for (size_t i = 0; i < size; ++i)
-            tmp[i] = qrand();
+            tmp[i] = Utils::Random::rand();
 
         sid = QByteArray::fromRawData(reinterpret_cast<const char *>(tmp), sizeof(quint32) * size).toBase64();
     }
@@ -235,17 +252,8 @@ QString AbstractWebApplication::generateSid()
 
 void AbstractWebApplication::translateDocument(QString& data)
 {
-    const QRegExp regex("QBT_TR\\((([^\\)]|\\)(?!QBT_TR))+)\\)QBT_TR(\\[CONTEXT=([a-zA-Z_][a-zA-Z0-9_]*)\\])?");
+    const QRegExp regex("QBT_TR\\((([^\\)]|\\)(?!QBT_TR))+)\\)QBT_TR(\\[CONTEXT=([a-zA-Z_][a-zA-Z0-9_]*)\\])");
     const QRegExp mnemonic("\\(?&([a-zA-Z]?\\))?");
-    const std::string contexts[] = {
-        "TransferListFiltersWidget", "TransferListWidget", "PropertiesWidget",
-        "HttpServer", "confirmDeletionDlg", "TrackerList", "TorrentFilesModel",
-        "options_imp", "Preferences", "TrackersAdditionDlg", "ScanFoldersModel",
-        "PropTabBar", "TorrentModel", "downloadFromURL", "MainWindow", "misc",
-        "StatusBar", "AboutDlg", "about", "PeerListWidget", "StatusFiltersWidget",
-        "CategoryFiltersList"
-    };
-    const size_t context_count = sizeof(contexts) / sizeof(contexts[0]);
     int i = 0;
     bool found = true;
 
@@ -261,24 +269,11 @@ void AbstractWebApplication::translateDocument(QString& data)
             QString translation = word;
             if (isTranslationNeeded) {
                 QString context = regex.cap(4);
-                if (context.length() > 0) {
 #ifndef QBT_USES_QT5
-                    translation = qApp->translate(context.toUtf8().constData(), word.constData(), 0, QCoreApplication::UnicodeUTF8, 1);
+                translation = qApp->translate(context.toUtf8().constData(), word.constData(), 0, QCoreApplication::UnicodeUTF8, 1);
 #else
-                    translation = qApp->translate(context.toUtf8().constData(), word.constData(), 0, 1);
+                translation = qApp->translate(context.toUtf8().constData(), word.constData(), 0, 1);
 #endif
-                }
-                else {
-                    size_t context_index = 0;
-                    while ((context_index < context_count) && (translation == word)) {
-#ifndef QBT_USES_QT5
-                        translation = qApp->translate(contexts[context_index].c_str(), word.constData(), 0, QCoreApplication::UnicodeUTF8, 1);
-#else
-                        translation = qApp->translate(contexts[context_index].c_str(), word.constData(), 0, 1);
-#endif
-                        ++context_index;
-                    }
-                }
             }
             // Remove keyboard shortcuts
             translation.replace(mnemonic, "");
@@ -353,6 +348,7 @@ bool AbstractWebApplication::sessionStart()
         sessions_[session_->id] = session_;
 
         QNetworkCookie cookie(C_SID, session_->id.toUtf8());
+        cookie.setHttpOnly(true);
         cookie.setPath(QLatin1String("/"));
         header(Http::HEADER_SET_COOKIE, cookie.toRawForm());
 
@@ -365,9 +361,9 @@ bool AbstractWebApplication::sessionStart()
 bool AbstractWebApplication::sessionEnd()
 {
     if ((session_ != 0) && (sessions_.contains(session_->id))) {
-        QNetworkCookie cookie(C_SID, session_->id.toUtf8());
+        QNetworkCookie cookie(C_SID);
         cookie.setPath(QLatin1String("/"));
-        cookie.setExpirationDate(QDateTime::currentDateTime());
+        cookie.setExpirationDate(QDateTime::currentDateTime().addDays(-1));
 
         sessions_.remove(session_->id);
         delete session_;
@@ -382,7 +378,7 @@ bool AbstractWebApplication::sessionEnd()
 
 QString AbstractWebApplication::saveTmpFile(const QByteArray &data)
 {
-    QTemporaryFile tmpfile(QDir::temp().absoluteFilePath("qBT-XXXXXX.torrent"));
+    QTemporaryFile tmpfile(Utils::Fs::tempPath() + "XXXXXX.torrent");
     tmpfile.setAutoRemove(false);
     if (tmpfile.open()) {
         tmpfile.write(data);
@@ -392,6 +388,77 @@ QString AbstractWebApplication::saveTmpFile(const QByteArray &data)
 
     qWarning() << "I/O Error: Could not create temporary file";
     return QString();
+}
+
+bool AbstractWebApplication::isCrossSiteRequest(const Http::Request &request) const
+{
+    // https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)_Prevention_Cheat_Sheet#Verifying_Same_Origin_with_Standard_Headers
+
+    const auto isSameOrigin = [](const QUrl &left, const QUrl &right) -> bool
+    {
+        // [rfc6454] 5. Comparing Origins
+        return ((left.port() == right.port())
+                // && (left.scheme() == right.scheme())  // not present in this context
+                && (left.host() == right.host()));
+    };
+
+    const QString targetOrigin = request.headers.value(Http::HEADER_X_FORWARDED_HOST, request.headers.value(Http::HEADER_HOST));
+    const QString originValue = request.headers.value(Http::HEADER_ORIGIN);
+    const QString refererValue = request.headers.value(Http::HEADER_REFERER);
+
+    if (originValue.isEmpty() && refererValue.isEmpty()) {
+        // owasp.org recommends to block this request, but doing so will inevitably lead Web API users to spoof headers
+        // so lets be permissive here
+        return false;
+    }
+
+    // sent with CORS requests, as well as with POST requests
+    if (!originValue.isEmpty())
+        return !isSameOrigin(QUrl::fromUserInput(targetOrigin), originValue);
+
+    if (!refererValue.isEmpty())
+        return !isSameOrigin(QUrl::fromUserInput(targetOrigin), refererValue);
+
+    return true;
+}
+
+bool AbstractWebApplication::validateHostHeader(const Http::Request &request, const Http::Environment &env, const QStringList &domains) const
+{
+    const QUrl hostHeader = QUrl::fromUserInput(
+                                request.headers.value(Http::HEADER_X_FORWARDED_HOST, request.headers.value(Http::HEADER_HOST)));
+
+    // (if present) try matching host header's port with local port
+    const int requestPort = hostHeader.port();
+    if ((requestPort != -1) && (env.localPort != requestPort))
+        return false;
+
+    // try matching host header with local address
+    const QString requestHost = hostHeader.host();
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 8, 0))
+    const bool sameAddr = env.localAddress.isEqual(QHostAddress(requestHost));
+#else
+    const auto equal = [](const Q_IPV6ADDR &l, const Q_IPV6ADDR &r) -> bool {
+        for (int i = 0; i < 16; ++i) {
+            if (l[i] != r[i])
+                return false;
+        }
+        return true;
+    };
+    const bool sameAddr = equal(env.localAddress.toIPv6Address(), QHostAddress(requestHost).toIPv6Address());
+#endif
+
+    if (sameAddr)
+        return true;
+
+    // try matching host header with domain list
+    for (const auto &domain : domains) {
+        QRegExp domainRegex(domain, Qt::CaseInsensitive, QRegExp::Wildcard);
+        if (requestHost.contains(domainRegex))
+            return true;
+    }
+
+    return false;
 }
 
 QStringMap AbstractWebApplication::initializeContentTypeByExtMap()
@@ -409,3 +476,32 @@ QStringMap AbstractWebApplication::initializeContentTypeByExtMap()
 }
 
 const QStringMap AbstractWebApplication::CONTENT_TYPE_BY_EXT = AbstractWebApplication::initializeContentTypeByExtMap();
+
+QStringMap AbstractWebApplication::parseCookie(const Http::Request &request) const
+{
+    // [rfc6265] 4.2.1. Syntax
+    QStringMap ret;
+    const QString cookieStr = request.headers.value(QLatin1String("cookie"));
+#if QT_VERSION >= QT_VERSION_CHECK(5, 4, 0)
+    const QVector<QStringRef> cookies = cookieStr.splitRef(';', QString::SkipEmptyParts);
+#else
+    const QStringList cookies = cookieStr.split(';', QString::SkipEmptyParts);
+#endif
+
+    for (const auto &cookie : cookies) {
+        const int idx = cookie.indexOf('=');
+        if (idx < 0)
+            continue;
+#if QT_VERSION >= QT_VERSION_CHECK(5, 4, 0)
+        const QString name = cookie.left(idx).trimmed().toString();
+        const QString value = Utils::String::unquote(cookie.mid(idx + 1).trimmed())
+                                  .toString();
+#else
+        const QString name = cookie.left(idx).trimmed();
+        const QString value = Utils::String::unquote(cookie.mid(idx + 1).trimmed());
+#endif
+
+        ret.insert(name, value);
+    }
+    return ret;
+}

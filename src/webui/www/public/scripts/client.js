@@ -70,7 +70,7 @@ window.addEvent('load', function () {
         var properties_height_rel = $('propertiesPanel').getSize().y / Window.getSize().y;
         localStorage.setItem('filters_width', filters_width);
         localStorage.setItem('properties_height_rel', properties_height_rel);
-    }
+    };
 
     window.addEvent('resize', function() {
         // Resizing might takes some time.
@@ -107,7 +107,7 @@ window.addEvent('load', function () {
         selected_category = hash;
         localStorage.setItem('selected_category', selected_category);
         highlightSelectedCategory();
-        if (typeof torrentsTable.table != 'undefined')
+        if (typeof torrentsTable.tableBody != 'undefined')
             updateMainData();
     };
 
@@ -126,9 +126,9 @@ window.addEvent('load', function () {
         selected_filter = f;
         localStorage.setItem('selected_filter', f);
         // Reload torrents
-        if (typeof torrentsTable.table != 'undefined')
+        if (typeof torrentsTable.tableBody != 'undefined')
             updateMainData();
-    }
+    };
 
     new MochaUI.Panel({
         id : 'Filters',
@@ -151,10 +151,9 @@ window.addEvent('load', function () {
     initializeWindows();
 
     // Show Top Toolbar is enabled by default
-    if (localStorage.getItem('show_top_toolbar') == null)
-        var showTopToolbar = true;
-    else
-        var showTopToolbar = localStorage.getItem('show_top_toolbar') == "true";
+    var showTopToolbar = true;
+    if (localStorage.getItem('show_top_toolbar') !== null)
+        showTopToolbar = localStorage.getItem('show_top_toolbar') == "true";
     if (!showTopToolbar) {
         $('showTopToolbarLink').firstChild.style.opacity = '0';
         $('mochaToolbar').addClass('invisible');
@@ -171,7 +170,7 @@ window.addEvent('load', function () {
     var serverState = {};
 
     var removeTorrentFromCategoryList = function(hash) {
-        if (hash == null || hash == "")
+        if (hash === null || hash === "")
             return false;
         var removed = false;
         Object.each(category_list, function(category) {
@@ -185,14 +184,14 @@ window.addEvent('load', function () {
 
     var addTorrentToCategoryList = function(torrent) {
         var category = torrent['category'];
-        if (category == null)
+        if (typeof category === 'undefined')
             return false;
         if (category.length === 0) { // Empty category
             removeTorrentFromCategoryList(torrent['hash']);
             return true;
         }
         var categoryHash = genHash(category);
-        if (category_list[categoryHash] == null) // This should not happen
+        if (category_list[categoryHash] === null) // This should not happen
             category_list[categoryHash] = {name: category, torrents: []};
         if (!Object.contains(category_list[categoryHash].torrents, torrent['hash'])) {
             removeTorrentFromCategoryList(torrent['hash']);
@@ -207,15 +206,15 @@ window.addEvent('load', function () {
     };
 
     var updateFiltersList = function() {
-        updateFilter('all', 'QBT_TR(All (%1))QBT_TR');
-        updateFilter('downloading', 'QBT_TR(Downloading (%1))QBT_TR');
-        updateFilter('seeding', 'QBT_TR(Seeding (%1))QBT_TR');
-        updateFilter('completed', 'QBT_TR(Completed (%1))QBT_TR');
-        updateFilter('resumed', 'QBT_TR(Resumed (%1))QBT_TR');
-        updateFilter('paused', 'QBT_TR(Paused (%1))QBT_TR');
-        updateFilter('active', 'QBT_TR(Active (%1))QBT_TR');
-        updateFilter('inactive', 'QBT_TR(Inactive (%1))QBT_TR');
-        updateFilter('errored', 'QBT_TR(Errored (%1))QBT_TR');
+        updateFilter('all', 'QBT_TR(All (%1))QBT_TR[CONTEXT=StatusFiltersWidget]');
+        updateFilter('downloading', 'QBT_TR(Downloading (%1))QBT_TR[CONTEXT=StatusFiltersWidget]');
+        updateFilter('seeding', 'QBT_TR(Seeding (%1))QBT_TR[CONTEXT=StatusFiltersWidget]');
+        updateFilter('completed', 'QBT_TR(Completed (%1))QBT_TR[CONTEXT=StatusFiltersWidget]');
+        updateFilter('resumed', 'QBT_TR(Resumed (%1))QBT_TR[CONTEXT=StatusFiltersWidget]');
+        updateFilter('paused', 'QBT_TR(Paused (%1))QBT_TR[CONTEXT=StatusFiltersWidget]');
+        updateFilter('active', 'QBT_TR(Active (%1))QBT_TR[CONTEXT=StatusFiltersWidget]');
+        updateFilter('inactive', 'QBT_TR(Inactive (%1))QBT_TR[CONTEXT=StatusFiltersWidget]');
+        updateFilter('errored', 'QBT_TR(Errored (%1))QBT_TR[CONTEXT=StatusFiltersWidget]');
     };
 
     var updateCategoryList = function() {
@@ -239,10 +238,10 @@ window.addEvent('load', function () {
             if (row['full_data'].category.length === 0)
                 uncategorized += 1;
         });
-        categoryList.appendChild(create_link(CATEGORIES_ALL, 'QBT_TR(All (0))QBT_TR'.replace(' (0)', ''), all));
-        categoryList.appendChild(create_link(CATEGORIES_UNCATEGORIZED, 'QBT_TR(Uncategorized (0))QBT_TR'.replace(' (0)', ''), uncategorized));
+        categoryList.appendChild(create_link(CATEGORIES_ALL, 'QBT_TR(All)QBT_TR[CONTEXT=CategoryFilterModel]', all));
+        categoryList.appendChild(create_link(CATEGORIES_UNCATEGORIZED, 'QBT_TR(Uncategorized)QBT_TR[CONTEXT=CategoryFilterModel]', uncategorized));
 
-        var sortedCategories = []
+        var sortedCategories = [];
         Object.each(category_list, function(category) {
             sortedCategories.push(category.name);
         });
@@ -268,7 +267,7 @@ window.addEvent('load', function () {
             else
                 childrens[i].className = "";
         }
-    }
+    };
 
     var syncMainDataTimer;
     var syncMainData = function () {
@@ -279,7 +278,7 @@ window.addEvent('load', function () {
             noCache : true,
             method : 'get',
             onFailure : function () {
-                $('error_div').set('html', 'QBT_TR(qBittorrent client is not reachable)QBT_TR');
+                $('error_div').set('html', 'QBT_TR(qBittorrent client is not reachable)QBT_TR[CONTEXT=HttpServer]');
                 clearTimeout(syncMainDataTimer);
                 syncMainDataTimer = syncMainData.delay(2000);
             },
@@ -287,7 +286,7 @@ window.addEvent('load', function () {
                 $('error_div').set('html', '');
                 if (response) {
                     var update_categories = false;
-                    var full_update = (response['full_update'] == true);
+                    var full_update = (response['full_update'] === true);
                     if (full_update) {
                         torrentsTable.clear();
                         category_list = {};
@@ -313,6 +312,8 @@ window.addEvent('load', function () {
                         for (var key in response['torrents']) {
                             response['torrents'][key]['hash'] = key;
                             response['torrents'][key]['rowId'] = key;
+                            if (response['torrents'][key]['state'])
+                                response['torrents'][key]['status'] = response['torrents'][key]['state'];
                             torrentsTable.updateRowData(response['torrents'][key]);
                             if (addTorrentToCategoryList(response['torrents'][key]))
                                 update_categories = true;
@@ -328,8 +329,8 @@ window.addEvent('load', function () {
                     torrentsTable.altRow();
                     if (response['server_state']) {
                         var tmp = response['server_state'];
-                        for(var key in tmp)
-                            serverState[key] = tmp[key];
+                        for(var k in tmp)
+                            serverState[k] = tmp[k];
                         processServerState();
                     }
                     updateFiltersList();
@@ -348,7 +349,7 @@ window.addEvent('load', function () {
         torrentsTable.updateTable();
         clearTimeout(syncMainDataTimer);
         syncMainDataTimer = syncMainData.delay(100);
-    }
+    };
 
     var processServerState = function () {
         var transfer_info = friendlyUnit(serverState.dl_info_speed, true);
@@ -362,11 +363,28 @@ window.addEvent('load', function () {
         transfer_info += " (" + friendlyUnit(serverState.up_info_data, false) + ")";
         $("UpInfos").set('html', transfer_info);
         if (speedInTitle) {
-            document.title = "QBT_TR([D:%1 U:%2])QBT_TR".replace("%1", friendlyUnit(serverState.dl_info_speed, true)).replace("%2", friendlyUnit(serverState.up_info_speed, true));
-            document.title += " qBittorrent ${VERSION} QBT_TR(Web UI)QBT_TR";
+            document.title = "QBT_TR([D: %1, U: %2] qBittorrent %3)QBT_TR[CONTEXT=MainWindow]".replace("%1", friendlyUnit(serverState.dl_info_speed, true)).replace("%2", friendlyUnit(serverState.up_info_speed, true)).replace("%3", "${VERSION}");
+            document.title += " QBT_TR(Web UI)QBT_TR[CONTEXT=OptionsDialog]";
         }else
-            document.title = "qBittorrent ${VERSION} QBT_TR(Web UI)QBT_TR";
-        $('DHTNodes').set('html', 'QBT_TR(DHT: %1 nodes)QBT_TR'.replace("%1", serverState.dht_nodes));
+            document.title = "qBittorrent ${VERSION} QBT_TR(Web UI)QBT_TR[CONTEXT=OptionsDialog]";
+        $('DHTNodes').set('html', 'QBT_TR(DHT: %1 nodes)QBT_TR[CONTEXT=StatusBar]'.replace("%1", serverState.dht_nodes));
+
+        // Statistics dialog
+        if (document.getElementById("statisticspage")) {
+            $('AlltimeDL').set('html', 'QBT_TR(Alltime download:)QBT_TR[CONTEXT=StatsDialog]' + " " + friendlyUnit(serverState.alltime_dl, false));
+            $('AlltimeUL').set('html', 'QBT_TR(Alltime upload:)QBT_TR[CONTEXT=StatsDialog]' + " " + friendlyUnit(serverState.alltime_ul, false));
+            $('TotalWastedSession').set('html', 'QBT_TR(Total wasted (this session):)QBT_TR[CONTEXT=StatsDialog]' + " " + friendlyUnit(serverState.total_wasted_session, false));
+            $('GlobalRatio').set('html', 'QBT_TR(Global ratio:)QBT_TR[CONTEXT=StatsDialog]' + " " + serverState.global_ratio);
+            $('TotalPeerConnections').set('html', 'QBT_TR(Total peer connections:)QBT_TR[CONTEXT=StatsDialog]' + " " + serverState.total_peer_connections);
+            $('ReadCacheHits').set('html', 'QBT_TR(Read cache hits:)QBT_TR[CONTEXT=StatsDialog]' + " " + serverState.read_cache_hits);
+            $('TotalBuffersSize').set('html', 'QBT_TR(Total buffers size:)QBT_TR[CONTEXT=StatsDialog]' + " " + friendlyUnit(serverState.total_buffers_size, false));
+            $('WriteCacheOverload').set('html', 'QBT_TR(Write cache overload:)QBT_TR[CONTEXT=StatsDialog]' + " " + serverState.write_cache_overload);
+            $('ReadCacheOverload').set('html', 'QBT_TR(Read cache overload:)QBT_TR[CONTEXT=StatsDialog]' + " " + serverState.read_cache_overload);
+            $('QueuedIOJobs').set('html', 'QBT_TR(Queued I/O jobs:)QBT_TR[CONTEXT=StatsDialog]' + " " + serverState.queued_io_jobs);
+            $('AverageTimeInQueue').set('html', 'QBT_TR(Average time in queue:)QBT_TR[CONTEXT=StatsDialog]' + " " + serverState.average_time_queue);
+            $('TotalQueuedSize').set('html', 'QBT_TR(Total queued size:)QBT_TR[CONTEXT=StatsDialog]' + " " + friendlyUnit(serverState.total_queued_size, false));
+        }
+
         if (serverState.connection_status == "connected")
             $('connectionStatus').src = 'images/skin/connected.png';
         else if (serverState.connection_status == "firewalled")
@@ -404,8 +422,8 @@ window.addEvent('load', function () {
         if (enabled)
             $('alternativeSpeedLimits').src = "images/slow.png";
         else
-            $('alternativeSpeedLimits').src = "images/slow_off.png"
-    }
+            $('alternativeSpeedLimits').src = "images/slow_off.png";
+    };
 
     $('alternativeSpeedLimits').addEvent('click', function() {
         // Change icon immediately to give some feedback
@@ -419,7 +437,7 @@ window.addEvent('load', function () {
                 },
                 onFailure: function() {
                     // Restore icon in case of failure
-                    updateAltSpeedIcon(alternativeSpeedLimits)
+                    updateAltSpeedIcon(alternativeSpeedLimits);
                 }
         }).send();
     });
@@ -451,6 +469,8 @@ window.addEvent('load', function () {
         processServerState();
     });
 
+    $('StatisticsLink').addEvent('click', StatisticsLinkFN);
+
     new MochaUI.Panel({
         id : 'transferList',
         title : 'Panel',
@@ -474,7 +494,7 @@ window.addEvent('load', function () {
     if ($defined(prop_h))
         prop_h = prop_h.toFloat() * Window.getSize().y;
     else
-        prop_h = Window.getSize().y / 2.;
+        prop_h = Window.getSize().y / 2.0;
     new MochaUI.Panel({
         id : 'propertiesPanel',
         title : 'Panel',
@@ -505,7 +525,7 @@ window.addEvent('load', function () {
                     updateWebSeedsData();
                 else if (!$('prop_files').hasClass('invisible'))
                     updateTorrentFilesData();
-            }
+            };
 
             $('PropGeneralLink').addEvent('click', function(e){
                 $('prop_general').removeClass("invisible");
@@ -568,7 +588,7 @@ window.addEvent('load', function () {
 
 function closeWindows() {
     MochaUI.closeAll();
-};
+}
 
 var keyboardEvents = new Keyboard({
     defaultEventType: 'keydown',
@@ -597,7 +617,7 @@ var loadTorrentPeersData = function(){
         return;
     }
     var current_hash = torrentsTable.getCurrentTorrentHash();
-    if (current_hash == "") {
+    if (current_hash === "") {
         syncTorrentPeersLastResponseId = 0;
         torrentPeersTable.clear();
         clearTimeout(loadTorrentPeersTimer);
@@ -612,14 +632,14 @@ var loadTorrentPeersData = function(){
         noCache: true,
         method: 'get',
         onFailure: function() {
-            $('error_div').set('html', 'QBT_TR(qBittorrent client is not reachable)QBT_TR');
+            $('error_div').set('html', 'QBT_TR(qBittorrent client is not reachable)QBT_TR[CONTEXT=HttpServer]');
             clearTimeout(loadTorrentPeersTimer);
             loadTorrentPeersTimer = loadTorrentPeersData.delay(5000);
         },
         onSuccess: function(response) {
             $('error_div').set('html', '');
             if (response) {
-                var full_update = (response['full_update'] == true);
+                var full_update = (response['full_update'] === true);
                 if (full_update) {
                     torrentPeersTable.clear();
                 }
@@ -629,6 +649,10 @@ var loadTorrentPeersData = function(){
                 if (response['peers']) {
                     for (var key in response['peers']) {
                         response['peers'][key]['rowId'] = key;
+
+                        if (response['peers'][key]['client'])
+                            response['peers'][key]['client'] = escapeHtml(response['peers'][key]['client']);
+
                         torrentPeersTable.updateRowData(response['peers'][key]);
                     }
                 }

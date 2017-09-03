@@ -40,6 +40,7 @@
 #include <QPen>
 #include <QPushButton>
 #include <QSplashScreen>
+
 #ifdef QBT_STATIC_QT
 #include <QtPlugin>
 #ifdef QBT_USES_QT5
@@ -120,20 +121,44 @@ struct QBtCommandLineParameters
     }
 };
 
-#ifndef DISABLE_GUI
-void showSplashScreen();
+#if !defined Q_OS_WIN && !defined Q_OS_HAIKU
+void reportToUser(const char* str);
 #endif
+
 void displayVersion();
 void displayUsage(const QString &prg_name);
 bool userAgreesWithLegalNotice();
 void displayBadArgMessage(const QString &message);
 QBtCommandLineParameters parseCommandLine();
 
+#if !defined(DISABLE_GUI)
+void showSplashScreen();
+
+#if defined(Q_OS_UNIX)
+void setupDpi();
+#endif  // Q_OS_UNIX
+#endif  // DISABLE_GUI
+
 // Main
 int main(int argc, char *argv[])
 {
     // We must save it here because QApplication constructor may change it
     bool isOneArg = (argc == 2);
+
+#ifdef Q_OS_MAC
+    // On macOS 10.12 Sierra, Apple changed the behaviour of CFPreferencesSetValue() https://bugreports.qt.io/browse/QTBUG-56344
+    // Due to this, we have to move from native plist to IniFormat
+    macMigratePlists();
+#endif
+
+#if !defined(DISABLE_GUI) && defined(Q_OS_UNIX)
+    setupDpi();
+#endif
+
+
+#ifndef DISABLE_GUI
+    migrateRSS();
+#endif
 
     // Create Application
     QString appId = QLatin1String("qBittorrent-") + Utils::Misc::getUserIDString();
@@ -183,7 +208,7 @@ int main(int argc, char *argv[])
     }
 
     // Set environment variable
-    if (!qputenv("QBITTORRENT", QByteArray(VERSION)))
+    if (!qputenv("QBITTORRENT", QBT_VERSION))
         std::cerr << "Couldn't set environment variable...\n";
 
 #ifndef DISABLE_GUI
@@ -230,6 +255,17 @@ int main(int argc, char *argv[])
     qputenv("QT_BEARER_POLL_TIMEOUT", QByteArray::number(-1));
 #endif
 
+#if defined(Q_OS_MAC)
+{
+    // Since Apple made difficult for users to set PATH, we set here for convenience.
+    // Users are supposed to install Homebrew Python for search function.
+    // For more info see issue #5571.
+    QByteArray path = "/usr/local/bin:";
+    path += qgetenv("PATH");
+    qputenv("PATH", path.constData());
+}
+#endif
+
 #ifndef DISABLE_GUI
     if (!upgrade()) return EXIT_FAILURE;
 #else
@@ -238,7 +274,6 @@ int main(int argc, char *argv[])
                  && isatty(fileno(stdout)))) return EXIT_FAILURE;
 #endif
 
-    srand(time(0));
 #ifdef DISABLE_GUI
     if (params.shouldDaemonize) {
         app.reset(); // Destroy current application
@@ -322,6 +357,17 @@ QBtCommandLineParameters parseCommandLine()
     return result;
 }
 
+#if !defined Q_OS_WIN && !defined Q_OS_HAIKU
+void reportToUser(const char* str)
+{
+    const size_t strLen = strlen(str);
+    if (write(STDERR_FILENO, str, strLen) < static_cast<ssize_t>(strLen)) {
+        auto dummy = write(STDOUT_FILENO, str, strLen);
+        Q_UNUSED(dummy);
+    }
+}
+#endif
+
 #if defined(Q_OS_UNIX) || defined(STACKTRACE_WIN)
 void sigNormalHandler(int signum)
 {
@@ -329,9 +375,9 @@ void sigNormalHandler(int signum)
     const char str1[] = "Catching signal: ";
     const char *sigName = sysSigName[signum];
     const char str2[] = "\nExiting cleanly\n";
-    write(STDERR_FILENO, str1, strlen(str1));
-    write(STDERR_FILENO, sigName, strlen(sigName));
-    write(STDERR_FILENO, str2, strlen(str2));
+    reportToUser(str1);
+    reportToUser(sigName);
+    reportToUser(str2);
 #endif // !defined Q_OS_WIN && !defined Q_OS_HAIKU
     signal(signum, SIG_DFL);
     qApp->exit();  // unsafe, but exit anyway
@@ -343,10 +389,10 @@ void sigAbnormalHandler(int signum)
     const char str1[] = "\n\n*************************************************************\nCatching signal: ";
     const char *sigName = sysSigName[signum];
     const char str2[] = "\nPlease file a bug report at http://bug.qbittorrent.org and provide the following information:\n\n"
-    "qBittorrent version: " VERSION "\n";
-    write(STDERR_FILENO, str1, strlen(str1));
-    write(STDERR_FILENO, sigName, strlen(sigName));
-    write(STDERR_FILENO, str2, strlen(str2));
+    "qBittorrent version: " QBT_VERSION "\n";
+    reportToUser(str1);
+    reportToUser(sigName);
+    reportToUser(str2);
     print_stacktrace();  // unsafe
 #endif // !defined Q_OS_WIN && !defined Q_OS_HAIKU
 #ifdef STACKTRACE_WIN
@@ -359,12 +405,12 @@ void sigAbnormalHandler(int signum)
 }
 #endif // defined(Q_OS_UNIX) || defined(STACKTRACE_WIN)
 
-#ifndef DISABLE_GUI
+#if !defined(DISABLE_GUI)
 void showSplashScreen()
 {
     QPixmap splash_img(":/icons/skin/splash.png");
     QPainter painter(&splash_img);
-    QString version = VERSION;
+    QString version = QBT_VERSION;
     painter.setPen(QPen(Qt::white));
     painter.setFont(QFont("Arial", 22, QFont::Black));
     painter.drawText(224 - painter.fontMetrics().width(version), 270, version);
@@ -373,11 +419,19 @@ void showSplashScreen()
     QTimer::singleShot(1500, splash, SLOT(deleteLater()));
     qApp->processEvents();
 }
-#endif
+
+#if defined(Q_OS_UNIX)
+void setupDpi()
+{
+    if (qgetenv("QT_AUTO_SCREEN_SCALE_FACTOR").isEmpty())
+        qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "1");
+}
+#endif  // Q_OS_UNIX
+#endif  // DISABLE_GUI
 
 void displayVersion()
 {
-    std::cout << qPrintable(qApp->applicationName()) << " " << VERSION << std::endl;
+    std::cout << qPrintable(qApp->applicationName()) << " " << QBT_VERSION << std::endl;
 }
 
 QString makeUsage(const QString &prg_name)

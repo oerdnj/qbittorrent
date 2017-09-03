@@ -92,8 +92,8 @@ void DownloadHandler::processFinishedDownload()
             // Success
             QByteArray replyData = m_reply->readAll();
             if (m_reply->rawHeader("Content-Encoding") == "gzip") {
-                // uncompress gzip reply
-                Utils::Gzip::uncompress(replyData, replyData);
+                // decompress gzip reply
+                replyData = Utils::Gzip::decompress(replyData);
             }
 
             if (m_saveToFile) {
@@ -142,7 +142,7 @@ void DownloadHandler::init()
 
 bool DownloadHandler::saveToFile(const QByteArray &replyData, QString &filePath)
 {
-    QTemporaryFile *tmpfile = new QTemporaryFile;
+    QTemporaryFile *tmpfile = new QTemporaryFile(Utils::Fs::tempPath() + "XXXXXX");
     if (!tmpfile->open()) {
         delete tmpfile;
         return false;

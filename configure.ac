@@ -67,6 +67,12 @@ AS_IF([expr "$host_os" : ".*freebsd.*" > /dev/null],
       LIBS="-lexecinfo $LIBS"],
       [AC_MSG_RESULT([no])])
 
+AC_MSG_CHECKING([whether OS is macOS])
+AS_IF([expr "$host_os" : ".*darwin.*" > /dev/null],
+      [AC_MSG_RESULT([yes])
+      enable_qt_dbus=no],
+      [AC_MSG_RESULT([no])])
+
 # Require 0.23 pkg-config
 PKG_PROG_PKG_CONFIG([0.23])
 AS_IF([test "x$PKG_CONFIG" = "x"],
@@ -156,7 +162,7 @@ AX_BOOST_BASE([1.35])
 # how to test for a set vs unset variable.
 AS_IF([test "x$BOOST_CPPFLAGS" = "x"],
       [AC_MSG_ERROR([Could not find Boost])],
-      [AC_MSG_NOTICE([Boost CPPFLGAS: $BOOST_CPPFLAGS])
+      [AC_MSG_NOTICE([Boost CPPFLAGS: $BOOST_CPPFLAGS])
       CPPFLAGS="$BOOST_CPPFLAGS $CPPFLAGS"
       LDFLAGS="$BOOST_LDFLAGS $LDFLAGS"])
 
@@ -202,7 +208,7 @@ PKG_CHECK_MODULES(libtorrent,
                   LIBS="$libtorrent_LIBS $LIBS"])
 
 PKG_CHECK_MODULES(zlib,
-                 [zlib],
+                 [zlib >= 1.2.5.2],
                  [CPPFLAGS="$zlib_CFLAGS $CPPFLAGS"
                  LIBS="$zlib_LIBS $LIBS"])
 
@@ -254,7 +260,7 @@ AC_SUBST(QBT_REMOVE_DEFINES)
 
 AC_OUTPUT(conf.pri)
 AS_IF([test "x$enable_systemd" = "xyes"],
-      [AC_OUTPUT(dist/unix/systemd/qbittorrent-nox.service)])
+      [AC_OUTPUT(dist/unix/systemd/qbittorrent-nox@.service)])
 
 
 

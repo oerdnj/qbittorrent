@@ -29,12 +29,16 @@
 #ifndef ABSTRACTWEBAPPLICATION_H
 #define ABSTRACTWEBAPPLICATION_H
 
-#include <QObject>
-#include <QMap>
 #include <QHash>
-#include "base/http/types.h"
-#include "base/http/responsebuilder.h"
+#include <QMap>
+#include <QObject>
+#ifndef QBT_USES_QT5
+#include <QStringList>
+#endif
+
 #include "base/http/irequesthandler.h"
+#include "base/http/responsebuilder.h"
+#include "base/http/types.h"
 
 struct WebSession;
 struct WebSessionData;
@@ -53,10 +57,10 @@ public:
     explicit AbstractWebApplication(QObject *parent = 0);
     virtual ~AbstractWebApplication();
 
-    Http::Response processRequest(const Http::Request &request, const Http::Environment &env);
+    Http::Response processRequest(const Http::Request &request, const Http::Environment &env) final;
 
 protected:
-    virtual void processRequest() = 0;
+    virtual void doProcessRequest() = 0;
 
     bool isBanned() const;
     int failedAttempts() const;
@@ -85,6 +89,8 @@ private slots:
     void UnbanTimerEvent();
     void removeInactiveSessions();
 
+    void reloadDomainList();
+
 private:
     // Persistent data
     QMap<QString, WebSession *> sessions_;
@@ -96,8 +102,14 @@ private:
     Http::Request request_;
     Http::Environment env_;
 
+    QStringList domainList;
+
     QString generateSid();
     bool sessionInitialize();
+
+    QStringMap parseCookie(const Http::Request &request) const;
+    bool isCrossSiteRequest(const Http::Request &request) const;
+    bool validateHostHeader(const Http::Request &request, const Http::Environment &env, const QStringList &domains) const;
 
     static void translateDocument(QString &data);
 
