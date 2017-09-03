@@ -5,12 +5,12 @@ Maintainer: Cristian Greco <cristian@debian.org>
 Uploaders: Andrew Starr-Bochicchio <asb@debian.org>
 Build-Depends: debhelper (>= 10),
                dpkg-dev (>= 1.16.1),
-               libtorrent-rasterbar-dev (>= 0.15.4),
+               libtorrent-rasterbar-dev (>= 1.1.2),
                libboost-dev,
                qtbase5-dev (>= 5.2.0),
                qttools5-dev-tools,
                zlib1g-dev
-Standards-Version: 3.9.8
+Standards-Version: 4.1.0
 Vcs-Git: git://anonscm.debian.org/collab-maint/qbittorrent.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/qbittorrent.git
 Homepage: http://www.qbittorrent.org/
@@ -66,7 +66,6 @@ Description: bittorrent client based on libtorrent-rasterbar (without X support)
 Package: qbittorrent-dbg
 Architecture: any
 Section: debug
-Priority: extra
 Depends: qbittorrent (= ${binary:Version}) | qbittorrent-nox (= ${binary:Version}), ${misc:Depends}
 Description: debug symbols for qbittorrent and qbittorrent-nox
  BitTorrent client written in C++ and based on libtorrent-rasterbar with a Qt5
