@@ -1,4 +1,2 @@
 honor-buildflags.patch
 kfreebsd-detection.patch
-CVE-2017-6503.patch
-CVE-2017-6504.patch

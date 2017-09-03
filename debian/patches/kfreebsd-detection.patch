@@ -3,8 +3,10 @@ From: Steven Chamberlain <steven@pyro.eu.org>
 Date: Sun, 21 Feb 2016 01:30:09 +0000
 Debian-Bug: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=815371
 
---- a/configure.ac
-+++ b/configure.ac
+Index: qbittorrent/configure.ac
+===================================================================
+--- qbittorrent.orig/configure.ac	2017-09-03 13:46:41.639063027 -0400
++++ qbittorrent/configure.ac	2017-09-03 13:46:41.635062935 -0400
 @@ -62,7 +62,7 @@
  
  # Detect OS
@@ -14,8 +16,10 @@ Debian-Bug: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=815371
        [AC_MSG_RESULT([yes])
        LIBS="-lexecinfo $LIBS"],
        [AC_MSG_RESULT([no])])
---- a/configure
-+++ b/configure
+Index: qbittorrent/configure
+===================================================================
+--- qbittorrent.orig/configure	2017-09-03 13:46:41.639063027 -0400
++++ qbittorrent/configure	2017-09-03 13:46:41.635062935 -0400
 @@ -4248,7 +4248,7 @@
  # Detect OS
  { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether OS is FreeBSD" >&5

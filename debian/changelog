@@ -1,6 +1,7 @@
 qbittorrent (3.3.15-1) UNRELEASED; urgency=medium
 
   * New upstream release (Closes: #869264, #872578). 
+  * Drop patches applied upstream.
 
  -- Andrew Starr-Bochicchio <asb@debian.org>  Sun, 03 Sep 2017 13:35:40 -0400
 
