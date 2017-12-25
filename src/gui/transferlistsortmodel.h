@@ -46,6 +46,8 @@ public:
     void setStatusFilter(TorrentFilter::Type filter);
     void setCategoryFilter(const QString &category);
     void disableCategoryFilter();
+    void setTagFilter(const QString &tag);
+    void disableTagFilter();
     void setTrackerFilter(const QStringList &hashes);
     void disableTrackerFilter();
 

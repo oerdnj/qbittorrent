@@ -1,6 +1,6 @@
 /*
- * Bittorrent Client using Qt4 and libtorrent.
- * Copyright (C) 2006  Christophe Dumez
+ * Bittorrent Client using Qt and libtorrent.
+ * Copyright (C) 2006  Christophe Dumez <chris@qbittorrent.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,38 +24,34 @@
  * modify file(s), you may extend this exception to your version of the file(s),
  * but you are not obligated to do so. If you do not wish to do so, delete this
  * exception statement from your version.
- *
- * Contact : chris@qbittorrent.org
  */
 
 #include "peerlistwidget.h"
 
 #include <QApplication>
-#include <QStandardItemModel>
-#include <QSortFilterProxyModel>
-#include <QSet>
+#include <QClipboard>
 #include <QHeaderView>
 #include <QMenu>
-#include <QClipboard>
 #include <QMessageBox>
-#include <QWheelEvent>
-#ifdef QBT_USES_QT5
+#include <QSet>
+#include <QSortFilterProxyModel>
+#include <QStandardItemModel>
 #include <QTableView>
-#endif
+#include <QWheelEvent>
 
-#include "base/net/reverseresolution.h"
-#include "base/bittorrent/torrenthandle.h"
 #include "base/bittorrent/peerinfo.h"
-#include "base/preferences.h"
+#include "base/bittorrent/torrenthandle.h"
 #include "base/logger.h"
-#include "base/unicodestrings.h"
-#include "propertieswidget.h"
 #include "base/net/geoipmanager.h"
-#include "peersadditiondlg.h"
-#include "speedlimitdlg.h"
+#include "base/net/reverseresolution.h"
+#include "base/preferences.h"
+#include "base/unicodestrings.h"
 #include "guiiconprovider.h"
 #include "peerlistdelegate.h"
 #include "peerlistsortmodel.h"
+#include "peersadditiondlg.h"
+#include "propertieswidget.h"
+#include "speedlimitdlg.h"
 
 PeerListWidget::PeerListWidget(PropertiesWidget *parent)
     : QTreeView(parent)
@@ -137,14 +133,12 @@ PeerListWidget::PeerListWidget(PropertiesWidget *parent)
     handleSortColumnChanged(header()->sortIndicatorSection());
     m_copyHotkey = new QShortcut(QKeySequence::Copy, this, SLOT(copySelectedPeers()), 0, Qt::WidgetShortcut);
 
-#ifdef QBT_USES_QT5
     // This hack fixes reordering of first column with Qt5.
     // https://github.com/qtproject/qtbase/commit/e0fc088c0c8bc61dbcaf5928b24986cd61a22777
     QTableView unused;
     unused.setVerticalHeader(this->header());
     this->header()->setParent(this);
     unused.setVerticalHeader(new QHeaderView(Qt::Horizontal));
-#endif
 }
 
 PeerListWidget::~PeerListWidget()
@@ -237,8 +231,8 @@ void PeerListWidget::showPeerListMenu(const QPoint &)
         addPeerAct = menu.addAction(GuiIconProvider::instance()->getIcon("user-group-new"), tr("Add a new peer..."));
         emptyMenu = false;
     }
-    QAction *banAct = 0;
-    QAction *copyPeerAct = 0;
+    QAction *banAct = nullptr;
+    QAction *copyPeerAct = nullptr;
     if (!selectionModel()->selectedRows().isEmpty()) {
         copyPeerAct = menu.addAction(GuiIconProvider::instance()->getIcon("edit-copy"), tr("Copy IP:port"));
         menu.addSeparator();
@@ -247,24 +241,25 @@ void PeerListWidget::showPeerListMenu(const QPoint &)
     }
     if (emptyMenu) return;
     QAction *act = menu.exec(QCursor::pos());
-    if (act == 0) return;
+    if (!act) return;
+
     if (act == addPeerAct) {
-        QList<BitTorrent::PeerAddress> peersList = PeersAdditionDlg::askForPeers();
+        QList<BitTorrent::PeerAddress> peersList = PeersAdditionDlg::askForPeers(this);
         int peerCount = 0;
         foreach (const BitTorrent::PeerAddress &addr, peersList) {
             if (torrent->connectPeer(addr)) {
-                qDebug("Adding peer %s...", qPrintable(addr.ip.toString()));
+                qDebug("Adding peer %s...", qUtf8Printable(addr.ip.toString()));
                 Logger::instance()->addMessage(tr("Manually adding peer '%1'...").arg(addr.ip.toString()));
-                peerCount++;
+                ++peerCount;
             }
             else {
                 Logger::instance()->addMessage(tr("The peer '%1' could not be added to this torrent.").arg(addr.ip.toString()), Log::WARNING);
             }
         }
         if (peerCount < peersList.length())
-            QMessageBox::information(0, tr("Peer addition"), tr("Some peers could not be added. Check the Log for details."));
+            QMessageBox::information(this, tr("Peer addition"), tr("Some peers could not be added. Check the Log for details."));
         else if (peerCount > 0)
-            QMessageBox::information(0, tr("Peer addition"), tr("The peers were added to this torrent."));
+            QMessageBox::information(this, tr("Peer addition"), tr("The peers were added to this torrent."));
         return;
     }
     if (act == banAct) {
@@ -283,8 +278,7 @@ void PeerListWidget::banSelectedPeers()
     int ret = QMessageBox::question(this, tr("Ban peer permanently"), tr("Are you sure you want to ban permanently the selected peers?"),
                                     tr("&Yes"), tr("&No"),
                                     QString(), 0, 1);
-    if (ret)
-        return;
+    if (ret) return;
 
     QModelIndexList selectedIndexes = selectionModel()->selectedRows();
     foreach (const QModelIndex &index, selectedIndexes) {
@@ -399,7 +393,7 @@ QStandardItem *PeerListWidget::addPeer(const QString &ip, BitTorrent::TorrentHan
     m_listModel->setData(m_listModel->index(row, PeerListDelegate::CONNECTION), peer.connectionType());
     m_listModel->setData(m_listModel->index(row, PeerListDelegate::FLAGS), peer.flags());
     m_listModel->setData(m_listModel->index(row, PeerListDelegate::FLAGS), peer.flagsDescription(), Qt::ToolTipRole);
-    m_listModel->setData(m_listModel->index(row, PeerListDelegate::CLIENT), Utils::String::toHtmlEscaped(peer.client()));
+    m_listModel->setData(m_listModel->index(row, PeerListDelegate::CLIENT), peer.client().toHtmlEscaped());
     m_listModel->setData(m_listModel->index(row, PeerListDelegate::PROGRESS), peer.progress());
     m_listModel->setData(m_listModel->index(row, PeerListDelegate::DOWN_SPEED), peer.payloadDownSpeed());
     m_listModel->setData(m_listModel->index(row, PeerListDelegate::UP_SPEED), peer.payloadUpSpeed());
@@ -430,7 +424,7 @@ void PeerListWidget::updatePeer(const QString &ip, BitTorrent::TorrentHandle *co
     m_listModel->setData(m_listModel->index(row, PeerListDelegate::PORT), peer.address().port);
     m_listModel->setData(m_listModel->index(row, PeerListDelegate::FLAGS), peer.flags());
     m_listModel->setData(m_listModel->index(row, PeerListDelegate::FLAGS), peer.flagsDescription(), Qt::ToolTipRole);
-    m_listModel->setData(m_listModel->index(row, PeerListDelegate::CLIENT), Utils::String::toHtmlEscaped(peer.client()));
+    m_listModel->setData(m_listModel->index(row, PeerListDelegate::CLIENT), peer.client().toHtmlEscaped());
     m_listModel->setData(m_listModel->index(row, PeerListDelegate::PROGRESS), peer.progress());
     m_listModel->setData(m_listModel->index(row, PeerListDelegate::DOWN_SPEED), peer.payloadDownSpeed());
     m_listModel->setData(m_listModel->index(row, PeerListDelegate::UP_SPEED), peer.payloadUpSpeed());
@@ -446,7 +440,7 @@ void PeerListWidget::handleResolved(const QString &ip, const QString &hostname)
 {
     QStandardItem *item = m_peerItems.value(ip, 0);
     if (item) {
-        qDebug("Resolved %s -> %s", qPrintable(ip), qPrintable(hostname));
+        qDebug("Resolved %s -> %s", qUtf8Printable(ip), qUtf8Printable(hostname));
         item->setData(hostname, Qt::DisplayRole);
     }
 }

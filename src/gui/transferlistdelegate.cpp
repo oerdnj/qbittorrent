@@ -44,11 +44,7 @@
 #include "base/unicodestrings.h"
 
 #ifdef Q_OS_WIN
-#ifndef QBT_USES_QT5
-#include <QPlastiqueStyle>
-#else
 #include <QProxyStyle>
-#endif
 #endif
 
 TransferListDelegate::TransferListDelegate(QObject *parent)
@@ -62,7 +58,7 @@ void TransferListDelegate::paint(QPainter * painter, const QStyleOptionViewItem 
     bool isHideState = true;
     if (Preferences::instance()->getHideZeroComboValues() == 1) {  // paused torrents only
         QModelIndex stateIndex = index.sibling(index.row(), TorrentModel::TR_STATUS);
-        if (stateIndex.data().toInt() != BitTorrent::TorrentState::PausedDownloading)
+        if (stateIndex.data().value<BitTorrent::TorrentState>() != BitTorrent::TorrentState::PausedDownloading)
             isHideState = false;
     }
     const bool hideValues = Preferences::instance()->getHideZeroValues() & isHideState;
@@ -102,7 +98,7 @@ void TransferListDelegate::paint(QPainter * painter, const QStyleOptionViewItem 
         break;
     }
     case TorrentModel::TR_STATUS: {
-        const int state = index.data().toInt();
+        const auto state = index.data().value<BitTorrent::TorrentState>();
         QString display = getStatusString(state);
         QItemDelegate::drawDisplay(painter, opt, opt.rect, display);
         break;
@@ -126,13 +122,13 @@ void TransferListDelegate::paint(QPainter * painter, const QStyleOptionViewItem 
         break;
     }
     case TorrentModel::TR_TIME_ELAPSED: {
-        qlonglong elapsedTime = index.data().toLongLong();
-        qlonglong seedingTime = index.data(Qt::UserRole).toLongLong();
-        QString txt;
-        if (seedingTime > 0)
-            txt += tr("%1 (seeded for %2)", "e.g. 4m39s (seeded for 3m10s)")
-                   .arg(Utils::Misc::userFriendlyDuration(elapsedTime))
-                   .arg(Utils::Misc::userFriendlyDuration(seedingTime));
+        const int elapsedTime = index.data().toInt();
+        const int seedingTime = index.data(Qt::UserRole).toInt();
+        const QString txt = (seedingTime > 0)
+            ? tr("%1 (seeded for %2)", "e.g. 4m39s (seeded for 3m10s)")
+                .arg(Utils::Misc::userFriendlyDuration(elapsedTime))
+                .arg(Utils::Misc::userFriendlyDuration(seedingTime))
+            : Utils::Misc::userFriendlyDuration(elapsedTime);
         QItemDelegate::drawDisplay(painter, opt, opt.rect, txt);
         break;
     }
@@ -166,7 +162,7 @@ void TransferListDelegate::paint(QPainter * painter, const QStyleOptionViewItem 
         qreal progress = index.data().toDouble() * 100.;
         newopt.rect = opt.rect;
         newopt.text = ((progress == 100.0) ? QString("100%") : Utils::String::fromDouble(progress, 1) + "%");
-        newopt.progress = (int)progress;
+        newopt.progress = static_cast<int>(progress);
         newopt.maximum = 100;
         newopt.minimum = 0;
         newopt.state |= QStyle::State_Enabled;
@@ -175,11 +171,7 @@ void TransferListDelegate::paint(QPainter * painter, const QStyleOptionViewItem 
         QApplication::style()->drawControl(QStyle::CE_ProgressBar, &newopt, painter);
 #else
         // XXX: To avoid having the progress text on the right of the bar
-#ifndef QBT_USES_QT5
-        QPlastiqueStyle st;
-#else
         QProxyStyle st("fusion");
-#endif
         st.drawControl(QStyle::CE_ProgressBar, &newopt, painter, 0);
 #endif
         break;
@@ -189,14 +181,14 @@ void TransferListDelegate::paint(QPainter * painter, const QStyleOptionViewItem 
         if (hideValues && ((elapsed < 0) || (elapsed >= MAX_ETA)))
             break;
 
-        QString elapsedString;
+        // Show '< 1m ago' when elapsed time is 0
         if (elapsed == 0)
-            // Show '< 1m ago' when elapsed time is 0
             elapsed = 1;
-        else if (elapsed < 0)
-            elapsedString = Utils::Misc::userFriendlyDuration(elapsed);
-        else
-            elapsedString = tr("%1 ago", "e.g.: 1h 20m ago").arg(Utils::Misc::userFriendlyDuration(elapsed));
+
+        QString elapsedString = (elapsed >= 0)
+            ? tr("%1 ago", "e.g.: 1h 20m ago").arg(Utils::Misc::userFriendlyDuration(elapsed))
+            : Utils::Misc::userFriendlyDuration(elapsed);
+
         opt.displayAlignment = Qt::AlignRight | Qt::AlignVCenter;
         QItemDelegate::drawDisplay(painter, opt, option.rect, elapsedString);
         break;
@@ -231,7 +223,7 @@ QSize TransferListDelegate::sizeHint(const QStyleOptionViewItem & option, const 
     return size;
 }
 
-QString TransferListDelegate::getStatusString(const int state) const
+QString TransferListDelegate::getStatusString(const BitTorrent::TorrentState state) const
 {
     QString str;
 
@@ -266,9 +258,11 @@ QString TransferListDelegate::getStatusString(const int state) const
     case BitTorrent::TorrentState::CheckingUploading:
         str = tr("Checking", "Torrent local data is being checked");
         break;
+#if LIBTORRENT_VERSION_NUM < 10100
     case BitTorrent::TorrentState::QueuedForChecking:
         str = tr("Queued for checking", "i.e. torrent is queued for hash checking");
         break;
+#endif
     case BitTorrent::TorrentState::CheckingResumeData:
         str = tr("Checking resume data", "used when loading the torrents from disk after qbt is launched. It checks the correctness of the .fastresume file. Normally it is completed in a fraction of a second, unless loading many many torrents.");
         break;

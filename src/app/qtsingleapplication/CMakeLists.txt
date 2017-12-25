@@ -16,21 +16,16 @@ else (GUI)
     list(APPEND QBT_QTSINGLEAPPLICATION_SOURCES qtsinglecoreapplication.cpp)
 endif (GUI)
 
-add_library(qtsingleapplication ${QBT_QTSINGLEAPPLICATION_HEADERS} ${QBT_QTSINGLEAPPLICATION_SOURCES})
+add_library(qtsingleapplication STATIC ${QBT_QTSINGLEAPPLICATION_HEADERS} ${QBT_QTSINGLEAPPLICATION_SOURCES})
 target_include_directories(qtsingleapplication INTERFACE "${qtsingleapplication_SOURCE_DIR}")
+target_link_qt_components(qtsingleapplication Network)
 
-if (QT4_FOUND)
-    target_link_libraries(qtsingleapplication Qt4::QtNetwork)
-else (QT4_FOUND)
-    target_link_libraries(qtsingleapplication Qt5::Network)
-endif (QT4_FOUND)
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+    target_compile_options(qtsingleapplication PRIVATE "-w") # disable warning for 3rdparty code
+endif()
 
 if (GUI)
-    if (QT4_FOUND)
-        target_link_libraries(qtsingleapplication Qt4::QtGui)
-    else (QT4_FOUND)
-        target_link_libraries(qtsingleapplication Qt5::Widgets)
-    endif(QT4_FOUND)
+    target_link_qt_components(qtsingleapplication Widgets)
 endif (GUI)
 
 add_library(QtSingleApplication::QtSingleApplication ALIAS qtsingleapplication)

@@ -29,6 +29,8 @@
  */
 
 #include "torrentcontentmodelfile.h"
+
+#include "base/bittorrent/torrenthandle.h"
 #include "torrentcontentmodelfolder.h"
 
 TorrentContentModelFile::TorrentContentModelFile(const QString &fileName, qulonglong fileSize,
@@ -41,7 +43,7 @@ TorrentContentModelFile::TorrentContentModelFile(const QString &fileName, qulong
     m_name = fileName;
 
     // Do not display incomplete extensions
-    if (m_name.endsWith(".!qB"))
+    if (m_name.endsWith(QB_EXT))
         m_name.chop(4);
 
     m_size = fileSize;
@@ -71,6 +73,12 @@ void TorrentContentModelFile::setProgress(qreal progress)
     m_progress = progress;
     m_remaining = static_cast<qulonglong>(m_size * (1.0 - m_progress));
     Q_ASSERT(m_progress <= 1.);
+}
+
+void TorrentContentModelFile::setAvailability(qreal availability)
+{
+    m_availability = availability;
+    Q_ASSERT(m_availability <= 1.);
 }
 
 TorrentContentModelItem::ItemType TorrentContentModelFile::itemType() const

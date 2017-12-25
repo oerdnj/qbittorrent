@@ -32,9 +32,6 @@
 #include "connection.h"
 
 #include <QRegExp>
-#ifndef QBT_USES_QT5
-#include <QStringList>
-#endif
 #include <QTcpSocket>
 
 #include "irequesthandler.h"
@@ -110,7 +107,7 @@ bool Connection::acceptsGzipEncoding(QString codings)
 
     const auto isCodingAvailable = [](const QStringList &list, const QString &encoding) -> bool
     {
-        for (const QString &str: list) {
+        foreach (const QString &str, list) {
             if (!str.startsWith(encoding))
                 continue;
 
@@ -119,11 +116,7 @@ bool Connection::acceptsGzipEncoding(QString codings)
                 return true;
 
             // [rfc7231] 5.3.1. Quality Values
-#ifdef QBT_USES_QT5
             const QStringRef substr = str.midRef(encoding.size() + 3);  // ex. skip over "gzip;q="
-#else
-            const QString substr = str.mid(encoding.size() + 3);  // ex. skip over "gzip;q="
-#endif
 
             bool ok = false;
             const double qvalue = substr.toDouble(&ok);

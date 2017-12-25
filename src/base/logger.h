@@ -6,7 +6,7 @@
 #include <QReadWriteLock>
 #include <QObject>
 
-const int MAX_LOG_MESSAGES = 1000;
+const int MAX_LOG_MESSAGES = 20000;
 
 namespace Log
 {
@@ -70,5 +70,8 @@ private:
     int msgCounter;
     int peerCounter;
 };
+
+// Helper function
+void LogMsg(const QString &message, const Log::MsgType &type = Log::NORMAL);
 
 #endif // LOGGER_H

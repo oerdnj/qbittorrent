@@ -47,13 +47,16 @@
 #endif
 #include <QRegExp>
 #include <QString>
+#ifdef Q_OS_MAC
+#include <QSettings>
+#endif
 
 #include "base/logger.h"
+#include "base/profile.h"
 #include "base/utils/fs.h"
 #include "base/utils/misc.h"
 #include "base/utils/string.h"
 #include "base/preferences.h"
-#include "base/qinisettings.h"
 
 bool userAcceptsUpgrade()
 {
@@ -119,7 +122,7 @@ bool upgradeResumeFile(const QString &filepath, const QVariantHash &oldTorrent =
     }
     else {
         queuePosition = fastOld.dict_find_int_value("qBt-queuePosition", 0);
-        fastNew["qBt-name"] = Utils::String::toStdString(oldTorrent.value("name").toString());
+        fastNew["qBt-name"] = oldTorrent.value("name").toString().toStdString();
         fastNew["qBt-tempPathDisabled"] = false;
     }
 
@@ -145,7 +148,7 @@ bool upgrade(bool ask = true)
     // Upgrade preferences
     Preferences::instance()->upgrade();
 
-    QString backupFolderPath = Utils::Fs::expandPathAbs(Utils::Fs::QDesktopServicesDataLocation() + "BT_backup");
+    QString backupFolderPath = Utils::Fs::expandPathAbs(specialFolderLocation(SpecialFolder::Data) + "BT_backup");
     QDir backupFolderDir(backupFolderPath);
 
     // ****************************************************************************************
@@ -156,15 +159,10 @@ bool upgrade(bool ask = true)
         upgradeResumeFile(backupFolderDir.absoluteFilePath(backupFile));
     // ****************************************************************************************
 
-#ifdef Q_OS_MAC
-    // native .plist
-    QSettings *oldResumeSettings = new QSettings("qBittorrent", "qBittorrent-resume");
-#else
-    QIniSettings *oldResumeSettings = new QIniSettings("qBittorrent", "qBittorrent-resume");
-#endif
+    SettingsPtr oldResumeSettings = Profile::instance().applicationSettings(QLatin1String("qBittorrent-resume"));
     QString oldResumeFilename = oldResumeSettings->fileName();
     QVariantHash oldResumeData = oldResumeSettings->value("torrents").toHash();
-    delete oldResumeSettings;
+    oldResumeSettings.reset();
 
     if (oldResumeData.isEmpty()) {
         Utils::Fs::forceRemove(oldResumeFilename);
@@ -192,14 +190,14 @@ bool upgrade(bool ask = true)
         QVariantHash oldTorrent = oldResumeData[hash].toHash();
         if (oldTorrent.value("is_magnet", false).toBool()) {
             libtorrent::entry resumeData;
-            resumeData["qBt-magnetUri"] = Utils::String::toStdString(oldTorrent.value("magnet_uri").toString());
+            resumeData["qBt-magnetUri"] = oldTorrent.value("magnet_uri").toString().toStdString();
             resumeData["qBt-paused"] = false;
             resumeData["qBt-forced"] = false;
 
-            resumeData["qBt-savePath"] = Utils::String::toStdString(oldTorrent.value("save_path").toString());
-            resumeData["qBt-ratioLimit"] = Utils::String::toStdString(QString::number(oldTorrent.value("max_ratio", -2).toReal()));
-            resumeData["qBt-label"] = Utils::String::toStdString(oldTorrent.value("label").toString());
-            resumeData["qBt-name"] = Utils::String::toStdString(oldTorrent.value("name").toString());
+            resumeData["qBt-savePath"] = oldTorrent.value("save_path").toString().toStdString();
+            resumeData["qBt-ratioLimit"] = static_cast<int>(oldTorrent.value("max_ratio", -2).toReal() * 1000);
+            resumeData["qBt-label"] = oldTorrent.value("label").toString().toStdString();
+            resumeData["qBt-name"] = oldTorrent.value("name").toString().toStdString();
             resumeData["qBt-seedStatus"] = oldTorrent.value("seed").toBool();
             resumeData["qBt-tempPathDisabled"] = false;
 
@@ -231,7 +229,7 @@ bool upgrade(bool ask = true)
 #ifdef Q_OS_MAC
 void migratePlistToIni(const QString &application)
 {
-    QIniSettings iniFile("qBittorrent", application);
+    QSettings iniFile(QSettings::IniFormat, QSettings::UserScope, "qBittorrent", application);
     if (!iniFile.allKeys().isEmpty()) return; // We copy the contents of plist, only if inifile does not exist(is empty).
 
     QSettings *plistFile = new QSettings("qBittorrent", application);
@@ -260,16 +258,16 @@ void macMigratePlists()
 void migrateRSS()
 {
     // Copy old feed items to new file if needed
-    QIniSettings qBTRSS("qBittorrent", "qBittorrent-rss-feeds");
-    if (!qBTRSS.allKeys().isEmpty()) return; // We move the contents of RSS old_items only if inifile does not exist (is empty).
+    SettingsPtr qBTRSS = Profile::instance().applicationSettings(QLatin1String("qBittorrent-rss-feeds"));
+    if (!qBTRSS->allKeys().isEmpty()) return; // We move the contents of RSS old_items only if inifile does not exist (is empty).
 
-    QIniSettings qBTRSSLegacy("qBittorrent", "qBittorrent-rss");
-    QHash<QString, QVariant> allOldItems = qBTRSSLegacy.value("old_items", QHash<QString, QVariant>()).toHash();
+    SettingsPtr qBTRSSLegacy = Profile::instance().applicationSettings(QLatin1String("qBittorrent-rss"));
+    QHash<QString, QVariant> allOldItems = qBTRSSLegacy->value("old_items", QHash<QString, QVariant>()).toHash();
 
     if (!allOldItems.empty()) {
         qDebug("Moving %d old items for feeds to qBittorrent-rss-feeds", allOldItems.size());
-        qBTRSS.setValue("old_items", allOldItems);
-        qBTRSSLegacy.remove("old_items");
+        qBTRSS->setValue("old_items", allOldItems);
+        qBTRSSLegacy->remove("old_items");
     }
 }
 #endif

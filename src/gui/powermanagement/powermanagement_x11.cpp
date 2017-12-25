@@ -117,9 +117,9 @@ void PowerManagementInhibitor::RequestBusy()
 
     QList<QVariant> args;
     args << "qBittorrent";
-    if (m_use_gsm) args << (uint)0;
+    if (m_use_gsm) args << 0u;
     args << "Active torrents are presented";
-    if (m_use_gsm) args << (uint)8;
+    if (m_use_gsm) args << 8u;
     call.setArguments(args);
 
     QDBusPendingCall pcall = QDBusConnection::sessionBus().asyncCall(call, 1000);
@@ -136,7 +136,7 @@ void PowerManagementInhibitor::OnAsyncReply(QDBusPendingCallWatcher *call)
 
         if (reply.isError())
         {
-            qDebug("D-Bus: Reply: Error: %s", qPrintable(reply.error().message()));
+            qDebug("D-Bus: Reply: Error: %s", qUtf8Printable(reply.error().message()));
             m_state = error;
         }
         else
@@ -152,7 +152,7 @@ void PowerManagementInhibitor::OnAsyncReply(QDBusPendingCallWatcher *call)
 
         if (reply.isError())
         {
-            qDebug("D-Bus: Reply: Error: %s", qPrintable(reply.error().message()));
+            qDebug("D-Bus: Reply: Error: %s", qUtf8Printable(reply.error().message()));
 
             if (!m_use_gsm)
             {

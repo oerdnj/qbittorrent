@@ -40,8 +40,10 @@
 #include <QTimer>
 #include <QUrl>
 
+#include "base/logger.h"
 #include "base/preferences.h"
 #include "base/utils/fs.h"
+#include "base/utils/net.h"
 #include "base/utils/random.h"
 #include "base/utils/string.h"
 #include "websessiondata.h"
@@ -84,6 +86,14 @@ struct WebSession
     }
 };
 
+namespace
+{
+    inline QUrl urlFromHostHeader(const QString &hostHeader)
+    {
+        return QUrl(QLatin1String("http://") + hostHeader);
+    }
+}
+
 // AbstractWebApplication
 
 AbstractWebApplication::AbstractWebApplication(QObject *parent)
@@ -91,11 +101,11 @@ AbstractWebApplication::AbstractWebApplication(QObject *parent)
     , session_(0)
 {
     QTimer *timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), SLOT(removeInactiveSessions()));
+    connect(timer, &QTimer::timeout, this, &AbstractWebApplication::removeInactiveSessions);
     timer->start(60 * 1000);  // 1 min.
 
     reloadDomainList();
-    connect(Preferences::instance(), SIGNAL(changed()), this, SLOT(reloadDomainList()));
+    connect(Preferences::instance(), &Preferences::changed, this, &AbstractWebApplication::reloadDomainList);
 }
 
 AbstractWebApplication::~AbstractWebApplication()
@@ -120,7 +130,7 @@ Http::Response AbstractWebApplication::processRequest(const Http::Request &reque
     header(Http::HEADER_CONTENT_SECURITY_POLICY, "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; object-src 'none';");
 
     // block cross-site requests
-    if (isCrossSiteRequest(request_) || !validateHostHeader(request_, env, domainList)) {
+    if (isCrossSiteRequest(request_) || !validateHostHeader(domainList)) {
         status(401, "Unauthorized");
         return response();
     }
@@ -143,7 +153,7 @@ Http::Response AbstractWebApplication::processRequest(const Http::Request &reque
 void AbstractWebApplication::UnbanTimerEvent()
 {
     UnbanTimer* ubantimer = static_cast<UnbanTimer*>(sender());
-    qDebug("Ban period has expired for %s", qPrintable(ubantimer->peerIp().toString()));
+    qDebug("Ban period has expired for %s", qUtf8Printable(ubantimer->peerIp().toString()));
     clientFailedAttempts_.remove(ubantimer->peerIp());
     ubantimer->deleteLater();
 }
@@ -201,7 +211,7 @@ bool AbstractWebApplication::readFile(const QString& path, QByteArray &data, QSt
     else {
         QFile file(path);
         if (!file.open(QIODevice::ReadOnly)) {
-            qDebug("File %s was not found!", qPrintable(path));
+            qDebug("File %s was not found!", qUtf8Printable(path));
             return false;
         }
 
@@ -269,11 +279,7 @@ void AbstractWebApplication::translateDocument(QString& data)
             QString translation = word;
             if (isTranslationNeeded) {
                 QString context = regex.cap(4);
-#ifndef QBT_USES_QT5
-                translation = qApp->translate(context.toUtf8().constData(), word.constData(), 0, QCoreApplication::UnicodeUTF8, 1);
-#else
                 translation = qApp->translate(context.toUtf8().constData(), word.constData(), 0, 1);
-#endif
             }
             // Remove keyboard shortcuts
             translation.replace(mnemonic, "");
@@ -322,10 +328,13 @@ void AbstractWebApplication::increaseFailedAttempts()
 
 bool AbstractWebApplication::isAuthNeeded()
 {
-    return (env_.clientAddress != QHostAddress::LocalHost
-            && env_.clientAddress != QHostAddress::LocalHostIPv6
-            && env_.clientAddress != QHostAddress("::ffff:127.0.0.1"))
-            || Preferences::instance()->isWebUiLocalAuthEnabled();
+    qDebug("Checking auth rules against client address %s", qPrintable(env().clientAddress.toString()));
+    const Preferences *pref = Preferences::instance();
+    if (!pref->isWebUiLocalAuthEnabled() && Utils::Net::isLoopbackAddress(env().clientAddress))
+        return false;
+    if (pref->isWebUiAuthSubnetWhitelistEnabled() && Utils::Net::isIPInRange(env().clientAddress, pref->getWebUiAuthSubnetWhitelist()))
+        return false;
+    return true;
 }
 
 void AbstractWebApplication::printFile(const QString& path)
@@ -413,30 +422,48 @@ bool AbstractWebApplication::isCrossSiteRequest(const Http::Request &request) co
     }
 
     // sent with CORS requests, as well as with POST requests
-    if (!originValue.isEmpty())
-        return !isSameOrigin(QUrl::fromUserInput(targetOrigin), originValue);
+    if (!originValue.isEmpty()) {
+        const bool isInvalid = !isSameOrigin(urlFromHostHeader(targetOrigin), originValue);
+        if (isInvalid)
+            Logger::instance()->addMessage(tr("WebUI: Origin header & Target origin mismatch!") + "\n"
+                + tr("Source IP: '%1'. Origin header: '%2'. Target origin: '%3'")
+                    .arg(env_.clientAddress.toString()).arg(originValue).arg(targetOrigin)
+                , Log::WARNING);
+        return isInvalid;
+    }
 
-    if (!refererValue.isEmpty())
-        return !isSameOrigin(QUrl::fromUserInput(targetOrigin), refererValue);
+    if (!refererValue.isEmpty()) {
+        const bool isInvalid = !isSameOrigin(urlFromHostHeader(targetOrigin), refererValue);
+        if (isInvalid)
+            Logger::instance()->addMessage(tr("WebUI: Referer header & Target origin mismatch!") + "\n"
+                + tr("Source IP: '%1'. Referer header: '%2'. Target origin: '%3'")
+                    .arg(env_.clientAddress.toString()).arg(refererValue).arg(targetOrigin)
+                , Log::WARNING);
+        return isInvalid;
+    }
 
     return true;
 }
 
-bool AbstractWebApplication::validateHostHeader(const Http::Request &request, const Http::Environment &env, const QStringList &domains) const
+bool AbstractWebApplication::validateHostHeader(const QStringList &domains) const
 {
-    const QUrl hostHeader = QUrl::fromUserInput(
-                                request.headers.value(Http::HEADER_X_FORWARDED_HOST, request.headers.value(Http::HEADER_HOST)));
+    const QUrl hostHeader = urlFromHostHeader(request().headers[Http::HEADER_HOST]);
+    const QString requestHost = hostHeader.host();
 
     // (if present) try matching host header's port with local port
     const int requestPort = hostHeader.port();
-    if ((requestPort != -1) && (env.localPort != requestPort))
+    if ((requestPort != -1) && (env().localPort != requestPort)) {
+        Logger::instance()->addMessage(tr("WebUI: Invalid Host header, port mismatch.") + "\n"
+                + tr("Request source IP: '%1'. Server port: '%2'. Received Host header: '%3'")
+                .arg(env().clientAddress.toString()).arg(env().localPort)
+                .arg(request().headers[Http::HEADER_HOST])
+            , Log::WARNING);
         return false;
+    }
 
     // try matching host header with local address
-    const QString requestHost = hostHeader.host();
-
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 8, 0))
-    const bool sameAddr = env.localAddress.isEqual(QHostAddress(requestHost));
+    const bool sameAddr = env().localAddress.isEqual(QHostAddress(requestHost));
 #else
     const auto equal = [](const Q_IPV6ADDR &l, const Q_IPV6ADDR &r) -> bool {
         for (int i = 0; i < 16; ++i) {
@@ -445,7 +472,7 @@ bool AbstractWebApplication::validateHostHeader(const Http::Request &request, co
         }
         return true;
     };
-    const bool sameAddr = equal(env.localAddress.toIPv6Address(), QHostAddress(requestHost).toIPv6Address());
+    const bool sameAddr = equal(env().localAddress.toIPv6Address(), QHostAddress(requestHost).toIPv6Address());
 #endif
 
     if (sameAddr)
@@ -458,49 +485,38 @@ bool AbstractWebApplication::validateHostHeader(const Http::Request &request, co
             return true;
     }
 
+    Logger::instance()->addMessage(tr("WebUI: Invalid Host header.") + "\n"
+            + tr("Request source IP: '%1'. Received Host header: '%2'")
+            .arg(env().clientAddress.toString()).arg(request().headers[Http::HEADER_HOST])
+        , Log::WARNING);
     return false;
 }
 
-QStringMap AbstractWebApplication::initializeContentTypeByExtMap()
-{
-    QStringMap map;
-
-    map["htm"] = Http::CONTENT_TYPE_HTML;
-    map["html"] = Http::CONTENT_TYPE_HTML;
-    map["css"] = Http::CONTENT_TYPE_CSS;
-    map["gif"] = Http::CONTENT_TYPE_GIF;
-    map["png"] = Http::CONTENT_TYPE_PNG;
-    map["js"] = Http::CONTENT_TYPE_JS;
-
-    return map;
-}
-
-const QStringMap AbstractWebApplication::CONTENT_TYPE_BY_EXT = AbstractWebApplication::initializeContentTypeByExtMap();
+const QStringMap AbstractWebApplication::CONTENT_TYPE_BY_EXT = {
+    { "htm", Http::CONTENT_TYPE_HTML },
+    { "html", Http::CONTENT_TYPE_HTML },
+    { "css", Http::CONTENT_TYPE_CSS },
+    { "gif", Http::CONTENT_TYPE_GIF },
+    { "png", Http::CONTENT_TYPE_PNG },
+    { "js", Http::CONTENT_TYPE_JS },
+    { "svg", Http::CONTENT_TYPE_SVG }
+};
 
 QStringMap AbstractWebApplication::parseCookie(const Http::Request &request) const
 {
     // [rfc6265] 4.2.1. Syntax
     QStringMap ret;
     const QString cookieStr = request.headers.value(QLatin1String("cookie"));
-#if QT_VERSION >= QT_VERSION_CHECK(5, 4, 0)
     const QVector<QStringRef> cookies = cookieStr.splitRef(';', QString::SkipEmptyParts);
-#else
-    const QStringList cookies = cookieStr.split(';', QString::SkipEmptyParts);
-#endif
 
     for (const auto &cookie : cookies) {
         const int idx = cookie.indexOf('=');
         if (idx < 0)
             continue;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 4, 0)
+
         const QString name = cookie.left(idx).trimmed().toString();
         const QString value = Utils::String::unquote(cookie.mid(idx + 1).trimmed())
                                   .toString();
-#else
-        const QString name = cookie.left(idx).trimmed();
-        const QString value = Utils::String::unquote(cookie.mid(idx + 1).trimmed());
-#endif
-
         ret.insert(name, value);
     }
     return ret;

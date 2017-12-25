@@ -79,26 +79,6 @@ namespace
         using QNetworkCookieJar::allCookies;
         using QNetworkCookieJar::setAllCookies;
 
-#ifndef QBT_USES_QT5
-        virtual bool deleteCookie(const QNetworkCookie &cookie)
-        {
-            auto myCookies = allCookies();
-
-            QList<QNetworkCookie>::Iterator it;
-            for (it = myCookies.begin(); it != myCookies.end(); ++it) {
-                if ((it->name() == cookie.name())
-                        && (it->domain() == cookie.domain())
-                        && (it->path() == cookie.path())) {
-                    myCookies.erase(it);
-                    setAllCookies(myCookies);
-                    return true;
-                }
-            }
-
-            return false;
-        }
-#endif
-
         QList<QNetworkCookie> cookiesForUrl(const QUrl &url) const override
         {
             QDateTime now = QDateTime::currentDateTime();
@@ -163,8 +143,8 @@ DownloadHandler *DownloadManager::downloadUrl(const QString &url, bool saveToFil
     applyProxySettings();
 
     // Process download request
-    qDebug("url is %s", qPrintable(url));
-    const QUrl qurl = QUrl::fromEncoded(url.toUtf8());
+    qDebug("url is %s", qUtf8Printable(url));
+    const QUrl qurl = QUrl(url);
     QNetworkRequest request(qurl);
 
     if (userAgent.isEmpty())

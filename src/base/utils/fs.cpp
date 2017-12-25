@@ -28,21 +28,19 @@
  * Contact : chris@qbittorrent.org
  */
 
+#include "fs.h"
+
 #include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
-#include <QSettings>
 #include <QDirIterator>
 #include <QCoreApplication>
+#include <QStorageInfo>
 
-#ifdef Q_OS_MAC
-#include <CoreServices/CoreServices.h>
-#include <Carbon/Carbon.h>
-#endif
-
-#ifndef Q_OS_WIN
-#if defined(Q_OS_MAC) || defined(Q_OS_FREEBSD)
+#if defined(Q_OS_WIN)
+#include <Windows.h>
+#elif defined(Q_OS_MAC) || defined(Q_OS_FREEBSD)
 #include <sys/param.h>
 #include <sys/mount.h>
 #elif defined(Q_OS_HAIKU)
@@ -50,31 +48,15 @@
 #else
 #include <sys/vfs.h>
 #endif
-#else
-#include <shlobj.h>
-#include <winbase.h>
-#endif
 
-#ifndef QBT_USES_QT5
-
-#ifndef DISABLE_GUI
-#include <QDesktopServices>
-#endif
-
-#else
-#include <QStandardPaths>
-#endif
-
-
-#include "misc.h"
-#include "fs.h"
+#include "base/bittorrent/torrenthandle.h"
 
 /**
  * Converts a path to a string suitable for display.
  * This function makes sure the directory separator used is consistent
  * with the OS being run.
  */
-QString Utils::Fs::toNativePath(const QString& path)
+QString Utils::Fs::toNativePath(const QString &path)
 {
     return QDir::toNativeSeparators(path);
 }
@@ -89,27 +71,27 @@ QString Utils::Fs::fromNativePath(const QString &path)
  */
 QString Utils::Fs::fileExtension(const QString &filename)
 {
-    QString ext = QString(filename).remove(".!qB");
-    const int point_index = ext.lastIndexOf(".");
-    return (point_index >= 0) ? ext.mid(point_index + 1) : QString();
+    QString ext = QString(filename).remove(QB_EXT);
+    const int pointIndex = ext.lastIndexOf(".");
+    return (pointIndex >= 0) ? ext.mid(pointIndex + 1) : QString();
 }
 
-QString Utils::Fs::fileName(const QString& file_path)
+QString Utils::Fs::fileName(const QString &filePath)
 {
-    QString path = fromNativePath(file_path);
-    const int slash_index = path.lastIndexOf("/");
-    if (slash_index == -1)
+    QString path = fromNativePath(filePath);
+    const int slashIndex = path.lastIndexOf("/");
+    if (slashIndex == -1)
         return path;
-    return path.mid(slash_index + 1);
+    return path.mid(slashIndex + 1);
 }
 
-QString Utils::Fs::folderName(const QString& file_path)
+QString Utils::Fs::folderName(const QString &filePath)
 {
-    QString path = fromNativePath(file_path);
-    const int slash_index = path.lastIndexOf("/");
-    if (slash_index == -1)
+    QString path = fromNativePath(filePath);
+    const int slashIndex = path.lastIndexOf("/");
+    if (slashIndex == -1)
         return path;
-    return path.left(slash_index);
+    return path.left(slashIndex);
 }
 
 /**
@@ -117,10 +99,10 @@ QString Utils::Fs::folderName(const QString& file_path)
  * `.DS_Store`. Then will try to remove the whole tree if the tree consist
  * only of folders
  */
-bool Utils::Fs::smartRemoveEmptyFolderTree(const QString& path)
+bool Utils::Fs::smartRemoveEmptyFolderTree(const QString &path)
 {
     if (path.isEmpty() || !QDir(path).exists())
-        return false;
+        return true;
 
     static const QStringList deleteFilesList = {
         // Windows
@@ -137,7 +119,9 @@ bool Utils::Fs::smartRemoveEmptyFolderTree(const QString& path)
     QDirIterator iter(path, (QDir::AllDirs | QDir::NoDotAndDotDot), QDirIterator::Subdirectories);
     while (iter.hasNext())
         dirList << iter.next() + "/";
-    std::sort(dirList.begin(), dirList.end(), [](const QString &l, const QString &r) { return l.count("/") > r.count("/"); });  // sort descending by directory depth
+    // sort descending by directory depth
+    std::sort(dirList.begin(), dirList.end()
+              , [](const QString &l, const QString &r) { return l.count("/") > r.count("/"); });
 
     for (const QString &p : dirList) {
         // remove unwanted files
@@ -165,9 +149,9 @@ bool Utils::Fs::smartRemoveEmptyFolderTree(const QString& path)
  *
  * This function will try to fix the file permissions before removing it.
  */
-bool Utils::Fs::forceRemove(const QString& file_path)
+bool Utils::Fs::forceRemove(const QString &filePath)
 {
-    QFile f(file_path);
+    QFile f(filePath);
     if (!f.exists())
         return true;
     // Make sure we have read/write permissions
@@ -182,26 +166,8 @@ bool Utils::Fs::forceRemove(const QString& file_path)
  */
 void Utils::Fs::removeDirRecursive(const QString &path)
 {
-if (path.isEmpty())
-    return;
-#ifdef QBT_USES_QT5
-    QDir(path).removeRecursively();
-#else
-    QDir dir(path);
-
-    if (!dir.exists()) return;
-
-    Q_FOREACH(QFileInfo info, dir.entryInfoList(QDir::NoDotAndDotDot |
-                                                QDir::System |
-                                                QDir::Hidden |
-                                                QDir::AllDirs |
-                                                QDir::Files, QDir::DirsFirst)) {
-        if (info.isDir()) removeDirRecursive(info.absoluteFilePath());
-        else forceRemove(info.absoluteFilePath());
-    }
-
-    dir.rmdir(path);
-#endif
+    if (!path.isEmpty())
+        QDir(path).removeRecursively();
 }
 
 /**
@@ -210,20 +176,19 @@ if (path.isEmpty())
  *
  * Returns -1 in case of error.
  */
-qint64 Utils::Fs::computePathSize(const QString& path)
+qint64 Utils::Fs::computePathSize(const QString &path)
 {
     // Check if it is a file
     QFileInfo fi(path);
     if (!fi.exists()) return -1;
     if (fi.isFile()) return fi.size();
+
     // Compute folder size based on its content
     qint64 size = 0;
-    foreach (const QFileInfo &subfi, QDir(path).entryInfoList(QDir::Dirs|QDir::Files)) {
-        if (subfi.fileName().startsWith(".")) continue;
-        if (subfi.isDir())
-            size += computePathSize(subfi.absoluteFilePath());
-        else
-            size += subfi.size();
+    QDirIterator iter(path, QDir::Files | QDir::Hidden | QDir::NoSymLinks, QDirIterator::Subdirectories);
+    while (iter.hasNext()) {
+        iter.next();
+        size += iter.fileInfo().size();
     }
     return size;
 }
@@ -231,33 +196,28 @@ qint64 Utils::Fs::computePathSize(const QString& path)
 /**
  * Makes deep comparison of two files to make sure they are identical.
  */
-bool Utils::Fs::sameFiles(const QString& path1, const QString& path2)
+bool Utils::Fs::sameFiles(const QString &path1, const QString &path2)
 {
     QFile f1(path1), f2(path2);
     if (!f1.exists() || !f2.exists()) return false;
     if (f1.size() != f2.size()) return false;
     if (!f1.open(QIODevice::ReadOnly)) return false;
-    if (!f2.open(QIODevice::ReadOnly)) {
-        f1.close();
-        return false;
-    }
-    bool same = true;
+    if (!f2.open(QIODevice::ReadOnly)) return false;
+
+    const int readSize = 1024 * 1024;  // 1 MiB
     while(!f1.atEnd() && !f2.atEnd()) {
-        if (f1.read(1024) != f2.read(1024)) {
-            same = false;
-            break;
-        }
+        if (f1.read(readSize) != f2.read(readSize))
+            return false;
     }
-    f1.close(); f2.close();
-    return same;
+    return true;
 }
 
-QString Utils::Fs::toValidFileSystemName(const QString &name, bool allowSeparators)
+QString Utils::Fs::toValidFileSystemName(const QString &name, bool allowSeparators, const QString &pad)
 {
     QRegExp regex(allowSeparators ? "[:?\"*<>|]+" : "[\\\\/:?\"*<>|]+");
 
     QString validName = name.trimmed();
-    validName.replace(regex, " ");
+    validName.replace(regex, pad);
     qDebug() << "toValidFileSystemName:" << name << "=>" << validName;
 
     return validName;
@@ -271,49 +231,16 @@ bool Utils::Fs::isValidFileSystemName(const QString &name, bool allowSeparators)
     return !name.contains(regex);
 }
 
-qulonglong Utils::Fs::freeDiskSpaceOnPath(const QString &path)
+qint64 Utils::Fs::freeDiskSpaceOnPath(const QString &path)
 {
-    if (path.isEmpty()) return 0;
+    if (path.isEmpty()) return -1;
 
-    QDir dirPath(path);
-    if (!dirPath.exists()) {
-        QStringList parts = path.split("/");
-        while (parts.size() > 1 && !QDir(parts.join("/")).exists())
-            parts.removeLast();
-
-        dirPath = QDir(parts.join("/"));
-        if (!dirPath.exists()) return 0;
-    }
-    Q_ASSERT(dirPath.exists());
-
-#if defined(Q_OS_WIN)
-    ULARGE_INTEGER bytesFree;
-    LPCWSTR nativePath = reinterpret_cast<LPCWSTR>((toNativePath(dirPath.path())).utf16());
-    if (GetDiskFreeSpaceExW(nativePath, &bytesFree, NULL, NULL) == 0)
-        return 0;
-    return bytesFree.QuadPart;
-#elif defined(Q_OS_HAIKU)
-    const QString statfsPath = dirPath.path() + "/.";
-    dev_t device = dev_for_path(qPrintable(statfsPath));
-    if (device < 0)
-        return 0;
-    fs_info info;
-    if (fs_stat_dev(device, &info) != B_OK)
-        return 0;
-    return ((qulonglong) info.free_blocks * (qulonglong) info.block_size);
-#else
-    struct statfs stats;
-    const QString statfsPath = dirPath.path() + "/.";
-    const int ret = statfs(qPrintable(statfsPath), &stats);
-    if (ret != 0)
-        return 0;
-    return ((qulonglong) stats.f_bavail * (qulonglong) stats.f_bsize);
-#endif
+    return QStorageInfo(path).bytesAvailable();
 }
 
-QString Utils::Fs::branchPath(const QString& file_path, QString* removed)
+QString Utils::Fs::branchPath(const QString &filePath, QString *removed)
 {
-    QString ret = fromNativePath(file_path);
+    QString ret = fromNativePath(filePath);
     if (ret.endsWith("/"))
         ret.chop(1);
     const int slashIndex = ret.lastIndexOf("/");
@@ -336,162 +263,16 @@ bool Utils::Fs::sameFileNames(const QString &first, const QString &second)
 
 QString Utils::Fs::expandPath(const QString &path)
 {
-    QString ret = fromNativePath(path.trimmed());
+    QString ret = path.trimmed();
     if (ret.isEmpty())
         return ret;
 
     return QDir::cleanPath(ret);
 }
 
-QString Utils::Fs::expandPathAbs(const QString& path)
+QString Utils::Fs::expandPathAbs(const QString &path)
 {
-    QString ret = expandPath(path);
-
-    if (!QDir::isAbsolutePath(ret))
-        ret = QDir(ret).absolutePath();
-
-    return ret;
-}
-
-QString Utils::Fs::QDesktopServicesDataLocation()
-{
-    QString result;
-#if defined(Q_OS_WIN)
-    wchar_t path[MAX_PATH + 1] = {L'\0'};
-    if (SHGetSpecialFolderPathW(0, path, CSIDL_LOCAL_APPDATA, FALSE))
-        result = fromNativePath(QString::fromWCharArray(path));
-    if (!QCoreApplication::applicationName().isEmpty())
-        result += QLatin1String("/") + qApp->applicationName();
-#elif defined(Q_OS_MAC)
-    FSRef ref;
-    OSErr err = FSFindFolder(kUserDomain, kApplicationSupportFolderType, false, &ref);
-    if (err)
-        return QString();
-    QByteArray ba(2048, 0);
-    if (FSRefMakePath(&ref, reinterpret_cast<UInt8 *>(ba.data()), ba.size()) == noErr)
-        result = QString::fromUtf8(ba).normalized(QString::NormalizationForm_C);
-    result += QLatin1Char('/') + qApp->applicationName();
-#else
-    QString xdgDataHome = QLatin1String(qgetenv("XDG_DATA_HOME"));
-    if (xdgDataHome.isEmpty())
-        xdgDataHome = QDir::homePath() + QLatin1String("/.local/share");
-    xdgDataHome += QLatin1String("/data/")
-            + qApp->applicationName();
-    result = xdgDataHome;
-#endif
-    if (!result.endsWith("/"))
-        result += "/";
-    return result;
-}
-
-QString Utils::Fs::QDesktopServicesCacheLocation()
-{
-    QString result;
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
-    result = QDesktopServicesDataLocation() + QLatin1String("cache");
-#else
-#ifdef Q_OS_MAC
-    // http://developer.apple.com/documentation/Carbon/Reference/Folder_Manager/Reference/reference.html
-    FSRef ref;
-    OSErr err = FSFindFolder(kUserDomain, kCachedDataFolderType, false, &ref);
-    if (err)
-        return QString();
-    QByteArray ba(2048, 0);
-    if (FSRefMakePath(&ref, reinterpret_cast<UInt8 *>(ba.data()), ba.size()) == noErr)
-        result = QString::fromUtf8(ba).normalized(QString::NormalizationForm_C);
-    result += QLatin1Char('/') + qApp->applicationName();
-#else
-    QString xdgCacheHome = QLatin1String(qgetenv("XDG_CACHE_HOME"));
-    if (xdgCacheHome.isEmpty())
-        xdgCacheHome = QDir::homePath() + QLatin1String("/.cache");
-    xdgCacheHome += QLatin1Char('/') + QCoreApplication::applicationName();
-    result = xdgCacheHome;
-#endif
-#endif
-    if (!result.endsWith("/"))
-        result += "/";
-    return result;
-}
-
-QString Utils::Fs::QDesktopServicesDownloadLocation()
-{
-#ifdef QBT_USES_QT5
-#if defined(Q_OS_WIN)
-    if (QSysInfo::windowsVersion() <= QSysInfo::WV_XP)  // Windows XP
-        return QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).absoluteFilePath(
-                    QCoreApplication::translate("fsutils", "Downloads"));
-#endif
-    return QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
-#else
-
-#if defined(Q_OS_OS2)
-    return QDir(QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation)).absoluteFilePath(
-                QCoreApplication::translate("fsutils", "Downloads"));
-#endif
-
-#if defined(Q_OS_WIN)
-    // as long as it stays WinXP like we do the same on OS/2
-    // TODO: Use IKnownFolderManager to get path of FOLDERID_Downloads
-    // instead of hardcoding "Downloads"
-    // Unfortunately, this would break compatibility with WinXP
-    if (QSysInfo::windowsVersion() <= QSysInfo::WV_XP)  // Windows XP
-        return QDir(QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation)).absoluteFilePath(
-                    QCoreApplication::translate("fsutils", "Downloads"));
-    else
-        return QDir(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)).absoluteFilePath("Downloads");
-#endif
-
-#if (defined(Q_OS_UNIX) && !defined(Q_OS_MAC))
-    QString save_path;
-    // Default save path on Linux
-    QString config_path = QString::fromLocal8Bit(qgetenv("XDG_CONFIG_HOME").constData());
-    if (config_path.isEmpty())
-        config_path = QDir::home().absoluteFilePath(".config");
-
-    QString user_dirs_file = config_path + "/user-dirs.dirs";
-    if (QFile::exists(user_dirs_file)) {
-        QSettings settings(user_dirs_file, QSettings::IniFormat);
-        // We need to force UTF-8 encoding here since this is not
-        // the default for Ini files.
-        settings.setIniCodec("UTF-8");
-        QString xdg_download_dir = settings.value("XDG_DOWNLOAD_DIR").toString();
-        if (!xdg_download_dir.isEmpty()) {
-            // Resolve $HOME environment variables
-            xdg_download_dir.replace("$HOME", QDir::homePath());
-            save_path = xdg_download_dir;
-            qDebug() << Q_FUNC_INFO << "SUCCESS: Using XDG path for downloads: " << save_path;
-        }
-    }
-
-    // Fallback
-    if (!save_path.isEmpty() && !QFile::exists(save_path)) {
-        QDir().mkpath(save_path);
-    }
-
-    if (save_path.isEmpty() || !QFile::exists(save_path)) {
-        save_path = QDir::home().absoluteFilePath(QCoreApplication::translate("fsutils", "Downloads"));
-        qDebug() << Q_FUNC_INFO << "using" << save_path << "as fallback since the XDG detection did not work";
-    }
-
-    return save_path;
-#endif
-
-#if defined(Q_OS_MAC)
-    // TODO: How to support this on Mac OS?
-#endif
-
-    // Fallback
-    return QDir::home().absoluteFilePath(QCoreApplication::translate("fsutils", "Downloads"));
-#endif
-}
-
-QString Utils::Fs::cacheLocation()
-{
-    QString location = expandPathAbs(QDesktopServicesCacheLocation());
-    QDir locationDir(location);
-    if (!locationDir.exists())
-        locationDir.mkpath(locationDir.absolutePath());
-    return location;
+    return QDir(expandPath(path)).absolutePath();
 }
 
 QString Utils::Fs::tempPath()

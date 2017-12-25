@@ -43,7 +43,7 @@ GuiIconProvider::GuiIconProvider(QObject *parent)
     connect(Preferences::instance(), SIGNAL(changed()), SLOT(configure()));
 }
 
-GuiIconProvider::~GuiIconProvider() {}
+GuiIconProvider::~GuiIconProvider() = default;
 
 void GuiIconProvider::initInstance()
 {
@@ -80,7 +80,7 @@ QIcon GuiIconProvider::getIcon(const QString &iconId, const QString &fallback)
 QIcon GuiIconProvider::getFlagIcon(const QString &countryIsoCode)
 {
     if (countryIsoCode.isEmpty()) return QIcon();
-    return QIcon(":/icons/flags/" + countryIsoCode.toLower() + ".png");
+    return QIcon(":/icons/flags/" + countryIsoCode.toLower() + ".svg");
 }
 
 // Makes sure the icon is at least available in 16px and 24px size
@@ -137,7 +137,6 @@ QString GuiIconProvider::getIconPath(const QString &iconId)
 #endif
     return IconProvider::getIconPath(iconId);
 }
-
 
 void GuiIconProvider::configure()
 {

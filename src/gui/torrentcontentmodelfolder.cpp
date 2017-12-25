@@ -28,8 +28,9 @@
  * Contact : chris@qbittorrent.org
  */
 
-#include <QDebug>
 #include "torrentcontentmodelfolder.h"
+
+#include "base/bittorrent/torrenthandle.h"
 
 TorrentContentModelFolder::TorrentContentModelFolder(const QString &name, TorrentContentModelFolder *parent)
     : TorrentContentModelItem(parent)
@@ -37,7 +38,7 @@ TorrentContentModelFolder::TorrentContentModelFolder(const QString &name, Torren
     Q_ASSERT(parent);
     m_name = name;
     // Do not display incomplete extensions
-    if (m_name.endsWith(".!qB"))
+    if (m_name.endsWith(QB_EXT))
         m_name.chop(4);
 }
 
@@ -156,6 +157,34 @@ void TorrentContentModelFolder::recalculateProgress()
         m_progress = tProgress / tSize;
         m_remaining = tRemaining;
         Q_ASSERT(m_progress <= 1.);
+    }
+}
+
+void TorrentContentModelFolder::recalculateAvailability()
+{
+    qreal tAvailability = 0;
+    qulonglong tSize = 0;
+    bool foundAnyData = false;
+    foreach (TorrentContentModelItem* child, m_childItems) {
+        if (child->priority() == prio::IGNORED)
+            continue;
+
+        if (child->itemType() == FolderType)
+            static_cast<TorrentContentModelFolder*>(child)->recalculateAvailability();
+        const qreal childAvailability = child->availability();
+        if (childAvailability >= 0) { // -1 means "no data"
+            tAvailability += childAvailability * child->size();
+            foundAnyData = true;
+        }
+        tSize += child->size();
+    }
+
+    if (!isRootItem() && (tSize > 0) && foundAnyData) {
+        m_availability = tAvailability / tSize;
+        Q_ASSERT(m_availability <= 1.);
+    }
+    else {
+        m_availability = -1.;
     }
 }
 

@@ -35,8 +35,7 @@
 #include <QByteArray>
 #include <QDebug>
 #include <QProcess>
-#include <QSettings>
-#include <QThread>
+#include <QRegularExpression>
 #include <QSysInfo>
 #include <boost/version.hpp>
 #include <libtorrent/version.hpp>
@@ -220,21 +219,15 @@ void Utils::Misc::shutdownComputer(const ShutdownDialogAction &action)
 }
 
 #ifndef DISABLE_GUI
-// Get screen center
-QPoint Utils::Misc::screenCenter(QWidget *win)
+QPoint Utils::Misc::screenCenter(const QWidget *w)
 {
-    int scrn = 0;
-    const QWidget *w = win->window();
+    // Returns the QPoint which the widget will be placed center on screen (where parent resides)
 
-    if (w)
-        scrn = QApplication::desktop()->screenNumber(w);
-    else if (QApplication::desktop()->isVirtualDesktop())
-        scrn = QApplication::desktop()->screenNumber(QCursor::pos());
-    else
-        scrn = QApplication::desktop()->screenNumber(win);
-
-    QRect desk(QApplication::desktop()->availableGeometry(scrn));
-    return QPoint((desk.width() - win->frameGeometry().width()) / 2, (desk.height() - win->frameGeometry().height()) / 2);
+    QWidget *parent = w->parentWidget();
+    QDesktopWidget *desktop = QApplication::desktop();
+    int scrn = desktop->screenNumber(parent);  // fallback to `primaryScreen` when parent is invalid
+    QRect r = desktop->availableGeometry(scrn);
+    return QPoint(r.x() + (r.width() - w->frameSize().width()) / 2, r.y() + (r.height() - w->frameSize().height()) / 2);
 }
 
 #endif
@@ -517,9 +510,10 @@ QList<bool> Utils::Misc::boolListfromStringList(const QStringList &l)
 
 bool Utils::Misc::isUrl(const QString &s)
 {
-    const QString scheme = QUrl(s).scheme();
-    QRegExp is_url("http[s]?|ftp", Qt::CaseInsensitive);
-    return is_url.exactMatch(scheme);
+    static const QRegularExpression reURLScheme(
+                "http[s]?|ftp", QRegularExpression::CaseInsensitiveOption);
+
+    return reURLScheme.match(QUrl(s).scheme()).hasMatch();
 }
 
 QString Utils::Misc::parseHtmlLinks(const QString &raw_text)
@@ -638,27 +632,6 @@ void Utils::Misc::openFolderSelect(const QString &absolutePath)
 #endif
 }
 
-#endif // DISABLE_GUI
-
-namespace
-{
-    //  Trick to get a portable sleep() function
-    class SleeperThread: public QThread
-    {
-    public:
-        static void msleep(unsigned long msecs)
-        {
-            QThread::msleep(msecs);
-        }
-    };
-}
-
-void Utils::Misc::msleep(unsigned long msecs)
-{
-    SleeperThread::msleep(msecs);
-}
-
-#ifndef DISABLE_GUI
 QSize Utils::Misc::smallIconSize()
 {
     // Get DPI scaled icon size (device-dependent), see QT source
@@ -666,20 +639,22 @@ QSize Utils::Misc::smallIconSize()
     return QSize(s, s);
 }
 
-#endif
+QSize Utils::Misc::largeIconSize()
+{
+    // Get DPI scaled icon size (device-dependent), see QT source
+    int s = QApplication::style()->pixelMetric(QStyle::PM_LargeIconSize);
+    return QSize(s, s);
+}
+#endif // DISABLE_GUI
 
 QString Utils::Misc::osName()
 {
     // static initialization for usage in signal handler
     static const QString name =
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
         QString("%1 %2 %3")
         .arg(QSysInfo::prettyProductName())
         .arg(QSysInfo::kernelVersion())
         .arg(QSysInfo::currentCpuArchitecture());
-#else
-        "<Input OS name here>";
-#endif
     return name;
 }
 

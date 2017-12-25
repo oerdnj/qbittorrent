@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2006  Christophe Dumez
+ * Copyright (C) 2006  Christophe Dumez <chris@qbittorrent.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,8 +24,6 @@
  * modify file(s), you may extend this exception to your version of the file(s),
  * but you are not obligated to do so. If you do not wish to do so, delete this
  * exception statement from your version.
- *
- * Contact : chris@qbittorrent.org
  */
 
 #ifndef TRACKERSADDITION_H
@@ -51,11 +49,11 @@ class TrackersAdditionDlg : public QDialog
     Q_OBJECT
 
 public:
-    TrackersAdditionDlg(BitTorrent::TorrentHandle *const torrent, QWidget *parent = 0);
+    TrackersAdditionDlg(QWidget *parent, BitTorrent::TorrentHandle *const torrent);
     ~TrackersAdditionDlg();
 
     QStringList newTrackers() const;
-    static QStringList askForTrackers(BitTorrent::TorrentHandle *const torrent);
+    static QStringList askForTrackers(QWidget *parent, BitTorrent::TorrentHandle *const torrent);
 
 public slots:
     void on_uTorrentListButton_clicked();
@@ -67,4 +65,4 @@ private:
     BitTorrent::TorrentHandle *const m_torrent;
 };
 
-#endif
+#endif // TRACKERSADDITION_H

@@ -32,8 +32,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QSystemTrayIcon>
 #include <QPointer>
+
+#ifndef Q_OS_MAC
+#include <QSystemTrayIcon>
+#endif
 
 class QCloseEvent;
 class QFileSystemWatcher;
@@ -44,7 +47,7 @@ class QTimer;
 
 class downloadFromURL;
 class SearchWidget;
-class RSSImp;
+class RSSWidget;
 class about;
 class OptionsDialog;
 class TransferListWidget;
@@ -52,7 +55,6 @@ class TransferListFiltersWidget;
 class PropertiesWidget;
 class StatusBar;
 class TorrentCreatorDlg;
-class downloadFromURL;
 class LineEdit;
 class ExecutionLog;
 class PowerManagement;
@@ -103,15 +105,11 @@ public:
     void showNotificationBaloon(QString title, QString msg) const;
 
 private slots:
-    void toggleVisibility(const QSystemTrayIcon::ActivationReason reason = QSystemTrayIcon::Trigger);
-
     void balloonClicked();
     void writeSettings();
     void readSettings();
-    void createTrayIcon();
     void fullDiskError(BitTorrent::TorrentHandle *const torrent, QString msg) const;
     void handleDownloadFromUrlFailure(QString, QString) const;
-    void createSystrayDelayed();
     void tabChanged(int newTab);
     void defineUILockPassword();
     void clearUILockPassword();
@@ -119,7 +117,6 @@ private slots:
     void notifyOfUpdate(QString);
     void showConnectionSettings();
     void minimizeWindow();
-    void updateTrayIconMenu();
     // Keyboard shortcuts
     void createKeyboardShortcuts();
     void displayTransferTab() const;
@@ -138,7 +135,7 @@ private slots:
 #if defined(Q_OS_WIN) || defined(Q_OS_MAC)
     void handleUpdateCheckFinished(bool updateAvailable, QString newVersion, bool invokedByUser);
 #endif
-    void updateRSSTabLabel(int count);
+    void toggleAlternativeSpeeds();
 
 #ifdef Q_OS_WIN
     void pythonDownloadSuccess(const QString &url, const QString &filePath);
@@ -151,11 +148,13 @@ private slots:
     void downloadFromURLList(const QStringList &urlList);
     void updateAltSpeedsBtn(bool alternative);
     void updateNbTorrents();
+    void handleRSSUnreadCountUpdated(int count);
 
     void on_actionSearchWidget_triggered();
     void on_actionRSSReader_triggered();
     void on_actionSpeedInTitleBar_triggered();
     void on_actionTopToolBar_triggered();
+    void on_actionShowStatusbar_triggered();
     void on_actionDonateMoney_triggered();
     void on_actionExecutionLogs_triggered(bool checked);
     void on_actionNormalMessages_triggered(bool checked);
@@ -188,9 +187,19 @@ private slots:
     void toolbarTextBeside();
     void toolbarTextUnder();
     void toolbarFollowSystem();
+#ifndef Q_OS_MAC
+    void toggleVisibility(const QSystemTrayIcon::ActivationReason reason = QSystemTrayIcon::Trigger);
+    void createSystrayDelayed();
+    void updateTrayIconMenu();
+#endif
 
 private:
+#ifdef Q_OS_MAC
+    void setupDockClickHandler();
+#else
+    void createTrayIcon();
     QIcon getSystrayIcon() const;
+#endif
 #ifdef Q_OS_WIN
     bool addPythonPathToEnv();
     void installPython();
@@ -200,9 +209,11 @@ private:
     void dragEnterEvent(QDragEnterEvent *event) override;
     void closeEvent(QCloseEvent *) override;
     void showEvent(QShowEvent *) override;
-    bool event(QEvent *event) override;
+    bool event(QEvent *e) override;
     void displayRSSTab(bool enable);
     void displaySearchTab(bool enable);
+    void createTorrentTriggered(const QString &path = QString());
+    void showStatusBar(bool show);
 
     Ui::MainWindow *m_ui;
 
@@ -211,15 +222,17 @@ private:
     QList<QPair<BitTorrent::TorrentHandle *, QString >> m_unauthenticatedTrackers; // Still needed?
     // GUI related
     bool m_posInitialized;
-    QTabWidget *m_tabs;
-    StatusBar *m_statusBar;
+    QPointer<QTabWidget> m_tabs;
+    QPointer<StatusBar> m_statusBar;
     QPointer<OptionsDialog> m_options;
     QPointer<about> m_aboutDlg;
     QPointer<StatsDialog> m_statsDlg;
     QPointer<TorrentCreatorDlg> m_createTorrentDlg;
     QPointer<downloadFromURL> m_downloadFromURLDialog;
+#ifndef Q_OS_MAC
     QPointer<QSystemTrayIcon> m_systrayIcon;
     QPointer<QTimer> m_systrayCreator;
+#endif
     QPointer<QMenu> m_trayIconMenu;
     TransferListWidget *m_transferListWidget;
     TransferListFiltersWidget *m_transferListFiltersWidget;
@@ -235,7 +248,7 @@ private:
     QAction *m_prioSeparatorMenu;
     QSplitter *m_splitter;
     QPointer<SearchWidget> m_searchWidget;
-    QPointer<RSSImp> m_rssWidget;
+    QPointer<RSSWidget> m_rssWidget;
     QPointer<ExecutionLog> m_executionLog;
     // Power Management
     PowerManagement *m_pwr;

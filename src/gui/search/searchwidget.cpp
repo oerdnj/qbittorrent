@@ -99,28 +99,45 @@ SearchWidget::SearchWidget(MainWindow *mainWindow)
            << "</p></body></html>" << flush;
     m_ui->m_searchPattern->setToolTip(searchPatternHint);
 
+#ifndef Q_OS_MAC
     // Icons
     m_ui->searchButton->setIcon(GuiIconProvider::instance()->getIcon("edit-find"));
     m_ui->downloadButton->setIcon(GuiIconProvider::instance()->getIcon("download"));
     m_ui->goToDescBtn->setIcon(GuiIconProvider::instance()->getIcon("application-x-mswinurl"));
     m_ui->pluginsButton->setIcon(GuiIconProvider::instance()->getIcon("preferences-system-network"));
     m_ui->copyURLBtn->setIcon(GuiIconProvider::instance()->getIcon("edit-copy"));
-    connect(m_ui->tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
+#else
+    // On macOS the icons overlap the text otherwise
+    QSize iconSize = m_ui->tabWidget->iconSize();
+    iconSize.setWidth(iconSize.width() + 16);
+    m_ui->tabWidget->setIconSize(iconSize);
+#endif
+    connect(m_ui->tabWidget, &QTabWidget::tabCloseRequested, this, &SearchWidget::closeTab);
 
     m_searchEngine = new SearchEngine;
-    connect(m_searchEngine, SIGNAL(searchStarted()), SLOT(searchStarted()));
-    connect(m_searchEngine, SIGNAL(newSearchResults(QList<SearchResult>)), SLOT(appendSearchResults(QList<SearchResult>)));
-    connect(m_searchEngine, SIGNAL(searchFinished(bool)), SLOT(searchFinished(bool)));
-    connect(m_searchEngine, SIGNAL(searchFailed()), SLOT(searchFailed()));
-    connect(m_searchEngine, SIGNAL(torrentFileDownloaded(QString)), SLOT(addTorrentToSession(QString)));
+    connect(m_searchEngine, &SearchEngine::searchStarted, this, &SearchWidget::searchStarted);
+    connect(m_searchEngine, &SearchEngine::newSearchResults, this, &SearchWidget::appendSearchResults);
+    connect(m_searchEngine, &SearchEngine::searchFinished, this, &SearchWidget::searchFinished);
+    connect(m_searchEngine, &SearchEngine::searchFailed, this, &SearchWidget::searchFailed);
+    connect(m_searchEngine, &SearchEngine::torrentFileDownloaded, this, &SearchWidget::addTorrentToSession);
+
+    const auto onPluginChanged = [this]()
+    {
+        fillCatCombobox();
+        fillPluginComboBox();
+        selectActivePage();
+    };
+    connect(m_searchEngine, &SearchEngine::pluginInstalled, this, onPluginChanged);
+    connect(m_searchEngine, &SearchEngine::pluginUninstalled, this, onPluginChanged);
+    connect(m_searchEngine, &SearchEngine::pluginUpdated, this, onPluginChanged);
+    connect(m_searchEngine, &SearchEngine::pluginEnabled, this, onPluginChanged);
 
     // Fill in category combobox
-    fillCatCombobox();
-    fillPluginComboBox();
+    onPluginChanged();
 
-    connect(m_ui->m_searchPattern, SIGNAL(returnPressed()), m_ui->searchButton, SLOT(click()));
-    connect(m_ui->m_searchPattern, SIGNAL(textEdited(QString)), this, SLOT(searchTextEdited(QString)));
-    connect(m_ui->selectPlugin, SIGNAL(currentIndexChanged(int)), this, SLOT(selectMultipleBox(int)));
+    connect(m_ui->m_searchPattern, &LineEdit::returnPressed, m_ui->searchButton, &QPushButton::click);
+    connect(m_ui->m_searchPattern, &LineEdit::textEdited, this, &SearchWidget::searchTextEdited);
+    connect(m_ui->selectPlugin, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &SearchWidget::selectMultipleBox);
 }
 
 void SearchWidget::fillCatCombobox()
@@ -136,7 +153,7 @@ void SearchWidget::fillCatCombobox()
     std::sort(tmpList.begin(), tmpList.end(), [](const QStrPair &l, const QStrPair &r) { return (QString::localeAwareCompare(l.first, r.first) < 0); });
 
     foreach (const QStrPair &p, tmpList) {
-        qDebug("Supported category: %s", qPrintable(p.second));
+        qDebug("Supported category: %s", qUtf8Printable(p.second));
         m_ui->comboCategory->addItem(p.first, QVariant(p.second));
     }
 }
@@ -167,6 +184,24 @@ QString SearchWidget::selectedCategory() const
 QString SearchWidget::selectedPlugin() const
 {
     return m_ui->selectPlugin->itemData(m_ui->selectPlugin->currentIndex()).toString();
+}
+
+void SearchWidget::selectActivePage()
+{
+    if (m_searchEngine->allPlugins().isEmpty()) {
+        m_ui->stackedPages->setCurrentWidget(m_ui->emptyPage);
+        m_ui->m_searchPattern->setEnabled(false);
+        m_ui->comboCategory->setEnabled(false);
+        m_ui->selectPlugin->setEnabled(false);
+        m_ui->searchButton->setEnabled(false);
+    }
+    else {
+        m_ui->stackedPages->setCurrentWidget(m_ui->searchPage);
+        m_ui->m_searchPattern->setEnabled(true);
+        m_ui->comboCategory->setEnabled(true);
+        m_ui->selectPlugin->setEnabled(true);
+        m_ui->searchButton->setEnabled(true);
+    }
 }
 
 SearchWidget::~SearchWidget()
@@ -221,9 +256,7 @@ void SearchWidget::addTorrentToSession(const QString &source)
 
 void SearchWidget::on_pluginsButton_clicked()
 {
-    PluginSelectDlg *dlg = new PluginSelectDlg(m_searchEngine, this);
-    connect(dlg, SIGNAL(pluginsChanged()), this, SLOT(fillCatCombobox()));
-    connect(dlg, SIGNAL(pluginsChanged()), this, SLOT(fillPluginComboBox()));
+    new PluginSelectDlg(m_searchEngine, this);
 }
 
 void SearchWidget::searchTextEdited(QString)
@@ -265,7 +298,7 @@ void SearchWidget::on_searchButton_clicked()
     const QString pattern = m_ui->m_searchPattern->text().trimmed();
     // No search pattern entered
     if (pattern.isEmpty()) {
-        QMessageBox::critical(0, tr("Empty search pattern"), tr("Please type a search pattern first"));
+        QMessageBox::critical(this, tr("Empty search pattern"), tr("Please type a search pattern first"));
         return;
     }
 
@@ -285,7 +318,7 @@ void SearchWidget::on_searchButton_clicked()
     else if (selectedPlugin() == "multi") plugins = m_searchEngine->enabledPlugins();
     else plugins << selectedPlugin();
 
-    qDebug("Search with category: %s", qPrintable(selectedCategory()));
+    qDebug("Search with category: %s", qUtf8Printable(selectedCategory()));
 
     // Update SearchEngine widgets
     m_noSearchResults = true;

@@ -25,10 +25,6 @@ if (GUI)
             DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor
             FILES_MATCHING PATTERN "*.png")
 
-    install(FILES ${qBittorrent_SOURCE_DIR}/src/icons/qbittorrent.png
-            DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pixmaps/
-            COMPONENT data)
-
     install(FILES ${qBittorrent_SOURCE_DIR}/src/icons/qbittorrent.desktop
             DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications/
             COMPONENT data)
@@ -36,4 +32,11 @@ if (GUI)
     install(FILES qbittorrent.appdata.xml
             DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/appdata/
             COMPONENT data)
+
+    install(FILES
+            ${qBittorrent_SOURCE_DIR}/src/icons/skin/qbittorrent-tray.svg
+            ${qBittorrent_SOURCE_DIR}/src/icons/skin/qbittorrent-tray-dark.svg
+            ${qBittorrent_SOURCE_DIR}/src/icons/skin/qbittorrent-tray-light.svg
+        DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/scalable/status
+        COMPONENT data)
 endif()

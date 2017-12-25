@@ -32,9 +32,6 @@
 #include <QHash>
 #include <QMap>
 #include <QObject>
-#ifndef QBT_USES_QT5
-#include <QStringList>
-#endif
 
 #include "base/http/irequesthandler.h"
 #include "base/http/responsebuilder.h"
@@ -82,8 +79,8 @@ protected:
     static QString saveTmpFile(const QByteArray &data);
 
     WebSessionData *session();
-    Http::Request request() const { return request_; }
-    Http::Environment env() const { return env_; }
+    const Http::Request &request() const { return request_; }
+    const Http::Environment &env() const { return env_; }
 
 private slots:
     void UnbanTimerEvent();
@@ -109,12 +106,11 @@ private:
 
     QStringMap parseCookie(const Http::Request &request) const;
     bool isCrossSiteRequest(const Http::Request &request) const;
-    bool validateHostHeader(const Http::Request &request, const Http::Environment &env, const QStringList &domains) const;
+    bool validateHostHeader(const QStringList &domains) const;
 
     static void translateDocument(QString &data);
 
     static const QStringMap CONTENT_TYPE_BY_EXT;
-    static QStringMap initializeContentTypeByExtMap();
 };
 
 #endif // ABSTRACTWEBAPPLICATION_H

@@ -32,12 +32,12 @@
 #include <QStringList>
 #include "abstractwebapplication.h"
 
-class WebApplication: public AbstractWebApplication
+class WebApplication : public AbstractWebApplication
 {
     Q_DISABLE_COPY(WebApplication)
 
 public:
-    explicit WebApplication(QObject* parent = 0);
+    explicit WebApplication(QObject *parent = nullptr);
 
 private:
     // Actions
@@ -90,6 +90,9 @@ private:
     void action_command_decreasePrio();
     void action_command_topPrio();
     void action_command_bottomPrio();
+    void action_command_setLocation();
+    void action_command_rename();
+    void action_command_setAutoTMM();
     void action_command_recheck();
     void action_command_setCategory();
     void action_command_addCategory();

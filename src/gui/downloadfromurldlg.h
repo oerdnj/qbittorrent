@@ -31,26 +31,36 @@
 #ifndef DOWNLOADFROMURL_H
 #define DOWNLOADFROMURL_H
 
+#include <QClipboard>
 #include <QDialog>
 #include <QMessageBox>
-#include <QString>
+#include <QPushButton>
 #include <QRegExp>
+#include <QString>
 #include <QStringList>
-#include <QClipboard>
+
 #include "ui_downloadfromurldlg.h"
 
-class downloadFromURL : public QDialog, private Ui::downloadFromURL{
+class downloadFromURL : public QDialog, private Ui::downloadFromURL
+{
   Q_OBJECT
 
   public:
-    downloadFromURL(QWidget *parent): QDialog(parent) {
+    downloadFromURL(QWidget *parent): QDialog(parent)
+    {
       setupUi(this);
       setAttribute(Qt::WA_DeleteOnClose);
       setModal(true);
-      show();
+
+      buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Download"));
+      connect(buttonBox, &QDialogButtonBox::accepted, this, &downloadFromURL::downloadButtonClicked);
+      connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+
+      textUrls->setWordWrapMode(QTextOption::NoWrap);
+
       // Paste clipboard if there is an URL in it
       QString clip_txt = qApp->clipboard()->text();
-      QStringList clip_txt_list = clip_txt.split(QString::fromUtf8("\n"));
+      QStringList clip_txt_list = clip_txt.split(QLatin1Char('\n'));
       clip_txt.clear();
       QStringList clip_txt_list_cleaned;
       foreach (clip_txt, clip_txt_list) {
@@ -71,6 +81,8 @@ class downloadFromURL : public QDialog, private Ui::downloadFromURL{
       }
       if (clip_txt_list_cleaned.size() > 0)
         textUrls->setText(clip_txt_list_cleaned.join("\n"));
+
+      show();
     }
 
     ~downloadFromURL() {}
@@ -78,10 +90,11 @@ class downloadFromURL : public QDialog, private Ui::downloadFromURL{
   signals:
     void urlsReadyToBeDownloaded(const QStringList& torrent_urls);
 
-  public slots:
-    void on_downloadButton_clicked() {
+  private slots:
+    void downloadButtonClicked()
+    {
       QString urls = textUrls->toPlainText();
-      QStringList url_list = urls.split(QString::fromUtf8("\n"));
+      QStringList url_list = urls.split(QLatin1Char('\n'));
       QString url;
       QStringList url_list_cleaned;
       foreach (url, url_list) {
@@ -93,16 +106,12 @@ class downloadFromURL : public QDialog, private Ui::downloadFromURL{
         }
       }
       if (!url_list_cleaned.size()) {
-        QMessageBox::warning(0, tr("No URL entered"), tr("Please type at least one URL."));
+        QMessageBox::warning(this, tr("No URL entered"), tr("Please type at least one URL."));
         return;
       }
       emit urlsReadyToBeDownloaded(url_list_cleaned);
       qDebug("Emitted urlsReadytobedownloaded signal");
-      close();
-    }
-
-    void on_cancelButton_clicked() {
-      close();
+      accept();
     }
 };
 

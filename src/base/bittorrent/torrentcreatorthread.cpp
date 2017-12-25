@@ -28,47 +28,45 @@
  * Contact : chris@qbittorrent.org
  */
 
-#include <libtorrent/entry.hpp>
-#include <libtorrent/bencode.hpp>
-#include <libtorrent/torrent_info.hpp>
-#include <libtorrent/file.hpp>
-#include <libtorrent/storage.hpp>
-#include <libtorrent/hasher.hpp>
-#include <libtorrent/file_pool.hpp>
-#include <libtorrent/create_torrent.hpp>
-#include <QFile>
-#include <QDir>
+#include "torrentcreatorthread.h"
+
+#include <fstream>
 
 #include <boost/bind.hpp>
-#include <iostream>
-#include <fstream>
+#include <libtorrent/bencode.hpp>
+#include <libtorrent/create_torrent.hpp>
+#include <libtorrent/storage.hpp>
+#include <libtorrent/torrent_info.hpp>
+
+#include <QFile>
 
 #include "base/utils/fs.h"
 #include "base/utils/misc.h"
 #include "base/utils/string.h"
-#include "torrentcreatorthread.h"
+
+namespace
+{
+    // do not include files and folders whose
+    // name starts with a .
+    bool fileFilter(const std::string &f)
+    {
+        return !Utils::Fs::fileName(QString::fromStdString(f)).startsWith('.');
+    }
+}
 
 namespace libt = libtorrent;
 using namespace BitTorrent;
-
-// do not include files and folders whose
-// name starts with a .
-bool fileFilter(const std::string &f)
-{
-    return !Utils::Fs::fileName(Utils::String::fromStdString(f)).startsWith('.');
-}
 
 TorrentCreatorThread::TorrentCreatorThread(QObject *parent)
     : QThread(parent)
     , m_private(false)
     , m_pieceSize(0)
-    , m_abort(false)
 {
 }
 
 TorrentCreatorThread::~TorrentCreatorThread()
 {
-    m_abort = true;
+    requestInterruption();
     wait();
 }
 
@@ -84,7 +82,6 @@ void TorrentCreatorThread::create(const QString &inputPath, const QString &saveP
     m_comment = comment;
     m_private = isPrivate;
     m_pieceSize = pieceSize;
-    m_abort = false;
 
     start();
 }
@@ -92,11 +89,6 @@ void TorrentCreatorThread::create(const QString &inputPath, const QString &saveP
 void TorrentCreatorThread::sendProgressSignal(int numHashes, int numPieces)
 {
     emit updateProgress(static_cast<int>((numHashes * 100.) / numPieces));
-}
-
-void TorrentCreatorThread::abortCreation()
-{
-    m_abort = true;
 }
 
 void TorrentCreatorThread::run()
@@ -107,14 +99,15 @@ void TorrentCreatorThread::run()
     try {
         libt::file_storage fs;
         // Adding files to the torrent
-        libt::add_files(fs, Utils::String::toStdString(Utils::Fs::toNativePath(m_inputPath)), fileFilter);
-        if (m_abort) return;
+        libt::add_files(fs, Utils::Fs::toNativePath(m_inputPath).toStdString(), fileFilter);
+
+        if (isInterruptionRequested()) return;
 
         libt::create_torrent t(fs, m_pieceSize);
 
         // Add url seeds
         foreach (const QString &seed, m_urlSeeds)
-            t.add_url_seed(Utils::String::toStdString(seed.trimmed()));
+            t.add_url_seed(seed.trimmed().toStdString());
 
         int tier = 0;
         bool newline = false;
@@ -126,24 +119,26 @@ void TorrentCreatorThread::run()
                 newline = true;
                 continue;
             }
-            t.add_tracker(Utils::String::toStdString(tracker.trimmed()), tier);
+            t.add_tracker(tracker.trimmed().toStdString(), tier);
             newline = false;
         }
-        if (m_abort) return;
+
+        if (isInterruptionRequested()) return;
 
         // calculate the hash for all pieces
         const QString parentPath = Utils::Fs::branchPath(m_inputPath) + "/";
-        libt::set_piece_hashes(t, Utils::String::toStdString(Utils::Fs::toNativePath(parentPath)), boost::bind(&TorrentCreatorThread::sendProgressSignal, this, _1, t.num_pieces()));
+        libt::set_piece_hashes(t, Utils::Fs::toNativePath(parentPath).toStdString(), boost::bind(&TorrentCreatorThread::sendProgressSignal, this, _1, t.num_pieces()));
         // Set qBittorrent as creator and add user comment to
         // torrent_info structure
         t.set_creator(creator_str.toUtf8().constData());
         t.set_comment(m_comment.toUtf8().constData());
         // Is private ?
         t.set_priv(m_private);
-        if (m_abort) return;
+
+        if (isInterruptionRequested()) return;
 
         // create the torrent and print it to out
-        qDebug("Saving to %s", qPrintable(m_savePath));
+        qDebug("Saving to %s", qUtf8Printable(m_savePath));
 #ifdef _MSC_VER
         wchar_t *savePathW = new wchar_t[m_savePath.length() + 1];
         int len = Utils::Fs::toNativePath(m_savePath).toWCharArray(savePathW);
@@ -156,6 +151,8 @@ void TorrentCreatorThread::run()
         if (outfile.fail())
             throw std::exception();
 
+        if (isInterruptionRequested()) return;
+
         libt::bencode(std::ostream_iterator<char>(outfile), t.generate());
         outfile.close();
 
@@ -163,6 +160,16 @@ void TorrentCreatorThread::run()
         emit creationSuccess(m_savePath, parentPath);
     }
     catch (std::exception& e) {
-        emit creationFailure(Utils::String::fromStdString(e.what()));
+        emit creationFailure(QString::fromStdString(e.what()));
     }
+}
+
+int TorrentCreatorThread::calculateTotalPieces(const QString &inputPath, const int pieceSize)
+{
+    if (inputPath.isEmpty())
+        return 0;
+
+    libt::file_storage fs;
+    libt::add_files(fs, Utils::Fs::toNativePath(inputPath).toStdString(), fileFilter);
+    return libt::create_torrent(fs, pieceSize).num_pieces();
 }

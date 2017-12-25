@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2011  Christophe Dumez
+ * Copyright (C) 2011  Christophe Dumez <chris@qbittorrent.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,8 +24,6 @@
  * modify file(s), you may extend this exception to your version of the file(s),
  * but you are not obligated to do so. If you do not wish to do so, delete this
  * exception statement from your version.
- *
- * Contact : chris@qbittorrent.org
  */
 
 #ifndef SHUTDOWNCONFIRMDLG_H
@@ -33,6 +31,7 @@
 
 #include <QDialog>
 #include <QTimer>
+
 #include "base/types.h"
 
 namespace Ui
@@ -40,15 +39,15 @@ namespace Ui
     class confirmShutdownDlg;
 }
 
-class ShutdownConfirmDlg: public QDialog
+class ShutdownConfirmDlg : public QDialog
 {
     Q_OBJECT
 
 public:
-    ShutdownConfirmDlg(const ShutdownDialogAction &action);
+    ShutdownConfirmDlg(QWidget *parent, const ShutdownDialogAction &action);
     ~ShutdownConfirmDlg();
 
-    static bool askForConfirmation(const ShutdownDialogAction &action);
+    static bool askForConfirmation(QWidget *parent, const ShutdownDialogAction &action);
 
 protected:
     void showEvent(QShowEvent *event) override;
@@ -63,7 +62,7 @@ private:
     void updateText();
 
     // Vars
-    Ui::confirmShutdownDlg *ui;
+    Ui::confirmShutdownDlg *m_ui;
     QTimer m_timer;
     int m_timeout;
     ShutdownDialogAction m_action;
