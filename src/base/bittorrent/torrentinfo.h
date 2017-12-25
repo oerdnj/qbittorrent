@@ -101,6 +101,9 @@ namespace BitTorrent
 
         void renameFile(uint index, const QString &newPath);
 
+        bool hasRootFolder() const;
+        void stripRootFolder();
+
         NativePtr nativeInfo() const;
 
     private:

@@ -30,8 +30,8 @@ set(QBT_GUI_HEADERS
 about_imp.h
 addnewtorrentdialog.h
 advancedsettings.h
-advancedsettings.h
 autoexpandabledialog.h
+banlistoptions.h
 categoryfiltermodel.h
 categoryfilterproxymodel.h
 categoryfilterwidget.h
@@ -40,20 +40,26 @@ cookiesmodel.h
 deletionconfirmationdlg.h
 downloadfromurldlg.h
 executionlog.h
+fspathedit.h
+fspathedit_p.h
 guiiconprovider.h
 hidabletabwidget.h
-ico.h
+ipsubnetwhitelistoptionsdialog.h
 loglistwidget.h
 mainwindow.h
 messageboxraised.h
 optionsdlg.h
 previewlistdelegate.h
-previewselect.h
+previewselectdialog.h
 scanfoldersdelegate.h
 shutdownconfirmdlg.h
 speedlimitdlg.h
 statsdialog.h
 statusbar.h
+tagfiltermodel.h
+tagfilterproxymodel.h
+tagfilterwidget.h
+torrentcategorydialog.h
 torrentcontentfiltermodel.h
 torrentcontentmodel.h
 torrentcontentmodelfile.h
@@ -74,24 +80,31 @@ set(QBT_GUI_SOURCES
 addnewtorrentdialog.cpp
 advancedsettings.cpp
 autoexpandabledialog.cpp
+banlistoptions.cpp
 categoryfiltermodel.cpp
 categoryfilterproxymodel.cpp
 categoryfilterwidget.cpp
 cookiesdialog.cpp
 cookiesmodel.cpp
 executionlog.cpp
+fspathedit.cpp
+fspathedit_p.cpp
 guiiconprovider.cpp
-ico.cpp
+ipsubnetwhitelistoptionsdialog.cpp
 loglistwidget.cpp
 mainwindow.cpp
 messageboxraised.cpp
 optionsdlg.cpp
-previewselect.cpp
+previewselectdialog.cpp
 scanfoldersdelegate.cpp
 shutdownconfirmdlg.cpp
 speedlimitdlg.cpp
 statsdialog.cpp
 statusbar.cpp
+tagfiltermodel.cpp
+tagfilterproxymodel.cpp
+tagfilterwidget.cpp
+torrentcategorydialog.cpp
 torrentcontentfiltermodel.cpp
 torrentcontentmodel.cpp
 torrentcontentmodelfile.cpp
@@ -108,6 +121,11 @@ transferlistwidget.cpp
 updownratiodlg.cpp
 )
 
+if (APPLE)
+    list(APPEND QBT_GUI_HEADERS macutilities.h)
+    list(APPEND QBT_GUI_SOURCES macutilities.mm)
+endif (APPLE)
+
 if (WIN32 OR APPLE)
     list(APPEND QBT_GUI_HEADERS programupdater.h)
     list(APPEND QBT_GUI_SOURCES programupdater.cpp)
@@ -116,8 +134,10 @@ endif (WIN32 OR APPLE)
 set(QBT_GUI_FORMS
 mainwindow.ui
 about.ui
+banlistoptions.ui
 cookiesdialog.ui
-preview.ui
+ipsubnetwhitelistoptionsdialog.ui
+previewselectdialog.ui
 login.ui
 downloadfromurldlg.ui
 bandwidth_limit.ui
@@ -128,6 +148,7 @@ addnewtorrentdialog.ui
 autoexpandabledialog.ui
 statsdialog.ui
 optionsdlg.ui
+torrentcategorydialog.ui
 torrentcreatordlg.ui
 shutdownconfirmdlg.ui
 )
@@ -139,3 +160,10 @@ target_link_libraries(qbt_gui qbt_lineedit qbt_powermanagement qbt_rss qbt_prope
     ${QBT_GUI_OPTIONAL_LINK_LIBRARIES} qbt_base
     QtSingleApplication::QtSingleApplication
 )
+if(WIN32)
+    target_link_libraries(qbt_gui Qt5::WinExtras)
+endif(WIN32)
+
+if (APPLE)
+    target_link_libraries(qbt_gui Qt5::MacExtras)
+endif()

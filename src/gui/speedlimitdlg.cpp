@@ -1,6 +1,6 @@
 /*
- * Bittorrent Client using Qt4 and libtorrent.
- * Copyright (C) 2006  Christophe Dumez
+ * Bittorrent Client using Qt and libtorrent.
+ * Copyright (C) 2006  Christophe Dumez <chris@qbittorrent.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,14 +24,12 @@
  * modify file(s), you may extend this exception to your version of the file(s),
  * but you are not obligated to do so. If you do not wish to do so, delete this
  * exception statement from your version.
- *
- * Contact : chris@qbittorrent.org
  */
 
 #include "speedlimitdlg.h"
 
-#include "ui_bandwidth_limit.h"
 #include "base/unicodestrings.h"
+#include "ui_bandwidth_limit.h"
 
 SpeedLimitDialog::SpeedLimitDialog(QWidget *parent)
     : QDialog(parent)
@@ -39,10 +37,10 @@ SpeedLimitDialog::SpeedLimitDialog(QWidget *parent)
 {
     m_ui->setupUi(this);
     qDebug("Bandwidth allocation dialog creation");
+
     // Connect to slots
     connect(m_ui->bandwidthSlider, SIGNAL(valueChanged(int)), this, SLOT(updateSpinValue(int)));
     connect(m_ui->spinBandwidth, SIGNAL(valueChanged(int)), this, SLOT(updateSliderValue(int)));
-    move(Utils::Misc::screenCenter(this));
 }
 
 SpeedLimitDialog::~SpeedLimitDialog()
@@ -52,9 +50,9 @@ SpeedLimitDialog::~SpeedLimitDialog()
 }
 
 // -2: if cancel
-long SpeedLimitDialog::askSpeedLimit(bool *ok, QString title, long default_value, long max_value)
+long SpeedLimitDialog::askSpeedLimit(QWidget *parent, bool *ok, QString title, long default_value, long max_value)
 {
-    SpeedLimitDialog dlg;
+    SpeedLimitDialog dlg(parent);
     dlg.setWindowTitle(title);
     dlg.setupDialog(max_value / 1024., default_value / 1024.);
     if (dlg.exec() == QDialog::Accepted) {
@@ -76,7 +74,7 @@ void SpeedLimitDialog::updateSpinValue(int val) const
     if (val <= 0) {
         m_ui->spinBandwidth->setValue(0);
         m_ui->spinBandwidth->setSpecialValueText(QString::fromUtf8(C_INFINITY));
-        m_ui->spinBandwidth->setSuffix(QString::fromUtf8(""));
+        m_ui->spinBandwidth->setSuffix("");
     }
     else {
         m_ui->spinBandwidth->setValue(val);
@@ -89,7 +87,7 @@ void SpeedLimitDialog::updateSliderValue(int val) const
     if (val <= 0) {
         m_ui->spinBandwidth->setValue(0);
         m_ui->spinBandwidth->setSpecialValueText(QString::fromUtf8(C_INFINITY));
-        m_ui->spinBandwidth->setSuffix(QString::fromUtf8(""));
+        m_ui->spinBandwidth->setSuffix("");
     }
     if (val > m_ui->bandwidthSlider->maximum())
         m_ui->bandwidthSlider->setMaximum(val);

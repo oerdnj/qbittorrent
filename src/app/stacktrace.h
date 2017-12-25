@@ -14,7 +14,7 @@
 /** Print a demangled stack backtrace of the caller function to FILE* out. */
 static inline void print_stacktrace(FILE *out = stderr, unsigned int max_frames = 63)
 {
-    fprintf(out, "stack trace:\n");
+    fprintf(out, "Stack trace:\n");
 
     // storage array for stack trace address data
     std::vector<void *> addrlist(max_frames + 1);
@@ -33,7 +33,7 @@ static inline void print_stacktrace(FILE *out = stderr, unsigned int max_frames 
 
     // allocate string which will be filled with the demangled function name
     size_t funcnamesize = 256;
-    char *funcname = (char *)malloc(funcnamesize);
+    char *funcname = static_cast<char *>(malloc(funcnamesize));
 
     int functionNamesFound = 0;
     // iterate over the returned symbol lines. skip the first, it is the

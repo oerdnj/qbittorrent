@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2011  Christophe Dumez
+ * Copyright (C) 2011  Christophe Dumez <chris@qbittorrent.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,8 +24,6 @@
  * modify file(s), you may extend this exception to your version of the file(s),
  * but you are not obligated to do so. If you do not wish to do so, delete this
  * exception statement from your version.
- *
- * Contact : chris@qbittorrent.org
  */
 
 /*
@@ -33,22 +31,23 @@
  */
 
 #include "smtp.h"
-#include "base/preferences.h"
-#include "base/logger.h"
 
+#include <QCryptographicHash>
+#include <QDebug>
+#include <QHostAddress>
+#include <QHostInfo>
+#include <QNetworkInterface>
+#include <QStringList>
+#include <QTextCodec>
 #include <QTextStream>
 #ifndef QT_NO_OPENSSL
 #include <QSslSocket>
 #else
 #include <QTcpSocket>
 #endif
-#include <QTextCodec>
-#include <QDebug>
-#include <QHostAddress>
-#include <QHostInfo>
-#include <QNetworkInterface>
-#include <QCryptographicHash>
-#include <QStringList>
+
+#include "base/logger.h"
+#include "base/preferences.h"
 
 namespace
 {
@@ -194,7 +193,7 @@ void Smtp::readyRead()
                 ehlo();
             }
             else {
-                logError("Connection failed, unrecognized reply: " + line);
+                logError(QLatin1String("Connection failed, unrecognized reply: ") + line);
                 m_state = Close;
             }
             break;
@@ -231,7 +230,7 @@ void Smtp::readyRead()
             }
             else {
                 // Authentication failed!
-                logError("Authentication failed, msg: " + line);
+                logError(QLatin1String("Authentication failed, msg: ") + line);
                 m_state = Close;
             }
             break;
@@ -242,7 +241,7 @@ void Smtp::readyRead()
                 m_state = Data;
             }
             else {
-                logError("<mail from> was rejected by server, msg: " + line);
+                logError(QLatin1String("<mail from> was rejected by server, msg: ") + line);
                 m_state = Close;
             }
             break;
@@ -253,7 +252,7 @@ void Smtp::readyRead()
                 m_state = Body;
             }
             else {
-                logError("<Rcpt to> was rejected by server, msg: " + line);
+                logError(QLatin1String("<Rcpt to> was rejected by server, msg: ") + line);
                 m_state = Close;
             }
             break;
@@ -264,7 +263,7 @@ void Smtp::readyRead()
                 m_state = Quit;
             }
             else {
-                logError("<data> was rejected by server, msg: " + line);
+                logError(QLatin1String("<data> was rejected by server, msg: ") + line);
                 m_state = Close;
             }
             break;
@@ -276,7 +275,7 @@ void Smtp::readyRead()
                 m_state = Close;
             }
             else {
-                logError("Message was rejected by the server, error: " + line);
+                logError(QLatin1String("Message was rejected by the server, error: ") + line);
                 m_state = Close;
             }
             break;

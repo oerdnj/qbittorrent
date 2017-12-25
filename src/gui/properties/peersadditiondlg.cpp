@@ -1,6 +1,6 @@
 /*
- * Bittorrent Client using Qt4 and libtorrent.
- * Copyright (C) 2006  Christophe Dumez
+ * Bittorrent Client using Qt and libtorrent.
+ * Copyright (C) 2006  Christophe Dumez <chris@qbittorrent.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,14 +24,12 @@
  * modify file(s), you may extend this exception to your version of the file(s),
  * but you are not obligated to do so. If you do not wish to do so, delete this
  * exception statement from your version.
- *
- * Contact : chris@qbittorrent.org
  */
 
 #include "peersadditiondlg.h"
 
-#include <QMessageBox>
 #include <QHostAddress>
+#include <QMessageBox>
 
 #include "ui_peersadditiondlg.h"
 
@@ -42,10 +40,8 @@ PeersAdditionDlg::PeersAdditionDlg(QWidget *parent)
     m_ui->setupUi(this);
     connect(m_ui->buttonBox, SIGNAL(accepted()), this, SLOT(validateInput()));
 
-#ifdef QBT_USES_QT5
     m_ui->label_format->hide();
     m_ui->peers_txt->setPlaceholderText("Format: IPv4:port / [IPv6]:port");
-#endif
 }
 
 PeersAdditionDlg::~PeersAdditionDlg()
@@ -53,9 +49,9 @@ PeersAdditionDlg::~PeersAdditionDlg()
     delete m_ui;
 }
 
-QList<BitTorrent::PeerAddress> PeersAdditionDlg::askForPeers()
+QList<BitTorrent::PeerAddress> PeersAdditionDlg::askForPeers(QWidget *parent)
 {
-    PeersAdditionDlg dlg;
+    PeersAdditionDlg dlg(parent);
     dlg.exec();
     return dlg.m_peersList;
 }

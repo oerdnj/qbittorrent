@@ -1,7 +1,7 @@
 /*
  * Bittorrent Client using Qt4 and libtorrent.
  * Copyright (C) 2015  Vladimir Golovnev <glassez@yandex.ru>
- * Copyright (C) 2006  Christophe Dumez
+ * Copyright (C) 2006  Christophe Dumez <chris@qbittorrent.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,16 +25,15 @@
  * modify file(s), you may extend this exception to your version of the file(s),
  * but you are not obligated to do so. If you do not wish to do so, delete this
  * exception statement from your version.
- *
- * Contact : chris@qbittorrent.org
  */
 
 #include <vector>
+
 #include <libtorrent/bencode.hpp>
 #include <libtorrent/entry.hpp>
 
-#include "base/preferences.h"
 #include "base/http/server.h"
+#include "base/preferences.h"
 #include "base/utils/string.h"
 #include "tracker.h"
 
@@ -65,8 +64,8 @@ libtorrent::entry Peer::toEntry(bool noPeerId) const
 {
     libtorrent::entry::dictionary_type peerMap;
     if (!noPeerId)
-        peerMap["id"] = libtorrent::entry(Utils::String::toStdString(peerId));
-    peerMap["ip"] = libtorrent::entry(Utils::String::toStdString(ip));
+        peerMap["id"] = libtorrent::entry(peerId.toStdString());
+    peerMap["ip"] = libtorrent::entry(ip.toStdString());
     peerMap["port"] = libtorrent::entry(port);
 
     return libtorrent::entry(peerMap);
@@ -109,14 +108,14 @@ Http::Response Tracker::processRequest(const Http::Request &request, const Http:
 {
     clear(); // clear response
 
-    //qDebug("Tracker received the following request:\n%s", qPrintable(parser.toString()));
+    //qDebug("Tracker received the following request:\n%s", qUtf8Printable(parser.toString()));
     // Is request a GET request?
     if (request.method != "GET") {
-        qDebug("Tracker: Unsupported HTTP request: %s", qPrintable(request.method));
+        qDebug("Tracker: Unsupported HTTP request: %s", qUtf8Printable(request.method));
         status(100, "Invalid request type");
     }
     else if (!request.path.startsWith("/announce", Qt::CaseInsensitive)) {
-        qDebug("Tracker: Unrecognized path: %s", qPrintable(request.path));
+        qDebug("Tracker: Unrecognized path: %s", qUtf8Printable(request.path));
         status(100, "Invalid request type");
     }
     else {
@@ -146,7 +145,7 @@ void Tracker::respondToAnnounceRequest()
     annonceReq.infoHash = gets.value("info_hash");
     // info_hash cannot be longer than 20 bytes
     /*if (annonce_req.info_hash.toLatin1().length() > 20) {
-        qDebug("Tracker: Info_hash is not 20 byte long: %s (%d)", qPrintable(annonce_req.info_hash), annonce_req.info_hash.toLatin1().length());
+        qDebug("Tracker: Info_hash is not 20 byte long: %s (%d)", qUtf8Printable(annonce_req.info_hash), annonce_req.info_hash.toLatin1().length());
         status(150, "Invalid infohash");
         return;
       }*/
@@ -160,7 +159,7 @@ void Tracker::respondToAnnounceRequest()
     annonceReq.peer.peerId = gets.value("peer_id");
     // peer_id cannot be longer than 20 bytes
     /*if (annonce_req.peer.peer_id.length() > 20) {
-        qDebug("Tracker: peer_id is not 20 byte long: %s", qPrintable(annonce_req.peer.peer_id));
+        qDebug("Tracker: peer_id is not 20 byte long: %s", qUtf8Printable(annonce_req.peer.peer_id));
         status(151, "Invalid peerid");
         return;
       }*/
@@ -183,7 +182,7 @@ void Tracker::respondToAnnounceRequest()
     annonceReq.event = "";
     if (gets.contains("event")) {
         annonceReq.event = gets.value("event");
-        qDebug("Tracker: event is %s", qPrintable(annonceReq.event));
+        qDebug("Tracker: event is %s", qUtf8Printable(annonceReq.event));
     }
 
     // 5. Get numwant

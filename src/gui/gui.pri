@@ -2,7 +2,6 @@ INCLUDEPATH += $$PWD
 
 include(lineedit/lineedit.pri)
 include(properties/properties.pri)
-include(rss/rss.pri)
 include(powermanagement/powermanagement.pri)
 unix:!macx:dbus: include(qtnotify/qtnotify.pri)
 
@@ -12,6 +11,7 @@ HEADERS += \
     $$PWD/transferlistdelegate.h \
     $$PWD/transferlistfilterswidget.h \
     $$PWD/transferlistsortmodel.h \
+    $$PWD/torrentcategorydialog.h \
     $$PWD/torrentcontentmodel.h \
     $$PWD/torrentcontentmodelitem.h \
     $$PWD/torrentcontentmodelfolder.h \
@@ -20,10 +20,8 @@ HEADERS += \
     $$PWD/torrentcontenttreeview.h \
     $$PWD/deletionconfirmationdlg.h \
     $$PWD/statusbar.h \
-    $$PWD/ico.h \
     $$PWD/speedlimitdlg.h \
     $$PWD/about_imp.h \
-    $$PWD/previewselect.h \
     $$PWD/previewlistdelegate.h \
     $$PWD/downloadfromurldlg.h \
     $$PWD/trackerlogin.h \
@@ -52,15 +50,28 @@ HEADERS += \
     $$PWD/cookiesdialog.h \
     $$PWD/categoryfiltermodel.h \
     $$PWD/categoryfilterproxymodel.h \
-    $$PWD/categoryfilterwidget.h
+    $$PWD/categoryfilterwidget.h \
+    $$PWD/tagfiltermodel.h \
+    $$PWD/tagfilterproxymodel.h \
+    $$PWD/tagfilterwidget.h \
+    $$PWD/banlistoptions.h \
+    $$PWD/ipsubnetwhitelistoptionsdialog.h \
+    $$PWD/rss/rsswidget.h \
+    $$PWD/rss/articlelistwidget.h \
+    $$PWD/rss/feedlistwidget.h \
+    $$PWD/rss/automatedrssdownloader.h \
+    $$PWD/rss/htmlbrowser.h \
+    $$PWD/fspathedit.h \
+    $$PWD/fspathedit_p.h \
+    $$PWD/previewselectdialog.h \
 
 SOURCES += \
     $$PWD/mainwindow.cpp \
-    $$PWD/ico.cpp \
     $$PWD/transferlistwidget.cpp \
     $$PWD/transferlistsortmodel.cpp \
     $$PWD/transferlistdelegate.cpp \
     $$PWD/transferlistfilterswidget.cpp \
+    $$PWD/torrentcategorydialog.cpp \
     $$PWD/torrentcontentmodel.cpp \
     $$PWD/torrentcontentmodelitem.cpp \
     $$PWD/torrentcontentmodelfolder.cpp \
@@ -69,7 +80,6 @@ SOURCES += \
     $$PWD/torrentcontenttreeview.cpp \
     $$PWD/executionlog.cpp \
     $$PWD/speedlimitdlg.cpp \
-    $$PWD/previewselect.cpp \
     $$PWD/guiiconprovider.cpp \
     $$PWD/updownratiodlg.cpp \
     $$PWD/loglistwidget.cpp \
@@ -95,17 +105,35 @@ SOURCES += \
     $$PWD/cookiesdialog.cpp \
     $$PWD/categoryfiltermodel.cpp \
     $$PWD/categoryfilterproxymodel.cpp \
-    $$PWD/categoryfilterwidget.cpp
+    $$PWD/categoryfilterwidget.cpp \
+    $$PWD/tagfiltermodel.cpp \
+    $$PWD/tagfilterproxymodel.cpp \
+    $$PWD/tagfilterwidget.cpp \
+    $$PWD/banlistoptions.cpp \
+    $$PWD/ipsubnetwhitelistoptionsdialog.cpp \
+    $$PWD/rss/rsswidget.cpp \
+    $$PWD/rss/articlelistwidget.cpp \
+    $$PWD/rss/feedlistwidget.cpp \
+    $$PWD/rss/automatedrssdownloader.cpp \
+    $$PWD/rss/htmlbrowser.cpp \
+    $$PWD/fspathedit.cpp \
+    $$PWD/fspathedit_p.cpp \
+    $$PWD/previewselectdialog.cpp \
 
 win32|macx {
     HEADERS += $$PWD/programupdater.h
     SOURCES += $$PWD/programupdater.cpp
 }
 
+macx {
+    HEADERS += $$PWD/macutilities.h
+    OBJECTIVE_SOURCES += $$PWD/macutilities.mm
+}
+
 FORMS += \
     $$PWD/mainwindow.ui \
     $$PWD/about.ui \
-    $$PWD/preview.ui \
+    $$PWD/previewselectdialog.ui \
     $$PWD/login.ui \
     $$PWD/downloadfromurldlg.ui \
     $$PWD/bandwidth_limit.ui \
@@ -122,6 +150,11 @@ FORMS += \
     $$PWD/search/pluginselectdlg.ui \
     $$PWD/search/pluginsourcedlg.ui \
     $$PWD/search/searchtab.ui \
-    $$PWD/cookiesdialog.ui
+    $$PWD/cookiesdialog.ui \
+    $$PWD/banlistoptions.ui \
+    $$PWD/ipsubnetwhitelistoptionsdialog.ui \
+    $$PWD/rss/rsswidget.ui \
+    $$PWD/rss/automatedrssdownloader.ui \
+    $$PWD/torrentcategorydialog.ui
 
 RESOURCES += $$PWD/about.qrc

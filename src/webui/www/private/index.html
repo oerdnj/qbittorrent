@@ -18,6 +18,7 @@
     <![endif]-->
     <script type="text/javascript" src="scripts/mocha-yc.js"></script>
     <script type="text/javascript" src="scripts/mocha-init.js"></script>
+    <script type="text/javascript" src="scripts/clipboard.min.js"></script>
     <script type="text/javascript" src="scripts/misc.js"></script>
     <script type="text/javascript" src="scripts/progressbar.js"></script>
     <script type="text/javascript" src="scripts/dynamicTable.js" charset="utf-8"></script>
@@ -69,7 +70,7 @@
                     <li>
                         <a class="returnFalse">QBT_TR(&Tools)QBT_TR[CONTEXT=MainWindow]</a>
                         <ul>
-                            <li><a id="preferencesLink"><img class="MyMenuIcon" src="theme/preferences-system" alt="QBT_TR(&Options...)QBT_TR[CONTEXT=MainWindow]" width="16" height="16" onload="fixPNG(this)"/>QBT_TR(&Options...)QBT_TR[CONTEXT=MainWindow]</a></li>
+                            <li><a id="preferencesLink"><img class="MyMenuIcon" src="theme/configure" alt="QBT_TR(&Options...)QBT_TR[CONTEXT=MainWindow]" width="16" height="16" onload="fixPNG(this)"/>QBT_TR(&Options...)QBT_TR[CONTEXT=MainWindow]</a></li>
                         </ul>
                     </li>
                     <li>
@@ -95,7 +96,7 @@
                     <a id="decreasePrioButton"><img class="mochaToolButton" title="QBT_TR(Decrease Priority)QBT_TR[CONTEXT=MainWindow]" src="theme/go-down" alt="QBT_TR(Decrease Priority)QBT_TR[CONTEXT=MainWindow]" width="24" height="24" onload="fixPNG(this)"/></a>
                     <a id="bottomPrioButton"><img class="mochaToolButton" title="QBT_TR(Minimum Priority)QBT_TR[CONTEXT=MainWindow]" src="theme/go-bottom" alt="QBT_TR(Minimum Priority)QBT_TR[CONTEXT=MainWindow]" width="24" height="24" onload="fixPNG(this)"/></a>
                 </span>
-                <a id="preferencesButton" class="divider"><img class="mochaToolButton" title="QBT_TR(Options)QBT_TR[CONTEXT=OptionsDialog]" src="theme/preferences-system" alt="QBT_TR(Options)QBT_TR[CONTEXT=OptionsDialog]" width="24" height="24" onload="fixPNG(this)"/></a>
+                <a id="preferencesButton" class="divider"><img class="mochaToolButton" title="QBT_TR(Options)QBT_TR[CONTEXT=OptionsDialog]" src="theme/configure" alt="QBT_TR(Options)QBT_TR[CONTEXT=OptionsDialog]" width="24" height="24" onload="fixPNG(this)"/></a>
             </div>
         </div>
         <div id="pageWrapper">
@@ -107,9 +108,22 @@
         <li><a href="#ForceStart"><img src="theme/media-seek-forward" alt="QBT_TR(Force Resume)QBT_TR[CONTEXT=TransferListWidget]"/> QBT_TR(Force Resume)QBT_TR[CONTEXT=TransferListWidget]</a></li>
         <li class="separator"><a href="#Delete"><img src="theme/list-remove" alt="QBT_TR(Delete)QBT_TR[CONTEXT=TransferListWidget]"/> QBT_TR(Delete)QBT_TR[CONTEXT=TransferListWidget]</a></li>
         <li class="separator">
+            <a href="#SetLocation"><img src="theme/inode-directory" alt="QBT_TR(Set location...)QBT_TR[CONTEXT=TransferListWidget]"/> QBT_TR(Set location...)QBT_TR[CONTEXT=TransferListWidget]</a>
+            <a href="#Rename"><img src="theme/edit-rename" alt="QBT_TR(Rename...)QBT_TR[CONTEXT=TransferListWidget]"/> QBT_TR(Rename...)QBT_TR[CONTEXT=TransferListWidget]</a>
+        </li>
+        <li>
             <a href="#Category" class="arrow-right"><img src="theme/view-categories" alt="QBT_TR(Category)QBT_TR[CONTEXT=TransferListWidget]"/> QBT_TR(Category)QBT_TR[CONTEXT=TransferListWidget]</a>
             <ul id="contextCategoryList" class="scrollableMenu"></ul>
         </li>
+        <li>
+            <a href="#AutoTorrentManagement"><img src="theme/checked" alt="QBT_TR(Automatic Torrent Management)QBT_TR[CONTEXT=TransferListWidget]"/> QBT_TR(Automatic Torrent Management)QBT_TR[CONTEXT=TransferListWidget]</a>
+        </li>
+        <li class="separator"><a href="#DownloadLimit"><img src="theme/kt-set-max-download-speed" alt="QBT_TR(Limit download rate...)QBT_TR[CONTEXT=TransferListWidget]"/> QBT_TR(Limit download rate...)QBT_TR[CONTEXT=TransferListWidget]</a></li>
+        <li><a href="#UploadLimit"><img src="theme/kt-set-max-upload-speed" alt="QBT_TR(Limit upload rate...)QBT_TR[CONTEXT=TransferListWidget]"/> QBT_TR(Limit upload rate...)QBT_TR[CONTEXT=TransferListWidget]</a></li>
+        <li><a href="#SuperSeeding"><img src="theme/checked" alt="QBT_TR(Super seeding mode)QBT_TR[CONTEXT=TransferListWidget]"/> QBT_TR(Super seeding mode)QBT_TR[CONTEXT=TransferListWidget]</a></li>
+        <li class="separator"><a href="#SequentialDownload"><img src="theme/checked" alt="QBT_TR(Download in sequential order)QBT_TR[CONTEXT=TransferListWidget]"/> QBT_TR(Download in sequential order)QBT_TR[CONTEXT=TransferListWidget]</a></li>
+        <li><a href="#FirstLastPiecePrio"><img src="theme/checked" alt="QBT_TR(Download first and last pieces first)QBT_TR[CONTEXT=TransferListWidget]"/> QBT_TR(Download first and last pieces first)QBT_TR[CONTEXT=TransferListWidget]</a></li>
+        <li class="separator"><a href="#ForceRecheck"><img src="theme/document-edit-verify" alt="QBT_TR(Force recheck)QBT_TR[CONTEXT=TransferListWidget]"/>  QBT_TR(Force recheck)QBT_TR[CONTEXT=TransferListWidget]</a></li>
         <li id="queueingMenuItems" class="separator">
             <a href="#priority" class="arrow-right"><span style="display: inline-block; width:16px"></span> QBT_TR(Priority)QBT_TR[CONTEXT=TransferListWidget]</a>
             <ul>
@@ -119,12 +133,9 @@
                 <li><a href="#prioBottom"><img src="theme/go-bottom" alt="QBT_TR(Move to bottom)QBT_TR[CONTEXT=TransferListWidget]"/> QBT_TR(Move to bottom)QBT_TR[CONTEXT=TransferListWidget]</a></li>
             </ul>
         </li>
-        <li class="separator"><a href="#DownloadLimit"><img src="images/skin/downloadLimit.png" alt="QBT_TR(Limit download rate...)QBT_TR[CONTEXT=TransferListWidget]"/> QBT_TR(Limit download rate...)QBT_TR[CONTEXT=TransferListWidget]</a></li>
-        <li><a href="#UploadLimit"><img src="images/skin/uploadLimit.png" alt="QBT_TR(Limit upload rate...)QBT_TR[CONTEXT=TransferListWidget]"/> QBT_TR(Limit upload rate...)QBT_TR[CONTEXT=TransferListWidget]</a></li>
-        <li><a href="#SuperSeeding"><img src="theme/checked" alt="QBT_TR(Super seeding mode)QBT_TR[CONTEXT=TransferListWidget]"/> QBT_TR(Super seeding mode)QBT_TR[CONTEXT=TransferListWidget]</a></li>
-        <li class="separator"><a href="#SequentialDownload"><img src="theme/checked" alt="QBT_TR(Download in sequential order)QBT_TR[CONTEXT=TransferListWidget]"/> QBT_TR(Download in sequential order)QBT_TR[CONTEXT=TransferListWidget]</a></li>
-        <li><a href="#FirstLastPiecePrio"><img src="theme/checked" alt="QBT_TR(Download first and last pieces first)QBT_TR[CONTEXT=TransferListWidget]"/> QBT_TR(Download first and last pieces first)QBT_TR[CONTEXT=TransferListWidget]</a></li>
-        <li class="separator"><a href="#ForceRecheck"><img src="theme/document-edit-verify" alt="QBT_TR(Force recheck)QBT_TR[CONTEXT=TransferListWidget]"/>  QBT_TR(Force recheck)QBT_TR[CONTEXT=TransferListWidget]</a></li>
+        <li class="separator"><a href="#" id="CopyName" class="copyToClipboard"><img src="theme/edit-copy" alt="QBT_TR(Copy name)QBT_TR[CONTEXT=TransferListWidget]"/>  QBT_TR(Copy name)QBT_TR[CONTEXT=TransferListWidget]</a></li>
+        <li><a href="#" id="CopyHash" class="copyToClipboard"><img src="theme/edit-copy" alt="QBT_TR(Copy hash)QBT_TR[CONTEXT=TransferListWidget]"/>  QBT_TR(Copy hash)QBT_TR[CONTEXT=TransferListWidget]</a></li>
+        <li><a href="#" id="CopyMagnetLink" class="copyToClipboard"><img src="theme/kt-magnet" alt="QBT_TR(Copy magnet link)QBT_TR[CONTEXT=TransferListWidget]"/>  QBT_TR(Copy magnet link)QBT_TR[CONTEXT=TransferListWidget]</a></li>
     </ul>
     <ul id="categoriesFilterMenu" class="contextMenu">
         <li><a href="#CreateCategory"><img src="theme/list-add" alt="QBT_TR(Add category...)QBT_TR[CONTEXT=CategoryFilterWidget]"/> QBT_TR(Add category...)QBT_TR[CONTEXT=CategoryFilterWidget]</a></li>
@@ -145,9 +156,9 @@
                     <td class="statusBarSeparator"></td>
                     <td style="cursor:pointer;"><img id="alternativeSpeedLimits" alt="QBT_TR(Alternative speed limits)QBT_TR[CONTEXT=MainWindow]" src="images/slow_off.png" /></td>
                     <td class="statusBarSeparator"></td>
-                    <td class="speedLabel"><img src="images/skin/download.png" alt="" style="padding-right: 5px; margin-bottom: -4px;"><span id="DlInfos"></span></td>
+                    <td class="speedLabel"><img src="images/skin/download.png" alt="" style="height: 1.4em; padding-right: 5px; margin-bottom: -4px;"><span id="DlInfos"></span></td>
                     <td class="statusBarSeparator"></td>
-                    <td class="speedLabel"><img src="images/skin/seeding.png" alt="" style="padding-right: 5px; margin-bottom: -3px;"><span id="UpInfos"></span></td>
+                    <td class="speedLabel"><img src="images/skin/seeding.png" alt="" style="height: 1.4em; padding-right: 5px; margin-bottom: -3px;"><span id="UpInfos"></span></td>
                 </tr>
             </table>
         </div>

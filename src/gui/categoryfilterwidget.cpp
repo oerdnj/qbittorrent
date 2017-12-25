@@ -36,10 +36,10 @@
 
 #include "base/bittorrent/session.h"
 #include "base/utils/misc.h"
-#include "autoexpandabledialog.h"
 #include "categoryfiltermodel.h"
 #include "categoryfilterproxymodel.h"
 #include "guiiconprovider.h"
+#include "torrentcategorydialog.h"
 
 namespace
 {
@@ -71,19 +71,22 @@ CategoryFilterWidget::CategoryFilterWidget(QWidget *parent)
     setUniformRowHeights(true);
     setHeaderHidden(true);
     setIconSize(Utils::Misc::smallIconSize());
-#if defined(Q_OS_MAC)
+#ifdef Q_OS_MAC
     setAttribute(Qt::WA_MacShowFocusRect, false);
 #endif
+    m_defaultIndentation = indentation();
+    if (!BitTorrent::Session::instance()->isSubcategoriesEnabled())
+        setIndentation(0);
     setContextMenuPolicy(Qt::CustomContextMenu);
     sortByColumn(0, Qt::AscendingOrder);
     setCurrentIndex(model()->index(0, 0));
 
-    connect(this, SIGNAL(collapsed(QModelIndex)), SLOT(callUpdateGeometry()));
-    connect(this, SIGNAL(expanded(QModelIndex)), SLOT(callUpdateGeometry()));
-    connect(this, SIGNAL(customContextMenuRequested(QPoint)), SLOT(showMenu(QPoint)));
-    connect(selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex))
-            , SLOT(onCurrentRowChanged(QModelIndex,QModelIndex)));
-    connect(model(), SIGNAL(modelReset()), SLOT(callUpdateGeometry()));
+    connect(this, &QTreeView::collapsed, this, &CategoryFilterWidget::callUpdateGeometry);
+    connect(this, &QTreeView::expanded, this, &CategoryFilterWidget::callUpdateGeometry);
+    connect(this, &QWidget::customContextMenuRequested, this, &CategoryFilterWidget::showMenu);
+    connect(selectionModel(), &QItemSelectionModel::currentRowChanged
+            , this, &CategoryFilterWidget::onCurrentRowChanged);
+    connect(model(), &QAbstractItemModel::modelReset, this, &CategoryFilterWidget::callUpdateGeometry);
 }
 
 QString CategoryFilterWidget::currentCategory() const
@@ -110,7 +113,7 @@ void CategoryFilterWidget::showMenu(QPoint)
     QAction *addAct = menu.addAction(
                           GuiIconProvider::instance()->getIcon("list-add")
                           , tr("Add category..."));
-    connect(addAct, SIGNAL(triggered()), SLOT(addCategory()));
+    connect(addAct, &QAction::triggered, this, &CategoryFilterWidget::addCategory);
 
     auto selectedRows = selectionModel()->selectedRows();
     if (!selectedRows.empty() && !CategoryFilterModel::isSpecialItem(selectedRows.first())) {
@@ -118,63 +121,65 @@ void CategoryFilterWidget::showMenu(QPoint)
             QAction *addSubAct = menu.addAction(
                         GuiIconProvider::instance()->getIcon("list-add")
                         , tr("Add subcategory..."));
-            connect(addSubAct, SIGNAL(triggered()), SLOT(addSubcategory()));
+            connect(addSubAct, &QAction::triggered, this, &CategoryFilterWidget::addSubcategory);
         }
+
+        QAction *editAct = menu.addAction(
+                    GuiIconProvider::instance()->getIcon("document-edit")
+                    , tr("Edit category..."));
+        connect(editAct, &QAction::triggered, this, &CategoryFilterWidget::editCategory);
 
         QAction *removeAct = menu.addAction(
                         GuiIconProvider::instance()->getIcon("list-remove")
                         , tr("Remove category"));
-        connect(removeAct, SIGNAL(triggered()), SLOT(removeCategory()));
+        connect(removeAct, &QAction::triggered, this, &CategoryFilterWidget::removeCategory);
     }
 
     QAction *removeUnusedAct = menu.addAction(
                                    GuiIconProvider::instance()->getIcon("list-remove")
                                    , tr("Remove unused categories"));
-    connect(removeUnusedAct, SIGNAL(triggered()), SLOT(removeUnusedCategories()));
+    connect(removeUnusedAct, &QAction::triggered, this, &CategoryFilterWidget::removeUnusedCategories);
 
     menu.addSeparator();
 
     QAction *startAct = menu.addAction(
                             GuiIconProvider::instance()->getIcon("media-playback-start")
                             , tr("Resume torrents"));
-    connect(startAct, SIGNAL(triggered()), SIGNAL(actionResumeTorrentsTriggered()));
+    connect(startAct, &QAction::triggered, this, &CategoryFilterWidget::actionResumeTorrentsTriggered);
 
     QAction *pauseAct = menu.addAction(
                             GuiIconProvider::instance()->getIcon("media-playback-pause")
                             , tr("Pause torrents"));
-    connect(pauseAct, SIGNAL(triggered()), SIGNAL(actionPauseTorrentsTriggered()));
+    connect(pauseAct, &QAction::triggered, this, &CategoryFilterWidget::actionPauseTorrentsTriggered);
 
     QAction *deleteTorrentsAct = menu.addAction(
                                      GuiIconProvider::instance()->getIcon("edit-delete")
                                      , tr("Delete torrents"));
-    connect(deleteTorrentsAct, SIGNAL(triggered()), SIGNAL(actionDeleteTorrentsTriggered()));
+    connect(deleteTorrentsAct, &QAction::triggered, this, &CategoryFilterWidget::actionDeleteTorrentsTriggered);
 
     menu.exec(QCursor::pos());
 }
 
 void CategoryFilterWidget::callUpdateGeometry()
 {
+    if (!BitTorrent::Session::instance()->isSubcategoriesEnabled())
+        setIndentation(0);
+    else
+        setIndentation(m_defaultIndentation);
+
     updateGeometry();
 }
 
 QSize CategoryFilterWidget::sizeHint() const
 {
-#ifdef QBT_USES_QT5
-    return viewportSizeHint();
-#else
-    int lastRow = model()->rowCount() - 1;
-    QModelIndex last = model()->index(lastRow, 0);
-    while ((lastRow >= 0) && isExpanded(last)) {
-        lastRow = model()->rowCount(last) - 1;
-        last = model()->index(lastRow, 0, last);
-    }
-    const QRect deepestRect = visualRect(last);
-
-    if (!deepestRect.isValid())
-        return viewport()->sizeHint();
-
-    return QSize(header()->length(), deepestRect.bottom() + 1);
-#endif
+    // The sizeHint must depend on viewportSizeHint,
+    // otherwise widget will not correctly adjust the
+    // size when subcategories are used.
+    const QSize viewportSize {viewportSizeHint()};
+    return {
+        viewportSize.width(),
+        viewportSize.height() + static_cast<int>(0.5 * sizeHintForRow(0))
+    };
 }
 
 QSize CategoryFilterWidget::minimumSizeHint() const
@@ -199,53 +204,19 @@ void CategoryFilterWidget::rowsInserted(const QModelIndex &parent, int start, in
     updateGeometry();
 }
 
-QString CategoryFilterWidget::askCategoryName()
-{
-    bool ok;
-    QString category = "";
-    bool invalid;
-    do {
-        invalid = false;
-        category = AutoExpandableDialog::getText(
-                    this, tr("New Category"), tr("Category:"), QLineEdit::Normal, category, &ok);
-        if (ok && !category.isEmpty()) {
-            if (!BitTorrent::Session::isValidCategoryName(category)) {
-                QMessageBox::warning(
-                            this, tr("Invalid category name")
-                            , tr("Category name must not contain '\\'.\n"
-                                 "Category name must not start/end with '/'.\n"
-                                 "Category name must not contain '//' sequence."));
-                invalid = true;
-            }
-        }
-    } while (invalid);
-
-    return ok ? category : QString();
-}
-
 void CategoryFilterWidget::addCategory()
 {
-    const QString category = askCategoryName();
-    if (category.isEmpty()) return;
-
-    if (BitTorrent::Session::instance()->categories().contains(category))
-        QMessageBox::warning(this, tr("Category exists"), tr("Category name already exists."));
-    else
-        BitTorrent::Session::instance()->addCategory(category);
+    TorrentCategoryDialog::createCategory(this);
 }
 
 void CategoryFilterWidget::addSubcategory()
 {
-    const QString subcat = askCategoryName();
-    if (subcat.isEmpty()) return;
+    TorrentCategoryDialog::createCategory(this, currentCategory());
+}
 
-    const QString category = QString(QStringLiteral("%1/%2")).arg(currentCategory()).arg(subcat);
-
-    if (BitTorrent::Session::instance()->categories().contains(category))
-        QMessageBox::warning(this, tr("Category exists")
-                             , tr("Subcategory name already exists in selected category."));
-    else
-        BitTorrent::Session::instance()->addCategory(category);
+void CategoryFilterWidget::editCategory()
+{
+    TorrentCategoryDialog::editCategory(this, currentCategory());
 }
 
 void CategoryFilterWidget::removeCategory()
@@ -261,7 +232,7 @@ void CategoryFilterWidget::removeCategory()
 void CategoryFilterWidget::removeUnusedCategories()
 {
     auto session = BitTorrent::Session::instance();
-    foreach (const QString &category, session->categories())
+    foreach (const QString &category, session->categories().keys())
         if (model()->data(static_cast<CategoryFilterProxyModel *>(model())->index(category), Qt::UserRole) == 0)
             session->removeCategory(category);
     updateGeometry();

@@ -34,7 +34,8 @@
 }
 
 #transferList img.stateIcon {
-  margin-bottom: -4px;
+	height: 1.3em;
+	vertical-align: middle;
     margin-bottom: -1px;
 }
 
@@ -75,6 +76,11 @@ tr.dynamicTableHeader {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+}
+
+.dynamicTable td img.flags {
+    height: 1.25em;
+    vertical-align: middle;
 }
 
 .dynamicTableFixedHeaderDiv {

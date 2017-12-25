@@ -30,18 +30,23 @@
 #ifndef SEARCHENGINE_H
 #define SEARCHENGINE_H
 
-#include <QObject>
 #include <QHash>
-#include <QStringList>
 #include <QList>
+#include <QMetaType>
+#include <QObject>
+
+#include "base/utils/version.h"
 
 class QProcess;
 class QTimer;
 
+using PluginVersion = Utils::Version<unsigned short, 2>;
+Q_DECLARE_METATYPE(PluginVersion)
+
 struct PluginInfo
 {
     QString name;
-    qreal version;
+    PluginVersion version;
     QString fullName;
     QString url;
     QStringList supportedCategories;
@@ -79,6 +84,7 @@ public:
     void updatePlugin(const QString &name);
     void installPlugin(const QString &source);
     bool uninstallPlugin(const QString &name);
+    static void updateIconPath(PluginInfo * const plugin);
     void checkForUpdates();
 
     void startSearch(const QString &pattern, const QString &category, const QStringList &usedPlugins);
@@ -86,7 +92,7 @@ public:
 
     void downloadTorrent(const QString &siteUrl, const QString &url);
 
-    static qreal getPluginVersion(QString filePath);
+    static PluginVersion getPluginVersion(QString filePath);
     static QString categoryFullName(const QString &categoryName);
     QString pluginFullName(const QString &pluginName);
     static QString pluginsLocation();
@@ -97,12 +103,14 @@ signals:
     void searchFailed();
     void newSearchResults(const QList<SearchResult> &results);
 
+    void pluginEnabled(const QString &name, bool enabled);
     void pluginInstalled(const QString &name);
     void pluginInstallationFailed(const QString &name, const QString &reason);
+    void pluginUninstalled(const QString &name);
     void pluginUpdated(const QString &name);
     void pluginUpdateFailed(const QString &name, const QString &reason);
 
-    void checkForUpdatesFinished(const QHash<QString, qreal> &updateInfo);
+    void checkForUpdatesFinished(const QHash<QString, PluginVersion> &updateInfo);
     void checkForUpdatesFailed(const QString &reason);
 
     void torrentFileDownloaded(const QString &path);
@@ -123,7 +131,7 @@ private:
     bool parseSearchResult(const QString &line, SearchResult &searchResult);
     void parseVersionInfo(const QByteArray &info);
     void installPlugin_impl(const QString &name, const QString &path);
-    bool isUpdateNeeded(QString pluginName, qreal newVersion) const;
+    bool isUpdateNeeded(QString pluginName, PluginVersion newVersion) const;
 
     static QString engineLocation();
     static QString pluginPath(const QString &name);

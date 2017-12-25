@@ -3,11 +3,13 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(QBT_APP_HEADERS
 application.h
+cmdoptions.h
 filelogger.h
 )
 
 set(QBT_APP_SOURCES
 application.cpp
+cmdoptions.cpp
 filelogger.cpp
 main.cpp
 )
@@ -17,12 +19,8 @@ file(GLOB QBT_TS_FILES ../lang/*.ts)
 get_filename_component(QBT_QM_FILES_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/../lang" ABSOLUTE)
 set_source_files_properties(${QBT_TS_FILES} PROPERTIES OUTPUT_LOCATION "${QBT_QM_FILES_BINARY_DIR}")
 
-if (QT5)
-    find_package(Qt5 COMPONENTS LinguistTools REQUIRED)
-    qt5_add_translation(QBT_QM_FILES ${QBT_TS_FILES})
-else (QT5)
-    qt4_add_translation(QBT_QM_FILES ${QBT_TS_FILES})
-endif (QT5)
+find_package(Qt5 COMPONENTS LinguistTools REQUIRED)
+qt5_add_translation(QBT_QM_FILES ${QBT_TS_FILES})
 
 get_filename_component(_lang_qrc_src "${CMAKE_CURRENT_SOURCE_DIR}/../lang.qrc" ABSOLUTE)
 get_filename_component(_lang_qrc_dst "${CMAKE_CURRENT_BINARY_DIR}/../lang.qrc" ABSOLUTE)
@@ -44,11 +42,7 @@ set(QBT_APP_RESOURCES
 
 # With AUTORCC rcc is ran by cmake before language files are generated,
 # and thus we call rcc explicitly
-if (QT5)
-    qt5_add_resources(QBT_APP_RESOURCE_SOURCE ${QBT_APP_RESOURCES})
-else (QT5)
-    qt4_add_resources(QBT_APP_RESOURCE_SOURCE ${QBT_APP_RESOURCES})
-endif (QT5)
+qt5_add_resources(QBT_APP_RESOURCE_SOURCE ${QBT_APP_RESOURCES})
 
 if (WIN32)
     if (MINGW)
@@ -148,39 +142,50 @@ if (APPLE)
         PROPERTIES MACOSX_PACKAGE_LOCATION translations)
 endif (APPLE)
 
-add_executable(${QBT_TARGET_NAME} ${QBT_APP_HEADERS} ${QBT_APP_SOURCES} ${QBT_QM_FILES} ${QBT_APP_RESOURCE_SOURCE})
-set_target_properties(${QBT_TARGET_NAME}
+add_executable(qBittorrent ${QBT_APP_HEADERS} ${QBT_APP_SOURCES} ${QBT_QM_FILES} ${QBT_APP_RESOURCE_SOURCE})
+if (GUI)
+    set_target_properties(qBittorrent
+        PROPERTIES
+            OUTPUT_NAME qbittorrent
+            WIN32_EXECUTABLE True
+    )
+else (GUI)
+    set_target_properties(qBittorrent
+        PROPERTIES
+            OUTPUT_NAME qbittorrent-nox
+    )
+endif (GUI)
+
+set_target_properties(qBittorrent
     PROPERTIES
         AUTOUIC True
         AUTORCC True
         MACOSX_BUNDLE True
 )
 
-if (GUI AND WIN32)
-    set_target_properties(${QBT_TARGET_NAME} PROPERTIES WIN32_EXECUTABLE True)
-endif (GUI AND WIN32)
+get_target_property(QBT_EXECUTABLE_NAME qBittorrent OUTPUT_NAME)
 
-target_link_libraries(${QBT_TARGET_NAME} ${QBT_TARGET_LIBRARIES} QtSingleApplication::QtSingleApplication)
+target_link_libraries(qBittorrent ${QBT_TARGET_LIBRARIES} QtSingleApplication::QtSingleApplication)
 
 if (APPLE)
-    set(qbt_BUNDLE_NAME "${QBT_TARGET_NAME}")
+    set(qbt_BUNDLE_NAME ${QBT_EXECUTABLE_NAME})
 
 # substitute @EXECUTABLE@ in dist/mac/Info.plist
     set(EXECUTABLE ${qbt_BUNDLE_NAME})
     configure_file(${qBittorrent_SOURCE_DIR}/dist/mac/Info.plist ${qBittorrent_BINARY_DIR}/dist/mac/Info.plist @ONLY)
 
-    set_target_properties(${QBT_TARGET_NAME} PROPERTIES
+    set_target_properties(qBittorrent PROPERTIES
         MACOSX_BUNDLE_BUNDLE_NAME "${qbt_BUNDLE_NAME}"
         MACOSX_BUNDLE_INFO_PLIST ${qBittorrent_BINARY_DIR}/dist/mac/Info.plist
     )
 endif (APPLE)
 
 # installation
-install(TARGETS ${QBT_TARGET_NAME}
+install(TARGETS qBittorrent
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     BUNDLE  DESTINATION .
     COMPONENT runtime)
 
-if (APPLE AND GUI)
-    install(SCRIPT ${OSX_RES_SRC_DIR}/bundle.cmake)
-endif (APPLE AND GUI)
+if (GUI AND APPLE)
+    include(bundle)
+endif (GUI AND APPLE)

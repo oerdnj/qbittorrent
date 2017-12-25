@@ -45,7 +45,7 @@
        <enum>QListView::IconMode</enum>
       </property>
       <property name="currentRow">
-       <number>0</number>
+       <number>-1</number>
       </property>
       <item>
        <property name="text">
@@ -70,6 +70,11 @@
       <item>
        <property name="text">
         <string>BitTorrent</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>RSS</string>
        </property>
       </item>
       <item>
@@ -117,8 +122,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>497</width>
-             <height>880</height>
+             <width>501</width>
+             <height>893</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -385,7 +390,7 @@
                <item>
                 <widget class="QGroupBox" name="checkShowSystray">
                  <property name="title">
-                  <string>Show qBittorrent in notification area</string>
+                  <string>Show &amp;qBittorrent in notification area</string>
                  </property>
                  <property name="checkable">
                   <bool>true</bool>
@@ -486,7 +491,7 @@
             <item>
              <widget class="QGroupBox" name="checkFileLog">
               <property name="title">
-               <string>Log file</string>
+               <string>&amp;Log file</string>
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -499,26 +504,19 @@
                 <layout class="QHBoxLayout" name="horizontalLayout_7">
                  <item>
                   <widget class="QLabel" name="label_4">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>Save path:</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="textFileLogPath"/>
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="browseFileLogDir">
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>25</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string notr="true">...</string>
-                   </property>
-                  </widget>
+                  <widget class="FileSystemPathLineEdit" name="textFileLogPath" native="true"/>
                  </item>
                 </layout>
                </item>
@@ -673,8 +671,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>586</width>
-             <height>1118</height>
+             <width>591</width>
+             <height>1138</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -687,7 +685,7 @@
                <item>
                 <widget class="QGroupBox" name="checkAdditionDialog">
                  <property name="title">
-                  <string>Display torrent content and some options</string>
+                  <string>Display &amp;torrent content and some options</string>
                  </property>
                  <property name="checkable">
                   <bool>true</bool>
@@ -710,6 +708,16 @@
                 </widget>
                </item>
                <item>
+                <widget class="QCheckBox" name="checkCreateSubfolder">
+                 <property name="text">
+                  <string>Create subfolder for torrents with multiple files</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <widget class="QCheckBox" name="checkStartPaused">
                  <property name="text">
                   <string comment="The torrent will be added to download list in pause state">Do not start the download automatically</string>
@@ -722,7 +730,7 @@
                   <string>Should the .torrent file be deleted after adding it</string>
                  </property>
                  <property name="title">
-                  <string>Delete .torrent files afterwards </string>
+                  <string>De&amp;lete .torrent files afterwards </string>
                  </property>
                  <property name="checkable">
                   <bool>true</bool>
@@ -954,123 +962,8 @@
                </item>
                <item>
                 <layout class="QGridLayout" name="gridLayout_4">
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="labelSavePath">
-                   <property name="text">
-                    <string>Default Save Path:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="1">
-                  <layout class="QHBoxLayout" name="horizontalLayout_10">
-                   <item>
-                    <widget class="QLineEdit" name="textSavePath">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="text">
-                      <string/>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QToolButton" name="browseSaveDirButton">
-                     <property name="enabled">
-                      <bool>true</bool>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>22</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>25</width>
-                       <height>27</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string notr="true">...</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QCheckBox" name="checkTempFolder">
-                   <property name="text">
-                    <string>Keep incomplete torrents in:</string>
-                   </property>
-                  </widget>
-                 </item>
                  <item row="1" column="1">
-                  <layout class="QHBoxLayout" name="horizontalLayout_111">
-                   <item>
-                    <widget class="QLineEdit" name="textTempPath"/>
-                   </item>
-                   <item>
-                    <widget class="QToolButton" name="browseTempDirButton">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>25</horstretch>
-                       <verstretch>27</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>22</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>25</width>
-                       <height>27</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string notr="true">...</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="2" column="0">
-                  <widget class="QCheckBox" name="checkExportDir">
-                   <property name="text">
-                    <string>Copy .torrent files to:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="1">
-                  <layout class="QHBoxLayout" name="horizontalLayout_12">
-                   <item>
-                    <widget class="QLineEdit" name="textExportDir"/>
-                   </item>
-                   <item>
-                    <widget class="QToolButton" name="browseExportDirButton">
-                     <property name="minimumSize">
-                      <size>
-                       <width>22</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>25</width>
-                       <height>27</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string notr="true">...</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
+                  <widget class="FileSystemPathLineEdit" name="textTempPath" native="true"/>
                  </item>
                  <item row="3" column="0">
                   <widget class="QCheckBox" name="checkExportDirFin">
@@ -1079,31 +972,35 @@
                    </property>
                   </widget>
                  </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="labelSavePath">
+                   <property name="text">
+                    <string>Default Save Path:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QCheckBox" name="checkExportDir">
+                   <property name="text">
+                    <string>Copy .torrent files to:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QCheckBox" name="checkTempFolder">
+                   <property name="text">
+                    <string>Keep incomplete torrents in:</string>
+                   </property>
+                  </widget>
+                 </item>
                  <item row="3" column="1">
-                  <layout class="QHBoxLayout" name="horizontalLayout_13">
-                   <item>
-                    <widget class="QLineEdit" name="textExportDirFin"/>
-                   </item>
-                   <item>
-                    <widget class="QToolButton" name="browseExportDirFinButton">
-                     <property name="minimumSize">
-                      <size>
-                       <width>22</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>25</width>
-                       <height>27</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string notr="true">...</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
+                  <widget class="FileSystemPathLineEdit" name="textExportDirFin" native="true"/>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="FileSystemPathLineEdit" name="textSavePath" native="true"/>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="FileSystemPathLineEdit" name="textExportDir" native="true"/>
                  </item>
                 </layout>
                </item>
@@ -1211,7 +1108,7 @@
             <item>
              <widget class="QGroupBox" name="groupMailNotification">
               <property name="title">
-               <string>Email notification upon download completion</string>
+               <string>Email notification &amp;upon download completion</string>
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -1222,25 +1119,35 @@
               <layout class="QVBoxLayout" name="verticalLayout_171">
                <item>
                 <layout class="QGridLayout" name="gridLayout_9">
-                 <item row="0" column="1">
+                 <item row="1" column="1">
                   <widget class="QLineEdit" name="dest_email_txt"/>
                  </item>
-                 <item row="0" column="0">
+                 <item row="1" column="0">
                   <widget class="QLabel" name="label_2">
                    <property name="text">
-                    <string>Destination email:</string>
+                    <string>To:</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="0">
+                 <item row="2" column="0">
                   <widget class="QLabel" name="label_3">
                    <property name="text">
                     <string>SMTP server:</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="1">
+                 <item row="2" column="1">
                   <widget class="QLineEdit" name="smtp_server_txt"/>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLineEdit" name="senderEmailTxt"/>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_25">
+                   <property name="text">
+                    <string>From:</string>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </item>
@@ -1296,7 +1203,7 @@
             <item>
              <widget class="QGroupBox" name="autoRunBox">
               <property name="title">
-               <string>Run external program on torrent completion</string>
+               <string>Run e&amp;xternal program on torrent completion</string>
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -1306,7 +1213,7 @@
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_19">
                <item>
-                <widget class="QLineEdit" name="autoRun_txt"/>
+                <widget class="FileSystemPathLineEdit" name="autoRun_txt" native="true"/>
                </item>
                <item>
                 <widget class="QLabel" name="autoRun_param">
@@ -1348,11 +1255,47 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>457</width>
-             <height>672</height>
+             <width>501</width>
+             <height>745</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_20">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_12">
+              <item>
+               <widget class="QLabel" name="label_24">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Enabled protocol:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="comboProtocol">
+                <item>
+                 <property name="text">
+                  <string>TCP and μTP</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string notr="true">TCP</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string notr="true">μTP</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+             </layout>
+            </item>
             <item>
              <widget class="QGroupBox" name="ListeningPortBox">
               <property name="title">
@@ -1666,7 +1609,7 @@
                   <bool>false</bool>
                  </property>
                  <property name="title">
-                  <string>Authentication</string>
+                  <string>A&amp;uthentication</string>
                  </property>
                  <property name="checkable">
                   <bool>true</bool>
@@ -1717,41 +1660,22 @@
              </widget>
             </item>
             <item>
-             <widget class="QGroupBox" name="checkIPFilter">
+             <widget class="QGroupBox" name="groupIPFilter">
               <property name="title">
-               <string>IP Filtering</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-              <property name="checked">
-               <bool>false</bool>
+               <string>IP Fi&amp;ltering</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_17">
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_11">
                  <item>
-                  <widget class="QLabel" name="lblFilterPath">
+                  <widget class="QCheckBox" name="checkIPFilter">
                    <property name="text">
                     <string>Filter path (.dat, .p2p, .p2b):</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="textFilterPath"/>
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="browseFilterButton">
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>25</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string notr="true">...</string>
-                   </property>
-                  </widget>
+                  <widget class="FileSystemPathLineEdit" name="textFilterPath" native="true"/>
                  </item>
                  <item>
                   <widget class="QToolButton" name="IpFilterRefreshBtn">
@@ -1767,6 +1691,19 @@
                   </widget>
                  </item>
                 </layout>
+               </item>
+               <item>
+                <widget class="QPushButton" name="banListButton">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string>Manually banned IP addresses...</string>
+                 </property>
+                </widget>
                </item>
                <item>
                 <widget class="QCheckBox" name="checkIpFilterTrackers">
@@ -1821,8 +1758,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>388</width>
-             <height>452</height>
+             <width>516</width>
+             <height>525</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -1924,7 +1861,7 @@
                <item row="2" column="0" colspan="5">
                 <widget class="QGroupBox" name="check_schedule">
                  <property name="title">
-                  <string>Schedule the use of alternative rate limits</string>
+                  <string>Schedule &amp;the use of alternative rate limits</string>
                  </property>
                  <property name="checkable">
                   <bool>true</bool>
@@ -2120,47 +2057,27 @@
               <property name="title">
                <string>Rate Limits Settings</string>
               </property>
-              <layout class="QGridLayout" name="gridLayout_8">
-               <item row="4" column="0" colspan="3">
-                <widget class="QCheckBox" name="checkLimitLocalPeerRate">
-                 <property name="text">
-                  <string>Apply rate limit to peers on LAN</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0" colspan="3">
-                <widget class="QCheckBox" name="checkLimitTransportOverhead">
-                 <property name="text">
-                  <string>Apply rate limit to transport overhead</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="0" colspan="3">
-                <widget class="QCheckBox" name="checkuTP">
-                 <property name="text">
-                  <string>Enable µTP protocol</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
+              <layout class="QVBoxLayout" name="verticalLayout_30">
+               <item>
                 <widget class="QCheckBox" name="checkLimituTPConnections">
                  <property name="text">
                   <string>Apply rate limit to µTP protocol</string>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="2">
-                <spacer name="horizontalSpacer_9">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
+               <item>
+                <widget class="QCheckBox" name="checkLimitTransportOverhead">
+                 <property name="text">
+                  <string>Apply rate limit to transport overhead</string>
                  </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkLimitLocalPeerRate">
+                 <property name="text">
+                  <string>Apply rate limit to peers on LAN</string>
                  </property>
-                </spacer>
+                </widget>
                </item>
               </layout>
              </widget>
@@ -2208,8 +2125,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>574</width>
-             <height>534</height>
+             <width>513</width>
+             <height>679</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2341,7 +2258,7 @@
             <item>
              <widget class="QGroupBox" name="checkEnableQueueing">
               <property name="title">
-               <string>Torrent Queueing</string>
+               <string>&amp;Torrent Queueing</string>
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -2467,66 +2384,144 @@
               <property name="title">
                <string>Share Ratio Limiting</string>
               </property>
-              <layout class="QVBoxLayout">
-               <property name="bottomMargin">
-                <number>9</number>
-               </property>
-               <item>
-                <layout class="QHBoxLayout">
+              <layout class="QGridLayout" name="gridLayout_91">
+               <item row="0" column="0" rowspan="3" colspan="3">
+                <widget class="QCheckBox" name="checkMaxRatio">
+                 <property name="text">
+                  <string>Seed torrents until their ratio reaches</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="6" rowspan="2">
+                <spacer name="horizontalSpacer_161">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>109</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="4" column="2">
+                <widget class="QLabel" name="label">
+                 <property name="text">
+                  <string>then</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="4" colspan="2">
+                <widget class="QComboBox" name="comboRatioLimitAct">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <item>
-                  <widget class="QCheckBox" name="checkMaxRatio">
-                   <property name="text">
-                    <string>Seed torrents until their ratio reaches</string>
-                   </property>
-                  </widget>
+                  <property name="text">
+                   <string>Pause them</string>
+                  </property>
                  </item>
                  <item>
-                  <widget class="QDoubleSpinBox" name="spinMaxRatio">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignHCenter</set>
-                   </property>
-                   <property name="minimum">
-                    <double>0.000000000000000</double>
-                   </property>
-                   <property name="maximum">
-                    <double>9998.000000000000000</double>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.050000000000000</double>
-                   </property>
-                   <property name="value">
-                    <double>1.000000000000000</double>
-                   </property>
-                  </widget>
+                  <property name="text">
+                   <string>Remove them</string>
+                  </property>
                  </item>
-                 <item>
-                  <widget class="QLabel" name="label">
-                   <property name="text">
-                    <string>then</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QComboBox" name="comboRatioLimitAct">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <item>
-                    <property name="text">
-                     <string>Pause them</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Remove them</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                </layout>
+                </widget>
+               </item>
+               <item row="4" column="6">
+                <spacer name="horizontalSpacer_20">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>121</width>
+                   <height>28</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="4" column="1">
+                <spacer name="horizontalSpacer_171">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>100</width>
+                   <height>42</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="3" column="6">
+                <spacer name="horizontalSpacer_191">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="3" column="4">
+                <widget class="QSpinBox" name="spinMaxSeedingMinutes">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="maximum">
+                  <number>9999999</number>
+                 </property>
+                 <property name="value">
+                  <number>1440</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="4">
+                <widget class="QDoubleSpinBox" name="spinMaxRatio">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignHCenter</set>
+                 </property>
+                 <property name="minimum">
+                  <double>0.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>9998.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>0.050000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>1.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="5">
+                <widget class="QLabel" name="label_11">
+                 <property name="text">
+                  <string>minutes</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0" colspan="4">
+                <widget class="QCheckBox" name="checkMaxSeedingMinutes">
+                 <property name="text">
+                  <string>Seed torrents until their seeding time reaches</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
@@ -2540,7 +2535,7 @@
                </sizepolicy>
               </property>
               <property name="title">
-               <string>Automatically add these trackers to new downloads:</string>
+               <string>A&amp;utomatically add these trackers to new downloads:</string>
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -2581,6 +2576,156 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="tabRSSPage">
+       <layout class="QVBoxLayout" name="verticalLayout_25">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QScrollArea" name="scrollArea_5">
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollAreaWidgetContents_5">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>516</width>
+             <height>525</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_27">
+            <item>
+             <widget class="QGroupBox" name="groupRSSReader">
+              <property name="title">
+               <string>RSS Reader</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_26">
+               <item>
+                <widget class="QCheckBox" name="checkRSSEnable">
+                 <property name="text">
+                  <string>Enable fetching RSS feeds</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QGridLayout" name="gridLayout_5">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_111">
+                   <property name="text">
+                    <string>Feeds refresh interval:</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_12">
+                   <property name="text">
+                    <string>Maximum number of articles per feed:</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QSpinBox" name="spinRSSRefreshInterval">
+                   <property name="suffix">
+                    <string> min</string>
+                   </property>
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                   <property name="maximum">
+                    <number>999999</number>
+                   </property>
+                   <property name="value">
+                    <number>5</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QSpinBox" name="spinRSSMaxArticlesPerFeed">
+                   <property name="maximum">
+                    <number>9999</number>
+                   </property>
+                   <property name="value">
+                    <number>100</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="2">
+                  <spacer name="horizontalSpacer_6">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupRSSAutoDownloader">
+              <property name="title">
+               <string>RSS Torrent Auto Downloader</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_21">
+               <item>
+                <widget class="QCheckBox" name="checkRSSAutoDownloaderEnable">
+                 <property name="text">
+                  <string>Enable auto downloading of RSS torrents</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="btnEditRules">
+                 <property name="text">
+                  <string>Edit auto downloading rules...</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_5">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>267</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
       <widget class="QWidget" name="tabWebuiPage">
        <layout class="QVBoxLayout" name="tabWebuiPageLayout">
         <property name="leftMargin">
@@ -2605,8 +2750,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>518</width>
-             <height>602</height>
+             <width>501</width>
+             <height>636</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_23">
@@ -2623,7 +2768,47 @@
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_2">
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_1">
+                <layout class="QHBoxLayout" name="horizontalLayout_2">
+                 <item>
+                  <widget class="QLabel" name="lblWebUiAddress">
+                   <property name="text">
+                    <string>IP address:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="textWebUiAddress">
+                   <property name="toolTip">
+                    <string>IP address that the Web UI will bind to.
+Specify an IPv4 or IPv6 address. You can specify "0.0.0.0" for any IPv4 address,
+"::" for any IPv6 address, or "*" for both IPv4 and IPv6.</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="lblWebUiPort">
+                   <property name="text">
+                    <string>Port:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="spinWebUiPort">
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                   <property name="maximum">
+                    <number>65535</number>
+                   </property>
+                   <property name="value">
+                    <number>8080</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_10">
                  <item>
                   <widget class="QLabel" name="labelServerDomains">
                    <property name="text">
@@ -2645,43 +2830,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</string>
                 </layout>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_2">
-                 <item>
-                  <widget class="QLabel" name="lblWebUiPort">
-                   <property name="text">
-                    <string>Port:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QSpinBox" name="spinWebUiPort">
-                   <property name="minimum">
-                    <number>1</number>
-                   </property>
-                   <property name="maximum">
-                    <number>65535</number>
-                   </property>
-                   <property name="value">
-                    <number>8080</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer>
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>21</width>
-                     <height>29</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </item>
-               <item>
                 <widget class="QCheckBox" name="checkWebUIUPnP">
                  <property name="text">
                   <string>Use UPnP / NAT-PMP to forward the port from my router</string>
@@ -2694,7 +2842,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</string>
                <item>
                 <widget class="QGroupBox" name="checkWebUiHttps">
                  <property name="title">
-                  <string>Use HTTPS instead of HTTP</string>
+                  <string>&amp;Use HTTPS instead of HTTP</string>
                  </property>
                  <property name="checkable">
                   <bool>true</bool>
@@ -2857,7 +3005,27 @@ Use ';' to split multiple entries. Can use wildcard '*'.</string>
                   <item row="4" column="0" colspan="2">
                    <widget class="QCheckBox" name="checkBypassLocalAuth">
                     <property name="text">
-                     <string>Bypass authentication for localhost</string>
+                     <string>Bypass authentication for clients on localhost</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="0" colspan="2">
+                   <widget class="QCheckBox" name="checkBypassAuthSubnetWhitelist">
+                    <property name="text">
+                     <string>Bypass authentication for clients in whitelisted IP subnets</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="6" column="1" colspan="1">
+                   <widget class="QPushButton" name="IPSubnetWhitelistButton">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>IP subnet whitelist...</string>
                     </property>
                    </widget>
                   </item>
@@ -2881,7 +3049,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</string>
                <item>
                 <widget class="QGroupBox" name="checkDynDNS">
                  <property name="title">
-                  <string>Update my dynamic domain name</string>
+                  <string>Upda&amp;te my dynamic domain name</string>
                  </property>
                  <property name="checkable">
                   <bool>true</bool>
@@ -3020,21 +3188,135 @@ Use ';' to split multiple entries. Can use wildcard '*'.</string>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>FileSystemPathLineEdit</class>
+   <extends>QWidget</extends>
+   <header>fspathedit.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>tabOption</tabstop>
   <tabstop>comboI18n</tabstop>
-  <tabstop>textSavePath</tabstop>
-  <tabstop>browseSaveDirButton</tabstop>
   <tabstop>checkStartPaused</tabstop>
   <tabstop>spinPort</tabstop>
   <tabstop>checkUPnP</tabstop>
+  <tabstop>textWebUiUsername</tabstop>
+  <tabstop>checkWebUi</tabstop>
+  <tabstop>textSavePath</tabstop>
+  <tabstop>scrollArea_7</tabstop>
+  <tabstop>scrollArea_2</tabstop>
+  <tabstop>spinWebUiPort</tabstop>
+  <tabstop>textWebUiPassword</tabstop>
+  <tabstop>buttonBox</tabstop>
+  <tabstop>tabSelection</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>confirmDeletion</tabstop>
+  <tabstop>checkAltRowColors</tabstop>
+  <tabstop>actionTorrentDlOnDblClBox</tabstop>
+  <tabstop>actionTorrentFnOnDblClBox</tabstop>
+  <tabstop>checkStartup</tabstop>
+  <tabstop>checkShowSplash</tabstop>
+  <tabstop>checkStartMinimized</tabstop>
+  <tabstop>checkProgramExitConfirm</tabstop>
+  <tabstop>checkShowSystray</tabstop>
+  <tabstop>checkMinimizeToSysTray</tabstop>
+  <tabstop>checkCloseToSystray</tabstop>
+  <tabstop>comboTrayIcon</tabstop>
+  <tabstop>checkAssociateTorrents</tabstop>
+  <tabstop>checkAssociateMagnetLinks</tabstop>
+  <tabstop>checkPreventFromSuspend</tabstop>
+  <tabstop>checkAdditionDialog</tabstop>
+  <tabstop>checkAdditionDialogFront</tabstop>
+  <tabstop>checkPreallocateAll</tabstop>
+  <tabstop>checkTempFolder</tabstop>
+  <tabstop>textTempPath</tabstop>
+  <tabstop>checkAppendqB</tabstop>
+  <tabstop>scanFoldersView</tabstop>
+  <tabstop>addScanFolderButton</tabstop>
+  <tabstop>removeScanFolderButton</tabstop>
+  <tabstop>checkExportDir</tabstop>
+  <tabstop>textExportDir</tabstop>
+  <tabstop>checkExportDirFin</tabstop>
+  <tabstop>textExportDirFin</tabstop>
+  <tabstop>groupMailNotification</tabstop>
+  <tabstop>dest_email_txt</tabstop>
+  <tabstop>smtp_server_txt</tabstop>
+  <tabstop>groupMailNotifAuth</tabstop>
+  <tabstop>mailNotifUsername</tabstop>
+  <tabstop>mailNotifPassword</tabstop>
+  <tabstop>checkSmtpSSL</tabstop>
+  <tabstop>autoRunBox</tabstop>
+  <tabstop>autoRun_txt</tabstop>
+  <tabstop>scrollArea_3</tabstop>
+  <tabstop>randomButton</tabstop>
+  <tabstop>checkRandomPort</tabstop>
+  <tabstop>checkMaxConnecs</tabstop>
+  <tabstop>spinMaxConnec</tabstop>
+  <tabstop>checkMaxConnecsPerTorrent</tabstop>
+  <tabstop>spinMaxConnecPerTorrent</tabstop>
+  <tabstop>checkMaxUploadsPerTorrent</tabstop>
+  <tabstop>spinMaxUploadsPerTorrent</tabstop>
+  <tabstop>checkMaxUploads</tabstop>
+  <tabstop>spinMaxUploads</tabstop>
+  <tabstop>comboProxyType</tabstop>
+  <tabstop>textProxyIP</tabstop>
+  <tabstop>spinProxyPort</tabstop>
+  <tabstop>checkProxyPeerConnecs</tabstop>
+  <tabstop>checkForceProxy</tabstop>
+  <tabstop>isProxyOnlyForTorrents</tabstop>
+  <tabstop>checkProxyAuth</tabstop>
+  <tabstop>textProxyUsername</tabstop>
+  <tabstop>textProxyPassword</tabstop>
+  <tabstop>checkIPFilter</tabstop>
+  <tabstop>textFilterPath</tabstop>
+  <tabstop>IpFilterRefreshBtn</tabstop>
+  <tabstop>checkIpFilterTrackers</tabstop>
+  <tabstop>scrollArea_9</tabstop>
+  <tabstop>spinUploadLimit</tabstop>
+  <tabstop>checkUploadLimit</tabstop>
+  <tabstop>spinDownloadLimit</tabstop>
+  <tabstop>checkDownloadLimit</tabstop>
+  <tabstop>check_schedule</tabstop>
+  <tabstop>schedule_to</tabstop>
+  <tabstop>schedule_from</tabstop>
+  <tabstop>schedule_days</tabstop>
+  <tabstop>checkUploadLimitAlt</tabstop>
+  <tabstop>checkDownloadLimitAlt</tabstop>
+  <tabstop>spinUploadLimitAlt</tabstop>
+  <tabstop>spinDownloadLimitAlt</tabstop>
+  <tabstop>checkLimitLocalPeerRate</tabstop>
+  <tabstop>checkLimitTransportOverhead</tabstop>
+  <tabstop>scrollArea_4</tabstop>
+  <tabstop>checkDHT</tabstop>
+  <tabstop>checkPeX</tabstop>
   <tabstop>checkLSD</tabstop>
   <tabstop>comboEncryption</tabstop>
+  <tabstop>checkAnonymousMode</tabstop>
+  <tabstop>checkEnableQueueing</tabstop>
+  <tabstop>spinMaxActiveDownloads</tabstop>
+  <tabstop>spinMaxActiveUploads</tabstop>
+  <tabstop>spinMaxActiveTorrents</tabstop>
+  <tabstop>checkIgnoreSlowTorrentsForQueueing</tabstop>
   <tabstop>checkMaxRatio</tabstop>
   <tabstop>spinMaxRatio</tabstop>
-  <tabstop>spinWebUiPort</tabstop>
-  <tabstop>textWebUiUsername</tabstop>
-  <tabstop>textWebUiPassword</tabstop>
+  <tabstop>checkMaxSeedingMinutes</tabstop>
+  <tabstop>spinMaxSeedingMinutes</tabstop>
+  <tabstop>comboRatioLimitAct</tabstop>
+  <tabstop>checkWebUIUPnP</tabstop>
+  <tabstop>checkWebUiHttps</tabstop>
+  <tabstop>btnWebUiCrt</tabstop>
+  <tabstop>btnWebUiKey</tabstop>
+  <tabstop>checkBypassLocalAuth</tabstop>
+  <tabstop>checkBypassAuthSubnetWhitelist</tabstop>
+  <tabstop>IPSubnetWhitelistButton</tabstop>
+  <tabstop>checkDynDNS</tabstop>
+  <tabstop>comboDNSService</tabstop>
+  <tabstop>registerDNSBtn</tabstop>
+  <tabstop>domainNameTxt</tabstop>
+  <tabstop>DNSUsernameTxt</tabstop>
+  <tabstop>DNSPasswordTxt</tabstop>
  </tabstops>
  <resources>
   <include location="../icons.qrc"/>
@@ -3121,9 +3403,9 @@ Use ';' to split multiple entries. Can use wildcard '*'.</string>
    </hints>
   </connection>
   <connection>
-   <sender>checkMaxRatio</sender>
+   <sender>checkMaxUploads</sender>
    <signal>toggled(bool)</signal>
-   <receiver>spinMaxRatio</receiver>
+   <receiver>spinMaxUploads</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -3137,9 +3419,9 @@ Use ';' to split multiple entries. Can use wildcard '*'.</string>
    </hints>
   </connection>
   <connection>
-   <sender>checkMaxRatio</sender>
+   <sender>checkDownloadLimitAlt</sender>
    <signal>toggled(bool)</signal>
-   <receiver>comboRatioLimitAct</receiver>
+   <receiver>spinDownloadLimitAlt</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -3153,9 +3435,9 @@ Use ';' to split multiple entries. Can use wildcard '*'.</string>
    </hints>
   </connection>
   <connection>
-   <sender>checkMaxUploads</sender>
+   <sender>checkUploadLimitAlt</sender>
    <signal>toggled(bool)</signal>
-   <receiver>spinMaxUploads</receiver>
+   <receiver>spinUploadLimitAlt</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -3169,9 +3451,9 @@ Use ';' to split multiple entries. Can use wildcard '*'.</string>
    </hints>
   </connection>
   <connection>
-   <sender>checkDownloadLimitAlt</sender>
+   <sender>checkMaxRatio</sender>
    <signal>toggled(bool)</signal>
-   <receiver>spinDownloadLimitAlt</receiver>
+   <receiver>spinMaxRatio</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -3185,9 +3467,9 @@ Use ';' to split multiple entries. Can use wildcard '*'.</string>
    </hints>
   </connection>
   <connection>
-   <sender>checkUploadLimitAlt</sender>
+   <sender>checkMaxSeedingMinutes</sender>
    <signal>toggled(bool)</signal>
-   <receiver>spinUploadLimitAlt</receiver>
+   <receiver>spinMaxSeedingMinutes</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">

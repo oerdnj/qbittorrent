@@ -26,30 +26,35 @@
  * exception statement from your version.
  */
 
-#include <QDebug>
-#include <QCoreApplication>
-#include <QTimer>
-#include <QCryptographicHash>
+#include "webapplication.h"
+
 #include <queue>
 #include <vector>
 
-#include "base/iconprovider.h"
-#include "base/utils/misc.h"
-#include "base/utils/fs.h"
-#include "base/utils/string.h"
-#include "base/preferences.h"
-#include "base/bittorrent/session.h"
-#include "base/bittorrent/trackerentry.h"
-#include "base/bittorrent/torrentinfo.h"
-#include "base/bittorrent/torrenthandle.h"
-#include "base/net/downloadmanager.h"
-#include "btjson.h"
-#include "prefjson.h"
-#include "jsonutils.h"
-#include "websessiondata.h"
-#include "webapplication.h"
+#include <QCoreApplication>
+#include <QCryptographicHash>
+#include <QDebug>
+#include <QRegularExpression>
+#include <QTimer>
 
-static const int API_VERSION = 15;
+#include "base/bittorrent/session.h"
+#include "base/bittorrent/torrenthandle.h"
+#include "base/bittorrent/torrentinfo.h"
+#include "base/bittorrent/trackerentry.h"
+#include "base/iconprovider.h"
+#include "base/logger.h"
+#include "base/net/downloadmanager.h"
+#include "base/preferences.h"
+#include "base/tristatebool.h"
+#include "base/utils/fs.h"
+#include "base/utils/misc.h"
+#include "base/utils/string.h"
+#include "btjson.h"
+#include "jsonutils.h"
+#include "prefjson.h"
+#include "websessiondata.h"
+
+static const int API_VERSION = 17;
 static const int API_VERSION_MIN = 15;
 
 const QString WWW_FOLDER = ":/www/public/";
@@ -64,9 +69,9 @@ const QString MAX_AGE_MONTH = "public, max-age=2592000";
 
 #define ADD_ACTION(scope, action) actions[#scope][#action] = &WebApplication::action_##scope##_##action
 
-QMap<QString, QMap<QString, WebApplication::Action> > WebApplication::initializeActions()
+QMap<QString, QMap<QString, WebApplication::Action>> WebApplication::initializeActions()
 {
-    QMap<QString,QMap<QString, WebApplication::Action> > actions;
+    QMap<QString,QMap<QString, WebApplication::Action>> actions;
 
     ADD_ACTION(public, webui);
     ADD_ACTION(public, index);
@@ -117,6 +122,9 @@ QMap<QString, QMap<QString, WebApplication::Action> > WebApplication::initialize
     ADD_ACTION(command, decreasePrio);
     ADD_ACTION(command, topPrio);
     ADD_ACTION(command, bottomPrio);
+    ADD_ACTION(command, setLocation);
+    ADD_ACTION(command, rename);
+    ADD_ACTION(command, setAutoTMM);
     ADD_ACTION(command, recheck);
     ADD_ACTION(command, setCategory);
     ADD_ACTION(command, addCategory);
@@ -129,6 +137,8 @@ QMap<QString, QMap<QString, WebApplication::Action> > WebApplication::initialize
     return actions;
 }
 
+namespace
+{
 #define CHECK_URI(ARGS_NUM) \
     if (args_.size() != ARGS_NUM) { \
         status(404, "Not Found"); \
@@ -147,6 +157,23 @@ QMap<QString, QMap<QString, WebApplication::Action> > WebApplication::initialize
             return; \
         } \
     }
+
+    bool parseBool(const QString &string, const bool defaultValue)
+    {
+        if (defaultValue)
+            return (string.compare("false", Qt::CaseInsensitive) == 0) ? false : true;
+        return (string.compare("true", Qt::CaseInsensitive) == 0) ? true : false;
+    }
+
+    TriStateBool parseTristatebool(const QString &string)
+    {
+        if (string.compare("true", Qt::CaseInsensitive) == 0)
+            return TriStateBool::True;
+        if (string.compare("false", Qt::CaseInsensitive) == 0)
+            return TriStateBool::False;
+        return TriStateBool::Undefined;
+    }
+}
 
 void WebApplication::action_public_index()
 {
@@ -177,7 +204,7 @@ void WebApplication::action_public_login()
         return;
     }
 
-    const Preferences* const pref = Preferences::instance();
+    const Preferences *const pref = Preferences::instance();
     QCryptographicHash md5(QCryptographicHash::Md5);
 
     md5.addData(request().posts["password"].toLocal8Bit());
@@ -193,7 +220,7 @@ void WebApplication::action_public_login()
     else {
         QString addr = env().clientAddress.toString();
         increaseFailedAttempts();
-        qDebug("client IP: %s (%d failed attempts)", qPrintable(addr), failedAttempts());
+        qDebug("client IP: %s (%d failed attempts)", qUtf8Printable(addr), failedAttempts());
         print(QByteArray("Fails."), Http::CONTENT_TYPE_TXT);
     }
 }
@@ -235,12 +262,12 @@ void WebApplication::action_public_images()
 void WebApplication::action_query_torrents()
 {
     CHECK_URI(0);
-    const QStringMap& gets = request().gets;
 
+    const QStringMap &gets = request().gets;
     print(btjson::getTorrents(
-        gets["filter"], gets["category"], gets["sort"], gets["reverse"] == "true",
-        gets["limit"].toInt(), gets["offset"].toInt()
-        ), Http::CONTENT_TYPE_JSON);
+            gets["filter"], gets["category"], gets["sort"], parseBool(gets["reverse"], false),
+            gets["limit"].toInt(), gets["offset"].toInt())
+        , Http::CONTENT_TYPE_JSON);
 }
 
 void WebApplication::action_query_preferences()
@@ -288,18 +315,18 @@ void WebApplication::action_query_propertiesFiles()
 void WebApplication::action_query_getLog()
 {
     CHECK_URI(0);
-    bool normal = request().gets["normal"] != "false";
-    bool info = request().gets["info"] != "false";
-    bool warning = request().gets["warning"] != "false";
-    bool critical = request().gets["critical"] != "false";
-    int lastKnownId;
-    bool ok;
 
-    lastKnownId = request().gets["last_known_id"].toInt(&ok);
+    const bool isNormal = parseBool(request().gets["normal"], true);
+    const bool isInfo = parseBool(request().gets["info"], true);
+    const bool isWarning = parseBool(request().gets["warning"], true);
+    const bool isCritical = parseBool(request().gets["critical"], true);
+
+    bool ok = false;
+    int lastKnownId = request().gets["last_known_id"].toInt(&ok);
     if (!ok)
         lastKnownId = -1;
 
-    print(btjson::getLog(normal, info, warning, critical, lastKnownId), Http::CONTENT_TYPE_JSON);
+    print(btjson::getLog(isNormal, isInfo, isWarning, isCritical, lastKnownId), Http::CONTENT_TYPE_JSON);
 }
 
 // GET params:
@@ -384,43 +411,49 @@ void WebApplication::action_command_shutdown()
 void WebApplication::action_command_download()
 {
     CHECK_URI(0);
-    QString urls = request().posts["urls"];
-    QStringList list = urls.split('\n');
-    bool skipChecking = request().posts["skip_checking"] == "true";
-    bool addPaused = request().posts["paused"] == "true";
-    QString savepath = request().posts["savepath"];
-    QString category = request().posts["category"];
-    QString cookie = request().posts["cookie"];
+
+    const QString urls = request().posts.value("urls");
+    const bool skipChecking = parseBool(request().posts.value("skip_checking"), false);
+    const bool seqDownload = parseBool(request().posts.value("sequentialDownload"), false);
+    const bool firstLastPiece = parseBool(request().posts.value("firstLastPiecePrio"), false);
+    const TriStateBool addPaused = parseTristatebool(request().posts.value("paused"));
+    const TriStateBool rootFolder = parseTristatebool(request().posts.value("root_folder"));
+    const QString savepath = request().posts.value("savepath").trimmed();
+    const QString category = request().posts.value("category").trimmed();
+    const QString cookie = request().posts.value("cookie");
+    const QString torrentName = request().posts.value("rename").trimmed();
+    const int upLimit = request().posts.value("upLimit").toInt();
+    const int dlLimit = request().posts.value("dlLimit").toInt();
+
     QList<QNetworkCookie> cookies;
     if (!cookie.isEmpty()) {
-
-        QStringList cookiesStr = cookie.split("; ");
-        foreach (QString cookieStr, cookiesStr) {
+        const QStringList cookiesStr = cookie.split("; ");
+        for (QString cookieStr : cookiesStr) {
             cookieStr = cookieStr.trimmed();
             int index = cookieStr.indexOf('=');
             if (index > 1) {
                 QByteArray name = cookieStr.left(index).toLatin1();
                 QByteArray value = cookieStr.right(cookieStr.length() - index - 1).toLatin1();
-                QNetworkCookie c(name, value);
-                cookies << c;
+                cookies += QNetworkCookie(name, value);
             }
         }
     }
 
-    savepath = savepath.trimmed();
-    category = category.trimmed();
-
     BitTorrent::AddTorrentParams params;
-
     // TODO: Check if destination actually exists
     params.skipChecking = skipChecking;
-
+    params.sequential = seqDownload;
+    params.firstLastPiecePriority = firstLastPiece;
     params.addPaused = addPaused;
+    params.createSubfolder = rootFolder;
     params.savePath = savepath;
     params.category = category;
+    params.name = torrentName;
+    params.uploadLimit = (upLimit > 0) ? upLimit : -1;
+    params.downloadLimit = (dlLimit > 0) ? dlLimit : -1;
 
     bool partialSuccess = false;
-    foreach (QString url, list) {
+    for (QString url : urls.split('\n')) {
         url = url.trimmed();
         if (!url.isEmpty()) {
             Net::DownloadManager::instance()->setCookiesFromUrl(cookies, QUrl::fromEncoded(url.toUtf8()));
@@ -436,47 +469,54 @@ void WebApplication::action_command_download()
 
 void WebApplication::action_command_upload()
 {
-    qDebug() << Q_FUNC_INFO;
     CHECK_URI(0);
-    bool skipChecking = request().posts["skip_checking"] == "true";
-    bool addPaused = request().posts["paused"] == "true";
-    QString savepath = request().posts["savepath"];
-    QString category = request().posts["category"];
 
-    savepath = savepath.trimmed();
-    category = category.trimmed();
+    const bool skipChecking = parseBool(request().posts.value("skip_checking"), false);
+    const bool seqDownload = parseBool(request().posts.value("sequentialDownload"), false);
+    const bool firstLastPiece = parseBool(request().posts.value("firstLastPiecePrio"), false);
+    const TriStateBool addPaused = parseTristatebool(request().posts.value("paused"));
+    const TriStateBool rootFolder = parseTristatebool(request().posts.value("root_folder"));
+    const QString savepath = request().posts.value("savepath").trimmed();
+    const QString category = request().posts.value("category").trimmed();
+    const QString torrentName = request().posts.value("rename").trimmed();
+    const int upLimit = request().posts.value("upLimit").toInt();
+    const int dlLimit = request().posts.value("dlLimit").toInt();
 
-    foreach(const Http::UploadedFile& torrent, request().files) {
-        QString filePath = saveTmpFile(torrent.data);
-
-        if (!filePath.isEmpty()) {
-            BitTorrent::TorrentInfo torrentInfo = BitTorrent::TorrentInfo::loadFromFile(filePath);
-            if (!torrentInfo.isValid()) {
-                status(415, "Unsupported Media Type");
-                print(QObject::tr("Error: '%1' is not a valid torrent file.\n").arg(torrent.filename), Http::CONTENT_TYPE_TXT);
-            }
-            else {
-                BitTorrent::AddTorrentParams params;
-
-                 // TODO: Check if destination actually exists
-                params.skipChecking = skipChecking;
-
-                params.addPaused = addPaused;
-                params.savePath = savepath;
-                params.category = category;
-                if (!BitTorrent::Session::instance()->addTorrent(torrentInfo, params)) {
-                    status(500, "Internal Server Error");
-                    print(QObject::tr("Error: Could not add torrent to session."), Http::CONTENT_TYPE_TXT);
-                }
-            }
-            // Clean up
-            Utils::Fs::forceRemove(filePath);
-        }
-        else {
+    for (const Http::UploadedFile &torrent : request().files) {
+        const QString filePath = saveTmpFile(torrent.data);
+        if (filePath.isEmpty()) {
             qWarning() << "I/O Error: Could not create temporary file";
             status(500, "Internal Server Error");
             print(QObject::tr("I/O Error: Could not create temporary file."), Http::CONTENT_TYPE_TXT);
+            continue;
         }
+
+        const BitTorrent::TorrentInfo torrentInfo = BitTorrent::TorrentInfo::loadFromFile(filePath);
+        if (!torrentInfo.isValid()) {
+            status(415, "Unsupported Media Type");
+            print(QObject::tr("Error: '%1' is not a valid torrent file.\n").arg(torrent.filename), Http::CONTENT_TYPE_TXT);
+        }
+        else {
+            BitTorrent::AddTorrentParams params;
+            // TODO: Check if destination actually exists
+            params.skipChecking = skipChecking;
+            params.sequential = seqDownload;
+            params.firstLastPiecePriority = firstLastPiece;
+            params.addPaused = addPaused;
+            params.createSubfolder = rootFolder;
+            params.savePath = savepath;
+            params.category = category;
+            params.name = torrentName;
+            params.uploadLimit = (upLimit > 0) ? upLimit : -1;
+            params.downloadLimit = (dlLimit > 0) ? dlLimit : -1;
+
+            if (!BitTorrent::Session::instance()->addTorrent(torrentInfo, params)) {
+                status(500, "Internal Server Error");
+                print(QObject::tr("Error: Could not add torrent to session."), Http::CONTENT_TYPE_TXT);
+            }
+        }
+        // Clean up
+        Utils::Fs::forceRemove(filePath);
     }
 }
 
@@ -546,12 +586,12 @@ void WebApplication::action_command_setFilePrio()
     CHECK_URI(0);
     CHECK_PARAMETERS("hash" << "id" << "priority");
     QString hash = request().posts["hash"];
-    int file_id = request().posts["id"].toInt();
+    int fileID = request().posts["id"].toInt();
     int priority = request().posts["priority"].toInt();
     BitTorrent::TorrentHandle *const torrent = BitTorrent::Session::instance()->findTorrent(hash);
 
     if (torrent && torrent->hasMetadata())
-        torrent->setFilePriority(file_id, priority);
+        torrent->setFilePriority(fileID, priority);
 }
 
 void WebApplication::action_command_getGlobalUpLimit()
@@ -590,7 +630,7 @@ void WebApplication::action_command_getTorrentsUpLimit()
 {
     CHECK_URI(0);
     CHECK_PARAMETERS("hashes");
-    QStringList hashes = request().posts["hashes"].split("|");
+    QStringList hashes = request().posts["hashes"].split('|');
     print(btjson::getTorrentsRatesLimits(hashes, false), Http::CONTENT_TYPE_JSON);
 }
 
@@ -598,7 +638,7 @@ void WebApplication::action_command_getTorrentsDlLimit()
 {
     CHECK_URI(0);
     CHECK_PARAMETERS("hashes");
-    QStringList hashes = request().posts["hashes"].split("|");
+    QStringList hashes = request().posts["hashes"].split('|');
     print(btjson::getTorrentsRatesLimits(hashes, true), Http::CONTENT_TYPE_JSON);
 }
 
@@ -611,7 +651,7 @@ void WebApplication::action_command_setTorrentsUpLimit()
     if (limit == 0)
         limit = -1;
 
-    QStringList hashes = request().posts["hashes"].split("|");
+    QStringList hashes = request().posts["hashes"].split('|');
     foreach (const QString &hash, hashes) {
         BitTorrent::TorrentHandle *const torrent = BitTorrent::Session::instance()->findTorrent(hash);
         if (torrent)
@@ -628,7 +668,7 @@ void WebApplication::action_command_setTorrentsDlLimit()
     if (limit == 0)
         limit = -1;
 
-    QStringList hashes = request().posts["hashes"].split("|");
+    QStringList hashes = request().posts["hashes"].split('|');
     foreach (const QString &hash, hashes) {
         BitTorrent::TorrentHandle *const torrent = BitTorrent::Session::instance()->findTorrent(hash);
         if (torrent)
@@ -654,7 +694,7 @@ void WebApplication::action_command_toggleSequentialDownload()
 {
     CHECK_URI(0);
     CHECK_PARAMETERS("hashes");
-    QStringList hashes = request().posts["hashes"].split("|");
+    QStringList hashes = request().posts["hashes"].split('|');
     foreach (const QString &hash, hashes) {
         BitTorrent::TorrentHandle *const torrent = BitTorrent::Session::instance()->findTorrent(hash);
         if (torrent)
@@ -666,7 +706,7 @@ void WebApplication::action_command_toggleFirstLastPiecePrio()
 {
     CHECK_URI(0);
     CHECK_PARAMETERS("hashes");
-    QStringList hashes = request().posts["hashes"].split("|");
+    QStringList hashes = request().posts["hashes"].split('|');
     foreach (const QString &hash, hashes) {
         BitTorrent::TorrentHandle *const torrent = BitTorrent::Session::instance()->findTorrent(hash);
         if (torrent)
@@ -678,8 +718,9 @@ void WebApplication::action_command_setSuperSeeding()
 {
     CHECK_URI(0);
     CHECK_PARAMETERS("hashes" << "value");
-    bool value = request().posts["value"] == "true";
-    QStringList hashes = request().posts["hashes"].split("|");
+
+    const bool value = parseBool(request().posts["value"], false);
+    const QStringList hashes = request().posts["hashes"].split('|');
     foreach (const QString &hash, hashes) {
         BitTorrent::TorrentHandle *const torrent = BitTorrent::Session::instance()->findTorrent(hash);
         if (torrent)
@@ -691,8 +732,9 @@ void WebApplication::action_command_setForceStart()
 {
     CHECK_URI(0);
     CHECK_PARAMETERS("hashes" << "value");
-    bool value = request().posts["value"] == "true";
-    QStringList hashes = request().posts["hashes"].split("|");
+
+    const bool value = parseBool(request().posts["value"], false);
+    const QStringList hashes = request().posts["hashes"].split('|');
     foreach (const QString &hash, hashes) {
         BitTorrent::TorrentHandle *const torrent = BitTorrent::Session::instance()->findTorrent(hash);
         if (torrent)
@@ -704,7 +746,7 @@ void WebApplication::action_command_delete()
 {
     CHECK_URI(0);
     CHECK_PARAMETERS("hashes");
-    QStringList hashes = request().posts["hashes"].split("|");
+    QStringList hashes = request().posts["hashes"].split('|');
     foreach (const QString &hash, hashes)
         BitTorrent::Session::instance()->deleteTorrent(hash, false);
 }
@@ -713,7 +755,7 @@ void WebApplication::action_command_deletePerm()
 {
     CHECK_URI(0);
     CHECK_PARAMETERS("hashes");
-    QStringList hashes = request().posts["hashes"].split("|");
+    QStringList hashes = request().posts["hashes"].split('|');
     foreach (const QString &hash, hashes)
         BitTorrent::Session::instance()->deleteTorrent(hash, true);
 }
@@ -728,7 +770,7 @@ void WebApplication::action_command_increasePrio()
         return;
     }
 
-    QStringList hashes = request().posts["hashes"].split("|");
+    QStringList hashes = request().posts["hashes"].split('|');
     BitTorrent::Session::instance()->increaseTorrentsPriority(hashes);
 }
 
@@ -742,7 +784,7 @@ void WebApplication::action_command_decreasePrio()
         return;
     }
 
-    QStringList hashes = request().posts["hashes"].split("|");
+    QStringList hashes = request().posts["hashes"].split('|');
     BitTorrent::Session::instance()->decreaseTorrentsPriority(hashes);
 }
 
@@ -756,7 +798,7 @@ void WebApplication::action_command_topPrio()
         return;
     }
 
-    QStringList hashes = request().posts["hashes"].split("|");
+    QStringList hashes = request().posts["hashes"].split('|');
     BitTorrent::Session::instance()->topTorrentsPriority(hashes);
 }
 
@@ -770,8 +812,63 @@ void WebApplication::action_command_bottomPrio()
         return;
     }
 
-    QStringList hashes = request().posts["hashes"].split("|");
+    QStringList hashes = request().posts["hashes"].split('|');
     BitTorrent::Session::instance()->bottomTorrentsPriority(hashes);
+}
+
+void WebApplication::action_command_setLocation()
+{
+    CHECK_URI(0);
+    CHECK_PARAMETERS("hashes" << "location");
+
+    QStringList hashes = request().posts["hashes"].split("|");
+    QString newLocation = request().posts["location"].trimmed();
+
+    // check if the location exists
+    if (newLocation.isEmpty() || !QDir(newLocation).exists())
+        return;
+
+    foreach (const QString &hash, hashes) {
+        BitTorrent::TorrentHandle *const torrent = BitTorrent::Session::instance()->findTorrent(hash);
+        if (torrent) {
+            Logger::instance()->addMessage(tr("WebUI Set location: moving \"%1\", from \"%2\" to \"%3\"").arg(torrent->name()).arg(torrent->savePath()).arg(newLocation));
+
+            torrent->move(Utils::Fs::expandPathAbs(newLocation));
+        }
+    }
+}
+
+void WebApplication::action_command_rename()
+{
+    CHECK_URI(0);
+    CHECK_PARAMETERS("hash" << "name");
+
+    QString hash = request().posts["hash"];
+    QString name = request().posts["name"].trimmed();
+
+    BitTorrent::TorrentHandle *const torrent = BitTorrent::Session::instance()->findTorrent(hash);
+    if (torrent && !name.isEmpty()) {
+        name.replace(QRegularExpression("\r?\n|\r"), " ");
+        qDebug() << "Renaming" << torrent->name() << "to" << name;
+        torrent->setName(name);
+    }
+    else {
+        status(400, "Incorrect torrent hash or name");
+    }
+}
+
+void WebApplication::action_command_setAutoTMM()
+{
+    CHECK_URI(0);
+    CHECK_PARAMETERS("hashes" << "enable");
+
+    const QStringList hashes = request().posts["hashes"].split('|');
+    const bool isEnabled = parseBool(request().posts["enable"], false);
+    foreach (const QString &hash, hashes) {
+        BitTorrent::TorrentHandle *const torrent = BitTorrent::Session::instance()->findTorrent(hash);
+        if (torrent)
+            torrent->setAutoTMMEnabled(isEnabled);
+    }
 }
 
 void WebApplication::action_command_recheck()
@@ -789,7 +886,7 @@ void WebApplication::action_command_setCategory()
     CHECK_URI(0);
     CHECK_PARAMETERS("hashes" << "category");
 
-    QStringList hashes = request().posts["hashes"].split("|");
+    QStringList hashes = request().posts["hashes"].split('|');
     QString category = request().posts["category"].trimmed();
 
     foreach (const QString &hash, hashes) {
@@ -868,7 +965,7 @@ void WebApplication::doProcessRequest()
 
 void WebApplication::parsePath()
 {
-    if(request().path == "/") action_ = WEBUI_ACTION;
+    if (request().path == "/") action_ = WEBUI_ACTION;
 
     // check action for requested path
     QStringList pathItems = request().path.split('/', QString::SkipEmptyParts);

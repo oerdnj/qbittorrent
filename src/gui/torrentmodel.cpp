@@ -105,6 +105,7 @@ QVariant TorrentModel::headerData(int section, Qt::Orientation orientation, int 
             case TR_RATIO: return tr("Ratio", "Share ratio");
             case TR_ETA: return tr("ETA", "i.e: Estimated Time of Arrival / Time left");
             case TR_CATEGORY: return tr("Category");
+            case TR_TAGS: return tr("Tags");
             case TR_ADD_DATE: return tr("Added On", "Torrent was added to transfer list on 01/01/2010 08:00");
             case TR_SEED_DATE: return tr("Completed On", "Torrent was completed on 01/01/2010 08:00");
             case TR_TRACKER: return tr("Tracker");
@@ -198,6 +199,11 @@ QVariant TorrentModel::data(const QModelIndex &index, int role) const
         return torrent->realRatio();
     case TR_CATEGORY:
         return torrent->category();
+    case TR_TAGS: {
+            QStringList tagsList = torrent->tags().toList();
+            tagsList.sort();
+            return tagsList.join(", ");
+        }
     case TR_ADD_DATE:
         return torrent->addedTime();
     case TR_SEED_DATE:
@@ -338,7 +344,9 @@ QIcon getIconByState(BitTorrent::TorrentState state)
         return getQueuedIcon();
     case BitTorrent::TorrentState::CheckingDownloading:
     case BitTorrent::TorrentState::CheckingUploading:
+#if LIBTORRENT_VERSION_NUM < 10100
     case BitTorrent::TorrentState::QueuedForChecking:
+#endif
     case BitTorrent::TorrentState::CheckingResumeData:
         return getCheckingIcon();
     case BitTorrent::TorrentState::Unknown:
@@ -391,7 +399,9 @@ QColor getColorByState(BitTorrent::TorrentState state)
     case BitTorrent::TorrentState::QueuedUploading:
     case BitTorrent::TorrentState::CheckingDownloading:
     case BitTorrent::TorrentState::CheckingUploading:
+#if LIBTORRENT_VERSION_NUM < 10100
     case BitTorrent::TorrentState::QueuedForChecking:
+#endif
     case BitTorrent::TorrentState::CheckingResumeData:
         if (!dark)
             return QColor(0, 128, 128); // Teal

@@ -36,7 +36,9 @@
 
 #include "base/utils/fs.h"
 #include "base/utils/misc.h"
+#include "base/logger.h"
 #include "base/preferences.h"
+#include "base/profile.h"
 #include "base/net/downloadmanager.h"
 #include "base/net/downloadhandler.h"
 #include "searchengine.h"
@@ -69,13 +71,13 @@ SearchEngine::SearchEngine()
 
     m_searchProcess = new QProcess(this);
     m_searchProcess->setEnvironment(QProcess::systemEnvironment());
-    connect(m_searchProcess, SIGNAL(started()), this, SIGNAL(searchStarted()));
-    connect(m_searchProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(readSearchOutput()));
-    connect(m_searchProcess, SIGNAL(finished(int)), this, SLOT(processFinished(int)));
+    connect(m_searchProcess, &QProcess::started, this, &SearchEngine::searchStarted);
+    connect(m_searchProcess, &QProcess::readyReadStandardOutput, this, &SearchEngine::readSearchOutput);
+    connect(m_searchProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &SearchEngine::processFinished);
 
     m_searchTimeout = new QTimer(this);
     m_searchTimeout->setSingleShot(true);
-    connect(m_searchTimeout, SIGNAL(timeout()), this, SLOT(onTimeout()));
+    connect(m_searchTimeout, &QTimer::timeout, this, &SearchEngine::onTimeout);
 
     update();
 }
@@ -140,6 +142,8 @@ void SearchEngine::enablePlugin(const QString &name, bool enabled)
         else if (!disabledPlugins.contains(name))
             disabledPlugins.append(name);
         pref->setSearchEngDisabled(disabledPlugins);
+
+        emit pluginEnabled(name, enabled);
     }
 }
 
@@ -152,12 +156,14 @@ void SearchEngine::updatePlugin(const QString &name)
 // Install or update plugin from file or url
 void SearchEngine::installPlugin(const QString &source)
 {
-    qDebug("Asked to install plugin at %s", qPrintable(source));
+    qDebug("Asked to install plugin at %s", qUtf8Printable(source));
 
     if (Utils::Misc::isUrl(source)) {
-        Net::DownloadHandler *handler = Net::DownloadManager::instance()->downloadUrl(source, true);
-        connect(handler, SIGNAL(downloadFinished(QString, QString)), this, SLOT(pluginDownloaded(QString, QString)));
-        connect(handler, SIGNAL(downloadFailed(QString, QString)), this, SLOT(pluginDownloadFailed(QString, QString)));
+        using namespace Net;
+        DownloadHandler *handler = DownloadManager::instance()->downloadUrl(source, true);
+        connect(handler, static_cast<void (DownloadHandler::*)(const QString &, const QString &)>(&DownloadHandler::downloadFinished)
+                , this, &SearchEngine::pluginDownloaded);
+        connect(handler, &DownloadHandler::downloadFailed, this, &SearchEngine::pluginDownloadFailed);
     }
     else {
         QString path = source;
@@ -176,11 +182,11 @@ void SearchEngine::installPlugin(const QString &source)
 
 void SearchEngine::installPlugin_impl(const QString &name, const QString &path)
 {
-    qreal newVersion = getPluginVersion(path);
-    qDebug("Version to be installed: %.2f", newVersion);
+    PluginVersion newVersion = getPluginVersion(path);
+    qDebug() << "Version to be installed:" << newVersion;
 
     PluginInfo *plugin = pluginInfo(name);
-    if (plugin && (plugin->version >= newVersion)) {
+    if (plugin && !(plugin->version < newVersion)) {
         qDebug("Apparently update is not needed, we have a more recent version");
         emit pluginUpdateFailed(name, tr("A more recent version of this plugin is already installed."));
         return;
@@ -225,10 +231,6 @@ void SearchEngine::installPlugin_impl(const QString &name, const QString &path)
 
 bool SearchEngine::uninstallPlugin(const QString &name)
 {
-    if (QFile::exists(":/nova/engines/" + name + ".py"))
-        return false;
-
-    // Proceed with uninstall
     // remove it from hard drive
     QDir pluginsFolder(pluginsLocation());
     QStringList filters;
@@ -240,15 +242,32 @@ bool SearchEngine::uninstallPlugin(const QString &name)
     // Remove it from supported engines
     delete m_plugins.take(name);
 
+    emit pluginUninstalled(name);
     return true;
+}
+
+void SearchEngine::updateIconPath(PluginInfo * const plugin)
+{
+    if (!plugin) return;
+    QString iconPath = QString("%1/%2.png").arg(pluginsLocation()).arg(plugin->name);
+    if (QFile::exists(iconPath)) {
+        plugin->iconPath = iconPath;
+    }
+    else {
+        iconPath = QString("%1/%2.ico").arg(pluginsLocation()).arg(plugin->name);
+        if (QFile::exists(iconPath))
+            plugin->iconPath = iconPath;
+    }
 }
 
 void SearchEngine::checkForUpdates()
 {
-    // Download version file from update server on sourceforge
-    Net::DownloadHandler *handler = Net::DownloadManager::instance()->downloadUrl(m_updateUrl + "versions.txt");
-    connect(handler, SIGNAL(downloadFinished(QString, QByteArray)), this, SLOT(versionInfoDownloaded(QString, QByteArray)));
-    connect(handler, SIGNAL(downloadFailed(QString, QString)), this, SLOT(versionInfoDownloadFailed(QString, QString)));
+    // Download version file from update server
+    using namespace Net;
+    DownloadHandler *handler = DownloadManager::instance()->downloadUrl(m_updateUrl + "versions.txt");
+    connect(handler, static_cast<void (DownloadHandler::*)(const QString &, const QByteArray &)>(&DownloadHandler::downloadFinished)
+            , this, &SearchEngine::versionInfoDownloaded);
+    connect(handler, &DownloadHandler::downloadFailed, this, &SearchEngine::versionInfoDownloadFailed);
 }
 
 void SearchEngine::cancelSearch()
@@ -270,7 +289,7 @@ void SearchEngine::downloadTorrent(const QString &siteUrl, const QString &url)
 {
     QProcess *downloadProcess = new QProcess(this);
     downloadProcess->setEnvironment(QProcess::systemEnvironment());
-    connect(downloadProcess, SIGNAL(finished(int)), this, SLOT(torrentFileDownloadFinished(int)));
+    connect(downloadProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &SearchEngine::torrentFileDownloadFinished);
     m_downloaders << downloadProcess;
     QStringList params {
         Utils::Fs::toNativePath(engineLocation() + "/nova2dl.py"),
@@ -325,7 +344,7 @@ QString SearchEngine::engineLocation()
     QString folder = "nova";
     if (Utils::Misc::pythonVersion() >= 3)
         folder = "nova3";
-    const QString location = Utils::Fs::expandPathAbs(Utils::Fs::QDesktopServicesDataLocation() + folder);
+    const QString location = Utils::Fs::expandPathAbs(specialFolderLocation(SpecialFolder::Data) + folder);
     QDir locationDir(location);
     if (!locationDir.exists())
         locationDir.mkpath(locationDir.absolutePath());
@@ -456,27 +475,6 @@ void SearchEngine::updateNova()
 
     QDir destDir(pluginsLocation());
     Utils::Fs::removeDirRecursive(destDir.absoluteFilePath("__pycache__"));
-    QDir shippedSubdir(":/" + novaFolder + "/engines/");
-    QStringList files = shippedSubdir.entryList();
-    foreach (const QString &file, files) {
-        QString shippedFile = shippedSubdir.absoluteFilePath(file);
-        // Copy python classes
-        if (file.endsWith(".py")) {
-            const QString destFile = destDir.absoluteFilePath(file);
-            if (getPluginVersion(shippedFile) > getPluginVersion(destFile) ) {
-                qDebug("shipped %s is more recent then local plugin, updating...", qPrintable(file));
-                removePythonScriptIfExists(destFile);
-                qDebug("%s copied to %s", qPrintable(shippedFile), qPrintable(destFile));
-                QFile::copy(shippedFile, destFile);
-            }
-        }
-        else {
-            // Copy icons
-            if (file.endsWith(".png"))
-                if (!QFile::exists(destDir.absoluteFilePath(file)))
-                    QFile::copy(shippedFile, destDir.absoluteFilePath(file));
-        }
-    }
 }
 
 void SearchEngine::onTimeout()
@@ -552,16 +550,7 @@ void SearchEngine::update()
             QStringList disabledEngines = Preferences::instance()->getSearchEngDisabled();
             plugin->enabled = !disabledEngines.contains(pluginName);
 
-            // Handle icon
-            QString iconPath = QString("%1/%2.png").arg(pluginsLocation()).arg(pluginName);
-            if (QFile::exists(iconPath)) {
-                plugin->iconPath = iconPath;
-            }
-            else {
-                iconPath = QString("%1/%2.ico").arg(pluginsLocation()).arg(pluginName);
-                if (QFile::exists(iconPath))
-                    plugin->iconPath = iconPath;
-            }
+            updateIconPath(plugin);
 
             if (!m_plugins.contains(pluginName)) {
                 m_plugins[pluginName] = plugin;
@@ -607,7 +596,7 @@ void SearchEngine::parseVersionInfo(const QByteArray &info)
 {
     qDebug("Checking if update is needed");
 
-    QHash<QString, qreal> updateInfo;
+    QHash<QString, PluginVersion> updateInfo;
     bool dataCorrect = false;
     QList<QByteArray> lines = info.split('\n');
     foreach (QByteArray line, lines) {
@@ -622,14 +611,12 @@ void SearchEngine::parseVersionInfo(const QByteArray &info)
         if (!pluginName.endsWith(":")) continue;
 
         pluginName.chop(1); // remove trailing ':'
-        bool ok;
-        qreal version = list.last().toFloat(&ok);
-        qDebug("read line %s: %.2f", qPrintable(pluginName), version);
-        if (!ok) continue;
+        PluginVersion version = PluginVersion::tryParse(list.last(), {});
+        if (version == PluginVersion()) continue;
 
         dataCorrect = true;
         if (isUpdateNeeded(pluginName, version)) {
-            qDebug("Plugin: %s is outdated", qPrintable(pluginName));
+            qDebug("Plugin: %s is outdated", qUtf8Printable(pluginName));
             updateInfo[pluginName] = version;
         }
     }
@@ -640,13 +627,13 @@ void SearchEngine::parseVersionInfo(const QByteArray &info)
         emit checkForUpdatesFinished(updateInfo);
 }
 
-bool SearchEngine::isUpdateNeeded(QString pluginName, qreal newVersion) const
+bool SearchEngine::isUpdateNeeded(QString pluginName, PluginVersion newVersion) const
 {
     PluginInfo *plugin = pluginInfo(pluginName);
     if (!plugin) return true;
 
-    qreal oldVersion = plugin->version;
-    qDebug("IsUpdate needed? to be installed: %.2f, already installed: %.2f", newVersion, oldVersion);
+    PluginVersion oldVersion = plugin->version;
+    qDebug() << "IsUpdate needed? to be installed:" << newVersion << ", already installed:" << oldVersion;
     return (newVersion > oldVersion);
 }
 
@@ -672,27 +659,33 @@ QHash<QString, QString> SearchEngine::initializeCategoryNames()
     return result;
 }
 
-qreal SearchEngine::getPluginVersion(QString filePath)
+PluginVersion SearchEngine::getPluginVersion(QString filePath)
 {
     QFile plugin(filePath);
     if (!plugin.exists()) {
-        qDebug("%s plugin does not exist, returning 0.0", qPrintable(filePath));
-        return 0.0;
+        qDebug("%s plugin does not exist, returning 0.0", qUtf8Printable(filePath));
+        return {};
     }
 
     if (!plugin.open(QIODevice::ReadOnly | QIODevice::Text))
-        return 0.0;
+        return {};
 
-    qreal version = 0.0;
+    const PluginVersion invalidVersion;
+
+    PluginVersion version;
     while (!plugin.atEnd()) {
         QByteArray line = plugin.readLine();
         if (line.startsWith("#VERSION: ")) {
             line = line.split(' ').last().trimmed();
-            version = line.toFloat();
-            qDebug("plugin %s version: %.2f", qPrintable(filePath), version);
+            version = PluginVersion::tryParse(line, invalidVersion);
+            if (version == invalidVersion) {
+                LogMsg(tr("Search plugin '%1' contains invalid version string ('%2')")
+                    .arg(Utils::Fs::fileName(filePath)).arg(QString::fromUtf8(line)), Log::MsgType::WARNING);
+            }
+            else
+                qDebug() << "plugin" << filePath << "version: " << version;
             break;
         }
     }
-
     return version;
 }

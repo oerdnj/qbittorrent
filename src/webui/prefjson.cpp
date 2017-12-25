@@ -37,6 +37,7 @@
 #endif
 #include <QStringList>
 #include <QTranslator>
+#include <QRegularExpression>
 
 #include "base/bittorrent/session.h"
 #include "base/net/portforwarder.h"
@@ -44,6 +45,7 @@
 #include "base/preferences.h"
 #include "base/scanfoldersmodel.h"
 #include "base/utils/fs.h"
+#include "base/utils/net.h"
 #include "jsonutils.h"
 
 prefjson::prefjson()
@@ -114,12 +116,13 @@ QByteArray prefjson::getPreferences()
     data["ip_filter_enabled"] = session->isIPFilteringEnabled();
     data["ip_filter_path"] = Utils::Fs::toNativePath(session->IPFilterFile());
     data["ip_filter_trackers"] = session->isTrackerFilteringEnabled();
+    data["banned_IPs"] = session->bannedIPs().join("\n");
 
     // Speed
     // Global Rate Limits
     data["dl_limit"] = session->globalDownloadSpeedLimit();
     data["up_limit"] = session->globalUploadSpeedLimit();
-    data["enable_utp"] = session->isUTPEnabled();
+    data["bittorrent_protocol"] = static_cast<int>(session->btProtocol());
     data["limit_utp_rate"] = session->isUTPRateLimited();
     data["limit_tcp_overhead"] = session->includeOverheadInLimits();
     data["alt_dl_limit"] = session->altGlobalDownloadSpeedLimit();
@@ -150,6 +153,8 @@ QByteArray prefjson::getPreferences()
     // Share Ratio Limiting
     data["max_ratio_enabled"] = (session->globalMaxRatio() >= 0.);
     data["max_ratio"] = session->globalMaxRatio();
+    data["max_seeding_time_enabled"] = (session->globalMaxSeedingMinutes() >= 0.);
+    data["max_seeding_time"] = session->globalMaxSeedingMinutes();
     data["max_ratio_act"] = session->maxRatioAction();
     // Add trackers
     data["add_trackers_enabled"] = session->isAddTrackersEnabled();
@@ -160,6 +165,7 @@ QByteArray prefjson::getPreferences()
     data["locale"] = pref->getLocale();
     // HTTP Server
     data["web_ui_domain_list"] = pref->getServerDomains();
+    data["web_ui_address"] = pref->getWebUiAddress();
     data["web_ui_port"] = pref->getWebUiPort();
     data["web_ui_upnp"] = pref->useUPnPForWebUIPort();
     data["use_https"] = pref->isWebUiHttpsEnabled();
@@ -169,6 +175,11 @@ QByteArray prefjson::getPreferences()
     data["web_ui_username"] = pref->getWebUiUsername();
     data["web_ui_password"] = pref->getWebUiPassword();
     data["bypass_local_auth"] = !pref->isWebUiLocalAuthEnabled();
+    data["bypass_auth_subnet_whitelist_enabled"] = pref->isWebUiAuthSubnetWhitelistEnabled();
+    QStringList authSubnetWhitelistStringList;
+    for (const Utils::Net::Subnet &subnet : pref->getWebUiAuthSubnetWhitelist())
+        authSubnetWhitelistStringList << Utils::Net::subnetToString(subnet);
+    data["bypass_auth_subnet_whitelist"] = authSubnetWhitelistStringList.join("\n");
     // Update my dynamic domain name
     data["dyndns_enabled"] = pref->isDynDNSEnabled();
     data["dyndns_service"] = pref->getDynDNSService();
@@ -223,10 +234,10 @@ void prefjson::setPreferences(const QString& json)
 
             if (ec == ScanFoldersModel::Ok) {
                 scanDirs.insert(folder, (downloadType == ScanFoldersModel::CUSTOM_LOCATION) ? QVariant(downloadPath) : QVariant(downloadType));
-                qDebug("New watched folder: %s to %s", qPrintable(folder), qPrintable(downloadPath));
+                qDebug("New watched folder: %s to %s", qUtf8Printable(folder), qUtf8Printable(downloadPath));
             }
             else {
-                qDebug("Watched folder %s failed with error %d", qPrintable(folder), ec);
+                qDebug("Watched folder %s failed with error %d", qUtf8Printable(folder), ec);
             }
         }
 
@@ -235,7 +246,7 @@ void prefjson::setPreferences(const QString& json)
             QString folder = folderVariant.toString();
             if (!scanDirs.contains(folder)) {
                 model->removePath(folder);
-                qDebug("Removed watched folder %s", qPrintable(folder));
+                qDebug("Removed watched folder %s", qUtf8Printable(folder));
             }
         }
         pref->setScanDirs(scanDirs);
@@ -310,6 +321,8 @@ void prefjson::setPreferences(const QString& json)
         session->setIPFilterFile(m["ip_filter_path"].toString());
     if (m.contains("ip_filter_trackers"))
         session->setTrackerFilteringEnabled(m["ip_filter_trackers"].toBool());
+    if (m.contains("banned_IPs"))
+        session->setBannedIPs(m["banned_IPs"].toString().split('\n'));
 
     // Speed
     // Global Rate Limits
@@ -317,8 +330,8 @@ void prefjson::setPreferences(const QString& json)
         session->setGlobalDownloadSpeedLimit(m["dl_limit"].toInt());
     if (m.contains("up_limit"))
         session->setGlobalUploadSpeedLimit(m["up_limit"].toInt());
-    if (m.contains("enable_utp"))
-        session->setUTPEnabled(m["enable_utp"].toBool());
+    if (m.contains("bittorrent_protocol"))
+        session->setBTProtocol(static_cast<BitTorrent::BTProtocol>(m["bittorrent_protocol"].toInt()));
     if (m.contains("limit_utp_rate"))
         session->setUTPRateLimited(m["limit_utp_rate"].toBool());
     if (m.contains("limit_tcp_overhead"))
@@ -365,6 +378,10 @@ void prefjson::setPreferences(const QString& json)
         session->setGlobalMaxRatio(m["max_ratio"].toReal());
     else
         session->setGlobalMaxRatio(-1);
+    if (m.contains("max_seeding_time_enabled"))
+        session->setGlobalMaxSeedingMinutes(m["max_seeding_time"].toInt());
+    else
+        session->setGlobalMaxSeedingMinutes(-1);
     if (m.contains("max_ratio_act"))
         session->setMaxRatioAction(static_cast<MaxRatioAction>(m["max_ratio_act"].toInt()));
     // Add trackers
@@ -377,10 +394,10 @@ void prefjson::setPreferences(const QString& json)
         QString locale = m["locale"].toString();
         if (pref->getLocale() != locale) {
             QTranslator *translator = new QTranslator;
-            if (translator->load(QString::fromUtf8(":/lang/qbittorrent_") + locale)) {
-                qDebug("%s locale recognized, using translation.", qPrintable(locale));
+            if (translator->load(QLatin1String(":/lang/qbittorrent_") + locale)) {
+                qDebug("%s locale recognized, using translation.", qUtf8Printable(locale));
             }else{
-                qDebug("%s locale unrecognized, using default (en).", qPrintable(locale));
+                qDebug("%s locale unrecognized, using default (en).", qUtf8Printable(locale));
             }
             qApp->installTranslator(translator);
 
@@ -390,6 +407,8 @@ void prefjson::setPreferences(const QString& json)
     // HTTP Server
     if (m.contains("web_ui_domain_list"))
         pref->setServerDomains(m["web_ui_domain_list"].toString());
+    if (m.contains("web_ui_address"))
+        pref->setWebUiAddress(m["web_ui_address"].toString());
     if (m.contains("web_ui_port"))
         pref->setWebUiPort(m["web_ui_port"].toUInt());
     if (m.contains("web_ui_upnp"))
@@ -415,6 +434,20 @@ void prefjson::setPreferences(const QString& json)
         pref->setWebUiPassword(m["web_ui_password"].toString());
     if (m.contains("bypass_local_auth"))
         pref->setWebUiLocalAuthEnabled(!m["bypass_local_auth"].toBool());
+    if (m.contains("bypass_auth_subnet_whitelist_enabled"))
+        pref->setWebUiAuthSubnetWhitelistEnabled(m["bypass_auth_subnet_whitelist_enabled"].toBool());
+    if (m.contains("bypass_auth_subnet_whitelist")) {
+        QList<Utils::Net::Subnet> subnets;
+        // recognize new line and comma as delimiters
+        foreach (QString subnetString, m["bypass_auth_subnet_whitelist"].toString().split(QRegularExpression("\n|,"), QString::SkipEmptyParts)) {
+            bool ok = false;
+            const Utils::Net::Subnet subnet = Utils::Net::parseSubnet(subnetString.trimmed(), &ok);
+            if (ok)
+                subnets.append(subnet);
+        }
+
+        pref->setWebUiAuthSubnetWhitelist(subnets);
+    }
     // Update my dynamic domain name
     if (m.contains("dyndns_enabled"))
         pref->setDynDNSEnabled(m["dyndns_enabled"].toBool());

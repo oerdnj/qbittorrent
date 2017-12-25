@@ -1177,17 +1177,19 @@ var TorrentPeersTable = new Class({
                     return;
                 }
 
-                var img_path = 'images/flags/' + country_code + '.png';
+                var img_path = 'images/flags/' + country_code + '.svg';
 
                 if (td.getChildren('img').length) {
                     var img = td.getChildren('img')[0];
                     img.set('src', img_path);
+                    img.set('class', 'flags');
                     img.set('alt', country);
                     img.set('title', country);
                 }
                 else
                     td.adopt(new Element('img', {
                         'src' : img_path,
+                        'class' : 'flags',
                         'alt' : country,
                         'title' : country
                     }));

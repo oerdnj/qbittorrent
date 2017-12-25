@@ -47,7 +47,7 @@
   <legend><input type="checkbox" id="mail_notification_checkbox" onclick="updateMailNotification();"/>
   <label for="mail_notification_checkbox">QBT_TR(Email notification upon download completion)QBT_TR[CONTEXT=OptionsDialog]</label></legend>
   <div class="formRow">
-  <label for="dest_email_txt" class="leftLabelLarge">QBT_TR(Destination email:)QBT_TR[CONTEXT=OptionsDialog]</label><input type="text" id="dest_email_txt"/>
+  <label for="dest_email_txt" class="leftLabelLarge">QBT_TR(To:)QBT_TR[CONTEXT=OptionsDialog]</label><input type="text" id="dest_email_txt"/>
   </div>
   <div class="formRow">
   <label for="smtp_server_txt" class="leftLabelLarge">QBT_TR(SMTP server:)QBT_TR[CONTEXT=OptionsDialog]</label><input type="text" id="smtp_server_txt"/>
@@ -88,6 +88,12 @@
 </div>
 
 <div id="ConnectionTab" class="PrefTab invisible">
+<label>QBT_TR(Enabled protocol:)QBT_TR[CONTEXT=OptionsDialog]</label>
+<select id="enable_protocol_combobox">
+  <option value="0" selected>QBT_TR(TCP and μTP)QBT_TR[CONTEXT=OptionsDialog]</option>
+  <option value="1">TCP</option>
+  <option value="2">μTP</option>
+</select><br/>
 <fieldset class="settings">
   <legend>QBT_TR(Listening Port)QBT_TR[CONTEXT=OptionsDialog]</legend>
   <label for="port_value">QBT_TR(Port used for incoming connections:)QBT_TR[CONTEXT=OptionsDialog]</label>
@@ -180,6 +186,12 @@
   <input type="text" id="ipfilter_text"/><br/>
   <input type="checkbox" id="ipfilter_trackers_checkbox"/>
   <label for="ipfilter_trackers_checkbox">QBT_TR(Apply to trackers)QBT_TR[CONTEXT=OptionsDialog]</label>
+  <div class="formRow">
+    <fieldset class="settings">
+        <legend>QBT_TR(Manually banned IP addresses...)QBT_TR[CONTEXT=OptionsDialog]</legend>
+        <textarea id="banned_IPs_textarea" rows="5" cols="70"></textarea>
+    </fieldset>
+  </div>
 </fieldset>
 </div>
 
@@ -250,8 +262,6 @@
 
 <fieldset class="settings">
   <legend>QBT_TR(Rate Limits Settings)QBT_TR[CONTEXT=OptionsDialog]</legend>
-  <input type="checkbox" id="enable_utp_checkbox" onClick="updateUTPEnabled();"/>
-  <label for="enable_utp_checkbox">QBT_TR(Enable µTP protocol)QBT_TR[CONTEXT=OptionsDialog]</label><br/>
   <input type="checkbox" id="limit_utp_rate_checkbox"/>
   <label for="limit_utp_rate_checkbox">QBT_TR(Apply rate limit to µTP protocol)QBT_TR[CONTEXT=OptionsDialog]</label><br/>
   <input type="checkbox" id="limit_tcp_overhead_checkbox"/>
@@ -301,14 +311,36 @@
 
 <fieldset class="settings">
   <legend>QBT_TR(Share Ratio Limiting)QBT_TR[CONTEXT=OptionsDialog]</legend>
-  <input type="checkbox" id="max_ratio_checkbox" onClick="updateMaxRatioEnabled();"/>
+  <table>
+  <tr>
+  <td>
+  <input type="checkbox" id="max_ratio_checkbox" onClick="updateMaxRatioTimeEnabled();"/>
   <label for="max_ratio_checkbox">QBT_TR(Seed torrents until their ratio reaches)QBT_TR[CONTEXT=OptionsDialog]</label>
+  </td>
+  <td>
   <input type="text" id="max_ratio_value" style="width: 4em;"/>
+  </td>
+  <tr>
+  <td>
+  <input type="checkbox" id="max_seeding_time_checkbox" onClick="updateMaxRatioTimeEnabled();"/>
+  <label for="max_seeding_time_checkbox">QBT_TR(Seed torrents until their seeding time reaches)QBT_TR[CONTEXT=OptionsDialog]</label>
+  </td>
+  <td>
+  <input type="text" id="max_seeding_time_value" style="width: 4em;"/> QBT_TR(minutes)QBT_TR[CONTEXT=OptionsDialog]
+  </td>
+  </tr>
+  <tr>
+  <td style="text-align: right;">
   QBT_TR(then)QBT_TR[CONTEXT=OptionsDialog]
+  </td>
+  <td>
   <select id="max_ratio_act">
     <option value="0">QBT_TR(Pause them)QBT_TR[CONTEXT=OptionsDialog]</option>
     <option value="1">QBT_TR(Remove them)QBT_TR[CONTEXT=OptionsDialog]</option>
   </select>
+  </td>
+  </tr>
+  </table>
 </fieldset>
 
 <fieldset class="settings">
@@ -378,8 +410,9 @@
 
 <fieldset class="settings">
   <legend>QBT_TR(Web User Interface (Remote control))QBT_TR[CONTEXT=OptionsDialog]</legend>
-  <label for="webui_domain_textarea">QBT_TR(Server domains:)QBT_TR[CONTEXT=OptionsDialog]</label><textarea id="webui_domain_textarea" rows="1" cols="70"></textarea><br/>
+  <label for="webui_address_value">QBT_TR(IP address:)QBT_TR[CONTEXT=OptionsDialog]</label><input type="text" id="webui_address_value"/>
   <label for="webui_port_value">QBT_TR(Port:)QBT_TR[CONTEXT=OptionsDialog]</label><input type="text" id="webui_port_value" style="width: 4em;"/><br/>
+  <label for="webui_domain_textarea">QBT_TR(Server domains:)QBT_TR[CONTEXT=OptionsDialog]</label><textarea id="webui_domain_textarea" rows="1" cols="70"></textarea><br/>
   <input type="checkbox" id="webui_upnp_checkbox"/>
   <label for="webui_upnp_checkbox">QBT_TR(Use UPnP / NAT-PMP to forward the port from my router)QBT_TR[CONTEXT=OptionsDialog]</label><br/>
   <fieldset class="settings">
@@ -405,9 +438,17 @@
   <div class="formRow">
   <label for="webui_password_text" class="leftLabelSmall">QBT_TR(Password:)QBT_TR[CONTEXT=OptionsDialog]</label><input type="password" id="webui_password_text" />
   </div>
-
-  <input type="checkbox" id="bypass_local_auth_checkbox" />
-  <label for="bypass_local_auth_checkbox">QBT_TR(Bypass authentication for localhost)QBT_TR[CONTEXT=OptionsDialog]</label>
+  <div class="formRow">
+    <input type="checkbox" id="bypass_local_auth_checkbox" />
+    <label for="bypass_local_auth_checkbox">QBT_TR(Bypass authentication for clients on localhost)QBT_TR[CONTEXT=OptionsDialog]</label>
+  </div>
+  <div class="formRow">
+    <input type="checkbox" id="bypass_auth_subnet_whitelist_checkbox" onclick="updateBypasssAuthSettings();" />
+    <label for="bypass_auth_subnet_whitelist_checkbox">QBT_TR(Bypass authentication for clients in these IP subnets (CIDR notation))QBT_TR[CONTEXT=OptionsDialog]</label>
+  </div>
+  <div class="formRow" style="padding-left: 30px; padding-top: 5px;">
+    <textarea id="bypass_auth_subnet_whitelist_textarea" rows="5" cols="48" placeholder="Example: 172.17.32.0/24, fdff:ffff:c8::/40"></textarea>
+  </div>
 </fieldset>
 
 <fieldset class="settings">
@@ -639,9 +680,11 @@ updateFilterSettings = function() {
   if($('ipfilter_enabled_checkbox').getProperty('checked')) {
     $('ipfilter_text').setProperty('disabled', false);
     $('ipfilter_trackers_checkbox').setProperty('disabled', false);
+    $('banned_IPs_textarea').setProperty('disabled', false);
   } else {
     $('ipfilter_text').setProperty('disabled', true);
     $('ipfilter_trackers_checkbox').setProperty('disabled', true);
+    $('banned_IPs_textarea').setProperty('disabled', true);
   }
 }
 
@@ -659,14 +702,6 @@ updateDlLimitEnabled = function() {
     $('dl_limit_value').setProperty('disabled', false);
   } else {
     $('dl_limit_value').setProperty('disabled', true);
-  }
-}
-
-updateUTPEnabled = function() {
-  if($('enable_utp_checkbox').getProperty('checked')) {
-    $('limit_utp_rate_checkbox').setProperty('disabled', false);
-  } else {
-    $('limit_utp_rate_checkbox').setProperty('disabled', true);
   }
 }
 
@@ -717,12 +752,20 @@ updateQueueingSystem = function() {
   }
 }
 
-updateMaxRatioEnabled = function() {
+updateMaxRatioTimeEnabled = function() {
   if($('max_ratio_checkbox').getProperty('checked')) {
     $('max_ratio_value').setProperty('disabled', false);
-    $('max_ratio_act').setProperty('disabled', false);
   } else {
     $('max_ratio_value').setProperty('disabled', true);
+  }
+  if($('max_seeding_time_checkbox').getProperty('checked')) {
+    $('max_seeding_time_value').setProperty('disabled', false);
+  } else {
+    $('max_seeding_time_value').setProperty('disabled', true);
+  }
+  if($('max_ratio_checkbox').getProperty('checked') || $('max_seeding_time_checkbox').getProperty('checked')) {
+    $('max_ratio_act').setProperty('disabled', false);
+  } else {
     $('max_ratio_act').setProperty('disabled', true);
   }
 }
@@ -745,6 +788,13 @@ updateHttpsSettings = function() {
     $('ssl_cert_textarea').setProperty('disabled', true);
   }
 }
+
+updateBypasssAuthSettings = function() {
+  if ($('bypass_auth_subnet_whitelist_checkbox').getProperty('checked'))
+    $('bypass_auth_subnet_whitelist_textarea').setProperty('disabled', false);
+  else
+    $('bypass_auth_subnet_whitelist_textarea').setProperty('disabled', true);
+};
 
 updateDynDnsSettings = function() {
   if($('use_dyndns_checkbox').getProperty('checked')) {
@@ -915,6 +965,7 @@ loadPreferences = function() {
                     $('ipfilter_enabled_checkbox').setProperty('checked', pref.ip_filter_enabled);
                     $('ipfilter_text').setProperty('value', pref.ip_filter_path);
                     $('ipfilter_trackers_checkbox').setProperty('checked', pref.ip_filter_trackers);
+                    $('banned_IPs_textarea').setProperty('value', pref.banned_IPs);
                     updateFilterSettings();
 
                     // Speed tab
@@ -935,10 +986,9 @@ loadPreferences = function() {
                       $('dl_limit_value').setProperty('value', dl_limit);
                     }
                     updateDlLimitEnabled();
-                    $('enable_utp_checkbox').setProperty('checked', pref.enable_utp);
+                    $('enable_protocol_combobox').setProperty('value', pref.bittorrent_protocol);
                     $('limit_utp_rate_checkbox').setProperty('checked', pref.limit_utp_rate);
                     $('limit_tcp_overhead_checkbox').setProperty('checked', pref.limit_tcp_overhead);
-                    updateUTPEnabled();
 
                     // Alternative Global Rate Limits
                     var alt_up_limit = pref.alt_up_limit.toInt() / 1024;
@@ -984,7 +1034,7 @@ loadPreferences = function() {
                     $('dont_count_slow_torrents_checkbox').setProperty('checked', pref.dont_count_slow_torrents);
                     updateQueueingSystem();
 
-                    // Share Ratio Limiting
+                    // Share Limiting
                     $('max_ratio_checkbox').setProperty('checked', pref.max_ratio_enabled);
                     if (pref.max_ratio_enabled)
                         $('max_ratio_value').setProperty('value', pref.max_ratio);
@@ -992,7 +1042,14 @@ loadPreferences = function() {
                         $('max_ratio_value').setProperty('value', 1);
                     var max_ratio_act = pref.max_ratio_act.toInt();
                     $('max_ratio_act').getChildren('option')[max_ratio_act].setAttribute('selected', '');
-                    updateMaxRatioEnabled();
+                    $('max_seeding_time_checkbox').setProperty('checked', pref.max_seeding_time_enabled);
+                    if (pref.max_seeding_time_enabled)
+                        $('max_seeding_time_value').setProperty('value', pref.max_seeding_time.toInt());
+                    else
+                        $('max_seeding_time_value').setProperty('value', 1440);
+                    var max_ratio_act = pref.max_ratio_act.toInt();
+                    $('max_ratio_act').getChildren('option')[max_ratio_act].setAttribute('selected', '');
+                    updateMaxRatioTimeEnabled();
 
                     // Add trackers
                     $('add_trackers_checkbox').setProperty('checked', pref.add_trackers_enabled);
@@ -1005,6 +1062,7 @@ loadPreferences = function() {
 
                     // HTTP Server
                     $('webui_domain_textarea').setProperty('value', pref.web_ui_domain_list);
+                    $('webui_address_value').setProperty('value', pref.web_ui_address);
                     $('webui_port_value').setProperty('value', pref.web_ui_port);
                     $('webui_upnp_checkbox').setProperty('checked', pref.web_ui_upnp);
                     $('use_https_checkbox').setProperty('checked', pref.use_https);
@@ -1016,6 +1074,9 @@ loadPreferences = function() {
                     $('webui_username_text').setProperty('value', pref.web_ui_username);
                     $('webui_password_text').setProperty('value', pref.web_ui_password);
                     $('bypass_local_auth_checkbox').setProperty('checked', pref.bypass_local_auth);
+                    $('bypass_auth_subnet_whitelist_checkbox').setProperty('checked', pref.bypass_auth_subnet_whitelist_enabled);
+                    $('bypass_auth_subnet_whitelist_textarea').setProperty('value', pref.bypass_auth_subnet_whitelist);
+                    updateBypasssAuthSettings();
 
                     // Update my dynamic domain name
                     $('use_dyndns_checkbox').setProperty('checked', pref.dyndns_enabled);
@@ -1149,6 +1210,7 @@ applyPreferences = function() {
   settings.set('ip_filter_enabled', $('ipfilter_enabled_checkbox').getProperty('checked'));
   settings.set('ip_filter_path', $('ipfilter_text').getProperty('value'));
   settings.set('ip_filter_trackers', $('ipfilter_trackers_checkbox').getProperty('checked'));
+  settings.set('banned_IPs', $('banned_IPs_textarea').getProperty('value'));
 
   // Speed tab
   // Global Rate Limits
@@ -1170,7 +1232,7 @@ applyPreferences = function() {
     }
   }
   settings.set('dl_limit', dl_limit);
-  settings.set('enable_utp', $('enable_utp_checkbox').getProperty('checked'));
+  settings.set('bittorrent_protocol', $('enable_protocol_combobox').getProperty('value'));
   settings.set('limit_utp_rate', $('limit_utp_rate_checkbox').getProperty('checked'));
   settings.set('limit_tcp_overhead', $('limit_tcp_overhead_checkbox').getProperty('checked'));
 
@@ -1250,6 +1312,18 @@ applyPreferences = function() {
   settings.set('max_ratio', max_ratio);
   settings.set('max_ratio_act', $('max_ratio_act').getProperty('value').toInt());
 
+  var max_seeding_time = -1;
+  if($('max_seeding_time_checkbox').getProperty('checked')) {
+    max_seeding_time = $('max_seeding_time_value').getProperty('value').toInt();
+    if(isNaN(max_seeding_time) || max_seeding_time < 0 || max_seeding_time > 525600) {
+      alert("QBT_TR(Seeding time limit must be between 0 and 525600 minutes.)QBT_TR[CONTEXT=HttpServer]");
+      return;
+    }
+  }
+  settings.set('max_seeding_time_enabled', $('max_seeding_time_checkbox').getProperty('checked'));
+  settings.set('max_seeding_time', max_seeding_time);
+  settings.set('max_ratio_act', $('max_ratio_act').getProperty('value').toInt());
+
   // Add trackers
   settings.set('add_trackers_enabled', $('add_trackers_checkbox').getProperty('checked'));
   settings.set('add_trackers', $('add_trackers_textarea').getProperty('value'));
@@ -1260,11 +1334,13 @@ applyPreferences = function() {
 
   // HTTP Server
   settings.set('web_ui_domain_list', $('webui_domain_textarea').getProperty('value'));
+  var web_ui_address = $('webui_address_value').getProperty('value').toString();
   var web_ui_port = $('webui_port_value').getProperty('value').toInt();
   if(isNaN(web_ui_port) || web_ui_port < 1 || web_ui_port > 65535) {
     alert("QBT_TR(The port used for the Web UI must be between 1 and 65535.)QBT_TR[CONTEXT=HttpServer]");
     return;
   }
+  settings.set('web_ui_address', web_ui_address);
   settings.set('web_ui_port', web_ui_port);
   settings.set('web_ui_upnp', $('webui_upnp_checkbox').getProperty('checked'));
   settings.set('use_https', $('use_https_checkbox').getProperty('checked'));
@@ -1285,6 +1361,8 @@ applyPreferences = function() {
   settings.set('web_ui_username', web_ui_username);
   settings.set('web_ui_password', web_ui_password);
   settings.set('bypass_local_auth', $('bypass_local_auth_checkbox').getProperty('checked'));
+  settings.set('bypass_auth_subnet_whitelist_enabled', $('bypass_auth_subnet_whitelist_checkbox').getProperty('checked'));
+  settings.set('bypass_auth_subnet_whitelist', $('bypass_auth_subnet_whitelist_textarea').getProperty('value'));
 
   // Update my dynamic domain name
   settings.set('dyndns_enabled', $('use_dyndns_checkbox').getProperty('checked'));

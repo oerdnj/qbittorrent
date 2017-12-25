@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>600</width>
-    <height>300</height>
+    <height>345</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -45,6 +45,9 @@
      <property name="itemsExpandable">
       <bool>false</bool>
      </property>
+     <property name="sortingEnabled">
+      <bool>true</bool>
+     </property>
      <column>
       <property name="text">
        <string>Name</string>
@@ -70,6 +73,16 @@
        <string/>
       </property>
      </column>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Warning: Be sure to comply with your country's copyright laws when downloading torrents from any of these search engines.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
    <item>

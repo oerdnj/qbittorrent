@@ -1,6 +1,6 @@
 /*
- * Bittorrent Client using Qt4 and libtorrent.
- * Copyright (C) 2006  Christophe Dumez
+ * Bittorrent Client using Qt and libtorrent.
+ * Copyright (C) 2006  Christophe Dumez <chris@qbittorrent.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,21 +24,18 @@
  * modify file(s), you may extend this exception to your version of the file(s),
  * but you are not obligated to do so. If you do not wish to do so, delete this
  * exception statement from your version.
- *
- * Contact : chris@qbittorrent.org
  */
 
 #ifndef TRACKERLIST_H
 #define TRACKERLIST_H
 
+#include <QClipboard>
+#include <QList>
 #include <QShortcut>
 #include <QTreeWidget>
-#include <QList>
-#include <QClipboard>
 
 #include "propertieswidget.h"
 
-enum TrackerListColumn {COL_TIER, COL_URL, COL_STATUS, COL_RECEIVED, COL_SEEDS, COL_PEERS, COL_DOWNLOADED, COL_MSG};
 #define NB_STICKY_ITEM 3
 
 namespace BitTorrent
@@ -46,45 +43,64 @@ namespace BitTorrent
     class TorrentHandle;
 }
 
-class TrackerList: public QTreeWidget {
-  Q_OBJECT
-  Q_DISABLE_COPY(TrackerList)
-
-private:
-  PropertiesWidget *properties;
-  QHash<QString, QTreeWidgetItem*> tracker_items;
-  QTreeWidgetItem* dht_item;
-  QTreeWidgetItem* pex_item;
-  QTreeWidgetItem* lsd_item;
-  QShortcut *editHotkey;
-  QShortcut *deleteHotkey;
-  QShortcut *copyHotkey;
+class TrackerList : public QTreeWidget
+{
+    Q_OBJECT
+    Q_DISABLE_COPY(TrackerList)
 
 public:
-  TrackerList(PropertiesWidget *properties);
-  ~TrackerList();
+    enum TrackerListColumn
+    {
+        COL_TIER,
+        COL_URL,
+        COL_STATUS,
+        COL_RECEIVED,
+        COL_SEEDS,
+        COL_PEERS,
+        COL_DOWNLOADED,
+        COL_MSG,
 
-protected:
-  QList<QTreeWidgetItem*> getSelectedTrackerItems() const;
+        COL_COUNT
+    };
+
+    TrackerList(PropertiesWidget *properties);
+    ~TrackerList();
+
+    int visibleColumnsCount() const;
 
 public slots:
-  void setRowColor(int row, QColor color);
+    void setRowColor(int row, QColor color);
 
-  void moveSelectionUp();
-  void moveSelectionDown();
+    void moveSelectionUp();
+    void moveSelectionDown();
 
-  void clear();
-  void loadStickyItems(BitTorrent::TorrentHandle *const torrent);
-  void loadTrackers();
-  void askForTrackers();
-  void copyTrackerUrl();
-  void reannounceSelected();
-  void deleteSelectedTrackers();
-  void editSelectedTracker();
-  void showTrackerListMenu(QPoint);
-  void loadSettings();
-  void saveSettings() const;
+    void clear();
+    void loadStickyItems(BitTorrent::TorrentHandle *const torrent);
+    void loadTrackers();
+    void askForTrackers();
+    void copyTrackerUrl();
+    void reannounceSelected();
+    void deleteSelectedTrackers();
+    void editSelectedTracker();
+    void showTrackerListMenu(QPoint);
+    void displayToggleColumnsMenu(const QPoint &);
+    void loadSettings();
+    void saveSettings() const;
 
+protected:
+    QList<QTreeWidgetItem *> getSelectedTrackerItems() const;
+
+private:
+    PropertiesWidget *m_properties;
+    QHash<QString, QTreeWidgetItem *> m_trackerItems;
+    QTreeWidgetItem *m_DHTItem;
+    QTreeWidgetItem *m_PEXItem;
+    QTreeWidgetItem *m_LSDItem;
+    QShortcut *m_editHotkey;
+    QShortcut *m_deleteHotkey;
+    QShortcut *m_copyHotkey;
+
+    static QStringList headerLabels();
 };
 
 #endif // TRACKERLIST_H

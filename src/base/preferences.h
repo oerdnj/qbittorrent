@@ -33,14 +33,18 @@
 #ifndef PREFERENCES_H
 #define PREFERENCES_H
 
-#include <QTime>
 #include <QDateTime>
+#include <QHostAddress>
 #include <QList>
-#include <QTimer>
-#include <QReadWriteLock>
 #include <QNetworkCookie>
+#include <QReadWriteLock>
+#include <QSize>
+#include <QStringList>
+#include <QTime>
+#include <QTimer>
 #include <QVariant>
 
+#include "base/utils/net.h"
 #include "types.h"
 
 enum scheduler_days
@@ -89,7 +93,7 @@ class Preferences: public QObject
     const QVariant value(const QString &key, const QVariant &defaultValue = QVariant()) const;
     void setValue(const QString &key, const QVariant &value);
 
-    static Preferences* m_instance;
+    static Preferences *m_instance;
 
 signals:
     void changed();
@@ -97,7 +101,7 @@ signals:
 public:
     static void initInstance();
     static void freeInstance();
-    static Preferences* instance();
+    static Preferences *instance();
 
     // General options
     QString getLocale() const;
@@ -114,14 +118,10 @@ public:
     void setHideZeroValues(bool b);
     int getHideZeroComboValues() const;
     void setHideZeroComboValues(int n);
-    bool systrayIntegration() const;
-    void setSystrayIntegration(bool enabled);
+    bool isStatusbarDisplayed() const;
+    void setStatusbarDisplayed(bool displayed);
     bool isToolbarDisplayed() const;
     void setToolbarDisplayed(bool displayed);
-    bool minimizeToTray() const;
-    void setMinimizeToTray(bool b);
-    bool closeToTray() const;
-    void setCloseToTray(bool b);
     bool startMinimized() const;
     void setStartMinimized(bool b);
     bool isSplashScreenDisabled() const;
@@ -142,6 +142,8 @@ public:
     void setScanDirsLastPath(const QString &path);
     bool isMailNotificationEnabled() const;
     void setMailNotificationEnabled(bool enabled);
+    QString getMailNotificationSender() const;
+    void setMailNotificationSender(const QString &mail);
     QString getMailNotificationEmail() const;
     void setMailNotificationEmail(const QString &mail);
     QString getMailNotificationSMTP() const;
@@ -171,26 +173,39 @@ public:
     bool isSearchEnabled() const;
     void setSearchEnabled(bool enabled);
 
+    // HTTP Server
     bool isWebUiEnabled() const;
     void setWebUiEnabled(bool enabled);
-    bool isWebUiLocalAuthEnabled() const;
-    void setWebUiLocalAuthEnabled(bool enabled);
     QString getServerDomains() const;
     void setServerDomains(const QString &str);
+    QString getWebUiAddress() const;
+    void setWebUiAddress(const QString &addr);
     quint16 getWebUiPort() const;
     void setWebUiPort(quint16 port);
     bool useUPnPForWebUIPort() const;
     void setUPnPForWebUIPort(bool enabled);
+
+    // Authentication
+    bool isWebUiLocalAuthEnabled() const;
+    void setWebUiLocalAuthEnabled(bool enabled);
+    bool isWebUiAuthSubnetWhitelistEnabled() const;
+    void setWebUiAuthSubnetWhitelistEnabled(bool enabled);
+    QList<Utils::Net::Subnet> getWebUiAuthSubnetWhitelist() const;
+    void setWebUiAuthSubnetWhitelist(const QList<Utils::Net::Subnet> &subnets);
     QString getWebUiUsername() const;
     void setWebUiUsername(const QString &username);
     QString getWebUiPassword() const;
     void setWebUiPassword(const QString &new_password);
+
+    // HTTPS
     bool isWebUiHttpsEnabled() const;
     void setWebUiHttpsEnabled(bool enabled);
     QByteArray getWebUiHttpsCertificate() const;
     void setWebUiHttpsCertificate(const QByteArray &data);
     QByteArray getWebUiHttpsKey() const;
     void setWebUiHttpsKey(const QByteArray &data);
+
+    // Dynamic DNS
     bool isDynDNSEnabled() const;
     void setDynDNSEnabled(bool enabled);
     DNS::Service getDynDNSService() const;
@@ -259,8 +274,18 @@ public:
     void setConfirmTorrentDeletion(bool enabled);
     bool confirmTorrentRecheck() const;
     void setConfirmTorrentRecheck(bool enabled);
+    bool confirmRemoveAllTags() const;
+    void setConfirmRemoveAllTags(bool enabled);
+#ifndef Q_OS_MAC
+    bool systrayIntegration() const;
+    void setSystrayIntegration(bool enabled);
+    bool minimizeToTray() const;
+    void setMinimizeToTray(bool b);
+    bool closeToTray() const;
+    void setCloseToTray(bool b);
     TrayIcon::Style trayIconStyle() const;
     void setTrayIconStyle(TrayIcon::Style style);
+#endif
 
     // Stuff that don't appear in the Options GUI but are saved
     // in the same file.
@@ -276,12 +301,8 @@ public:
     void setMainVSplitterState(const QByteArray &state);
     QString getMainLastDir() const;
     void setMainLastDir(const QString &path);
-#ifndef DISABLE_GUI
     QSize getPrefSize(const QSize &defaultSize) const;
     void setPrefSize(const QSize &size);
-#endif
-    QPoint getPrefPos() const;
-    void setPrefPos(const QPoint &pos);
     QStringList getPrefHSplitterSizes() const;
     void setPrefHSplitterSizes(const QStringList &sizes);
     QByteArray getPeerListState() const;
@@ -296,8 +317,8 @@ public:
     void setPropVisible(const bool visible);
     QByteArray getPropTrackerListState() const;
     void setPropTrackerListState(const QByteArray &state);
-    QByteArray getRssGeometry() const;
-    void setRssGeometry(const QByteArray &geometry);
+    QSize getRssGeometrySize(const QSize &defaultSize) const;
+    void setRssGeometrySize(const QSize &geometry);
     QByteArray getRssHSplitterSizes() const;
     void setRssHSplitterSizes(const QByteArray &sizes);
     QStringList getRssOpenFolders() const;
@@ -310,22 +331,13 @@ public:
     void setSearchTabHeaderState(const QByteArray &state);
     QStringList getSearchEngDisabled() const;
     void setSearchEngDisabled(const QStringList &engines);
-    QString getCreateTorLastAddPath() const;
-    void setCreateTorLastAddPath(const QString &path);
-    QString getCreateTorLastSavePath() const;
-    void setCreateTorLastSavePath(const QString &path);
-    QString getCreateTorTrackers() const;
-    void setCreateTorTrackers(const QString &path);
-    QByteArray getCreateTorGeometry() const;
-    void setCreateTorGeometry(const QByteArray &geometry);
-    bool getCreateTorIgnoreRatio() const;
-    void setCreateTorIgnoreRatio(const bool ignore);
     QString getTorImportLastContentDir() const;
     void setTorImportLastContentDir(const QString &path);
     QByteArray getTorImportGeometry() const;
     void setTorImportGeometry(const QByteArray &geometry);
     bool getStatusFilterState() const;
     bool getCategoryFilterState() const;
+    bool getTagFilterState() const;
     bool getTrackerFilterState() const;
     int getTransSelFilter() const;
     void setTransSelFilter(const int &index);
@@ -334,19 +346,9 @@ public:
     int getToolbarTextPosition() const;
     void setToolbarTextPosition(const int position);
 
-    //From old RssSettings class
-    bool isRSSEnabled() const;
-    void setRSSEnabled(const bool enabled);
-    uint getRSSRefreshInterval() const;
-    void setRSSRefreshInterval(const uint &interval);
-    int getRSSMaxArticlesPerFeed() const;
-    void setRSSMaxArticlesPerFeed(const int &nb);
-    bool isRssDownloadingEnabled() const;
-    void setRssDownloadingEnabled(const bool b);
-    QStringList getRssFeedsUrls() const;
-    void setRssFeedsUrls(const QStringList &rssFeeds);
-    QStringList getRssFeedsAliases() const;
-    void setRssFeedsAliases(const QStringList &rssAliases);
+    // From old RssSettings class
+    bool isRSSWidgetEnabled() const;
+    void setRSSWidgetVisible(const bool enabled);
 
     // Network
     QList<QNetworkCookie> getNetworkCookies() const;
@@ -363,6 +365,7 @@ public:
 public slots:
     void setStatusFilterState(bool checked);
     void setCategoryFilterState(bool checked);
+    void setTagFilterState(bool checked);
     void setTrackerFilterState(bool checked);
 
     void apply();

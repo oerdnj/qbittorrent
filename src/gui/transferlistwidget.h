@@ -31,6 +31,7 @@
 #ifndef TRANSFERLISTWIDGET_H
 #define TRANSFERLISTWIDGET_H
 
+#include <functional>
 #include <QTreeView>
 
 namespace BitTorrent
@@ -54,12 +55,15 @@ class TransferListWidget: public QTreeView
     Q_OBJECT
 
 public:
-    TransferListWidget(QWidget *parent, MainWindow *main_window);
+    TransferListWidget(QWidget *parent, MainWindow *mainWindow);
     ~TransferListWidget();
     TorrentModel* getSourceModel() const;
 
 public slots:
     void setSelectionCategory(QString category);
+    void addSelectionTag(const QString &tag);
+    void removeSelectionTag(const QString &tag);
+    void clearSelectionTags();
     void setSelectedTorrentsLocation();
     void pauseAllTorrents();
     void resumeAllTorrents();
@@ -78,6 +82,7 @@ public slots:
     void bottomPrioSelectedTorrents();
     void copySelectedMagnetURIs() const;
     void copySelectedNames() const;
+    void copySelectedHashes() const;
     void openSelectedTorrentsFolder() const;
     void recheckSelectedTorrents();
     void setDlLimitSelectedTorrents();
@@ -89,6 +94,7 @@ public slots:
     void applyNameFilter(const QString& name);
     void applyStatusFilter(int f);
     void applyCategoryFilter(QString category);
+    void applyTagFilter(const QString &tag);
     void applyTrackerFilterAll();
     void applyTrackerFilter(const QStringList &hashes);
     void previewFile(QString filePath);
@@ -116,16 +122,20 @@ signals:
 
 private:
     void wheelEvent(QWheelEvent *event) override;
+    void askAddTagsForSelection();
+    void confirmRemoveAllTagsForSelection();
+    QStringList askTagsForSelection(const QString &dialogTitle);
+    void applyToSelectedTorrents(const std::function<void (BitTorrent::TorrentHandle *const)> &fn);
 
-    TransferListDelegate *listDelegate;
-    TorrentModel *listModel;
-    TransferListSortModel *nameFilterModel;
-    MainWindow *main_window;
-    QShortcut *editHotkey;
-    QShortcut *deleteHotkey;
-    QShortcut *permDeleteHotkey;
-    QShortcut *doubleClickHotkey;
-    QShortcut *recheckHotkey;
+    TransferListDelegate *m_listDelegate;
+    TorrentModel *m_listModel;
+    TransferListSortModel *m_sortFilterModel;
+    MainWindow *m_mainWindow;
+    QShortcut *m_editHotkey;
+    QShortcut *m_deleteHotkey;
+    QShortcut *m_permDeleteHotkey;
+    QShortcut *m_doubleClickHotkey;
+    QShortcut *m_recheckHotkey;
 };
 
 #endif // TRANSFERLISTWIDGET_H

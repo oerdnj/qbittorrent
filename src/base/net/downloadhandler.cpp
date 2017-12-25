@@ -27,20 +27,21 @@
  * exception statement from your version.
  */
 
-#include <QTemporaryFile>
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QNetworkProxy>
-#include <QNetworkCookie>
-#include <QUrl>
+#include "downloadhandler.h"
+
 #include <QDebug>
+#include <QNetworkAccessManager>
+#include <QNetworkCookie>
+#include <QNetworkProxy>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QTemporaryFile>
+#include <QUrl>
 
 #include "base/utils/fs.h"
 #include "base/utils/gzip.h"
 #include "base/utils/misc.h"
 #include "downloadmanager.h"
-#include "downloadhandler.h"
 
 static QString errorCodeToString(QNetworkReply::NetworkError status);
 
@@ -73,11 +74,11 @@ QString DownloadHandler::url() const
 void DownloadHandler::processFinishedDownload()
 {
     QString url = m_reply->url().toString();
-    qDebug("Download finished: %s", qPrintable(url));
+    qDebug("Download finished: %s", qUtf8Printable(url));
     // Check if the request was successful
     if (m_reply->error() != QNetworkReply::NoError) {
         // Failure
-        qDebug("Download failure (%s), reason: %s", qPrintable(url), qPrintable(errorCodeToString(m_reply->error())));
+        qDebug("Download failure (%s), reason: %s", qUtf8Printable(url), qUtf8Printable(errorCodeToString(m_reply->error())));
         emit downloadFailed(m_url, errorCodeToString(m_reply->error()));
         this->deleteLater();
     }
@@ -150,7 +151,7 @@ bool DownloadHandler::saveToFile(const QByteArray &replyData, QString &filePath)
 
     tmpfile->setAutoRemove(false);
     filePath = tmpfile->fileName();
-    qDebug("Temporary filename is: %s", qPrintable(filePath));
+    qDebug("Temporary filename is: %s", qUtf8Printable(filePath));
     if (m_reply->isOpen() || m_reply->open(QIODevice::ReadOnly)) {
         tmpfile->write(replyData);
         tmpfile->close();
@@ -174,7 +175,7 @@ void DownloadHandler::handleRedirection(QUrl newUrl)
         newUrl = m_reply->url().resolved(newUrl);
 
     const QString newUrlString = newUrl.toString();
-    qDebug("Redirecting from %s to %s", qPrintable(m_reply->url().toString()), qPrintable(newUrlString));
+    qDebug("Redirecting from %s to %s", qUtf8Printable(m_reply->url().toString()), qUtf8Printable(newUrlString));
 
     // Redirect to magnet workaround
     if (newUrlString.startsWith("magnet:", Qt::CaseInsensitive)) {
@@ -192,14 +193,14 @@ void DownloadHandler::handleRedirection(QUrl newUrl)
         m_reply->deleteLater();
         m_reply = tmp->m_reply;
         init();
-        tmp->m_reply = 0;
+        tmp->m_reply = nullptr;
         delete tmp;
     }
 }
 
 QString errorCodeToString(QNetworkReply::NetworkError status)
 {
-    switch(status) {
+    switch (status) {
     case QNetworkReply::HostNotFoundError:
         return QObject::tr("The remote host name was not found (invalid hostname)");
     case QNetworkReply::OperationCanceledError:

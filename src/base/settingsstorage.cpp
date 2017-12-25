@@ -33,9 +33,9 @@
 #include <QFile>
 #include <QHash>
 #include <QStringList>
-#include <QSettings>
 
 #include "logger.h"
+#include "profile.h"
 #include "utils/fs.h"
 
 namespace
@@ -62,33 +62,10 @@ namespace
         QString deserialize(const QString &name, QVariantHash &data);
         QString serialize(const QString &name, const QVariantHash &data);
 
-        using SettingsPtr = std::unique_ptr<QSettings>;
-        SettingsPtr createSettings(const QString &name)
-        {
-#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
-            return SettingsPtr(new QSettings(QSettings::IniFormat, QSettings::UserScope, "qBittorrent", name));
-#else
-            return SettingsPtr(new QSettings("qBittorrent", name));
-#endif
-        }
-
         QString m_name;
     };
 
-#ifdef QBT_USES_QT5
     typedef QHash<QString, QString> MappingTable;
-#else
-    class MappingTable: public QHash<QString, QString>
-    {
-    public:
-        MappingTable(std::initializer_list<std::pair<QString, QString>> list)
-        {
-            reserve(static_cast<int>(list.size()));
-            for (const auto &i : list)
-                insert(i.first, i.second);
-        }
-    };
-#endif
 
     QString mapKey(const QString &key)
     {
@@ -161,11 +138,7 @@ namespace
             {"Network/Proxy/IP", "Preferences/Connection/Proxy/IP"},
             {"Network/Proxy/Port", "Preferences/Connection/Proxy/Port"},
             {"Network/PortForwardingEnabled", "Preferences/Connection/UPnP"},
-#ifdef QBT_USES_QT5
             {"AddNewTorrentDialog/TreeHeaderState", "AddNewTorrentDialog/qt5/treeHeaderState"},
-#else
-            {"AddNewTorrentDialog/TreeHeaderState", "AddNewTorrentDialog/treeHeaderState"},
-#endif
             {"AddNewTorrentDialog/Width", "AddNewTorrentDialog/width"},
             {"AddNewTorrentDialog/Position", "AddNewTorrentDialog/y"},
             {"AddNewTorrentDialog/Expanded", "AddNewTorrentDialog/expanded"},
@@ -307,7 +280,7 @@ bool TransactionalSettings::write(const QVariantHash &data)
 
 QString TransactionalSettings::deserialize(const QString &name, QVariantHash &data)
 {
-    SettingsPtr settings = createSettings(name);
+    SettingsPtr settings = Profile::instance().applicationSettings(name);
 
     if (settings->allKeys().isEmpty())
         return QString();
@@ -323,7 +296,7 @@ QString TransactionalSettings::deserialize(const QString &name, QVariantHash &da
 
 QString TransactionalSettings::serialize(const QString &name, const QVariantHash &data)
 {
-    SettingsPtr settings = createSettings(name);
+    SettingsPtr settings = Profile::instance().applicationSettings(name);
     for (auto i = data.begin(); i != data.end(); ++i)
         settings->setValue(i.key(), i.value());
 

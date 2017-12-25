@@ -26,26 +26,29 @@
  * exception statement from your version.
  */
 
-#include "base/preferences.h"
-#include "base/logger.h"
-#include "base/http/server.h"
-#include "base/net/dnsupdater.h"
-#include "base/net/portforwarder.h"
-#include "webapplication.h"
 #include "webui.h"
 
-WebUI::WebUI(QObject *parent)
-    : QObject(parent)
+#include "base/http/server.h"
+#include "base/logger.h"
+#include "base/net/dnsupdater.h"
+#include "base/net/portforwarder.h"
+#include "base/preferences.h"
+#include "webapplication.h"
+
+WebUI::WebUI()
+    : m_isErrored(false)
     , m_port(0)
 {
-    init();
-    connect(Preferences::instance(), SIGNAL(changed()), SLOT(init()));
+    configure();
+    connect(Preferences::instance(), &Preferences::changed, this, &WebUI::configure);
 }
 
-void WebUI::init()
+void WebUI::configure()
 {
-    Logger* const logger = Logger::instance();
-    Preferences* const pref = Preferences::instance();
+    m_isErrored = false; // clear previous error state
+
+    Logger *const logger = Logger::instance();
+    Preferences *const pref = Preferences::instance();
 
     const quint16 oldPort = m_port;
     m_port = pref->getWebUiPort();
@@ -63,12 +66,14 @@ void WebUI::init()
         }
 
         // http server
+        const QString serverAddressString = pref->getWebUiAddress();
         if (!m_httpServer) {
             m_webapp = new WebApplication(this);
             m_httpServer = new Http::Server(m_webapp, this);
         }
         else {
-            if (m_httpServer->serverPort() != m_port)
+            if ((m_httpServer->serverAddress().toString() != serverAddressString)
+                    || (m_httpServer->serverPort() != m_port))
                 m_httpServer->close();
         }
 
@@ -78,9 +83,9 @@ void WebUI::init()
             const QByteArray key = pref->getWebUiHttpsKey();
             bool success = m_httpServer->setupHttps(certs, key);
             if (success)
-                logger->addMessage(tr("Web UI: https setup successful"));
+                logger->addMessage(tr("Web UI: HTTPS setup successful"));
             else
-                logger->addMessage(tr("Web UI: https setup failed, fallback to http"), Log::CRITICAL);
+                logger->addMessage(tr("Web UI: HTTPS setup failed, fallback to HTTP"), Log::CRITICAL);
         }
         else {
             m_httpServer->disableHttps();
@@ -88,11 +93,21 @@ void WebUI::init()
 #endif
 
         if (!m_httpServer->isListening()) {
-            bool success = m_httpServer->listen(QHostAddress::Any, m_port);
-            if (success)
-                logger->addMessage(tr("Web UI: Now listening on port %1").arg(m_port));
-            else
-                logger->addMessage(tr("Web UI: Unable to bind to port %1").arg(m_port), Log::CRITICAL);
+            const auto address = (serverAddressString == "*" || serverAddressString.isEmpty())
+                ? QHostAddress::Any : QHostAddress(serverAddressString);
+            bool success = m_httpServer->listen(address, m_port);
+            if (success) {
+                logger->addMessage(tr("Web UI: Now listening on IP: %1, port: %2").arg(serverAddressString).arg(m_port));
+            }
+            else {
+                const QString errorMsg = tr("Web UI: Unable to bind to IP: %1, port: %2. Reason: %3")
+                    .arg(serverAddressString).arg(m_port).arg(m_httpServer->errorString());
+                logger->addMessage(errorMsg, Log::CRITICAL);
+                qCritical() << errorMsg;
+
+                m_isErrored = true;
+                emit fatalError();
+            }
         }
 
         // DynDNS
@@ -119,4 +134,9 @@ void WebUI::init()
         if (m_dnsUpdater)
             delete m_dnsUpdater;
     }
+}
+
+bool WebUI::isErrored() const
+{
+    return m_isErrored;
 }
