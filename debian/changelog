@@ -1,9 +1,9 @@
-qbittorrent (4.0.3-1) UNRELEASED; urgency=medium
+qbittorrent (4.0.3-1) unstable; urgency=medium
 
   * New upstream release (Closes: #883871).
   * Build depend on libqt5svg5-dev. 
 
- -- Andrew Starr-Bochicchio <asb@debian.org>  Mon, 25 Dec 2017 13:06:55 -0500
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Mon, 25 Dec 2017 15:22:26 -0500
 
 qbittorrent (3.3.15-1) unstable; urgency=medium
 
